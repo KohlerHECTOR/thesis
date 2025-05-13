@@ -1,0 +1,5 @@
+- Sections Contribs/publis
+- Sections Enseignements/Supervisions
+- Sections Software
+- Sections Responsabilites-Workshops-Reviewing
+- Sections Medicine and Agriculture

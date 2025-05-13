@@ -6,9 +6,20 @@
   \lipsum[1-2]
 \end{abstract}
 \begin{abstract}
-  \lipsum[3-4]
+This makes decision trees the go-to model when human verification is required like in medicine applications. 
+However, decision trees are non-differentiable making them hard to optimize unlike neural networks that can be optimized with gradient descent.
+
+In the first part of this manuscript, we show that the decision tree that maximizes the return of a sequential decision process is the solution of a proxy partially observable Markov decision problem hence inherting all its challenges.
+This results help us understand why in practice it is often easier to obtain a non-interpretable expert policy--a neural network--and then distillate it into a tree rather than learning a decision tree from scratch with e.g. reinforcement learning. 
+
+The second contribution from this work arose from the observation that looking for a deicison tree classifier (or regressor) can be seen as sequentially adding nodes to a tree to maximize the accuracy of predictions. 
+We thus formulate decision tree induction as sloving a Markov decision problem and propose a new state-of-the-art algorithm that can be trained with supervised example data and generalizes well to unseen data. 
+
+Work from the previous parts rely on the hypothesis that decision trees are indeed an interpretable model that humans can use in sensitive applications. But is it really the case? 
+In the last part of this thesis, we attempt to answer some more general questions about interpretability: can we measure interpretability without humans? And are decision trees really more interpretable than neural networks?
+
 \end{abstract}
 %
 % Production de la page de résumés
-\makeabstract
+\makeabstract{}
 
