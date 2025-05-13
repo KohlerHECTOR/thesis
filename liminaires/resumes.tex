@@ -6,9 +6,10 @@
   \lipsum[1-2]
 \end{abstract}
 \begin{abstract}
+  In this Ph.D. thesis, we study algorithms to learn decision trees for classification and sequential decision making. 
 Decision trees are interpretable because humans can read through the decision tree computations from the root to the leaves.
 This makes decision trees the go-to model when human verification is required like in medicine applications.
-However, decision trees are non-differentiable making them hard to optimize unlike neural networks that can be optimized with gradient descent.
+However, decision trees are non-differentiable making them hard to optimize unlike neural networks that can be trained efficiently with gradient descent.
 
 In the first part of this manuscript, we show that the decision tree that maximizes the return of a sequential decision process is the solution of a proxy partially observable Markov decision problem hence inherting all its challenges.
 This results help us understand why in practice it is often easier to obtain a non-interpretable expert policy--a neural network--and then distillate it into a tree rather than learning a decision tree from scratch with e.g. reinforcement learning. 
