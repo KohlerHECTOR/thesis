@@ -27,7 +27,7 @@
 \addbibresource{biblatex-examples.bib} % Fournie par biblatex.
 %
 % Génération du glossaire
-\makeglossaries{}
+\makeglossaries
 %
 % (Facultatif) Configuration des styles du glossaire et de la liste d'acronymes
 % (à n'utiliser que si le package « glossaries » est chargé)
@@ -77,14 +77,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % (Facultatif) Production de la page de clause de non-responsabilité
-\makedisclaimer{}
+\makedisclaimer
 %
 % (Facultatif) Production de la page de mots clés
-\makekeywords{}
+\makekeywords
 %
 % (Facultatif) Production de la page affichant les logo, nom et coordonnées du
 % ou des laboratoires (ou unités de recherche) où la thèse a été préparée
-\makelaboratory{}
+\makelaboratory
 %
 % (Facultatif) Dédicace(s)
 \input{liminaires/dedicaces}
@@ -102,10 +102,10 @@
 \include{liminaires/avertissement}
 %
 % (Facultatif) Liste des acronymes
-\printacronyms{}
+\printacronyms
 %
 % (Facultatif) Liste des symboles
-\printsymbols{}
+\printsymbols
 %
 % (Facultatif) Chapitre d'avant-propos
 \include{liminaires/avant-propos}
@@ -126,7 +126,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Début de la partie principale (du « corps ») de la thèse
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\mainmatter{}
+\mainmatter
 %
 % Chapitre d'introduction (générale)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -137,6 +137,7 @@
 %
 % Première partie éventuelle
 \part{Le chaos du rire}
+\include{corps/position-probleme-pomdp}
 %
 % Premier chapitre
 \include{corps/position-problemeI}
@@ -165,7 +166,7 @@
 \include{corps/conclusion}
 %
 % Liste des références bibliographiques
-\printbibliography{}
+\printbibliography
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Début de la partie annexe éventuelle
@@ -181,10 +182,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Début de la partie finale
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\backmatter{}
+\backmatter
 %
 % (Facultatif) Glossaire (si souhaité distinct de la liste des acronymes) :
-\printglossary{}
+\printglossary
 %
 % (Facultatif) Index :
 \printindex
@@ -193,7 +194,6 @@
 \tableofcontents
 %
 % (Facultatif) Production de la 4e de couverture :
-\makebackcover{}
+\makebackcover
 %
 \end{document}
-
