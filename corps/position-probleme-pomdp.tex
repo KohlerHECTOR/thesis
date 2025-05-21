@@ -29,13 +29,21 @@ We consider a 2×2 grid world Markov Decision Process (MDP) defined as follows:
     \node[below] at (1, -0.5) {$x$};
     
     % Label cells
-    \node at (0.5,0.5) {$S_0$};
-    \node at (0.5,1.5) {$S_1$};
-    \node at (1.5,1.5) {$S_2$};
+    \node at (0.5,0.7) {$S_0$};
+    \node at (0.5,0.4) {$\times$};
+
+    \node at (0.5,1.7) {$S_1$};
+    \node at (0.5,1.4) {$\times$};
+
+    \node at (1.5,1.7) {$S_2$};
+    \node at (1.5,1.4) {$\times$};
+
     
     % Goal state in bottom right with double border
     \draw[line width=2pt] (1,0) rectangle (2,1);
-    \node at (1.5,0.5) {$G\star$};
+    \node at (1.5,0.7) {$G$};
+    \node at (1.5,0.4) {$\star$};
+
     
 \end{tikzpicture}
 \caption{The 2×2 grid world environment with states $S_0$, $S_1$, $S_2$, and goal state $G$.}\label{fig:grid-world}
@@ -58,13 +66,20 @@ We consider a 2×2 grid world Markov Decision Process (MDP) defined as follows:
     \node[below] at (1, -0.5) {$x$};
     
     % Label cells
-    \node at (0.5,0.5) {\color{green} $\rightarrow$};
-    \node at (0.5,1.5) {\color{green} $\downarrow$};
-    \node at (1.5,1.5) {\color{green} $\downarrow$};
+    \node at (0.5,0.5) {$\times$};
+    \node at (0.6,0.48) {$\rightarrow$};
+
+    \node at (0.5,1.5) {$\times$};
+    \node at (0.5,1.4) {$\downarrow$};
+
+    \node at (1.5,1.5) {$\times$};
+    \node at (1.5,1.4) {$\downarrow$};
     
     % Goal state in bottom right with double border
     \draw[line width=2pt] (1,0) rectangle (2,1);
-    \node at (1.5,0.5) {\color{green} $\rightarrow$};
+    \node at (1.5,0.5) {$\star$};
+    \node at (1.6,0.48) {$\rightarrow$};
+
     
 \end{tikzpicture}
 \caption{The optimal tabular policy for the grid world, with actions highlighted in green. This policy maps each state directly to its optimal action.}\label{fig:optimal-policy}
@@ -181,6 +196,142 @@ Assuming a uniform distribution over starting states, the expected value is:
 This expected value increases as $\gamma$ approaches 1, reflecting the growing importance of future rewards in the discounted cumulative reward objective.
 
 \subsection{The decision tree policies values}
+\begin{align}
+J(T_0) &= \frac{1}{4}\sum_{i=0}^\infty \gamma^i + \frac{1}{4}\sum_{i=1}^\infty \gamma^i \\
+&= \frac{1}{4} \cdot \frac{1}{1-\gamma} + \frac{1}{4} \cdot \frac{\gamma}{1-\gamma} \\
+&= \frac{1 + \gamma}{4(1-\gamma)}
+\end{align}
+
+\begin{align}
+J(T_1) &= \frac{1}{4} \left(\sum_{i=1}^\infty \gamma^{2i-1} + \sum_{i=0}^\infty\gamma^{2i}\zeta\right) + \frac{2}{4} \left(\sum_{i=2}^\infty \gamma^{2i-1} + \sum_{i=0}^\infty\gamma^{2i}\zeta\right) \\
+&\quad + \frac{1}{4} \left(\sum_{i=3}^\infty \gamma^{2i-1} + \sum_{i=0}^\infty\gamma^{2i}\zeta\right) \\
+&= \frac{1}{4} \left(\frac{\gamma}{1-\gamma^2} + \zeta\frac{1}{1-\gamma^2}\right) + \frac{2}{4} \left(\frac{\gamma^3}{1-\gamma^2} + \zeta\frac{1}{1-\gamma^2}\right) \\
+&\quad + \frac{1}{4} \left(\frac{\gamma^5}{1-\gamma^2} + \zeta\frac{1}{1-\gamma^2}\right) \\
+&= \frac{1}{4(1-\gamma^2)} \left[\gamma + \zeta + 2\gamma^3 + 2\zeta + \gamma^5 + \zeta\right] \\
+&= \frac{1}{4(1-\gamma^2)} \left[\gamma + 2\gamma^3 + \gamma^5 + 4\zeta\right]
+\end{align}
+
+\begin{align}
+J(T_2) &= \frac{1}{4} \left(\sum_{i=1}^\infty \gamma^{2i-1} + \sum_{i=0}^\infty\gamma^{2i}\zeta\right) + \frac{1}{4} \left(\sum_{i=2}^\infty \gamma^{2i-1} + \sum_{i=0}^\infty\gamma^{2i}\zeta\right) \\
+&\quad + \frac{1}{4} \left(\sum_{i=2}^\infty\gamma^{3i-1} + \sum_{i=0}^\infty\gamma^{3i}\zeta + \sum_{i=1}^\infty\gamma^{3i-2}\zeta\right) \\
+&\quad + \frac{1}{4} \left(\sum_{i=3}^\infty\gamma^{3i-1} + \sum_{i=0}^\infty\gamma^{3i}\zeta + \sum_{i=1}^\infty\gamma^{3i-2}\zeta\right) \\
+&= \frac{1}{4} \left(\frac{\gamma}{1-\gamma^2} + \zeta\frac{1}{1-\gamma^2}\right) + \frac{1}{4} \left(\frac{\gamma^3}{1-\gamma^2} + \zeta\frac{1}{1-\gamma^2}\right) \\
+&\quad + \frac{1}{4} \left(\frac{\gamma^5}{1-\gamma^3} + \frac{\zeta}{1-\gamma^3} + \frac{\zeta\gamma}{1-\gamma^3}\right) \\
+&\quad + \frac{1}{4} \left(\frac{\gamma^8}{1-\gamma^3} + \frac{\zeta}{1-\gamma^3} + \frac{\zeta\gamma}{1-\gamma^3}\right) \\
+&= \frac{1}{4} \left[\frac{\gamma + \gamma^3 + 2\zeta}{1-\gamma^2} + \frac{\gamma^5 + \gamma^8 + 2\zeta + 2\zeta\gamma}{1-\gamma^3}\right]
+\end{align}
+    
+Let's determine the bounds on $\zeta$ such that $J(T_0) \leq J(T_1)$ and $J(T_2) \leq J(T_1)$.
+
+\begin{align}
+\text{For } J(T_0) \leq J(T_1): \\
+\frac{1 + \gamma}{4(1-\gamma)} &\leq \frac{1}{4(1-\gamma^2)} \left[\gamma + 2\gamma^3 + \gamma^5 + 4\zeta\right] \\
+\frac{(1 + \gamma)}{(1-\gamma)} &\leq \frac{\gamma + 2\gamma^3 + \gamma^5 + 4\zeta}{(1-\gamma^2)} \\
+\frac{(1 + \gamma)}{(1-\gamma)} &\leq \frac{\gamma + 2\gamma^3 + \gamma^5 + 4\zeta}{(1-\gamma)(1+\gamma)} \\
+(1 + \gamma)^2 &\leq \gamma + 2\gamma^3 + \gamma^5 + 4\zeta \\
+1 + 2\gamma + \gamma^2 &\leq \gamma + 2\gamma^3 + \gamma^5 + 4\zeta \\
+1 + \gamma + \gamma^2 - 2\gamma^3 - \gamma^5 &\leq 4\zeta \\
+\zeta &\geq \frac{1 + \gamma + \gamma^2 - 2\gamma^3 - \gamma^5}{4}
+\end{align}
+
+\begin{align}
+\text{For } J(T_2) \leq J(T_1): \\
+\end{align}
+
+For $J(T_2) \leq J(T_1)$, we need to compare:
+\begin{align}
+\frac{1}{4} &\left[\frac{\gamma + \gamma^3 + 2\zeta}{1-\gamma^2} + \frac{\gamma^5 + \gamma^8 + 2\zeta + 2\zeta\gamma}{1-\gamma^3}\right] \\
+&\leq \frac{1}{4(1-\gamma^2)} \left[\gamma + 2\gamma^3 + \gamma^5 + 4\zeta\right]
+\end{align}
+
+For $J(T_2) \leq J(T_1)$, I'll proceed with a more detailed derivation:
+
+\begin{align}
+\frac{1}{4} &\left[\frac{\gamma + \gamma^3 + 2\zeta}{1-\gamma^2} + \frac{\gamma^5 + \gamma^8 + 2\zeta + 2\zeta\gamma}{1-\gamma^3}\right] \leq \frac{1}{4(1-\gamma^2)} \left[\gamma + 2\gamma^3 + \gamma^5 + 4\zeta\right]
+\end{align}
+
+Let's first work on the left side to find a common denominator $(1-\gamma^2)(1-\gamma^3)$:
+
+\begin{align}
+\frac{1}{4} &\left[\frac{(\gamma + \gamma^3 + 2\zeta)(1-\gamma^3)}{(1-\gamma^2)(1-\gamma^3)} + \frac{(\gamma^5 + \gamma^8 + 2\zeta + 2\zeta\gamma)(1-\gamma^2)}{(1-\gamma^2)(1-\gamma^3)}\right] \\
+&= \frac{1}{4(1-\gamma^2)(1-\gamma^3)}\left[(\gamma + \gamma^3 + 2\zeta)(1-\gamma^3) + (\gamma^5 + \gamma^8 + 2\zeta + 2\zeta\gamma)(1-\gamma^2)\right]
+\end{align}
+
+Let's expand these terms:
+\begin{align}
+(\gamma + \gamma^3 + 2\zeta)(1-\gamma^3) &= \gamma - \gamma^4 + \gamma^3 - \gamma^6 + 2\zeta - 2\zeta\gamma^3 \\
+(\gamma^5 + \gamma^8 + 2\zeta + 2\zeta\gamma)(1-\gamma^2) &= \gamma^5 - \gamma^7 + \gamma^8 - \gamma^{10} + 2\zeta - 2\zeta\gamma^2 + 2\zeta\gamma - 2\zeta\gamma^3
+\end{align}
+
+Now the right side:
+\begin{align}
+\frac{1}{4(1-\gamma^2)} \left[\gamma + 2\gamma^3 + \gamma^5 + 4\zeta\right] &= \frac{(1-\gamma^3)(\gamma + 2\gamma^3 + \gamma^5 + 4\zeta)}{4(1-\gamma^2)(1-\gamma^3)}
+\end{align}
+
+Expanding:
+\begin{align}
+(1-\gamma^3)(\gamma + 2\gamma^3 + \gamma^5 + 4\zeta) &= \gamma - \gamma^4 + 2\gamma^3 - 2\gamma^6 + \gamma^5 - \gamma^8 + 4\zeta - 4\zeta\gamma^3
+\end{align}
+
+Our inequality now becomes:
+\begin{align}
+&\frac{1}{4(1-\gamma^2)(1-\gamma^3)}\left[(\gamma - \gamma^4 + \gamma^3 - \gamma^6 + 2\zeta - 2\zeta\gamma^3) + (\gamma^5 - \gamma^7 + \gamma^8 - \gamma^{10} + 2\zeta - 2\zeta\gamma^2 + 2\zeta\gamma - 2\zeta\gamma^3)\right] \\
+&\leq \frac{1}{4(1-\gamma^2)(1-\gamma^3)}\left[\gamma - \gamma^4 + 2\gamma^3 - 2\gamma^6 + \gamma^5 - \gamma^8 + 4\zeta - 4\zeta\gamma^3\right]
+\end{align}
+
+Multiplying both sides by $4(1-\gamma^2)(1-\gamma^3)$ and grouping terms:
+\begin{align}
+&\gamma - \gamma^4 + \gamma^3 - \gamma^6 + 2\zeta - 2\zeta\gamma^3 + \gamma^5 - \gamma^7 + \gamma^8 - \gamma^{10} + 2\zeta - 2\zeta\gamma^2 + 2\zeta\gamma - 2\zeta\gamma^3 \\
+&\leq \gamma - \gamma^4 + 2\gamma^3 - 2\gamma^6 + \gamma^5 - \gamma^8 + 4\zeta - 4\zeta\gamma^3
+\end{align}
+
+Canceling like terms and rearranging:
+\begin{align}
+&\gamma^3 - \gamma^7 + \gamma^8 - \gamma^{10} + 4\zeta - 2\zeta\gamma^2 + 2\zeta\gamma \\
+&\leq 2\gamma^3 - 2\gamma^6 - \gamma^8
+\end{align}
+
+Further simplifying:
+\begin{align}
+&\gamma^3 - \gamma^7 + \gamma^8 - \gamma^{10} - 2\zeta\gamma^2 + 2\zeta\gamma \\
+&\leq 2\gamma^3 - 2\gamma^6 - \gamma^8
+\end{align}
+
+Rearranging to isolate $\zeta$:
+\begin{align}
+2\zeta\gamma^2 - 2\zeta\gamma &\leq 2\gamma^3 - \gamma^3 + \gamma^7 - \gamma^8 - 2\gamma^6 + \gamma^8 + \gamma^{10} \\
+2\zeta\gamma(\gamma - 1) &\leq \gamma^3 - 2\gamma^6 + \gamma^7 + \gamma^{10} \\
+\end{align}
+
+Since $\gamma - 1 < 0$ (as $0 < \gamma < 1$), we flip the inequality when dividing:
+\begin{align}
+2\zeta\gamma &\geq \frac{\gamma^3 - 2\gamma^6 + \gamma^7 + \gamma^{10}}{1 - \gamma} \\
+\zeta &\geq \frac{\gamma^3 - 2\gamma^6 + \gamma^7 + \gamma^{10}}{2\gamma(1 - \gamma)} \\
+\zeta &\geq \frac{\gamma^2(1 - 2\gamma^3 + \gamma^4 + \gamma^7)}{2(1 - \gamma)}
+\end{align}
+
+This can be rewritten in a cleaner form as:
+\begin{align}
+\zeta &\geq \frac{\gamma^2(1 - 2\gamma^3 + \gamma^4 + \gamma^7)}{2(1 - \gamma)}
+\end{align}
+
+This gives us our bound for $\zeta$ to ensure $J(T_2) \leq J(T_1)$.
+
+Combining both conditions, $\zeta$ must satisfy:
+\begin{align}
+\zeta \geq \max\left\{\frac{1 + \gamma + \gamma^2 - 2\gamma^3 - \gamma^5}{4}, \frac{\gamma^2(1 - 2\gamma^3 + \gamma^4 + \gamma^7)}{2(1 - \gamma)}\right\}
+\end{align}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.8\textwidth]{zeta_bound_plot.png}
+\caption{Plot of the lower bound on $\zeta$ as a function of the discount factor $\gamma$. The blue line represents the bound from $J(T_0) \leq J(T_1)$, the red line represents the bound from $J(T_2) \leq J(T_1)$, and the black dashed line shows the combined bound (maximum of the two).}
+\label{fig:zeta-bound}
+\end{figure}
+
+Figure~\ref{fig:zeta-bound} illustrates how these bounds vary with the discount factor $\gamma$. For smaller values of $\gamma$, the bound from $J(T_0) \leq J(T_1)$ dominates, while for larger values of $\gamma$, the bound from $J(T_2) \leq J(T_1)$ becomes more restrictive.
+
 \subsection{The interpretability-performance trade-off}
 
 \section{A Reinforcement Learning experiment}
+
