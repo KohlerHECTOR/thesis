@@ -1,9 +1,186 @@
-\chapter{Contexte du chaos du rire}
+\chapter{Case Study: Learning a Decision Tree for a Grid World with Reinforcement Learning}
 \epigraphhead[30]{\selectlanguage{english}\epigraph{I have not failed. I've
     just found 10.000 ways that won't work.}{Thomas A. Edison}}
 
-$$\sum_{n=0}^{\infty}\left(\sum_{k=0}^{t_n}(\gamma^{t_{n-1} + 1 +k} \zeta) + \gamma^{\sum_{i=0}^n t_n + 1} r_n\right)$$
+\section{The classical Grid World Markov Decision Problem}
+\subsection{The Grid World MDP}
+We consider a 2×2 grid world Markov Decision Process (MDP) defined as follows:
+\begin{itemize}
+    \item \textbf{States}: Four cells labeled $S_0$, $S_1$, $S_2$, and $G$ (goal state) arranged in a 2×2 grid.
+    \item \textbf{Actions}: At each state, the agent can move right ($\rightarrow$) or down ($\downarrow$) up ($\uparrow$) or left ($\leftarrow$).
+    \item \textbf{Transitions}: Movements are deterministic, following the direction of the chosen action. Actions that would lead outside the grid leave the agent in the same state.
+    \item \textbf{Rewards}: All transitions yield a reward of 0, except for any action taken from the goal state $G$, which yields a reward of 1.
+    \item \textbf{Objective}: Maximize the expected discounted cumulative reward.
+\end{itemize}
 
-\subsection{Learning good trees}
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.5]
+    % Draw the grid cells
+    \draw (0,0) grid (2,2);
+    
+    % Add ticks on axes
+    \foreach \x in {0,1,2}
+        \node[below] at (\x,0) {$\x$};
+    \foreach \y in {0,1,2}
+        \node[left] at (0,\y) {$\y$};
+    
+    \node[left] at (-0.5, 1) {$y$};
+    \node[below] at (1, -0.5) {$x$};
+    
+    % Label cells
+    \node at (0.5,0.5) {$S_0$};
+    \node at (0.5,1.5) {$S_1$};
+    \node at (1.5,1.5) {$S_2$};
+    
+    % Goal state in bottom right with double border
+    \draw[line width=2pt] (1,0) rectangle (2,1);
+    \node at (1.5,0.5) {$G\star$};
+    
+\end{tikzpicture}
+\caption{The 2×2 grid world environment with states $S_0$, $S_1$, $S_2$, and goal state $G$.}\label{fig:grid-world}
+\end{figure}
 
-\subsection{Learning shorter trees}
+\subsection{An optimal tabular policy}
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1.5]
+    % Draw the grid cells
+    \draw (0,0) grid (2,2);
+    
+    % Add ticks on axes
+    \foreach \x in {0,1,2}
+        \node[below] at (\x,0) {$\x$};
+    \foreach \y in {0,1,2}
+        \node[left] at (0,\y) {$\y$};
+    
+    \node[left] at (-0.5, 1) {$y$};
+    \node[below] at (1, -0.5) {$x$};
+    
+    % Label cells
+    \node at (0.5,0.5) {\color{green} $\rightarrow$};
+    \node at (0.5,1.5) {\color{green} $\downarrow$};
+    \node at (1.5,1.5) {\color{green} $\downarrow$};
+    
+    % Goal state in bottom right with double border
+    \draw[line width=2pt] (1,0) rectangle (2,1);
+    \node at (1.5,0.5) {\color{green} $\rightarrow$};
+    
+\end{tikzpicture}
+\caption{The optimal tabular policy for the grid world, with actions highlighted in green. This policy maps each state directly to its optimal action.}\label{fig:optimal-policy}
+\end{figure}
+
+\subsection{Some decision tree policies}
+
+In this chapter, we explore different policy representations for the $2\times2$ grid world MDP shown in Figure~\ref{fig:grid-world}. The optimal policy for this environment can be represented in a tabular form, as shown in Figure~\ref{fig:optimal-policy} where the optimal actions at each state are highlighted in green. This tabular policy directly maps each state to its optimal action: moving right from $S_0$, down from $S_1$ and $S_2$, and right from the goal state $G$ (which maximizes reward collection).
+
+While the tabular representation is complete and precise, we are interested in more compact representations using decision trees. We present three different decision tree policies of varying complexity, as illustrated in Figures~\ref{fig:dt-simple},~\ref{fig:dt-complex}, and~\ref{fig:dt-trivial}:
+
+\begin{enumerate}
+    \item A simple decision tree based solely on the $y$-coordinate, demonstrating how a single-node decision tree might approximate the optimal policy.
+    \item A more complex tree with decisions based first on the $x$-coordinate and then on the $y$-coordinate, showing how hierarchical decisions can better capture the optimal policy.
+    \item A trivial single-action tree that always selects the rightward action, representing the simplest possible policy.
+\end{enumerate}
+
+These comparisons allow us to analyze the trade-off between policy complexity and performance. While decision trees may not always perfectly match the optimal tabular policy, they offer significant advantages in terms of interpretability, generalization potential, and computational efficiency.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+    scale=1.2,
+    decision/.style={circle, draw, text width=1.5em, text centered, minimum height=2.5em},
+    action/.style={rectangle, draw, text width=2em, text centered, rounded corners}
+]
+    % Decision node
+    \node[decision] (decide) at (0,0) {$y<1$};
+    
+    % Action nodes
+    \node[action] (right) at (1.5,-1.5) {$\downarrow$};
+    \node[action] (left) at (-1.5,-1.5) {$\rightarrow$};
+    
+    % Connections and labels
+    \draw[->] (decide) -- node[right] {no} (right);
+    \draw[->] (decide) -- node[left] {yes} (left);
+\end{tikzpicture}
+\caption{A simple decision tree policy based only on the $y$-coordinate. If $y < 1$, move right; otherwise, move down.}\label{fig:dt-simple}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+    scale=1.2,
+    decision/.style={circle, draw, text width=1.5em, text centered, minimum height=2.5em},
+    action/.style={rectangle, draw, text width=2em, text centered, rounded corners}
+]
+    % Decision node
+    \node[decision] (decide) at (0,0) {$x<1$};
+    
+    % Action nodes
+    \node[action] (right) at (1.5,-1.5) {$\downarrow$};
+    \node[decision] (decide2) at (-1.5,-1.5) {$y<1$};
+    \node[action] (right2) at (0,-3) {$\downarrow$};
+    \node[action] (left2) at (-3,-3) {$\rightarrow$};
+    
+    % Connections and labels
+    \draw[->] (decide) -- node[right] {no} (right);
+    \draw[->] (decide) -- node[left] {yes} (decide2);
+    \draw[->] (decide2) -- node[left] {yes} (left2);
+    \draw[->] (decide2) -- node[right] {no} (right2);
+\end{tikzpicture}
+\caption{A more complex decision tree policy with hierarchical decisions based on both $x$ and $y$ coordinates. This tree more closely approximates the optimal policy.}\label{fig:dt-complex}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[
+    scale=1.2,
+    decision/.style={circle, draw, text width=1.5em, text centered, minimum height=2.5em},
+    action/.style={rectangle, draw, text width=2em, text centered, rounded corners}
+]
+    % Decision node
+    \node[action] (decide) at (0,0) {$\rightarrow$};
+\end{tikzpicture}
+\caption{A trivial single-action policy that always selects the rightward action, regardless of the agent's position.}\label{fig:dt-trivial}
+\end{figure}
+
+\subsection{An objective function}
+
+\subsection{Value of the optimal policy}
+
+Let's compute the expected value of the optimal policy shown in Figure~\ref{fig:optimal-policy}, assuming a discount factor $\gamma \in (0,1)$. We'll first calculate the value function for each state under the optimal policy, then take the expectation over all possible starting states.
+
+For the goal state $G$, where the agent always moves right and receives a reward of 1:
+\begin{align}
+V(G) &= 1 + \gamma V(G) \\
+\Rightarrow V(G) &= \frac{1}{1-\gamma}
+\end{align}
+
+For state $S_2$, which transitions to $G$ with the down action:
+\begin{align}
+V(S_2) &= 0 + \gamma V(G) = \frac{\gamma}{1-\gamma}
+\end{align}
+
+For state $S_0$, which transitions to $G$ with the right action:
+\begin{align}
+V(S_0) &= 0 + \gamma V(G) = \frac{\gamma}{1-\gamma}
+\end{align}
+
+For state $S_1$, which transitions to $S_0$ with the down action:
+\begin{align}
+V(S_1) &= 0 + \gamma V(S_0) = \gamma \cdot \frac{\gamma}{1-\gamma} = \frac{\gamma^2}{1-\gamma}
+\end{align}
+
+Assuming a uniform distribution over starting states, the expected value is:
+\begin{align}
+\mathbb{E}[V] &= \frac{V(S_0) + V(S_1) + V(S_2) + V(G)}{4} \\
+&= \frac{1}{4} \left( \frac{\gamma}{1-\gamma} + \frac{\gamma^2}{1-\gamma} + \frac{\gamma}{1-\gamma} + \frac{1}{1-\gamma} \right) \\
+&= \frac{1}{4(1-\gamma)} \left( 1 + 2\gamma + \gamma^2 \right) \\
+&= \frac{{(1 + \gamma)}^2}{4(1-\gamma)}
+\end{align}
+
+This expected value increases as $\gamma$ approaches 1, reflecting the growing importance of future rewards in the discounted cumulative reward objective.
+
+\subsection{The decision tree policies values}
+\subsection{The interpretability-performance trade-off}
+
+\section{A Reinforcement Learning experiment}
