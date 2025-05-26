@@ -77,47 +77,47 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % (Facultatif) Production de la page de clause de non-responsabilité
-\makedisclaimer
+% \makedisclaimer
 %
 % (Facultatif) Production de la page de mots clés
-\makekeywords
+% \makekeywords
 %
 % (Facultatif) Production de la page affichant les logo, nom et coordonnées du
 % ou des laboratoires (ou unités de recherche) où la thèse a été préparée
-\makelaboratory
+% \makelaboratory
 %
 % (Facultatif) Dédicace(s)
-\input{liminaires/dedicaces}
+% \input{liminaires/dedicaces}
 %
 % (Facultatif) Épigraphe(s)
-\input{liminaires/epigraphes}
+% \input{liminaires/epigraphes}
 %
 % Résumés succincts
 \input{liminaires/resumes}
 %
 % (Facultatif) Chapitre de remerciements
-\include{liminaires/remerciements}
+% \include{liminaires/remerciements}
 %
 % (Facultatif) Chapitre d'avertissement
-\include{liminaires/avertissement}
+% \include{liminaires/avertissement}
 %
 % (Facultatif) Liste des acronymes
-\printacronyms
+% \printacronyms
 %
 % (Facultatif) Liste des symboles
-\printsymbols
+% \printsymbols
 %
 % (Facultatif) Chapitre d'avant-propos
-\include{liminaires/avant-propos}
+% \include{liminaires/avant-propos}
 %
 % Sommaire
 \tableofcontents[depth=chapter,name=Sommaire]
 %
 % (Facultatif) Liste des tableaux
-\listoftables
+% \listoftables
 %
 % (Facultatif) Table des figures
-\listoffigures
+% \listoffigures
 %
 % (Facultatif) Table des listings (nécessite que le package « listings » soit
 % chargé)
@@ -136,30 +136,38 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Première partie éventuelle
-\part{Case Study: Decision Trees for Grid Worlds}
+\part{A difficult problem: Learning Decision Trees for MDP}
+% 
+% Premier chapitre
 \include{corps/position-probleme-pomdp}
 %
-% Premier chapitre
-\include{corps/position-problemeI}
-%
 % Deuxième chapitre
-\include{corps/developpementI}
+\include{corps/developpement-pomdp}
 %
 % Troisième chapitre
-\include{corps/conclusionI}
+\include{corps/conclusion-pomdp}
 %
 %
 % Deuxième partie éventuelle
-\part{Le rire du chaos}
+\part{An easier problem: Learning Decision Trees for MDPs that are Classification tasks}
 %
 % Quatrième chapitre
-\include{corps/position-problemeII}
+\include{corps/position-probleme-dpdt}
 %
 % Cinquième chapitre
-\include{corps/developpementII}
+\include{corps/developpement-dpdt}
 %
 % Sixième chapitre
-\include{corps/conclusionII}
+\include{corps/conclusion-dpdt}
+
+
+\part{Beyond Decision Trees: what can be done with other Interpretable Policies?}
+%
+% Quatrième chapitre
+%
+% Cinquième chapitre
+%
+% Sixième chapitre
 %
 % Chapitre  de conclusion (générale)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
