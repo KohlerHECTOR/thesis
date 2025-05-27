@@ -25,69 +25,75 @@ def setup_pgf():
 
 def compute_zeta_bounds(gamma):
     """
-    Compute bounds for zeta parameter.
+    Compute bounds for zeta parameter based on the derived inequalities.
     
-    Simplified from the original complex algebraic expressions.
+    From the three inequalities, we derived:
+    - Lower bound: ζ ≥ (γ² + γ + 1 - 2γ³ - γ⁵)/4
+    - Upper bound 1: ζ ≤ (γ² + γ⁴)/2  
+    - Upper bound 2: ζ ≤ (1 + 2γ² + γ⁴)/4
+    
+    The effective upper bound is the minimum of the two upper bounds.
     """
     
-    # Common terms used in both bounds
     g = gamma
     g2 = gamma**2
     g3 = gamma**3
     g4 = gamma**4
     g5 = gamma**5
-    g6 = gamma**6
-    g7 = gamma**7
     
-    # Lower bound - simplified expression
-    # Original: ((-g4 - 2*g2)/(g3-g5) + g/(1-g)) * (g2*(1-g2)/(3*g2*(1-g2) + g2 + g5 - g7 + 2))
+    # Lower bound: (γ² + γ + 1 - 2γ³ - γ⁵)/4
+    lower = (g2 + g + 1 - 2*g3 - g5) / 4
     
-    # First part: (-g4 - 2*g2)/(g3-g5) + g/(1-g)
-    # = -g2(g2 + 2)/(g3(1-g2)) + g/(1-g)
-    # Combined: [2*(g-1) + g3*(1-g)] / [g*(1-g2)*(1-g)]
+    # Upper bound 1: (γ² + γ⁴)/2
+    upper1 = (g2 + g4) / 2
     
-    lower_numerator = 2*(g - 1) + g3*(1 - g)
-    lower_denom1 = g * (1 - g2) * (1 - g)
+    # Upper bound 2: (1 + 2γ² + γ⁴)/4
+    upper2 = (1 + 2*g2 + g4) / 4
     
-    # Second part denominator: 4*g2 - 3*g4 + g5 - g7 + 2
-    lower_denom2 = 4*g2 - 3*g4 + g5 - g7 + 2
-    
-    # Complete lower bound
-    lower = (lower_numerator * g2 * (1 - g2)) / (lower_denom1 * lower_denom2)
-    
-    # Upper bound - simplified expression  
-    # Original: ((g3+g5-g4-g7)/(1-g2)) * (1/(2*g+g3+g4-g2-((g2+g4-g3-g6)/(1-g2))))
-    
-    upper_numerator = g3 + g5 - g4 - g7
-    
-    # Inner fraction: (g2+g4-g3-g6)/(1-g2) = g2/(1+g) + g4
-    inner_fraction = g2/(1 + g) + g4
-    
-    # Complete denominator
-    upper_denominator = (1 - g2) * (2*g + g3 + g4 - g2 - inner_fraction)
-    
-    upper = upper_numerator / upper_denominator
+    # Effective upper bound is the minimum of the two
+    upper = min(upper1, upper2)
     
     return lower, upper
 
-def plot_bounds(gamma_values=None):
+def plot_bounds(gamma_values=None, show_individual_bounds=False):
     """Plot the bounds for a range of gamma values"""
     if gamma_values is None:
         gamma_values = np.linspace(0.0001, 0.9999, 9999)
     
     lower_bounds = []
     upper_bounds = []
+    upper1_bounds = []
+    upper2_bounds = []
     valid_regions = []
     
     for gamma in gamma_values:
-        lower, upper = compute_zeta_bounds(gamma)
+        g = gamma
+        g2 = gamma**2
+        g3 = gamma**3
+        g4 = gamma**4
+        g5 = gamma**5
+        
+        # Calculate all bounds
+        lower = (g2 + g + 1 - 2*g3 - g5) / 4
+        upper1 = (g2 + g4) / 2
+        upper2 = (1 + 2*g2 + g4) / 4
+        upper = min(upper1, upper2)
+        
         lower_bounds.append(lower)
         upper_bounds.append(upper)
+        upper1_bounds.append(upper1)
+        upper2_bounds.append(upper2)
         valid_regions.append(upper > lower)
     
-    plt.figure(figsize=(10, 6))
-    plt.plot(gamma_values, lower_bounds, 'b-', label='Lower bound')
-    plt.plot(gamma_values, upper_bounds, 'r-', label='Upper bound')
+    plt.figure(figsize=(12, 8))
+    plt.plot(gamma_values, lower_bounds, 'b-', linewidth=2, label='Lower bound: (γ² + γ + 1 - 2γ³ - γ⁵)/4')
+    
+    if show_individual_bounds:
+        plt.plot(gamma_values, upper1_bounds, 'r--', linewidth=1.5, label='Upper bound 1: (γ² + γ⁴)/2')
+        plt.plot(gamma_values, upper2_bounds, 'm--', linewidth=1.5, label='Upper bound 2: (1 + 2γ² + γ⁴)/4')
+        plt.plot(gamma_values, upper_bounds, 'r-', linewidth=2, label='Effective upper bound: min(bound1, bound2)')
+    else:
+        plt.plot(gamma_values, upper_bounds, 'r-', linewidth=2, label='Upper bound')
     
     # Shade the valid region
     valid_gamma = [gamma_values[i] for i in range(len(gamma_values)) if valid_regions[i]]
@@ -95,15 +101,15 @@ def plot_bounds(gamma_values=None):
     valid_upper = [upper_bounds[i] for i in range(len(gamma_values)) if valid_regions[i]]
     
     if valid_gamma:
-        plt.fill_between(valid_gamma, valid_lower, valid_upper, color='green', alpha=0.3, 
-                         label='Valid region')
+        plt.fill_between(valid_gamma, valid_lower, valid_upper, color='green', alpha=0.2, 
+                         label='Feasible region for ζ')
     
     plt.xlabel('γ (gamma)')
     plt.ylabel('ζ (zeta)')
-    plt.title('Bounds on ζ where J(T1) > J(T0) and J(T1) > J(T2)')
+    plt.title('Bounds on ζ from derived inequalities')
     plt.legend()
-    plt.grid(True)
-    plt.savefig('zeta_bounds.png')
+    plt.grid(True, alpha=0.3)
+    plt.savefig('zeta_bounds.png', dpi=300, bbox_inches='tight')
     plt.show()
 
 def plot_bounds_pgf(gamma_values=None, output_file="zeta_bounds"):
@@ -138,7 +144,7 @@ def plot_bounds_pgf(gamma_values=None, output_file="zeta_bounds"):
     
     plt.xlabel(r'$\gamma$')
     plt.ylabel(r'$\zeta$')
-    plt.title(r'Bounds on $\zeta$ where $J(T_1) > J(T_0)$ and $J(T_1) > J(T_2)$')
+    plt.title(r'Bounds on $\zeta$ from derived inequalities')
     plt.legend()
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
@@ -203,7 +209,7 @@ def generate_pgfplots_code(gamma_values=None, output_file="zeta_bounds_plot.tex"
     height=6cm,
     xlabel={$\\gamma$},
     ylabel={$\\zeta$},
-    title={Bounds on $\\zeta$ where $J(T_1) > J(T_0)$ and $J(T_1) > J(T_2)$},
+    title={Bounds on $\\zeta$ from derived inequalities},
     legend pos=north west,
     grid=major,
     grid style={gray!30},
@@ -252,6 +258,10 @@ if __name__ == "__main__":
         # Generate complete LaTeX file
         print("Generating complete pgfplots LaTeX code...")
         generate_pgfplots_code()
+    elif len(sys.argv) > 1 and sys.argv[1] == "detailed":
+        # Show individual bounds
+        print("Plotting with individual bounds shown...")
+        plot_bounds(show_individual_bounds=True)
     elif len(sys.argv) > 1 and sys.argv[1] == "all":
         # Generate all formats
         print("Generating all formats...")

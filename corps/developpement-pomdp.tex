@@ -1,5 +1,273 @@
 \chapter{An attempt at Learning Decision Tree Policies with Reinforcement Learning}
 \section{Grid Worlds}
+
+$V(g) = \zeta\sum_{i=0}^\infty\gamma^{2i} + \sum_{i=0}^\infty\gamma^{2i + 1}$\\
+$V(0) = \zeta + \gamma^2V(g)$\\
+$V(1) = \zeta + \gamma^2V(0)$\\
+$\frac{1}{4}\gamma\frac{1}{1-\gamma} + \frac{1}{4}\frac{1}{1-\gamma} \leq \frac{1}{4}V(g) + \frac{2}{4}V(0) + \frac{1}{4}V(1)$\\
+$\zeta\cdot\sum_{i=0}^\infty \gamma^i \leq \frac{1}{4}V(g) + \frac{2}{4}V(0) + \frac{1}{4}V(1)$\\
+$\frac{1}{4}V(g) + \frac{1}{4}(\zeta + \gamma V(0)) + \frac{1}{4}(\zeta + \gamma V(1)) +\frac{1}{4} V(0) \leq \frac{1}{4}V(g) + \frac{2}{4}V(0) + \frac{1}{4}V(1)$\\
+$\frac{1}{4}V(g) + \frac{1}{4}V(0) + \frac{1}{4}(\zeta+\gamma^{2}\zeta\sum_{i=0}^\infty\gamma^{2i}) + \frac{1}{4}(\zeta\sum_{i=0}^\infty\gamma^{2i}) \leq \frac{1}{4}V(g) + \frac{2}{4}V(0) + \frac{1}{4}V(1)$\\
+
+\subsection{Step-by-step derivation of the lower bound on $\zeta$}
+
+\textbf{Step 1: Simplify the left side of the inequality}
+\begin{align}
+\frac{1}{4}\gamma\frac{1}{1-\gamma} + \frac{1}{4}\frac{1}{1-\gamma} &= \frac{1}{4}\frac{1}{1-\gamma}(\gamma + 1)\\
+&= \frac{\gamma + 1}{4(1-\gamma)}
+\end{align}
+
+\textbf{Step 2: Express $V(g)$, $V(0)$, and $V(1)$ in simplified forms}
+\begin{align}
+V(g) &= \zeta\sum_{i=0}^\infty\gamma^{2i} + \sum_{i=0}^\infty\gamma^{2i + 1}\\
+&= \zeta \frac{1}{1-\gamma^2} + \gamma \frac{1}{1-\gamma^2}\\
+&= \frac{\zeta + \gamma}{1-\gamma^2}
+\end{align}
+
+\begin{align}
+V(0) &= \zeta + \gamma^2V(g)\\
+&= \zeta + \gamma^2 \frac{\zeta + \gamma}{1-\gamma^2}\\
+&= \frac{\zeta(1-\gamma^2) + \gamma^2(\zeta + \gamma)}{1-\gamma^2}\\
+&= \frac{\zeta + \gamma^3}{1-\gamma^2}
+\end{align}
+
+\begin{align}
+V(1) &= \zeta + \gamma^2V(0)\\
+&= \zeta + \gamma^2 \frac{\zeta + \gamma^3}{1-\gamma^2}\\
+&= \frac{\zeta(1-\gamma^2) + \gamma^2(\zeta + \gamma^3)}{1-\gamma^2}\\
+&= \frac{\zeta + \gamma^5}{1-\gamma^2}
+\end{align}
+
+\textbf{Step 3: Substitute into the right side of the inequality}
+\begin{align}
+\frac{1}{4}V(g) + \frac{2}{4}V(0) + \frac{1}{4}V(1) &= \frac{1}{4} \frac{\zeta + \gamma}{1-\gamma^2} + \frac{1}{2} \frac{\zeta + \gamma^3}{1-\gamma^2} + \frac{1}{4} \frac{\zeta + \gamma^5}{1-\gamma^2}\\
+&= \frac{1}{4(1-\gamma^2)}[(\zeta + \gamma) + 2(\zeta + \gamma^3) + (\zeta + \gamma^5)]\\
+&= \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma^2)}
+\end{align}
+
+\textbf{Step 4: Set up the inequality}
+\begin{align}
+\frac{\gamma + 1}{4(1-\gamma)} &\leq \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma^2)}
+\end{align}
+
+\textbf{Step 5: Use the identity $1-\gamma^2 = (1-\gamma)(1+\gamma)$}
+\begin{align}
+\frac{\gamma + 1}{4(1-\gamma)} &\leq \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma)(1+\gamma)}
+\end{align}
+
+\textbf{Step 6: Multiply both sides by $4(1-\gamma)$}
+\begin{align}
+\gamma + 1 &\leq \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{1+\gamma}
+\end{align}
+
+\textbf{Step 7: Multiply both sides by $(1+\gamma)$}
+\begin{align}
+(\gamma + 1)(1+\gamma) &\leq 4\zeta + \gamma + 2\gamma^3 + \gamma^5\\
+(\gamma + 1)^2 &\leq 4\zeta + \gamma + 2\gamma^3 + \gamma^5
+\end{align}
+
+\textbf{Step 8: Expand and rearrange}
+\begin{align}
+\gamma^2 + 2\gamma + 1 &\leq 4\zeta + \gamma + 2\gamma^3 + \gamma^5\\
+4\zeta &\geq \gamma^2 + 2\gamma + 1 - \gamma - 2\gamma^3 - \gamma^5\\
+4\zeta &\geq \gamma^2 + \gamma + 1 - 2\gamma^3 - \gamma^5\\
+\zeta &\geq \frac{\gamma^2 + \gamma + 1 - 2\gamma^3 - \gamma^5}{4}
+\end{align}
+
+Therefore, we obtain a \textbf{lower bound} on $\zeta$:
+\begin{align}
+\zeta \geq \frac{\gamma^2 + \gamma + 1 - 2\gamma^3 - \gamma^5}{4}
+\end{align}
+where $0 < \gamma < 1$.
+
+\subsection{Step-by-step derivation of the upper bound on $\zeta$}
+
+Starting from the inequality:
+$$\frac{1}{4}V(g) + \frac{1}{4}(\zeta + \gamma V(0)) + \frac{1}{4}(\zeta + \gamma V(1)) +\frac{1}{4} V(0) \leq \frac{1}{4}V(g) + \frac{2}{4}V(0) + \frac{1}{4}V(1)$$
+
+\textbf{Step 1: Cancel the $\frac{1}{4}V(g)$ terms from both sides}
+\begin{align}
+\frac{1}{4}(\zeta + \gamma V(0)) + \frac{1}{4}(\zeta + \gamma V(1)) +\frac{1}{4} V(0) &\leq \frac{2}{4}V(0) + \frac{1}{4}V(1)
+\end{align}
+
+\textbf{Step 2: Expand the left side}
+\begin{align}
+\frac{1}{4}\zeta + \frac{1}{4}\gamma V(0) + \frac{1}{4}\zeta + \frac{1}{4}\gamma V(1) +\frac{1}{4} V(0) &\leq \frac{2}{4}V(0) + \frac{1}{4}V(1)
+\end{align}
+
+\textbf{Step 3: Combine like terms}
+\begin{align}
+\frac{1}{2}\zeta + \frac{1}{4}\gamma V(0) + \frac{1}{4}\gamma V(1) &\leq \frac{2}{4}V(0) - \frac{1}{4} V(0) + \frac{1}{4}V(1)\\
+\frac{1}{2}\zeta + \frac{1}{4}\gamma V(0) + \frac{1}{4}\gamma V(1) &\leq \frac{1}{4}V(0) + \frac{1}{4}V(1)
+\end{align}
+
+\textbf{Step 4: Factor out common terms}
+\begin{align}
+\frac{1}{2}\zeta &\leq \frac{1}{4}V(0) + \frac{1}{4}V(1) - \frac{1}{4}\gamma V(0) - \frac{1}{4}\gamma V(1)\\
+\frac{1}{2}\zeta &\leq \frac{1}{4}V(0)(1-\gamma) + \frac{1}{4}V(1)(1-\gamma)\\
+\frac{1}{2}\zeta &\leq \frac{1-\gamma}{4}(V(0) + V(1))\\
+\zeta &\leq \frac{1-\gamma}{2}(V(0) + V(1))
+\end{align}
+
+\textbf{Step 5: Substitute the expressions for $V(0)$ and $V(1)$}
+\begin{align}
+V(0) + V(1) &= \frac{\zeta + \gamma^3}{1-\gamma^2} + \frac{\zeta + \gamma^5}{1-\gamma^2}\\
+&= \frac{2\zeta + \gamma^3 + \gamma^5}{1-\gamma^2}
+\end{align}
+
+\textbf{Step 6: Substitute back into the inequality}
+\begin{align}
+\zeta &\leq \frac{1-\gamma}{2} \cdot \frac{2\zeta + \gamma^3 + \gamma^5}{1-\gamma^2}\\
+&= \frac{(1-\gamma)(2\zeta + \gamma^3 + \gamma^5)}{2(1-\gamma^2)}
+\end{align}
+
+\textbf{Step 7: Use the identity $1-\gamma^2 = (1-\gamma)(1+\gamma)$}
+\begin{align}
+\zeta &\leq \frac{(1-\gamma)(2\zeta + \gamma^3 + \gamma^5)}{2(1-\gamma)(1+\gamma)}\\
+&= \frac{2\zeta + \gamma^3 + \gamma^5}{2(1+\gamma)}
+\end{align}
+
+\textbf{Step 8: Multiply both sides by $2(1+\gamma)$}
+\begin{align}
+2(1+\gamma)\zeta &\leq 2\zeta + \gamma^3 + \gamma^5\\
+2\zeta + 2\gamma\zeta &\leq 2\zeta + \gamma^3 + \gamma^5\\
+2\gamma\zeta &\leq \gamma^3 + \gamma^5\\
+\zeta &\leq \frac{\gamma^3 + \gamma^5}{2\gamma}\\
+\zeta &\leq \frac{\gamma^2 + \gamma^4}{2}
+\end{align}
+
+Therefore, we obtain an \textbf{upper bound} on $\zeta$:
+\begin{align}
+\zeta \leq \frac{\gamma^2 + \gamma^4}{2}
+\end{align}
+
+\textbf{Combined bounds:}
+\begin{align}
+\frac{\gamma^2 + \gamma + 1 - 2\gamma^3 - \gamma^5}{4} \leq \zeta \leq \frac{\gamma^2 + \gamma^4}{2}
+\end{align}
+where $0 < \gamma < 1$.
+
+\subsection{Step-by-step derivation for the third inequality}
+
+Starting from the inequality:
+$$\zeta\cdot\sum_{i=0}^\infty \gamma^i \leq \frac{1}{4}V(g) + \frac{2}{4}V(0) + \frac{1}{4}V(1)$$
+
+\textbf{Step 1: Simplify the left side using the geometric series}
+\begin{align}
+\zeta\cdot\sum_{i=0}^\infty \gamma^i &= \zeta \cdot \frac{1}{1-\gamma}\\
+&= \frac{\zeta}{1-\gamma}
+\end{align}
+
+\textbf{Step 2: Use the previously derived expression for the right side}
+From our earlier calculation:
+\begin{align}
+\frac{1}{4}V(g) + \frac{2}{4}V(0) + \frac{1}{4}V(1) = \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma^2)}
+\end{align}
+
+\textbf{Step 3: Set up the inequality}
+\begin{align}
+\frac{\zeta}{1-\gamma} &\leq \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma^2)}
+\end{align}
+
+\textbf{Step 4: Use the identity $1-\gamma^2 = (1-\gamma)(1+\gamma)$}
+\begin{align}
+\frac{\zeta}{1-\gamma} &\leq \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma)(1+\gamma)}
+\end{align}
+
+\textbf{Step 5: Multiply both sides by $(1-\gamma)$}
+\begin{align}
+\zeta &\leq \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1+\gamma)}
+\end{align}
+
+\textbf{Step 6: Multiply both sides by $4(1+\gamma)$}
+\begin{align}
+4(1+\gamma)\zeta &\leq 4\zeta + \gamma + 2\gamma^3 + \gamma^5\\
+4\zeta + 4\gamma\zeta &\leq 4\zeta + \gamma + 2\gamma^3 + \gamma^5
+\end{align}
+
+\textbf{Step 7: Subtract $4\zeta$ from both sides}
+\begin{align}
+4\gamma\zeta &\leq \gamma + 2\gamma^3 + \gamma^5\\
+\zeta &\leq \frac{\gamma + 2\gamma^3 + \gamma^5}{4\gamma}\\
+\zeta &\leq \frac{1 + 2\gamma^2 + \gamma^4}{4}
+\end{align}
+
+Therefore, we obtain another \textbf{upper bound} on $\zeta$:
+\begin{align}
+\zeta \leq \frac{1 + 2\gamma^2 + \gamma^4}{4}
+\end{align}
+
+\textbf{Final combined bounds from all three inequalities:}
+\begin{align}
+\frac{\gamma^2 + \gamma + 1 - 2\gamma^3 - \gamma^5}{4} &\leq \zeta \leq \min\left\{\frac{\gamma^2 + \gamma^4}{2}, \frac{1 + 2\gamma^2 + \gamma^4}{4}\right\}
+\end{align}
+where $0 < \gamma < 1$.
+
+\subsection{Step-by-step derivation for the fourth inequality}
+
+Starting from the inequality:
+$$\frac{1}{4}V(g) + \frac{1}{4}V(0) + \frac{1}{4}(\zeta+\gamma^{2}\zeta\sum_{i=0}^\infty\gamma^{2i}) + \frac{1}{4}(\zeta\sum_{i=0}^\infty\gamma^{2i}) \leq \frac{1}{4}V(g) + \frac{2}{4}V(0) + \frac{1}{4}V(1)$$
+
+\textbf{Step 1: Cancel the $\frac{1}{4}V(g)$ terms from both sides}
+\begin{align}
+\frac{1}{4}V(0) + \frac{1}{4}(\zeta+\gamma^{2}\zeta\sum_{i=0}^\infty\gamma^{2i}) + \frac{1}{4}(\zeta\sum_{i=0}^\infty\gamma^{2i}) &\leq \frac{2}{4}V(0) + \frac{1}{4}V(1)
+\end{align}
+
+\textbf{Step 2: Simplify using the geometric series $\sum_{i=0}^\infty\gamma^{2i} = \frac{1}{1-\gamma^2}$}
+\begin{align}
+\frac{1}{4}V(0) + \frac{1}{4}\left(\zeta+\gamma^{2}\zeta\frac{1}{1-\gamma^2}\right) + \frac{1}{4}\left(\zeta\frac{1}{1-\gamma^2}\right) &\leq \frac{2}{4}V(0) + \frac{1}{4}V(1)
+\end{align}
+
+\textbf{Step 3: Factor out common terms}
+\begin{align}
+\frac{1}{4}V(0) + \frac{1}{4}\zeta\left(1+\frac{\gamma^{2}}{1-\gamma^2}\right) + \frac{1}{4}\zeta\frac{1}{1-\gamma^2} &\leq \frac{2}{4}V(0) + \frac{1}{4}V(1)
+\end{align}
+
+\textbf{Step 4: Simplify the coefficient of $\zeta$}
+\begin{align}
+1+\frac{\gamma^{2}}{1-\gamma^2} + \frac{1}{1-\gamma^2} &= \frac{1-\gamma^2 + \gamma^2 + 1}{1-\gamma^2} = \frac{2}{1-\gamma^2}
+\end{align}
+
+So the inequality becomes:
+\begin{align}
+\frac{1}{4}V(0) + \frac{1}{4}\zeta\frac{2}{1-\gamma^2} &\leq \frac{2}{4}V(0) + \frac{1}{4}V(1)\\
+\frac{1}{4}V(0) + \frac{\zeta}{2(1-\gamma^2)} &\leq \frac{1}{2}V(0) + \frac{1}{4}V(1)
+\end{align}
+
+\textbf{Step 5: Rearrange to isolate the $\zeta$ term}
+\begin{align}
+\frac{\zeta}{2(1-\gamma^2)} &\leq \frac{1}{2}V(0) - \frac{1}{4}V(0) + \frac{1}{4}V(1)\\
+\frac{\zeta}{2(1-\gamma^2)} &\leq \frac{1}{4}V(0) + \frac{1}{4}V(1)\\
+\zeta &\leq \frac{(1-\gamma^2)}{2}(V(0) + V(1))
+\end{align}
+
+\textbf{Step 6: Substitute the expressions for $V(0)$ and $V(1)$}
+\begin{align}
+V(0) + V(1) &= \frac{\zeta + \gamma^3}{1-\gamma^2} + \frac{\zeta + \gamma^5}{1-\gamma^2}\\
+&= \frac{2\zeta + \gamma^3 + \gamma^5}{1-\gamma^2}
+\end{align}
+
+\textbf{Step 7: Substitute back into the inequality}
+\begin{align}
+\zeta &\leq \frac{(1-\gamma^2)}{2} \cdot \frac{2\zeta + \gamma^3 + \gamma^5}{1-\gamma^2}\\
+&= \frac{2\zeta + \gamma^3 + \gamma^5}{2}
+\end{align}
+
+\textbf{Step 8: Multiply both sides by 2}
+\begin{align}
+2\zeta &\leq 2\zeta + \gamma^3 + \gamma^5\\
+0 &\leq \gamma^3 + \gamma^5\\
+0 &\leq \gamma^3(1 + \gamma^2)
+\end{align}
+
+Since $0 < \gamma < 1$, we have $\gamma^3 > 0$ and $(1 + \gamma^2) > 0$, so this inequality is always satisfied. This means the fourth inequality does not provide an additional constraint on $\zeta$.
+
+\textbf{Updated final bounds from all four inequalities:}
+\begin{align}
+\frac{\gamma^2 + \gamma + 1 - 2\gamma^3 - \gamma^5}{4} &\leq \zeta \leq \min\left\{\frac{\gamma^2 + \gamma^4}{2}, \frac{1 + 2\gamma^2 + \gamma^4}{4}\right\}
+\end{align}
+where $0 < \gamma < 1$. The fourth inequality is automatically satisfied and does not further constrain the bounds.
+
 \section{Q-Learning}
 \section{Preferences over Decision Tree Policies}
 \section{Results}
