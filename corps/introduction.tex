@@ -1,13 +1,28 @@
 \chapter*{Preliminary Concepts}
 
 \section{What is Sequential Decision Making?}
-In this manuscript we are interested in sequential decision making processes. Sequential decision making processes are found in all aspects of life. In medicine, doctors have to decide when to use chimiotherapy next based on the patient's current health in order to heal (cite). In agriculture, agronomists have to decide when to fertilize next based on the current soil and wheather conditions in order to maximize plant growth (cite). In automotive, the auto-pilot system has to decide how to steer the wheel next based on lidar sensors in order to maintain a safe trajectory (cite). In video games, a bot decides what attack to throw next based on the player's and its own state in order to provide the best entertainment (cite).
-Those sequential decision making processes exhibits key similarities: an agent takes actions based on some current information to achieve some goal. 
-Algorithms presented in this thesis use the formalism of Marko decision processes that we present next to model sequential decision making.
+In this manuscript we are interested in sequential decision making processes. Sequential decision making processes are found in all aspects of life. In medicine, doctors have to decide when to use chemotherapy next based on the patient's current health in order to heal (cite). In agriculture, agronomists have to decide when to fertilize next based on the current soil and weather conditions in order to maximize plant growth (cite). In automotive, the auto-pilot system has to decide how to steer the wheel next based on lidar sensors in order to maintain a safe trajectory (cite). In video games, a bot decides what attack to throw next based on the player's and its own state in order to provide the best entertainment (cite).
+Those sequential decision making processes exhibits key similarities: an agent takes actions based on some current information to achieve some goal.
+Algorithms presented in this thesis use the formalism of Markov decision processes that we present next to model sequential decision making.
 \subsection{Markov decision processes/problems}
-Markov decision processes (MDPs) were first introduced in the 1950s by Richard Bellman (cite). The original idea behind MDPs was to fromalize some dynamical systems which states obey the Markov property--the futur only depends on the the present and is independent of the past--and hence can be solved efficiently with dynamic programming (cite). Following Martin L. Puterman's book on MDPs (cite), we formally define an MDP as  
+Markov decision processes (MDPs) were first introduced in the 1950s by Richard Bellman (cite). Informally, an MDP models how an agent acts over time to achieve its goal. At every timestep, the agent observes its current state, e.g. a patient weight and tumor size, and takes an action, e.g. injects a certain amount of chemotherapy. When doing a certain action in a certain state, the agent gets a reward that helps it evaluate the quality of its action with respect to its goal, e.g., the tumor size decrease when the agent has to cure cancer. Finally, the agent is provided with a new state, e.g. the updated patient state, and repeats this process over time. Following Martin L. Puterman's book on MDPs (cite), we formally define as follows.
+\begin{definition}[Markov decision process] An MDP is a tuple $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$ where:
+\begin{itemize}
+\item $S$ is a finite set of states $s \in \mathbb{R}^n$ representing all possible configurations of the environment.
+\item $A$ is a finite set of actions $a \in \mathbb{Z}^m$ available to the agent.
+\item $R: S \times A \rightarrow \mathbb{R}$ is the reward function that assigns a real-valued reward to each state-action pair.
+\item $T: S \times A \rightarrow \Delta(S)$ is the transition function that maps state-action pairs to probability distributions over next states, where $\Delta(S)$ denotes the probability simplex over $S$.
+\item $T_0 \in \Delta(S)$ is the initial distribution over states.
+\end{itemize}
+\end{definition}
+Now we can also model the ``goal'' of the agent. Informally, the goal of an agent is to behave such that it gets as much reward as it can over time. For example, in the cancer treatment case, the best reward the agent can get is to completely get rid of the patient's tumor after some time. Furthermore, we want our agent to prefer behaviour that gets rid of the patient's tumor as fast as possible. We can formally model the agent's goal as an optimization problem as follows. %talk about alignment?
+\begin{definition}[Markov decision problem] Given an MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$, the goal of an agent following policy $\pi: S \rightarrow A$ is to maximize the expected discounted sum of rewards:
+$$\mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
+where $\gamma \in (0,1)$ is the discount factor that controls the trade-off between immediate and future rewards.
+\end{definition}   
 \subsection{Exact solutions}
-
+The original idea behind MDPs was to formalize some dynamical systems whose states obey the Markov property--the future only depends on the present and is independent of the past--and hence can be solved efficiently with dynamic programming (cite).
+Designing algorithms to solve MDPs is a promising field as ...
 \subsection{Reinforcement learning}
 
 \section{What is Interpretable Sequential Decision Making?}
