@@ -1,10 +1,12 @@
 \chapter*{Preliminary Concepts}
 
 \section{What is Sequential Decision Making?}
-In this manuscript we are interested in sequential decision making processes. Sequential decision making processes are found in all aspects of life. In medicine, doctors have to decide when to use chemotherapy next based on the patient's current health in order to heal (cite). In agriculture, agronomists have to decide when to fertilize next based on the current soil and weather conditions in order to maximize plant growth (cite). In automotive, the auto-pilot system has to decide how to steer the wheel next based on lidar sensors in order to maintain a safe trajectory (cite). In video games, a bot decides what attack to throw next based on the player's and its own state in order to provide the best entertainment (cite).
+In this manuscript we are interested in sequential decision making. Humans engage in sequential decision making in all aspects of life. In medicine, doctors have to decide when to use chemotherapy next based on the patient's current health in order to heal (cite). In agriculture, agronomists have to decide when to fertilize next based on the current soil and weather conditions in order to maximize plant growth (cite). In automotive, the auto-pilot system has to decide how to steer the wheel next based on lidar sensors in order to maintain a safe trajectory (cite). In video games, a bot decides what attack to throw next based on the player's and its own state in order to provide the best entertainment (cite).
 Those sequential decision making processes exhibits key similarities: an agent takes actions based on some current information to achieve some goal.
+As computer scientists, we ought to design algorithms that can help humans during those sequential decision making processes. For example, a doctor could benefit from a computer program (cite) that would recommend the ``best'' treatment given the patient's state. 
 Algorithms presented in this thesis use the formalism of Markov decision processes that we present next to model sequential decision making.
 \subsection{Markov decision processes/problems}
+(figure)
 Markov decision processes (MDPs) were first introduced in the 1950s by Richard Bellman (cite). Informally, an MDP models how an agent acts over time to achieve its goal. At every timestep, the agent observes its current state, e.g. a patient weight and tumor size, and takes an action, e.g. injects a certain amount of chemotherapy. When doing a certain action in a certain state, the agent gets a reward that helps it evaluate the quality of its action with respect to its goal, e.g., the tumor size decrease when the agent has to cure cancer. Finally, the agent is provided with a new state, e.g. the updated patient state, and repeats this process over time. Following Martin L. Puterman's book on MDPs (cite), we formally define as follows.
 \begin{definition}[Markov decision process] An MDP is a tuple $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$ where:
 \begin{itemize}
@@ -17,25 +19,44 @@ Markov decision processes (MDPs) were first introduced in the 1950s by Richard B
 \end{definition}
 Now we can also model the ``goal'' of the agent. Informally, the goal of an agent is to behave such that it gets as much reward as it can over time. For example, in the cancer treatment case, the best reward the agent can get is to completely get rid of the patient's tumor after some time. Furthermore, we want our agent to prefer behaviour that gets rid of the patient's tumor as fast as possible. We can formally model the agent's goal as an optimization problem as follows. %talk about alignment?
 \begin{definition}[Markov decision problem] Given an MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$, the goal of an agent following policy $\pi: S \rightarrow A$ is to maximize the expected discounted sum of rewards:
-$$\mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
+$$J(\pi) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
 where $\gamma \in (0,1)$ is the discount factor that controls the trade-off between immediate and future rewards.
-\end{definition}   
-\subsection{Exact solutions}
-The original idea behind MDPs was to formalize some dynamical systems whose states obey the Markov property--the future only depends on the present and is independent of the past--and hence can be solved efficiently with dynamic programming (cite).
-Designing algorithms to solve MDPs is a promising field as ...
-\subsection{Reinforcement learning}
+\end{definition}
+Hence, algorithms presented in this manuscript aim to find solutions to Markov decision problems, i.e. the optimal policy: $\pi^\star =\underset{\pi}{\operatorname{argmax}}J(\pi)$
+For the rest of this text, we will use an abuse of notation and denote both a Markov decision process and the associated Markov decision problem by MDP.
+\subsection{Exact solutions for Markov decision problems}
+It is possible to compute the exact optimal policy $\pi^\star$ using dynamic programming (cite). Indeed, one can leverage the Markov property to find for all states the best action to take based on the reward of upcoming states.
+\begin{definition}[Value of a state] The value of a state $s\in S$ under policy $\pi$ is the expected discounted sum of rewards starting from state $s$ and following policy $\pi$:
+    $$V^\pi(s) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 = s, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
+    Applying the Markov property gives a recursive definition of the value of $s$ under policy $\pi$:
+    $$V^\pi(s) = R(s,\pi(s)) + \gamma \sum_{s' \in S} T^{s'}(s,\pi(s))V^\pi(s')$$
+    where $T^{s'}(s,\pi(s))$ is the probability of transitioning to state $s'$ when taking action $\pi(s)$ in state $s$.
+\end{definition}
+\begin{definition}[Optimal value of a state] The optimal value of a state $s\in S$, $V^\star(s)$, is the value of state $s$ when following the optimal policy: $V^{\pi^{\star}}(s)$.
+    $$V^{\star}(s) = V^{\pi^{\star}}(s) = \underset{\pi}{\max}\left[J(\pi)\right]$$
+\end{definition}
+Hence, the algorithms we study in the thesis can also be seen as solving the problem: $\pi^{\star} = \underset{\pi}{\operatorname{argmax}}\mathbb{E}\left[V^{\pi}(s_0)|s_0\sim T_0 \right]$. The well-known Value Iteration algorithm (algorithm) solves this problem exactly (cite). 
 
+More realistically, neither the transition kernel $T$ nor the reward function $R$ of the MDP are known, e.g., the doctor can't \textbf{know} how the tumor and the patient health will change after a dose of chemotherapy, it can only \textbf{observe} the change. This distinction between the information available to the agent is paralleled with the distinction between dynamic programming and reinforcement learning (RL) that we describe next. 
+\subsection{Reinforcement learning of approximate solutions to MDPs}
+(figrure)
+Reinforcement learning algorithms popularized by Richard Sutton (figure) (cite) don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of observations ${(s_t, a_t, r_t, s_{t+1})}_t$.
+RL algorithms usually fall into two categories: value-based (cite) and policy gradient (cite). The first group of RL algorithms computes an appromiation of $V^{\star}$ using temporal different learning (algorithms) (cite). The other class of RL algorithms leverage the policy gradient theorem (algorithm) (cite) to approximate $\pi^{\star}$.
+Both class of algorithms are known to converge to the optimal value or policy under some conditions (cite) and have known great successes in real-world appilcations (cite).
+
+There are many other ways to learn policies such as simple random search (cite) or model-based reinforcement learning. However, not many algorithms consider the learning of policies that can be easily understood by humans which we discuss next and that is the core of this manuscript.
 \section{What is Interpretable Sequential Decision Making?}
-
+(figure)
 \subsection{Why do we care about interpretability?}
-
+(figure)
 
 \subsection{What are existing approaches for interpretable sequential decision making?}
-
+(figure)
 
 \subsection{What are decision tree policies?}
-
+(figure)
 
 \subsection{Why are decision tree policies harder to learn than decision tree classifiers?}
 
 \section{Outline of the Thesis}
+(figure)
