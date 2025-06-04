@@ -43,13 +43,44 @@ More realistically, neither the transition kernel $T$ nor the reward function $R
 Reinforcement learning algorithms popularized by Richard Sutton (figure) (cite) don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of observations ${(s_t, a_t, r_t, s_{t+1})}_t$.
 RL algorithms usually fall into two categories: value-based (cite) and policy gradient (cite). The first group of RL algorithms computes an appromiation of $V^{\star}$ using temporal different learning (algorithms) (cite). The other class of RL algorithms leverage the policy gradient theorem (algorithm) (cite) to approximate $\pi^{\star}$.
 Both class of algorithms are known to converge to the optimal value or policy under some conditions (cite) and have known great successes in real-world appilcations (cite).
-
+The books from Puterman, Bertsekas, Sutton and Barto, offer a great overview of MDPs and algorithm to solve them.
 There are many other ways to learn policies such as simple random search (cite) or model-based reinforcement learning. However, not many algorithms consider the learning of policies that can be easily understood by humans which we discuss next and that is the core of this manuscript.
-\section{What is Interpretable Sequential Decision Making?}
+\section{Why do we need Interpretable Policies for Sequential Decision Making?} 
 (figure)
-\subsection{Why do we care about interpretability?}
-(figure)
+Interpretability is a crucial topic in modern science. While computer programs trained with machine learning algorithms have become more and more performing and made their way into our society, they are often black-box: their outputs, e.g., the animals on the image (cite), tokamak control (cite), or even the abstract of your next article (cite), are computed with operations that are too complex for humans to fully understand.
+Indeed most of recent machine learning breakthroughs are obtained by training very large neural networks (cite) which are black-box by definition since they apply composition of scalar products on the inputs.
+Originally, the etymology of ``interpretability'' is the Latin ``interpretabilis'' meaning ``that can be understood and explained''.
+According to the Oxford English dictionary, the first recorded use of the english word ``interpretability'' dates back to 1854 when the british logician George Boole (figure) described the addition of concepts:
 
+\begin{displaycquote}[pp.~48]{(cite)}
+I would remark in the first place that the generality of a method in Logic
+must very much depend upon the generality of its elementary processes and laws.
+We have, for instance, in the previous sections of this work investigated, among
+other things, the laws of that logical process of addition which is symbolized by
+the sign +. Now those laws have been determined from the study of instances,
+in all of which it has been a necessary condition, that the classes or things added
+together in thought should be mutually exclusive. The expression x + y seems
+indeed uninterpretable, unless it be assumed that the things represented by x
+and the things represented by y are entirely separate; that they embrace no
+individuals in common. And conditions analogous to this have been involved
+in those acts of conception from the study of which the laws of the other
+symbolical operations have been ascertained. The question then arises, whether
+it is necessary to restrict the application of these symbolical laws and processes
+by the same conditions of interpretability under which the knowledge of them
+was obtained. If such restriction is necessary, it is manifest that no such thing
+as a general method in Logic is possible. On the other hand, if such restriction
+is unnecessary, in what light are we to contemplate processes which appear to
+be uninterpretable in that sphere of thought which they are designed to aid?
+\end{displaycquote}
+What is remarkable is that the supposedly first recored occurrence of ``interpretability'' was in the context of (pre-)computer science. Boole asked: \textit{when can we meaningfully apply formal mathematical operations beyond the specific conditions under which we understand them?}
+In Boole's era, the concern was whether logical operations like addition could be applied outside their original interpretable contexts—where symbols and their sum represent concepts that humans can understand, e.g. red + apples = red apples. Today, we face an analogous dilemma with machine learning algorithms: neural networks learn complex un-intellegible combinations of inputs (representations), but we often deploy them in contexts where operations should be unerstood by humans, e.g., in medicine. 
+
+Circling back to our cancer treatment example, we would ideally want doctors to have access to computer programs that can recommend ``good'' treatments and which operations can be understood. Those two aspects of machine learning models--performance and interpretability--often compromise; highly performing models like neural networks are often less interpretable and vice-versa (cite).
+
+Interestingly, one of the key challenges of doing research in interpretability is the lack of formalism; there is no definition of what is an interpretable compute program such as an MDP policy. Throughout this manuscript we make the hypothesis that interpretability is the (space and time) complexity of a program and hence mostly focus on decision trees (low complexity) (cite) and neural networks (high complexity).  
+
+% Then talk about the latin sense. 
+% Then talkabout no formal def but books, articles, workshops, ...
 \subsection{What are existing approaches for interpretable sequential decision making?}
 (figure)
 
