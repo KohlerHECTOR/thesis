@@ -1,8 +1,18 @@
 \chapter*{Preliminary Concepts}
-\section{Interpretability in Machine Learning} 
+\section{Interpretable Sequential Decision Making}
+\subsection{What is Sequential Decision Making?}
+In this manuscript we are mostly interested in sequential decision making. Humans engage in sequential decision making in all aspects of life. In medicine, doctors have to decide when to use chemotherapy next based on the patient's current health in order to heal (cite). In agriculture, agronomists have to decide when to fertilize next based on the current soil and weather conditions in order to maximize plant growth (cite). 
+In automotive, the auto-pilot system has to decide how to steer the wheel next based on lidar sensors in order to maintain a safe trajectory (cite). In video games, a bot decides what attack to throw next based on the player's and its own state in order to provide the best entertainment (cite).
+Those sequential decision making processes exhibits key similarities: an agent takes actions based on some current information to achieve some goal.
+As computer scientists, we ought to design computer programs (cite) that can help humans during those sequential decision making processes. 
+For example, a doctor could benefit from a program that would recommend the ``best'' treatment given the patient's state. 
+Machine learning arlgortihms (cite) output such helpful programs. Every day, hundreds of new machine learning algorithms are published\footnote{\url{https://arxiv.org/list/cs.LG/pastweek?skip=0&show=2000}}. While most of those scientific articles focus on finding the ``best'' program possible, not many work make sure that their recommendations can be understood by humans.
+Deep learning algorithms (cite) are machine learing algorithms that train neural networks because they can leverage the backpropagation algorithm (cite) for efficient learning from example data, e.g. records of patients.
+Next, we describe the notion of interpretability that is key to ensure safe deployment of cpmputer programs trained with machine learning in critical sectors like medicine. 
+\section{What is Interpretability?}
 (figure)
 Interpretability is a crucial topic in modern science. While computer programs trained with machine learning algorithms have become more and more performing and made their way into our society, they are often black-box: their outputs, e.g., the animals on the image (cite), tokamak control (cite), or even the abstract of your next article (cite), are computed with operations that are too complex for humans to fully understand.
-Indeed most of recent machine learning breakthroughs are obtained by training very large neural networks (cite) which are black-box by definition since they apply composition of scalar products on the inputs.
+Indeed most of recent machine learning breakthroughs are obtained by training very large programs like neural networks (cite) which are black-box by definition since they perform sometimes millions of operations on their inputs.
 Originally, the etymology of ``interpretability'' is the Latin ``interpretabilis'' meaning ``that can be understood and explained''.
 
 \begin{figure}
@@ -112,6 +122,45 @@ In addition to classifying interpretable machine learning methods by their algor
 \end{figure}
 
 In Figure~\ref{fig:interpretability-performance-tradeoff} we present the popular trade-off between interpretability and performance of different model classes.
+
+\section{Outline of the Thesis}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        bubble/.style={rectangle, rounded corners=15pt, draw, thick, fill=blue!20, text width=3.5cm, text centered, minimum height=1.5cm, font=\small},
+        arrow/.style={->, thick},
+        label/.style={font=\footnotesize, text width=3cm, text centered, red!70}
+    ]
+        
+        % Define the three vertices of the triangle
+        % Top bubble - Chapter 1
+        \node[bubble] (ch1) at (0,4) {Part 1\\Direct learning of interpretable policies for MDPs};
+        
+        % Bottom left bubble - Chapter 2  
+        \node[bubble] (ch2) at (-4,0) {Part 2\\Supervised learning of decision tree classifiers with MDPs};
+        
+        % Bottom right bubble - Chapter 3
+        \node[bubble] (ch3) at (4,0) {Part 3\\Indirect learning of interpretable policies to compare different model classes};
+        
+        % Arrow from Chapter 1 to Chapter 2
+        \draw[arrow] (ch1.south west) -- (ch2.north);
+        \node[label] at (-4.5,2.5) {Too difficult, let us assume uniform transitions};
+        
+        % Arrow from Chapter 1 to Chapter 3  
+        \draw[arrow] (ch1.south east) -- (ch3.north);
+        \node[label] at (4.5,2.5) {Too difficult, let us use indirect approach};
+
+        % Arrow from Chapter 1 to Chapter 3  
+        \draw[arrow] (ch2.east) -- (ch3.west);
+        \node[label] at (0.5,1.5) {Use new decision tree induction to learn better interpretable policies};
+        
+        
+    \end{tikzpicture}
+    \caption{Thesis structure showing the progression from direct reinforcement learning of decision tree policies (Chapter 1) to simplified approaches: supervised learning with uniform transitions (Chapter 2) and indirect learning methods (Chapter 3).}
+    \label{fig:thesis-outline}
+\end{figure}
+\section{Technical Preliminaries}
 \subsection{What are decision trees?}
 (figure)
 As mentionned earlier, as opposed to neural networks, decision trees are supposidly very interpretable because the only apply boolean operations on the program input without relying on internal complex representations.
@@ -132,12 +181,6 @@ For non-sequential decision processes such as classification; it is possible to 
     \caption{The american statistician Leo Breiman (1928-2005) author of \textit{Classification and Regression Trees} (1984)}
 \end{figure}
 What about reinforcement learning?
-
-\section{What is Sequential Decision Making?}
-In this manuscript we are interested in sequential decision making. Humans engage in sequential decision making in all aspects of life. In medicine, doctors have to decide when to use chemotherapy next based on the patient's current health in order to heal (cite). In agriculture, agronomists have to decide when to fertilize next based on the current soil and weather conditions in order to maximize plant growth (cite). In automotive, the auto-pilot system has to decide how to steer the wheel next based on lidar sensors in order to maintain a safe trajectory (cite). In video games, a bot decides what attack to throw next based on the player's and its own state in order to provide the best entertainment (cite).
-Those sequential decision making processes exhibits key similarities: an agent takes actions based on some current information to achieve some goal.
-As computer scientists, we ought to design algorithms that can help humans during those sequential decision making processes. For example, a doctor could benefit from a computer program (cite) that would recommend the ``best'' treatment given the patient's state. 
-Algorithms presented in this thesis use the formalism of Markov decision processes that we present next to model sequential decision making.
 \subsection{Markov decision processes/problems}
 (figure)
 Markov decision processes (MDPs) were first introduced in the 1950s by Richard Bellman (cite). Informally, an MDP models how an agent acts over time to achieve its goal. At every timestep, the agent observes its current state, e.g. a patient weight and tumor size, and takes an action, e.g. injects a certain amount of chemotherapy. When doing a certain action in a certain state, the agent gets a reward that helps it evaluate the quality of its action with respect to its goal, e.g., the tumor size decrease when the agent has to cure cancer. Finally, the agent is provided with a new state, e.g. the updated patient state, and repeats this process over time. Following Martin L. Puterman's book on MDPs (cite), we formally define as follows.
@@ -207,36 +250,3 @@ Both class of algorithms are known to converge to the optimal value or policy un
 The books from Puterman, Bertsekas, Sutton and Barto, offer a great overview of MDPs and algorithm to solve them.
 There are many other ways to learn policies such as simple random search (cite) or model-based reinforcement learning. However, not many algorithms consider the learning of policies that can be easily understood by humans which we discuss next and that is the core of this manuscript.
 
-\section{Outline of the Thesis}
-
-\begin{figure}[htbp]
-    \centering
-    \begin{tikzpicture}[
-        bubble/.style={rectangle, rounded corners=15pt, draw, thick, fill=blue!20, text width=3.5cm, text centered, minimum height=1.5cm, font=\small},
-        arrow/.style={->, thick},
-        label/.style={font=\footnotesize, text width=3cm, text centered, red!70}
-    ]
-        
-        % Define the three vertices of the triangle
-        % Top bubble - Chapter 1
-        \node[bubble] (ch1) at (0,4) {Chapter 1\\Direct learning of interpretable policies for MDPs};
-        
-        % Bottom left bubble - Chapter 2  
-        \node[bubble] (ch2) at (-4,0) {Chapter 2\\Supervised learning of decision tree classifiers with MDPs};
-        
-        % Bottom right bubble - Chapter 3
-        \node[bubble] (ch3) at (4,0) {Chapter 3\\Indirect learning of interpretable policies to compare different model classes};
-        
-        % Arrow from Chapter 1 to Chapter 2
-        \draw[arrow] (ch1.south west) -- (ch2.north);
-        \node[label] at (-4.5,2.5) {Too difficult, let us assume uniform transitions};
-        
-        % Arrow from Chapter 1 to Chapter 3  
-        \draw[arrow] (ch1.south east) -- (ch3.north);
-        \node[label] at (4.5,2.5) {Too difficult, let us use indirect approach};
-        
-        
-    \end{tikzpicture}
-    \caption{Thesis structure showing the progression from direct reinforcement learning of decision tree policies (Chapter 1) to simplified approaches: supervised learning with uniform transitions (Chapter 2) and indirect learning methods (Chapter 3).}
-    \label{fig:thesis-outline}
-\end{figure}
