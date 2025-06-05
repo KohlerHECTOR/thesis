@@ -1,6 +1,7 @@
 \chapter*{Preliminary Concepts}
 \section{Interpretable Sequential Decision Making}
 \subsection{What is Sequential Decision Making?}
+
 In this manuscript we are mostly interested in sequential decision making. Humans engage in sequential decision making in all aspects of life. In medicine, doctors have to decide when to use chemotherapy next based on the patient's current health in order to heal (cite). In agriculture, agronomists have to decide when to fertilize next based on the current soil and weather conditions in order to maximize plant growth (cite). 
 In automotive, the auto-pilot system has to decide how to steer the wheel next based on lidar sensors in order to maintain a safe trajectory (cite). In video games, a bot decides what attack to throw next based on the player's and its own state in order to provide the best entertainment (cite).
 Those sequential decision making processes exhibits key similarities: an agent takes actions based on some current information to achieve some goal.
@@ -9,17 +10,183 @@ For example, a doctor could benefit from a program that would recommend the ``be
 Machine learning arlgortihms (cite) output such helpful programs. Every day, hundreds of new machine learning algorithms are published\footnote{\url{https://arxiv.org/list/cs.LG/pastweek?skip=0&show=2000}}. While most of those scientific articles focus on finding the ``best'' program possible, not many work make sure that their recommendations can be understood by humans.
 Deep learning algorithms (cite) are machine learing algorithms that train neural networks because they can leverage the backpropagation algorithm (cite) for efficient learning from example data, e.g. records of patients.
 Next, we describe the notion of interpretability that is key to ensure safe deployment of cpmputer programs trained with machine learning in critical sectors like medicine. 
-\section{What is Interpretability?}
-(figure)
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        node distance=2.5cm,
+        auto,
+        thick,
+        state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
+        environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
+        agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+        robot/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+        decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7.5cm, minimum height=3cm, text centered},
+        arrow/.style={->, thick, bend left=15},
+        arrow_decision/.style={->, dashed, bend left=15}
+    ]
+        
+        % Decision Making Box
+        \node[decision_box] (decision_box) at (0.3,3.4) {};
+        \node at (0.3,4.5) {\small{Decision Making}};
+        
+        % Robot (AI)
+        \node[robot] (robot) at (-2.1,3.2) {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.4cm]{images/images_intro/robot-svgrepo-com.svg}\\
+                \small{Computer program}
+            \end{minipage}
+        };
+        
+        % Doctor
+        \node[agent] (doctor) at (2.5,3.2) {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.4cm]{images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
+                \small{Doctor}
+            \end{minipage}
+        };
+        
+        % Environment (Patient)
+        \node[environment] (environment) at (0,-0.5) {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.8cm]{images/images_intro/patient-4.svg}\\
+                \small{Cancer patient}
+            \end{minipage}
+        };
+        
+        % Arrows
+        \draw[arrow] (environment) to[bend left=30] node[left] {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.4cm]{images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+                \small{Updated health status}
+            \end{minipage}
+        } (robot);
+        \draw[arrow_decision] (robot) to node[above] {\small{Recommends}} (doctor);
+        \draw[arrow_decision] (doctor) to node[below] {\small{Interprets}} (robot);
+
+        \draw[arrow] (doctor) to[bend left=30] node[right] {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.5cm]{images/images_intro/syringe-svgrepo-com.svg}\\
+                \small{Administrate chemo}
+            \end{minipage}
+        } (environment);
+        
+    \end{tikzpicture}
+    \caption{Sequential decision making in cancer treatment. The AI system is informed by the patient's current state (tumor size, blood counts, etc.) and makes a recommendation to the doctor, who administers the chemotherapy directly to the patient. The patient's state is then updated, and this cycle repeats over time.}
+    \label{fig:cancer-treatment-sdm}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        node distance=2.5cm,
+        auto,
+        thick,
+        state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
+        environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
+        agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+        robot/.style={rectangle, draw, fill=black!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+        ml/.style={circle, draw, fill=purple!20, minimum width=2cm, minimum height=1cm, text centered},
+        decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7.5cm, minimum height=3cm, text centered},
+        arrow/.style={->, thick, bend left=15},
+        arrow_decision/.style={->, dashed, bend left=15}
+    ]
+        
+        % Decision Making Box
+        \node[decision_box] (decision_box) at (0.3,3.4) {};
+        \node at (0.3,4.5) {\small{Decision Making}};
+        
+        % Robot (AI)
+        \node[robot] (robot) at (-2.1,3.2) {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.4cm]{images/images_intro/network-mapping-svgrepo-com.svg}\\
+                \small{Neural network}
+            \end{minipage}
+        };
+        
+        % Doctor
+        \node[agent] (doctor) at (2.5,3.2) {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.4cm]{images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
+                \small{Doctor}
+            \end{minipage}
+        };
+        
+        % Machine Learning component
+        \node[ml] (ml) at (-7,3) {
+            \begin{minipage}{1.8cm}
+                \centering
+                \includesvg[width=0.4cm]{images/images_intro/gear-file-svgrepo-com.svg}\\
+                \small{Machine learning}
+            \end{minipage}
+        };
+        
+        % Environment (Patient)
+        \node[environment] (environment) at (0,-0.5) {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.8cm]{images/images_intro/patient-4.svg}\\
+                \small{Cancer patient}
+            \end{minipage}
+        };
+        
+        % Arrows
+        \draw[arrow] (environment) to[bend left=30] node[left] {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.5cm]{images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+                \small{Updated health status}
+            \end{minipage}
+        } (robot);
+        \draw[arrow_decision] (robot) to node[above] {\small{Recommends}} (doctor);
+        \draw[arrow_decision, red] (doctor) to node[below] {\small{Can't interpret}} (robot);
+        
+        \draw[arrow] (doctor) to[bend left=30] node[right] {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.5cm]{images/images_intro/syringe-svgrepo-com.svg}\\
+                \small{Administrate chemo}
+            \end{minipage}
+        } (environment);
+        
+        % ML learning arrows
+        \draw[arrow] (environment) to[bend left=40] node[left] {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.5cm]{images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+                \small{Treatment outcomes}
+            \end{minipage}
+        } (ml);
+        \draw[arrow] (ml) to[bend left=20] node[above] {
+            \begin{minipage}{1.5cm}
+                \centering
+                \small{Updates program}
+            \end{minipage}
+        } (robot);
+        
+    \end{tikzpicture}
+    \caption{Sequential decision making with machine learning in cancer treatment. The ML system learns from treatment outcomes to continuously improve the computer program's recommendations, creating a feedback loop for better patient care over time.}
+    \label{fig:cancer-treatment-sdm-ml}
+\end{figure}
+
+\subsection{What is Interpretability?}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/images_intro/gboole.jpg}
+    \caption{British logician and philosopher George Boole (1815-1864) next to its book \textit{The Laws of Thoughts} (1854) that is the oldest known record of the word ``interpretability''.}
+\end{figure}
+
 Interpretability is a crucial topic in modern science. While computer programs trained with machine learning algorithms have become more and more performing and made their way into our society, they are often black-box: their outputs, e.g., the animals on the image (cite), tokamak control (cite), or even the abstract of your next article (cite), are computed with operations that are too complex for humans to fully understand.
 Indeed most of recent machine learning breakthroughs are obtained by training very large programs like neural networks (cite) which are black-box by definition since they perform sometimes millions of operations on their inputs.
 Originally, the etymology of ``interpretability'' is the Latin ``interpretabilis'' meaning ``that can be understood and explained''.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{images/images_intro/gboole.jpg}
-    \caption{British logician and philosopher George Boole (1815-1864) next to its book \textit{The Laws of Thoughts}(1854) that is the oldest known record of the word ``interpretability''.}
-\end{figure}
 According to the Oxford English dictionary, the first recorded use of the english word ``interpretability'' dates back to 1854 when the british logician George Boole (figure) described the addition of concepts:
 
 \begin{displaycquote}[pp.~48]{(cite)}
@@ -50,9 +217,48 @@ However, we will observe later on that aiming for interpretability is not necess
 Interestingly, one of the key challenges of doing research in interpretability is the lack of formalism; there is no definition of what is an interpretable compute program such as an MDP policy. Throughout this manuscript we make the hypothesis that interpretability is the (space and time) complexity of a program (cite) and hence mostly focus on decision trees (low complexity) (cite) and neural networks (high complexity).  
 Despite this lack of formalism the necessity of deploying interpretable models has sparked many works that we present next.
 \subsection{What are existing approaches for learning interpretable programs?}
-(figure)%phrise of interpretability
+Techniques associated with interpretability in machine learning are either global or local. 
+Global methods output a whole model that is interpretable while local approaches LIME FI (cite) output explanations of parts of the model such as how the model considers each part of a single specific input.
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \begin{tikzpicture}[
+            level/.style={sibling distance=30mm/#1},
+            every node/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered, font=\small},
+            leaf/.style={rectangle, draw, fill=green!20, minimum width=1.5cm, minimum height=0.8cm, text centered, font=\small}
+        ]
+        \node {Is Pad left to Ball?}
+            child {
+                node[leaf] {move right}
+            }
+            child {
+                node[leaf] {move left}  
+            };
+        \end{tikzpicture}
+        \caption{Decision tree}
+        \label{fig:decision-tree}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/images_intro/breakout_control.png}
+        \caption{Placeholder 1}
+        \label{fig:placeholder1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/images_intro/breakout_reflect_bp.png}
+        \caption{Placeholder 3}
+        \label{fig:placeholder3}
+    \end{subfigure}
+    \caption{Different approaches for learning interpretable programs. (a) Decision tree showing simple binary decision making, (b-d) Additional interpretable model representations.}
+    \label{fig:interpretable-approaches}
+\end{figure}
+
 (table)
-\begin{table}
+\begin{table}[htbp]
     \centering
     \caption{Related work in \textit{global} interpretable machine learning following the direct/indirect classification. Each class is further divided into the type of interpretable model they output. Methods specific to supervised learning are colored in {\color{red} red} and methods specific to reinforcement learning are in {\color{blue} blue}}\label{tab:related-work}
     \begin{tabular}{|cccc|cccc|}
@@ -61,11 +267,111 @@ Despite this lack of formalism the necessity of deploying interpretable models h
         \multicolumn{4}{|c|}{\textbf{indirect}} \\
         \midrule
         (cite) &(cite) &(cite) &(cite) &(cite) &(cite) &(cite) &(cite) \\
+        (cite) &(cite) &(cite) &(cite) &(cite) &(cite) &(cite) &(cite) \\
+        (cite) &(cite) &(cite) &(cite) &(cite) &(cite) &(cite) &(cite) \\
+        \bottomrule
     \end{tabular}
 \end{table}
-Techniques associated with interpretability in machine learning are either global or local. Global methods output a whole model that is interpretable while local approaches LIME FI (cite) output explanations of parts of the model such as how the model considers each part of a single specific input. Inside global interpretable machine learning, approaches are either direct or indirect. Direct algorithms like decision tree induction (cite) are algorithms that directly search a space of interpretable models. On the other hand are indirect methods--sometimes called post-hoc--that attempt to interpret some parts of non-interpretable model (cite).
-An ideal solution to interpretability would be to have global methods that outputs highl performing models. However there is no definite answer as to which is better between direct and indirect algorithms.
+Inside global interpretable machine learning, approaches are either direct or indirect. Direct algorithms like decision tree induction (cite) are algorithms that directly search a space of interpretable models. On the other hand are indirect methods--sometimes called post-hoc--that attempt to interpret some parts of non-interpretable model (cite).
 In Table~\ref{tab:related-work} we present both supervised and reinforcement learning works on global interpretability. For reviews of other aspects of interpretable machine learning such as understaning not only the model but also the learning process or on local approaches see (cite). 
+
+
+An ideal solution to interpretability would be to have global methods that outputs highl performing models. However there is no definite answer as to which is better between direct and indirect algorithms.
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        node distance=2.5cm,
+        auto,
+        thick,
+        state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
+        environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
+        agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+        robot/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+        ml/.style={circle, draw, fill=purple!20, minimum width=2cm, minimum height=1cm, text centered},
+        decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7.5cm, minimum height=3cm, text centered},
+        arrow/.style={->, thick, bend left=15},
+        arrow_decision/.style={->, dashed, bend left=15}
+    ]
+        
+        % Decision Making Box
+        \node[decision_box] (decision_box) at (0.3,3.4) {};
+        \node at (0.3,4.5) {\small{Decision Making}};
+        
+        % Robot (AI)
+        \node[robot] (robot) at (-2.1,3.2) {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.4cm]{images/images_intro/decision-tree-svgrepo-com.svg}\\
+                \small{Decision tree}
+            \end{minipage}
+        };
+        
+        % Doctor
+        \node[agent] (doctor) at (2.5,3.2) {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.4cm]{images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
+                \small{Doctor}
+            \end{minipage}
+        };
+        
+        % Machine Learning component
+        \node[ml] (ml) at (-7,3) {
+            \begin{minipage}{1.8cm}
+                \centering
+                \includesvg[width=0.4cm]{images/images_intro/gear-file-svgrepo-com.svg}\\
+                \small{Interpretable machine learning}
+            \end{minipage}
+        };
+        
+        % Environment (Patient)
+        \node[environment] (environment) at (0,-0.5) {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.8cm]{images/images_intro/patient-4.svg}\\
+                \small{Cancer patient}
+            \end{minipage}
+        };
+        
+        % Arrows
+        \draw[arrow] (environment) to[bend left=30] node[left] {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.5cm]{images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+                \small{Updated health status}
+            \end{minipage}
+        } (robot);
+        \draw[arrow_decision] (robot) to node[above] {\small{Recommends}} (doctor);
+        \draw[arrow_decision, green] (doctor) to node[below] {\small{Can interpret}} (robot);
+        
+        \draw[arrow] (doctor) to[bend left=30] node[right] {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.5cm]{images/images_intro/syringe-svgrepo-com.svg}\\
+                \small{Administrate chemo}
+            \end{minipage}
+        } (environment);
+        
+        % ML learning arrows
+        \draw[arrow] (environment) to[bend left=40] node[left] {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.5cm]{images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+                \small{Treatment outcomes}
+            \end{minipage}
+        } (ml);
+        \draw[arrow] (ml) to[bend left=20] node[above] {
+            \begin{minipage}{1.5cm}
+                \centering
+                \small{Updates program}
+            \end{minipage}
+        } (robot);
+        
+    \end{tikzpicture}
+    \caption{Sequential decision making with interpretable machine learning in cancer treatment. The ML system learns from treatment outcomes to continuously improve the computer program's recommendations, creating a feedback loop for better patient care over time.}
+    \label{fig:cancer-treatment-sdm-ml-interp}
+\end{figure}
+
 In addition to classifying interpretable machine learning methods by their algorithms type, we can also look at the type of model outputed (tree vs neural network vs linear models\dots) 
 
 \begin{figure}[htbp]
@@ -89,28 +395,22 @@ In addition to classifying interpretable machine learning methods by their algor
             
         % Position different model types
         % Deep Neural Networks (high performance, low interpretability)
-        \node[circle, fill=red!60, draw, minimum size=8pt] at (1.5,4.5) {};
-        \node[below right] at (1.5,4.5) {Deep NNs};
+        \node[circle, fill=red!60, draw, minimum size=8pt] at (1,5) {};
+        \node[below right] at (1.2,5.1) {Nerual networks};
         
         % Ensemble Methods (medium-high performance, low-medium interpretability)
         \node[circle, fill=orange!60, draw, minimum size=8pt] at (2.5,4) {};
-        \node[below right] at (2.5,4) {Ensembles};
-        
-        % SVMs (medium performance, medium interpretability)
-        \node[circle, fill=yellow!60, draw, minimum size=8pt] at (3.5,3) {};
-        \node[below right] at (3.5,3) {SVMs};
+        \node[below right] at (0.5,4) {Ensembles};
         
         % Linear Models (medium performance, high interpretability)
-        \node[circle, fill=green!60, draw, minimum size=8pt] at (6,2.5) {};
-        \node[below right] at (6,2.5) {Linear Models};
+        \node[circle, fill=green!60, draw, minimum size=8pt] at (5.5,3) {};
+        \node[below right] at (5.5,3) {Linear models};
         
         % Decision Trees (medium-low performance, high interpretability)
         \node[circle, fill=blue!60, draw, minimum size=8pt] at (6.5,2) {};
-        \node[below right] at (6.5,2) {Decision Trees};
+        \node[below right] at (6.5,2) {Decision trees};
         
-        % Naive Bayes (low performance, high interpretability)
-        \node[circle, fill=purple!60, draw, minimum size=8pt] at (5.5,1.5) {};
-        \node[below right] at (5.5,1.5) {Naive Bayes};
+
         
         % Add a general trend line (optional)
         \draw[dashed, thick, gray] (1,4.8) .. controls (3,3.5) and (5,2.5) .. (7,1.2);
@@ -130,7 +430,7 @@ In Figure~\ref{fig:interpretability-performance-tradeoff} we present the popular
     \begin{tikzpicture}[
         bubble/.style={rectangle, rounded corners=15pt, draw, thick, fill=blue!20, text width=3.5cm, text centered, minimum height=1.5cm, font=\small},
         arrow/.style={->, thick},
-        label/.style={font=\footnotesize, text width=3cm, text centered, red!70}
+        label/.style={font=\footnotesize, text width=3cm, text centered}
     ]
         
         % Define the three vertices of the triangle
@@ -153,7 +453,7 @@ In Figure~\ref{fig:interpretability-performance-tradeoff} we present the popular
 
         % Arrow from Chapter 1 to Chapter 3  
         \draw[arrow] (ch2.east) -- (ch3.west);
-        \node[label] at (0.5,1.5) {Use new decision tree induction to learn better interpretable policies};
+        \node[label] at (0,1.1) {Use new decision tree induction to learn better interpretable policies};
         
         
     \end{tikzpicture}
