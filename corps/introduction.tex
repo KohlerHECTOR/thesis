@@ -212,71 +212,6 @@ be uninterpretable in that sphere of thought which they are designed to aid?
 What is remarkable is that the supposedly first recored occurrence of ``interpretability'' was in the context of (pre-)computer science. Boole asked: \textit{when can we meaningfully apply formal mathematical operations beyond the specific conditions under which we understand them?}
 In Boole's era, the concern was whether logical operations like addition could be applied outside their original interpretable contexts—where symbols and their sum represent concepts that humans can understand, e.g. red + apples = red apples. Today, we face an analogous dilemma with machine learning algorithms: neural networks learn complex un-intellegible combinations of inputs (representations), but we often deploy them in contexts where operations should be unerstood by humans, e.g., in medicine. 
 
-Circling back to our cancer treatment example, we would ideally want doctors to have access to computer programs that can recommend ``good'' treatments and which operations can be understood. Those two aspects of machine learning models--performance and interpretability--often compromise; highly performing models like neural networks are often less interpretable and vice-versa (cite).
-However, we will observe later on that aiming for interpretability is not necessarily always constraining but can be a quite positive bias for performances in some domains like video games.
-Interestingly, one of the key challenges of doing research in interpretability is the lack of formalism; there is no definition of what is an interpretable compute program such as an MDP policy. Throughout this manuscript we make the hypothesis that interpretability is the (space and time) complexity of a program (cite) and hence mostly focus on decision trees (low complexity) (cite) and neural networks (high complexity).  
-Despite this lack of formalism the necessity of deploying interpretable models has sparked many works that we present next.
-\subsection{What are existing approaches for learning interpretable programs?}
-Techniques associated with interpretability in machine learning are either global or local. 
-Global methods output a whole model that is interpretable while local approaches LIME FI (cite) output explanations of parts of the model such as how the model considers each part of a single specific input.
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \begin{tikzpicture}[
-            level/.style={sibling distance=30mm/#1},
-            every node/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered, font=\small},
-            leaf/.style={rectangle, draw, fill=green!20, minimum width=1.5cm, minimum height=0.8cm, text centered, font=\small}
-        ]
-        \node {Is Pad left to Ball?}
-            child {
-                node[leaf] {move right}
-            }
-            child {
-                node[leaf] {move left}  
-            };
-        \end{tikzpicture}
-        \caption{Decision tree}
-        \label{fig:decision-tree}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/images_intro/breakout_control.png}
-        \caption{Placeholder 1}
-        \label{fig:placeholder1}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/images_intro/breakout_reflect_bp.png}
-        \caption{Placeholder 3}
-        \label{fig:placeholder3}
-    \end{subfigure}
-    \caption{Different approaches for learning interpretable programs. (a) Decision tree showing simple binary decision making, (b-d) Additional interpretable model representations.}
-    \label{fig:interpretable-approaches}
-\end{figure}
-
-(table)
-\begin{table}[htbp]
-    \centering
-    \caption{Related work in \textit{global} interpretable machine learning following the direct/indirect classification. Each class is further divided into the type of interpretable model they output. Methods specific to supervised learning are colored in {\color{red} red} and methods specific to reinforcement learning are in {\color{blue} blue}}\label{tab:related-work}
-    \begin{tabular}{|cccc|cccc|}
-        \toprule
-        \multicolumn{4}{|c|}{\textbf{Direct}} &
-        \multicolumn{4}{|c|}{\textbf{indirect}} \\
-        \midrule
-        (cite) &(cite) &(cite) &(cite) &(cite) &(cite) &(cite) &(cite) \\
-        (cite) &(cite) &(cite) &(cite) &(cite) &(cite) &(cite) &(cite) \\
-        (cite) &(cite) &(cite) &(cite) &(cite) &(cite) &(cite) &(cite) \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-Inside global interpretable machine learning, approaches are either direct or indirect. Direct algorithms like decision tree induction (cite) are algorithms that directly search a space of interpretable models. On the other hand are indirect methods--sometimes called post-hoc--that attempt to interpret some parts of non-interpretable model (cite).
-In Table~\ref{tab:related-work} we present both supervised and reinforcement learning works on global interpretability. For reviews of other aspects of interpretable machine learning such as understaning not only the model but also the learning process or on local approaches see (cite). 
-
-
-An ideal solution to interpretability would be to have global methods that outputs highl performing models. However there is no definite answer as to which is better between direct and indirect algorithms.
 \begin{figure}[htbp]
     \centering
     \begin{tikzpicture}[
@@ -372,8 +307,11 @@ An ideal solution to interpretability would be to have global methods that outpu
     \label{fig:cancer-treatment-sdm-ml-interp}
 \end{figure}
 
-In addition to classifying interpretable machine learning methods by their algorithms type, we can also look at the type of model outputed (tree vs neural network vs linear models\dots) 
-
+Circling back to our cancer treatment example, we would ideally want doctors to have access to computer programs that can recommend ``good'' treatments and which operations can be understood. Those two aspects of machine learning models--performance and interpretability--often compromise; highly performing models like neural networks are often less interpretable and vice-versa (cite).
+However, we will observe later on that aiming for interpretability is not necessarily always constraining but can be a quite positive bias for performances in some domains like video games.
+Interestingly, one of the key challenges of doing research in interpretability is the lack of formalism; there is no definition of what is an interpretable compute program such as an MDP policy. Throughout this manuscript we make the hypothesis that interpretability is the (space and time) complexity of a program (cite) and hence mostly focus on decision trees (low complexity) (cite) and neural networks (high complexity).  
+Despite this lack of formalism the necessity of deploying interpretable models has sparked many works that we present next.
+\subsection{What are existing approaches for learning interpretable programs?}
 \begin{figure}[htbp]
     \centering
     \begin{tikzpicture}
@@ -420,8 +358,17 @@ In addition to classifying interpretable machine learning methods by their algor
     \caption{The interpretability-performance trade-off in machine learning. Different model classes are positioned according to their typical interpretability and performance characteristics. The dashed line illustrates the general trade-off between these two properties.}
     \label{fig:interpretability-performance-tradeoff}
 \end{figure}
-
+Interpretable machine learning provides either local or global explanations (cite).
+Global methods output a whole model that is interpretable while local approaches output explanations of parts of the model such as how the model considers each part of a single specific input.
 In Figure~\ref{fig:interpretability-performance-tradeoff} we present the popular trade-off between interpretability and performance of different model classes.
+
+The most famous local explanations algorithms is LIME (cite). Lime \dots
+Global interpretable machine learning, approaches are either direct or indirect. 
+Direct algorithms like decision tree induction (cite) are algorithms that directly search a space of interpretable models. One of the key challenges that motivates this thesis is that decision tree induction is only defined for supervised learning but not for reinforcement learning. It means that to directly learn computer programs for interpretable sequential decision making, one has te design completely new algorithms. 
+What most exisitng research have focused on so far, is to work around this limiation of deicision tree induction to supervised learning and develop indirect methods. 
+Indirect methods for interpretable sequential decision making--sometimes called post-hoc--start with the reinforcement learning of a non-interpretable computer program,e.g., deep reinforcement learning of a neural network, and then use supervised learning of an interpretable model with the objective to emulate the non-interpretable program. This approach is called behavior cloning or imitation learning and many, if not all, work on interpretable sequential decision making use this indirect approach (cite).
+Researchers just recently started to study the advantage of direct over indirect learning of interpretable programs (cite). In short, the motivation behind developing direct methods is to have the interpretable program optimized to solve your actual goal, e.g. patient treatment, while indirect method learn an interpretable program that is optimized to match the behaviour of a non-interpretable model that was itself optimized to solve your goal. There is no guarantee that optimizing this indirect objective yields the ``best'' interpretability-performance trade-offs. 
+Hence, the ideal solution to interpretable sequential decision making would be to have global direct algortihms. 
 
 \section{Outline of the Thesis}
 
