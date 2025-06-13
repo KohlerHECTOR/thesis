@@ -1,0 +1,22 @@
+[0] Config.pm:307> INFO - This is Biber 2.17
+[0] Config.pm:310> INFO - Logfile is 'these.blg'
+[69] biber:340> INFO - === ven. juin 13, 2025, 20:41:08
+[81] Biber.pm:418> INFO - Reading 'these.bcf'
+[141] Biber.pm:972> INFO - Found 8 citekeys in bib section 0
+[152] Biber.pm:4383> INFO - Processing section 0
+[162] Biber.pm:4574> INFO - Looking for bibtex file 'auxiliaires/bibliographie.bib' for section 0
+[169] bibtex.pm:1713> INFO - LaTeX decoding ...
+[301] bibtex.pm:1518> INFO - Found BibTeX data source 'auxiliaires/bibliographie.bib'
+[355] Biber.pm:4574> INFO - Looking for bibtex file 'biblatex-examples.bib' for section 0
+[470] bibtex.pm:1713> INFO - LaTeX decoding ...
+[610] bibtex.pm:1518> INFO - Found BibTeX data source '/usr/share/texlive/texmf-dist/bibtex/bib/biblatex/biblatex/biblatex-examples.bib'
+[634] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[644] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
+[645] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
+[645] Biber.pm:4209> INFO - No sort tailoring available for locale 'fr-FR'
+[651] bbl.pm:654> INFO - Writing 'these.bbl' with encoding 'ascii'
+[651] bbl.pm:655> INFO - Converting UTF-8 to TeX macros on output to .bbl
+[660] bbl.pm:757> INFO - Output to these.bbl
+[660] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'auxiliaires/bibliographie.bib', skipping ...
+[661] Biber.pm:130> WARN - I didn't find a database entry for '(cite)' (section 0)
+[661] Biber.pm:132> INFO - WARNINGS: 2

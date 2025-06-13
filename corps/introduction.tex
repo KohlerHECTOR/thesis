@@ -67,17 +67,17 @@
         } (environment);
         
     \end{tikzpicture}
-    \caption{Sequential decision making in cancer treatment. The AI system is informed by the patient's current state (tumor size, blood counts, etc.) and makes a recommendation to the doctor, who administers the chemotherapy directly to the patient. The patient's state is then updated, and this cycle repeats over time.}
+    \caption{Sequential decision making in cancer treatment. The AI system reacts to the patient's current state (tumor size, blood counts, etc.) and makes a recommendation to the doctor, who administers the chemotherapy to the patient. The patient's state is then updated, and this cycle repeats over time.}
     \label{fig:cancer-treatment-sdm}
 \end{figure}
-In this manuscript we are mostly interested in sequential decision making. Humans engage in sequential decision making in all aspects of life. In medicine, doctors have to decide when to use chemotherapy next based on the patient's current health in order to heal (cite). In agriculture, agronomists have to decide when to fertilize next based on the current soil and weather conditions in order to maximize plant growth (cite). 
-In automotive, the auto-pilot system has to decide how to steer the wheel next based on lidar sensors in order to maintain a safe trajectory (cite). In video games, a bot decides what attack to throw next based on the player's and its own state in order to provide the best entertainment (cite).
+In this manuscript we study algorithms sequential decision making. Humans engage in sequential decision making in all aspects of life. In medicine, doctors have to decide how much chemotherapy to administrate based on the patient's current health in order to cure~\cite{cancer}. In agriculture, agronomists have to decide when to fertilize next based on the current soil and weather conditions in order to maximize plant growth~\cite{agriculture}. 
+In automotive, the auto-pilot system has to decide how to steer the wheel next based on lidar sensors in order to maintain a safe trajectory~\cite{driving}. 
 Those sequential decision making processes exhibits key similarities: an agent takes actions based on some current information to achieve some goal.
-As computer scientists, we ought to design computer programs (cite) that can help humans during those sequential decision making processes. 
+As computer scientists, we ought to design computer programs~\cite{knuth63} that can help humans during those sequential decision making processes. 
 For example, as depicted in Figure~\ref{fig:cancer-treatment-sdm}, a doctor could benefit from a program that would recommend the ``best'' treatment given the patient's state. 
-Machine learning algorithms (cite) output such helpful programs. 
-For non-sequential decision making, when the doctor only takes one decision and does not need to react to the updated patient's health, e.g. making a diagnosis about cancer type, a program can be fitted to example data: given lots of patient records and the associated diagnoses, the program learns to make the same diagnosis a doctor would given the same patient record, this is \textit{supervised} learning. 
-In the cancer treatment example, the doctor follows its patient through time and adapts its treatment to the changing health of the patient. In that case, the program should learn to take decisions that lead to the patient recovery in the future based on how the patient's health changes from one chemo dose to another (this is \textit{reinforcement} learning).  
+Machine learning algorithms~\cite{turing} output such helpful programs.
+For non-sequential decision making, when the doctor only takes one decision and does not need to react to the updated patient's health, e.g. making a diagnosis about cancer type, a program can be fitted to example data: given lots of patient records and the associated diagnoses, the program learns to make the same diagnosis a doctor would given the same patient record, this is \textit{supervised} learning~\cite{sl}. 
+In the cancer treatment example, the doctor follows its patient through time and adapts its treatment to the changing health of the patient. In that case, the program should learn to take decisions that lead to the patient recovery in the future based on how the patient's health changes from one chemo dose to another (this is \textit{reinforcement} learning~\cite{sutton}).  
 Every day, hundreds of new machine learning algorithms are published\footnote{\url{https://arxiv.org/list/cs.LG/pastweek?skip=0&show=2000}}. While most of those scientific articles focus on finding the ``best'' program possible, not many work make sure that their recommendations can be understood by humans.
 Next, we describe the notion of interpretability that is key to ensure safe deployment of computer programs trained with machine learning in critical sectors like medicine. However, as illustrated in Figure~\ref{fig:cancer-treatment-sdm-ml}, complex machine learning systems often create black-box models that doctors cannot interpret, highlighting the need for interpretable approaches. 
 \begin{figure}[htbp]
@@ -724,19 +724,19 @@ More realistically, neither the transition kernel $T$ nor the reward function $R
     \hfill
     \begin{subfigure}[b]{0.22\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/images_intro/puterman.jpg}
+        \includegraphics[width=0.7\textwidth]{images/images_intro/puterman.jpg}
         \caption{M.L. Puterman}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.22\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/images_intro/Barto_1982_umass_amherst.jpg}
+        \includegraphics[width=1.2\textwidth]{images/images_intro/Barto_1982_umass_amherst.jpg}
         \caption{A. Barto}
     \end{subfigure}
     \hfill
     \begin{subfigure}[b]{0.22\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/images_intro/sutton.jpg}
+        \includegraphics[width=0.67\textwidth]{images/images_intro/sutton.jpg}
         \caption{R. Sutton}
     \end{subfigure}
        \caption{The godfathers of sequential decision making. Andrew Barto and Richard Sutton are the ACM Turing Prize 2024 laureate and share an advisor advisee relationship.}
