@@ -70,125 +70,27 @@
     \caption{Sequential decision making in cancer treatment. The AI system reacts to the patient's current state (tumor size, blood counts, etc.) and makes a recommendation to the doctor, who administers the chemotherapy to the patient. The patient's state is then updated, and this cycle repeats over time.}
     \label{fig:cancer-treatment-sdm}
 \end{figure}
-In this manuscript we study algorithms sequential decision making. Humans engage in sequential decision making in all aspects of life. In medicine, doctors have to decide how much chemotherapy to administrate based on the patient's current health in order to cure~\cite{cancer}. In agriculture, agronomists have to decide when to fertilize next based on the current soil and weather conditions in order to maximize plant growth~\cite{agriculture}. 
+In this manuscript we study algorithms for sequential decision making. Humans engage in sequential decision making in all aspects of life. In medicine, doctors have to decide how much chemotherapy to administrate based on the patient's current health in order to cure~\cite{cancer}. In agriculture, agronomists have to decide when to fertilize next based on the current soil and weather conditions in order to maximize plant growth~\cite{agriculture}. 
 In automotive, the auto-pilot system has to decide how to steer the wheel next based on lidar sensors in order to maintain a safe trajectory~\cite{driving}. 
 Those sequential decision making processes exhibits key similarities: an agent takes actions based on some current information to achieve some goal.
+
 As computer scientists, we ought to design computer programs~\cite{knuth63} that can help humans during those sequential decision making processes. 
 For example, as depicted in Figure~\ref{fig:cancer-treatment-sdm}, a doctor could benefit from a program that would recommend the ``best'' treatment given the patient's state. 
 Machine learning algorithms~\cite{turing} output such helpful programs.
 For non-sequential decision making, when the doctor only takes one decision and does not need to react to the updated patient's health, e.g. making a diagnosis about cancer type, a program can be fitted to example data: given lots of patient records and the associated diagnoses, the program learns to make the same diagnosis a doctor would given the same patient record, this is \textit{supervised} learning~\cite{sl}. 
-In the cancer treatment example, the doctor follows its patient through time and adapts its treatment to the changing health of the patient. In that case, the program should learn to take decisions that lead to the patient recovery in the future based on how the patient's health changes from one chemo dose to another (this is \textit{reinforcement} learning~\cite{sutton}).  
-Every day, hundreds of new machine learning algorithms are published\footnote{\url{https://arxiv.org/list/cs.LG/pastweek?skip=0&show=2000}}. While most of those scientific articles focus on finding the ``best'' program possible, not many work make sure that their recommendations can be understood by humans.
-Next, we describe the notion of interpretability that is key to ensure safe deployment of computer programs trained with machine learning in critical sectors like medicine. However, as illustrated in Figure~\ref{fig:cancer-treatment-sdm-ml}, complex machine learning systems often create black-box models that doctors cannot interpret, highlighting the need for interpretable approaches. 
-\begin{figure}[htbp]
-    \centering
-    \begin{tikzpicture}[
-        node distance=2.5cm,
-        auto,
-        thick,
-        state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
-        environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
-        agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
-        robot/.style={rectangle, draw, fill=black!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
-        ml/.style={circle, draw, fill=purple!20, minimum width=2cm, minimum height=1cm, text centered},
-        decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7.5cm, minimum height=3cm, text centered},
-        arrow/.style={->, thick, bend left=15},
-        arrow_decision/.style={->, dashed, bend left=15}
-    ]
-        
-        % Decision Making Box
-        \node[decision_box] (decision_box) at (0.3,3.4) {};
-        \node at (0.3,4.5) {\small{Decision Making}};
-        
-        % Robot (AI)
-        \node[robot] (robot) at (-2.1,3.2) {
-            \begin{minipage}{1.5cm}
-                \centering
-                \includesvg[width=0.4cm]{images/images_intro/network-mapping-svgrepo-com.svg}\\
-                \small{Neural network}
-            \end{minipage}
-        };
-        
-        % Doctor
-        \node[agent] (doctor) at (2.5,3.2) {
-            \begin{minipage}{1.5cm}
-                \centering
-                \includesvg[width=0.4cm]{images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
-                \small{Doctor}
-            \end{minipage}
-        };
-        
-        % Machine Learning component
-        \node[ml] (ml) at (-7,3) {
-            \begin{minipage}{1.8cm}
-                \centering
-                \includesvg[width=0.4cm]{images/images_intro/gear-file-svgrepo-com.svg}\\
-                \small{Machine learning}
-            \end{minipage}
-        };
-        
-        % Environment (Patient)
-        \node[environment] (environment) at (0,-0.5) {
-            \begin{minipage}{2cm}
-                \centering
-                \includesvg[width=0.8cm]{images/images_intro/patient-4.svg}\\
-                \small{Cancer patient}
-            \end{minipage}
-        };
-        
-        % Arrows
-        \draw[arrow] (environment) to[bend left=30] node[left] {
-            \begin{minipage}{2cm}
-                \centering
-                \includesvg[width=0.5cm]{images/images_intro/patient-clipboard-svgrepo-com.svg}\\
-                \small{Updated health status}
-            \end{minipage}
-        } (robot);
-        \draw[arrow_decision] (robot) to node[above] {\small{Recommends}} (doctor);
-        \draw[arrow_decision, red] (doctor) to node[below] {\small{Can't interpret}} (robot);
-        
-        \draw[arrow] (doctor) to[bend left=30] node[right] {
-            \begin{minipage}{1.5cm}
-                \centering
-                \includesvg[width=0.5cm]{images/images_intro/syringe-svgrepo-com.svg}\\
-                \small{Administrate chemo}
-            \end{minipage}
-        } (environment);
-        
-        % ML learning arrows
-        \draw[arrow] (environment) to[bend left=40] node[left] {
-            \begin{minipage}{2cm}
-                \centering
-                \includesvg[width=0.5cm]{images/images_intro/patient-clipboard-svgrepo-com.svg}\\
-                \small{Treatment outcomes}
-            \end{minipage}
-        } (ml);
-        \draw[arrow] (ml) to[bend left=20] node[above] {
-            \begin{minipage}{1.5cm}
-                \centering
-                \small{Updates program}
-            \end{minipage}
-        } (robot);
-        
-    \end{tikzpicture}
-    \caption{Sequential decision making with machine learning in cancer treatment. The ML system learns from treatment outcomes to continuously improve the computer program's recommendations, creating a feedback loop for better patient care over time.}
-    \label{fig:cancer-treatment-sdm-ml}
-\end{figure}
+In the cancer treatment example, the doctor follows its patient through time and adapts its treatment to the changing health of the patient. In that case, machine learning, and in particular, \textit{reinforcement} learning~\cite{sutton}, can be used to teach the program how take decisions that lead to the patient recovery in the future based on how the patient's health changes from one chemo dose to another.  
+Such machine learning algorithms train more and more performing program that make their way into our society to, e.g. identify digits on images~\cite{lenet}, control tokamak fusion~\cite{tokamak}, or write the abstract of a scientific article~\cite{bert}.
+
+However, the key problematic behind this manuscript is that those programs computations cannot be understood and verified by humans: the programs are black-box.
+Next, we describe the notion of interpretability that is key to ensure safe deployment of computer programs trained with machine learning in critical sectors like medicine.
+
 \subsection{What is Interpretability?}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.5\textwidth]{images/images_intro/gboole.jpg}
-    \caption{British logician and philosopher George Boole (1815-1864) next to its book \textit{The Laws of Thoughts} (1854) that is the oldest known record of the word ``interpretability''.}
-    \label{fig:george-boole}
-\end{figure}
 
-Interpretability is a crucial topic in modern science. While computer programs trained with machine learning algorithms have become more and more performing and made their way into our society, they are often black-box: their outputs, e.g., the animals on the image (cite), tokamak control (cite), or even the abstract of your next article (cite), are computed with operations that are too complex for humans to fully understand.
-Indeed most of recent machine learning breakthroughs are obtained by training very large programs like neural networks (cite) which are black-box by definition since they perform sometimes millions of operations on their inputs.
+
 Originally, the etymology of ``interpretability'' is the Latin ``interpretabilis'' meaning ``that can be understood and explained''.
-
 According to the Oxford English dictionary, the first recorded use of the english word ``interpretability'' dates back to 1854 when the british logician George Boole (Figure~\ref{fig:george-boole}) described the addition of concepts:
 
-\begin{displaycquote}[pp.~48]{(cite)}
+\begin{displaycquote}[p.~48]{boole}
 I would remark in the first place that the generality of a method in Logic
 must very much depend upon the generality of its elementary processes and laws.
 We have, for instance, in the previous sections of this work investigated, among
@@ -208,10 +110,118 @@ as a general method in Logic is possible. On the other hand, if such restriction
 is unnecessary, in what light are we to contemplate processes which appear to
 be uninterpretable in that sphere of thought which they are designed to aid?
 \end{displaycquote}
-What is remarkable is that the supposedly first recorded occurrence of ``interpretability'' was in the context of (pre-)computer science. Boole asked: \textit{when can we meaningfully apply formal mathematical operations beyond the specific conditions under which we understand them?}
-In Boole's era, the concern was whether logical operations like addition could be applied outside their original interpretable contexts—where symbols and their sum represent concepts that humans can understand, e.g. red + apples = red apples. Today, we face an analogous dilemma with machine learning algorithms: neural networks learn complex unintelligible combinations of inputs (representations), but we often deploy them in contexts where operations should be understood by humans, e.g., in medicine. 
+
 \begin{figure}[htbp]
     \centering
+    \includegraphics[width=0.5\textwidth]{images/images_intro/gboole.jpg}
+    \caption{British logician and philosopher George Boole (1815-1864) next to its book \textit{The Laws of Thoughts} (1854) that is the oldest known record of the word ``interpretability''.}
+    \label{fig:george-boole}
+\end{figure}
+
+What is remarkable is that the supposedly first recorded occurrence of ``interpretability'' was in the context of computer science. Boole asked: \textit{when can we meaningfully apply formal mathematical operations beyond the specific conditions under which we understand them?}
+In Boole's era, the concern was whether logical operations like addition could be applied outside their original interpretable contexts—where symbols and their sum represent concepts that humans can understand, e.g. red + apples = red apples. Today, we face an analogous dilemma with machine learning algorithms: black-box programs like neural netowrks~\cite{perceptron}, that learn complex unintelligible combinations of inputs (representations), are often deployed in contexts where computations should be understood by humans, e.g., in medicine~\cite{black-box2}. 
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.7\textwidth}
+        \centering
+        \begin{tikzpicture}[
+            node distance=2.5cm,
+            auto,
+            thick,
+            state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
+            environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
+            agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+            robot/.style={rectangle, draw, fill=black!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+            ml/.style={circle, draw, fill=purple!20, minimum width=2cm, minimum height=1cm, text centered},
+            decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7.5cm, minimum height=3cm, text centered},
+            arrow/.style={->, thick, bend left=15},
+            arrow_decision/.style={->, dashed, bend left=15}
+        ]
+            
+            % Decision Making Box
+            \node[decision_box] (decision_box) at (0.3,3.4) {};
+            \node at (0.3,4.5) {\small{Decision Making}};
+            
+            % Robot (AI)
+            \node[robot] (robot) at (-2.1,3.2) {
+                \begin{minipage}{1.5cm}
+                    \centering
+                    \includesvg[width=0.4cm]{images/images_intro/network-mapping-svgrepo-com.svg}\\
+                    \small{Neural network}
+                \end{minipage}
+            };
+            
+            % Doctor
+            \node[agent] (doctor) at (2.5,3.2) {
+                \begin{minipage}{1.5cm}
+                    \centering
+                    \includesvg[width=0.4cm]{images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
+                    \small{Doctor}
+                \end{minipage}
+            };
+            
+            % Machine Learning component
+            \node[ml] (ml) at (-7,3) {
+                \begin{minipage}{1.8cm}
+                    \centering
+                    \includesvg[width=0.4cm]{images/images_intro/gear-file-svgrepo-com.svg}\\
+                    \small{Machine learning}
+                \end{minipage}
+            };
+            
+            % Environment (Patient)
+            \node[environment] (environment) at (0,-0.5) {
+                \begin{minipage}{2cm}
+                    \centering
+                    \includesvg[width=0.8cm]{images/images_intro/patient-4.svg}\\
+                    \small{Cancer patient}
+                \end{minipage}
+            };
+            
+            % Arrows
+            \draw[arrow] (environment) to[bend left=30] node[left] {
+                \begin{minipage}{2cm}
+                    \centering
+                    \includesvg[width=0.5cm]{images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+                    \small{Updated health status}
+                \end{minipage}
+            } (robot);
+            \draw[arrow_decision] (robot) to node[above] {\small{Recommends}} (doctor);
+            \draw[arrow_decision, red] (doctor) to node[below] {\small{Can't interpret}} (robot);
+            
+            \draw[arrow] (doctor) to[bend left=30] node[right] {
+                \begin{minipage}{1.5cm}
+                    \centering
+                    \includesvg[width=0.5cm]{images/images_intro/syringe-svgrepo-com.svg}\\
+                    \small{Administrate chemo}
+                \end{minipage}
+            } (environment);
+            
+            % ML learning arrows
+            \draw[arrow] (environment) to[bend left=40] node[left] {
+                \begin{minipage}{2cm}
+                    \centering
+                    \includesvg[width=0.5cm]{images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+                    \small{Treatment outcomes}
+                \end{minipage}
+            } (ml);
+            \draw[arrow] (ml) to[bend left=20] node[above] {
+                \begin{minipage}{1.5cm}
+                    \centering
+                    \small{Updates program}
+                \end{minipage}
+            } (robot);
+            
+        \end{tikzpicture}
+        \caption{Black-box approach using neural networks}
+        \label{fig:cancer-treatment-sdm-ml}
+    \end{subfigure}
+    
+    \vspace*{1cm}
+    
+    \begin{subfigure}[b]{0.7\textwidth}
+        \centering
         \begin{tikzpicture}[
             node distance=2.5cm,
             auto,
@@ -301,13 +311,17 @@ In Boole's era, the concern was whether logical operations like addition could b
             } (robot);
             
         \end{tikzpicture}
-    \caption{Interpretable sequential decision making in cancer treatment. This shows a decision tree-based system where the doctor can understand and interpret the AI's recommendations, shown by the green "Can interpret" arrow, contrasting with the black-box neural network approach from Figure~\ref{fig:cancer-treatment-sdm-ml}.}
-    \label{fig:cancer-treatment-comparison}
+        \caption{Interpretable approach using decision trees}
+        \label{fig:cancer-treatment-comparison}
+    \end{subfigure}
+    \caption{Comparison of sequential decision making approaches in cancer treatment. Top: A black-box neural network approach where the doctor cannot interpret the AI's recommendations. Bottom: An interpretable decision tree approach where the doctor can understand and verify the AI's recommendations. Both systems learn from treatment outcomes to improve their recommendations over time.}
+    \label{fig:cancer-treatment-comparison-combined}
 \end{figure}
 
-Circling back to our cancer treatment example, as illustrated in Figure~\ref{fig:cancer-treatment-comparison}, we would ideally want doctors to have access to computer programs that can recommend ``good'' treatments and which operations can be understood. Those two aspects of machine learning models--performance and interpretability--often compromise; highly performing models like neural networks are often less interpretable and vice-versa (cite).
-However, we will observe later on that aiming for interpretability is not necessarily always constraining but can be a quite positive bias for performances in some domains like video games.
-Interestingly, one of the key challenges of doing research in interpretability is the lack of formalism; there is no definition of what is an interpretable computer program. Throughout this manuscript we make the hypothesis that interpretability is the (space and time) complexity of a program (cite) and hence mostly focus on decision trees (low complexity) (cite) and neural networks (high complexity).  
+In Figure~\ref{fig:cancer-treatment-sdm-ml}, we illustrate how existing machine learning algorithms \textit{could} be used in principle to help with cancer treatment. In truth this should be prohibited without some kind of transparency in the program's recommendation: why did the program recommended such dosage?
+In Figure~\ref{fig:cancer-treatment-comparison}, we illustrate how machine learning \textit{should} be used in practice. We would ideally want doctors to have access to computer programs that can recommend ``good'' treatments and which recommendations are interpretable. 
+
+The key challenge of doing research in interpretability is the lack of formalism; there is no \textit{formal} definition of what is an interpretable computer program. Hence, unlike for performance objectives which have well-defined optimization objective, e.g. maximizing accuracy (supervised learning) or maximizing rewards over time (reinforcement learning), it is not clear how to design machine learning algorithms to maximize interpretability of programs. 
 Despite this lack of formalism the necessity of deploying interpretable models has sparked many works that we present next.
 \subsection{What are existing approaches for learning interpretable programs?}
 \begin{figure}[htbp]
@@ -353,21 +367,15 @@ Despite this lack of formalism the necessity of deploying interpretable models h
         \node[gray, rotate=-30] at (4,3.2) {\small Trade-off curve};
         
     \end{tikzpicture}
-    \caption{The interpretability-performance trade-off in machine learning. Different model classes are positioned according to their typical interpretability and performance characteristics. The dashed line illustrates the general trade-off between these two properties.}
+    \caption{The interpretability-performance trade-off in machine learning. Different program classes are positioned according to their typical interpretability and performance characteristics. The dashed line illustrates the general trade-off between these two properties.}
     \label{fig:interpretability-performance-tradeoff}
 \end{figure}
-Interpretable machine learning provides either local or global explanations (cite).
-Global methods output a whole model that is interpretable while local approaches output explanations of parts of the model such as how the model considers each part of a single specific input.
-In Figure~\ref{fig:interpretability-performance-tradeoff} we present the popular trade-off between interpretability and performance of different model classes.
+Interpretable machine learning provides either local or global explanations \cite{glanois-survey}.
+Global methods output a program which all recommendations can be interpreted without additional computations, e.g. a decision tree~\cite{breiman1984classification}. On the other hand, local methods require additional computations but are agnostic to the program class: they can give an \textit{approximate} interpretation of e.g. neural networks recommendations.
+In Figure~\ref{fig:interpretability-performance-tradeoff} we present the popular trade-off between interpretability and performance of different program classes.
 
-The most famous local explanation algorithm is LIME (Local Interpretable Model-agnostic Explanations) (cite). LIME works by perturbing the input around a specific instance and learning a simple interpretable model locally to explain that particular prediction. For each individual prediction, LIME provides explanations by identifying which features were most important for that specific decision.
-Global interpretable machine learning approaches are either direct or indirect. 
-Direct algorithms like decision tree induction (cite) are algorithms that directly search a space of interpretable models. One of the key challenges that motivates this thesis is that decision tree induction is only defined for supervised learning but not for reinforcement learning. It means that to directly learn computer programs for interpretable sequential decision making, one has to design completely new algorithms. 
-What most existing research have focused on so far, is to work around this limitation of decision tree induction to supervised learning and develop indirect methods. 
-Indirect methods for interpretable sequential decision making--sometimes called post-hoc--start with the reinforcement learning of a non-interpretable computer program, e.g., deep reinforcement learning of a neural network, and then use supervised learning of an interpretable model with the objective to emulate the non-interpretable program. This approach is called behavior cloning or imitation learning and many, if not all, work on interpretable sequential decision making use this indirect approach (cite).
-
-Researchers just recently started to study the advantage of direct over indirect learning of interpretable programs (cite). In short, the motivation behind developing direct methods is to have the interpretable program optimized to solve your actual goal, e.g. patient treatment, while indirect methods learn an interpretable program that is optimized to match the behaviour of a non-interpretable model that was itself optimized to solve your goal. There is no guarantee that optimizing this indirect objective yields the ``best'' interpretability-performance trade-offs. 
-Hence, the ideal solution to interpretable sequential decision making would be to have global direct algorithms. Figure~\ref{fig:direct-vs-indirect-methods} illustrates the key difference between these two approaches. 
+The most famous local explanation algorithm is LIME (Local Interpretable Model-agnostic Explanations)~\cite{lime}. Given a program class, LIME works by perturbing the input and learning a simple interpretable model locally to explain that particular prediction. For each individual prediction, LIME provides explanations by identifying which features were most important for that specific decision.
+Hence, as stated above, LIME needs to learn a whole program per recommendation that needs to be interpreted; this is a lot of computations.
 
 \begin{figure}[htbp]
     \centering
@@ -460,7 +468,25 @@ Hence, the ideal solution to interpretable sequential decision making would be t
     \label{fig:direct-vs-indirect-methods}
 \end{figure}
 
+Global approaches are either direct or indirect~\cite{milani-survey}. 
+Direct algorithms, such as decision tree induction~\cite{breiman1984classification}, are algorithms that directly search a space of interpretable programs (see Figure~\ref{fig:interpretability-performance-tradeoff}). One of the key challenges that motivates this thesis is that decision tree induction is only defined for supervised learning but not for reinforcement learning. It means that to directly learn computer programs for interpretable sequential decision making, one has to design completely new algorithms. 
+What most existing research have focused on so far, is to work around this confinement of decision tree induction to supervised learning and develop indirect methods. 
+Indirect methods for interpretable sequential decision making--sometimes called post-hoc--start with the reinforcement learning of a non-interpretable computer program, e.g., deep reinforcement learning of a neural network, and then use supervised learning of an interpretable model with the objective to emulate the non-interpretable program. This approach is called behavior cloning or imitation learning~\cite{behavior-cloning,dagger} and many, if not all, work on interpretable sequential decision making use this indirect approach\cite{viper,PIRL}.
+Figure~\ref{fig:direct-vs-indirect-methods} illustrates the key difference between these two approaches. 
+
+Researchers just recently started to study the advantage of direct over indirect learning of interpretable programs~\cite{topin2021iterative,leap}. In short, the motivation behind developing direct methods is to have the interpretable program optimized to solve your actual goal, e.g. patient treatment, while indirect methods learn an interpretable program that is optimized to match the behaviour of a non-interpretable model that was itself optimized to solve your goal. There is no guarantee that optimizing this indirect objective yields the ``best'' interpretability-performance trade-offs. 
+Hence, the ideal solution to interpretable sequential decision making would be to have global direct algorithms.
+
+Next, we present the outline of this thesis.
+
+
 \section{Outline of the Thesis}
+
+In this thesis we take a stab at the difficult task of designing global direct algorithms for interpretable sequential decision making. In the first part of the manuscript we will present a mathematical formalism for the reinforcement learning of decision trees for sequential decision making. In particular we will show that indeed the direct approach can yield better trees than the indirect one. However the unfortunate key result from this opening part is that a good direct method cannot find decision trees for sequential decision making that are not \textit{very} easy.
+Fortunately for us, in the second part of this manuscript, we show that some of these easy instances of interpretable sequential decision making tasks can be made \textit{non}-sequential giving rise to a whole new decision tree induction algorithm for supervised learning. In particular, we thoroughly benchmark our new decision tree induction algorithm and claim the state-of-the-art for decision tree induction.
+Finally, after heavily studying decision trees and direct methods, we will leverage the diversity and simplicity of \textit{indirect} methods to compare other model classes of programs and show that in some cases neural networks can be considered more interpretable than trees and there exist problems for which there is no need to trade-off performance for interpretability. 
+We summarize the outline of the manuscript in Figure~\ref{fig:thesis-outline} 
+
 \begin{figure}[htbp]
     \centering
     \begin{tikzpicture}[
@@ -496,10 +522,7 @@ Hence, the ideal solution to interpretable sequential decision making would be t
     \caption{Thesis structure showing the progression from direct reinforcement learning of decision tree policies (Chapter 1) to simplified approaches: supervised learning with uniform transitions (Chapter 2) and indirect learning methods (Chapter 3).}
     \label{fig:thesis-outline}
 \end{figure}
-In this thesis we take a stab at the difficult task of designing global direct algorithms for interpretable sequential decision making. In the first part of the manuscript we will present a mathematical formalism for the reinforcement learning of decision trees for sequential decision making. In particular we will show that indeed the direct approach can yield better trees than the indirect one. However the unfortunate key result from this opening part is that a good direct method cannot find decision trees for sequential decision making that are not \textit{very} easy.
-Fortunately for us, in the second part of this manuscript, we show that some of these easy instances of interpretable sequential decision making tasks can be made \textit{non}-sequential giving rise to a whole new decision tree induction algorithm for supervised learning. In particular, we thoroughly benchmark our new decision tree induction algorithm and claim the state-of-the-art for decision tree induction.
-Finally, after heavily studying decision trees and direct methods, we will leverage the diversity and simplicity of \textit{indirect} methods to compare other model classes of programs and show that in some cases neural networks can be considered more interpretable than trees and there exist problems for which there is no need to trade-off performance for interpretability. 
-We summarize the outline of the manuscript in Figure~\ref{fig:thesis-outline} 
+
 
 
 \section{Technical Preliminaries}
@@ -559,6 +582,7 @@ A decision tree is a rooted tree $T = (V, E)$ where:
 The Classification and Regression Trees (CART) algorithm, developed by Leo Breiman and colleagues (Figure~\ref{fig:leo-breiman}), is one of the most widely used methods for learning decision trees from supervised data. CART builds binary decision trees through a greedy, top-down approach that recursively partitions the feature space. At each internal node, the algorithm selects the feature and threshold that best splits the data according to a purity criterion such as the Gini impurity for classification or mean squared error for regression.
 
 CART uses threshold-based test functions of the form $f_v(x) = \mathbb{I}[x[feature] \leq threshold]$ where $\mathbb{I}[\cdot]$ is the indicator function, consistent with the general decision tree definition above. The key idea is to find splits that maximize the homogeneity of the resulting subsets. For classification, this means finding test functions that separate different classes as cleanly as possible. The algorithm continues splitting until a stopping criterion is met, such as reaching a minimum number of samples per leaf or achieving sufficient purity. The complete CART procedure is detailed in Algorithm~\ref{alg:cart}.
+
 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}

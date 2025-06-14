@@ -19,6 +19,220 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global}
+    \entry{viper}{article}{}
+      \name{author}{3}{}{%
+        {{hash=015e80b857c3d38a64631a8370d7ff3b}{%
+           family={Bastani},
+           familyi={B\bibinitperiod},
+           given={Osbert},
+           giveni={O\bibinitperiod}}}%
+        {{hash=94b5990af89a6523b522e5c4da6d3147}{%
+           family={Pu},
+           familyi={P\bibinitperiod},
+           given={Yewen},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=6c3f3e278b534563f641aca05842bd0a}{%
+           family={Solar-Lezama},
+           familyi={S\bibinithyphendelim L\bibinitperiod},
+           given={Armando},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{ad865f069ccfdb06b1e597a1dec6b9eb}
+      \strng{fullhash}{ad865f069ccfdb06b1e597a1dec6b9eb}
+      \strng{bibnamehash}{ad865f069ccfdb06b1e597a1dec6b9eb}
+      \strng{authorbibnamehash}{ad865f069ccfdb06b1e597a1dec6b9eb}
+      \strng{authornamehash}{ad865f069ccfdb06b1e597a1dec6b9eb}
+      \strng{authorfullhash}{ad865f069ccfdb06b1e597a1dec6b9eb}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Neural Information Processing Systems}
+      \field{title}{Verifiable Reinforcement Learning via Policy Extraction}
+      \field{year}{2018}
+    \endentry
+    \entry{boole}{book}{}
+      \name{author}{1}{}{%
+        {{hash=11e54e87435aa3c53aa25a448424f022}{%
+           family={Boole},
+           familyi={B\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{publisher}{3}{%
+        {Walton}%
+        {Maberly Macmillan}%
+        {Co.}%
+      }
+      \strng{namehash}{11e54e87435aa3c53aa25a448424f022}
+      \strng{fullhash}{11e54e87435aa3c53aa25a448424f022}
+      \strng{bibnamehash}{11e54e87435aa3c53aa25a448424f022}
+      \strng{authorbibnamehash}{11e54e87435aa3c53aa25a448424f022}
+      \strng{authornamehash}{11e54e87435aa3c53aa25a448424f022}
+      \strng{authorfullhash}{11e54e87435aa3c53aa25a448424f022}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Laws of Thought}
+      \field{year}{1854}
+    \endentry
+    \entry{breiman1984classification}{book}{}
+      \name{author}{4}{}{%
+        {{hash=c4de625aef3b09e83edf76c200750fc6}{%
+           family={Breiman},
+           familyi={B\bibinitperiod},
+           given={L},
+           giveni={L\bibinitperiod}}}%
+        {{hash=0494232aeadd283368e83b2e84094d67}{%
+           family={Friedman},
+           familyi={F\bibinitperiod},
+           given={JH},
+           giveni={J\bibinitperiod}}}%
+        {{hash=02a5575d8b784e8c888c0cfa12fba65f}{%
+           family={Olshen},
+           familyi={O\bibinitperiod},
+           given={R},
+           giveni={R\bibinitperiod}}}%
+        {{hash=6975a7415cc4f4f88ab5d9d06a96c6bf}{%
+           family={Stone},
+           familyi={S\bibinitperiod},
+           given={CJ},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Wadsworth}%
+      }
+      \strng{namehash}{58ec1ad070541f3e5e484164d6b0b1f5}
+      \strng{fullhash}{31efaec82ec24f2443cbd9cf15a1a420}
+      \strng{bibnamehash}{58ec1ad070541f3e5e484164d6b0b1f5}
+      \strng{authorbibnamehash}{58ec1ad070541f3e5e484164d6b0b1f5}
+      \strng{authornamehash}{58ec1ad070541f3e5e484164d6b0b1f5}
+      \strng{authorfullhash}{31efaec82ec24f2443cbd9cf15a1a420}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Classification and Regression Trees}
+      \field{year}{1984}
+    \endentry
+    \entry{tokamak}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{hash=ffb3bfdfdfade5d509bbfd6c0d4fcc50}{%
+           family={Degrave},
+           familyi={D\bibinitperiod},
+           given={Jonas},
+           giveni={J\bibinitperiod}}}%
+        {{hash=43d81b67336831e87747edabeed4d077}{%
+           family={Felici},
+           familyi={F\bibinitperiod},
+           given={Federico},
+           giveni={F\bibinitperiod}}}%
+        {{hash=2efe82bb43cf5740ffa58c71273fb347}{%
+           family={Buchli},
+           familyi={B\bibinitperiod},
+           given={Jonas},
+           giveni={J\bibinitperiod}}}%
+        {{hash=060d57062477e5aa7705774f29f438a2}{%
+           family={Neunert},
+           familyi={N\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=7a39980f24b0fe3330a03a00ea91b034}{%
+           family={Tracey},
+           familyi={T\bibinitperiod},
+           given={Brendan},
+           giveni={B\bibinitperiod}}}%
+        {{hash=0cc0f32ecc3c01fae3c4f31354bdcfaa}{%
+           family={Carpanese},
+           familyi={C\bibinitperiod},
+           given={Francesco},
+           giveni={F\bibinitperiod}}}%
+        {{hash=2687d58e59afed22249974d723704f56}{%
+           family={Ewalds},
+           familyi={E\bibinitperiod},
+           given={Timo},
+           giveni={T\bibinitperiod}}}%
+        {{hash=fc9873fa16235237944ddb12fc2db97d}{%
+           family={Hafner},
+           familyi={H\bibinitperiod},
+           given={Roland},
+           giveni={R\bibinitperiod}}}%
+        {{hash=528d31a6b5c1231e01391e2597dd5491}{%
+           family={Abdolmaleki},
+           familyi={A\bibinitperiod},
+           given={Abbas},
+           giveni={A\bibinitperiod}}}%
+        {{hash=47f81e65396e1d91b7ab70d59f69329b}{%
+           family={Las\bibnamedelima Casas},
+           familyi={L\bibinitperiod\bibinitdelim C\bibinitperiod},
+           given={Diego},
+           giveni={D\bibinitperiod},
+           prefix={de},
+           prefixi={d\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group UK London}%
+      }
+      \strng{namehash}{000cc4860e7cf1814a0cbed401800574}
+      \strng{fullhash}{c7475600544cad3b12d2cb30d7bd2374}
+      \strng{bibnamehash}{000cc4860e7cf1814a0cbed401800574}
+      \strng{authorbibnamehash}{000cc4860e7cf1814a0cbed401800574}
+      \strng{authornamehash}{000cc4860e7cf1814a0cbed401800574}
+      \strng{authorfullhash}{c7475600544cad3b12d2cb30d7bd2374}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{number}{7897}
+      \field{title}{Magnetic control of tokamak plasmas through deep reinforcement learning}
+      \field{volume}{602}
+      \field{year}{2022}
+      \field{pages}{414\bibrangedash 419}
+      \range{pages}{6}
+    \endentry
+    \entry{bert}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=13202969e372bc82318f9629cbdd199b}{%
+           family={Devlin},
+           familyi={D\bibinitperiod},
+           given={Jacob},
+           giveni={J\bibinitperiod}}}%
+        {{hash=a45784fe7163b45f11d166564f5d24b6}{%
+           family={Chang},
+           familyi={C\bibinitperiod},
+           given={Ming-Wei},
+           giveni={M\bibinithyphendelim W\bibinitperiod}}}%
+        {{hash=8dde73b4194f5bc4230c4808f3fc1534}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Kenton},
+           giveni={K\bibinitperiod}}}%
+        {{hash=b92aa283415413bb8d2a1548716d0c7d}{%
+           family={Toutanova},
+           familyi={T\bibinitperiod},
+           given={Kristina},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{ad8e2e2a80d28ade21e86852b804fc9b}
+      \strng{fullhash}{e8bccd48302a14eeba57d9dce2f49ef4}
+      \strng{bibnamehash}{ad8e2e2a80d28ade21e86852b804fc9b}
+      \strng{authorbibnamehash}{ad8e2e2a80d28ade21e86852b804fc9b}
+      \strng{authornamehash}{ad8e2e2a80d28ade21e86852b804fc9b}
+      \strng{authorfullhash}{e8bccd48302a14eeba57d9dce2f49ef4}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 2019 conference of the North American chapter of the association for computational linguistics: human language technologies, volume 1 (long and short papers)}
+      \field{title}{Bert: Pre-training of deep bidirectional transformers for language understanding}
+      \field{year}{2019}
+      \field{pages}{4171\bibrangedash 4186}
+      \range{pages}{16}
+    \endentry
     \entry{cancer}{article}{}
       \name{author}{4}{}{%
         {{hash=263c92777bb12872d4b7e2a5cac537ab}{%
@@ -89,6 +303,63 @@
       \field{year}{2022}
       \field{dateera}{ce}
     \endentry
+    \entry{glanois-survey}{article}{}
+      \name{author}{7}{}{%
+        {{hash=12f6aa8d3dd143377a2fc8f0ec737ac5}{%
+           family={Glanois},
+           familyi={G\bibinitperiod},
+           given={Claire},
+           giveni={C\bibinitperiod}}}%
+        {{hash=0582ae613e13391e1824332cee901f87}{%
+           family={Weng},
+           familyi={W\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+        {{hash=85e8765cd65e5b10126cb6e6b73cfae7}{%
+           family={Zimmer},
+           familyi={Z\bibinitperiod},
+           given={Matthieu},
+           giveni={M\bibinitperiod}}}%
+        {{hash=ecfd1d34e9c9c1aec231ae3da61ff906}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Dong},
+           giveni={D\bibinitperiod}}}%
+        {{hash=d1f6937d2a31405ba4e5b660a2c084ca}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Tianpei},
+           giveni={T\bibinitperiod}}}%
+        {{hash=8f534f1e9ccc15c7efd4e787cda9a148}{%
+           family={Hao},
+           familyi={H\bibinitperiod},
+           given={Jianye},
+           giveni={J\bibinitperiod}}}%
+        {{hash=7274bb80d16c338e8dc9f5ccdd4002e3}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Wulong},
+           giveni={W\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{2ecf9488f20cac117f357e890c5b90ab}
+      \strng{fullhash}{52afbcb0065baba844e2a930889bfedd}
+      \strng{bibnamehash}{2ecf9488f20cac117f357e890c5b90ab}
+      \strng{authorbibnamehash}{2ecf9488f20cac117f357e890c5b90ab}
+      \strng{authornamehash}{2ecf9488f20cac117f357e890c5b90ab}
+      \strng{authorfullhash}{52afbcb0065baba844e2a930889bfedd}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Machine Learning}
+      \field{title}{A survey on interpretable reinforcement learning}
+      \field{year}{2024}
+      \field{pages}{1\bibrangedash 44}
+      \range{pages}{44}
+    \endentry
     \entry{knuth63}{thesis}{}
       \name{author}{1}{}{%
         {{hash=16ba958eaf56fad580491eef4f771cee}{%
@@ -114,6 +385,65 @@
       \field{type}{phdthesis}
       \field{year}{1963}
       \field{dateera}{ce}
+    \endentry
+    \entry{lenet}{article}{}
+      \name{author}{7}{}{%
+        {{hash=6a1aa6b7eab12b931ca7c7e3f927231d}{%
+           family={LeCun},
+           familyi={L\bibinitperiod},
+           given={Yann},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=824ee0660bd2a40e283a9b8266f0868b}{%
+           family={Boser},
+           familyi={B\bibinitperiod},
+           given={Bernhard},
+           giveni={B\bibinitperiod}}}%
+        {{hash=017996bb299557636f8e47759ba29a60}{%
+           family={Denker},
+           familyi={D\bibinitperiod},
+           given={John\bibnamedelima S},
+           giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=0444ce878492140cb17d6d4f19c2b24d}{%
+           family={Henderson},
+           familyi={H\bibinitperiod},
+           given={Donnie},
+           giveni={D\bibinitperiod}}}%
+        {{hash=ddaff2b97b0b8bf177545e0a7f694002}{%
+           family={Howard},
+           familyi={H\bibinitperiod},
+           given={Richard\bibnamedelima E},
+           giveni={R\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=494b3ee863ae780ea5237c5b09b80c0e}{%
+           family={Hubbard},
+           familyi={H\bibinitperiod},
+           given={Wayne},
+           giveni={W\bibinitperiod}}}%
+        {{hash=7c31ca2e27cf716eb355090b20ab6455}{%
+           family={Jackel},
+           familyi={J\bibinitperiod},
+           given={Lawrence\bibnamedelima D},
+           giveni={L\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press}%
+      }
+      \strng{namehash}{9e4c6012409dc8dd9b2aa198a2059804}
+      \strng{fullhash}{db03602b955b0c9b23b4bd012343619d}
+      \strng{bibnamehash}{9e4c6012409dc8dd9b2aa198a2059804}
+      \strng{authorbibnamehash}{9e4c6012409dc8dd9b2aa198a2059804}
+      \strng{authornamehash}{9e4c6012409dc8dd9b2aa198a2059804}
+      \strng{authorfullhash}{db03602b955b0c9b23b4bd012343619d}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Neural computation}
+      \field{number}{4}
+      \field{title}{Backpropagation applied to handwritten zip code recognition}
+      \field{volume}{1}
+      \field{year}{1989}
+      \field{pages}{541\bibrangedash 551}
+      \range{pages}{11}
     \endentry
     \entry{driving}{thesis}{}
       \name{author}{1}{}{%
@@ -167,6 +497,269 @@
       \field{title}{Foundations of Machine Learning}
       \field{year}{2012}
     \endentry
+    \entry{milani-survey}{article}{}
+      \name{author}{4}{}{%
+        {{hash=1c69057c7c6f38d39a099175a70a7882}{%
+           family={Milani},
+           familyi={M\bibinitperiod},
+           given={Stephanie},
+           giveni={S\bibinitperiod}}}%
+        {{hash=e97056737afe2e204855790a8ab62d82}{%
+           family={Topin},
+           familyi={T\bibinitperiod},
+           given={Nicholay},
+           giveni={N\bibinitperiod}}}%
+        {{hash=108bc6e5f71a32699fcf07b7e8957310}{%
+           family={Veloso},
+           familyi={V\bibinitperiod},
+           given={Manuela},
+           giveni={M\bibinitperiod}}}%
+        {{hash=50229c3fdb5e7f30b2bd918528bdc0df}{%
+           family={Fang},
+           familyi={F\bibinitperiod},
+           given={Fei},
+           giveni={F\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computing Machinery}%
+      }
+      \strng{namehash}{213f38e63e67ad2b7f3ae503bd9d43cc}
+      \strng{fullhash}{c688a410342e6f41aa72b005c0c009e0}
+      \strng{bibnamehash}{213f38e63e67ad2b7f3ae503bd9d43cc}
+      \strng{authorbibnamehash}{213f38e63e67ad2b7f3ae503bd9d43cc}
+      \strng{authornamehash}{213f38e63e67ad2b7f3ae503bd9d43cc}
+      \strng{authorfullhash}{c688a410342e6f41aa72b005c0c009e0}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Explainable reinforcement learning (XRL) is an emerging subfield of explainable machine learning that has attracted considerable attention in recent years. The goal of XRL is to elucidate the decision-making process of reinforcement learning (RL) agents in sequential decision-making settings. Equipped with this information, practitioners can better understand important questions about RL agents (especially those deployed in the real world), such as what the agents will do and why. Despite increased interest, there exists a gap in the literature for organizing the plethora of papers---especially in a way that centers the sequential decision-making nature of the problem. In this survey, we propose a novel taxonomy for organizing the XRL literature that prioritizes the RL setting. We propose three high-level categories: feature importance, learning process and Markov decision process, and policy-level. We overview techniques according to this taxonomy, highlighting challenges and opportunities for future work. We conclude by using these gaps to motivate and outline a roadmap for future work.}
+      \field{issn}{0360-0300}
+      \field{journaltitle}{ACM Comput. Surv.}
+      \field{month}{4}
+      \field{number}{7}
+      \field{title}{Explainable Reinforcement Learning: A Survey and Comparative Review}
+      \field{volume}{56}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.1145/3616864
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/3616864
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/3616864
+      \endverb
+      \keyw{Explainable reinforcement learning,interpretability,explainability}
+    \endentry
+    \entry{behavior-cloning}{article}{}
+      \name{author}{1}{}{%
+        {{hash=4e5f05606e47b1676579799cf7e84220}{%
+           family={Pomerleau},
+           familyi={P\bibinitperiod},
+           given={Dean\bibnamedelima A},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{4e5f05606e47b1676579799cf7e84220}
+      \strng{fullhash}{4e5f05606e47b1676579799cf7e84220}
+      \strng{bibnamehash}{4e5f05606e47b1676579799cf7e84220}
+      \strng{authorbibnamehash}{4e5f05606e47b1676579799cf7e84220}
+      \strng{authornamehash}{4e5f05606e47b1676579799cf7e84220}
+      \strng{authorfullhash}{4e5f05606e47b1676579799cf7e84220}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Advances in neural information processing systems}
+      \field{title}{Alvinn: An autonomous land vehicle in a neural network}
+      \field{volume}{1}
+      \field{year}{1988}
+    \endentry
+    \entry{lime}{article}{}
+      \name{author}{3}{}{%
+        {{hash=9203dc724f298030e81ba470feb309af}{%
+           family={Ribeiro},
+           familyi={R\bibinitperiod},
+           given={Marco\bibnamedelima Tulio},
+           giveni={M\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=0b9694812f0dc77974d99bb875a76d48}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Sameer},
+           giveni={S\bibinitperiod}}}%
+        {{hash=c9ab8ac486d7f85ac914b1a8e51e512b}{%
+           family={Guestrin},
+           familyi={G\bibinitperiod},
+           given={Carlos},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {San Francisco, California, USA}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computing Machinery}%
+      }
+      \strng{namehash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{fullhash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{bibnamehash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{authorbibnamehash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{authornamehash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{authorfullhash}{70906198418f30a779bc9bda0f6ae1f1}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Despite widespread adoption, machine learning models remain mostly black boxes. Understanding the reasons behind predictions is, however, quite important in assessing trust, which is fundamental if one plans to take action based on a prediction, or when choosing whether to deploy a new model. Such understanding also provides insights into the model, which can be used to transform an untrustworthy model or prediction into a trustworthy one.In this work, we propose LIME, a novel explanation technique that explains the predictions of any classifier in an interpretable and faithful manner, by learning an interpretable model locally varound the prediction. We also propose a method to explain models by presenting representative individual predictions and their explanations in a non-redundant way, framing the task as a submodular optimization problem. We demonstrate the flexibility of these methods by explaining different models for text (e.g. random forests) and image classification (e.g. neural networks). We show the utility of explanations via novel experiments, both simulated and with human subjects, on various scenarios that require trust: deciding if one should trust a prediction, choosing between models, improving an untrustworthy classifier, and identifying why a classifier should not be trusted.}
+      \field{booktitle}{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}
+      \field{isbn}{9781450342322}
+      \field{series}{KDD '16}
+      \field{title}{"Why Should I Trust You?": Explaining the Predictions of Any Classifier}
+      \field{year}{2016}
+      \field{pages}{1135\bibrangedash 1144}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/2939672.2939778
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/2939672.2939778
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/2939672.2939778
+      \endverb
+      \keyw{interpretable machine learning,interpretability,explaining machine learning,black box classifier}
+    \endentry
+    \entry{perceptron}{article}{}
+      \name{author}{1}{}{%
+        {{hash=9e8511ef13d0cdda3a709b93fa650e71}{%
+           family={Rosenblatt},
+           familyi={R\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Psychological Association}%
+      }
+      \strng{namehash}{9e8511ef13d0cdda3a709b93fa650e71}
+      \strng{fullhash}{9e8511ef13d0cdda3a709b93fa650e71}
+      \strng{bibnamehash}{9e8511ef13d0cdda3a709b93fa650e71}
+      \strng{authorbibnamehash}{9e8511ef13d0cdda3a709b93fa650e71}
+      \strng{authornamehash}{9e8511ef13d0cdda3a709b93fa650e71}
+      \strng{authorfullhash}{9e8511ef13d0cdda3a709b93fa650e71}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Psychological review}
+      \field{number}{6}
+      \field{title}{The perceptron: a probabilistic model for information storage and organization in the brain.}
+      \field{volume}{65}
+      \field{year}{1958}
+      \field{pages}{386}
+      \range{pages}{1}
+    \endentry
+    \entry{dagger}{article}{}
+      \name{author}{3}{}{%
+        {{hash=1e091ec9b01606e483f22db48ddc73ef}{%
+           family={Ross},
+           familyi={R\bibinitperiod},
+           given={St\'{e}phane},
+           giveni={S\bibinitperiod}}}%
+        {{hash=0c645658cb1f824e42cf7701f1834fbf}{%
+           family={Gordon},
+           familyi={G\bibinitperiod},
+           given={Geoffrey\bibnamedelima J.},
+           giveni={G\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=49832523c57a7bf40445f071b2ad2c0a}{%
+           family={Bagnell},
+           familyi={B\bibinitperiod},
+           given={J.\bibnamedelimi Andrew},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{f0181660e70dcba4c04a7ca07a64be22}
+      \strng{fullhash}{f0181660e70dcba4c04a7ca07a64be22}
+      \strng{bibnamehash}{f0181660e70dcba4c04a7ca07a64be22}
+      \strng{authorbibnamehash}{f0181660e70dcba4c04a7ca07a64be22}
+      \strng{authornamehash}{f0181660e70dcba4c04a7ca07a64be22}
+      \strng{authorfullhash}{f0181660e70dcba4c04a7ca07a64be22}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International Conference on Artificial Intelligence and Statistics}
+      \field{title}{A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning}
+      \field{year}{2010}
+    \endentry
+    \entry{black-box2}{article}{}
+      \name{author}{6}{}{%
+        {{hash=dd2cfd94841f001636afb60ba616edb1}{%
+           family={Shao},
+           familyi={S\bibinitperiod},
+           given={Yijun},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=568c91fef7be054e921b14e31ce2732c}{%
+           family={Cheng},
+           familyi={C\bibinitperiod},
+           given={Yan},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=17d4740227cf73005d0668d65ebce058}{%
+           family={Shah},
+           familyi={S\bibinitperiod},
+           given={Rashmee\bibnamedelima U.},
+           giveni={R\bibinitperiod\bibinitdelim U\bibinitperiod}}}%
+        {{hash=fb64b81db4a907b885b00406bf01a144}{%
+           family={Weir},
+           familyi={W\bibinitperiod},
+           given={Charlene\bibnamedelima R.},
+           giveni={C\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=fd5ac4b109dc86bc697f31f16ed24ea3}{%
+           family={Bray},
+           familyi={B\bibinitperiod},
+           given={Bruce\bibnamedelima E.},
+           giveni={B\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=8169594f21f8e2cd3ffb141e068154f2}{%
+           family={Zeng-Treitler},
+           familyi={Z\bibinithyphendelim T\bibinitperiod},
+           given={Qing},
+           giveni={Q\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {USA}%
+      }
+      \list{publisher}{1}{%
+        {Plenum Press}%
+      }
+      \strng{namehash}{a7026d7f9e56872a9100633419ccd0c0}
+      \strng{fullhash}{91c0cfab476b9cf89a9b45a11bb8982e}
+      \strng{bibnamehash}{a7026d7f9e56872a9100633419ccd0c0}
+      \strng{authorbibnamehash}{a7026d7f9e56872a9100633419ccd0c0}
+      \strng{authornamehash}{a7026d7f9e56872a9100633419ccd0c0}
+      \strng{authorfullhash}{91c0cfab476b9cf89a9b45a11bb8982e}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Deep neural network models are emerging as an important method in healthcare delivery, following the recent success in other domains such as image recognition. Due to the multiple non-linear inner transformations, deep neural networks are viewed by many as black boxes. For practical use, deep learning models require explanations that are intuitive to clinicians. In this study, we developed a deep neural network model to predict outcomes following major cardiovascular procedures, using temporal image representation of past medical history as input. We created a novel explanation for the prediction of the model by defining impact scores that associate clinical observations with the outcome. For comparison, a logistic regression model was fitted to the same dataset. We compared the impact scores and log odds ratios by calculating three types of correlations, which provided a partial validation of the impact scores. The deep neural network model achieved an area under the receiver operating characteristics curve (AUC) of 0.787, compared to 0.746 for the logistic regression model. Moderate correlations were found between the impact scores and the log odds ratios. Impact scores generated by the explanation algorithm has the potential to shed light on the \textquotedblleft{}black box\textquotedblright{} deep neural network model and could facilitate its adoption by clinicians.}
+      \field{issn}{0148-5598}
+      \field{journaltitle}{J. Med. Syst.}
+      \field{month}{1}
+      \field{number}{1}
+      \field{title}{Shedding Light on the Black Box: Explaining Deep Neural Network Prediction of Clinical Outcomes}
+      \field{volume}{45}
+      \field{year}{2021}
+      \verb{doi}
+      \verb 10.1007/s10916-020-01701-8
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1007/s10916-020-01701-8
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1007/s10916-020-01701-8
+      \endverb
+      \keyw{Machine learning,Clinical outcome,Predictive model,Deep neural network}
+    \endentry
     \entry{sutton}{book}{}
       \name{author}{2}{}{%
         {{hash=eb920e5277d3d5fd0903f3cd41e11871}{%
@@ -199,6 +792,114 @@
       \field{title}{Reinforcement Learning: {A}n Introduction}
       \field{year}{1998}
     \endentry
+    \entry{topin2021iterative}{article}{}
+      \name{author}{4}{}{%
+        {{hash=e97056737afe2e204855790a8ab62d82}{%
+           family={Topin},
+           familyi={T\bibinitperiod},
+           given={Nicholay},
+           giveni={N\bibinitperiod}}}%
+        {{hash=1c69057c7c6f38d39a099175a70a7882}{%
+           family={Milani},
+           familyi={M\bibinitperiod},
+           given={Stephanie},
+           giveni={S\bibinitperiod}}}%
+        {{hash=50229c3fdb5e7f30b2bd918528bdc0df}{%
+           family={Fang},
+           familyi={F\bibinitperiod},
+           given={Fei},
+           giveni={F\bibinitperiod}}}%
+        {{hash=108bc6e5f71a32699fcf07b7e8957310}{%
+           family={Veloso},
+           familyi={V\bibinitperiod},
+           given={Manuela},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{cf1ff1df22fffd345f7443c726ccb82d}
+      \strng{fullhash}{2dd51328b60fac39aed9edd1107672d8}
+      \strng{bibnamehash}{cf1ff1df22fffd345f7443c726ccb82d}
+      \strng{authorbibnamehash}{cf1ff1df22fffd345f7443c726ccb82d}
+      \strng{authornamehash}{cf1ff1df22fffd345f7443c726ccb82d}
+      \strng{authorfullhash}{2dd51328b60fac39aed9edd1107672d8}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the AAAI Conference on Artificial Intelligence}
+      \field{title}{Iterative bounding mdps: Learning interpretable policies via non-interpretable methods}
+      \field{volume}{35}
+      \field{year}{2021}
+      \field{pages}{9923\bibrangedash 9931}
+      \range{pages}{9}
+    \endentry
+    \entry{leap}{article}{}
+      \name{author}{4}{}{%
+        {{hash=abb362e834e458c360f6fc99b967e408}{%
+           family={Trivedi},
+           familyi={T\bibinitperiod},
+           given={Dweep},
+           giveni={D\bibinitperiod}}}%
+        {{hash=19735589a5ef6dcdef775bed855af4aa}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Jesse},
+           giveni={J\bibinitperiod}}}%
+        {{hash=1505d18c2e6385ba7ac5d718522eb31e}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Shao-Hua},
+           giveni={S\bibinithyphendelim H\bibinitperiod}}}%
+        {{hash=5556915c40a404e6fa83816576929682}{%
+           family={Lim},
+           familyi={L\bibinitperiod},
+           given={Joseph\bibnamedelima J},
+           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \name{editor}{4}{}{%
+        {{hash=02854da982edf66ffa27f4fc1c738779}{%
+           family={Beygelzimer},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=5e4dc483044b6dbd4496a818b8b6c67a}{%
+           family={Dauphin},
+           familyi={D\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=7f6a98c68ba5ec86758c3b61519545cc}{%
+           family={Liang},
+           familyi={L\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+        {{hash=3d379bd6370f69ebc79dc5337ed96d13}{%
+           family={Vaughan},
+           familyi={V\bibinitperiod},
+           given={J.\bibnamedelimi Wortman},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{e8580a73491da0723b4a5cc59f2b4250}
+      \strng{fullhash}{8d0e41ca5b3639f2de430afb16e61751}
+      \strng{bibnamehash}{e8580a73491da0723b4a5cc59f2b4250}
+      \strng{authorbibnamehash}{e8580a73491da0723b4a5cc59f2b4250}
+      \strng{authornamehash}{e8580a73491da0723b4a5cc59f2b4250}
+      \strng{authorfullhash}{8d0e41ca5b3639f2de430afb16e61751}
+      \strng{editorbibnamehash}{5f897d526fab7ea06c5a20ef77e4f405}
+      \strng{editornamehash}{5f897d526fab7ea06c5a20ef77e4f405}
+      \strng{editorfullhash}{296e248b7418f26ee9ced0c81e1e4e1b}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in Neural Information Processing Systems}
+      \field{title}{Learning to Synthesize Programs as Interpretable and Generalizable Policies}
+      \field{year}{2021}
+      \verb{urlraw}
+      \verb https://openreview.net/forum?id=wP9twkexC3V
+      \endverb
+      \verb{url}
+      \verb https://openreview.net/forum?id=wP9twkexC3V
+      \endverb
+    \endentry
     \entry{turing}{article}{}
       \name{author}{1}{}{%
         {{hash=d6d9f41ce7ab57b0d45edbe153331923}{%
@@ -221,8 +922,54 @@
       \field{title}{Computing Machinery and Intelligence}
       \field{year}{1950}
     \endentry
+    \entry{PIRL}{article}{}
+      \name{author}{5}{}{%
+        {{hash=f0e266bdd976adbb5396b4b6569fb8d5}{%
+           family={Verma},
+           familyi={V\bibinitperiod},
+           given={Abhinav},
+           giveni={A\bibinitperiod}}}%
+        {{hash=20bb1ceb95c8bb5e69de8f92c14f7071}{%
+           family={Murali},
+           familyi={M\bibinitperiod},
+           given={Vijayaraghavan},
+           giveni={V\bibinitperiod}}}%
+        {{hash=975baf0ae00cfc98fb6c09483005986b}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Rishabh},
+           giveni={R\bibinitperiod}}}%
+        {{hash=d0d21ff02dda6c0a7d09ef7436bd329b}{%
+           family={Kohli},
+           familyi={K\bibinitperiod},
+           given={Pushmeet},
+           giveni={P\bibinitperiod}}}%
+        {{hash=13f22fd06d523348c1ccd34faee67c9e}{%
+           family={Chaudhuri},
+           familyi={C\bibinitperiod},
+           given={Swarat},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PMLR}%
+      }
+      \strng{namehash}{76e621d9ef7fb1e250e55883d95e70ae}
+      \strng{fullhash}{60d5a470978955889a0dbf6d00cb47ac}
+      \strng{bibnamehash}{76e621d9ef7fb1e250e55883d95e70ae}
+      \strng{authorbibnamehash}{76e621d9ef7fb1e250e55883d95e70ae}
+      \strng{authornamehash}{76e621d9ef7fb1e250e55883d95e70ae}
+      \strng{authorfullhash}{60d5a470978955889a0dbf6d00cb47ac}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International conference on machine learning}
+      \field{title}{Programmatically interpretable reinforcement learning}
+      \field{year}{2018}
+      \field{pages}{5045\bibrangedash 5054}
+      \range{pages}{10}
+    \endentry
   \enddatalist
-  \missing{(cite)}
 \endrefsection
 \endinput
 
