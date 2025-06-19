@@ -1,19 +1,19 @@
 [0] Config.pm:307> INFO - This is Biber 2.17
 [0] Config.pm:310> INFO - Logfile is 'these.blg'
-[66] biber:340> INFO - === sam. juin 14, 2025, 15:31:40
-[77] Biber.pm:418> INFO - Reading 'these.bcf'
-[131] Biber.pm:972> INFO - Found 23 citekeys in bib section 0
-[141] Biber.pm:4383> INFO - Processing section 0
-[149] Biber.pm:4574> INFO - Looking for bibtex file 'auxiliaires/bibliographie.bib' for section 0
+[66] biber:340> INFO - === jeu. juin 19, 2025, 12:05:29
+[78] Biber.pm:418> INFO - Reading 'these.bcf'
+[130] Biber.pm:972> INFO - Found 23 citekeys in bib section 0
+[140] Biber.pm:4383> INFO - Processing section 0
+[150] Biber.pm:4574> INFO - Looking for bibtex file 'auxiliaires/bibliographie.bib' for section 0
 [156] bibtex.pm:1713> INFO - LaTeX decoding ...
-[284] bibtex.pm:1518> INFO - Found BibTeX data source 'auxiliaires/bibliographie.bib'
-[450] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
-[450] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[450] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
-[450] Biber.pm:4209> INFO - No sort tailoring available for locale 'fr-FR'
-[472] bbl.pm:654> INFO - Writing 'these.bbl' with encoding 'ascii'
-[472] bbl.pm:655> INFO - Converting UTF-8 to TeX macros on output to .bbl
-[503] bbl.pm:757> INFO - Output to these.bbl
-[503] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'auxiliaires/bibliographie.bib', skipping ...
-[503] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_G4zs/fc5b366787d68e4234f7436cbf80900b_68955.utf8, line 864, warning: 6 characters of junk seen at toplevel
-[503] Biber.pm:132> INFO - WARNINGS: 2
+[285] bibtex.pm:1518> INFO - Found BibTeX data source 'auxiliaires/bibliographie.bib'
+[469] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[469] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
+[469] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
+[469] Biber.pm:4209> INFO - No sort tailoring available for locale 'fr-FR'
+[491] bbl.pm:654> INFO - Writing 'these.bbl' with encoding 'ascii'
+[491] bbl.pm:655> INFO - Converting UTF-8 to TeX macros on output to .bbl
+[519] bbl.pm:757> INFO - Output to these.bbl
+[519] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'auxiliaires/bibliographie.bib', skipping ...
+[519] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_aZ4y/fc5b366787d68e4234f7436cbf80900b_10515.utf8, line 864, warning: 6 characters of junk seen at toplevel
+[519] Biber.pm:132> INFO - WARNINGS: 2

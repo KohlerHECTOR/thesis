@@ -1,6 +1,6 @@
 \chapter{An attempt at Learning Decision Tree Policies with Reinforcement Learning}
 \section{Grid Worlds}
-
+\subsection{MDP}
 We consider a 2×2 grid world Markov Decision Process (MDP) defined as follows:
 \begin{itemize}
     \item \textbf{States}: Four cells labeled $S_0$, $S_1$, $S_2$, and $G$ (goal state) arranged in a 2×2 grid.
@@ -46,6 +46,7 @@ We consider a 2×2 grid world Markov Decision Process (MDP) defined as follows:
 \caption{The 2×2 grid world environment with states $S_0$, $S_1$, $S_2$, and goal state $G$.}\label{fig:grid-world}
 \end{figure}
 
+\subsection{Solutions}
 
 \begin{figure}[ht]
 \centering
@@ -82,8 +83,7 @@ We consider a 2×2 grid world Markov Decision Process (MDP) defined as follows:
 \caption{An optimal tabular policy for the grid world.}\label{fig:optimal-policy}
 \end{figure}
 
-\section{Method}
-\section{Results}
+
 \subsection{Motivation}
 The motivation is that for this simple grid world problem, indirect interpretable reinforcement learning algorithms can learn sub-optimal interpretability-performance trade-offs. E.g. we run Q-Learning to obtain an optimal tabular policy and then imitate this policy with decision trees with varying number of leaves. 
 
@@ -137,14 +137,36 @@ The motivation is that for this simple grid world problem, indirect interpretabl
 \end{figure}
 
 
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{images/images_part1/qiteration.pdf}
-    \caption{Q-values iteration}\label{fig:qiteration}
-\end{figure}
+\section{Method}
 
-\begin{figure}
+As we saw above in Figure~\ref{fig:policy-values}, there exist policies whose interpretability-performance trade-offs can't be learn with indirect methods (cite).
+IBMDPs are a direct method that should in theory, be able to learn the best trade-off.
+However what we show next, is that it is very hard to make it work in practice.
+Let us consider the IBMDP for the above grid world.
+\paragraph{states:}
+\paragraph{actions:}
+\paragraph{transitions:}
+\paragraph{rewards:}
+\paragraph{objective:}
+
+
+\section{Results}
+\subsection{Dynamic Programming}
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=1\textwidth]{images/images_part1/quick_plot_combined.pdf}
-    \caption{(Naive) Reinforcement Learning}\label{fig:rl}
+    \includegraphics[width=1\textwidth]{images/images_part1/qiteration}
+    \caption{Policy Values}\label{fig:dp}
 \end{figure}
+\subsection{Naive Reinforcement Learning}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{images/images_part1/quick_plot_combined}
+    \caption{Policy Values}\label{fig:naive-rl}
+\end{figure}
+We first start by plotting the learning curves of three classical RL algorithms described in the preliminaries. There was a series of work in the 1990's(cite) that studied the performances of RL algos when naively applied to he partially observable setting, i.e, naively setting $s\leftarrow o$.
+The key observations are:
+\begin{enumerate}
+    \item The learning finishes, i.e, learning curves flatten after some iterations.
+    \item There is a shift between the policies learned between the depth-0 tree and the depth>1 trees when $\zeta\geq0$.
+\end{enumerate}
+This is problematic because we know that \textit{theoretically}, for $0<\zeta<1$, the optimal policy for the IBMDP objective had depth $= 1$.
