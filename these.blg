@@ -1,19 +1,19 @@
 [0] Config.pm:307> INFO - This is Biber 2.17
 [0] Config.pm:310> INFO - Logfile is 'these.blg'
-[63] biber:340> INFO - === ven. juin 20, 2025, 18:24:26
-[74] Biber.pm:418> INFO - Reading 'these.bcf'
-[126] Biber.pm:972> INFO - Found 23 citekeys in bib section 0
-[135] Biber.pm:4383> INFO - Processing section 0
-[145] Biber.pm:4574> INFO - Looking for bibtex file 'auxiliaires/bibliographie.bib' for section 0
-[151] bibtex.pm:1713> INFO - LaTeX decoding ...
+[61] biber:340> INFO - === sam. juin 21, 2025, 13:02:06
+[73] Biber.pm:418> INFO - Reading 'these.bcf'
+[124] Biber.pm:972> INFO - Found 23 citekeys in bib section 0
+[134] Biber.pm:4383> INFO - Processing section 0
+[143] Biber.pm:4574> INFO - Looking for bibtex file 'auxiliaires/bibliographie.bib' for section 0
+[149] bibtex.pm:1713> INFO - LaTeX decoding ...
 [277] bibtex.pm:1518> INFO - Found BibTeX data source 'auxiliaires/bibliographie.bib'
 [461] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
 [461] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[461] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
-[461] Biber.pm:4209> INFO - No sort tailoring available for locale 'fr-FR'
-[485] bbl.pm:654> INFO - Writing 'these.bbl' with encoding 'ascii'
-[485] bbl.pm:655> INFO - Converting UTF-8 to TeX macros on output to .bbl
-[513] bbl.pm:757> INFO - Output to these.bbl
+[462] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
+[462] Biber.pm:4209> INFO - No sort tailoring available for locale 'fr-FR'
+[486] bbl.pm:654> INFO - Writing 'these.bbl' with encoding 'ascii'
+[486] bbl.pm:655> INFO - Converting UTF-8 to TeX macros on output to .bbl
+[512] bbl.pm:757> INFO - Output to these.bbl
 [513] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'auxiliaires/bibliographie.bib', skipping ...
-[513] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_Gvu6/fc5b366787d68e4234f7436cbf80900b_9967.utf8, line 864, warning: 6 characters of junk seen at toplevel
+[513] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_bk13/fc5b366787d68e4234f7436cbf80900b_9784.utf8, line 864, warning: 6 characters of junk seen at toplevel
 [513] Biber.pm:132> INFO - WARNINGS: 2

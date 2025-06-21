@@ -697,6 +697,7 @@ Now we can also model the ``goal'' of the agent. Informally, the goal of an agen
 $$J(\pi) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
 where $\gamma \in (0,1)$ is the discount factor that controls the trade-off between immediate and future rewards.
 \end{definition}
+
 Hence, algorithms presented in this manuscript aim to find solutions to Markov decision problems, i.e. the optimal policy: $\pi^\star =\underset{\pi}{\operatorname{argmax}}J(\pi)$
 For the rest of this text, we will use an abuse of notation and denote both a Markov decision process and the associated Markov decision problem by MDP.
 \subsection{Exact solutions for Markov decision problems}
@@ -806,5 +807,5 @@ RL algorithms usually fall into two categories: value-based (cite) and policy gr
 
 Both classes of algorithms are known to converge to the optimal value or policy under some conditions (cite) and have known great successes in real-world applications (cite).
 The books from Puterman, Bertsekas, Sutton and Barto, offer a great overview of MDPs and algorithm to solve them.
-There are many other ways to learn policies such as simple random search (cite) or model-based reinforcement learning. However, not many algorithms consider the learning of policies that can be easily understood by humans which we discuss next and that is the core of this manuscript.
-
+There are many other ways to learn policies such as simple random search (cite) or model-based reinforcement learning. 
+However, not many algorithms consider the learning of policies that can be easily understood by humans which we discuss next and that is the core of this manuscript.
