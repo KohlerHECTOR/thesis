@@ -38,4 +38,51 @@ Given an MDP $\mathcal{M}= \langle S, A, R, T, T_0 \rangle$, an Iterative Boundi
     Given an MDP $\mathcal{M}= \langle S, A, R, T, T_0 \rangle$, an Iterative Bounding Markov decision process $\mathcal{M}_{IB}$ is a tuble $\langle S, O, A, A_{IG}, R, \zeta, T, T_0, P\rangle$.
     The IBMDP is an augmented version of an MDP. The states in an IBMPD are concatenations of $s\in S \subset [L_1, U_1]\times\dots \times [L_n, U_n] \subsetneq \mathbb{R}^n$ and bounding values $o = (L_0) \in O$ 
 \end{definition}
+\subsection{An MDP for which we want a decision tree policy}
+(figure) Do figure of POMDP graphical models with grid world. 
+We consider a 2×2 grid world Markov Decision Process (MDP) defined as follows:
+\begin{itemize}
+    \item \textbf{States}: Four cells labeled $S_0$, $S_1$, $S_2$, and $G$ (goal state) arranged in a 2×2 grid.
+    \item \textbf{Actions}: At each state, the agent can move right ($\rightarrow$) or down ($\downarrow$) up ($\uparrow$) or left ($\leftarrow$).
+    \item \textbf{Transitions}: Movements are deterministic, following the direction of the chosen action. Actions that would lead outside the grid leave the agent in the same state.
+    \item \textbf{Rewards}: All transitions yield a reward of 0, except for any action taken from the goal state $G$, which yields a reward of 1.
+    \item \textbf{Objective}: Maximize the expected discounted cumulative reward.
+\end{itemize}
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=1.5]
+        % Draw the grid cells
+        \draw (0,0) grid (2,2);
+        
+        % Add ticks on axes
+        \foreach \x in {0,1,2}
+            \node[below] at (\x,0) {$\x$};
+        \foreach \y in {0,1,2}
+            \node[left] at (0,\y) {$\y$};
+        
+        \node[left] at (-0.5, 1) {$y$};
+        \node[below] at (1, -0.5) {$x$};
+        
+        % Label cells
+        \node at (0.5,0.7) {$S_0$};
+        \node at (0.5,0.4) {$\times$};
+    
+        \node at (0.5,1.7) {$S_1$};
+        \node at (0.5,1.4) {$\times$};
+    
+        \node at (1.5,1.7) {$S_2$};
+        \node at (1.5,1.4) {$\times$};
+    
+        
+        % Goal state in bottom right with double border
+        \draw[line width=2pt] (1,0) rectangle (2,1);
+        \node at (1.5,0.7) {$G$};
+        \node at (1.5,0.4) {$\star$};
+    
+        
+    \end{tikzpicture}
+    \caption{The 2×2 grid world environment with states $S_0$, $S_1$, $S_2$, and goal state $G$.}\label{fig:grid-world}
+    \end{figure}
+In the next chapter we show the limitation of both direct and indirect approaches for this problem.
+
 
