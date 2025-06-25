@@ -135,26 +135,80 @@ Let us compute the objective value (cite) for the trees presented above. We will
 Let us compute the objective values of the most rewarded tree for each tree structure.
 \paragraph{Depth-0 decision tree:} has only one leaf node that takes a single base action indefinitely.
 For this type of tree the best reward achievable is to take actions that maximize the probability of reaching the objective $\rightarrow$ or $\downarrow$. In that case the objective value of such tree is:
-In the goal state $(1, 0)$, the value of the depth-0 tree $\mathcal{T}_0$ is:
+In the goal state $G = (1, 0)$, the value of the depth-0 tree $\mathcal{T}_0$ is:
 \begin{align*}
-    V^{\mathcal{T}_0}_g &= 1 + \gamma + \gamma ** 2 \\
-    &= \frac{1}{1 - gamma}
+    V^{\mathcal{T}_0}_G &= 1 + \gamma + \gamma^2 + \dots \\
+    &= \overset{\infty}{\underset{t=0}\sum} \gamma^t \\
+    &= \frac{1}{1 - \gamma}
 \end{align*}
-In the state $(0, 0)$ when the policy repeats going right respectively in the state $(0, 1)$ when the policy reoeats going down, the value is:
+In the state $(0, 0)$ when the policy repeats going right respectively in the state $(0, 1)$ when the policy repeats going down, the value is:
 \begin{align*}
-    V^{\mathcal{T}_0}_{(0, 0)} &= 0 + \gamma V^{\mathcal{T}_0}_g
-    &= \gamma V^{\mathcal{T}_0}_g
+    V^{\mathcal{T}_0}_{S_0} &= 0 + \gamma V^{\mathcal{T}_0}_g \\
+    &= \gamma V^{\mathcal{T}_0}_G
 \end{align*}
-In the other states the policy never gets positive rewards. Hence:
+In the other states the policy never gets positive rewards; $V^{\mathcal{T}_0}_{S_1} = V^{\mathcal{T}_0}_{S_2} = 0$. Hence:
 \begin{align*}
-J(\mathcal{T}_0) &= \frac{1}{4} V^{\mathcal{T}_0}_g + \frac{1}{4} V^{\mathcal{T}_0}_{(0, 0)}
+J(\mathcal{T}_0) &= \frac{1}{4} V^{\mathcal{T}_0}_G + \frac{1}{4} V^{\mathcal{T}_0}_{S_0}+ \frac{1}{4} V^{\mathcal{T}_0}_{S_1}+ \frac{1}{4} V^{\mathcal{T}_0}_{S_2} \\
+&= \frac{1}{4} V^{\mathcal{T}_0}_G + \frac{1}{4} \gamma V^{\mathcal{T}_0}_G + 0 + 0\\
+&= \frac{1}{4} \frac{1}{1 - \gamma} + \frac{1}{4} \gamma \frac{1}{1 - \gamma} \\
+&= \frac{1 + \gamma}{4(1 - \gamma)}
+\end{align*}
+\paragraph{Depth-1 decision tree:} has one root node that tests $x\leq0.5$ (respectively $y\leq0.5$) and two leaf nodes $\rightarrow$ and $\downarrow$. 
+In the goal state $G = (1, 0)$, the depth-1 decision tree policy cycles between taking an information gathering action $x\leq0.5$ and moving down to get a positive reward for which it gets the returns:
+\begin{align*}
+    V^{\mathcal{T}_1}_G &= \zeta + \gamma + \gamma^2 \zeta + \gamma^3 \dots \\
+    &= \overset{\infty}{\underset{t=0}\sum} \gamma^{2t} \zeta + \overset{\infty}{\underset{t=0}\sum} \gamma^{2t+1} \\
+    &= \frac{\zeta + \gamma}{1 - \gamma^2}
+\end{align*}
+In states $S_0=(0,0)$ and $S_2=(1, 1)$, the value of the depth-1 decision tree policy is the return when taking one information gathering action $x\leq0.5$, then moving right or down, then following the policy from the goal state $G$:
+\begin{align*}
+    V^{\mathcal{T}_1}_{S_0} &= \zeta + \gamma 0 + \gamma^2 V^{\mathcal{T}_1}_G \\
+    &= \zeta + \gamma^2 V^{\mathcal{T}_1}_G \\
+    &= V^{\mathcal{T}_1}_{S_2}
+\end{align*}
+Similarly the value of the depth-1 decision tree policy in state $S_1=(0,1)$ is the value of taking one information gathering action then moving right to $S_2$ then following the policy in $S_2$:
+\begin{align*}
+    V^{\mathcal{T}_1}_{S_1} &= \zeta + \gamma 0 + \gamma^2 V^{\mathcal{T}_1}_{S_2} \\
+    &= \zeta + \gamma^2 V^{\mathcal{T}_1}_{S_2} \\
+    &= \zeta + \gamma^2 (\zeta + \gamma^2 V^{\mathcal{T}_1}_G) \\
+    &= \zeta + \gamma^2 \zeta + \gamma^4 V^{\mathcal{T}_1}_G
+\end{align*}
+The objective value of the depth-1 decision tree policy is:
+\begin{align*}
+    J(\mathcal{T}_1) &= \frac{1}{4} V^{\mathcal{T}_1}_G + \frac{2}{4} V^{\mathcal{T}_1}_{S_2} + \frac{1}{4} V^{\mathcal{T}_1}_{S_1} \\
+    &= \frac{1}{4} \frac{\zeta + \gamma}{1 - \gamma^2} + \frac{2}{4} (\zeta + \gamma^2 \frac{\zeta + \gamma}{1 - \gamma^2}) + \frac{1}{4} (\zeta + \gamma^2 \zeta + \gamma^4 \frac{\zeta + \gamma}{1 - \gamma^2}) \\
+    &= \frac{1}{4} \frac{\zeta + \gamma}{1 - \gamma^2} + \frac{2}{4} (\frac{\zeta + \gamma ^ 3}{1-\gamma^2}) + \frac{1}{4}(\frac{\zeta+\gamma^5}{1-\gamma^2}) \\
+    &= \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma^2)}
+\end{align*}
+
+\paragraph{Unbalanced depth-2 decision tree:}the unbalanced depth-2 decision tree  takes an information gathering action $x\leq0.5$ then either takes the $\downarrow$ action or takes a second information $y\leq0.5$ followed by $\rightarrow$ or $\downarrow$.
+In states $G$ and $S_2$, the value of the unbalanced tree is the same as for the depth-1 tree.
+In states $S_0$ and $S_1$, the policy takes two information gathering actions before taking a base action and so on:
+\begin{align*}
+    V^{\mathcal{T}_{u}}_{S_0} &= \zeta + \gamma \zeta + \gamma ^ 2 0 + \gamma ^ 3 V^{\mathcal{T}_1}_G
+\end{align*} 
+\begin{align*}
+    V^{\mathcal{T}_{u}}_{S_1} &= \zeta + \gamma \zeta + \gamma ^ 2 0 + \gamma ^ 3 V^{\mathcal{T}_u}_{S_0} \\ 
+    &= \zeta + \gamma \zeta + \gamma ^ 2 0 + \gamma ^ 3 (\zeta + \gamma \zeta + \gamma ^ 2 0 + \gamma ^ 3 V^{\mathcal{T}_1}_G) \\
+    &= \zeta + \gamma \zeta + \gamma ^ 3 \zeta + \gamma ^ 4 \zeta + \gamma ^ 6 V^{\mathcal{T}_1}_G
+\end{align*}
+We get:
+\begin{align*}
+    J(\mathcal{T}_{u}) &= \frac{1}{4} V^{\mathcal{T}_u}_G + \frac{1}{4} V^{\mathcal{T}_u}_{S_0} + \frac{1}{4}V^{\mathcal{T}_u}_{S_1} + \frac{1}{4}V^{\mathcal{T}_u}_{S_2} \\
+    &=  \frac{1}{4} V^{\mathcal{T}_1}_G + \frac{1}{4}(\zeta + \gamma \zeta + \gamma ^ 3 V^{\mathcal{T}_1}_G) + \frac{1}{4} (\zeta + \gamma \zeta + \gamma ^ 3 \zeta + \gamma ^ 4 \zeta + \gamma ^ 6 V^{\mathcal{T}_1}_G) + \frac{1}{4}V^{\mathcal{T}_1}_{S_2} \\
+    &= \frac{1}{4} (\frac{\zeta + \gamma}{1-\gamma^2}) + \frac{1}{4}(\frac{\gamma\zeta + \gamma^4 + \zeta -\gamma^2\zeta}{1-\gamma^2}) + \frac{1}{4} (\zeta + \gamma \zeta + \gamma ^ 3 \zeta + \gamma ^ 4 \zeta + \gamma ^ 6 V^{\mathcal{T}_1}_G) + \frac{1}{4}V^{\mathcal{T}_1}_{S_2} \\
+    &= \frac{1}{4} (\frac{\zeta + \gamma}{1-\gamma^2}) + \frac{1}{4}(\frac{\gamma\zeta + \gamma^4 + \zeta -\gamma^2\zeta}{1-\gamma^2}) + \frac{1}{4} (\frac{\zeta + \gamma\zeta -\gamma^2\zeta-\gamma^5\zeta+\gamma^6\zeta+\gamma^7}{1-\gamma^2}) + \frac{1}{4}V^{\mathcal{T}_1}_{S_2} \\
+    &= \frac{1}{4} (\frac{\zeta + \gamma}{1-\gamma^2}) + \frac{1}{4}(\frac{\gamma\zeta + \gamma^4 + \zeta -\gamma^2\zeta}{1-\gamma^2}) + \frac{1}{4} (\frac{\zeta + \gamma\zeta -\gamma^2\zeta-\gamma^5\zeta+\gamma^6\zeta+\gamma^7}{1-\gamma^2}) + \frac{1}{4}(\frac{\zeta + \gamma ^ 3}{1-\gamma^2}) \\
+    &= \frac{\zeta(4+2\gamma-2\gamma^2-\gamma^5+\gamma^6)+\gamma+\gamma^3+\gamma^4+\gamma^7}{4(1-\gamma^2)}
+\end{align*}
+\paragraph{The balanced depth-2 decision tree:}alternates in every state between taking the two available information gathering actions and then a base action.
+The value of the policy in the goal state is:
+\begin{align*}
+    V^{\mathcal{T_2}}_{G} &= \zeta + \gamma\zeta + \gamma^2 + \gamma^3\zeta + \gamma^4\zeta + \dots \\
+    &= \overset{\infty}{\underset{t=0}\sum} \gamma^{3t}\zeta + \overset{\infty}{\underset{t=0}\sum} \gamma^{3t+1}\zeta + \overset{\infty}{\underset{t=0}\sum} \gamma^{3t+2} \\
+    &= \frac{\zeta}{1-\gamma^3} + 
 \end{align*}
 \section{Results}
-
-We first start by plotting the learning curves of three classical RL algorithms described in the preliminaries. There was a series of work in the 1990's(cite) that studied the performances of RL algos when naively applied to he partially observable setting, i.e, naively setting $s\leftarrow o$.
-The key observations are:
-\begin{enumerate}
-    \item The learning finishes, i.e, learning curves flatten after some iterations.
-    \item There is a shift between the policies learned between the depth-0 tree and the depth>1 trees when $\zeta\geq0$.
-\end{enumerate}
-This is problematic because we know that \textit{theoretically}, for $0<\zeta<1$, the optimal policy for the IBMDP objective had depth $= 1$.
+\subsection{Reinforcement Learning}
+\paragraph{stochastic policies}
+\subsection{Asymmetric RL}
