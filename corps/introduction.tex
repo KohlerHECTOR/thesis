@@ -376,7 +376,7 @@ In Figure~\ref{fig:interpretability-performance-tradeoff} we present the popular
 
 The most famous local explanation algorithm is LIME (Local Interpretable Model-agnostic Explanations)~\cite{lime}. Given a program class, LIME works by perturbing the input and learning a simple interpretable model locally to explain that particular prediction. For each individual prediction, LIME provides explanations by identifying which features were most important for that specific decision.
 Hence, as stated above, LIME needs to learn a whole program per recommendation that needs to be interpreted; this is a lot of computations.
-
+(Figure) HEATMAPS-FEATURE IMPORTANCE: key message is that Global => Local and Local =\=> Global.
 \begin{figure}[htbp]
     \centering
     \begin{tikzpicture}[
@@ -476,7 +476,12 @@ Figure~\ref{fig:direct-vs-indirect-methods} illustrates the key difference betwe
 
 Researchers just recently started to study the advantage of direct over indirect learning of interpretable programs~\cite{topin2021iterative,leap}. In short, the motivation behind developing direct methods is to have the interpretable program optimized to solve your actual goal, e.g. patient treatment, while indirect methods learn an interpretable program that is optimized to match the behaviour of a non-interpretable model that was itself optimized to solve your goal. There is no guarantee that optimizing this indirect objective yields the ``best'' interpretability-performance trade-offs. 
 Hence, the ideal solution to interpretable sequential decision making would be to have global direct algorithms.
-
+\section{Other related works}
+\subsection{Explainability}
+\subsection{Misalignement}
+\subsection{Programmatic RL}
+\subsection{Causality}
+\subsection{Mechanistic Interpretability in the era of large language models}
 Next, we present the outline of this thesis.
 
 
@@ -809,3 +814,42 @@ Both classes of algorithms are known to converge to the optimal value or policy 
 The books from Puterman, Bertsekas, Sutton and Barto, offer a great overview of MDPs and algorithm to solve them.
 There are many other ways to learn policies such as simple random search (cite) or model-based reinforcement learning. 
 However, not many algorithms consider the learning of policies that can be easily understood by humans which we discuss next and that is the core of this manuscript.
+
+\subsection{Imitation learning, the baseline (indirect) global interpretable reinforcement learning method}
+\begin{algorithm}
+    \caption{Imitate Expert~\cite{behavior-cloning,dagger,viper}}\label{alg:distill}
+    \KwIn{Expert policy $\pi^*$, MDP $M$, policy class $\Pi$, number of iterations $N$, total samples $S$, importance sampling flag $I$}
+    \KwOut{Fitted student policy $\hat{\pi}_i$}
+    
+    % Initialize empty dataset and initial policy
+    Initialize dataset $\mathcal{D} \gets \emptyset$\;
+    Initialize $\hat{\pi}_1$ arbitrarily from $\Pi$\;
+    
+    \For{$i \gets 1$ \KwTo $N$}{
+        % Create mixed policy using expert and current policy
+        \lIf{i = 1}{
+        $\pi_i \gets \pi^*$\
+        }
+          \lElse{
+            $\pi_i \gets \hat{\pi}_i$
+          } \label{alg:expert-or-student}
+        % Collect data using mixed policy
+        Sample $S/N$ transitions from $M$ using $\pi_i$\;
+        \lIf{$I$ is True}{
+        $w(s) \gets V^{\pi*}(s) - \operatorname{min}_aQ^{\pi*}(s, a)$
+        }
+          \lElse{
+            $w(s) \gets 1$
+          }
+        % Get expert actions for visited states
+        Collect dataset $\mathcal{D}_i \gets \{ (s, \pi^*(s), w(s)) \}$ of states visited by $\pi_i$ and expert actions\;\label{alg:actions-expert}
+        
+        % Aggregate datasets
+        $\mathcal{D} \gets \mathcal{D} \cup \mathcal{D}_i$\;
+        
+        % Train new policy
+       Fit classifier/regressor $\hat{\pi}_{i+1}$ on $\mathcal{D}$\;\label{alg:fit}
+    }
+    
+    \Return $\hat{\pi}_N$\;
+    \end{algorithm}

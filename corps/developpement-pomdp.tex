@@ -214,8 +214,64 @@ Following the same reasoning for other states we find the objective value for th
     &= \frac{1}{4} V^{\mathcal{T}_2}_G + \frac{2}{4}(\zeta + \gamma\zeta + \gamma^2 0 + \gamma^3V^{\mathcal{T}_2}_G) + \frac{1}{4} (\zeta+\gamma\zeta+\gamma^2 0 + \gamma^3\zeta+\gamma^4\zeta+\gamma^5 0 +\gamma^6 V^{\mathcal{T}_2}_G) \\
     &= \frac{\zeta(3+3\gamma)+\gamma^2+\gamma^5+\gamma^8}{4(1-\gamma^3)}
 \end{align*}
-\paragraph{Infinite tree:} we also consider the infinite tree policy that repeats an information gathering action forever and has objective:
+\paragraph{Infinite tree:} we also consider the infinite tree policy that repeats an information gathering action forever and has objective: $J(\mathcal{T_{\text{inf}}}) = \frac{1}{1-\zeta}$
+
+\paragraph{Stochastic policy:} the other non-trivial policy that can be learned by solving a partially observable IBMDP is the stochastic policy that guarantees to reach $G$ after some time: fifty percent chance to do $\rightarrow$ and fifty percent chance to do $\downarrow$.
+This stochastic policy has objective value:
+\begin{align*}
+    V^{\text{stoch}}_G &= \frac{1}{1-\gamma} \\
+    V^{\text{stoch}}_{S_0} &= 0 + 0.5\gamma V^{\text{stoch}}_G + 0.5\gamma V^{\text{stoch}}_{S_1} \\
+    V^{\text{stoch}}_{S_2} &= 0 + 0.5\gamma V^{\text{stoch}}_G + 0.5\gamma V^{\text{stoch}}_{S_1} = V^{\text{stoch}}_{S_0} \\
+    V^{\text{stoch}}_{S_1} &= 0 + 0.5\gamma V^{\text{stoch}}_{S_2} + 0.5\gamma V^{\text{stoch}}_G = 0.5\gamma V^{\text{stoch}}_{S_0} + 0.5\gamma V^{\text{stoch}}_G
+\end{align*}
+Solving these equations:
+\begin{align*}
+    V^{\text{stoch}}_{S_1} &= 0.5\gamma V^{\text{stoch}}_{S_0} + 0.5\gamma V^{\text{stoch}}_G \\
+    &= 0.5\gamma (0.5\gamma V^{\text{stoch}}_G + 0.5\gamma V^{\text{stoch}}_{S_1}) + 0.5\gamma V^{\text{stoch}}_G \\
+    &= 0.25\gamma^2 V^{\text{stoch}}_G + 0.25\gamma^2 V^{\text{stoch}}_{S_1} + 0.5\gamma V^{\text{stoch}}_G \\
+    V^{\text{stoch}}_{S_1} - 0.25\gamma^2 V^{\text{stoch}}_{S_1} &= 0.25\gamma^2 V^{\text{stoch}}_G + 0.5\gamma V^{\text{stoch}}_G \\
+    V^{\text{stoch}}_{S_1}(1 - 0.25\gamma^2) &= (0.25\gamma^2 + 0.5\gamma) V^{\text{stoch}}_G \\
+    V^{\text{stoch}}_{S_1} &= \frac{0.25\gamma^2 + 0.5\gamma}{1 - 0.25\gamma^2} V^{\text{stoch}}_G \\
+    &= \frac{\gamma(0.25\gamma + 0.5)}{1 - 0.25\gamma^2} \cdot \frac{1}{1-\gamma} \\
+    &= \frac{\gamma(0.25\gamma + 0.5)}{(1 - 0.25\gamma^2)(1-\gamma)}
+\end{align*}
+\begin{align*}
+    V^{\text{stoch}}_{S_0} &= 0.5\gamma V^{\text{stoch}}_G + 0.5\gamma V^{\text{stoch}}_{S_1} \\
+    &= 0.5\gamma \cdot \frac{1}{1-\gamma} + 0.5\gamma \cdot \frac{\gamma(0.25\gamma + 0.5)}{(1 - 0.25\gamma^2)(1-\gamma)} \\
+    &= \frac{0.5\gamma}{1-\gamma} + \frac{0.5\gamma^2(0.25\gamma + 0.5)}{(1 - 0.25\gamma^2)(1-\gamma)} \\
+    &= \frac{0.5\gamma(1 - 0.25\gamma^2) + 0.5\gamma^2(0.25\gamma + 0.5)}{(1 - 0.25\gamma^2)(1-\gamma)} \\
+    &= \frac{0.5\gamma - 0.125\gamma^3 + 0.125\gamma^3 + 0.25\gamma^2}{(1 - 0.25\gamma^2)(1-\gamma)} \\
+    &= \frac{0.5\gamma + 0.25\gamma^2}{(1 - 0.25\gamma^2)(1-\gamma)} \\
+    &= \frac{\gamma(0.5 + 0.25\gamma)}{(1 - 0.25\gamma^2)(1-\gamma)}
+\end{align*}
+\begin{align*}
+    J(\mathcal{T}_{\text{stoch}}) &= 0.25(V^{\text{stoch}}_G + V^{\text{stoch}}_{S_0} + V^{\text{stoch}}_{S_1} + V^{\text{stoch}}_{S_2}) \\
+    &= 0.25\left(\frac{1}{1-\gamma} + 2 \cdot \frac{\gamma(0.5 + 0.25\gamma)}{(1 - 0.25\gamma^2)(1-\gamma)} + \frac{\gamma(0.25\gamma + 0.5)}{(1 - 0.25\gamma^2)(1-\gamma)}\right) \\
+    &= 0.25\left(\frac{1}{1-\gamma} + \frac{2\gamma(0.5 + 0.25\gamma) + \gamma(0.25\gamma + 0.5)}{(1 - 0.25\gamma^2)(1-\gamma)}\right) \\
+    &= 0.25\left(\frac{1}{1-\gamma} + \frac{\gamma + 0.5\gamma^2 + 0.25\gamma^2 + 0.5\gamma}{(1 - 0.25\gamma^2)(1-\gamma)}\right) \\
+    &= 0.25\left(\frac{1}{1-\gamma} + \frac{1.5\gamma + 0.75\gamma^2}{(1 - 0.25\gamma^2)(1-\gamma)}\right) \\
+    &= 0.25\left(\frac{1 - 0.25\gamma^2 + 1.5\gamma + 0.75\gamma^2}{(1 - 0.25\gamma^2)(1-\gamma)}\right) \\
+    &= 0.25\left(\frac{1 + 1.5\gamma + 0.5\gamma^2}{(1 - 0.25\gamma^2)(1-\gamma)}\right) \\
+    &= \frac{1 + 1.5\gamma + 0.5\gamma^2}{4(1 - 0.25\gamma^2)(1-\gamma)}
+\end{align*}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{images/images_part1/objective_values_plot.pdf}
+    \caption{IBMDP objective values.}\label{fig:objectives}
+\end{figure}
 \section{Results}
-\subsection{Reinforcement Learning}
-\paragraph{stochastic policies}
-\subsection{Asymmetric RL}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{images/images_part1/quick_plot_combined.pdf}
+    \caption{RL algorithms for POIBMDPs}\label{fig:rl-poibmdp}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{images/images_part1/quick_plot_combined_po.pdf}
+    \caption{Special algorithms for POIBMDPs}\label{fig:asym-rl-poibmdp}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{images/images_part1/algorithm_performance_comparison_with_errors.png}
+    \caption{PO vs IBMDPs}\label{fig:po-vs-ib}
+\end{figure}

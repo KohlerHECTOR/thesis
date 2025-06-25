@@ -1,1 +1,10 @@
 \chapter{Conclusion}
+\section{Conclusion}
+
+In this paper, we introduced Dynamic Programming Decision Trees (DPDT), a novel framework that bridges the gap between greedy and optimal decision tree algorithms. By formulating tree induction as an MDP and employing adaptive split generation based on CART, DPDT achieves near-optimal training loss with significantly reduced computational complexity compared to existing optimal tree solvers. Furthermore, we prove that DPDT can learn strictly more accurate trees than CART. 
+
+Most importantly, extensive benchmarking on varied large and difficult enough datasets showed that DPDT trees and boosted DPDT trees generalize better than other baselines. To conclude, we showed that DPDT is a promising machine learning algorithm. 
+
+The key future work would be to make DPDT industry-ready by implementing it in \texttt{C} and or making it compatible with the most advanced implementation of e.g.\@ XGBoost.
+
+\section{What about imitation?}
