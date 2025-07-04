@@ -214,7 +214,7 @@ Following the same reasoning for other states we find the objective value for th
     &= \frac{1}{4} V^{\mathcal{T}_2}_G + \frac{2}{4}(\zeta + \gamma\zeta + \gamma^2 0 + \gamma^3V^{\mathcal{T}_2}_G) + \frac{1}{4} (\zeta+\gamma\zeta+\gamma^2 0 + \gamma^3\zeta+\gamma^4\zeta+\gamma^5 0 +\gamma^6 V^{\mathcal{T}_2}_G) \\
     &= \frac{\zeta(3+3\gamma)+\gamma^2+\gamma^5+\gamma^8}{4(1-\gamma^3)}
 \end{align*}
-\paragraph{Infinite tree:} we also consider the infinite tree policy that repeats an information gathering action forever and has objective: $J(\mathcal{T_{\text{inf}}}) = \frac{1}{1-\zeta}$
+\paragraph{Infinite tree:} we also consider the infinite tree policy that repeats an information gathering action forever and has objective: $J(\mathcal{T_{\text{inf}}}) = \frac{\zeta}{1-\gamma}$
 
 \paragraph{Stochastic policy:} the other non-trivial policy that can be learned by solving a partially observable IBMDP is the stochastic policy that guarantees to reach $G$ after some time: fifty percent chance to do $\rightarrow$ and fifty percent chance to do $\downarrow$.
 This stochastic policy has objective value:
@@ -272,7 +272,7 @@ Solving these equations:
 \end{figure}
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{images/images_part1/algorithm_performance_comparison_with_errors.png}
+    \includegraphics[width=1\textwidth]{images/images_part1/algorithm_performance_comparison_flattened.pdf}
     \caption{PO vs IBMDPs}\label{fig:po-vs-ib}
 \end{figure}
 \begin{figure}

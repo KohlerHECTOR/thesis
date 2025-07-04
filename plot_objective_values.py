@@ -80,8 +80,7 @@ for i, tree_name in enumerate(tree_names):
                         alpha=0.2, color=colors[i], label=f'{tree_name} (optimal)')
 
 plt.xlabel(r'$\zeta$ (interpretability penalty)', fontsize=14)
-plt.ylabel('Objective Value J(T)', fontsize=14)
-plt.title(f'Objective Values of Decision Trees for γ = {gamma}', fontsize=16)
+plt.ylabel('$M_{IB}$ Value, $\gamma=0.99$', fontsize=14)
 plt.legend(fontsize=12)
 plt.grid(True, alpha=0.3)
 plt.xlim(-1, 2)
