@@ -21,16 +21,10 @@ Other more specialized approaches deal with tree policies either for specific MD
 In 2021, Topin et. al. introduced Iterative Bouding Markov Decision Processes (IBMDPs) with the promise of sticking the challenges of non-parametric decision tree policy learning in the problem formulation rather than in the learning algorithms.
 Given a base MDP for which one wants to learn a decision tree policy, IBMDPs are an augmented version of this base MDP with more state features, more actions, additinal reward signal, and additional transition kernel.
 Then author showed that certain IBMDP policies, that can be learned with RL, are equivalent to decision tree policies for the base MDP. 
-\section{Litterature and results on POMDPs}
-CITE ALL NAMES OF THIS PARTICULAR POMDP (c.f. Olivier Buffet)
+\subsection{Formalism}
 
-\section{IBMDP and Didactic example}
-Given an MDP $\mathcal{M}= \langle S, A, R, T, T_0 \rangle$, an Iterative Bounding Markov decision process is defined as follows.
-\begin{definition}
-    Given an MDP $\mathcal{M}= \langle S, A, R, T, T_0 \rangle$, an Iterative Bounding Markov decision process $\mathcal{M}_{IB}$ is a tuble $\langle S, O, A, A_{IG}, R, \zeta, T, T_0, P\rangle$.
-    The IBMDP is an augmented version of an MDP. The states in an IBMPD are concatenations of $s\in S \subset [L_1, U_1]\times\dots \times [L_n, U_n] \subsetneq \mathbb{R}^n$ and bounding values $o = (L_0) \in O$ 
-\end{definition}
-
+\subsection{From policies to Trees}
+\paragraph{Tree extraction}
 \begin{algorithm}[t]
     \KwData{IBMDP policy $\pi$ and observation $obs$}
     \KwResult{Decision tree policy extracted from $\pi$}
@@ -57,42 +51,14 @@ Given an MDP $\mathcal{M}= \langle S, A, R, T, T_0 \rangle$, an Iterative Boundi
     \Return Subtree\_From\_Policy$(obs, \pi)$
     \caption{Extract a Decision Tree Policy from an IBMDP policy $\pi$, beginning traversal from $obs$.}\label{alg_extract_tree}
 \end{algorithm}
+\paragraph{POMDPs}
+CITE ALL NAMES OF THIS PARTICULAR POMDP (c.f. Olivier Buffet)
 
-\begin{figure}[ht]
-    \centering
-    \begin{tikzpicture}[scale=1.5]
-        % Draw the grid cells
-        \draw (0,0) grid (2,2);
-        
-        % Add ticks on axes
-        \foreach \x in {0,1,2}
-            \node[below] at (\x,0) {$\x$};
-        \foreach \y in {0,1,2}
-            \node[left] at (0,\y) {$\y$};
-        
-        \node[left] at (-0.5, 1) {$y$};
-        \node[below] at (1, -0.5) {$x$};
-        
-        % Label cells
-        \node at (0.5,0.7) {$S_0$};
-        \node at (0.5,0.4) {$\times$};
-    
-        \node at (0.5,1.7) {$S_1$};
-        \node at (0.5,1.4) {$\times$};
-    
-        \node at (1.5,1.7) {$S_2$};
-        \node at (1.5,1.4) {$\times$};
-    
-        
-        % Goal state in bottom right with double border
-        \draw[line width=2pt] (1,0) rectangle (2,1);
-        \node at (1.5,0.7) {$G$};
-        \node at (1.5,0.4) {$\star$};
-    
-        
-    \end{tikzpicture}
-    \caption{The 2×2 grid world environment with states $S_0$, $S_1$, $S_2$, and goal state $G$.}\label{fig:grid-world}
-    \end{figure}
-In the next chapter we show the limitation of both direct and indirect approaches for this problem.
+\subsection{IBMDP and Didactic example}
+Given an MDP $\mathcal{M}= \langle S, A, R, T, T_0 \rangle$, an Iterative Bounding Markov decision process is defined as follows.
+\begin{definition}
+    Given an MDP $\mathcal{M}= \langle S, A, R, T, T_0 \rangle$, an Iterative Bounding Markov decision process $\mathcal{M}_{IB}$ is a tuble $\langle S, O, A, A_{IG}, R, \zeta, T, T_0, P\rangle$.
+    The IBMDP is an augmented version of an MDP. The states in an IBMPD are concatenations of $s\in S \subset [L_1, U_1]\times\dots \times [L_n, U_n] \subsetneq \mathbb{R}^n$ and bounding values $o = (L_0) \in O$ 
+\end{definition}
 
 
