@@ -1,4 +1,4 @@
-\chapter{An attempt at Reinforcement Learning of Policies}
+\chapter{The Limits of Direct Reinforcement Learning of Decision Tree Policies}
 \section{Grid World tabular solutions}
 In this section, for the sake of example, we assume that a dictionary with 4 key-value pais is less interpretable than a depth-1 decision tree.
 In Figure~\ref{fig:optimal-policy}, we illustrate \textit{a}--there are others--tabular optimal policy for the grid world MDP described in the previous section, i.e. that maximizes the objective (cite). 
@@ -326,7 +326,7 @@ One interpretation of this phenomenon is that the learning in POIBMDPs is very h
 
 \subsection{Why is it so hard to learn in POIBMPDs?}
 
-As discussed in the previous chapter (cite). POIBMDPs inherit many difficulties from POMDPs: (list).
+As discussed in the previous chapter (cite). POIBMDPs inherit many difficulties from POMDPs (list).
 To prove that solving POIBMDPs even though there are only a handful of states and observations and clear deterministic reactive optimal policies; we compare the success rate of baselines RL algorithms when applied to an IBMDP with $\gamma=0.99$, $\zeta=0.5$, and to the partially observable version of the same IBMDP.
 because we know that for those values of $\zeta$ and $\gamma$, the optimal partially observable policy is the depth-1 tree and the optimal-fully observable policy is the (cite); we can compute the success rate of an RL algorithm as the proportion of learn policies that match either optimal policy.
 In particular, for each of the three baselines Q-Learning, Sarsa, and Policy gradient, and their asymmetric counterparts when available; we train policies with each combination of those hyperparameters (cite) 10 times and compute the success rate over all individual runs.
@@ -346,10 +346,7 @@ To fully quantify the difficulty of RL on those problems; we also consider advan
 
 The key observations from Figure (cite) is that POIBMDPs are way harder than their IBMDPs counterparts.
 Even though asymmetry seems to increase performance; learning a decision tree policy for a simple grid world directly with RL seem way to difficult and costly.
+We suggest researcher and practitioners interested in decision tree policies to forget the direct RL approach and focus on the indirect imitation-based approach (cite).
+Or, if for some reason one needs to still use reinforcement learning training; fitting parametric trees, trees whose depth and nodes are predifined and where only thresholds are optimized, then one can use SYMPOL (cite) or Soft decision trees (cite).
 
-\chapter{When transitions are uniform POIBMDPs are fully observable}
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{images/images_part1/quick_plot_combined_classif.pdf}
-    \caption{RL algorithms for classif OPOIBMDPs}\label{fig:rl-poibmdp}
-\end{figure}
+In the next chapter, we show that when the base MDP's transitions are independent of the action, then POIBMDPs are actually ``fully''-observable.

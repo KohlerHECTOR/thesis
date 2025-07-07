@@ -1,37 +1,28 @@
-\chapter{A failing direct interpretable reinforcement learning algorithm}
-\epigraphhead[30]{\selectlanguage{english}\epigraph{I have not failed. I've
-    just found 10.000 ways that won't work.}{Thomas A. Edison}}
+\chapter{A Framework for the Reinforcement Learning of Decision Tree Policies}
+\section{Learning Decision Tree policies}
+Deicision tree policies offer transparency over neural network policies (cite). 
+One can attribute an importance measure to each feature of the state for the deicison of a tree policy which is harder to do for neural networks (cite).
 
+Recently, algorithms have been developed to return decision tree policies for an MDP.
+Those algorithms, like any interpretable machine learning method, are either direct or indrect (cite).
+We propose an additional distinction amongst the direct methods: algorithms learning parametric trees and algorithms learning non-parametric trees.
+
+Parametric trees are not ``grown'' from the root by iteratively adding internal or leaf nodes depending on the interpretability-performance trade-off to optimize, but are rather ``optimized'': the depth, internal nodes arrengement, and state-features to consider in each nodes are fixed \textit{a priori} and only the tested thresholds of each nodes are optimized similarly to how the weights of a neural network are optimized.
+As the reader might have guessed, those parametric trees are advantageous in that they can be learned with gradient descent and in the context of decision tree policies, with the policy gradient (cite).
+The downside of those approaches is that a user cannot know \textit{a priori}  what a ``good'' tree policy structure should be for a particular MDP: either the specified structure is too deep and pruning will be required after training or the tree structure is not expressive enough to encode a good policy. 
+Similar approaches exist in supervised learning exist where a parametric tree is fitted with gradient descent (cite) GRADTREE and the work of the authors in KDD. However their benefit over non-parametric trees have not been shown.
+When parametric trees are learned for MDPs (cite); extra stabilizing tricks are required during training such as adaptive batch sizes.
+
+Non-parametric trees are the standard model in supervised learning (cite) and can naturally trade-off between interpretability and performances. However, specialized approaches are required since growing a tree from the root in an RL fashion is not possible.
+In the next section we present, to the best of our knowledge, the only direct approach to learn non-parametric decision tree policies for MDPs; Iterative Bounding MDPs (cite). 
+
+Other more specialized approaches deal with tree policies either for specific MDPs like maze (cite) or for very small depth (cite) or when the MDP model is known (cite)
 \section{Iterative Bounding Markov Decision Processes}
-We start by considering a very basic Markov decision process (def) for which we would like decision tree (def) policies. 
- 
-In 2021, Topin et. al. introduced Iterative Bounding Markov decision process (IBMPD) (cite). It is, to the best of our knowledge, the only work in which decision tree policies are \textit{grown} using the RL object (def).
-We insist here on \textit{growing} to refer to trees whose nodes and leaves structure is not knows \textit{a priori} as opposed to parametric trees--trees which structure is fixed-- and can be optimized with the policy gradient theorem (cite).
-In supervised learning a similar distinction exists too (cite).
-
-The policy gradient theorem or random search can also be used in to learn linear policies (cite) that should be more interpretable than deep neural netwok. 
-In this seminal work Topin et. al., formulate learning a decision tree policy for an MDP as solving an augmented MDP where some actions are adding decision nodes to a tree structure or taking base actions. (figure)
-More interestingly, IBMDP can generalize to any sort of tree-like policies where nodes need only to be binary functions of features.  
-
+In 2021, Topin et. al. introduced Iterative Bouding Markov Decision Processes (IBMDPs) with the promise of sticking the challenges of non-parametric decision tree policy learning in the problem formulation rather than in the learning algorithms.
+Given a base MDP for which one wants to learn a decision tree policy, IBMDPs are an augmented version of this base MDP with more state features, more actions, additinal reward signal, and additional transition kernel.
+Then author showed that certain IBMDP policies, that can be learned with RL, are equivalent to decision tree policies for the base MDP. 
 \section{Litterature and results on POMDPs}
 CITE ALL NAMES OF THIS PARTICULAR POMDP (c.f. Olivier Buffet)
-Without mentionning explicitely Topin et.al. propose to learning in IBMDPs by solving a Partially Observable MDP (cite). POMDPs are notorously more difficult to solve than MDPs (cite).
-In particular, not all policies for $\mathcal{M}_IB$ are decision tree policies for $\mathcal{M}$. Only policies from partial observation to actions are trees. 
-Hence learning a decision tree policy for an MDP can be done by learning a \textit{deterministic} and \textit{reactive} policy for a POMDP. 
-In general, this problem cannot be solved exactly with dynamic programming because of intrinsic POMDP limitations described in the work of Michael Littman (cite).
-
-We will show that three of those limitations arise in direct interpretable RL:
-\begin{enumerate}
-    \item The optimal policy in a POMDP can be stochastic
-    \item The optimal policy in a POMDP does not necessarily maximizes all state values simultaneously
-    \item Q-Learning like algorithms do not necessirily converge to the optimal Q-values.
-\end{enumerate}
-
-In addition to those limitaions that are inherited from POMDPs, IBMDPs bring their own intrinsic challenges:
-\begin{enumerate}
-    \item The action space might need to be state dependent
-    \item It is hard to align RL agents for IBMDPs
-\end{enumerate}
 
 \section{IBMDP and Didactic example}
 Given an MDP $\mathcal{M}= \langle S, A, R, T, T_0 \rangle$, an Iterative Bounding Markov decision process is defined as follows.
@@ -39,16 +30,34 @@ Given an MDP $\mathcal{M}= \langle S, A, R, T, T_0 \rangle$, an Iterative Boundi
     Given an MDP $\mathcal{M}= \langle S, A, R, T, T_0 \rangle$, an Iterative Bounding Markov decision process $\mathcal{M}_{IB}$ is a tuble $\langle S, O, A, A_{IG}, R, \zeta, T, T_0, P\rangle$.
     The IBMDP is an augmented version of an MDP. The states in an IBMPD are concatenations of $s\in S \subset [L_1, U_1]\times\dots \times [L_n, U_n] \subsetneq \mathbb{R}^n$ and bounding values $o = (L_0) \in O$ 
 \end{definition}
-\subsection{An MDP for which we want a decision tree policy}
-(figure) Do figure of POMDP graphical models with grid world. 
-We consider a 2×2 grid world Markov Decision Process (MDP) defined as follows:
-\begin{itemize}
-    \item \textbf{States}: Four cells labeled $S_0$, $S_1$, $S_2$, and $G$ (goal state) arranged in a 2×2 grid.
-    \item \textbf{Actions}: At each state, the agent can move right ($\rightarrow$) or down ($\downarrow$) up ($\uparrow$) or left ($\leftarrow$).
-    \item \textbf{Transitions}: Movements are deterministic, following the direction of the chosen action. Actions that would lead outside the grid leave the agent in the same state.
-    \item \textbf{Rewards}: All transitions yield a reward of 0, except for any action taken from the goal state $G$, which yields a reward of 1.
-    \item \textbf{Objective}: Maximize the expected discounted cumulative reward.
-\end{itemize}
+
+\begin{algorithm}[t]
+    \KwData{IBMDP policy $\pi$ and observation $obs$}
+    \KwResult{Decision tree policy extracted from $\pi$}
+    
+    \SetKwProg{Fn}{Function}{:}{}
+    \SetKwFunction{SubtreeFromPolicy}{Subtree\_From\_Policy}
+    
+    \Fn{\SubtreeFromPolicy{$obs, \pi$}}{
+        $a \leftarrow \pi(obs)$ \\
+        \If{$a \in A_b$}{
+            \Return Leaf\_Node(action: $a$) \Comment{// Leaf if base action}
+        }
+        \Else{
+            $(c, v) \leftarrow a$ \Comment{// Splitting action is feature and value} \\
+            $v_p \leftarrow v \times (obs[c^h] - obs[c^l]) + obs[c^l]$ \\
+            $obs_L \leftarrow obs; \quad obs_R \leftarrow obs$ \\
+            $obs_L[c^h] \leftarrow v_p; \quad obs_R[c^l] \leftarrow v_p$ \\
+            $child_L \leftarrow$ Subtree\_From\_Policy$(obs_L, \pi)$ \\
+            $child_R \leftarrow$ Subtree\_From\_Policy$(obs_R, \pi)$ \\
+            \Return Internal\_Node(feature: $c$, value: $v_p$, children: $(child_L, child_R)$)
+        }
+    }
+    
+    \Return Subtree\_From\_Policy$(obs, \pi)$
+    \caption{Extract a Decision Tree Policy from an IBMDP policy $\pi$, beginning traversal from $obs$.}\label{alg_extract_tree}
+\end{algorithm}
+
 \begin{figure}[ht]
     \centering
     \begin{tikzpicture}[scale=1.5]
