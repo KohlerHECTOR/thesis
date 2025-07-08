@@ -56,19 +56,16 @@ The overall IBMDP transitions are given by either $T_{info}$, which i fully dete
 \end{itemize}
 \end{definition}
 Now remains the question why policies of IBMDPs are decision tree policies of their base MDP? 
-\subsection{From policies to Trees}
-One can notice that \textit{information gathering} actions resemble the Boolean functions that make up internal decision tree nodes (cite). 
-Indeed, an agent evolving in an IBMDP essentially builds a tree by taking sequences of AIGs (internal nodes) and then a base action (leaf node) and repeats this process over time.
-However not all IBMDP policies are decision tree policies. In particular, only deterministic policies depending solely on the observation part of the IBMDP states $\pi: O \rightarrow A$ are decision tree policies for the base MDP (cite).
 
+\subsection{From Policies to Trees}
 \begin{algorithm}[t]
-    \KwData{IBMDP policy $\pi$ and observation $obs$}
+    \KwData{IBMDP policy $\pi$ and observation $o=(L'_1, U'_1, \dots, L'_n, U'_n)$}
     \KwResult{Decision tree policy extracted from $\pi$}
     
     \SetKwProg{Fn}{Function}{:}{}
     \SetKwFunction{SubtreeFromPolicy}{Subtree\_From\_Policy}
     
-    \Fn{\SubtreeFromPolicy{$o=(L'_1, U'_1, \dots, L'_n, U'_n), \pi$}}{
+    \Fn{\SubtreeFromPolicy{$o, \pi$}}{
         $a \leftarrow \pi(o)$ \\
         \If{$a \in A_{info}$}{
             \Return Leaf\_Node(action: $a$) \Comment{// Leaf if base action}
@@ -76,7 +73,7 @@ However not all IBMDP policies are decision tree policies. In particular, only d
         \Else{
             $\langle i, v\rangle \leftarrow a$ \Comment{// Splitting action is feature and value} \\
             $o_L \leftarrow o; \quad o_R \leftarrow o$ \\
-            $o_L \leftarrow (L'_1, U'_1, \dots, L'_i, v, \dots, L'_n, U'_n); \quad obs_R \leftarrow (L'_1, U'_1, \dots, L'_i, v, \dots, L'_n, U'_n) \\
+                         $o_L \leftarrow (L'_1, U'_1, \dots, L'_i, v, \dots, L'_n, U'_n); \quad o_R \leftarrow (L'_1, U'_1, \dots, L'_i, v, \dots, L'_n, U'_n)$ \\
             $child_L \leftarrow$ Subtree\_From\_Policy$(o_L, \pi)$ \\
             $child_R \leftarrow$ Subtree\_From\_Policy$(o_R, \pi)$ \\
             \Return Internal\_Node(feature: $i$, value: $v$, children: $(child_L, child_R)$)
@@ -86,14 +83,17 @@ However not all IBMDP policies are decision tree policies. In particular, only d
     \Return Subtree\_From\_Policy$(obs, \pi)$
     \caption{Extract a Decision Tree Policy from an IBMDP policy $\pi$, beginning traversal from $obs$.}\label{alg_extract_tree}
 \end{algorithm}
-\paragraph{POMDPs}
-CITE ALL NAMES OF THIS PARTICULAR POMDP (c.f. Olivier Buffet)
 
-\subsection{IBMDP and Didactic example}
-Given an MDP $\mathcal{M}= \langle S, A, R, T, T_0 \rangle$, an Iterative Bounding Markov decision process is defined as follows.
-\begin{definition}
-    Given an MDP $\mathcal{M}= \langle S, A, R, T, T_0 \rangle$, an Iterative Bounding Markov decision process $\mathcal{M}_{IB}$ is a tuble $\langle S, O, A, A_{IG}, R, \zeta, T, T_0, P\rangle$.
-    The IBMDP is an augmented version of an MDP. The states in an IBMPD are concatenations of $s\in S \subset [L_1, U_1]\times\dots \times [L_n, U_n] \subsetneq \mathbb{R}^n$ and bounding values $o = (L_0) \in O$ 
-\end{definition}
+One can notice that \textit{information gathering} actions resemble the Boolean functions that make up internal decision tree nodes (cite). 
+Indeed, an agent evolving in an IBMDP essentially builds a tree by taking sequences of AIGs (internal nodes) and then a base action (leaf node) and repeats this process over time.
+However not all IBMDP policies are decision tree policies. In particular, only deterministic policies depending solely on the observation part of the IBMDP states $\pi: O \rightarrow A$ are decision tree policies $\pi_{\mathcal{T}} S \rightarrow A$for the base MDP (cite).
+Algorithm (cite) from (cite) extracts a decision tree policy for the base MDP from a determenistic partailly observable IBMDP policy.
 
-
+\subsection{Partially Observable IBMDPs}
+So now we know that to find a decision tree policy for a given MPD $\mathcal{M}$ satisfying def (cite); one has to find a partially observable deterministic policy for an IBMDP $\mathcal{M}_{IB}$.
+Such problems are classical instances of Partially Observable MDPs (POMDPs) (cite) with the sole specifity being that the mapping from fully observable states to observations is fully deterministic: given a fully observable IBMDP state $(s_t, o_t)$, the partially observable state--the observation--is simply $o_t$, which contrats with themore general deifnition of POMDPs in which $o_t\sim\Omega(o_t|s_t)$.
+This connection with POMDP was not done by the authors of IBMDPs.
+This particular instance of POMDPs that we try to solve are called CITE ALL NAMES OF THIS PARTICULAR POMDP (c.f. Olivier Buffet).
+We can also define Value functions:
+How to choose $\zeta$? How to specify the action space? Is the horizon infinite ? Could we specify a maximum depth ? 
+\subsection{Didactic example}
