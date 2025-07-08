@@ -22,9 +22,45 @@ In 2021, Topin et. al. introduced Iterative Bouding Markov Decision Processes (I
 Given a base MDP for which one wants to learn a decision tree policy, IBMDPs are an augmented version of this base MDP with more state features, more actions, additinal reward signal, and additional transition kernel.
 Then author showed that certain IBMDP policies, that can be learned with RL, are equivalent to decision tree policies for the base MDP. 
 \subsection{Formalism}
+The key thing to know about IBMDPs is that they are, as their name suggests, MDPs. Hence they inherit all their properties such as existence of a deterministic optimal Markovian policy.
+The states in an IBMDP are concatenations of base MDP states and some observations. Those observations are some information about the base states that are refined--``iteratively bounded''-- at each step and represent a a subspace of the base MDP state space.
+Actions available in an IBMDP are the actions of the base MDP, that change the state of the latter, and \textit{information gathering} actions that change the observation part of the IBMDP state.
+Now, taking base actions in an IBMDP is rewarded like in the base MDP, this ensures that base objective, e.g. balancing the pole or treating cancer, is still encoded in the IBMDP. When taking such \textit{information gathering} actions; the reward is an arbitrary value supposed to trade-off between performance and interpretability.
+ 
+Before showing how to get decision trees from IBMDP policies, we give a formal definition of the latter following Topin et. al. (cite).
 
+\begin{definition}[Iterative Bounding Markov decision process]
+Given a \textit{factored} (cite) MDP $\mathcal{M}$ (cite), that is, a tuple $\langle S, A, R, T, T_0 \rangle$ with $S\subsetneq \mathbb{R}^n$, an Iterative Bouding MDP $\mathcal{M_ib}$ is a tuple:
+\begin{align*}
+    \langle \overbrace{S, O}^{\text{State space}}, \underbrace{A, A_{info}}_{\text{Action space}}, \overbrace{R, \zeta}^{\text{Reward function}}, \underbrace{T_{info}, T, T_0}_{\text{Transition kernels}}\rangle
+\end{align*}
+
+\begin{itemize}
+\item $S$ the base MDP state space should be of the form $S = [L_1, U_1]\times \dots \times [L_n, U_n]$ with $\infty < L_i \leq U_i < \infty \forall 1\leq i\leq n$.
+\item $O$ are the observations in an IBMDP. They are partial information about the values of base MDP states: $O\subsetneq S^2 =  [L_1, U_1]\times \dots \times [L_n, U_n] \times [L_1, U_1]\times \dots \times [L_n, U_n]$. So the complete IBMDP state space is $(S, O) = S \times O$ the concatenations of states and observations.
+\item $A$ are the actions of the base MDP.
+\item $A_{info}$ are added \textit{information gathering} actions (AIGs) of the form $\langle i, v \rangle$ where $i$ is a state feature index $1 \leq i \leq n$ and $v$ is a real number. So the complete action space of an IBMDP is the set of base actions and \textit{information gathering} actions $A \cup A_{info}$.
+\item $R: S\times A \rightarrow \mathbb{R}$ is the base MDP reward function that maps base states and actions to a real-valued reward signal.
+\item $\zeta$ is a reward signal for taking an \textit{information gathering} action. So the IBMDP reward function is to get a reward from the base MDP if the action is a base MDP action or to get $\zeta$ if the action is a \textit{information gathering} action.
+\item $T_{info}: S\times O \times( A_{info} \cup A )\rightarrow \Delta (S\times O)$ is the transition kernel of IBMDPs. 
+Given the current observation $o_{t} = (L'_1, U'_1, \dots, L'_n, U'_n)\in O$ and the current state is $s_t=(s_1, s_2, \dots, s_n)$ if an AIG $\langle i, v \rangle$ is taken, only the bounds in the observation change:
+\begin{align*}
+    o_{t+1} &= \begin{cases}
+        (L'_1, U'_1, \dots , L'_i, \min\{v, U'_i\}, \dots , L'_n, U'_n) \text{ if } s_i \leq v\\
+        (L'_1, U'_1, \dots , \max\{v, L'_i\}, U'_i, \dots , L'_n, U'_n) \text{ if } s_i > v
+    \end{cases}
+\end{align*}
+If a base action $a\in A$ is taken, $o_{t+1}$ is reset to the default state bounds $(L_1, U_1,\dots, L_n, U_n)$ and the base state changes according to the base MDP transitition kernel: $s_{t+1}\sim T(s, a)$.
+At initialization, the base part of the IBMDP states is drawn from $T_0$ and the observation is set always set to $(L_1, U_1,\dots, L_n, U_n)$.
+The overall IBMDP transitions are given by either $T_{info}$, which i fully deterministic, if an AIG is played, and by the base MDP's transition kernel otherwise.
+\end{itemize}
+\end{definition}
+Now remains the question why policies of IBMDPs are decision tree policies of their base MDP? 
 \subsection{From policies to Trees}
-\paragraph{Tree extraction}
+One can notice that \textit{information gathering} actions resemble the Boolean functions that make up internal decision tree nodes (cite). 
+Indeed, an agent evolving in an IBMDP essentially builds a tree by taking sequences of AIGs (internal nodes) and then a base action (leaf node) and repeats this process over time.
+However not all IBMDP policies are decision tree policies. In particular, only deterministic policies depending solely on the observation part of the IBMDP states $\pi: O \rightarrow A$ are decision tree policies for the base MDP (cite).
+
 \begin{algorithm}[t]
     \KwData{IBMDP policy $\pi$ and observation $obs$}
     \KwResult{Decision tree policy extracted from $\pi$}
@@ -32,19 +68,18 @@ Then author showed that certain IBMDP policies, that can be learned with RL, are
     \SetKwProg{Fn}{Function}{:}{}
     \SetKwFunction{SubtreeFromPolicy}{Subtree\_From\_Policy}
     
-    \Fn{\SubtreeFromPolicy{$obs, \pi$}}{
-        $a \leftarrow \pi(obs)$ \\
-        \If{$a \in A_b$}{
+    \Fn{\SubtreeFromPolicy{$o=(L'_1, U'_1, \dots, L'_n, U'_n), \pi$}}{
+        $a \leftarrow \pi(o)$ \\
+        \If{$a \in A_{info}$}{
             \Return Leaf\_Node(action: $a$) \Comment{// Leaf if base action}
         }
         \Else{
-            $(c, v) \leftarrow a$ \Comment{// Splitting action is feature and value} \\
-            $v_p \leftarrow v \times (obs[c^h] - obs[c^l]) + obs[c^l]$ \\
-            $obs_L \leftarrow obs; \quad obs_R \leftarrow obs$ \\
-            $obs_L[c^h] \leftarrow v_p; \quad obs_R[c^l] \leftarrow v_p$ \\
-            $child_L \leftarrow$ Subtree\_From\_Policy$(obs_L, \pi)$ \\
-            $child_R \leftarrow$ Subtree\_From\_Policy$(obs_R, \pi)$ \\
-            \Return Internal\_Node(feature: $c$, value: $v_p$, children: $(child_L, child_R)$)
+            $\langle i, v\rangle \leftarrow a$ \Comment{// Splitting action is feature and value} \\
+            $o_L \leftarrow o; \quad o_R \leftarrow o$ \\
+            $o_L \leftarrow (L'_1, U'_1, \dots, L'_i, v, \dots, L'_n, U'_n); \quad obs_R \leftarrow (L'_1, U'_1, \dots, L'_i, v, \dots, L'_n, U'_n) \\
+            $child_L \leftarrow$ Subtree\_From\_Policy$(o_L, \pi)$ \\
+            $child_R \leftarrow$ Subtree\_From\_Policy$(o_R, \pi)$ \\
+            \Return Internal\_Node(feature: $i$, value: $v$, children: $(child_L, child_R)$)
         }
     }
     
