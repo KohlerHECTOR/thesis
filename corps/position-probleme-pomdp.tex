@@ -73,7 +73,7 @@ Now remains the question why policies of IBMDPs are decision tree policies of th
         \Else{
             $\langle i, v\rangle \leftarrow a$ \Comment{// Splitting action is feature and value} \\
             $o_L \leftarrow o; \quad o_R \leftarrow o$ \\
-                         $o_L \leftarrow (L'_1, U'_1, \dots, L'_i, v, \dots, L'_n, U'_n); \quad o_R \leftarrow (L'_1, U'_1, \dots, L'_i, v, \dots, L'_n, U'_n)$ \\
+                         $o_L \leftarrow (L'_1, U'_1, \dots, L'_i, v, \dots, L'_n, U'_n); \quad o_R \leftarrow (L'_1, U'_1, \dots, v, U'_i, \dots, L'_n, U'_n)$ \\
             $child_L \leftarrow$ Subtree\_From\_Policy$(o_L, \pi)$ \\
             $child_R \leftarrow$ Subtree\_From\_Policy$(o_R, \pi)$ \\
             \Return Internal\_Node(feature: $i$, value: $v$, children: $(child_L, child_R)$)
@@ -89,11 +89,117 @@ Indeed, an agent evolving in an IBMDP essentially builds a tree by taking sequen
 However not all IBMDP policies are decision tree policies. In particular, only deterministic policies depending solely on the observation part of the IBMDP states $\pi: O \rightarrow A$ are decision tree policies $\pi_{\mathcal{T}} S \rightarrow A$for the base MDP (cite).
 Algorithm (cite) from (cite) extracts a decision tree policy for the base MDP from a determenistic partailly observable IBMDP policy.
 
-\subsection{Partially Observable IBMDPs}
-So now we know that to find a decision tree policy for a given MPD $\mathcal{M}$ satisfying def (cite); one has to find a partially observable deterministic policy for an IBMDP $\mathcal{M}_{IB}$.
-Such problems are classical instances of Partially Observable MDPs (POMDPs) (cite) with the sole specifity being that the mapping from fully observable states to observations is fully deterministic: given a fully observable IBMDP state $(s_t, o_t)$, the partially observable state--the observation--is simply $o_t$, which contrats with themore general deifnition of POMDPs in which $o_t\sim\Omega(o_t|s_t)$.
-This connection with POMDP was not done by the authors of IBMDPs.
-This particular instance of POMDPs that we try to solve are called CITE ALL NAMES OF THIS PARTICULAR POMDP (c.f. Olivier Buffet).
-We can also define Value functions:
-How to choose $\zeta$? How to specify the action space? Is the horizon infinite ? Could we specify a maximum depth ? 
 \subsection{Didactic example}
+
+\subsection{Partially Observable IBMDPs}
+
+So now we know that to find a decision tree policy for a given MPD $\mathcal{M}$ satisfying def (cite); one has to find a partially observable deterministic policy for an IBMDP $\mathcal{M}_{IB}$.
+Such problems are classical instances of Partially Observable MDPs (POMDPs) (cite). This connection with POMDP was not done by the authors of IBMDPs. 
+
+\begin{definition}[Partially Observable Markov Decision Processes]
+A Partially Observable Markov Decision Process (POMDP) is a tuple $\langle X, A, O, T, T_0, \Omega, R\rangle$ where:
+\begin{itemize}
+    \item $X$ is the state space (like in the base definition of MDPs).
+    \item $A$ is a finite set of actions (like in the base definition of MDPs).
+    \item $O$ is a set of observations.
+    \item $T: X \times A \rightarrow \Delta X$ is the transition kernal, where $T(s, a, x') = P(x'|x, a)$ is the probability of transitioning to state $x'$ when taking action $a$ in state $x$
+    \item $T_0$: is the intial distribution over states. 
+    \item $\Omega: X \rightarrow \Delta O$ is the observation kernel, where $\Omega(x', a, o) = P(o|x', a)$ is the probability of observing $o$ in state $x$
+    \item $R: X \times A \rightarrow \mathbb{R}$ is the reward function, where $R(x, a)$ is the immediate reward for taking action $a$ in state $x$
+\end{itemize}
+Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP (cite).
+\end{definition}
+
+And so we can simply extend the definition of Iterative Bounding MDPs (cite) with an observation kernel to get Partially Observable IBMDPs:
+\begin{definition}[Partially Observable Iterative Bounding Markov Decision Processes] a Partially Observable Iterative Bounding Markov Decision Process (IBMDP) is a an IBMDP extended with an observation kernel 
+    \begin{align*}
+        \langle \overbrace{S, \underbrace{O}_{\text{Observations}}}^{\text{fully observable states X}}, \underbrace{A, A_{info}}_{A}, \overbrace{R, \zeta}^{R}, \underbrace{T_{info}, T, T_0}_{T, T_0}, \Omega \rangle
+    \end{align*}
+\end{definition}
+
+The sole specifity of Partially observable IBMDPs compared to the general definition of POMDPs, is that $\Omega(o|(s, o'))$, the probability of observing $o$ in $(s,o')$, is $1_{o=o'}$.
+
+Following (cite) we can write the definition of the value of a deterministic partially observable policy $\pi:O\rightarrow A$ in observation $o$:
+Similarly we can define value functions that depend only on the partial observations $O$ following (cite):
+
+\begin{definition}[Partial observable value function] The expected cumulative discounted reward a deterministic partially observable policy $\pi:O\rightarrow A$ starting from observation $o$ is $V^{\pi}(o)$:
+    \begin{align*}
+        V^{\pi}(o) &= \underset{(s,o')\in S\times O}{\sum}P^{\pi}((s, o')|o)V^{\pi}((s, o'))
+    \end{align*}
+with $P^{\pi}((s, o')|o)$ the asymptotic occupancy distribution (see cite for definition) of the fully observable state $(s,o')$ given the partial observation $o$ and $V^{\pi}((s, o'))$ the classical state-value function defined in (cite).
+\end{definition}
+
+
+The asymptotic occupancy distribution is the probability of a policy $\pi$ to be in $(s,o')$ while observing $o$ and having taken actions given by $\pi$.  
+
+The problem that we solve is to find the deterministic partially observable policy that maximizes the excpeted value in the initial observation:
+\begin{align}
+    \pi^{\star} &= \underset{\pi}{\operatorname{argmax}}J(\pi) = \underset{\pi}{\operatorname{argmax}}V^{\pi}(o_0)
+\end{align}
+With $\pi:O\rightarrow A$. There is no expectation over possible initial observation in the above objective function as in there is only one initial observation in a (PO)IBMDP: $o_0=(L_1, U_1, \dots, L_n, U_n)$.
+
+
+
+
+This particular instance of POMDPs that we try to solve are called CITE ALL NAMES OF THIS PARTICULAR POMDP (c.f. Olivier Buffet).
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[
+    box/.style={rectangle, draw, minimum width=4cm, minimum height=3cm, align=center},
+    inner box/.style={box, fill=blue!10},
+    middle box/.style={box, fill=green!10},
+    outer box/.style={box, fill=red!10}
+]
+    % Nested boxes (left side)
+    \node[outer box, anchor=south west] (poibmdp) at (0,0) {
+        \textbf{POIBMDP}\\
+        $+\Omega$
+    };
+    
+    \node[middle box, scale=0.8, anchor=south west] (ibmdp) at (0,0) {
+        \textbf{IBMDP}\\
+        $+O, T_{info}$
+    };
+    
+    \node[inner box, scale=0.4, anchor=south west] (base) at (0,0) {
+        \textbf{Base MDP}\\
+        $\langle S, A, R, T, T_0 \rangle$
+    };
+    
+    % Hyperparameters arrows
+    \draw[dashed, thick, ->] (-1.5, 3) -- (-0.3, 1.5) node[midway, above, sloped] {$+\zeta, A_{info}$};
+    \draw[dashed, thick, ->] (5.5, 3) -- (4.7, 1.5) node[midway, above, sloped] {$+\gamma$};
+    
+    % Objective function box (top right)
+    \node[box, fill=yellow!10] (objective) at (5, 0) {
+        \textbf{Objective}\\
+        $\pi^{\star} = \underset{\pi}{\operatorname{argmax}} V^{\pi}(o_0)$
+    };
+    
+    % Policy box (bottom right)
+    \node[box, fill=orange!10] (policy) at (5, -4) {
+        \textbf{Policy}\\
+        $\pi^{\star}: O \rightarrow A$
+    };
+    
+    % Decision tree box (bottom left)
+    \node[box, fill=purple!10] (tree) at (0, -4) {
+        \textbf{Decision Tree}\\
+        \includegraphics[width=1.5cm]{images/images_intro/decision-tree-svgrepo-com.svg}
+    };
+    
+    % Main flow arrows
+    \draw[thick, ->] (4, 1.5) -- (5, 1.5) node[midway, above] {solve};
+    \draw[thick, ->] (5, -1) -- (5, -3) node[midway, right] {solve with\\e.g. RL};
+    \draw[thick, ->] (4, -4) -- (1, -4) node[midway, above] {extract tree\\\small{(alg 6)}};
+    
+    % Final arrow from tree back to base MDP
+    \draw[thick, ->] (0.5, -2.5) -- (0.5, -0.5) node[midway, right] {Can deploy\\and interpret};
+    
+\end{tikzpicture}
+\caption{Nested structure of decision processes: Base MDP (innermost), IBMDP (middle), and POIBMDP (outermost).}
+\label{fig:nested_decision_processes}
+\end{figure}
+
+How to choose $\zeta$? How to specify the action space? Is the horizon infinite ? Could we specify a maximum depth ? 
