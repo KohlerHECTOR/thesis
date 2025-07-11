@@ -33,9 +33,36 @@ In any starting state, the agent will move towards the abosrbing state with posi
     \node at (1.5,0.5) {$\star$};
     \node at (1.6,0.48) {$\leftarrow$};
 
+    % Draw the grid cells
+    \draw (3,0) grid (5,2);
+    
+    % Add ticks on axes
+    \foreach \x in {3,4,5}
+        \node[below] at (\x,0) {$\x$};
+    \foreach \y in {0, 1, 2}
+        \node[left] at (3,\y) {$\y$};
+    
+    \node[left] at (-3.5, 1) {$y$};
+    \node[below] at (4, -0.5) {$x$};
+    
+    % Label cells
+    \node at (3.5,0.5) {$\times$};
+    \node at (3.6,0.48) {$\rightarrow$};
+
+    \node at (3.5,0.5) {$\times$};
+    \node at (3.5,0.4) {$\rightarrow$};
+
+    \node at (4.5,0.5) {$\times$};
+    \node at (4.5,0.4) {$\downarrow$};
+    
+    % Goal state in bottom right with double border
+    \draw[line width=2pt] (4,0) rectangle (5,1);
+    \node at (4.5,0.5) {$\star$};
+    \node at (4.6,0.48) {$\downarrow$};
+
     
 \end{tikzpicture}
-\caption{An optimal tabular policy for the grid world.}\label{fig:optimal-policy}
+\caption{Optimal tabular policies for the grid world.}\label{fig:optimal-policy}
 \end{figure}
 
 
@@ -48,34 +75,26 @@ In any starting state, the agent will move towards the abosrbing state with posi
         edge_label/.style={font=\footnotesize, midway}
     ]
         % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree4_root) at (0,0) {$x \leq 0.5$};
+        \node[decision] (tree4_root) at (0,0) {$x \leq \frac{1}{2}$};
         \node[leaf] (tree4_right) at (-2,-2) {$\rightarrow$};
-        \node[leaf] (tree4_left) at (2,-2) {$\leftarrow$};
+        \node[leaf] (tree4_left) at (2,-2) {$\downarrow$};
         \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
         \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
 
-        % Tree 6: if y <= 0.5 move up else move down
-        \node[decision] (tree6_root) at (6,0) {$y \leq 0.5$};
-        \node[leaf] (tree6_up) at (4,-2) {$\uparrow$};
-        \node[leaf] (tree6_down) at (8,-2) {$\downarrow$};
-        \draw[->] (tree6_root) -- (tree6_up) node[edge_label, above left] {True};
-        \draw[->] (tree6_root) -- (tree6_down) node[edge_label, above right] {False};
-
         % Tree 7: if x <= 0.5 and y <= 0.5 move right else move down
-        \node[decision] (tree7_root) at (12,0) {$x \leq 0.5$};
-        \node[decision] (tree7_y) at (10,-2) {$y \leq 0.5$};
-        \node[leaf] (tree7_right) at (8,-4) {$\rightarrow$};
-        \node[leaf] (tree7_down) at (12,-4) {$\downarrow$};
-        \node[leaf] (tree7_down2) at (14,-2) {$\downarrow$};
+        \node[decision] (tree7_root) at (9,0) {$x \leq \frac{1}{2}$};
+        \node[decision] (tree7_y) at (7,-2) {$y \leq \frac{1}{2}$};
+        \node[leaf] (tree7_right) at (5,-4) {$\rightarrow$};
+        \node[leaf] (tree7_down) at (9,-4) {$\downarrow$};
+        \node[leaf] (tree7_down2) at (11,-2) {$\downarrow$};
         \draw[->] (tree7_root) -- (tree7_y) node[edge_label, above left] {True};
         \draw[->] (tree7_root) -- (tree7_down2) node[edge_label, above right] {False};
         \draw[->] (tree7_y) -- (tree7_right) node[edge_label, above left] {True};
         \draw[->] (tree7_y) -- (tree7_down) node[edge_label, above right] {False};
 
         % Labels
-        \node[above] at (0,1) {Tree 4};
-        \node[above] at (6,1) {Tree 6};
-        \node[above] at (12,1) {Tree 7};
+        \node[above] at (0,1) {$\mathcal{T}_0$};
+        \node[above] at (9,1) {$\mathcal{T}_1$};
     \end{tikzpicture}
     \caption{Some optimal decision tree policies.}
     \label{fig:optimal-policy-trees}
@@ -85,49 +104,6 @@ For this grid world, there exist \textit{optimal} decision tree policies.
 In particular Tree 4 and 6 are have very good interpretability-performance trade-offs (smallest tree that can get the maximum MDP reward).
 In the rest of this section we shall attempt to \textit{learn} those trees from data. 
 
-
-\begin{figure}[htbp]
-    \centering
-    \begin{tikzpicture}[
-        scale=1.0,
-        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
-        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
-        edge_label/.style={font=\footnotesize, midway}
-    ]
-        % Tree 1: Move Right
-        \node[leaf] (tree1) at (0,0) {$\rightarrow$};
-
-        % Tree 3: if x <= 0.5 move right else move down
-        \node[decision] (tree3_root) at (6,0) {$x \leq 0.5$};
-        \node[leaf] (tree3_right) at (4.5,-2) {$\rightarrow$};
-        \node[leaf] (tree3_down) at (7.5,-2) {$\downarrow$};
-        \draw[->] (tree3_root) -- (tree3_right) node[edge_label, above left] {True};
-        \draw[->] (tree3_root) -- (tree3_down) node[edge_label, above right] {False};
-
-        % Tree 2: Move Left
-        \node[leaf] (tree2) at (0,-6) {$\leftarrow$};
-
-        % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree4_root) at (6,-6) {$x \leq 0.5$};
-        \node[leaf] (tree4_right) at (4.5,-8) {$\rightarrow$};
-        \node[leaf] (tree4_left) at (7.5,-8) {$\leftarrow$};
-        \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
-        \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
-
-        % Tree 5: if x <= 0.5: move right elif y <= 0.5 move left else move down
-        \node[decision] (tree5_root) at (12,-6) {$x \leq 0.5$};
-        \node[leaf] (tree5_right) at (10.5,-8) {$\rightarrow$};
-        \node[decision] (tree5_y) at (13.5,-8) {$y \leq 0.5$};
-        \node[leaf] (tree5_left) at (12,-10) {$\leftarrow$};
-        \node[leaf] (tree5_down) at (15,-10) {$\downarrow$};
-        \draw[->] (tree5_root) -- (tree5_right) node[edge_label, above left] {True};
-        \draw[->] (tree5_root) -- (tree5_y) node[edge_label, above right] {False};
-        \draw[->] (tree5_y) -- (tree5_left) node[edge_label, above left] {True};
-        \draw[->] (tree5_y) -- (tree5_down) node[edge_label, above right] {False};
-    \end{tikzpicture}
-    \caption{Examples of decision trees for different policies in the grid world. Each tree represents a different policy, from simple single-action policies to more complex conditional policies.}
-    \label{fig:policy-trees}
-\end{figure}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{images/images_part1/policy_values_comparison.pdf}
@@ -186,79 +162,6 @@ The objective value of the depth-1 decision tree policy is:
     &= \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma^2)}
 \end{align*}
 
-\paragraph{Unbalanced depth-2 decision tree:}the unbalanced depth-2 decision tree  takes an information gathering action $x\leq0.5$ then either takes the $\downarrow$ action or takes a second information $y\leq0.5$ followed by $\rightarrow$ or $\downarrow$.
-In states $G$ and $S_2$, the value of the unbalanced tree is the same as for the depth-1 tree.
-In states $S_0$ and $S_1$, the policy takes two information gathering actions before taking a base action and so on:
-\begin{align*}
-    V^{\mathcal{T}_{u}}_{S_0} &= \zeta + \gamma \zeta + \gamma ^ 2 0 + \gamma ^ 3 V^{\mathcal{T}_1}_G
-\end{align*} 
-\begin{align*}
-    V^{\mathcal{T}_{u}}_{S_1} &= \zeta + \gamma \zeta + \gamma ^ 2 0 + \gamma ^ 3 V^{\mathcal{T}_u}_{S_0} \\ 
-    &= \zeta + \gamma \zeta + \gamma ^ 2 0 + \gamma ^ 3 (\zeta + \gamma \zeta + \gamma ^ 2 0 + \gamma ^ 3 V^{\mathcal{T}_1}_G) \\
-    &= \zeta + \gamma \zeta + \gamma ^ 3 \zeta + \gamma ^ 4 \zeta + \gamma ^ 6 V^{\mathcal{T}_1}_G
-\end{align*}
-We get:
-\begin{align*}
-    J(\mathcal{T}_{u}) &= \frac{1}{4} V^{\mathcal{T}_u}_G + \frac{1}{4} V^{\mathcal{T}_u}_{S_0} + \frac{1}{4}V^{\mathcal{T}_u}_{S_1} + \frac{1}{4}V^{\mathcal{T}_u}_{S_2} \\
-    &=  \frac{1}{4} V^{\mathcal{T}_1}_G + \frac{1}{4}(\zeta + \gamma \zeta + \gamma ^ 3 V^{\mathcal{T}_1}_G) + \frac{1}{4} (\zeta + \gamma \zeta + \gamma ^ 3 \zeta + \gamma ^ 4 \zeta + \gamma ^ 6 V^{\mathcal{T}_1}_G) + \frac{1}{4}V^{\mathcal{T}_1}_{S_2} \\
-    &= \frac{1}{4} (\frac{\zeta + \gamma}{1-\gamma^2}) + \frac{1}{4}(\frac{\gamma\zeta + \gamma^4 + \zeta -\gamma^2\zeta}{1-\gamma^2}) + \frac{1}{4} (\zeta + \gamma \zeta + \gamma ^ 3 \zeta + \gamma ^ 4 \zeta + \gamma ^ 6 V^{\mathcal{T}_1}_G) + \frac{1}{4}V^{\mathcal{T}_1}_{S_2} \\
-    &= \frac{1}{4} (\frac{\zeta + \gamma}{1-\gamma^2}) + \frac{1}{4}(\frac{\gamma\zeta + \gamma^4 + \zeta -\gamma^2\zeta}{1-\gamma^2}) + \frac{1}{4} (\frac{\zeta + \gamma\zeta -\gamma^2\zeta-\gamma^5\zeta+\gamma^6\zeta+\gamma^7}{1-\gamma^2}) + \frac{1}{4}V^{\mathcal{T}_1}_{S_2} \\
-    &= \frac{1}{4} (\frac{\zeta + \gamma}{1-\gamma^2}) + \frac{1}{4}(\frac{\gamma\zeta + \gamma^4 + \zeta -\gamma^2\zeta}{1-\gamma^2}) + \frac{1}{4} (\frac{\zeta + \gamma\zeta -\gamma^2\zeta-\gamma^5\zeta+\gamma^6\zeta+\gamma^7}{1-\gamma^2}) + \frac{1}{4}(\frac{\zeta + \gamma ^ 3}{1-\gamma^2}) \\
-    &= \frac{\zeta(4+2\gamma-2\gamma^2-\gamma^5+\gamma^6)+\gamma+\gamma^3+\gamma^4+\gamma^7}{4(1-\gamma^2)}
-\end{align*}
-\paragraph{The balanced depth-2 decision tree:}alternates in every state between taking the two available information gathering actions and then a base action.
-The value of the policy in the goal state is:
-\begin{align*}
-    V^{\mathcal{T}_2}_{G} &= \zeta + \gamma\zeta + \gamma^2 + \gamma^3\zeta + \gamma^4\zeta + \dots \\
-    &= \overset{\infty}{\underset{t=0}\sum} \gamma^{3t}\zeta + \overset{\infty}{\underset{t=0}\sum} \gamma^{3t+1}\zeta + \overset{\infty}{\underset{t=0}\sum} \gamma^{3t+2} \\
-    &= \frac{\zeta}{1-\gamma^3} + \frac{\gamma\zeta}{1-\gamma^3} + \frac{\gamma^2}{1-\gamma^3}
-\end{align*}
-Following the same reasoning for other states we find the objective value for the depth-2 decision tree policy to be:
-\begin{align*}
-    J(\mathcal{T}_2) &=\frac{1}{4} V^{\mathcal{T}_2}_G + \frac{2}{4} V^{\mathcal{T}_2}_{S_2} + \frac{1}{4} V^{\mathcal{T}_2}_{S_1} \\
-    &= \frac{1}{4} V^{\mathcal{T}_2}_G + \frac{2}{4}(\zeta + \gamma\zeta + \gamma^2 0 + \gamma^3V^{\mathcal{T}_2}_G) + \frac{1}{4} (\zeta+\gamma\zeta+\gamma^2 0 + \gamma^3\zeta+\gamma^4\zeta+\gamma^5 0 +\gamma^6 V^{\mathcal{T}_2}_G) \\
-    &= \frac{\zeta(3+3\gamma)+\gamma^2+\gamma^5+\gamma^8}{4(1-\gamma^3)}
-\end{align*}
-\paragraph{Infinite tree:} we also consider the infinite tree policy that repeats an information gathering action forever and has objective: $J(\mathcal{T_{\text{inf}}}) = \frac{\zeta}{1-\gamma}$
-
-\paragraph{Stochastic policy:} the other non-trivial policy that can be learned by solving a partially observable IBMDP is the stochastic policy that guarantees to reach $G$ after some time: fifty percent chance to do $\rightarrow$ and fifty percent chance to do $\downarrow$.
-This stochastic policy has objective value:
-\begin{align*}
-    V^{\text{stoch}}_G &= \frac{1}{1-\gamma} \\
-    V^{\text{stoch}}_{S_0} &= 0 + 0.5\gamma V^{\text{stoch}}_G + 0.5\gamma V^{\text{stoch}}_{S_1} \\
-    V^{\text{stoch}}_{S_2} &= 0 + 0.5\gamma V^{\text{stoch}}_G + 0.5\gamma V^{\text{stoch}}_{S_1} = V^{\text{stoch}}_{S_0} \\
-    V^{\text{stoch}}_{S_1} &= 0 + 0.5\gamma V^{\text{stoch}}_{S_2} + 0.5\gamma V^{\text{stoch}}_G = 0.5\gamma V^{\text{stoch}}_{S_0} + 0.5\gamma V^{\text{stoch}}_G
-\end{align*}
-Solving these equations:
-\begin{align*}
-    V^{\text{stoch}}_{S_1} &= 0.5\gamma V^{\text{stoch}}_{S_0} + 0.5\gamma V^{\text{stoch}}_G \\
-    &= 0.5\gamma (0.5\gamma V^{\text{stoch}}_G + 0.5\gamma V^{\text{stoch}}_{S_1}) + 0.5\gamma V^{\text{stoch}}_G \\
-    &= 0.25\gamma^2 V^{\text{stoch}}_G + 0.25\gamma^2 V^{\text{stoch}}_{S_1} + 0.5\gamma V^{\text{stoch}}_G \\
-    V^{\text{stoch}}_{S_1} - 0.25\gamma^2 V^{\text{stoch}}_{S_1} &= 0.25\gamma^2 V^{\text{stoch}}_G + 0.5\gamma V^{\text{stoch}}_G \\
-    V^{\text{stoch}}_{S_1}(1 - 0.25\gamma^2) &= (0.25\gamma^2 + 0.5\gamma) V^{\text{stoch}}_G \\
-    V^{\text{stoch}}_{S_1} &= \frac{0.25\gamma^2 + 0.5\gamma}{1 - 0.25\gamma^2} V^{\text{stoch}}_G \\
-    &= \frac{\gamma(0.25\gamma + 0.5)}{1 - 0.25\gamma^2} \cdot \frac{1}{1-\gamma} \\
-    &= \frac{\gamma(0.25\gamma + 0.5)}{(1 - 0.25\gamma^2)(1-\gamma)}
-\end{align*}
-\begin{align*}
-    V^{\text{stoch}}_{S_0} &= 0.5\gamma V^{\text{stoch}}_G + 0.5\gamma V^{\text{stoch}}_{S_1} \\
-    &= 0.5\gamma \cdot \frac{1}{1-\gamma} + 0.5\gamma \cdot \frac{\gamma(0.25\gamma + 0.5)}{(1 - 0.25\gamma^2)(1-\gamma)} \\
-    &= \frac{0.5\gamma}{1-\gamma} + \frac{0.5\gamma^2(0.25\gamma + 0.5)}{(1 - 0.25\gamma^2)(1-\gamma)} \\
-    &= \frac{0.5\gamma(1 - 0.25\gamma^2) + 0.5\gamma^2(0.25\gamma + 0.5)}{(1 - 0.25\gamma^2)(1-\gamma)} \\
-    &= \frac{0.5\gamma - 0.125\gamma^3 + 0.125\gamma^3 + 0.25\gamma^2}{(1 - 0.25\gamma^2)(1-\gamma)} \\
-    &= \frac{0.5\gamma + 0.25\gamma^2}{(1 - 0.25\gamma^2)(1-\gamma)} \\
-    &= \frac{\gamma(0.5 + 0.25\gamma)}{(1 - 0.25\gamma^2)(1-\gamma)}
-\end{align*}
-\begin{align*}
-    J(\mathcal{T}_{\text{stoch}}) &= 0.25(V^{\text{stoch}}_G + V^{\text{stoch}}_{S_0} + V^{\text{stoch}}_{S_1} + V^{\text{stoch}}_{S_2}) \\
-    &= 0.25\left(\frac{1}{1-\gamma} + 2 \cdot \frac{\gamma(0.5 + 0.25\gamma)}{(1 - 0.25\gamma^2)(1-\gamma)} + \frac{\gamma(0.25\gamma + 0.5)}{(1 - 0.25\gamma^2)(1-\gamma)}\right) \\
-    &= 0.25\left(\frac{1}{1-\gamma} + \frac{2\gamma(0.5 + 0.25\gamma) + \gamma(0.25\gamma + 0.5)}{(1 - 0.25\gamma^2)(1-\gamma)}\right) \\
-    &= 0.25\left(\frac{1}{1-\gamma} + \frac{\gamma + 0.5\gamma^2 + 0.25\gamma^2 + 0.5\gamma}{(1 - 0.25\gamma^2)(1-\gamma)}\right) \\
-    &= 0.25\left(\frac{1}{1-\gamma} + \frac{1.5\gamma + 0.75\gamma^2}{(1 - 0.25\gamma^2)(1-\gamma)}\right) \\
-    &= 0.25\left(\frac{1 - 0.25\gamma^2 + 1.5\gamma + 0.75\gamma^2}{(1 - 0.25\gamma^2)(1-\gamma)}\right) \\
-    &= 0.25\left(\frac{1 + 1.5\gamma + 0.5\gamma^2}{(1 - 0.25\gamma^2)(1-\gamma)}\right) \\
-    &= \frac{1 + 1.5\gamma + 0.5\gamma^2}{4(1 - 0.25\gamma^2)(1-\gamma)}
-\end{align*}
 \subsection{Identifying the optimality range of the depth-1 tree}
 \begin{figure}
     \centering
@@ -291,8 +194,62 @@ We benchmark Asymmetric Q-learning and Asymmetric Sarsa and the tabular algorith
 In previous work (cite) Deep RL version of asymmetric algorithms have been benchmarked and showed to only work well for history-dependent policies or Q-function which we can't use for our particular problem.
 In particular in Figures (cite)(cite) of (cite) and cite(); the authors show that for the particular case of asymmetric critic or target depending on full states and policy or Q-function depending on partial observation, the performance of asymmetric RL can be worse than that of non-specialized naive RL.
 We use at least one million timesteps to train each agent. Each agent is trained on 100 seeds.  
+\RestyleAlgo{ruled}
+\SetKwComment{Comment}{}{}
+\begin{algorithm}
+    \KwData{POMDP $\mathcal{M}_{po} = \langle X, O, A, R, T, T_0, \Omega \rangle$, learning rates $\alpha_1,\quad \alpha_2$, exploration rate $\epsilon$}
+    \KwResult{Partially observable deterministic policy $\pi$}
+    Initialize $U(x,a) = 0$ for all $x \in X, a \in A$ \\
+    Initialize $Q(o,a) = 0$ for all $o \in O, a \in A$ \\
 
-\paragraph{Hyperparameters:}
+    \For{each episode}{
+        Initialize state $x_0 \sim T_0$ \\
+        Initialize observation $o_0 \sim \Omega(x_0)$ \\
+
+        \For{each step $t$}{
+            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \arg\max_a Q(o_t,a)$ with prob. $1-\epsilon$ \\
+            Take action $a_t$, observe $r_t = R(x_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $o_{t+1} \sim \Omega(x_{t+1})$ \\
+            $y \leftarrow r + \gamma U(x_{t+1}, \argmax_{a'} Q(o_{t+1}, a'))$ \Comment{// TD target} \\
+            $U(x_t,a_t) \leftarrow (1 - \alpha_1) U(x_t, a_t) + \alpha_1 y $ \\
+            $Q(o_t,a_t) \leftarrow (1 - \alpha_1) Q(o_t, a_t) + \alpha_1 y $ \\
+            $x_t \leftarrow x_{t+1}$ \\
+            $o_t \leftarrow o_{t+1}$ \\
+        }
+    }
+    $\pi(o) = \arg\max_a Q(o,a)$ \Comment{// Extract greedy policy}
+    \caption{Asymmetric Q-Learning (cite)}\label{alg:asymqlearning}
+\end{algorithm}
+
+\RestyleAlgo{ruled}
+\SetKwComment{Comment}{}{}
+\begin{algorithm}
+    \KwData{POMDP $\mathcal{M}_{po} = \langle X, O, A, R, T, T_0, \Omega \rangle$, learning rate $\alpha$, policy parameters $\theta$, number of trajectories $N$}
+    \KwResult{Policy $\pi_\theta$ and Q-function estimates}
+    Initialize policy parameters $\theta$ \\
+    Initialize $Q(o, a) = 0$ for all observations $o$ and actions $a$ \\
+    \For{each episode}{
+        \For{$i = 1$ to $N$}{
+            Generate trajectory $\tau_i = (s_0, a_0, r_0, s_1, a_1, r_1, \ldots, s_T)$ following $\pi_\theta$ \\
+            \For{each timestep $t$ in trajectory $\tau_i$}{
+                $G_t \leftarrow \sum_{k=t}^{T} \gamma^{k-t} r_k$ \Comment{// Compute return}
+                Store $(o_t, a_t, G_t)$ for later averaging
+            }
+        }
+        \For{each unique observation-action pair $(o, a)$}{
+            $Q(o, a) \leftarrow \frac{1}{|\{(o, a)\}|} \sum_{(o, a, G)} G$ \Comment{// Monte Carlo estimate}
+        }
+        \For{each observation $o$}{
+            \For{each action $a$}{
+                $\pi_1(a|o) \leftarrow 1.0$ if $a = \argmax_{a'} Q(o, a')$, $0.0$ otherwise \Comment{// Deterministic policy from Q-values}
+                $\pi(a|o) \leftarrow (1 - \alpha) \pi(a|o) + \alpha \pi_1(a|o)$ \Comment{// Policy improvement step}
+            }
+        }
+        Reset $Q(o, a) = 0$ for all observations $o$ and actions $a$ \Comment{// Reset for next episode}
+    }
+    \caption{JSJ algorithm. Uses Monte Carlo estimates of the average reawrd value functions to perform policy imporvements (cite)}\label{alg:reinforce}
+\end{algorithm}
+
+\paragraph{Hyperparameters:} For all RL baselines in the first part of this section we use, when applicable, exploration rates $\epsilon=0.3$ and/or learning rates $\alpha=0.1$.
 
 \paragraph{Metrics:} we will consider two main metrics; the sub-optimality gap of the learned policy with respect to the IBMDP objective (cite) and the proportion of the type of learned decision tree for the original grid world.
 Because we know the whole (IB)MDP model that we can represent exactly as tables; and because we know for each $\zeta$ value the IBMDP objective value of the optimal partially observable IBMDP policy; we can report the \textbf{exact} sub-optimality gaps:
@@ -326,7 +283,7 @@ One interpretation of this phenomenon is that the learning in POIBMDPs is very h
 
 \subsection{Why is it so hard to learn in POIBMPDs?}
 
-As discussed in the previous chapter (cite). POIBMDPs inherit many difficulties from POMDPs (list).
+As discussed in the previous chapter (cite), POIBMDPs inherit many difficulties from POMDPs (list).
 To prove that solving POIBMDPs even though there are only a handful of states and observations and clear deterministic reactive optimal policies; we compare the success rate of baselines RL algorithms when applied to an IBMDP with $\gamma=0.99$, $\zeta=0.5$, and to the partially observable version of the same IBMDP.
 because we know that for those values of $\zeta$ and $\gamma$, the optimal partially observable policy is the depth-1 tree and the optimal-fully observable policy is the (cite); we can compute the success rate of an RL algorithm as the proportion of learn policies that match either optimal policy.
 In particular, for each of the three baselines Q-Learning, Sarsa, and Policy gradient, and their asymmetric counterparts when available; we train policies with each combination of those hyperparameters (cite) 10 times and compute the success rate over all individual runs.
@@ -334,7 +291,7 @@ To fully quantify the difficulty of RL on those problems; we also consider advan
 \begin{enumerate}
     \item Optimistic Q-function (cite)
     \item Entropy regularization (cite)
-    \item $\lambda$-returns (cite)
+    \item Eligibility traces (cite)
     \item $\epsilon$-decay (cite)
 \end{enumerate}
 
