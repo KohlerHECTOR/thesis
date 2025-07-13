@@ -264,13 +264,24 @@ Similarly, once the RL training finished, we can use the tree extraction algorit
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{images/images_part1/quick_plot_combined_all.pdf}
+    \includegraphics[width=1\textwidth]{images/images_part1/learning_curves.pdf}
     \caption{Baseline algorithms for learning decision tree policies by learning partially observable policies in IBMDPs. 
     The top row represents the sub-optimality gaps during training. In each subplot, each single learning curve is colored by the value of $\zeta$ of the IBMDP they solve. And each single learning curve represent the sub-optimality gap averaged over 100 seeds.
     So for each algortihm we ran a total of $200 \times 100$ single training seed.
     The bottom row represents the distributions of final tree policies learned across the 100 seeds.
     For each $\zeta$ value, there are three color points each represeting the share of Depth-0 tree (red), Depth-1 tree (gree) and Depth-2 tree (blue).
     }\label{fig:rl-poibmdp}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{images/images_part1/tree_distributions.pdf}
+    \caption{Baseline algorithms for learning decision tree policies by learning partially observable policies in IBMDPs. 
+    The top row represents the sub-optimality gaps during training. In each subplot, each single learning curve is colored by the value of $\zeta$ of the IBMDP they solve. And each single learning curve represent the sub-optimality gap averaged over 100 seeds.
+    So for each algortihm we ran a total of $200 \times 100$ single training seed.
+    The bottom row represents the distributions of final tree policies learned across the 100 seeds.
+    For each $\zeta$ value, there are three color points each represeting the share of Depth-0 tree (red), Depth-1 tree (gree) and Depth-2 tree (blue).
+    }\label{fig:dt-distrib-poibmdp}
 \end{figure}
 
 In Figure (cite) we observe that despite RL algorithms converging independently of the $\zeta$ values, not all runs fully minimize the sub-optimality gap.

@@ -3,39 +3,34 @@ In this section we show that decision tree induction for classification problems
 Indeed, a classification problem can be formulated as an MDP where actions are class labels and states are training data.
 The reward at every step is 1 if the correct label was predicted and 0 otherwise.
 In this MDP, the transitions are independent of the actions: the next state is given by uniformly sampling a new training datum. 
+This implies that the resulting POIBMDP is actually \textit{fully} observable and that traditional RL algorithms should perform well.
 
-The main result of our work is to show that when using the IBMDP framework to learn a DT for a supervised classification task, there is no need to use partially observable RL and that it is sufficient to use classical RL. We first define a new MDP and then show that a policy maximizing the expected cumulative reward of this MDP also maximizes the IBMDP reward. 
+After showing the equivalence between decision tree induction and solutions to POIBMDPs when the underlying base MDP encodes a classification task, we call them Classification-POIBMDPs, we highlight key limitations of the RL approach for decision tree induction.
+There are few other RL approaches for decision tree induction (cite). Here we focus on RL for Classification-POIBMDPs
+We defer the formal definition of classification tasks in the supervised learning setting in the next chapter and rather directly define an MDP that encodes such tasks. 
+\begin{definition}[Classification Markov Decision Process]
+    Given a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$ where each datum $x_i$ is described by a set of $p$ features and $y_i \in \mathbb{Z}^m$ is the label associated with $x_i$, a Classification Markov Decision Process is an MDP (cite) $\langle S, A, R, T, T_0 \rangle$ where:
+    \begin{itemize}
+        \item the state space is $S={\{x_i\}}_{i=1}^N$, the set of data features
+        \item the action space is $A=\mathbb{Z}^m$, the set of unique labels
+        \item the reward function is $R:S\times A \rightarrow \{0, 1\}$ with $R(s=x_i, a) = 1_{a=y_i}$
+        \item the transition function is $T:S\times A \rightarrow \Delta S$ with $T(s, a, s') = \frac{1}{N} \quad \forall s, a, s'$
+        \item the initial distribution is $T_0(s_0 = s) = \frac{1}{N}$
+    \end{itemize}
+\end{definition}
+It is easy to see that policies that maximize the expected dsicounted cumulative reward objective (cite) are classifiers that maximize the prediction accuracy $\sum_{i=1}^N 1_{\pi(x_i)=y_i} = \sum_{i=1}^N R(x_i, \pi(x_i))$.
+Learning a classifier with a reward signal can also be done with contextual bandits (cite).
 
-\subsection{Observation-IBMDP}
-\label{sec:oibmdp}
-Let us consider a base Classification MDP $\langle \mathcal{X}, \{C_1, ..., C_K\}, R, T, \gamma \rangle$ 
-and an associated IBMDP $\langle S, O, A, A_{info}, R, \zeta, T_{info}, T, T_0 \rangle$. An Observation-IBMDP (OIBMDP) $\langle \Omega, A, A_{info}, R^{\prime\prime}, T^{\prime\prime}, \zeta, \gamma \rangle$ is defined as follows:
+To learn a decision tree classifier, we use the POIBMDP formalism and show in the particular case of the base MDP being a Classification MDP, the POIBMDP is in fact an MDP with stochastic transitions. 
 
-\paragraph{State space}
-\vskip -0.1in
-The state space is the space of possible feature bounds $\Omega \subsetneq [0,1]^{2d}$.
-
-\paragraph{Action space} 
-\vskip -0.1in
-The action space is $A_{info}$, the same as in the given IBMDP.
-
-\paragraph{Reward function}
-\vskip -0.1in
-Assume the current state of the MDP is $o = (L_1, ..., L_d, U_1, ..., U_d)$.
-\begin{itemize}
-    \item $a \in A_{info}$ : The reward for taking an IGA is still $\zeta$.
-    \item $a = C_h \in \{C_1, ..., C_K\}$:  We denote $\mathcal{X}^{C_h}_{o}$ the set of all $x_i$ such that $y_i = C_h$ and $ L_k \leq x_{ik} \leq U_k$ for all $k$. Similarly, we denote $\mathcal{X}^{\bar{C_h}}_{o}$ the set of all $x_i$ such that $y_i \neq C_h$ and $ L_k \leq x_{ik} \leq U_k$ for all $k$. So $R^{\prime\prime}(o, C_h) = \frac{|\mathcal{X}^{C_h}_{o}|- |\mathcal{X}^{\bar{C_h}}_{o}|}{|\mathcal{X}^{C_h}_{o}| +|\mathcal{X}^{\bar{C_h}}_{o}|}$
-\end{itemize}
-
-\paragraph{Transition function}
-Assume the current state is $o = (L_1, ..., L_d, U_1, ..., U_d)$.
-\begin{itemize}
-    \item $a = C_h \in \{C_1, ..., C_K\}$: $T^{\prime\prime}(o, C_h, (0,..., 0, 1, ...,1)) = 1$
-    \item $a = (k, \frac{u}{p+1})\in A_{info}$: We denote $v = \frac{u}{p+1}(U_k - L_k) + L_k$. The MDP will transit to $o_{inf} = (L_1, ..., v, ..., L_d, U_1, ..., U_d)$  (resp. $o_{sup} = (L_1, ..., L_d, U_1, ..., v, ..., U_d)$) with probability $\frac{|\mathcal{X}_{o_{inf}}|}{|\mathcal{X}_{o_{inf}}| + |\mathcal{X}_{o_{sup}}|}$ (resp. $\frac{|\mathcal{X}_{o_{sup}}|}{|\mathcal{X}_{o_{inf}}| + |\mathcal{X}_{o_{sup}}|}$)
-\end{itemize}
-
+\begin{definition}[Classification POIBMDP]
+    Given a classification MDP (cite) $\langle {\{x_i\}}_{i=1}^N, \mathbb{Z}^m, R, T, T_0 \rangle$, and an associated POIBMDP (cite) $\langle S, O, A, A_{info}, R, \zeta, T_{info}, T, T_0\rangle$, a classification POIBMDP is an MDP:
+    \begin{align*}
+        \langle \overbrace{O}^{\text{State space}}, \underbrace{\mathbb{Z}^m, A_{info}}_{\text{Action space}}, \overbrace{R, \zeta}^{\text{Reward function}}, \underbrace{\mathcal{P}, \mathcal{P}_0}_{\text{Transition kernels}} \rangle
+    \end{align*}  
+\end{definition}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{images/images_part1/quick_plot_combined_classif.pdf}
-    \caption{RL algorithms for classification OIBMDPs}\label{fig:rl-poibmdp}
+    \caption{RL algorithms for classification OIBMDPs}\label{fig:rl-classif-poibmdp}
 \end{figure}
