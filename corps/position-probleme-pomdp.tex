@@ -1,4 +1,4 @@
-\chapter{A Framework for the Reinforcement Learning of Decision Tree Policies}
+\chapter{A Formal Framework for the Reinforcement Learning of Decision Tree Policies}
 \section{Learning Decision Tree policies}
 Deicision tree policies offer transparency over neural network policies (cite). 
 One can attribute an importance measure to each feature of the state for the deicison of a tree policy which is harder to do for neural networks (cite).
@@ -10,22 +10,22 @@ We propose an additional distinction amongst the direct methods: algorithms lear
 Parametric trees are not ``grown'' from the root by iteratively adding internal or leaf nodes depending on the interpretability-performance trade-off to optimize, but are rather ``optimized'': the depth, internal nodes arrengement, and state-features to consider in each nodes are fixed \textit{a priori} and only the tested thresholds of each nodes are optimized similarly to how the weights of a neural network are optimized.
 As the reader might have guessed, those parametric trees are advantageous in that they can be learned with gradient descent and in the context of decision tree policies, with the policy gradient (cite).
 The downside of those approaches is that a user cannot know \textit{a priori}  what a ``good'' tree policy structure should be for a particular MDP: either the specified structure is too deep and pruning will be required after training or the tree structure is not expressive enough to encode a good policy. 
-Similar approaches exist in supervised learning exist where a parametric tree is fitted with gradient descent (cite) GRADTREE and the work of the authors in KDD. However their benefit over non-parametric trees have not been shown.
-When parametric trees are learned for MDPs (cite); extra stabilizing tricks are required during training such as adaptive batch sizes.
+Similar approaches exist in supervised learning exist where a parametric tree is fitted with gradient descent (cite). However their benefit over non-parametric trees have not been shown.
+When parametric trees are learned for MDPs; extra stabilizing tricks are required during training such as adaptive batch sizes (cite).
 
 Non-parametric trees are the standard model in supervised learning (cite) and can naturally trade-off between interpretability and performances. However, specialized approaches are required since growing a tree from the root in an RL fashion is not possible.
-In the next section we present, to the best of our knowledge, the only direct approach to learn non-parametric decision tree policies for MDPs; Iterative Bounding MDPs (cite). 
+In the next section we present, to the best of our knowledge, the only direct approach to learn non-parametric decision tree policies for MDPs; Iterative Bounding Markove Decision Processes (cite). 
 
-Other more specialized approaches deal with tree policies either for specific MDPs like maze (cite) or for very small depth (cite) or when the MDP model is known (cite)
+Other more specialized approaches deal with tree policies either for specific MDPs like maze (cite) or for very small depth (cite) or when the MDP model is known (cite).
 \section{Iterative Bounding Markov Decision Processes}
-In 2021, Topin et. al. introduced Iterative Bouding Markov Decision Processes (IBMDPs) with the promise of sticking the challenges of non-parametric decision tree policy learning in the problem formulation rather than in the learning algorithms.
+In 2021, Topin et. al. introduced Iterative Bouding Markov Decision Processes (IBMDPs) with the promise of shifting the challenges of non-parametric decision tree policy learning in the problem formulation rather than in the design of specialized reinforcement learning algorithms.
 Given a base MDP for which one wants to learn a decision tree policy, IBMDPs are an augmented version of this base MDP with more state features, more actions, additinal reward signal, and additional transition kernel.
-Then author showed that certain IBMDP policies, that can be learned with RL, are equivalent to decision tree policies for the base MDP. 
+Authors showed that certain IBMDP policies, that can be learned with RL, are equivalent to decision tree policies for the base MDP. 
 \subsection{Formalism}
 The key thing to know about IBMDPs is that they are, as their name suggests, MDPs. Hence they inherit all their properties such as existence of a deterministic optimal Markovian policy.
-The states in an IBMDP are concatenations of base MDP states and some observations. Those observations are some information about the base states that are refined--``iteratively bounded''-- at each step and represent a a subspace of the base MDP state space.
+The states in an IBMDP are concatenations of base MDP states and some observations. Those observations are information about the base states that are refined--``iteratively bounded''-- at each step and represent a subspace of the base MDP state space.
 Actions available in an IBMDP are the actions of the base MDP, that change the state of the latter, and \textit{information gathering} actions that change the observation part of the IBMDP state.
-Now, taking base actions in an IBMDP is rewarded like in the base MDP, this ensures that base objective, e.g. balancing the pole or treating cancer, is still encoded in the IBMDP. When taking such \textit{information gathering} actions; the reward is an arbitrary value supposed to trade-off between performance and interpretability.
+Now, taking base actions in an IBMDP is rewarded like in the base MDP, this ensures that the base objective, e.g. balancing the pole or treating cancer, is still encoded in the IBMDP reward. When taking such \textit{information gathering} actions; the reward is an arbitrary value supposed to trade-off between performance and interpretability.
  
 Before showing how to get decision trees from IBMDP policies, we give a formal definition of the latter following Topin et. al. (cite).
 
@@ -55,7 +55,7 @@ At initialization, the base part of the IBMDP states is drawn from $T_0$ and the
 The overall IBMDP transitions are given by either $T_{info}$, which i fully deterministic, if an AIG is played, and by the base MDP's transition kernel otherwise.
 \end{itemize}
 \end{definition}
-Now remains the question why policies of IBMDPs are decision tree policies of their base MDP? 
+Now remains to extract a decision tree policy for $\mathcal{M}$ from a policy for IBMDP $\mathcal{M}_{IB}$. 
 
 \subsection{From Policies to Trees}
 \begin{algorithm}[t]
@@ -86,86 +86,78 @@ Now remains the question why policies of IBMDPs are decision tree policies of th
 
 One can notice that \textit{information gathering} actions resemble the Boolean functions that make up internal decision tree nodes (cite). 
 Indeed, an agent evolving in an IBMDP essentially builds a tree by taking sequences of AIGs (internal nodes) and then a base action (leaf node) and repeats this process over time.
-However not all IBMDP policies are decision tree policies. In particular, only deterministic policies depending solely on the observation part of the IBMDP states $\pi: O \rightarrow A$ are decision tree policies $\pi_{\mathcal{T}} S \rightarrow A$for the base MDP (cite).
+However not all IBMDP policies are decision tree policies. In particular, only deterministic policies depending solely on the observation part of the IBMDP states $\pi: O \rightarrow A$ are decision tree policies $\pi_{\mathcal{T}} S \rightarrow A$ for the base MDP (cite).
 Algorithm (cite) from (cite) extracts a decision tree policy for the base MDP from a determenistic partailly observable IBMDP policy.
 
 \subsection{Didactic example}
 \begin{figure}[h]
 \centering
-\begin{tikzpicture}[scale=0.8]
-    % Row 1: IBMDP trajectory
-    % Column 1: Initial state
-    \draw (0,4) grid (2,6);
-    \node at (0.5,5.5) {A};
-    \fill[blue!20] (3,4) rectangle (5,6);
-    \node at (4,5) {Full obs};
+\begin{tikzpicture}[scale=0.5]
+    % Define styles
+    \tikzstyle{grid}=[draw, thick, fill=gray!10]
+    \tikzstyle{rectangle}=[draw, thick, fill=blue!20]
     
-    % Column 2: After AIG x<=0.5
-    \draw (6,4) grid (8,6);
-    \node at (0.5,5.5) {A};
-    \fill[blue!20] (9,4) rectangle (10,6);
-    \node at (9.5,5) {x≤0.5};
+    % Row 1: IBMDP States (s, o)
+    % t=0: Initial state
+    \draw[grid] (0,4) grid (2,6);
+    \draw[rectangle] (2,4) rectangle (4,6);  
+    % % t=1: After AIG x≤0.5
+    \draw[grid] (5,4) grid (7,6);
+    \draw[grid] (7,4) grid (9,6);
+    \draw[rectangle] (8,4) rectangle (9,6);
+
+    \draw[grid] (11,4) grid (13,6);
+    \draw[rectangle] (13,4) rectangle (15,6);
     
-    % Column 3: After base action (move right)
-    \draw (12,4) grid (14,6);
-    \node at (12.5,5.5) {A};
-    \fill[blue!20] (15,4) rectangle (17,6);
-    \node at (16,5) {Reset obs};
+    \draw[grid] (16,4) grid (18,6);
+    \draw[grid] (18,4) grid (20,6);
+    \draw[rectangle] (18,4) rectangle (19,6);
     
-    % Column 4: After AIG x>0.5
-    \draw (18,4) grid (20,6);
-    \node at (18.5,5.5) {A};
-    \fill[blue!20] (21,4) rectangle (22,6);
-    \node at (21.5,5) {x>0.5};
+    \draw[grid] (21,4) grid (23,6);
+    \draw[rectangle] (23,4) rectangle (25,6);
     
-    % Row 2: Observations only
-    \fill[blue!20] (1,1) rectangle (3,3);
-    \node at (2,2) {Full obs};
     
-    \fill[blue!20] (7,1) rectangle (8,3);
-    \node at (7.5,2) {x≤0.5};
+    % % t=2: After base action (move right)
+    % \draw[grid] (12,4) grid (14,6);
+    % \node at (13,5.5) {$(s_1, o_2)$};
+    % \node[obs] at (16,5) {Reset bounds\\$o_2 = [0,1]^2$};
     
-    \fill[blue!20] (13,1) rectangle (15,3);
-    \node at (14,2) {Reset obs};
+    % % t=3: After AIG x>0.5
+    % \draw[grid] (18,4) grid (20,6);
+    % \node at (19,5.5) {$(s_1, o_3)$};
+    % \node[obs] at (22,5) {Refined bounds\\$o_3 = [0.5,1] \times [0,1]$};
     
-    \fill[blue!20] (19,1) rectangle (20,3);
-    \node at (19.5,2) {x>0.5};
+    % % Row 2: Observations only (what policy sees)
+    % \node[obs] at (2,2) {Full bounds\\$o_0$};
+    % \node[obs] at (8,2) {Refined bounds\\$o_1$};
+    % \node[obs] at (14,2) {Reset bounds\\$o_2$};
+    % \node[obs] at (20,2) {Refined bounds\\$o_3$};
     
-    % Row 3: Tree traversal
-    \node[draw, circle] (root) at (2,0) {x≤0.5?};
-    \node[draw, circle] (left) at (0.5,-1) {Left};
-    \node[draw, circle] (right) at (3.5,-1) {x>0.5?};
-    \node[draw, circle] (right_left) at (2.5,-2) {Left};
-    \node[draw, circle] (right_right) at (4.5,-2) {Right};
     
-    \draw[->] (root) -- (left);
-    \draw[->] (root) -- (right);
-    \draw[->] (right) -- (right_left);
-    \draw[->] (right) -- (right_right);
+    % % Column labels
+    % \node at (2,6.5) {t=0};
+    % \node at (8,6.5) {t=1};
+    % \node at (14,6.5) {t=2};
+    % \node at (20,6.5) {t=3};
     
-    % Highlight current path
-    \draw[red, thick, ->] (root) -- (right);
-    \draw[red, thick, ->] (right) -- (right_right);
+    % % Row labels
+    % \node[rotate=90] at (-1,5) {\textbf{IBMDP States}};
+    % \node[rotate=90] at (-1,2) {\textbf{Observations}};
+    % \node[rotate=90] at (-1,0) {\textbf{Tree Traversal}};
     
-    % Column labels
-    \node at (2.5,6.5) {t=0};
-    \node at (8.5,6.5) {t=1};
-    \node at (14.5,6.5) {t=2};
-    \node at (20.5,6.5) {t=3};
-    
-    % Row labels
-    \node[rotate=90] at (-1,5) {IBMDP States};
-    \node[rotate=90] at (-1,2) {Observations};
-    \node[rotate=90] at (-1,0) {Tree Traversal};
+    % % Action labels
+    % \node[above] at (4,7) {AIG: $x \leq 0.5$};
+    % \node[above] at (16,7) {Base: $\rightarrow$};
+    % \node[above] at (22,7) {AIG: $x > 0.5$};
     
 \end{tikzpicture}
-\caption{POIBMDP trajectory showing state transitions, observation updates, and corresponding tree traversal.}
+\caption{POIBMDP trajectory showing state transitions, observation updates, and corresponding decision tree traversal. The red path highlights the current tree traversal based on the observation sequence.}
 \label{fig:poibmdp_trajectory}
 \end{figure}
 \subsection{Partially Observable IBMDPs}
 
-So now we know that to find a decision tree policy for a given MPD $\mathcal{M}$ satisfying def (cite); one has to find a partially observable deterministic policy for an IBMDP $\mathcal{M}_{IB}$.
-Such problems are classical instances of Partially Observable MDPs (POMDPs) (cite). This connection with POMDP was not done by the authors of IBMDPs. 
+Now we know that to find a decision tree policy for a given MPD $\mathcal{M}$ satisfying the definition (cite); one has to find a partially observable--sometimes called \textit{memoryless} or \textit{reactive}--deterministic policy for an IBMDP $\mathcal{M}_{IB}$.
+Such problems are classical instances of Partially Observable Markov Decision Processes (POMDPs) (cite). This connection with POMDP was not done by the authors of IBMDPs. 
 
 \begin{definition}[Partially Observable Markov Decision Processes]
 A Partially Observable Markov Decision Process (POMDP) is a tuple $\langle X, A, O, T, T_0, \Omega, R\rangle$ where:
@@ -181,21 +173,20 @@ A Partially Observable Markov Decision Process (POMDP) is a tuple $\langle X, A,
 Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP (cite).
 \end{definition}
 
-And so we can simply extend the definition of Iterative Bounding MDPs (cite) with an observation kernel to get Partially Observable IBMDPs:
-\begin{definition}[Partially Observable Iterative Bounding Markov Decision Processes] a Partially Observable Iterative Bounding Markov Decision Process (IBMDP) is a an IBMDP extended with an observation kernel 
+We can simply extend the definition of Iterative Bounding MDPs (cite) with an observation kernel to get Partially Observable IBMDPs:
+\begin{definition}[Partially Observable Iterative Bounding Markov Decision Processes] a Partially Observable Iterative Bounding Markov Decision Process (POIBMDP) is a an IBMDP extended with an observation kernel 
     \begin{align*}
         \langle \overbrace{S, \underbrace{O}_{\text{Observations}}}^{\text{fully observable states X}}, \underbrace{A, A_{info}}_{A}, \overbrace{R, \zeta}^{R}, \underbrace{T_{info}, T, T_0}_{T, T_0}, \Omega \rangle
     \end{align*}
 \end{definition}
 
-The sole specifity of Partially observable IBMDPs compared to the general definition of POMDPs, is that $\Omega(o|(s, o'))$, the probability of observing $o$ in $(s,o')$, is $1_{o=o'}$.
-This particular instance of POMDPs with observations being some indices of the fully-observable states has many name in the litterature: Mixed Observability MDPs (cite), Block MDPs (cite).
+The sole specifity of POIBMDPs compared to the general definition of POMDPs, is that $\Omega(o|(s, o'))$, the probability of observing $o$ in $(s,o')$, is $1_{o=o'}$.
+This particular instance of POMDPs with observations being some indices of the fully-observable states has other names in the litterature: Mixed Observability MDPs (cite), Block MDPs (cite).
 POIBMDPs can also be seen as non-stationary MDPs in which there is one different transition kernel per base MDP state: these are called Hidden-Mode MDPs (cite). 
 
-Following (cite) we can write the definition of the value of a deterministic partially observable policy $\pi:O\rightarrow A$ in observation $o$:
-Similarly we can define value functions that depend only on the partial observations $O$ following (cite):
+Following (cite) we can write the definition of the value of a deterministic partially observable policy $\pi:O\rightarrow A$ in observation $o$.
 
-\begin{definition}[Partial observable value function] The expected cumulative discounted reward a deterministic partially observable policy $\pi:O\rightarrow A$ starting from observation $o$ is $V^{\pi}(o)$:
+\begin{definition}[Partial observable value function] The expected cumulative discounted reward of a deterministic partially observable policy $\pi:O\rightarrow A$ starting from observation $o$ is $V^{\pi}(o)$:
     \begin{align*}
         V^{\pi}(o) &= \underset{(s,o')\in S\times O}{\sum}P^{\pi}((s, o')|o)V^{\pi}((s, o'))
     \end{align*}
@@ -209,13 +200,14 @@ The problem that we solve is to find the deterministic partially observable poli
 \begin{align}
     \pi^{\star} &= \underset{\pi}{\operatorname{argmax}}J(\pi) = \underset{\pi}{\operatorname{argmax}}V^{\pi}(o_0)
 \end{align}
-With $\pi:O\rightarrow A$. There is no expectation over possible initial observation in the above objective function as in there is only one initial observation in a (PO)IBMDP: $o_0=(L_1, U_1, \dots, L_n, U_n)$.
+With $\pi:O\rightarrow A$. There is no expectation over possible initial observation in the above objective function as there is only one initial observation in a POIBMDP: $o_0=(L_1, U_1, \dots, L_n, U_n)$.
 
-This particular problem of learning deterministic partiall-observable policies for POMDPs has been studied in the works of Littman, Singh and Jordan: (cite).
-In (cite) atuhors give som intution behind why problem (cite) is hard. The optimal partially-observable policy can be stochastic (cite precise section), hence policy gradient algoriothms (cite) are to avoid. And the optimal deterministic patially-observable policy might not maximize all the value of all observations simulataneously (cite precise section) which makes difficult to  use the Bellman optimality equation to compute policies.
+This particular problem of learning deterministic partially observable policies for POMDPs has been studied in the works of Littman, Singh and Jordan: (cite).
+In (cite) atuhors give som intution behind why the above optimization problem is hard. For example, the optimal partially observable policy can be stochastic (cite precise section), hence policy gradient algoriothms (cite) are to avoid. 
+Furthermore, the optimal deterministic patially observable policy might not maximize all the value of all observations simulataneously (cite precise section) which makes difficult the use the Bellman optimality equation (cite) to compute policies.
 Despite those hardness results, empirical results of applying RL to POMDPs by naively setting the states to be observations has shown promising results (cite). 
-More recently, the framework of Baisero et. al. called asymmetric RL has also shown promising empirical and theoretical results when leveraging fully-observable state information during training of a partially-observable policy.
-In the next chapter, we use reinforcement learning to train decision tree policies for MDPs by seeking deterministic partially-observable policies for POMDPs following the (PO)IBMDP framework developed in (cite).  
+More recently, the framework of Baisero et. al. (cite) called asymmetric RL has also shown promising empirical and theoretical results when leveraging fully-observable state information during training of a partially observable policy.
+In the next chapter, we use reinforcement learning to train decision tree policies for MDPs by seeking deterministic partially observable policies for POIBMDPs (cite).  
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}[
