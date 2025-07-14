@@ -122,7 +122,7 @@ Algorithm (cite) from (cite) extracts a decision tree policy for the base MDP fr
 
 \begin{figure}[h]
 \centering
-\begin{tikzpicture}[scale=0.5]
+\begin{tikzpicture}[scale=0.6]
     % Define styles
     \tikzstyle{grid}=[draw, thick, fill=gray!10]
     \tikzstyle{rectangle}=[draw, thick, fill=blue!20]
@@ -220,14 +220,14 @@ Algorithm (cite) from (cite) extracts a decision tree policy for the base MDP fr
 
     
 \end{tikzpicture}
-\caption{POIBMDP trajectory showing state transitions, observation updates, and corresponding decision tree traversal. The red path highlights the current tree traversal based on the observation sequence.}
+\caption{An IBMDP trajectory when the base MDP is 2$\times$2 grid world, and equivalent decision tree policy traversal. At $t=0$, the agent is in $s_1 = (0.5, 1.5)$. The initial observation is always the base MDP state bounds, here $(0, 2, 0, 2)$ because the base states are in $[0, 2] \times [0, 2]$. The agent takes an information gathering action in $A_{info}$ that tests the feature $x$ of the states against the value $1$. For that, the agent receives reward $\zeta$. This transition corresponds to going through an internal node in a decision tree policy as illustrated in the figure. At $t=1$, after gathering the information that the $x$-value of the current base state is below 1, the observation is updated with the refined state bounds $o_t=(0, 1, 0, 2)$ and the base state remains unchanged. The agent then takes a base action that is to move right. This gives a reward 0, reinitialized the observation to the original bounds, and changes the base state to $s_t=(1.5, 1.5)$. And the trajectory continues like this until the agent reaches the absorbing state $s_g=(1.5, 0.5)$}
 \label{fig:poibmdp_trajectory}
 \end{figure}
 
 We now present a didactic example of how some policies in IBMDPs correspond to a decision tree policy. 
 Suppose a factored MDP representing a grid world with 4 cells (cite). The state space is $S = \{(0.5, 0.5), (0.5, 1.5), (1.5, 1.5), (1.5, 0.5)\}\subsetneq [0, 2] \times [0, 2]$.
 The actions space are the cardinal directions $A = \{\rightarrow, \leftarrow, \downarrow, \uparrow\}$ that shift the states by one as long as the coordinates remain in the grid.
-The reward for taking any action is 0 except when in the bottom right state $s_g = (1.5, 0.5)$. 
+The reward for taking any action is 0 except when in the bottom right state $s_g = (1.5, 0.5)$ which is an absorbing state: once in this state, you stay there forever. 
 
 In Figure (cite), we present how trajectories in IBMDP correspond to a decision tree policy.
 
