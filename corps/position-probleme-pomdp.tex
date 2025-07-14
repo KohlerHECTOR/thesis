@@ -92,6 +92,36 @@ Algorithm (cite) from (cite) extracts a decision tree policy for the base MDP fr
 \subsection{Didactic example}
 \begin{figure}[h]
 \centering
+\begin{tikzpicture}
+    \tikzstyle{grid}=[draw, thick, fill=gray!10]
+    
+    % Draw grid
+    \draw[grid] (0,0) grid (2,2);
+    
+    % Add axes
+    \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
+    \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
+    
+    % Add tick marks and labels
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
+    }
+    
+    % Add state labels clockwise from bottom left
+    \node at (0.5,0.5) {$s_0$};
+    \node at (1.5,0.5) {$\star$};
+    \node at (1.5,0.3) {$s_g$};
+    \node at (1.5,1.5) {$s_2$};
+    \node at (0.5,1.5) {$s_1$};
+\end{tikzpicture}
+\caption{Grid MDP}
+\end{figure}
+
+\begin{figure}[h]
+\centering
 \begin{tikzpicture}[scale=0.5]
     % Define styles
     \tikzstyle{grid}=[draw, thick, fill=gray!10]
@@ -99,61 +129,108 @@ Algorithm (cite) from (cite) extracts a decision tree policy for the base MDP fr
     
     % Row 1: IBMDP States (s, o)
     % t=0: Initial state
+    \node at (2,8.5) {\small $t=0$};
+    \node at (2,7.5) {\small $s_t=(0.5, 1.5)$};
+    \node at (2,6.5) {\small $o_t=(0, 2, 0, 2)$};
+
     \draw[grid] (0,4) grid (2,6);
+    \node at (0.5, 5.5) {$\mathcal{A}$};
+    \node at (1.5, 4.5) {$\star$};
+
     \draw[rectangle] (2,4) rectangle (4,6);  
+    
+    % Curved arrow from t=0 to t=1
+    \draw[thick, ->] (2,4) to[bend right=30] node[midway, below] {\small $a_t = x \leq 1, r_t = \zeta$} (7,4);
+
     % % t=1: After AIG x≤0.5
+    \node at (7,8.5) {\small $t=1$};
+    \node at (7,7.5) {\small $s_t=(0.5, 1.5)$};
+    \node at (7,6.5) {\small $o_t=(0, 1, 0, 2)$};
+
     \draw[grid] (5,4) grid (7,6);
+    \node at (5.5, 5.5) {$\mathcal{A}$};
+    \node at (6.5, 4.5) {$\star$};
+
     \draw[grid] (7,4) grid (9,6);
     \draw[rectangle] (8,4) rectangle (9,6);
 
-    \draw[grid] (11,4) grid (13,6);
-    \draw[rectangle] (13,4) rectangle (15,6);
+    % Curved arrow from t=1 to t=2
+    \draw[thick, ->] (7,4) to[bend right=30] node[midway, below] {\small $a_t = \rightarrow, r_t = 0$}(12,4);
+
+    \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,1) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-2) {$\rightarrow$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-2) {$\downarrow$};
+    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    \node at (12,8.5) {\small $t=2$};
+    \node at (12,7.5) {\small $s_t=(1.5, 1.5)$};
+    \node at (12,6.5) {\small $o_t=(0, 2, 0, 2)$};
     
-    \draw[grid] (16,4) grid (18,6);
-    \draw[grid] (18,4) grid (20,6);
-    \draw[rectangle] (18,4) rectangle (19,6);
+    \draw[grid] (10,4) grid (12,6);
+    \node at (11.5, 5.5) {$\mathcal{A}$};
+    \node at (11.5, 4.5) {$\star$};
+    \draw[rectangle] (12,4) rectangle (14,6);
     
-    \draw[grid] (21,4) grid (23,6);
-    \draw[rectangle] (23,4) rectangle (25,6);
+    % Curved arrow from t=2 to t=4
+    \draw[thick, ->] (12,4) to[bend right=30] node[midway, below] {\small $a_t = x \leq 1, r_t = \zeta$} (17,4);
+
+    \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,1) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-2) {$\rightarrow$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-2) {$\downarrow$};
+    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
     
+    \node at (17,8.5) {\small $t=4$};
+    \node at (17,7.5) {\small $s_t=(1.5, 1.5)$};
+    \node at (17,6.5) {\small $o_t=(1, 2, 0, 2)$};
+
+    \draw[grid] (15,4) grid (17,6);
+    \node at (16.5, 5.5) {$\mathcal{A}$};
+    \node at (16.5, 4.5) {$\star$};
+    \draw[grid] (17,4) grid (19,6);
+    \draw[rectangle] (17,4) rectangle (18,6);
     
-    % % t=2: After base action (move right)
-    % \draw[grid] (12,4) grid (14,6);
-    % \node at (13,5.5) {$(s_1, o_2)$};
-    % \node[obs] at (16,5) {Reset bounds\\$o_2 = [0,1]^2$};
+    \draw[thick, ->] (17,4) to[bend right=30] node[midway, below] {\small $a_t = \downarrow, r_t = 0$} (22,4);
     
-    % % t=3: After AIG x>0.5
-    % \draw[grid] (18,4) grid (20,6);
-    % \node at (19,5.5) {$(s_1, o_3)$};
-    % \node[obs] at (22,5) {Refined bounds\\$o_3 = [0.5,1] \times [0,1]$};
+    \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,1) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-2) {$\rightarrow$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-2) {$\downarrow$};
+    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+
+    \node at (22,8.5) {\small $t=5$};
+    \node at (22,7.5) {\small $s_t=(1.5, 0.5)$};
+    \node at (22,6.5) {\small $o_t=(0, 2, 0, 2)$};
+ 
+    \draw[grid] (20,4) grid (22,6);
+    \node at (21.5, 4.5) {$\mathcal{A}$};
+    \node at (21.5, 4.5) {$\star$};
+    \draw[rectangle] (22,4) rectangle (24,6);
+
+    \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,1) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-2) {$\rightarrow$};
+    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-2) {$\downarrow$};
+    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
     
-    % % Row 2: Observations only (what policy sees)
-    % \node[obs] at (2,2) {Full bounds\\$o_0$};
-    % \node[obs] at (8,2) {Refined bounds\\$o_1$};
-    % \node[obs] at (14,2) {Reset bounds\\$o_2$};
-    % \node[obs] at (20,2) {Refined bounds\\$o_3$};
-    
-    
-    % % Column labels
-    % \node at (2,6.5) {t=0};
-    % \node at (8,6.5) {t=1};
-    % \node at (14,6.5) {t=2};
-    % \node at (20,6.5) {t=3};
-    
-    % % Row labels
-    % \node[rotate=90] at (-1,5) {\textbf{IBMDP States}};
-    % \node[rotate=90] at (-1,2) {\textbf{Observations}};
-    % \node[rotate=90] at (-1,0) {\textbf{Tree Traversal}};
-    
-    % % Action labels
-    % \node[above] at (4,7) {AIG: $x \leq 0.5$};
-    % \node[above] at (16,7) {Base: $\rightarrow$};
-    % \node[above] at (22,7) {AIG: $x > 0.5$};
+
     
 \end{tikzpicture}
 \caption{POIBMDP trajectory showing state transitions, observation updates, and corresponding decision tree traversal. The red path highlights the current tree traversal based on the observation sequence.}
 \label{fig:poibmdp_trajectory}
 \end{figure}
+
+We now present a didactic example of how some policies in IBMDPs correspond to a decision tree policy. 
+Suppose a factored MDP representing a grid world with 4 cells (cite). The state space is $S = \{(0.5, 0.5), (0.5, 1.5), (1.5, 1.5), (1.5, 0.5)\}\subsetneq [0, 2] \times [0, 2]$.
+The actions space are the cardinal directions $A = \{\rightarrow, \leftarrow, \downarrow, \uparrow\}$ that shift the states by one as long as the coordinates remain in the grid.
+The reward for taking any action is 0 except when in the bottom right state $s_g = (1.5, 0.5)$. 
+
+In Figure (cite), we present how trajectories in IBMDP correspond to a decision tree policy.
+
 \subsection{Partially Observable IBMDPs}
 
 Now we know that to find a decision tree policy for a given MPD $\mathcal{M}$ satisfying the definition (cite); one has to find a partially observable--sometimes called \textit{memoryless} or \textit{reactive}--deterministic policy for an IBMDP $\mathcal{M}_{IB}$.
