@@ -30,7 +30,7 @@ Now, taking base actions in an IBMDP is rewarded like in the base MDP, this ensu
 Before showing how to get decision trees from IBMDP policies, we give a formal definition of the latter following Topin et. al. (cite).
 
 \begin{definition}[Iterative Bounding Markov decision process]
-Given a \textit{factored} (cite) MDP $\mathcal{M}$ (cite), that is, a tuple $\langle S, A, R, T, T_0 \rangle$ with $S\subsetneq \mathbb{R}^n$, an Iterative Bouding MDP $\mathcal{M_ib}$ is a tuple:
+Given a \textit{factored} (cite) MDP $\mathcal{M}$ (cite), that is, a tuple $\langle S, A, R, T, T_0 \rangle$ with $S\subsetneq \mathbb{R}^n$, an Iterative Bouding MDP $\mathcal{M}_ib$ is a tuple:
 \begin{align*}
     \langle \overbrace{S, O}^{\text{State space}}, \underbrace{A, A_{info}}_{\text{Action space}}, \overbrace{R, \zeta}^{\text{Reward function}}, \underbrace{T_{info}, T, T_0}_{\text{Transition kernels}}\rangle
 \end{align*}
@@ -80,13 +80,12 @@ Now remains to extract a decision tree policy for $\mathcal{M}$ from a policy fo
         }
     }
     
-    \Return Subtree\_From\_Policy$(obs, \pi)$
     \caption{Extract a Decision Tree Policy from an IBMDP policy $\pi$, beginning traversal from $obs$.}\label{alg_extract_tree}
 \end{algorithm}
 
 One can notice that \textit{information gathering} actions resemble the Boolean functions that make up internal decision tree nodes (cite). 
 Indeed, an agent evolving in an IBMDP essentially builds a tree by taking sequences of AIGs (internal nodes) and then a base action (leaf node) and repeats this process over time.
-However not all IBMDP policies are decision tree policies. In particular, only deterministic policies depending solely on the observation part of the IBMDP states $\pi: O \rightarrow A$ are decision tree policies $\pi_{\mathcal{T}} S \rightarrow A$ for the base MDP (cite).
+However not all IBMDP policies are decision tree policies. In particular, only deterministic policies depending solely on the observation part of the IBMDP states $\pi: O \rightarrow A\cup A_{info}$ are decision tree policies $\pi_{\mathcal{T}}: S \rightarrow A$ for the base MDP (cite).
 Algorithm (cite) from (cite) extracts a decision tree policy for the base MDP from a determenistic partailly observable IBMDP policy.
 
 \subsection{Didactic example}
@@ -117,7 +116,7 @@ Algorithm (cite) from (cite) extracts a decision tree policy for the base MDP fr
     \node at (1.5,1.5) {$s_2$};
     \node at (0.5,1.5) {$s_1$};
 \end{tikzpicture}
-\caption{Grid MDP}
+\caption{A grid world MDP state space: it is a $2\times2$ grid.}
 \end{figure}
 
 \begin{figure}[h]
@@ -125,7 +124,7 @@ Algorithm (cite) from (cite) extracts a decision tree policy for the base MDP fr
 \begin{tikzpicture}[scale=0.6]
     % Define styles
     \tikzstyle{grid}=[draw, thick, fill=gray!10]
-    \tikzstyle{rectangle}=[draw, thick, fill=blue!20]
+    \tikzstyle{rectangle}=[draw, thick, fill=red!20]
     
     % Row 1: IBMDP States (s, o)
     % t=0: Initial state
@@ -220,7 +219,7 @@ Algorithm (cite) from (cite) extracts a decision tree policy for the base MDP fr
 
     
 \end{tikzpicture}
-\caption{An IBMDP trajectory when the base MDP is 2$\times$2 grid world, and equivalent decision tree policy traversal. At $t=0$, the agent is in $s_1 = (0.5, 1.5)$. The initial observation is always the base MDP state bounds, here $(0, 2, 0, 2)$ because the base states are in $[0, 2] \times [0, 2]$. The agent takes an information gathering action in $A_{info}$ that tests the feature $x$ of the states against the value $1$. For that, the agent receives reward $\zeta$. This transition corresponds to going through an internal node in a decision tree policy as illustrated in the figure. At $t=1$, after gathering the information that the $x$-value of the current base state is below 1, the observation is updated with the refined state bounds $o_t=(0, 1, 0, 2)$ and the base state remains unchanged. The agent then takes a base action that is to move right. This gives a reward 0, reinitialized the observation to the original bounds, and changes the base state to $s_t=(1.5, 1.5)$. And the trajectory continues like this until the agent reaches the absorbing state $s_g=(1.5, 0.5)$}
+\caption{An IBMDP trajectory when the base MDP is 2$\times$2 grid world, and equivalent decision tree policy traversal. At $t=0$, the agent is in $s_1 = (0.5, 1.5)$. The initial observation is always the base MDP state bounds, here $(0, 2, 0, 2)$ because the base states are in $[0, 2] \times [0, 2]$. The agent takes an information gathering action in $A_{info}$ that tests the feature $x$ of the states against the value $1$. For that, the agent receives reward $\zeta$. This transition corresponds to going through an internal node in a decision tree policy as illustrated in the figure. At $t=1$, after gathering the information that the $x$-value of the current base state is below 1, the observation is updated with the refined state bounds $o_t=(0, 1, 0, 2)$ and the base state remains unchanged. The agent then takes a base action that is to move right. This gives a reward 0, reinitialized the observation to the original bounds, and changes the base state to $s_t=(1.5, 1.5)$. And the trajectory continues like this until the agent reaches the absorbing state $s_g=(1.5, 0.5)$.}
 \label{fig:poibmdp_trajectory}
 \end{figure}
 
@@ -251,7 +250,7 @@ Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP (cite).
 \end{definition}
 
 We can simply extend the definition of Iterative Bounding MDPs (cite) with an observation kernel to get Partially Observable IBMDPs:
-\begin{definition}[Partially Observable Iterative Bounding Markov Decision Processes] a Partially Observable Iterative Bounding Markov Decision Process (POIBMDP) is a an IBMDP extended with an observation kernel 
+\begin{definition}[Partially Observable Iterative Bounding Markov Decision Processes] a Partially Observable Iterative Bounding Markov Decision Process (POIBMDP) is a an IBMDP (cite) extended with an observation kernel 
     \begin{align*}
         \langle \overbrace{S, \underbrace{O}_{\text{Observations}}}^{\text{fully observable states X}}, \underbrace{A, A_{info}}_{A}, \overbrace{R, \zeta}^{R}, \underbrace{T_{info}, T, T_0}_{T, T_0}, \Omega \rangle
     \end{align*}
@@ -263,7 +262,7 @@ POIBMDPs can also be seen as non-stationary MDPs in which there is one different
 
 Following (cite) we can write the definition of the value of a deterministic partially observable policy $\pi:O\rightarrow A$ in observation $o$.
 
-\begin{definition}[Partial observable value function] The expected cumulative discounted reward of a deterministic partially observable policy $\pi:O\rightarrow A$ starting from observation $o$ is $V^{\pi}(o)$:
+\begin{definition}[Partial observable value function] In a POIBMDP, the expected cumulative discounted reward of a deterministic partially observable policy $\pi:O\rightarrow A\cup A_{info}$ starting from observation $o$ is $V^{\pi}(o)$:
     \begin{align*}
         V^{\pi}(o) &= \underset{(s,o')\in S\times O}{\sum}P^{\pi}((s, o')|o)V^{\pi}((s, o'))
     \end{align*}
@@ -277,7 +276,7 @@ The problem that we solve is to find the deterministic partially observable poli
 \begin{align}
     \pi^{\star} &= \underset{\pi}{\operatorname{argmax}}J(\pi) = \underset{\pi}{\operatorname{argmax}}V^{\pi}(o_0)
 \end{align}
-With $\pi:O\rightarrow A$. There is no expectation over possible initial observation in the above objective function as there is only one initial observation in a POIBMDP: $o_0=(L_1, U_1, \dots, L_n, U_n)$.
+With $\pi:O\rightarrow A\cup A_{info}$. There is no expectation over possible initial observation in the above objective function as there is only one initial observation in a POIBMDP: $o_0=(L_1, U_1, \dots, L_n, U_n)$.
 
 This particular problem of learning deterministic partially observable policies for POMDPs has been studied in the works of Littman, Singh and Jordan: (cite).
 In (cite) atuhors give som intution behind why the above optimization problem is hard. For example, the optimal partially observable policy can be stochastic (cite precise section), hence policy gradient algoriothms (cite) are to avoid. 
@@ -287,60 +286,37 @@ More recently, the framework of Baisero et. al. (cite) called asymmetric RL has 
 In the next chapter, we use reinforcement learning to train decision tree policies for MDPs by seeking deterministic partially observable policies for POIBMDPs (cite).  
 \begin{figure}[h]
 \centering
-\begin{tikzpicture}[
-    box/.style={rectangle, draw, minimum width=4cm, minimum height=3cm, align=center},
-    inner box/.style={box, fill=blue!10},
-    middle box/.style={box, fill=green!10},
-    outer box/.style={box, fill=red!10}
-]
-    % Nested boxes (left side)
-    \node[outer box, anchor=south west] (poibmdp) at (0,0) {
-        \textbf{POIBMDP}\\
-        $+\Omega$
-    };
+\begin{tikzpicture}
+    \draw[fill=blue!40] (0, 0) rectangle (6, 4);
+    \node at (3, 3.5) {POIBMDP $\mathcal{M}_{POIB}\langle\mathcal{M}_{IB}, \Omega\rangle$};
+    \draw[fill=blue!30] (0, 0) rectangle (5.9, 3);
+    \node at (3, 2.5) {IBMDP $\mathcal{M}_{IB} \langle \mathcal{M}, O, A_{info}, \zeta, T_{info}\rangle$};
+    \draw[fill=blue!10] (0, 0) rectangle (5, 2);
+    \node at (3, 1.5) {MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$};
     
-    \node[middle box, scale=0.8, anchor=south west] (ibmdp) at (0,0) {
-        \textbf{IBMDP}\\
-        $+O, T_{info}$
-    };
+    \draw[fill=red!10] (10, 0) rectangle (14, 3);
+    \node at (12, 2) {\textbf{Objective}};
+    \node at (12, 1) {$\pi^{\star} = \underset{\pi}{\operatorname{argmax}} V^{\pi}(o_0)$};
     
-    \node[inner box, scale=0.4, anchor=south west] (base) at (0,0) {
-        \textbf{Base MDP}\\
-        $\langle S, A, R, T, T_0 \rangle$
-    };
+    \draw[fill=red!10] (1, -5) rectangle (5, -2);
+    \node at (3, -3) {\textbf{Decision Tree Policy}};
+    \node at (3, -4) {$\pi_{\mathcal{T}}: S \rightarrow A$};
     
-    % Hyperparameters arrows
-    \draw[dashed, thick, ->] (-1.5, 3) -- (-0.3, 1.5) node[midway, above, sloped] {$+\zeta, A_{info}$};
-    \draw[dashed, thick, ->] (5.5, 3) -- (4.7, 1.5) node[midway, above, sloped] {$+\gamma$};
+    \draw[fill=red!10] (9.5, -5) rectangle (14.5, -2);
+    \node at (12, -3) {\textbf{Deterministic PO Policy}};
+    \node at (12, -4) {$\pi: O \rightarrow A \cup A_{info}$};
     
-    % Objective function box (top right)
-    \node[box, fill=yellow!10] (objective) at (5, 0) {
-        \textbf{Objective}\\
-        $\pi^{\star} = \underset{\pi}{\operatorname{argmax}} V^{\pi}(o_0)$
-    };
+    \draw[thick, ->] (6, 2) -- (10, 2) node[midway, above] {$\gamma$};
+    \draw[thick, <-] (5, -3.5) -- (9.5, -3.5) node[midway, above] {Extract tree with Alg 6};
+    \draw[thick, ->] (12, 0) -- (12, -2) node[midway, left] {Solve with e.g. RL};
+    \draw[thick, <-] (3, 0.5) -- (3, -2) node[midway, left] {Can be interpreted};
+
     
-    % Policy box (bottom right)
-    \node[box, fill=orange!10] (policy) at (5, -4) {
-        \textbf{Policy}\\
-        $\pi^{\star}: O \rightarrow A$
-    };
-    
-    % Decision tree box (bottom left)
-    \node[box, fill=purple!10] (tree) at (0, -4) {
-        \textbf{Decision Tree}\\
-        \includegraphics[width=1.5cm]{images/images_intro/decision-tree-svgrepo-com.svg}
-    };
-    
-    % Main flow arrows
-    \draw[thick, ->] (4, 1.5) -- (5, 1.5) node[midway, above] {solve};
-    \draw[thick, ->] (5, -1) -- (5, -3) node[midway, right] {solve with\\e.g. RL};
-    \draw[thick, ->] (4, -4) -- (1, -4) node[midway, above] {extract tree\\\small{(alg 6)}};
-    
-    % Final arrow from tree back to base MDP
-    \draw[thick, ->] (0.5, -2.5) -- (0.5, -0.5) node[midway, right] {Can deploy\\and interpret};
+    % % Final arrow from tree back to base MDP - adjusted position
+    % \draw[thick, ->] (1.75, -2.5) -- (1.75, -0.5) node[midway, right] {Can deploy\\and interpret};
     
 \end{tikzpicture}
-\caption{Nested structure of decision processes: Base MDP (innermost), IBMDP (middle), and POIBMDP (outermost).}
+\caption{A formal framework to learn decision tree policies for MDPs. This include learning a partially observable deterministic policy in a POIBMDP (cite).}
 \label{fig:nested_decision_processes}
 \end{figure}
 
