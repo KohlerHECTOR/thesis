@@ -1,119 +1,155 @@
 \chapter{The Limits of Direct Reinforcement Learning of Decision Tree Policies}
-\section{Grid World tabular solutions}
-In this section, for the sake of example, we assume that a dictionary with 4 key-value pais is less interpretable than a depth-1 decision tree.
-In Figure~\ref{fig:optimal-policy}, we illustrate \textit{a}--there are others--tabular optimal policy for the grid world MDP described in the previous section, i.e. that maximizes the objective (cite). 
-In any starting state, the agent will move towards the abosrbing state with positive reward.
-\begin{figure}[ht]
-\centering
-\begin{tikzpicture}[scale=1.5]
-    % Draw the grid cells
-    \draw (0,0) grid (2,2);
-    
-    % Add ticks on axes
-    \foreach \x in {0,1,2}
-        \node[below] at (\x,0) {$\x$};
-    \foreach \y in {0,1,2}
-        \node[left] at (0,\y) {$\y$};
-    
-    \node[left] at (-0.5, 1) {$y$};
-    \node[below] at (1, -0.5) {$x$};
-    
-    % Label cells
-    \node at (0.5,0.5) {$\times$};
-    \node at (0.6,0.48) {$\rightarrow$};
+Using the formal framework of POIBMDPs presented in the previous chapter (cite), we highlight the key challenges of direct model-free reinforcement learning to grow non-parametric decision tree policies.
+For that, we will apply various reinforcement learning baselines to learn partially observable deterministic policies in POIBMDPs where the base MDP is the $2\times2$ grid world defined here (cite).
+The promise of direct reinforcement learning for non-parametric trees is the promise of algorithms that can autonomously find the best trade-off between policy performance and policy interpretability.
+As stated previously, when using indirect methods to grow non-parametric tree policies, the teacher policy migh be hard to imitate with small trees even such small trees might be perform in the downstream task.
+Similarly, while direct methods for parametric trees might be able to find such small trees, their success relies heavily on the inductive bias from the \textit{a priori} knowledge of a good tree structure.
+What is key is that the two previously mentioned approaches simply might not have the tree with the best trade-off in their solution space; either the teacher policy cant be imitated with the latter or the user specified tree structure is not the correct one.
+It is not a learning problem, but a objective formulation problem.
 
-    \node at (0.5,1.5) {$\times$};
-    \node at (0.5,1.4) {$\rightarrow$};
+On the other hand, we will show next that POIBMDPs indeed include the best trade-off in their solution space but the learning is too difficult.
+\section{Grid world MDP policies and limitation of indirect methods}
 
-    \node at (1.5,1.5) {$\times$};
-    \node at (1.5,1.4) {$\downarrow$};
-    
-    % Goal state in bottom right with double border
-    \draw[line width=2pt] (1,0) rectangle (2,1);
-    \node at (1.5,0.5) {$\star$};
-    \node at (1.6,0.48) {$\leftarrow$};
-
-    % Draw the grid cells
-    \draw (3,0) grid (5,2);
-    
-    % Add ticks on axes
-    \foreach \x in {3,4,5}
-        \node[below] at (\x,0) {$\x$};
-    \foreach \y in {0, 1, 2}
-        \node[left] at (3,\y) {$\y$};
-    
-    \node[left] at (-3.5, 1) {$y$};
-    \node[below] at (4, -0.5) {$x$};
-    
-    % Label cells
-    \node at (3.5,0.5) {$\times$};
-    \node at (3.6,0.48) {$\rightarrow$};
-
-    \node at (3.5,0.5) {$\times$};
-    \node at (3.5,0.4) {$\rightarrow$};
-
-    \node at (4.5,0.5) {$\times$};
-    \node at (4.5,0.4) {$\downarrow$};
-    
-    % Goal state in bottom right with double border
-    \draw[line width=2pt] (4,0) rectangle (5,1);
-    \node at (4.5,0.5) {$\star$};
-    \node at (4.6,0.48) {$\downarrow$};
-
-    
-\end{tikzpicture}
-\caption{Optimal tabular policies for the grid world.}\label{fig:optimal-policy}
-\end{figure}
-
-
-\begin{figure}[htbp]
+\begin{figure}[h]
     \centering
     \begin{tikzpicture}[
-        scale=1.0,
         decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
         leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
         edge_label/.style={font=\footnotesize, midway}
     ]
         % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree4_root) at (0,0) {$x \leq \frac{1}{2}$};
-        \node[leaf] (tree4_right) at (-2,-2) {$\rightarrow$};
-        \node[leaf] (tree4_left) at (2,-2) {$\downarrow$};
+        \node[decision] (tree4_root) at (8,2) {$x \leq 1$};
+        \node[leaf] (tree4_right) at (7,0) {$\rightarrow$};
+        \node[leaf] (tree4_left) at (9,0) {$\leftarrow$};
+        \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
+        \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+        
+        % Draw grid
+        \draw[grid] (0,0) grid (2,2);
+        
+        % Add axes
+        \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
+        \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
+        
+        % Add tick marks and labels
+        \foreach \x in {0,1,2} {
+            \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
+        }
+        \foreach \y in {0,1,2} {
+            \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
+        }
+        
+        % Add state labels clockwise from bottom left
+        \node at (0.5,0.5) {{\color{green} $\rightarrow$}};
+        \node at (1.5,0.5) {$\star$};
+        \node at (1.5,0.7) {{\color{red} $\uparrow$}};
+        \node at (1.5,0.3) {{\color{green} $\downarrow$}};
+        \node at (1.7,0.5) {{\color{green} $\rightarrow$}};
+        \node at (1.3,0.5) {{\color{red} $\leftarrow$}};
+        \node at (1.5,1.5) {{\color{green} $\downarrow$}};
+        \node at (0.2,1.3) {{\color{green} $\downarrow$}};
+        \node at (0.5,1.5) {{\color{green} $\rightarrow$}};
+
+    \end{tikzpicture}
+    \caption{Grid world MDP optimal actions. An optimal policy that takes any of the red actions in the bottom right state might not be imitated by the best depth-1 tree in terms of performance interpretability trade-offs.
+    On the right, the sub-optimal depth-1 decision tree that can be returned by with either Behavior Cloning (cite) or VIPER (cite).}
+    \end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        scale=0.8,
+        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
+        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
+        edge_label/.style={font=\footnotesize, midway}
+    ]
+        
+        \node[leaf] at (-3, 0) {$\rightarrow$};
+        % Tree 4: if x <= 0.5 move right else move left
+        \node[decision] (tree4_root) at (0,0) {$x \leq 1$};
+        \node[leaf] (tree4_right) at (-1,-2) {$\rightarrow$};
+        \node[leaf] (tree4_left) at (1,-2) {$\downarrow$};
         \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
         \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
 
         % Tree 7: if x <= 0.5 and y <= 0.5 move right else move down
-        \node[decision] (tree7_root) at (9,0) {$x \leq \frac{1}{2}$};
-        \node[decision] (tree7_y) at (7,-2) {$y \leq \frac{1}{2}$};
-        \node[leaf] (tree7_right) at (5,-4) {$\rightarrow$};
-        \node[leaf] (tree7_down) at (9,-4) {$\downarrow$};
-        \node[leaf] (tree7_down2) at (11,-2) {$\downarrow$};
+        \node[decision] (tree7_root) at (5,0) {$x \leq 1$};
+        \node[decision] (tree7_y) at (3,-2) {$y \leq 1$};
+        \node[leaf] (tree7_right) at (2,-4) {$\rightarrow$};
+        \node[leaf] (tree7_down) at (4,-4) {$\downarrow$};
+        \node[leaf] (tree7_down2) at (6,-2) {$\downarrow$};
         \draw[->] (tree7_root) -- (tree7_y) node[edge_label, above left] {True};
         \draw[->] (tree7_root) -- (tree7_down2) node[edge_label, above right] {False};
         \draw[->] (tree7_y) -- (tree7_right) node[edge_label, above left] {True};
         \draw[->] (tree7_y) -- (tree7_down) node[edge_label, above right] {False};
 
+
+        \node[decision] (tree7_root) at (11,0) {$x \leq 1$};
+        \node[decision] (tree7_y) at (9,-2) {$y \leq 1$};
+        \node[decision] (tree7_y2) at (13,-2) {$y \leq 1$};
+        \node[leaf] (tree7_right) at (8,-4) {$\rightarrow$};
+        \node[leaf] (tree7_down) at (10,-4) {$\downarrow$};
+        \node[leaf] (tree7_right2) at (12,-4) {$\uparrow$};
+        \node[leaf] (tree7_down2) at (14,-4) {$\downarrow$};
+        \draw[->] (tree7_root) -- (tree7_y) node[edge_label, above left] {True};
+        \draw[->] (tree7_root) -- (tree7_y2) node[edge_label, above right] {False};
+        \draw[->] (tree7_y) -- (tree7_right) node[edge_label, above left] {True};
+        \draw[->] (tree7_y) -- (tree7_down) node[edge_label, above right] {False};
+        \draw[->] (tree7_y2) -- (tree7_right2) node[edge_label, above left] {True};
+        \draw[->] (tree7_y2) -- (tree7_down2) node[edge_label, above right] {False};
+
         % Labels
-        \node[above] at (0,1) {$\mathcal{T}_0$};
-        \node[above] at (9,1) {$\mathcal{T}_1$};
+        \node[above] at (-3,1) {$\pi_{\mathcal{T}_0}$};
+        \node[above] at (0,1) {$\pi_{\mathcal{T}_1}$};
+        \node[above] at (5,1) {$\pi_{\mathcal{T}_u}$};
+        \node[above] at (11,1) {$\pi_{\mathcal{T}_2}$};
+
+
     \end{tikzpicture}
-    \caption{Some optimal decision tree policies.}
+    \caption{The pareto front of decision tree policies in terms of interpretability and performance trade-off.}
     \label{fig:optimal-policy-trees}
 \end{figure}
 
-For this grid world, there exist \textit{optimal} decision tree policies. 
-In particular Tree 4 and 6 are have very good interpretability-performance trade-offs (smallest tree that can get the maximum MDP reward).
-In the rest of this section we shall attempt to \textit{learn} those trees from data. 
-
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{images/images_part1/policy_values_comparison.pdf}
+    \includegraphics[width=0.6\textwidth]{images/images_part1/policy_values_comparison.pdf}
     \caption{MDP objective values.}\label{fig:objectives}
 \end{figure}
 
-\section{Method}
-\subsection{Getting the values of Trees}
-Let us compute the objective value (cite) for the trees presented above. We will identify the range of $\zeta$ values--the interpretabiliy penalty--for which the depth-1 tree is optimal. 
-Let us compute the objective values of the most rewarded tree for each tree structure.
+In Figure (cite), we illustrate the optimal actions to take in the grid world MDP from the previous chapter (cite). To the, right we illustrate one particular optimal policies that can be problematic for indirect interpretability methods.
+Indeed recall the imitation learning algorithm from (cite) used to learn a non-parametric decision tree policy by fitting some arbitrary experts data. 
+In the case where the expert or teacher is the policy fromn Figure (cite), we plot in Figure (cite) the solution space of trees obtained and on Figure (cite) their respective performance in the grid world MDP.
+The imitated depth-1 tree cumulative discounted reward is sub-optimal.
+More importantly, still on Figure (cite), we observe that there exist a depth-1 decision tree policy that achieves optimal reward.
+While in practice, as shown in Figure (cite), running a reinforcement learning algorithm to find an optimal policy for the grid world can also return easy to imitate teacher policies, there is no guarantee in theory that the indirect objective of imitating an expert with a tree includes the trees with the best performance-interpretability trade-offs.
+
+Nevertheless, direct methods like reinforcement learning in POIBMDPs are not miracle solutions. In the next section, we construct POIBMDPs whose optimal solutions are the tree policies with the best trade-offs and show that they are almost \textit{never} found.
+
+\section{POIBMDPs which optimal solution is the depth-1 tree}
+The base MDP is the grid world from Chapter (cite). We build an IBMDP (cite) with two information gathering actions and nine observations.
+\begin{itemize}
+    \item $\langle x, 1\rangle$ that tests if $x\leq 1$
+    \item $\langle y, 1\rangle$ that tests if $y\leq 1$
+\end{itemize}
+The observations are induced by these to IGAs. The initial observation is $o_0=(0, 2, 0, 2)$.
+The set of observations is finite and can be inferred from the possible bounds over the base states induced by the IGAs.
+For example when starting in state $s_1 = (0.5, 1.5)$, and taking first $\langle x, 1\rangle$ then $\langle y, 1\rangle$ the corresponding observations are first $o_1 = (0, 1, 0, 2)$ and then $o_2 = (0, 1, 1, 2)$.
+The full observation set is $O = \{(0, 2, 0, 2), (0, 1, 0, 2), (0, 2, 0, 1), (0, 1, 0, 1), (1, 2, 0, 2), (1, 2, 0, 1), (1, 2, 1, 2), (0, 1, 1, 2), (0, 2, 1, 2)\}$.
+The transitions and rewards are given by definition (cite).
+We know all the base states, all the observations, all the actions, all the rewards and all the transitions, hence we can compute exactly the values of different partially observable deterministic policies given $\zeta$ the reward for IGAs and $\gamma$ the discount factor.
+In particular, we look for some values of $\zeta$ and $\gamma$ for which the optimal deterministic partially observable policy in POIBMDP is the depth-1 tree from Figure (cite) that indirect methods are not guaranteed to comprise in their solution sets.
+
+Each of those policies can be one of the following tree from Figure (cite): 
+\begin{itemize}
+    \item a depth-0 tree equivalent to always taking the same base action 
+    \item a depth-1 tree equivalent alternating between an IGA and a base action 
+    \item an unbalanced depth-2 tree that sometimes takes two IGAs then a base action and sometimes a an IGA then a base action
+    \item a depth-2 tree that alternates between taking two IGAs and a base action
+    \item an inifinite ``tree'' that only takes IGAs
+\end{itemize}
+Because from (cite) we know that for POMDPs stochastic policies can sometimes be optimal we also compute the value of the stochastic policy that alternates between two base actions.
+
 \paragraph{Depth-0 decision tree:} has only one leaf node that takes a single base action indefinitely.
 For this type of tree the best reward achievable is to take actions that maximize the probability of reaching the objective $\rightarrow$ or $\downarrow$. In that case the objective value of such tree is:
 In the goal state $G = (1, 0)$, the value of the depth-0 tree $\mathcal{T}_0$ is:
@@ -162,12 +198,19 @@ The objective value of the depth-1 decision tree policy is:
     &= \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma^2)}
 \end{align*}
 
-\subsection{Identifying the optimality range of the depth-1 tree}
+We perform the same hand calculations for the other aforementioned policies in the Appendix (cite).
+In Figure (cite) we plot the values of each policy as a function of $\zeta$ when $\gamma=0.99$.
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{images/images_part1/objective_values_plot.pdf}
     \caption{IBMDP objective values.}\label{fig:objectives}
 \end{figure}
+Despite value from the intitial observation being very similar for the depth-1 and unbalanced depth-2 tree, there exist values of $\zeta$ for which the depth-1 tree that can be missed by indirect methods is the optimal deterministic partially observable policy for a POIBMDP.
+Interestingly, two challenges from POMDPs can already be observed from Figure (cite). 
+First, there is a whole range of $\zeta$ values for which the stochastic policy is optimal.
+Second, for e.g. $\zeta=0.5$, when the depth-1 tree is the optimal deterministic partially observable policy, the value of state $(s_2, o_0) = (1.5, 1.5, 0, 2, 0, 2)$ is not maximized by the optimal policy but by the policy that always goes down which is sub-optimal.
+Next, we use reinforcement learning to obtain POIBMDP policies corresponding to trees for the grid world MDP.
+
 \section{Results}
 Now that we have shown theoretically that there exists values of $zeta$ such that the depth-1 tree policy from Figure (cite) is optimal in terms of IBMDP value (cite) and is also optimal in terms of MDP value (cite),
 we show that existing algorithms fail to learn the depth-1 tree even though it is the optimal IBMDP policy.
@@ -186,6 +229,8 @@ Furthermore we try to solve 200 different IBMDPs. Each IBMDP has $\gamma$ fixed 
 We draw similar conclusions from our experiments. 
 We also use a vanilla tabular Policy Gradient baseline (cite), which to the best of our knowledge, nobody studied in our setting.
 In theory PG should not be a good candidate algorithm to solve our problem since it can learn stochastic policies that we showed can be better than our target policy (cite).
+
+
 More recently, new algorithms were developped specially for our setting of learning policies for POMDPs. Those algorithms are called asymmetric RL which authors of (cite) use without knowing. 
 Asymmetric algorithms, also called (rememebr name deployment); leverage the fact that, even if the deployed policy should depend only on partial observation, nothing forbids the use of full state information during training.
 Asymmetric Q-learning (cite) make use of state-dependent Q function $Q:S\timesA \rightarrow \mathbb{R}$ to use a TD target to update a $Q:O\times A\rightarrow \mathbb{R}$ (cite)(algo).    
@@ -194,6 +239,7 @@ We benchmark Asymmetric Q-learning and Asymmetric Sarsa and the tabular algorith
 In previous work (cite) Deep RL version of asymmetric algorithms have been benchmarked and showed to only work well for history-dependent policies or Q-function which we can't use for our particular problem.
 In particular in Figures (cite)(cite) of (cite) and cite(); the authors show that for the particular case of asymmetric critic or target depending on full states and policy or Q-function depending on partial observation, the performance of asymmetric RL can be worse than that of non-specialized naive RL.
 We use at least one million timesteps to train each agent. Each agent is trained on 100 seeds.  
+
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
@@ -317,4 +363,4 @@ Even though asymmetry seems to increase performance; learning a decision tree po
 We suggest researcher and practitioners interested in decision tree policies to forget the direct RL approach and focus on the indirect imitation-based approach (cite).
 Or, if for some reason one needs to still use reinforcement learning training; fitting parametric trees, trees whose depth and nodes are predifined and where only thresholds are optimized, then one can use SYMPOL (cite) or Soft decision trees (cite).
 
-In the next chapter, we show that when the base MDP's transitions are independent of the action, then POIBMDPs are actually ``fully''-observable.
+In the next chapter, we show that when the base MDP's transitions are independent of the action, then POIBMDPs are actually \textit{fully} observable.
