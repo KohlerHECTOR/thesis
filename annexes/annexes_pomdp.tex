@@ -88,8 +88,6 @@ Learning Rate (lr) & 0.001, 0.005, 0.01, 0.05, 0.1 & Policy gradient step size \
 Entropy Regularization (tau) & -1.0, -0.1, -0.01, 0.0, 0.01, 0.1, 1.0 & Entropy regularization coefficient \\
 Temperature (eps) & 0.01, 0.1, 1.0, 10 & Softmax temperature \\
 Episodes per Update (n\_steps) & 20, 200, 2000 & Number of episodes per policy update \\
-\midrule
-\textbf{Total Combinations} & \textbf{140} & \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -105,8 +103,6 @@ Learning Rate (lr) & 0.001, 0.005, 0.01, 0.05, 0.1 & Policy gradient step size \
 Entropy Regularization (tau) & -1.0, -0.1, -0.01, 0.0, 0.01, 0.1, 1.0 & Entropy regularization coefficient \\
 Temperature (eps) & 0.01, 0.1, 1.0, 10 & Softmax temperature \\
 Episodes per Update (n\_steps) & 10, 100, 1000 & Number of episodes per policy update \\
-\midrule
-\textbf{Total Combinations} & \textbf{140} & \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -114,39 +110,33 @@ Episodes per Update (n\_steps) & 10, 100, 1000 & Number of episodes per policy u
 
 \begin{table}[h]
 \centering
-\caption{QL Hyperparameter Space (192 combinations)}
+\caption{QL Hyperparameter Space (48 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
 \midrule
 Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
 Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
-Batch Size & 1, 8, 32, 64 & Batch size for updates \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate (lr\_o) & 0.001, 0.005, 0.01, 0.1 & Observation Q-learning rate \\
 Optimistic & True, False & Optimistic initialization \\
-\midrule
-\textbf{Total Combinations} & \textbf{192} & \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[h]
 \centering
-\caption{QL-Asym Hyperparameter Space (768 combinations)}
+\caption{QL-Asym Hyperparameter Space (192 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
 \midrule
 Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
 Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
-Batch Size & 1, 8, 32, 64 & Batch size for updates \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate (lr\_o) & 0.001, 0.005, 0.01, 0.1 & Observation Q-learning rate \\
 Learning Rate (lr\_v) & 0.001, 0.005, 0.01, 0.1 & State-action Q-learning rate \\
 Optimistic & True, False & Optimistic initialization \\
-\midrule
-\textbf{Total Combinations} & \textbf{768} & \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -163,47 +153,39 @@ Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
 Lambda & 0.0, 0.1, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate (lr\_v) & 0.001, 0.005, 0.01, 0.05, 0.1 & State-action Q-learning rate \\
 Optimistic & True, False & Optimistic initialization \\
-\midrule
-\textbf{Total Combinations} & \textbf{60} & \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[h]
 \centering
-\caption{SARSA Hyperparameter Space (192 combinations)}
+\caption{SARSA Hyperparameter Space (48 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
 \midrule
 Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
 Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
-Batch Size & 1, 8, 32, 64 & Batch size for updates \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate (lr\_o) & 0.001, 0.005, 0.01, 0.1 & Observation SARSA learning rate \\
 Optimistic & True, False & Optimistic initialization \\
-\midrule
-\textbf{Total Combinations} & \textbf{192} & \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[h]
 \centering
-\caption{SARSA-Asym Hyperparameter Space (768 combinations)}
+\caption{SARSA-Asym Hyperparameter Space (192 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
 \midrule
 Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
 Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
-Batch Size & 1, 8, 32, 64 & Batch size for updates \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate (lr\_o) & 0.001, 0.005, 0.01, 0.1 & Observation SARSA learning rate \\
 Learning Rate (lr\_v) & 0.001, 0.005, 0.01, 0.1 & State-action SARSA learning rate \\
 Optimistic & True, False & Optimistic initialization \\
-\midrule
-\textbf{Total Combinations} & \textbf{768} & \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -220,8 +202,6 @@ Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
 Lambda & 0.0, 0.1, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate (lr\_v) & 0.001, 0.005, 0.01, 0.05, 0.1 & State-action SARSA learning rate \\
 Optimistic & True, False & Optimistic initialization \\
-\midrule
-\textbf{Total Combinations} & \textbf{60} & \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -229,21 +209,19 @@ Optimistic & True, False & Optimistic initialization \\
 
 \begin{table}[h]
 \centering
-\caption{Summary of All Algorithm Hyperparameter Spaces (2,320 total combinations)}
+\caption{Summary of All Algorithm Hyperparameter Spaces (780 total combinations)}
 \begin{tabular}{llr}
 \toprule
 \textbf{Algorithm} & \textbf{Type} & \textbf{Total Hyperparameter Combinations} \\
 \midrule
 PG & Policy Gradient & 140 \\
 PG-IBMDP & Policy Gradient & 140 \\
-QL & Q-Learning & 192 \\
-QL-Asym & Q-Learning & 768 \\
+QL & Q-Learning & 48 \\
+QL-Asym & Q-Learning & 192 \\
 QL-IBMDP & Q-Learning & 60 \\
-SARSA & SARSA & 192 \\
-SARSA-Asym & SARSA & 768 \\
+SARSA & SARSA & 48 \\
+SARSA-Asym & SARSA & 192 \\
 SARSA-IBMDP & SARSA & 60 \\
-\midrule
-\textbf{Total} & & \textbf{2,320} \\
 \bottomrule
 \end{tabular}
 \end{table}

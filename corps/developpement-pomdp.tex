@@ -347,14 +347,13 @@ One interpretation of this phenomenon is that the learning in POIBMDPs is very h
 
 \begin{table}[h]
 \centering
-\caption{Sarsa Hyperparameter Space (192 combinations)}
+\caption{Sarsa Hyperparameter Space (48 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
 \midrule
 Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
 Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
-Batch Size & 1, 8, 32, 64 & Batch size for updates \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate (lr\_o) & 0.001, 0.005, 0.01, 0.1 & Observation SARSA learning rate \\
 Optimistic & True, False & Optimistic initialization \\
@@ -364,14 +363,13 @@ Optimistic & True, False & Optimistic initialization \\
 
 \begin{table}[h]
 \centering
-\caption{SARSA-Asym Hyperparameter Space (768 combinations)}
+\caption{SARSA-Asym Hyperparameter Space (192 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
 \midrule
 Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
 Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
-Batch Size & 1, 8, 32, 64 & Batch size for updates \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate (lr\_1) & 0.001, 0.005, 0.01, 0.1 & $Q$ learning rate \\
 Learning Rate (lr\_2) & 0.001, 0.005, 0.01, 0.1 & $U$ learning rate \\
@@ -380,6 +378,24 @@ Optimistic & True, False & Optimistic initialization \\
 \end{tabular}
 \end{table}
 
+\begin{table}[h]
+    \centering
+    \caption{Summary of All Algorithm Hyperparameter Spaces (780 total combinations)}
+    \begin{tabular}{llr}
+    \toprule
+    \textbf{Algorithm} & \textbf{Problem} & \textbf{Total Hyperparameter Combinations} \\
+    \midrule
+    Policy Gradient & POIBMDP & 140 \\
+    Policy Gradient & IBMDP & 140 \\
+    Q-learning & POIBMDP &48 \\
+    Asym Q-learning & POIBMDP & 192 \\
+    Q-Learning & IBMDP & 60 \\
+    Sarsa & POIBMDP & 48 \\
+    Asym Sarsa & POIBMDP & 192 \\
+    Sarsa & IBMDP & 60 \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
 
 As discussed in the previous chapter (cite), POIBMDPs inherit many difficulties from POMDPs (list).
 To prove that solving POIBMDPs even though there are only a handful of states and observations and clear deterministic reactive optimal policies; we compare the success rate of baselines RL algorithms when applied to an IBMDP with $\gamma=0.99$, $\zeta=0.5$, and to the partially observable version of the same IBMDP.
