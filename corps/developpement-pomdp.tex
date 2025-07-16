@@ -117,6 +117,11 @@ On the other hand, we will show next that POIBMDPs indeed include the best trade
     \caption{MDP objective values.}\label{fig:objectives}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{images/images_part1/base_mdp.pdf}
+    \caption{Left, sample complexity curve of Q-learning with default hyperparameters on the $2\times 2$ grid world MDP over 100 random seeds. Right, performances of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages. }
+\end{figure}
 In Figure (cite), we illustrate the optimal actions to take in the grid world MDP from the previous chapter (cite). To the, right we illustrate one particular optimal policies that can be problematic for indirect interpretability methods.
 Indeed recall the imitation learning algorithm from (cite) used to learn a non-parametric decision tree policy by fitting some arbitrary experts data. 
 In the case where the expert or teacher is the policy fromn Figure (cite), we plot in Figure (cite) the solution space of trees obtained and on Figure (cite) their respective performance in the grid world MDP.
