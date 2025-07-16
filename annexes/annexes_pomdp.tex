@@ -2,6 +2,27 @@
 \label{chap-app-pomdp}
 
 \section{Tree value computations}
+\paragraph{Depth-0 decision tree:} has only one leaf node that takes a single base action indefinitely.
+For this type of tree the best reward achievable is to take actions that maximize the probability of reaching the objective $\rightarrow$ or $\downarrow$. In that case the objective value of such tree is:
+In the goal state $G = (1, 0)$, the value of the depth-0 tree $\mathcal{T}_0$ is:
+\begin{align*}
+    V^{\mathcal{T}_0}_G &= 1 + \gamma + \gamma^2 + \dots \\
+    &= \overset{\infty}{\underset{t=0}\sum} \gamma^t \\
+    &= \frac{1}{1 - \gamma}
+\end{align*}
+In the state $(0, 0)$ when the policy repeats going right respectively in the state $(0, 1)$ when the policy repeats going down, the value is:
+\begin{align*}
+    V^{\mathcal{T}_0}_{S_0} &= 0 + \gamma V^{\mathcal{T}_0}_g \\
+    &= \gamma V^{\mathcal{T}_0}_G
+\end{align*}
+In the other states the policy never gets positive rewards; $V^{\mathcal{T}_0}_{S_1} = V^{\mathcal{T}_0}_{S_2} = 0$. Hence:
+\begin{align*}
+J(\mathcal{T}_0) &= \frac{1}{4} V^{\mathcal{T}_0}_G + \frac{1}{4} V^{\mathcal{T}_0}_{S_0}+ \frac{1}{4} V^{\mathcal{T}_0}_{S_1}+ \frac{1}{4} V^{\mathcal{T}_0}_{S_2} \\
+&= \frac{1}{4} V^{\mathcal{T}_0}_G + \frac{1}{4} \gamma V^{\mathcal{T}_0}_G + 0 + 0\\
+&= \frac{1}{4} \frac{1}{1 - \gamma} + \frac{1}{4} \gamma \frac{1}{1 - \gamma} \\
+&= \frac{1 + \gamma}{4(1 - \gamma)}
+\end{align*}
+
 \paragraph{Unbalanced depth-2 decision tree:}the unbalanced depth-2 decision tree  takes an information gathering action $x\leq0.5$ then either takes the $\downarrow$ action or takes a second information $y\leq0.5$ followed by $\rightarrow$ or $\downarrow$.
 In states $G$ and $S_2$, the value of the unbalanced tree is the same as for the depth-1 tree.
 In states $S_0$ and $S_1$, the policy takes two information gathering actions before taking a base action and so on:
