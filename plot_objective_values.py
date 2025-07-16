@@ -58,32 +58,37 @@ Jstoc = objective_stochastic(zeta_range, gamma)
 plt.figure(figsize=(12, 8))
 
 # Plot each tree's objective value
-plt.plot(zeta_range, J0, label='Depth-0 Tree', linewidth=2, color='blue')
-plt.plot(zeta_range, J1, label='Depth-1 Tree', linewidth=2, color='red')
-plt.plot(zeta_range, Ju, label='Unbalanced Depth-2 Tree', linewidth=2, color='green')
-plt.plot(zeta_range, J2, label='Balanced Depth-2 Tree', linewidth=2, color='orange')
+plt.plot(zeta_range, J0, label='$\pi_{\mathcal{T}_0}$', linewidth=2, color='red')
+plt.plot(zeta_range, J1, label='$\pi_{\mathcal{T}_1}$', linewidth=2, color='green')
+plt.plot(zeta_range, Ju, label='$\pi_{\mathcal{T}_u}$', linewidth=2, color='orange')
+plt.plot(zeta_range, J2, label='$\pi_{\mathcal{T}_2}$', linewidth=2, color='blue')
 plt.plot(zeta_range, Jinf, label='Infinite Tree', linewidth=2, color='purple', linestyle='--')
-plt.plot(zeta_range, Jstoc, label='Stochastic Depth-0 Tree', linewidth=2, color='black', linestyle='--')
+plt.plot(zeta_range, Jstoc, label='Stochastic', linewidth=2, color='black', linestyle='--')
 
 # Find the optimal tree for each zeta value
 all_objectives = np.column_stack([J0, J1, Ju, J2, Jinf])
 optimal_indices = np.argmax(all_objectives, axis=1)
-tree_names = ['Depth-0', 'Depth-1', 'Unbalanced Depth-2', 'Balanced Depth-2', 'Infinite']
+tree_names = ['$\pi_{\mathcal{T}_0}$', '$\pi_{\mathcal{T}_1}$', '$\pi_{\mathcal{T}_u}$', '$\pi_{\mathcal{T}_2}$', 'Infinite Tree']
 optimal_tree = [tree_names[i] for i in optimal_indices]
 
 # Highlight the optimal regions
-colors = ['blue', 'red', 'green', 'orange', 'purple']
+colors = ['red', 'green', 'orange', 'blue', 'purple']
 for i, tree_name in enumerate(tree_names):
     mask = optimal_indices == i
     if np.any(mask):
         plt.fill_between(zeta_range[mask], 0, all_objectives[mask, i], 
-                        alpha=0.2, color=colors[i], label=f'{tree_name} (optimal)')
+                        alpha=0.2, color=colors[i], label=f'$\pi^*=${tree_name}')
 
-plt.xlabel(r'$\zeta$ (interpretability penalty)', fontsize=14)
-plt.ylabel('$M_{IB}$ Value, $\gamma=0.99$', fontsize=14)
-plt.legend(fontsize=12)
+plt.xlabel('$\zeta$', fontsize=22)
+plt.ylabel('$V^{\pi}(o_0)$, $\gamma=0.99$', fontsize=22)
+plt.legend(fontsize=20)
 plt.grid(True, alpha=0.3)
 plt.xlim(-1, 2)
+plt.ylim(-5, 110)
+
+# Increase tick sizes
+plt.xticks(fontsize=18)
+plt.yticks(fontsize=18)
 
 # Add some analysis
 print("Analysis of optimal trees:")

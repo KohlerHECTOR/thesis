@@ -345,6 +345,42 @@ One interpretation of this phenomenon is that the learning in POIBMDPs is very h
 
 \subsection{Why is it so hard to learn in POIBMPDs?}
 
+\begin{table}[h]
+\centering
+\caption{Sarsa Hyperparameter Space (192 combinations)}
+\begin{tabular}{lll}
+\toprule
+\textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
+\midrule
+Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
+Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
+Batch Size & 1, 8, 32, 64 & Batch size for updates \\
+Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
+Learning Rate (lr\_o) & 0.001, 0.005, 0.01, 0.1 & Observation SARSA learning rate \\
+Optimistic & True, False & Optimistic initialization \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{SARSA-Asym Hyperparameter Space (768 combinations)}
+\begin{tabular}{lll}
+\toprule
+\textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
+\midrule
+Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
+Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
+Batch Size & 1, 8, 32, 64 & Batch size for updates \\
+Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
+Learning Rate (lr\_1) & 0.001, 0.005, 0.01, 0.1 & $Q$ learning rate \\
+Learning Rate (lr\_2) & 0.001, 0.005, 0.01, 0.1 & $U$ learning rate \\
+Optimistic & True, False & Optimistic initialization \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
 As discussed in the previous chapter (cite), POIBMDPs inherit many difficulties from POMDPs (list).
 To prove that solving POIBMDPs even though there are only a handful of states and observations and clear deterministic reactive optimal policies; we compare the success rate of baselines RL algorithms when applied to an IBMDP with $\gamma=0.99$, $\zeta=0.5$, and to the partially observable version of the same IBMDP.
 because we know that for those values of $\zeta$ and $\gamma$, the optimal partially observable policy is the depth-1 tree and the optimal-fully observable policy is the (cite); we can compute the success rate of an RL algorithm as the proportion of learn policies that match either optimal policy.
