@@ -58,7 +58,7 @@ We defer the formal definition of classification tasks in the supervised learnin
         \node at (0.5,1.5) {$s_1$};
 
     \end{tikzpicture}
-    \caption{Grid world MDP optimal actions. An optimal policy that takes any of the red actions in the bottom right state might not be imitated by the best depth-1 tree in terms of performance interpretability trade-offs.
+    \caption{Classification MDP optimal actions. An optimal policy that takes any of the red actions in the bottom right state might not be imitated by the best depth-1 tree in terms of performance interpretability trade-offs.
     Center, an optimal depth-1 decision tree policy. On the right, a sub-optimal depth-1 decision tree policy.}
     \end{figure}
 
@@ -84,8 +84,85 @@ To learn a decision tree classifier, we use the POIBMDP formalism and show in th
         \end{itemize}
     \end{itemize}
 \end{definition}
+
+Now we can learn a decision tree \textit{classifier} for a supervised learning . 
+Given a set of examples and lables, we can formulate the associated classification MDP (cite). 
+Then we can provide some information gathering actions and a reward $\zeta$ for those to define a classification POIBMDP (cite).
+Finally, we can learn a deterministic policy $\pi : O \rightarrow A\cup A_{info}$ to obtain a decision tree classifier. 
+Since we have shown that classification POIBMDPs are MDPs, we can investigate how well RL baselines perform to solve those problems. 
+We expect that, compared to standard POIBMDP studied in the previous chapter where some information was hidden to the agent, RL baselines will consistently learn the optimal decision tree classifiers.
+
+\section{Results}
+
+\subsection{How well can RL baselines learn in classification POIBMDPs?}
+Similarly to the previous chapter, we are interested first in a very simple classification POIBMDP that corresponds to building a tree for the supervised problem:
+
+\begin{align*}
+    \mathcal{X} &= \{(0.5, 0.5), (0.5, 1.5), (1.5, 1.5), (1.5, 0.5)\}\\
+    y &= \{0, 0, 1, 1\} 
+\end{align*}
+
+We illustrate the associated classification MDP in Figure (cite). 
+We construct classification POIBMDPs with varied values of $\zeta$ and IGAs $x\leq 1$ and $y\leq 1$.
+Similarly to the previous chapter, we will analyze learning curves and final tree distributions of RL agents.
+Since classification POIBMDPs are MDP, we do not need to analyze asymmetric and JSJ (cite) baselines.
+
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{images/images_part1/quick_plot_combined_classif.pdf}
-    \caption{RL algorithms for classification OIBMDPs}\label{fig:rl-classif-poibmdp}
+    \includegraphics[width=1\textwidth]{images/images_part1/learning_curves_classif.pdf}
+    \caption{}\label{fig:rl-classif-poibmdp}
 \end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{images/images_part1/tree_distributions_classif.pdf}
+    \caption{}\label{fig:tree-distrib-classif-poibmdp}
+\end{figure}
+
+Fortunately this time, compared to general POIBMDPs, RL can be used to retrieve optimal policies in classification POIBMDPs equivalent to decision tree classifiers.
+We observe on Figure (cite) that both Q-learning and Sarsa are able to retrieve the optimal detph-1 decision tree classifier from Figure (cite).
+Next, we use Deep RL to scale to real datasets for which we don't have much a priori knowledge such that which bvalue of $\zeta$ to choose to obain a particular tree, or which IGAs to use to get good trees.
+
+\subsection{Can we use Deep RL to learn trees in real-world classification POIBMDPs ?}
+
+We study the DQN (cite) algorithm to learn decision trees for the wine dataset.
+In particular, we will look at four DQN variants.
+First, default DQN on a classification POIBMDP where the IGAs are, for each feature $i$, :
+This variant is equivalent to running CUSTARD from (cite).
+Then a variant where we consider less IGAs.
+Then a variant where we impose a maximum tree depth during training by penalizing long uninterupted sequences of IGAs.
+The latter was recommended to us by the authors of (cite).
+The last DQN variant combines both a small number of IGAs and a maximum depth penalty.
+
+\begin{figure}
+    \begin{subfigure}{0.8\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/images_part1/training_curves.pdf}
+    \caption{}\label{fig:tree-distrib-classif-poibmdp}
+    \end{subfigure}
+    
+    \begin{subfigure}{0.8\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/images_part1/training_curves_lessp.pdf}
+    \caption{}\label{fig:tree-distrib-classif-poibmdp}
+    \end{subfigure}
+    
+    \begin{subfigure}{0.8\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/images_part1/training_curves_md3.pdf}
+    \caption{}\label{fig:tree-distrib-classif-poibmdp}
+    \end{subfigure}
+   
+    \begin{subfigure}{0.8\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/images_part1/training_curves_lessp_md3.pdf}
+    \caption{}\label{fig:tree-distrib-classif-poibmdp}
+    \end{subfigure}
+\caption{}
+\end{figure}
+
+It is clear from the figures that DQN and perhaps classification POIBMDPs are not well suited for learning decision trees classifiers.
+In the next part of this thesis; we present a new decision tree induction algorithm solving MDPs exactly and choosing information gathering actions adaptively.
+
+
+
