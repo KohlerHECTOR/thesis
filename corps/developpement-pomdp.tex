@@ -3,7 +3,7 @@ In this chapter we investigate the properties of reinforcement learning for lear
 Using the formal framework of partially observable iterative bounding Markvov decision processes (cite), we aim to learn partially observable deterministic policies that correspond to decision tree policies (cite).
 
 We will attempt to learn a depth-1 tree policy for the $2\times 2$ grid world from (cite) as the base MDP by soving the example POIBMDP from the previous chapter.
-To focus on reinforcement learning properties in POIBMDPs rather than, e.g., modelling properties, we will carefully craft POIBMDPs such that the \textit{optimal} partially observable deterministic policy corresponds to a depth-1 tre policy.
+To focus on reinforcement learning properties in POIBMDPs rather than, e.g., modelling properties, we will carefully craft POIBMDPs such that the \textit{optimal} partially observable deterministic policy corresponds to a depth-1 tree policy.
 To do so, we present next how the POIBMDP objective values (cite) from different decision tree policies change with $\zeta$ for some fixed discount factor $\gamma$.  
 
 \section{Constructing POIBMDPs which optimal solutions are the depth-1 tree}
@@ -65,18 +65,19 @@ To do so, we present next how the POIBMDP objective values (cite) from different
     \label{fig:optimal-policy-trees}
 \end{figure}
 
-In this section we compute the \textit{exact} objective values of the POIBMDP policies and look for $\zeta$ values such that the optimal POIBMDP policy corresponds to a depth-1 decision tree for the grid world MDP like the one in Figure (cite).  
+In this section we compute the \textit{exact} objective values of POIBMDP policies as functions of $\zeta$. AFter doing so, we can look for $\zeta$ values such that the optimal POIBMDP policy corresponds to a depth-1 decision tree for the grid world MDP from the previous chapter.  
 Indeed, because we know all the base states, all the observations, all the actions, all the rewards and all the transitions, we can compute exactly the values of different partially observable deterministic policies given $\zeta$ the reward for IGAs and $\gamma$ the discount factor.
 
-Each of those policies can be one of the following trees illustrated Figure (cite): 
+Each of those policies can be one of the following trees illustrated in Figure (cite): 
 \begin{itemize}
-    \item a depth-0 tree equivalent to always taking the same base action 
-    \item a depth-1 tree equivalent alternating between an IGA and a base action 
-    \item an unbalanced depth-2 tree that sometimes takes two IGAs then a base action and sometimes a an IGA then a base action
-    \item a depth-2 tree that alternates between taking two IGAs and a base action
+    \item $\pi_{\mathcal{T}_0}$: a depth-0 tree equivalent to always taking the same base action 
+    \item $\pi_{\mathcal{T}_1}$: a depth-1 tree equivalent alternating between an IGA and a base action 
+    \item $\pi_{\mathcal{T}_u}$: an unbalanced depth-2 tree that sometimes takes two IGAs then a base action and sometimes a an IGA then a base action
+    \item $\pi_{\mathcal{T}_2}$: a depth-2 tree that alternates between taking two IGAs and a base action
     \item an inifinite ``tree'' that only takes IGAs
 \end{itemize}
-Furthermore, because from (cite) we know that for POMDPs stochastic policies can sometimes be optimal we also compute the value of the stochastic policy that alternates between two base actions.
+Furthermore, because from (cite) we know that for POMDPs, stochastic policies can sometimes be optimal, we also compute the value of the stochastic policy that alternates between two base actions: $\rightarrow$ and $\downarrow$.
+Those two base actions always lead to the goal state in expectation.
 
 We detail the calculations for the detpth-1 decision tree objective value (cite) and defer the calculations for the other policies to the Appendix (cite).
 
@@ -120,14 +121,14 @@ Since the probability of being in any base states at initialization given that t
     \caption{POIBMDP objective values of different policies as functions of $\zeta$. Shaded areas show the optimal policies in different ranges of $\zeta$ values.}\label{fig:objectives}
 \end{figure}
 
-We can now plot the POIBMDP objective values of the different policies corresponding to trees for the grid world MDP as function of $\zetas$ when we fix $\gamma=0.99$. 
+We can now plot the POIBMDP objective values of the different policies corresponding to trees for the grid world MDP as functions of $\zeta$ when we fix $\gamma=0.99$. 
 When $\gamma=0.99$, despite objective values being very similar for the depth-1 and unbalanced depth-2 tree, we now know that {\color{blue}a depth-1 tree is the optimal deterministic partially observable POIBMDP policy for $0< \zeta < 1$}.
 
 Interestingly, two POMDP challenges described in (cite) can also be observed in Figure (cite). 
 First, there is a whole range of $\zeta$ values for which the stochastic policy is optimal.
 Second, for e.g. $\zeta=0.5$, while the depth-1 tree is the optimal deterministic partially observable policy, the value of state $(s_2, o_0) = (1.5, 1.5, 0, 2, 0, 2)$ is not maximized by this policy but by the sub-optimal policy that always goes down.
 
-Now that we know to what values to set $\zeta$ in our POIBMDP, we can apply reinforcement learning algorithms to learn partially observable deterministic policies corresponding to the optimal depth-1 decision tree.
+Now that we know to what values to set $\zeta$ in our POIBMDPs, we can apply reinforcement learning algorithms to learn partially observable deterministic policies corresponding to the optimal depth-1 decision tree.
 
 \section{Results}
 
@@ -182,7 +183,7 @@ We use at least 200 000 time steps to train each agent. Each agent is trained on
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
     \KwData{POMDP $\mathcal{M}_{po} = \langle X, O, A, R, T, T_0, \Omega \rangle$, learning rate $\alpha$, policy parameters $\theta$, number of trajectories $N$}
-    \KwResult{Stochastic partially observable policy $\pi_\theta: O\rightarrow \DeltaA$}
+    \KwResult{Stochastic partially observable policy $\pi_\theta: O\rightarrow \Delta A$}
     Initialize policy parameters $\theta$ \\
     Initialize $Q(o, a) = 0$ for all observations $o$ and actions $a$ \\
     \For{each episode}{
@@ -217,43 +218,63 @@ Second, we consider the distribution of the learned trees structure over the 100
 Indeed, since for every POIBMDP we train each baseline 100 times, we obtain 100 partially observable deterministic policies from which we can extract the equivalent 100 decision tree policies using Algorithm (cite).
 This helps understand which trees RL tend to learn.
 
-\subsection{How well do exsisting baselines learn in POIBMDPs?}
+\subsection{Can RL baselines solve POIBMDPs?}
 
+In Figure (cite), we plot the sub-optimality gaps--averaged over 100 seeds--of learned policies during training.
+We do so for 200 different POIBMDPs where we change the reward for information gathering actions: we sample $\zeta$ uniformily in $[-1, 2]$.
+For (asymmetric) Q-learning and (asymmetric) Sarsa, we extract the greedy policies from the learned Q-functions and evaluate them every 2000 steps.
+For the Policy Gradient and the JSJ baselines we directly evaluate the learned stochastic policies.
+
+In Figure (cite), we plot the distributions over the final learned trees in function of $\zeta$ from the above runs.
+For the Policy Gradient and JSJ baselines, we extract the tree from the policy that is greedy w.r.t to the action probabilities as ALgorithm 6 requires a deterministic partially observable policy to return a tree policy.
+
+We observe that, despite all runs converging, independently of the $\zeta$ values, not all runs fully minimize the sub-optimality gap.
+In particular all RL algorithms seem to consistantly minimze the gap, i.e. learn the optimal policy or Q-function, for $\zeta \in [-1, 0]$, where the optimal policy is the detph-0 tree.
+For $\zeta \in [1, 2]$, where the optimal policy is to repeat taking information gathering actions, only the Q-learning baseline learns the optimal policy. 
+In $\zeta \in ]0, 1[$, where the depth-1 tree is optimal, no baseline can consistently learn the optimal solution. However, we observe that asymmetric versions of Q-learning and Sarsa have found the optimal policy more frequently than other baselines.
+One interpretation of this phenomenon is that the learning in POIBMDPs is very difficult and so agents tend to converge to trivial policies, e.g., repeating the same base action.
+
+Next, we quantify how difficult it is to do RL to learn policies in POIBMDPs.
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{images/images_part1/learning_curves.pdf}
-    \caption{Baseline algorithms for learning decision tree policies by learning partially observable policies in IBMDPs. 
-    The top row represents the sub-optimality gaps during training. In each subplot, each single learning curve is colored by the value of $\zeta$ of the IBMDP they solve. And each single learning curve represent the sub-optimality gap averaged over 100 seeds.
-    So for each algortihm we ran a total of $200 \times 100$ single training seed.
-    The bottom row represents the distributions of final tree policies learned across the 100 seeds.
-    For each $\zeta$ value, there are three color points each represeting the share of Depth-0 tree (red), Depth-1 tree (gree) and Depth-2 tree (blue).
+    \caption{Baselines learning curves of partially observable policies in POIBMDPs. 
+    In each subplot, each single learning curve is colored by the value of $\zeta$ in the corresponding POIBMDP in which learning occurs. 
+    Each single learning curve represent the sub-optimality gap averaged over 100 seeds.
+    So for each baseline we ran a total of $200 \times 100$ single training run.
     }\label{fig:rl-poibmdp}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{images/images_part1/tree_distributions.pdf}
-    \caption{Baseline algorithms for learning decision tree policies by learning partially observable policies in IBMDPs. 
-    The top row represents the sub-optimality gaps during training. In each subplot, each single learning curve is colored by the value of $\zeta$ of the IBMDP they solve. And each single learning curve represent the sub-optimality gap averaged over 100 seeds.
-    So for each algortihm we ran a total of $200 \times 100$ single training seed.
-    The bottom row represents the distributions of final tree policies learned across the 100 seeds.
-    For each $\zeta$ value, there are three color points each represeting the share of Depth-0 tree (red), Depth-1 tree (gree) and Depth-2 tree (blue).
+    \caption{Distributions of final tree policies learned across the 100 seeds.
+    For each $\zeta$ value, there are four color points each represeting the share of depth-0 trees (red), depth-1 trees (green), unbalanced depth-2 trees (orange) and depth-2 trees (blue).
+    Note that those tres do not necessary correspond to tres in Figure (cite). We simply check the structure of trees and not if they are the best-in-class tree. 
     }\label{fig:dt-distrib-poibmdp}
 \end{figure}
 
-In Figure (cite) we observe that despite RL algorithms converging independently of the $\zeta$ values, not all runs fully minimize the sub-optimality gap.
-In particular all RL algorithms properly minimze the gap, i.e. learn the optimal policy or Q-function, for $\zeta \in [-1, 0]$, where the optimal policy is to repeat going right or down,
-Similarly all RL algorithms properly learn the optimal solutions for $\zeta \in [1, 2]$, where the optimal policy is to repeat taking informathion gathering actions. 
-While in $\zeta \in ]0, 1[$ where the depth-1 tree is optimal, no baseline can learn the optimal solution. 
-In this range, baselines also converge to trees deeper than 1.
-One interpretation of this phenomenon is that the learning in POIBMDPs is very hard and so agents tend to converge to easy policies: repeating the same actions (whether it is a base or an information gathering action). 
 
+\subsection{How difficult is it to learn in POIBMPDs?}
 
-\subsection{Why is it so hard to learn in POIBMPDs?}
+As discussed in the previous chapter (cite), POIBMDPs inherit many difficulties from POMDPs.
+To prove that solving POIBMDPs, even though there are only a handful of states, observations, and actions (16, 9, and 6 respectively), we compare the success rate of RL baselines when applied to a POIBMDP with $\gamma=0.99$, $\zeta=0.5$ and when applied to the corresponding fully observable IBMDP.
+Because we know that for those values of $\zeta$ and $\gamma$, the optimal deterministic partially observable policy is a depth-1 tree and the optimal fully observable policy is a tabular policy from Figure (cite); we can compute the success rate of an RL algorithm as the proportion of learned policies that match their optimal counterparts.
+
+Furhtermore; we also consider advanced tricks for tabular RL in order to properly assess the difficulty of learning in POIBMDPs compared to learning in IBMDPs:
+\begin{enumerate}
+    \item Optimistic Q-function (cite)
+    \item Entropy regularization (cite)
+    \item Eligibility traces (cite)
+    \item $\epsilon$-decay (cite)
+\end{enumerate}
+In particular, for each of the aforementioned RL baselines; we learn policies using a wide variety of hyperparamters.
+For example, in Table (cite) we provide the detailed hyperparameter space of Asymmetric Sarsa, which induce a total of 192 instances of Asymmetric Sarsa, and in Table (cite) we provide the hyperparameter space sizes for all baselines 
+We run each baseline using each hyperparamters combination 10 times on 1 million timesteps.
 
 \begin{table}[h]
 \centering
-\caption{Sarsa Hyperparameter Space (48 combinations)}
+\caption{Asymmetric Sarsa Hyperparameter Space (192 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
@@ -261,24 +282,8 @@ One interpretation of this phenomenon is that the learning in POIBMDPs is very h
 Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
 Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
-Learning Rate (lr\_o) & 0.001, 0.005, 0.01, 0.1 & Observation SARSA learning rate \\
-Optimistic & True, False & Optimistic initialization \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[h]
-\centering
-\caption{SARSA-Asym Hyperparameter Space (192 combinations)}
-\begin{tabular}{lll}
-\toprule
-\textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
-\midrule
-Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
-Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
-Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
-Learning Rate (lr\_1) & 0.001, 0.005, 0.01, 0.1 & $Q$ learning rate \\
-Learning Rate (lr\_2) & 0.001, 0.005, 0.01, 0.1 & $U$ learning rate \\
+Learning Rate $U$ & 0.001, 0.005, 0.01, 0.1 & $Q$ learning rate \\
+Learning Rate $Q$ & 0.001, 0.005, 0.01, 0.1 & $U$ learning rate \\
 Optimistic & True, False & Optimistic initialization \\
 \bottomrule
 \end{tabular}
@@ -286,12 +291,13 @@ Optimistic & True, False & Optimistic initialization \\
 
 \begin{table}[h]
     \centering
-    \caption{Summary of All Algorithm Hyperparameter Spaces (780 total combinations)}
+    \caption{Summary of RL baselines Hyperparameter Spaces (780 total combinations)}
     \begin{tabular}{llr}
     \toprule
     \textbf{Algorithm} & \textbf{Problem} & \textbf{Total Hyperparameter Combinations} \\
     \midrule
     Policy Gradient & POIBMDP & 140 \\
+    JSJ & POIBMDP & 15 \\
     Policy Gradient & IBMDP & 140 \\
     Q-learning & POIBMDP &48 \\
     Asym Q-learning & POIBMDP & 192 \\
@@ -303,27 +309,22 @@ Optimistic & True, False & Optimistic initialization \\
     \end{tabular}
     \end{table}
 
-As discussed in the previous chapter (cite), POIBMDPs inherit many difficulties from POMDPs (list).
-To prove that solving POIBMDPs even though there are only a handful of states and observations and clear deterministic reactive optimal policies; we compare the success rate of baselines RL algorithms when applied to an IBMDP with $\gamma=0.99$, $\zeta=0.5$, and to the partially observable version of the same IBMDP.
-because we know that for those values of $\zeta$ and $\gamma$, the optimal partially observable policy is the depth-1 tree and the optimal-fully observable policy is the (cite); we can compute the success rate of an RL algorithm as the proportion of learn policies that match either optimal policy.
-In particular, for each of the three baselines Q-Learning, Sarsa, and Policy gradient, and their asymmetric counterparts when available; we train policies with each combination of those hyperparameters (cite) 10 times and compute the success rate over all individual runs.
-To fully quantify the difficulty of RL on those problems; we also consider advanced tricks for tabular RL.
-\begin{enumerate}
-    \item Optimistic Q-function (cite)
-    \item Entropy regularization (cite)
-    \item Eligibility traces (cite)
-    \item $\epsilon$-decay (cite)
-\end{enumerate}
 
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{images/images_part1/algorithm_performance_comparison_flattened.pdf}
-    \caption{Success rates of different RL algorithms over thousands of runs on two variants of the same IBMDP; the default and Partially observable one.}\label{fig:po-vs-ib}
+    \caption{Success rates of different RL algorithms over thousands of runs when applied to a POIBMDP and its fully observable IBMDP counterpart}\label{fig:po-vs-ib}
 \end{figure}
 
 The key observations from Figure (cite) is that POIBMDPs are way harder than their IBMDPs counterparts.
-Even though asymmetry seems to increase performance; learning a decision tree policy for a simple grid world directly with RL seem way to difficult and costly.
-We suggest researcher and practitioners interested in decision tree policies to forget the direct RL approach and focus on the indirect imitation-based approach (cite).
-Or, if for some reason one needs to still use reinforcement learning training; fitting parametric trees, trees whose depth and nodes are predifined and where only thresholds are optimized, then one can use SYMPOL (cite) or Soft decision trees (cite).
+Even though asymmetry seems to increase performances; learning a decision tree policy for a simple grid world directly with RL using the framework of POIBMDP seem way to difficult and costly as successes might require a million steps for such a seemingly simple problem.
+An other difficulty in practice that we did not cover is the choice of information gathering actions.
+For the grid world MDP, choosing good IGAs ($x\leq1$ and $y\leq1$) is simple but what about more complicated MDPs? 
+Even after choosing candidate IGAs; RL with large action space is known to be an already difficult problem.
 
-In the next chapter, we show that when the base MDP's transitions are independent of the action, then POIBMDPs are actually \textit{fully} observable.
+We suggest researchers and practitioners interested in decision tree policies for MDPs to forget about the direct RL approach and focus on the indirect imitation-based approach (cite) that despite being prone to failures too (cite), is cheaper sample and computation wise as one can re-use pretrained expert policies.
+
+If for some reason one has to avoid imitation; fitting parametric trees, trees whose depth and nodes are predifined and where only thresholds are optimized, then one can use SYMPOL (cite) or Soft decision trees (cite).
+The latter approach can be beneficial when the user has lots of domain knowledge on what nodes should be in a decision tree policy.
+
+In the next chapter, we show that when the base MDP's transitions are independent of the action, then POIBMDPs are actually \textit{fully} observable which can lead to new decision tree induction for supervised learning.
