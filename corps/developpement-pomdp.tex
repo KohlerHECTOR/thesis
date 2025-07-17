@@ -123,46 +123,40 @@ Since the probability of being in any base states at initialization given that t
 We can now plot the POIBMDP objective values of the different policies corresponding to trees for the grid world MDP as function of $\zetas$ when we fix $\gamma=0.99$. 
 When $\gamma=0.99$, despite objective values being very similar for the depth-1 and unbalanced depth-2 tree, we now know that {\color{blue}a depth-1 tree is the optimal deterministic partially observable POIBMDP policy for $0< \zeta < 1$}.
 
-Interestingly, two challenges from POMDPs can already be observed from Figure (cite). 
+Interestingly, two POMDP challenges described in (cite) can also be observed in Figure (cite). 
 First, there is a whole range of $\zeta$ values for which the stochastic policy is optimal.
-Second, for e.g. $\zeta=0.5$, when the depth-1 tree is the optimal deterministic partially observable policy, the value of state $(s_2, o_0) = (1.5, 1.5, 0, 2, 0, 2)$ is not maximized by the optimal policy but by the policy that always goes down which is sub-optimal.
-Next, we use reinforcement learning to obtain POIBMDP policies corresponding to trees for the grid world MDP.
+Second, for e.g. $\zeta=0.5$, while the depth-1 tree is the optimal deterministic partially observable policy, the value of state $(s_2, o_0) = (1.5, 1.5, 0, 2, 0, 2)$ is not maximized by this policy but by the sub-optimal policy that always goes down.
+
+Now that we know to what values to set $\zeta$ in our POIBMDP, we can apply reinforcement learning algorithms to learn partially observable deterministic policies corresponding to the optimal depth-1 decision tree.
 
 \section{Results}
 
-Now that we have shown theoretically that there exists values of $zeta$ such that the depth-1 tree policy from Figure (cite) is optimal in terms of IBMDP value (cite) and is also optimal in terms of MDP value (cite),
-we show that existing algorithms fail to learn the depth-1 tree even though it is the optimal IBMDP policy.
-We conjecture that this is because learning decision tree policies in IBMDP is equivalent to learning a deterministic reactive POMDP policy.
+Unfortunately, our results are negative and show that reinforcement learning fails for the aforementioned problem. Let us understand why.
 
 \subsection{Experimental Setup}
-\paragraph{IBMDP:} we will benchmark RL algorithms for the IBMDP of Section (cite) when the base part of the state is hidden to guarantee that the learned policy is a tree.
-There are two information gathering actions $x\leq0.5$ and $y\leq0.5$.
-We have to be extra careful when implementing this grid world because we work in the setting of discounted infinite horizon MDP; so in theory trajectories are infinite which is prohibited in practice.
-To ensure that trajectories are diverse, we reset the learning agent every 100 steps in the MDP.
-Furthermore we try to solve 200 different IBMDPs. Each IBMDP has $\gamma$ fixed to 0.99 and $\zeta$ value linearly spaced in $[-1, 2]$.
-\paragraph{Baselines:} we consider two groups of RL algorithms. The first group is standard tabular RL; Q-learning (cite)(cite), Sarsa (cite)(cite), and Policy Gradient (cite)(cite).
-(cite) and (cite) already studied the theoritcal and practical implications of applying standard RL directly to POMDP by considering partial observations as full states.
+
+\paragraph{Baselines:} we consider two groups of RL algorithms. The first group is standard tabular RL naively applied to POIBMDPs; Q-learning (cite)(cite), Sarsa (cite)(cite), and Policy Gradient (cite)(cite).
+(cite) and (cite) already studied the theoretical and practical implications of applying standard RL directly to POMDP by considering that partial observations are full MDP states.
 (cite) proved that Q-Learning will converge but without optimality guarantees. 
-(cite) showed empirically that Sarsa-$\lambda$ (cite), a version of Sarsa with some sort of memory, can learn good deterministic solutions to POMDP.
-We draw similar conclusions from our experiments. 
-We also use a vanilla tabular Policy Gradient baseline (cite), which to the best of our knowledge, nobody studied in our setting.
-In theory PG should not be a good candidate algorithm to solve our problem since it can learn stochastic policies that we showed can be better than our target policy (cite).
+(cite) showed empirically that Sarsa-$\lambda$ (cite), a version of Sarsa with some sort of memory, can learn good deterministic solutions to POMDP which makes it a good candiate for our problem.
 
+We also use a vanilla tabular Policy Gradient baseline (cite) with softmax policy, which to the best of our knowledge, nobody studied in our setting.
+In theory the Policy Gradient algorithm should not be a good candidate for our problem since it searches for stochastic policies that we showed can be better than our seeked depth-1 decision tree policy (c.f. Figure (cite)).
 
-More recently, new algorithms were developped specially for our setting of learning policies for POMDPs. Those algorithms are called asymmetric RL which authors of (cite) use without knowing. 
-Asymmetric algorithms, also called (rememebr name deployment); leverage the fact that, even if the deployed policy should depend only on partial observation, nothing forbids the use of full state information during training.
-Asymmetric Q-learning (cite) make use of state-dependent Q function $Q:S\timesA \rightarrow \mathbb{R}$ to use a TD target to update a $Q:O\times A\rightarrow \mathbb{R}$ (cite)(algo).    
-Asymmetric Policy Gradient (cite) use a state-dependent critic $V:S\rightarrow \mathbb{R}$ to plug into the gradient estimate of a policy $\pi:O\times A \rightarrow \mathbb{R}$.
-We benchmark Asymmetric Q-learning and Asymmetric Sarsa and the tabular algorithm from (cite) that we call JSJ in our experiments (algo) which is equivalent to a tabular Asymmetric Policy Gradient.
-In previous work (cite) Deep RL version of asymmetric algorithms have been benchmarked and showed to only work well for history-dependent policies or Q-function which we can't use for our particular problem.
-In particular in Figures (cite)(cite) of (cite) and cite(); the authors show that for the particular case of asymmetric critic or target depending on full states and policy or Q-function depending on partial observation, the performance of asymmetric RL can be worse than that of non-specialized naive RL.
-We use at least one million timesteps to train each agent. Each agent is trained on 100 seeds.  
+More recently, RL algorithms were developped specially for learning policies in POMDPs. Those algorithms are called asymmetric RL which authors of the original IBMDP paper (cite) use without knowing. 
+Asymmetric algorithms leverage the fact that, even if the deployed policy should depend only on partial observation, nothing forbids the use of full state information during training if the latter is available.
+Asymmetric Q-learning (cite) makes use of full-state-action value function $U:S\times O \timesA \rightarrow \mathbb{R}$ to use as a temporal difference error target (cite) when updating the $Q:O\times A\rightarrow \mathbb{R}$ of intereset. 
+In Algorithm (cite), we write the Asymmetric Q-learning algorithm.    
+
+In addition to the traditional tabular RL algorithms, we also apply Asymmetric Q-learning and Asymmetric Sarsa and JSJ, the tabular algorithm from (cite)(cite) which is equivalent to a tabular Asymmetric Policy Gradient algorithm.
+
+We use at least 200 000 time steps to train each agent. Each agent is trained on 100 seeds on each POIBMDP.  
 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
-    \KwData{POMDP $\mathcal{M}_{po} = \langle X, O, A, R, T, T_0, \Omega \rangle$, learning rates $\alpha_1,\quad \alpha_2$, exploration rate $\epsilon$}
-    \KwResult{Partially observable deterministic policy $\pi$}
+    \KwData{POMDP $\mathcal{M}_{po} = \langle X, O, A, R, T, T_0, \Omega \rangle$, learning rates $\alpha_u,\quad \alpha_q$, exploration rate $\epsilon$}
+    \KwResult{$\pi:O\rightarrow A$}
     Initialize $U(x,a) = 0$ for all $x \in X, a \in A$ \\
     Initialize $Q(o,a) = 0$ for all $o \in O, a \in A$ \\
 
@@ -174,8 +168,8 @@ We use at least one million timesteps to train each agent. Each agent is trained
             Choose action $a_t$ using $\epsilon$-greedy: $a_t = \arg\max_a Q(o_t,a)$ with prob. $1-\epsilon$ \\
             Take action $a_t$, observe $r_t = R(x_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $o_{t+1} \sim \Omega(x_{t+1})$ \\
             $y \leftarrow r + \gamma U(x_{t+1}, \argmax_{a'} Q(o_{t+1}, a'))$ \Comment{// TD target} \\
-            $U(x_t,a_t) \leftarrow (1 - \alpha_1) U(x_t, a_t) + \alpha_1 y $ \\
-            $Q(o_t,a_t) \leftarrow (1 - \alpha_1) Q(o_t, a_t) + \alpha_1 y $ \\
+            $U(x_t,a_t) \leftarrow (1 - \alpha_u) U(x_t, a_t) + \alpha_u y $ \\
+            $Q(o_t,a_t) \leftarrow (1 - \alpha_q) Q(o_t, a_t) + \alpha_q y $ \\
             $x_t \leftarrow x_{t+1}$ \\
             $o_t \leftarrow o_{t+1}$ \\
         }
@@ -188,7 +182,7 @@ We use at least one million timesteps to train each agent. Each agent is trained
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
     \KwData{POMDP $\mathcal{M}_{po} = \langle X, O, A, R, T, T_0, \Omega \rangle$, learning rate $\alpha$, policy parameters $\theta$, number of trajectories $N$}
-    \KwResult{Policy $\pi_\theta$ and Q-function estimates}
+    \KwResult{Stochastic partially observable policy $\pi_\theta: O\rightarrow \DeltaA$}
     Initialize policy parameters $\theta$ \\
     Initialize $Q(o, a) = 0$ for all observations $o$ and actions $a$ \\
     \For{each episode}{
@@ -210,19 +204,18 @@ We use at least one million timesteps to train each agent. Each agent is trained
         }
         Reset $Q(o, a) = 0$ for all observations $o$ and actions $a$ \Comment{// Reset for next episode}
     }
-    \caption{JSJ algorithm. Uses Monte Carlo estimates of the average reawrd value functions to perform policy imporvements (cite)}\label{alg:reinforce}
+    \caption{JSJ algorithm. Uses Monte Carlo estimates of the average reawrd value functions to perform policy imporvements (cite)}\label{alg:jsj}
 \end{algorithm}
 
-\paragraph{Hyperparameters:} For all RL baselines in the first part of this section we use, when applicable, exploration rates $\epsilon=0.3$ and/or learning rates $\alpha=0.1$.
+\paragraph{Hyperparameters:} For all baselines we use, when applicable, exploration rates $\epsilon=0.3$ and learning rates $\alpha=0.1$.
 
-\paragraph{Metrics:} we will consider two main metrics; the sub-optimality gap of the learned policy with respect to the IBMDP objective (cite) and the proportion of the type of learned decision tree for the original grid world.
-Because we know the whole (IB)MDP model that we can represent exactly as tables; and because we know for each $\zeta$ value the IBMDP objective value of the optimal partially observable IBMDP policy; we can report the \textbf{exact} sub-optimality gaps:
-\begin{align*}
-    \operatorname{Gap}(\pi) = |V(\pi^{\star}) - V(\pi)|
-\end{align*}
-Where we can compute $V(\pi)$ exactly by first mapping $\pi : O \times A \rightarrow \mathbb{R}$ to $\pi_{S} : S \times A \rightarrow \mathbb{R}$ by setting $\pi_S (s, a) = \pi(o,a) \text{ if }o\in s$ $\forall s \in S, \forall o \in O \forall a \in A$.
-And then we apply repetitevly the Bellman operator (show).
-Similarly, once the RL training finished, we can use the tree extraction algorithm (cite) to count the learned tree distributions across the 100 seeds of each experiment.
+\paragraph{Metrics:} we will consider two metrics.
+First, the sub-optimality gap of the learned policy POIBMDP value with respect to the optimal deterministic partially observable POIBMP policy: $|V^\pi^{\star}(o_0) - V^\pi(o_0)|$
+Because we know the whole POIBMDP model that we can represent exactly as tables; and because we know for each $\zeta$ value the POIBMDP objective value of the optimal partially observable policy (c.f. Figure); we can report the \textit{exact} sub-optimality gaps.
+
+Second, we consider the distribution of the learned trees structure over the 100 training seeds.
+Indeed, since for every POIBMDP we train each baseline 100 times, we obtain 100 partially observable deterministic policies from which we can extract the equivalent 100 decision tree policies using Algorithm (cite).
+This helps understand which trees RL tend to learn.
 
 \subsection{How well do exsisting baselines learn in POIBMDPs?}
 
