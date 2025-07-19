@@ -322,6 +322,11 @@ An other difficulty in practice that we did not cover is the choice of informati
 For the grid world MDP, choosing good IGAs ($x\leq1$ and $y\leq1$) is simple but what about more complicated MDPs? 
 Even after choosing candidate IGAs; RL with large action space is known to be an already difficult problem.
 
+
+\section{Reproducing CUSTARD experiments}
+In this section, we attempt to reproducie the results from the original IBMDP paper (cite). Authors did not share their code and the description of hyperparameters and algorithms is very light.
+
+\section{Conclusion}
 We suggest researchers and practitioners interested in decision tree policies for MDPs to forget about the direct RL approach and focus on the indirect imitation-based approach (cite) that despite being prone to failures too (cite), is cheaper sample and computation wise as one can re-use pretrained expert policies.
 
 If for some reason one has to avoid imitation; fitting parametric trees, trees whose depth and nodes are predifined and where only thresholds are optimized, then one can use SYMPOL (cite) or Soft decision trees (cite).
