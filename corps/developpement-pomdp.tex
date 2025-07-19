@@ -269,12 +269,12 @@ Furhtermore; we also consider advanced tricks for tabular RL in order to properl
     \item $\epsilon$-decay (cite)
 \end{enumerate}
 In particular, for each of the aforementioned RL baselines; we learn policies using a wide variety of hyperparamters.
-For example, in Table (cite) we provide the detailed hyperparameter space of Asymmetric Sarsa, which induce a total of 192 instances of Asymmetric Sarsa, and in Table (cite) we provide the hyperparameter space sizes for all baselines 
+For example, in Table (cite) we provide the detailed hyperparameter space of Asymmetric Sarsa, which induce a total of 1152 instances of Asymmetric Sarsa, and in Table (cite) we provide the hyperparameter space sizes for all baselines 
 We run each baseline using each hyperparamters combination 10 times on 1 million timesteps.
 
 \begin{table}[h]
 \centering
-\caption{Asymmetric Sarsa Hyperparameter Space (192 combinations)}
+\caption{Asymmetric Sarsa Hyperparameter Space (1152 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
@@ -296,15 +296,15 @@ Optimistic & True, False & Optimistic initialization \\
     \toprule
     \textbf{Algorithm} & \textbf{Problem} & \textbf{Total Hyperparameter Combinations} \\
     \midrule
-    Policy Gradient & POIBMDP & 140 \\
+    Policy Gradient & POIBMDP & 420 \\
     JSJ & POIBMDP & 15 \\
-    Policy Gradient & IBMDP & 140 \\
-    Q-learning & POIBMDP &48 \\
-    Asym Q-learning & POIBMDP & 192 \\
-    Q-Learning & IBMDP & 60 \\
-    Sarsa & POIBMDP & 48 \\
-    Asym Sarsa & POIBMDP & 192 \\
-    Sarsa & IBMDP & 60 \\
+    Policy Gradient & IBMDP & 420 \\
+    Q-learning & POIBMDP & 288 \\
+    Asym Q-learning & POIBMDP & 1152 \\
+    Q-Learning & IBMDP & 288 \\
+    Sarsa & POIBMDP & 288 \\
+    Asym Sarsa & POIBMDP & 1152 \\
+    Sarsa & IBMDP & 288 \\
     \bottomrule
     \end{tabular}
     \end{table}
