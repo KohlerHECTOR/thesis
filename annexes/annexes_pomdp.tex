@@ -131,13 +131,13 @@ Episodes per Update (n\_steps) & 10, 100, 1000 & Number of episodes per policy u
 
 \begin{table}[h]
 \centering
-\caption{QL Hyperparameter Space (48 combinations)}
+\caption{QL Hyperparameter Space (192 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
 \midrule
-Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
-Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
+Epsilon Schedules & (0.3, 1), (0.3, 0.99), (1, 1) & Initial exploration and decrease rate \\
+Epsilon Schedules & (0.1, 1), (0.1, 0.99), (0.3, 0.99) & Initial exploration and decrease rate \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate (lr\_o) & 0.001, 0.005, 0.01, 0.1 & Observation Q-learning rate \\
 Optimistic & True, False & Optimistic initialization \\
@@ -147,13 +147,13 @@ Optimistic & True, False & Optimistic initialization \\
 
 \begin{table}[h]
 \centering
-\caption{QL-Asym Hyperparameter Space (192 combinations)}
+\caption{QL-Asym Hyperparameter Space (768 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
 \midrule
-Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
-Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
+Epsilon Schedules & (0.3, 1), (0.3, 0.99), (1, 1) & Initial exploration and decrease rate \\
+Epsilon Schedules & (0.1, 1), (0.1, 0.99), (0.3, 0.99) & Initial exploration and decrease rate \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate (lr\_o) & 0.001, 0.005, 0.01, 0.1 & Observation Q-learning rate \\
 Learning Rate (lr\_v) & 0.001, 0.005, 0.01, 0.1 & State-action Q-learning rate \\
@@ -164,15 +164,15 @@ Optimistic & True, False & Optimistic initialization \\
 
 \begin{table}[h]
 \centering
-\caption{QL-IBMDP Hyperparameter Space (60 combinations)}
+\caption{QL-IBMDP Hyperparameter Space (192 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
 \midrule
-Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
-Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
-Lambda & 0.0, 0.1, 0.3, 0.6, 0.9 & Eligibility trace decay \\
-Learning Rate (lr\_v) & 0.001, 0.005, 0.01, 0.05, 0.1 & State-action Q-learning rate \\
+Epsilon Schedules & (0.3, 1), (0.3, 0.99), (1, 1) & Initial exploration and decrease rate \\
+Epsilon Schedules & (0.1, 1), (0.1, 0.99), (0.3, 0.99) & Initial exploration and decrease rate \\
+Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
+Learning Rate (lr\_v) & 0.001, 0.005, 0.01, 00.1 & State-action Q-learning rate \\
 Optimistic & True, False & Optimistic initialization \\
 \bottomrule
 \end{tabular}
@@ -180,13 +180,13 @@ Optimistic & True, False & Optimistic initialization \\
 
 \begin{table}[h]
 \centering
-\caption{SARSA Hyperparameter Space (48 combinations)}
+\caption{SARSA Hyperparameter Space (192 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
 \midrule
-Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
-Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
+Epsilon Schedules & (0.3, 1), (0.3, 0.99), (1, 1) & Initial exploration and decrease rate \\
+Epsilon Schedules & (0.1, 1), (0.1, 0.99), (0.3, 0.99) & Initial exploration and decrease rate \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate (lr\_o) & 0.001, 0.005, 0.01, 0.1 & Observation SARSA learning rate \\
 Optimistic & True, False & Optimistic initialization \\
@@ -196,13 +196,13 @@ Optimistic & True, False & Optimistic initialization \\
 
 \begin{table}[h]
 \centering
-\caption{SARSA-Asym Hyperparameter Space (192 combinations)}
+\caption{SARSA-Asym Hyperparameter Space (768 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
 \midrule
-Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
-Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
+Epsilon Schedules & (0.3, 1), (0.3, 0.99), (1, 1) & Initial exploration and decrease rate \\
+Epsilon Schedules & (0.1, 1), (0.1, 0.99), (0.3, 0.99) & Initial exploration and decrease rate \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate (lr\_o) & 0.001, 0.005, 0.01, 0.1 & Observation SARSA learning rate \\
 Learning Rate (lr\_v) & 0.001, 0.005, 0.01, 0.1 & State-action SARSA learning rate \\
@@ -213,36 +213,16 @@ Optimistic & True, False & Optimistic initialization \\
 
 \begin{table}[h]
 \centering
-\caption{SARSA-IBMDP Hyperparameter Space (60 combinations)}
+\caption{SARSA-IBMDP Hyperparameter Space (192 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
 \midrule
-Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
-Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
-Lambda & 0.0, 0.1, 0.3, 0.6, 0.9 & Eligibility trace decay \\
-Learning Rate (lr\_v) & 0.001, 0.005, 0.01, 0.05, 0.1 & State-action SARSA learning rate \\
+Epsilon Schedules & (0.3, 1), (0.3, 0.99), (1, 1) & Initial exploration and decrease rate \\
+Epsilon Schedules & (0.1, 1), (0.1, 0.99), (0.3, 0.99) & Initial exploration and decrease rate \\
+Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
+Learning Rate (lr\_v) & 0.001, 0.005, 0.01, 0.1 & State-action SARSA learning rate \\
 Optimistic & True, False & Optimistic initialization \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-\begin{table}[h]
-\centering
-\caption{Summary of All Algorithm Hyperparameter Spaces (780 total combinations)}
-\begin{tabular}{llr}
-\toprule
-\textbf{Algorithm} & \textbf{Type} & \textbf{Total Hyperparameter Combinations} \\
-\midrule
-PG & Policy Gradient & 140 \\
-PG-IBMDP & Policy Gradient & 140 \\
-QL & Q-Learning & 48 \\
-QL-Asym & Q-Learning & 192 \\
-QL-IBMDP & Q-Learning & 60 \\
-SARSA & SARSA & 48 \\
-SARSA-Asym & SARSA & 192 \\
-SARSA-IBMDP & SARSA & 60 \\
 \bottomrule
 \end{tabular}
 \end{table}

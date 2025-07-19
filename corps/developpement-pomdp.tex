@@ -274,13 +274,13 @@ We run each baseline using each hyperparamters combination 10 times on 1 million
 
 \begin{table}[h]
 \centering
-\caption{Asymmetric Sarsa Hyperparameter Space (1152 combinations)}
+\caption{Asymmetric Sarsa Hyperparameter Space (768 combinations)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
 \midrule
-Epsilon Start & 0.1, 0.3, 1.0 & Initial exploration rate \\
-Epsilon Decay & 0.99, 0.999, 1.0 & Exploration rate decay \\
+Epsilon Schedules & (0.3, 1), (0.3, 0.99), (1, 1) & Initial exploration and decrease rate \\
+Epsilon Schedules & (0.1, 1), (0.1, 0.99), (0.3, 0.99) & Initial exploration and decrease rate \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate $U$ & 0.001, 0.005, 0.01, 0.1 & $Q$ learning rate \\
 Learning Rate $Q$ & 0.001, 0.005, 0.01, 0.1 & $U$ learning rate \\
@@ -298,10 +298,10 @@ Optimistic & True, False & Optimistic initialization \\
     \midrule
     Policy Gradient & PO/IBMDP & 420 \\
     JSJ & POIBMDP & 15 \\
-    Q-learning & PO/IBMDP & 288 \\
-    Asym Q-learning & POIBMDP & 1152 \\
-    Sarsa & PO/IBMDP & 288 \\
-    Asym Sarsa & POIBMDP & 1152 \\
+    Q-learning & PO/IBMDP & 192 \\
+    Asym Q-learning & POIBMDP & 768 \\
+    Sarsa & PO/IBMDP & 192 \\
+    Asym Sarsa & POIBMDP & 768 \\
     \bottomrule
     \end{tabular}
     \end{table}
