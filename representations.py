@@ -33,10 +33,10 @@ y_reg = [
 # y_reg = y_reg_original * 1
 
 # Normalize the targets
-# y_reg = np.array(y_reg)
-# y_reg_min = np.min(y_reg)
-# y_reg_max = np.max(y_reg)
-# y_reg = (y_reg - y_reg_min) / (y_reg_max - y_reg_min)
+y_reg = np.array(y_reg)
+y_reg_min = np.min(y_reg)
+y_reg_max = np.max(y_reg)
+y_reg = (y_reg - y_reg_min) / (y_reg_max - y_reg_min)
 
 # print("Original y_reg range:", y_reg_min, "to", y_reg_max)
 # print("Normalized y_reg:")
@@ -61,7 +61,25 @@ y_reg = [
 params = [
     {
         "solver": "adam",
-        "learning_rate_init": 0.05,
+        "learning_rate_init": 0.001,
+        "hidden_layer_sizes": (32,32,),
+        "activation": "relu",
+    },
+    {
+        "solver": "adam",
+        "learning_rate_init": 0.01,
+        "hidden_layer_sizes": (32,32,),
+        "activation": "relu",
+    },
+    {
+        "solver": "sgd",
+        "learning_rate_init": 0.001,
+        "hidden_layer_sizes": (32,32,),
+        "activation": "relu",
+    },
+    {
+        "solver": "sgd",
+        "learning_rate_init": 0.01,
         "hidden_layer_sizes": (32,32,),
         "activation": "relu",
     },
@@ -69,54 +87,37 @@ params = [
         "solver": "adam",
         "learning_rate_init": 0.001,
         "hidden_layer_sizes": (32,32,),
-        "activation": "relu",
-    },{
-        "solver": "adam",
-        "learning_rate_init": 0.0001,
-        "hidden_layer_sizes": (32,32,),
-        "activation": "relu",
-    },
-    {
-        "solver": "adam",
-        "learning_rate_init": 0.00001,
-        "hidden_layer_sizes": (32,32,),
-        "activation": "relu",
-    },
-    {
-        "solver": "adam",
-        "learning_rate_init": 0.05,
-        "hidden_layer_sizes": (32,32,),
         "activation": "tanh",
     },
     {
         "solver": "adam",
+        "learning_rate_init": 0.01,
+        "hidden_layer_sizes": (32,32,),
+        "activation": "tanh",
+    },
+    {
+        "solver": "sgd",
         "learning_rate_init": 0.001,
         "hidden_layer_sizes": (32,32,),
         "activation": "tanh",
-    },{
-        "solver": "adam",
-        "learning_rate_init": 0.0001,
-        "hidden_layer_sizes": (32,32,),
-        "activation": "tanh",
     },
     {
-        "solver": "adam",
-        "learning_rate_init": 0.00001,
+        "solver": "sgd",
+        "learning_rate_init": 0.01,
         "hidden_layer_sizes": (32,32,),
         "activation": "tanh",
     },
 ]
 
 labels = [
-    "Adam lr=5e-3 relu",
     "Adam lr=1e-3 relu",
-    "Adam lr=1e-4 relu",
-    "Adam lr=1e-5 relu",
-    "Adam lr=5e-3 tanh",
+    "Adam lr=1e-2 relu",
+    "SGD lr=1e-3 relu",
+    "SGD lr=1e-2 relu",
     "Adam lr=1e-3 tanh",
-    "Adam lr=1e-4 tanh",
-    "Adam lr=1e-5 tanh",
-
+    "Adam lr=1e-2 tanh",
+    "SGD lr=1e-3 tanh",
+    "SGD lr=1e-2 tanh"
 ]
 
 plot_args = [
@@ -161,7 +162,7 @@ def plot_on_dataset(X, y, ax, name, n_runs=100):
         
         # Plot mean curve
         iterations = range(len(mean_loss))
-        ax.plot(iterations, mean_loss, label=label, linewidth=2.5, **args)
+        ax.plot(iterations, mean_loss, label=label, linewidth=1, **args)
         
         # # Plot confidence interval (mean ± std)
         # ax.fill_between(iterations, 
@@ -207,10 +208,10 @@ all_loss_curves = plot_on_dataset(x, y_reg, ax=ax1, name='test')
 ax1.set_xlabel('Iteration', fontdict={'fontsize':18})
 ax1.set_ylabel('Loss', fontdict={'fontsize':18})
 ax1.tick_params(axis='y', labelsize=14)
-ax1.legend(loc='lower left', fontsize=17)
+ax1.legend(loc='lower left', fontsize=10)
 ax1.grid(True, alpha=0.3)
 # ax1.set_ylim(0, 3000)
 ax1.set_yscale('log')
 plt.tight_layout()
-plt.savefig('repre_adam.pdf')
+plt.savefig('repre.pdf')
 plt.show()
