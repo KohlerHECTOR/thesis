@@ -15,8 +15,14 @@ As described in (cite), given a base MDP $\mathcal{M}\langle S, A, R, T, T_0\ran
 The observation space of the IBMDP $O$ and the deterministic transitions $T_{info}$ are induced from the given hyperparameters $A_{info}, \zeta$.
 
 Authors propose a to parametrize the set of IGAs with $i \times p$ actions $\langle v_k, i \rangle$ with $v_k$ depending on the current observation $o=(L'_1, U'_1, \dots, L'_i, U'_i, \dots, L'_n, U'_n)$: $v_k = \frac{k(U'_i - L'_i)}{p+1}$.
-This virtually results in an infinite number of candidate nodes in the resulting decision tree policy.
-For example, if we define an IBMDP with $p=3$ for the grid-world MDP of the previous chapter, at every time step the agent can take one of six actions.
+This parametric IGAs space keeps the discrete IBMDP action space at a reasonable size while providing a learning agent with very veried tests.
+
+For example, if we define an IBMDP with $p=3$ for the grid-world MDP of the previous chapter, at every time step the agent can take one of six actions. 
+At $t=0$, recall that $o_0=(0, 2, 0, 2)$, so if an agent takes, e.g., IGA $\langle v_2, 2 \rangle$, the effective IGA is $\langle v_2=\frac{k(2-0)}{3+1}, i \rangle = \langle 1, 2 \rangle$ which in turn effectively corresponds to a test node ``$y \leq 1$?'' for a decisision tre policy acting in the grid-world.
+If the base state has $y$ value $0.5$, then the next observation at $t=1$ is $o_1=(0, 2, 0, 1)$. Now, if the agent were to take the same IGA $\langle v_2, 2 \rangle$ again, it would be effectively $\langle v_2=\frac{k(1-0)}{3+1}, i \rangle = \langle 0.5, 2 \rangle$. 
+This would give the next observation at $t=2$ $o_1=(0, 2, 0, 0.5)$ and son on \dots. 
+
+
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{images/images_part1/dqn.pdf}
