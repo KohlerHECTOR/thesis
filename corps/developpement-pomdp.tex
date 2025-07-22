@@ -1,4 +1,49 @@
-\chapter{The Limits of Direct Reinforcement Learning of Decision Tree Policies}
+\chapter{Limits of Direct (Deep) Reinforcement Learning of Decision Tree Policies}
+In this chapter, we reproduce the algorithms presented in (cite). In particular, we attempt to reproduce the results from Table (cite) in which authors use deep reinforcement learning to directly learn a detph-2 decision tree for the CartPole control (cite).
+We run the \textit{same} algorithms using the \textit{same} hyperparameters when possible.
+Surprisingly, we are unable to reproduce their results. Even after searching for different hyperparameters, we are unable to learn decision tree policies for CartPole with reinforcement learning. 
+In this chapter we provide a first set of failure modes for the direct reinforcement learning of decision tree policies and only in the next chapter will we provide more grounded insights.
+
+\section{Reproducing ``Iterative Bounding MDPs: Learning Interpretable Policies via Non-Interpretable Methods''}
+In (cite), authors formulate an Iterative Bounding Markov Decision Process (cite) for the learning of a depth-2 decision tree policy when the base MDP is CartPole (cite).
+Then they use reinforcement learning to learn a partially-observable policy from which they can extract a decision tree using Alg 6 (cite). 
+
+Authors propose two tricks to improve learning: 1) limit the tree depth, and 2), parametric information gathering actions that adapt to the state.
+
+\subsection{IBMDP formulation}
+As described in (cite), given a base MDP $\mathcal{M}\langle S, A, R, T, T_0\rangle$, to define an IBMDP $\mathcal{M}_{IB}\langle S, O, A, A_{\info}, R, \zeta, T, T_0, T_{info}\rangle$ given a base MDP, the user needs to provide the set of information gathering actions $A_{info}$ and the reward $\zeta$ for taking those.
+The observation space of the IBMDP $O$ and the deterministic transitions $T_{info}$ are induced from the given hyperparameters $A_{info}, \zeta$.
+
+Authors propose a to parametrize the set of IGAs with $i \times p$ actions $\langle v_k, i \rangle$ with $v_k$ depending on the current observation $o=(L'_1, U'_1, \dots, L'_i, U'_i, \dots, L'_n, U'_n)$: $v_k = \frac{k(U'_i - L'_i)}{p+1}$.
+This virtually results in an infinite number of candidate nodes in the resulting decision tree policy.
+For example, if we define an IBMDP with $p=3$ for the grid-world MDP of the previous chapter, at every time step the agent can take one of six actions.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/images_part1/dqn.pdf}
+    \caption{Custard DQN (cite) on CartPole.}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/images_part1/hyperparameter_importance_dqn.pdf}
+    \caption{Custard DQN (cite) on CartPole.}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/images_part1/ppo.pdf}
+    \caption{Custard PPO on CartPole}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/images_part1/hyperparameter_importance_ppo.pdf}
+    \caption{Custard DQN (cite) on CartPole.}
+\end{figure}
+
+
+
+\chapter{Understanding the Limits of Direct Reinforcement Learning}
 In this chapter we investigate the properties of reinforcement learning for learning a depth-1 decision tree policy for a very simple Markov decision process.
 Using the formal framework of partially observable iterative bounding Markvov decision processes (cite), we aim to learn partially observable deterministic policies that correspond to decision tree policies (cite).
 
@@ -368,33 +413,6 @@ Even though asymmetry seems to increase performances; learning a decision tree p
 An other difficulty in practice that we did not cover is the choice of information gathering actions.
 For the grid world MDP, choosing good IGAs ($x\leq1$ and $y\leq1$) is simple but what about more complicated MDPs? 
 Even after choosing candidate IGAs; RL with large action space is known to be an already difficult problem.
-
-
-\section{[WIP] Reproducing CUSTARD experiments}
-In this section, we attempt to reproducie the results from the original IBMDP paper (cite). Authors did not share their code and the description of hyperparameters and algorithms is very light.
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/images_part1/dqn.pdf}
-    \caption{Custard DQN (cite) on CartPole.}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/images_part1/hyperparamter_importance_dqn.pdf}
-    \caption{Custard DQN (cite) on CartPole.}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/images_part1/ppo.pdf}
-    \caption{Custard PPO on CartPole}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/images_part1/hyperparamter_importance_ppo.pdf}
-    \caption{Custard DQN (cite) on CartPole.}
-\end{figure}
 
 
 \section{Conclusion}
