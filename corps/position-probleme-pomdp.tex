@@ -310,95 +310,41 @@ The transitions and rewards are given by definition (cite).
 \label{fig:poibmdp_trajectory}
 \end{figure}
 
-
-
-\subsection{Partially Observable IBMDPs}
-
-Now we know that to find a decision tree policy for a given MPD $\mathcal{M}$ satisfying the definition (cite); one has to find a partially observable--sometimes called \textit{memoryless} or \textit{reactive}--deterministic policy for an IBMDP $\mathcal{M}_{IB}$.
-Such problems are classical instances of Partially Observable Markov Decision Processes (POMDPs) (cite). This connection with POMDP was not done by the authors of IBMDPs. 
-
-\begin{definition}[Partially Observable Markov Decision Processes]
-A Partially Observable Markov Decision Process (POMDP) is a tuple $\langle X, A, O, T, T_0, \Omega, R\rangle$ where:
-\begin{itemize}
-    \item $X$ is the state space (like in the base definition of MDPs).
-    \item $A$ is a finite set of actions (like in the base definition of MDPs).
-    \item $O$ is a set of observations.
-    \item $T: X \times A \rightarrow \Delta X$ is the transition kernal, where $T(s, a, x') = P(x'|x, a)$ is the probability of transitioning to state $x'$ when taking action $a$ in state $x$
-    \item $T_0$: is the intial distribution over states. 
-    \item $\Omega: X \rightarrow \Delta O$ is the observation kernel, where $\Omega(x', a, o) = P(o|x', a)$ is the probability of observing $o$ in state $x$
-    \item $R: X \times A \rightarrow \mathbb{R}$ is the reward function, where $R(x, a)$ is the immediate reward for taking action $a$ in state $x$
-\end{itemize}
-Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP (cite).
-\end{definition}
-
-We can simply extend the definition of Iterative Bounding MDPs (cite) with an observation kernel to get Partially Observable IBMDPs:
-\begin{definition}[Partially Observable Iterative Bounding Markov Decision Processes] a Partially Observable Iterative Bounding Markov Decision Process (POIBMDP) is a an IBMDP (cite) extended with an observation kernel 
-    \begin{align*}
-        \langle \overbrace{S, \underbrace{O}_{\text{Observations}}}^{\text{fully observable states X}}, \underbrace{A, A_{info}}_{A}, \overbrace{R, \zeta}^{R}, \underbrace{T_{info}, T, T_0}_{T, T_0}, \Omega \rangle
-    \end{align*}
-\end{definition}
-
-The sole specifity of POIBMDPs compared to the general definition of POMDPs, is that $\Omega(o|(s, o'))$, the probability of observing $o$ in $(s,o')$, is $1_{o=o'}$.
-This particular instance of POMDPs with observations being some indices of the fully-observable states has other names in the litterature: Mixed Observability MDPs (cite), Block MDPs (cite).
-POIBMDPs can also be seen as non-stationary MDPs in which there is one different transition kernel per base MDP state: these are called Hidden-Mode MDPs (cite). 
-
-Following (cite) we can write the definition of the value of a deterministic partially observable policy $\pi:O\rightarrow A$ in observation $o$.
-
-\begin{definition}[Partial observable value function] In a POIBMDP, the expected cumulative discounted reward of a deterministic partially observable policy $\pi:O\rightarrow A\cup A_{info}$ starting from observation $o$ is $V^{\pi}(o)$:
-    \begin{align*}
-        V^{\pi}(o) &= \underset{(s,o')\in S\times O}{\sum}P^{\pi}((s, o')|o)V^{\pi}((s, o'))
-    \end{align*}
-with $P^{\pi}((s, o')|o)$ the asymptotic occupancy distribution (see cite for definition) of the fully observable state $(s,o')$ given the partial observation $o$ and $V^{\pi}((s, o'))$ the classical state-value function defined in (cite).
-\end{definition}
-
-
-The asymptotic occupancy distribution is the probability of a policy $\pi$ to be in $(s,o')$ while observing $o$ and having taken actions given by $\pi$.  
-
-The problem that we solve is to find the deterministic partially observable policy that maximizes the excpeted value in the initial observation:
-\begin{align}
-    \pi^{\star} &= \underset{\pi}{\operatorname{argmax}}J(\pi) = \underset{\pi}{\operatorname{argmax}}V^{\pi}(o_0)
-\end{align}
-With $\pi:O\rightarrow A\cup A_{info}$. There is no expectation over possible initial observation in the above objective function as there is only one initial observation in a POIBMDP: $o_0=(L_1, U_1, \dots, L_n, U_n)$.
-
-This particular problem of learning deterministic partially observable policies for POMDPs has been studied in the works of Littman, Singh and Jordan: (cite).
-In (cite) atuhors give som intution behind why the above optimization problem is hard. For example, the optimal partially observable policy can be stochastic (cite precise section), hence policy gradient algoriothms (cite) are to avoid. 
-Furthermore, the optimal deterministic patially observable policy might not maximize all the value of all observations simulataneously (cite precise section) which makes difficult the use the Bellman optimality equation (cite) to compute policies.
-Despite those hardness results, empirical results of applying RL to POMDPs by naively setting the states to be observations has shown promising results (cite). 
-More recently, the framework of Baisero et. al. (cite) called asymmetric RL has also shown promising empirical and theoretical results when leveraging fully-observable state information during training of a partially observable policy.
-In the next chapter, we use reinforcement learning to train decision tree policies for MDPs by seeking deterministic partially observable policies for POIBMDPs (cite).  
+We summarize the goal of the next chapters in Figure (cite): we learn decision tree policies for some MDP $\mathcal{M}$, we first define an IBMDP $\mathcal{M}_{IB}$ with some information gathering actions and their reward $\zeta$, then we can find the policy from observations to actions that maximizes the expected value of initial IBMDP states.
+We discuss in more details the impact of learn policies depending on partial observations of IBMDP in Chapter (cite) but first we attemt to reproduce the original results of (cite).
 \begin{figure}[h]
-\centering
-\begin{tikzpicture}
-    \draw[fill=blue!40] (0, 0) rectangle (6, 4);
-    \node at (3, 3.5) {POIBMDP $\mathcal{M}_{POIB}\langle\mathcal{M}_{IB}, \Omega\rangle$};
-    \draw[fill=blue!30] (0, 0) rectangle (5.9, 3);
-    \node at (3, 2.5) {IBMDP $\mathcal{M}_{IB} \langle \mathcal{M}, O, A_{info}, \zeta, T_{info}\rangle$};
-    \draw[fill=blue!10] (0, 0) rectangle (5, 2);
-    \node at (3, 1.5) {MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$};
+    \centering
+    \begin{tikzpicture}
+        \draw[fill=blue!30] (0, 0) rectangle (5.9, 3);
+        \node at (3, 2.5) {IBMDP $\mathcal{M}_{IB} \langle \mathcal{M}, O, A_{info}, \zeta, T_{info}\rangle$};
+        \draw[fill=blue!10] (0, 0) rectangle (5, 2);
+        \node at (3, 1.5) {MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$};
+        
+        \draw[fill=red!10] (10, 0) rectangle (14, 3);
+        \node at (12, 2) {\textbf{Objective}};
+        \node at (12, 1) {$\pi^{\star} = \underset{\pi}{\operatorname{argmax}} \mathbb{E}[V^{\pi}(s_0, o_0)| s_0\sim T_0]$};
+        
+        \draw[fill=red!10] (1, -5) rectangle (5, -2);
+        \node at (3, -3) {\textbf{Decision Tree Policy}};
+        \node at (3, -4) {$\pi_{\mathcal{T}}: S \rightarrow A$};
+        
+        \draw[fill=red!10] (9.5, -5) rectangle (14.5, -2);
+        \node at (12, -3) {\textbf{Deterministic Policy}};
+        \node at (12, -4) {$\pi: O \rightarrow A \cup A_{info}$};
+        
+        \draw[thick, ->] (6, 2) -- (10, 2) node[midway, above] {$\gamma$};
+        \draw[thick, <-] (5, -3.5) -- (9.5, -3.5) node[midway, above] {Extract tree with Alg 6};
+        \draw[thick, ->] (12, 0) -- (12, -2) node[midway, left] {Solve with e.g. RL};
+        \draw[thick, <-] (3, 0.5) -- (3, -2) node[midway, left] {Can be interpreted};
     
-    \draw[fill=red!10] (10, 0) rectangle (14, 3);
-    \node at (12, 2) {\textbf{Objective}};
-    \node at (12, 1) {$\pi^{\star} = \underset{\pi}{\operatorname{argmax}} V^{\pi}(o_0)$};
-    
-    \draw[fill=red!10] (1, -5) rectangle (5, -2);
-    \node at (3, -3) {\textbf{Decision Tree Policy}};
-    \node at (3, -4) {$\pi_{\mathcal{T}}: S \rightarrow A$};
-    
-    \draw[fill=red!10] (9.5, -5) rectangle (14.5, -2);
-    \node at (12, -3) {\textbf{Deterministic PO Policy}};
-    \node at (12, -4) {$\pi: O \rightarrow A \cup A_{info}$};
-    
-    \draw[thick, ->] (6, 2) -- (10, 2) node[midway, above] {$\gamma$};
-    \draw[thick, <-] (5, -3.5) -- (9.5, -3.5) node[midway, above] {Extract tree with Alg 6};
-    \draw[thick, ->] (12, 0) -- (12, -2) node[midway, left] {Solve with e.g. RL};
-    \draw[thick, <-] (3, 0.5) -- (3, -2) node[midway, left] {Can be interpreted};
+        
+        % % Final arrow from tree back to base MDP - adjusted position
+        % \draw[thick, ->] (1.75, -2.5) -- (1.75, -0.5) node[midway, right] {Can deploy\\and interpret};
+        
+    \end{tikzpicture}
+    \caption{A formal framework to learn decision tree policies for MDPs. This include learning a partially observable deterministic policy in a POIBMDP (cite).}
+    \label{fig:nested_decision_processes}
+    \end{figure}
 
-    
-    % % Final arrow from tree back to base MDP - adjusted position
-    % \draw[thick, ->] (1.75, -2.5) -- (1.75, -0.5) node[midway, right] {Can deploy\\and interpret};
-    
-\end{tikzpicture}
-\caption{A formal framework to learn decision tree policies for MDPs. This include learning a partially observable deterministic policy in a POIBMDP (cite).}
-\label{fig:nested_decision_processes}
-\end{figure}
+
 
