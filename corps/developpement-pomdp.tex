@@ -51,6 +51,23 @@ We study the connections between, learning decision tree policies for MDPs, and,
 Next, we present the precise experimental setup we use to reproduce the work of (cite) in order to study deep reinforcement learning of decision tree policies for the CartPole MDP.
 
 \section{Experimental setup}
+\paragraph{(IB)MDP} We use the exact same MDP and associated IBMDP for our experiments as authors of (cite) except mentioned otherwise. Next, we describe in details the MDP and IBMDP used.
+
+The problem at hand is the CartPole MDP. At each time step a learning agent observes the cart position velocity and the pole angle and angular velocity, and can take action to push the cart left or right. While the cart is roughly balanced, i.e., while the cart angle remains in some fixed range, the agent gets a positive reward.
+If the cart is out of balance; the agent goes to an absorbing terminal state and gets 0 reward forever.
+In practice, authors use the gymnasium \texttt{CartPole-v0} implementation (cite) of the CartPole MDP in which trajectories are truncated after 200 timesteps making the maximum cumulative reward over a trajectory to be 200.
+Since the IBMDP definition requires the MDP state space to be a factor of bounded segments, authors bound the the state space of the CartPole MDP to be in $[-2.4, 2.4] \times [-2.4, 2.4] \times [-0.418, 0.418] \times [-0.418, 0.418]$.
+
+Authors define the associated IBMDP with $\zeta=-0.01$ and parametric information gathering action space defined by $p=3$.
+The discount factor used by the authors is $\gamma=1$.
+
+We potentially defer from the original paper setting in the way we handle maximum depth limiation. 
+Indeed authors restrain the learning of policies to be equivalent to depth-2 trees but don't detail how they do so.
+We hence try two different approaches as mentioned in the previous secion: terminating trajectories if the agent takes too much information gathering in a row or simply giving a reward of $-1$ to the agent everytime it takes an information gathering action past the depth limit.
+This makes the transition or the reward function non markovian respectively as those operations are time dependent.
+
+We will also try IBMDPs where we do not limit the maximum depth for completeness.
+
 
 
 \section{Results}
