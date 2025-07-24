@@ -172,16 +172,49 @@ Next, we present our results and discuss the reproducibility and limitations of 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{images/images_part1/dqn.pdf}
-    \caption{Custard DQN (cite) on CartPole.}
+    \caption{Variations of Modified DQN, DQN, VIPER and Dagger on CartPole IBMDP variations. We color the learning curves for DQN applied directly on CartPole and DQN applied on the IBMDP,
+    We also color the Modified DQN variants that return the best decision tree policies for CartPole as well as in black the original paper Modified DQN (since there are multiple possible candidates for the original paper hyperparametrs, we choose to color the (Modified DQN variant, IBMDP variant) pair that resulted in the best decision tree policy on CartPole among the instances that could match the original paper).
+    Dotted lines represent VIPER or Dagger trees performances on CartPole when fitted on neural expert returned by DQN on the base MDP at different learning states, i.e. each y-axis value of Dagger or Viper curves correspond to the performances of trees that were fitted on the greed policy from the $Q$-function which performance are the corresponding y-value on the red curve (DQN directly on CartPole).
+    Shaded areas represent the standard deviation at each measure on the y-axis.}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/images_part1/hyperparameter_importance_dqn.pdf}
+    \caption{IBMDP and Modified DQN hyperparemters importance for predicting the learned decision tree policy perforance on CartPole using a RandomForest (cite).}
 \end{figure}
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{images/images_part1/ppo.pdf}
-    \caption{Custard PPO on CartPole}
+    \caption{Variations of Modified PPO, PPO, VIPER and Dagger on CartPole IBMDP variations. We color the learning curves for PPO applied directly on CartPole and PPO applied on the IBMDP,
+    We also color the Modified PPO variants that return the best decision tree policies for CartPole as well as in black the original paper Modified PPO (since there are multiple possible candidates for the original paper hyperparametrs, we choose to color the (Modified PPO variant, IBMDP variant) pair that resulted in the best decision tree policy on CartPole among the instances that could match the original paper).
+    Dotted lines represent Dagger trees performances on CartPole when fitted on neural expert returned by PPO on the base MDP at different learning states, i.e. each y-axis value of the Dagger curve correspond to the performances of trees that were fitted on the greed policy from the $Q$-function which performance are the corresponding y-value on the red curve (DQN directly on CartPole).
+    Shaded areas represent the standard deviation at each measure on the y-axis.}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/images_part1/hyperparameter_importance_ppo.pdf}
+    \caption{IBMDP and Modified PPO hyperparemters importance for predicting the learned decision tree policy perforance on CartPole using a RandomForest (cite).}
+\end{figure}
+
+First, from Figures (cite) and (cite); we clearly observe that none of our proposed instantiation, including the ones that are supposidly very similar to the original work (cite), can match the results presented in the original paper: deep reinforcement learning algorithms presented above cannot learn partially observable IBMDP policies corresponding to depth-2 decision trees that get close to 200 reward on CartPole.
+This could be explain by the added difficulty of learning a partially observable IBMDP policy compared to learning fully observable policy for either IBMDPs or base MDPs. 
+Indeed, both baselines, Deep RL on the IBMDP and Deep RL on the MDP, clearly outperform their modified counterparts for partially observable policy. 
+Even though, DQN-like algorithms tend to struggle more than their PPO counterparts.
+
+The poor performances of DQN-like algorithms are also highlighted by the poor performances of decision tree policies that aim to imitate the trained DQN policies.
+
+Second, Dagger imitation learning performs very well to find depth-2 decision tree policies.
+Surprisingly, after only 40 000 traning transitions, the PPO-trained policy can be used to fit a decision tree policy of depth 2 that performs well on the CartPole problem potentially casting a shadow on the promises of IBMDPs (cite).
+
+On Figures (cite) and (cite) we can see the key hyperparamters for learning decision tree policies with modified deep RL on IBMDPs.
+Recall that implementing maximum tree depth control with a termination signal can break Markovianity of transitions while depth control with negative rewards can break Markovianity of the rewards, because in either case one has to keep track of the \textit{time} since the last base action.
+We actually find that when $p+1$, the IBMDP information gathering space parameter, is a prime number, then as a direct consequence of the \textit{Chinese Reminder Theorem} (cite)(proof), the current tree is encoded in the current observation $o_t$. 
+Hence, when $p+1$ is prime, we can control the depth throught trnasitions or rewards without tracking the time.
+This could explain why on Figure (cite) the parameter $p$ is so important and why Modified DQN variants work better with $p=2$ than with the originally suggested $p=3$.
 
 
 \section{Discussion}

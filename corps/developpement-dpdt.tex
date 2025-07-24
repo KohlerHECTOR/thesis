@@ -72,9 +72,7 @@ Considering all possible splits in $\mathcal F$ does not scale. We thus introduc
       \centering
       \includegraphics[width=0.9\linewidth]{images/figures/schema_mdp.pdf}
       \caption{Schematics of the MDP to learn a decision tree of depth 2 to classify a toy dataset with three samples, two features (x,y), and two classes (oval, diamond) and using an arbitrary splits generating function.}
-      \Description{This figure represent 
-a schematic of the MDP described in previous sections. It looks like an acyclic graph where nodes are either MDP actions or subsets of training examples.}\label{fig:schema-mdp}
-\end{figure}
+      \end{figure}
 
 \subsection{Heuristic splits generating functions}\label{sec:testgen}
 
@@ -102,7 +100,6 @@ The number of MDP states would be $O({(2B)}^D)$.\textit{When $B=1$, the MDP poli
 \begin{figure}
       \centering
       \includegraphics[trim={0 0cm 0 0},clip,width=0.5\textwidth]{images/figures/schematic_cart_node_select.pdf}
-      \Description{This is a schematic of split generation with calls to CART.}
       \caption{How CART is used in DPDT to generate candidate splits given the example data in the current state.}\label{fig:schema-dpdt}
 \end{figure}
 
@@ -260,14 +257,12 @@ After showing that DPDT can find optimal trees by considering much less solution
     \centering
     \includegraphics[width=1\linewidth]{images/figures/splits_tsne_combined.pdf}
     \caption{Root splits candidate obtained with DPDT compared to the optimal root split on the Bank dataset. Each split creates a partition of $p$-dimensional data that we projected in the $2$-dimensional space using t-SNE.}
-    \Description{This figures shows a point cloud. The point cloud is similar to a clustered one with data from one class in a region and data from an other class in an other region. They are well separated.}
     \label{fig:splits_dpdt}
 \end{figure}
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{images/figures/splits_tsne_combined_topk.pdf}
     \caption{Root splits candidate obtained with Top-B\cite{topk} on the Bank dataset. Each split creates a partition of $p$-dimensional data that we projected using t-SNE.}
-    \Description{This figures shows a point cloud. The point cloud is similar to a clustered one with data from one class in a region and data from an other class in an other region. They are well separated.}
     \label{fig:splits_topb}
 \end{figure}
 
@@ -334,7 +329,7 @@ The optimal root split for the depth-3 tree for bank--obtained with Quant-BnB--i
         \includegraphics[width=\textwidth]{images/figures/tab_bench/random_search_classif_categorical_boosting_all_notgb.pdf}
         \subcaption{Boosting vs Neural Categorical}\label{fig:classif-cat-all}
     \end{minipage}
-\caption{Benchmark on medium-sized datasets. Dotted lines correspond to the score of the default hyperparameters, which is also the first random search iteration. Each value corresponds to the test score of the best model (obtained on the validation set) after a specific number of random search iterations (a, b) or after a specific time spent doing random search (c, d), averaged on 15 shuffles of the random search order. The ribbon corresponds to the minimum and maximum scores on these 15 shuffles.}\label{fig:gen-classif}\Description{This figure contains many subplots. Each subplot contains curves that increase then flatten. Those curves show the evolution of the best solution found by decision tree induction algorithms after n iterations of random search.}
+\caption{Benchmark on medium-sized datasets. Dotted lines correspond to the score of the default hyperparameters, which is also the first random search iteration. Each value corresponds to the test score of the best model (obtained on the validation set) after a specific number of random search iterations (a, b) or after a specific time spent doing random search (c, d), averaged on 15 shuffles of the random search order. The ribbon corresponds to the minimum and maximum scores on these 15 shuffles.}\label{fig:gen-classif}
 \end{figure*}
 
 The goal of this section is to have a fair comparison of generalization capabilities of different tree induction algorithms. Fairness of comparison should take into account the number of hyperparameters, choice of programming language, intrinsic purposes of each algorithms (what are they designed to do?), the type of data they can read (categorical features or numerical features). We benchmark DPDT using~\cite{grinsztajn2022tree}. We choose this benchmark because it was used to establish XGBoost~\cite{xgb} as the SOTA tabular learning model. 
@@ -417,7 +412,6 @@ On Figures \ref{fig:boost-num} and \ref{fig:boost-cat} we can notice 2 propertie
     \centering
     \includegraphics[trim={0 0 0 0},clip,width=0.8\linewidth]{images/figures/xgboosting_normalized_wo_opt.pdf}
     \caption{Aggregated mean test accuracies of Gradient Boosting models as a function of the number of single trees.}
-    \Description{This figures contains increasing then flattening curves representing the learning process of gradient boosting algorithms.}
     \label{fig:gb}
 \end{figure}
 
