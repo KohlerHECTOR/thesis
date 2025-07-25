@@ -200,17 +200,12 @@ Next, we present our results and discuss the reproducibility and limitations of 
     \caption{IBMDP and Modified PPO hyperparemters importance for predicting the learned decision tree policy perforance on CartPole using a RandomForest (cite).}
 \end{figure}
 
-First, from Figures (cite) and (cite); we clearly observe that none of our proposed instantiation, including the ones that are supposidly very similar to the original work (cite), can match the results presented in the original paper: deep reinforcement learning algorithms presented above cannot learn partially observable IBMDP policies corresponding to depth-2 decision trees that get close to 200 reward on CartPole.
-This could be explain by the added difficulty of learning a partially observable IBMDP policy compared to learning fully observable policy for either IBMDPs or base MDPs. 
-Indeed, both baselines, Deep RL on the IBMDP and Deep RL on the MDP, clearly outperform their modified counterparts for partially observable policy. 
-Even though, DQN-like algorithms tend to struggle more than their PPO counterparts.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/images_part1/ppo_tree_study.pdf}
+    \caption{(left) Mean performance of the best Modified PPO on the best IBMDP with shaded areas representing the min and max performance over the 20 seeds during training. (right) Histogram of the final decision tree policies performances.}
+\end{figure}
 
-The poor performances of DQN-like algorithms are also highlighted by the poor performances of decision tree policies that aim to imitate the trained DQN policies.
-
-Second, Dagger imitation learning performs very well to find depth-2 decision tree policies.
-Surprisingly, after only 40 000 traning transitions, the PPO-trained policy can be used to fit a decision tree policy of depth 2 that performs well on the CartPole problem potentially casting a shadow on the promises of IBMDPs (cite).
-
-On Figures (cite) and (cite) we can see the key hyperparamters for learning decision tree policies with modified deep RL on IBMDPs.
 Recall that implementing maximum tree depth control with a termination signal can break Markovianity of transitions while depth control with negative rewards can break Markovianity of the rewards, because in either case one has to keep track of the \textit{time} since the last base action.
 We actually find that when $p+1$, the IBMDP information gathering space parameter, is a prime number, then as a direct consequence of the \textit{Chinese Reminder Theorem} (cite)(proof), the current tree is encoded in the current observation $o_t$. 
 Hence, when $p+1$ is prime, we can control the depth throught trnasitions or rewards without tracking the time.
