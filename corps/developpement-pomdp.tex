@@ -206,6 +206,73 @@ Next, we present our results and discuss the reproducibility and limitations of 
     \caption{(left) Mean performance of the best Modified PPO on the best IBMDP with shaded areas representing the min and max performance over the 20 seeds during training. (right) Histogram of the final decision tree policies performances.}
 \end{figure}
 
+
+\begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}[
+        scale=0.8,
+        decision/.style={circle, draw, thick, fill=blue!20, text width=0.5em, text centered, minimum height=2.5em, font=\tiny},
+        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
+        edge_label/.style={font=\footnotesize, midway}
+    ]
+
+        \node[decision] (tree7_root) at (-3,0) {$\dot{\theta} \leq 0$};
+        \draw[->] (tree7_root) to[out=45,in=0,looseness=5] (tree7_root);
+        
+        % Tree 4: if x <= 0.5 move right else move left
+        \node[decision] (tree4_root) at (0,0) { $\dot{\theta}\leq 0$};
+        \node[leaf] (tree4_right) at (-1,-2) {$\leftarrow$};
+        \node[leaf] (tree4_left) at (1,-2) {$\rightarrow$};
+        \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
+        \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
+        
+
+        % Tree 7: if x <= 0.5 and y <= 0.5 move right else move down
+        \node[decision] (tree7_root) at (5,0) {$\dot{\theta}\leq 0.04$};
+        \node[decision] (tree7_y) at (3,-2) {$\dot{\theta}\leq -0.02$};
+        \node[leaf] (tree7_right) at (2,-4) {$\leftarrow$};
+        \node[leaf] (tree7_down) at (4,-4) {$\rightarrow$};
+        \node[leaf] (tree7_down2) at (6,-2) {$\rightarrow$};
+        \draw[->] (tree7_root) -- (tree7_y) node[edge_label, above left] {True};
+        \draw[->] (tree7_root) -- (tree7_down2) node[edge_label, above right] {False};
+        \draw[->] (tree7_y) -- (tree7_right) node[edge_label, above left] {True};
+        \draw[->] (tree7_y) -- (tree7_down) node[edge_label, above right] {False};
+
+
+
+
+        % Tree 4: if x <= 0.5 move right else move left
+        \node[decision] (tree4_root) at (8,0) { $\dot{\theta}\leq 0.01$};
+        \node[leaf] (tree4_right) at (7,-2) {$\leftarrow$};
+        \node[leaf] (tree4_left) at (9,-2) {$\rightarrow$};
+        \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
+        \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
+        
+
+  
+        % Tree 7: if x <= 0.5 and y <= 0.5 move right else move down
+        \node[decision] (tree7_root) at (13,0) {$\dot{\theta}\leq 0.04$};
+        \node[decision] (tree7_y) at (11,-2) {$\theta\leq 0.04$};
+        \node[leaf] (tree7_right) at (10,-4) {$\leftarrow$};
+        \node[leaf] (tree7_down) at (12,-4) {$\rightarrow$};
+        \node[leaf] (tree7_down2) at (14,-2) {$\rightarrow$};
+        \draw[->] (tree7_root) -- (tree7_y) node[edge_label, above left] {True};
+        \draw[->] (tree7_root) -- (tree7_down2) node[edge_label, above right] {False};
+        \draw[->] (tree7_y) -- (tree7_right) node[edge_label, above left] {True};
+        \draw[->] (tree7_y) -- (tree7_down) node[edge_label, above right] {False};
+
+
+        % Labels
+        \node[above] at (0,1) {{\small Best Modified PPO tree}};
+        \node[above] at (5,1) {{\small Best Modified DQN tree}};
+        \node[above] at (8,1) {{\small Typical PPO+Dagger tree}};
+        \node[above] at (13,1) {{\small An Optimal tree (found with DQN+Viper)}};
+
+    \end{tikzpicture}
+    \caption{Trees obtained by DRL against trees obtained with imitation.}
+    \label{fig:trees-drl}
+\end{figure}
+
 Recall that implementing maximum tree depth control with a termination signal can break Markovianity of transitions while depth control with negative rewards can break Markovianity of the rewards, because in either case one has to keep track of the \textit{time} since the last base action.
 We actually find that when $p+1$, the IBMDP information gathering space parameter, is a prime number, then as a direct consequence of the \textit{Chinese Reminder Theorem} (cite)(proof), the current tree is encoded in the current observation $o_t$. 
 Hence, when $p+1$ is prime, we can control the depth throught trnasitions or rewards without tracking the time.
