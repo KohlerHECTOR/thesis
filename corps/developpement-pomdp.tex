@@ -39,11 +39,6 @@ The second deep reinforcement learning algorithm used is the deep Q-networks alg
 A similar modification is done to DQN to work with partially observable policy. The trained $Q$-function is approximated with a neural network $O\rightarrow \rightarrow \mathbb{R}^{|A\cup A_{info}|}$ rather than $S\times O\rightarrow \mathbb{R}^{|A\cup A_{info}|}$.
 In this modified DQN, the temporal difference error target for the $Q$-function $O\rightarrow A\cup A_{info}$ is approximated by a neural network $S\times O\rightarrow A\cup A_{info}$ that is in turn trained by bootstrapping the temporal difference error with itself.
 
-\begin{figure}
-\includegraphics[width=1\textwidth]{images/images_part1/mnamenew.png}
-\caption{One update of the modified DQN from (cite).}
-\end{figure}
-
 Those two variants of DQN and PPO have first been introduced in (PINTO) for robotics task and later studied theoretically to solve POMDPs (cite) in Baisero's work.
 Baisero coined those approaches asymmetric reinforcement learning for POMDPs as an agent accesses full state information during the learning of a partially observable policy, hence using ``asymmetric'' information.
 We study the connections between, learning decision tree policies for MDPs, and, POMDPs, extensively in the next chapter but for now we focus on reproducing the original results from (cite) in which POMDPs and asymmetric RL were not mentioned. 
@@ -58,7 +53,7 @@ We use the exact same MDP and associated IBMDP for our experiments as authors of
 \paragraph{MDP} The problem at hand is the CartPole MDP. At each time step a learning agent observes the cart position velocity and the pole angle and angular velocity, and can take action to push the cart left or right. While the cart is roughly balanced, i.e., while the cart angle remains in some fixed range, the agent gets a positive reward.
 If the cart is out of balance; the agent goes to an absorbing terminal state and gets 0 reward forever.
 In practice, authors use the gymnasium \texttt{CartPole-v0} implementation (cite) of the CartPole MDP in which trajectories are truncated after 200 timesteps making the maximum cumulative reward over a trajectory to be 200.
-Since the IBMDP definition requires the MDP state space to be a factor of bounded segments, authors bound the the state space of the CartPole MDP to be in $[-2.4, 2.4] \times [-2.4, 2.4] \times [-0.418, 0.418] \times [-0.418, 0.418]$.
+Since the IBMDP definition requires the MDP state space to be a factor of bounded segments, authors bound the the state space of the CartPole MDP to be in $[-2, 2] \times [-2, 2] \times [-0.14, 0.14] \times [-0.14, 0.14]$.
 
 \paragraph{IBMDP} Authors define the associated IBMDP with $\zeta=-0.01$ and parametric information gathering action space defined by $p=3$.
 In addition we also try $\zeta=0.01$ and $p=2$.
@@ -148,61 +143,60 @@ We summarize hyperpameters for the IBMDP and for the learning algorithms in Tabl
     \end{tabular}
     \end{table}
 
-\subsection{Metrics}
-
-The key metric of this section is performance when controlling the CartPole after $t$ steps of learning.
-Depending on what the underlying task is, we obtain this value during the training differently for each type of learning agent.
-For modified RL algorithm that learn a partially observable policy or $Q$-function in an IBMPD, we periodically extract the policy or $Q$-function and use Alg 6 (cite) to extract a decision tree for the CartPole MDP. We then evaluate the tree on 10 independent trajectories in the MDP and report the mean cumulative reward.
-For RL applied to IBMDPs, since we can't deploy learned policies directly to the base MDP as the state dimension mismatch, we evaluate those policy periodically to control an other IBMDP for the CartPole MDP where $\zeta=0$ ensuring that the cumulative IBMDP reward only corresponds to the reward for taking base actions.
-Similarly we do 10 trajectories of the extracted policies in the evaluation IBMDP and report the average cumulative reward.
-
-For RL applied directly to the base MDP we can just periodically extract the learned policies and evaluate them on ten trajectories of the base MDP.
-
-Since imitation learning baselines do not train iteratively, we fit trees to neural experts trained for different duration on the base MDP. 
-We then evaluate the imitated decision tree policy on ten trajectories on the CartPole base MDP.
-
-Every single combination of IBMDP and modified RL instantiation is run 20 times.
 
 For standard RL on IBMDP, we instantiate the IBMDP with original hyperparameters and depth control with negative rewards and we instantiate the RL algorithms with original hyperparameters and $\operatorname{tanh()}$ activations. Those two unique combinations are 20 times each.
 For standard RL on the base MDP, we instantiate the standard RL with original hyperparameters and $\operatorname{tanh()}$ to.
+    
 
+\subsection{Metrics}
+The key metric of this section is performance when controlling the CartPole after $t$ steps of learning.
+Depending on what the underlying task is, we obtain this value during the training differently for each type of learning agent.
+For modified RL algorithms that learn a partially observable policy (or $Q$-function) in an IBMPD, we periodically extract the policy (or $Q$-function) and use Alg 6 (cite) to extract a decision tree for the CartPole MDP. 
+We then evaluate the tree on 100 independent trajectories in the MDP and report the mean cumulative reward.
+For RL applied to IBMDPs, since we can't deploy learned policies directly to the base MDP as the state dimensions mismatch, we evaluate those policy periodically to control an other IBMDP for the CartPole MDP where $\zeta=0$ ensuring that the cumulative IBMDP reward only corresponds to the reward for taking base actions.
+Similarly, we do 100 trajectories of the extracted policies in the evaluation IBMDP and report the average cumulative reward.
+
+For RL applied directly to the base MDP we can just periodically extract the learned policies and evaluate them on 100 trajectories of the base MDP.
+
+Since imitation learning baselines do not train as functions of time steps, we fit trees to neural experts trained for different duration on the base MDP. 
+We then evaluate the imitated decision tree policy on ten trajectories on the CartPole base MDP.
+
+Every single combination of IBMDP and modified RL instantiation is run 20 times.
 Next, we present our results and discuss the reproducibility and limitations of the original approach presented in (cite).
 
 \section{Results}
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{images/images_part1/dqn.pdf}
-    \caption{Variations of Modified DQN, DQN, VIPER and Dagger on CartPole IBMDP variations. We color the learning curves for DQN applied directly on CartPole and DQN applied on the IBMDP,
-    We also color the Modified DQN variants that return the best decision tree policies for CartPole as well as in black the original paper Modified DQN (since there are multiple possible candidates for the original paper hyperparametrs, we choose to color the (Modified DQN variant, IBMDP variant) pair that resulted in the best decision tree policy on CartPole among the instances that could match the original paper).
-    Dotted lines represent VIPER or Dagger trees performances on CartPole when fitted on neural expert returned by DQN on the base MDP at different learning states, i.e. each y-axis value of Dagger or Viper curves correspond to the performances of trees that were fitted on the greed policy from the $Q$-function which performance are the corresponding y-value on the red curve (DQN directly on CartPole).
+    \caption{Variations of Modified DQN, DQN, on CartPole IBMDP variations. We give different line-styles for the learning curves for DQN applied directly on CartPole and DQN applied on the IBMDP.
+    Since there are multiple possible candidates for the original paper hyperparametrs, we choose to color the (Modified DQN variant, IBMDP variant) pair that resulted in the best decision tree policy on CartPole among the instances that could match the original paper.
     Shaded areas represent the standard deviation at each measure on the y-axis.}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/images_part1/hyperparameter_importance_dqn.pdf}
-    \caption{IBMDP and Modified DQN hyperparemters importance for predicting the learned decision tree policy perforance on CartPole using a RandomForest (cite).}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{images/images_part1/hyperparameter_importance_dqn.pdf}
+%     \caption{IBMDP and Modified DQN hyperparemters importance for predicting the learned decision tree policy perforance on CartPole using a RandomForest (cite).}
+% \end{figure}
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{images/images_part1/ppo.pdf}
-    \caption{Variations of Modified PPO, PPO, VIPER and Dagger on CartPole IBMDP variations. We color the learning curves for PPO applied directly on CartPole and PPO applied on the IBMDP,
-    We also color the Modified PPO variants that return the best decision tree policies for CartPole as well as in black the original paper Modified PPO (since there are multiple possible candidates for the original paper hyperparametrs, we choose to color the (Modified PPO variant, IBMDP variant) pair that resulted in the best decision tree policy on CartPole among the instances that could match the original paper).
-    Dotted lines represent Dagger trees performances on CartPole when fitted on neural expert returned by PPO on the base MDP at different learning states, i.e. each y-axis value of the Dagger curve correspond to the performances of trees that were fitted on the greed policy from the $Q$-function which performance are the corresponding y-value on the red curve (DQN directly on CartPole).
+    \caption{Variations of Modified PPO, PPO, on CartPole IBMDP variations. We give different line-styles to the learning curves for PPO applied directly on CartPole and PPO applied on the IBMDP.
+    Since there are multiple possible candidates for the original paper hyperparametrs, we choose to color the (Modified PPO variant, IBMDP variant) pair that resulted in the best decision tree policy on CartPole among the instances that could match the original paper.
     Shaded areas represent the standard deviation at each measure on the y-axis.}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/images_part1/hyperparameter_importance_ppo.pdf}
-    \caption{IBMDP and Modified PPO hyperparemters importance for predicting the learned decision tree policy perforance on CartPole using a RandomForest (cite).}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.8\textwidth]{images/images_part1/hyperparameter_importance_ppo.pdf}
+%     \caption{IBMDP and Modified PPO hyperparemters importance for predicting the learned decision tree policy perforance on CartPole using a RandomForest (cite).}
+% \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{images/images_part1/ppo_tree_study.pdf}
+    \includegraphics[width=1\textwidth]{images/images_part1/ppo_tree_study.pdf}
     \caption{(left) Mean performance of the best Modified PPO on the best IBMDP with shaded areas representing the min and max performance over the 20 seeds during training. (right) Histogram of the final decision tree policies performances.}
 \end{figure}
 
@@ -273,10 +267,24 @@ Next, we present our results and discuss the reproducibility and limitations of 
     \label{fig:trees-drl}
 \end{figure}
 
+On Figures (cite) and (cite) we observe that learning curves for Modified DQN and Modified PPO on IBMDPs can learn--the curves have an increasing trend--but find poor decision tree policies for CartPole in average--the curves flatten at the end of the x-axis and have low y-values--.
+In, particular, among all the learning curves that could correspond to the original paper's proposed instantiations of modified RL baselines (cite), the best learning curves in average converges to very poor CartPole tree policies.
+
+On the other hand, on Figures (cite) and (cite) we observe that baselines seeking fully observable policies (RL + IBMDP and RL + MDP), learn better CartPole policies and in average. We do notice that for DQN-like baselines, learning seems difficult in general indepedently of the setting while on Figure (cite) it is clear that for PPO baselines seeking fully observable, learning is super efficient and agent find optimal policies with reward 200.
+
+Interestingly, we find that the top-5 Modified DQN baselines + IBMDP in terms of final average CartPole tree policy performances all have $p=2$ and either depth control with the reward or with a termination signal. 
+This IBMDP hyperparameters control the available IGAs available to the policy and differs from the original paper's $p=3$ value.
+We find a potential explanation as to why $p=2$ could work better than $p=3$ despite giving the agent fewer candidates nodes to consider.
 Recall that implementing maximum tree depth control with a termination signal can break Markovianity of transitions while depth control with negative rewards can break Markovianity of the rewards, because in either case one has to keep track of the \textit{time} since the last base action.
 We actually find that when $p+1$, the IBMDP information gathering space parameter, is a prime number, then as a direct consequence of the \textit{Chinese Reminder Theorem} (cite)(proof), the current tree is encoded in the current observation $o_t$. 
-Hence, when $p+1$ is prime, we can control the depth throught trnasitions or rewards without tracking the time.
-This could explain why on Figure (cite) the parameter $p$ is so important and why Modified DQN variants work better with $p=2$ than with the originally suggested $p=3$.
+Hence, when $p+1$ is prime, we can control the depth through trnasitions or rewards without tracking the time.
+
+On Figure (cite), we isolate the best performing baselines that learn decision tree policies for CartPole using either Modified DQN or Modified PPO and compare them with imitation learning baselines that use the surrogate objective (cite) to find CartPole decision tree policies.
+We find that despite having poor performances in \textit{average} (c.f. Figure (cite)), the deep reinforcement learning baselines find very good decision tree policies and also extremly poor ones as shown by the min-max shade areas on the left of Figure (cite) and the histograms of final trees performances on Figure (cite).
+In fact, when compared with imitation learning baselines, that fit the policy of a PPO + MDP or fit the greedy policy w.r.t to the $Q$-network of a DQN + MDP, when running e.g., 20 seeds of direct reinforcement learning baselines, there are some seeds that can find good decision tree policies as fast as the indirect imitation learning baselines: if we look at the shaded area of Modified DQN on Figure (cite), we can observe that it is consitently overlapping with an inderect method curve.
+However this is not desirable, a user want an agent that can consistantly find good decision tree policy.
+As shown by the histogram (cite), indirect methods consistently find good decision tree policies (there is only 1 histogram bin where good CartPole scores are). On the other hand, the final trees returned by direct RL methods seem equally distributed on both extremes of the scores.
+
 
 
 \section{Discussion}
