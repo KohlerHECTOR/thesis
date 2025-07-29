@@ -165,6 +165,9 @@ Every single combination of IBMDP and modified RL instantiation is run 20 times.
 Next, we present our results and discuss the reproducibility and limitations of the original approach presented in (cite).
 
 \section{Results}
+
+\subsection{Can Modified Deep Reinforcement Learning consistently learn good decision tree policies for CartPole?}
+
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{images/images_part1/dqn.pdf}
@@ -173,13 +176,6 @@ Next, we present our results and discuss the reproducibility and limitations of 
     Shaded areas represent the standard deviation at each measure on the y-axis.}
 \end{figure}
 
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=0.8\textwidth]{images/images_part1/hyperparameter_importance_dqn.pdf}
-%     \caption{IBMDP and Modified DQN hyperparemters importance for predicting the learned decision tree policy perforance on CartPole using a RandomForest (cite).}
-% \end{figure}
-
-
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{images/images_part1/ppo.pdf}
@@ -187,12 +183,53 @@ Next, we present our results and discuss the reproducibility and limitations of 
     Since there are multiple possible candidates for the original paper hyperparametrs, we choose to color the (Modified PPO variant, IBMDP variant) pair that resulted in the best decision tree policy on CartPole among the instances that could match the original paper.
     Shaded areas represent the standard deviation at each measure on the y-axis.}
 \end{figure}
+On Figures (cite) and (cite) we observe that learning curves for Modified DQN and Modified PPO on IBMDPs can learn--the curves have an increasing trend--but find poor decision tree policies for CartPole in average--the curves flatten at the end of the x-axis and have low y-values--.
+In, particular, among all the learning curves that could correspond to the original paper's proposed instantiations of modified RL baselines (cite), the best learning curves in average converges to very poor CartPole tree policies.
 
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=0.8\textwidth]{images/images_part1/hyperparameter_importance_ppo.pdf}
-%     \caption{IBMDP and Modified PPO hyperparemters importance for predicting the learned decision tree policy perforance on CartPole using a RandomForest (cite).}
-% \end{figure}
+On the other hand, on Figures (cite) and (cite) we observe that baselines seeking fully observable policies (RL + IBMDP and RL + MDP), learn better CartPole policies and in average. We do notice that for DQN-like baselines, learning seems difficult in general indepedently of the setting while on Figure (cite) it is clear that for PPO baselines seeking fully observable, learning is super efficient and agent find optimal policies with reward 200.
+
+Interestingly, we find that the top-5 Modified DQN baselines + IBMDP in terms of final average CartPole tree policy performances all have $p=2$ and either depth control with the reward or with a termination signal. 
+This IBMDP hyperparameters control the available IGAs available to the policy and differs from the original paper's $p=3$ value.
+We find a potential explanation as to why $p=2$ could work better than $p=3$ despite giving the agent fewer candidates nodes to consider.
+Recall that implementing maximum tree depth control with a termination signal can break Markovianity of transitions while depth control with negative rewards can break Markovianity of the rewards, because in either case one has to keep track of the \textit{time} since the last base action.
+We actually find that when $p+1$, the IBMDP information gathering space parameter, is a prime number, then as a direct consequence of the \textit{Chinese Reminder Theorem} (cite)(proof), the current tree is encoded in the current observation $o_t$. 
+Hence, when $p+1$ is prime, we can control the depth through trnasitions or rewards without tracking the time.
+
+\begin{table}[h]
+    \centering
+    \caption{Top 5 Hyperparameter Configurations for Modified DQN + IBMDP}
+    \label{tab:top5_results}
+    \begin{tabular}{ccccccS}
+    \toprule
+    Rank & $p$ & Depth control & Activation & Exploration & $\zeta$ & {Final Performance} \\
+    \midrule
+    1 & 2 & termination & $\operatorname{tanh}()$ & 0.5 & 0.01 & 79.16 \\
+    2 & 2 & termination & $\operatorname{tanh}()$ & 0.5 & -0.01 & 72.92 \\
+    3 & 2 & termination & $\operatorname{tanh}()$ & 0.9 & 0.01 & 63.85 \\
+    4 & 2 & termination & $\operatorname{tanh}()$ & 0.9 & -0.01 & 54.36 \\
+    5 & 3 & termination & $\operatorname{tanh}()$ & 0.5 & -0.01 & 27.30 \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
+
+    \begin{table}[h]
+        \centering
+        \caption{Top 5 Hyperparameter Configurations for Modified PPO + IBMDP}
+        \label{tab:top5_ppo_results}
+        \begin{tabular}{cccccS}
+        \toprule
+        Rank & $p$ & Depth Control & Activation & $\zeta$ & {Final Performance} \\
+        \midrule
+        1 & 3 & none & $\operatorname{tanh}()$ & -0.01 & 89.24 \\
+        2 & 3 & reward & $\operatorname{relu}()$ & 0.01 & 71.73 \\
+        3 & 3 & reward & $\operatorname{tanh}()$ & 0.01 & 54.92 \\
+        4 & 3 & none & $\operatorname{tanh}()$ & 0.01 & 52.55 \\
+        5 & 3 & reward & $\operatorname{relu}()$ & -0.01 & 38.49 \\
+        \bottomrule
+        \end{tabular}
+        \end{table}
+
+\subsection{How does direct interpretable reinforcement learning perform compared to the indirect approach?}
 
 \begin{figure}
     \centering
@@ -209,6 +246,9 @@ Next, we present our results and discuss the reproducibility and limitations of 
         leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
         edge_label/.style={font=\footnotesize, midway}
     ]
+
+        \node[leaf] (tree7_root) at (-4,0) {$\rightarrow$};
+        \draw[->] (tree7_root) to[out=45,in=0,looseness=5] (tree7_root);
 
         \node[decision] (tree7_root) at (-3,0) {$\dot{\theta} \leq 0$};
         \draw[->] (tree7_root) to[out=45,in=0,looseness=5] (tree7_root);
@@ -243,48 +283,27 @@ Next, we present our results and discuss the reproducibility and limitations of 
         \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
         
 
-  
-        % Tree 7: if x <= 0.5 and y <= 0.5 move right else move down
-        \node[decision] (tree7_root) at (13,0) {$\dot{\theta}\leq 0.04$};
-        \node[decision] (tree7_y) at (11,-2) {$\theta\leq 0.04$};
-        \node[leaf] (tree7_right) at (10,-4) {$\leftarrow$};
-        \node[leaf] (tree7_down) at (12,-4) {$\rightarrow$};
-        \node[leaf] (tree7_down2) at (14,-2) {$\rightarrow$};
-        \draw[->] (tree7_root) -- (tree7_y) node[edge_label, above left] {True};
-        \draw[->] (tree7_root) -- (tree7_down2) node[edge_label, above right] {False};
-        \draw[->] (tree7_y) -- (tree7_right) node[edge_label, above left] {True};
-        \draw[->] (tree7_y) -- (tree7_down) node[edge_label, above right] {False};
-
 
         % Labels
         \node[above] at (0,1) {{\small Best Modified PPO tree}};
         \node[above] at (5,1) {{\small Best Modified DQN tree}};
         \node[above] at (8,1) {{\small Typical PPO+Dagger tree}};
-        \node[above] at (13,1) {{\small An Optimal tree (found with DQN+Viper)}};
 
     \end{tikzpicture}
     \caption{Trees obtained by DRL against trees obtained with imitation.}
     \label{fig:trees-drl}
 \end{figure}
 
-On Figures (cite) and (cite) we observe that learning curves for Modified DQN and Modified PPO on IBMDPs can learn--the curves have an increasing trend--but find poor decision tree policies for CartPole in average--the curves flatten at the end of the x-axis and have low y-values--.
-In, particular, among all the learning curves that could correspond to the original paper's proposed instantiations of modified RL baselines (cite), the best learning curves in average converges to very poor CartPole tree policies.
-
-On the other hand, on Figures (cite) and (cite) we observe that baselines seeking fully observable policies (RL + IBMDP and RL + MDP), learn better CartPole policies and in average. We do notice that for DQN-like baselines, learning seems difficult in general indepedently of the setting while on Figure (cite) it is clear that for PPO baselines seeking fully observable, learning is super efficient and agent find optimal policies with reward 200.
-
-Interestingly, we find that the top-5 Modified DQN baselines + IBMDP in terms of final average CartPole tree policy performances all have $p=2$ and either depth control with the reward or with a termination signal. 
-This IBMDP hyperparameters control the available IGAs available to the policy and differs from the original paper's $p=3$ value.
-We find a potential explanation as to why $p=2$ could work better than $p=3$ despite giving the agent fewer candidates nodes to consider.
-Recall that implementing maximum tree depth control with a termination signal can break Markovianity of transitions while depth control with negative rewards can break Markovianity of the rewards, because in either case one has to keep track of the \textit{time} since the last base action.
-We actually find that when $p+1$, the IBMDP information gathering space parameter, is a prime number, then as a direct consequence of the \textit{Chinese Reminder Theorem} (cite)(proof), the current tree is encoded in the current observation $o_t$. 
-Hence, when $p+1$ is prime, we can control the depth through trnasitions or rewards without tracking the time.
 
 On Figure (cite), we isolate the best performing baselines that learn decision tree policies for CartPole using either Modified DQN or Modified PPO and compare them with imitation learning baselines that use the surrogate objective (cite) to find CartPole decision tree policies.
-We find that despite having poor performances in \textit{average} (c.f. Figure (cite)), the deep reinforcement learning baselines find very good decision tree policies and also extremly poor ones as shown by the min-max shade areas on the left of Figure (cite) and the histograms of final trees performances on Figure (cite).
+We find that despite having poor performances in \textit{average} (c.f. Figure (cite)), the deep reinforcement learning baselines find very good decision tree policies and also extremly poor ones as shown by the min-max shaded areas on the left of Figure (cite) and the histograms of final trees performances on Figure (cite).
 In fact, when compared with imitation learning baselines, that fit the policy of a PPO + MDP or fit the greedy policy w.r.t to the $Q$-network of a DQN + MDP, when running e.g., 20 seeds of direct reinforcement learning baselines, there are some seeds that can find good decision tree policies as fast as the indirect imitation learning baselines: if we look at the shaded area of Modified DQN on Figure (cite), we can observe that it is consitently overlapping with an inderect method curve.
 However this is not desirable, a user want an agent that can consistantly find good decision tree policy.
 As shown by the histogram (cite), indirect methods consistently find good decision tree policies (there is only 1 histogram bin where good CartPole scores are). On the other hand, the final trees returned by direct RL methods seem equally distributed on both extremes of the scores.
 
+On Figure (cite), we compare the best trees returned by Modified DQN and Modified PPO. We used Algorithm 6 to extract 20 trees from the 20 partially observable policies returned by deeop reinforcement learning over 20 seeds. We then plot the best tree for each baseline. Those trees get an everage reward of roughly 175.
+Similarly, we imitation learning returns 20 trees. However unlike for direct methods, the tree returned are extremely similar across seed. In particular they often only vary in the scalar value used in the root node but in general have the same structure and test the angular velocity.
+On the other hand the most frequent tree across seed returned by modified RL baselines is the ``infinite'' tree that corresponds to only taking an information gathering action.
 
 
 \section{Discussion}
