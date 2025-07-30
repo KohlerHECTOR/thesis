@@ -27,6 +27,8 @@ Unfortunately, authors did not describe as they implemented the depth control in
 
 To control the tree depth during learning we can either penalize the agent everytime it takes more than $D$ IGAs since the last base action, or we could send a termination signal to the agent. This approach interupts the trajectory: the agent stops acting. Howver the latter, in theory, breaks the MDP formalism as a termination signal is different from an absorbing state.
 The penalization approaches can also break the MDP formalism because the reward function now depends on time. We will try both approaches in our experiments.
+We actually find that when $p+1$, the IBMDP information gathering space parameter, is a prime number, then as a direct consequence of the \textit{Chinese Reminder Theorem} (cite)(proof), the current tree depth is directly encoded in the current observation $o_t$. 
+Hence, when $p+1$ is prime, we can control the depth through trnasitions or rewards without tracking the time.
 
 
 \subsection{Modified Deep Reinforcement Learning algorithms}
@@ -173,7 +175,7 @@ Next, we present our results and discuss the reproducibility and limitations of 
     \includegraphics[width=0.8\textwidth]{images/images_part1/dqn.pdf}
     \caption{Variations of Modified DQN, DQN, on CartPole IBMDP variations. We give different line-styles for the learning curves for DQN applied directly on CartPole and DQN applied on the IBMDP.
     Since there are multiple possible candidates for the original paper hyperparametrs, we choose to color the (Modified DQN variant, IBMDP variant) pair that resulted in the best decision tree policy on CartPole among the instances that could match the original paper.
-    Shaded areas represent the standard deviation at each measure on the y-axis.}
+    Shaded areas represent the confidence interval at 95\% at each measure on the y-axis.}
 \end{figure}
 
 \begin{figure}
@@ -181,19 +183,15 @@ Next, we present our results and discuss the reproducibility and limitations of 
     \includegraphics[width=0.8\textwidth]{images/images_part1/ppo.pdf}
     \caption{Variations of Modified PPO, PPO, on CartPole IBMDP variations. We give different line-styles to the learning curves for PPO applied directly on CartPole and PPO applied on the IBMDP.
     Since there are multiple possible candidates for the original paper hyperparametrs, we choose to color the (Modified PPO variant, IBMDP variant) pair that resulted in the best decision tree policy on CartPole among the instances that could match the original paper.
-    Shaded areas represent the standard deviation at each measure on the y-axis.}
+    Shaded areas represent the confidence interval at 95\% measure on the y-axis.}
 \end{figure}
-On Figures (cite) and (cite) we observe that learning curves for Modified DQN and Modified PPO on IBMDPs can learn--the curves have an increasing trend--but find poor decision tree policies for CartPole in average--the curves flatten at the end of the x-axis and have low y-values--.
+On Figure (cite) we observe that learning curves for Modified DQN on IBMDPs can learn--the curves have an increasing trend--but find poor decision tree policies for CartPole in average--the curves flatten at the end of the x-axis and have low y-values--.
 In, particular, among all the learning curves that could correspond to the original paper's proposed instantiations of modified RL baselines (cite), the best learning curves in average converges to very poor CartPole tree policies.
+On Figure (cite) we observe that Modified PPO learn better decision tree policies than Modified DQN but this could be because we trained longer like in the original paper.
+The best Modified PPO that could correspond to the original paper's instantiation is again not the best performer.
 
-On the other hand, on Figures (cite) and (cite) we observe that baselines seeking fully observable policies (RL + IBMDP and RL + MDP), learn better CartPole policies and in average. We do notice that for DQN-like baselines, learning seems difficult in general indepedently of the setting while on Figure (cite) it is clear that for PPO baselines seeking fully observable, learning is super efficient and agent find optimal policies with reward 200.
-
-Interestingly, we find that the top-5 Modified DQN baselines + IBMDP in terms of final average CartPole tree policy performances all have $p=2$ and either depth control with the reward or with a termination signal. 
-This IBMDP hyperparameters control the available IGAs available to the policy and differs from the original paper's $p=3$ value.
-We find a potential explanation as to why $p=2$ could work better than $p=3$ despite giving the agent fewer candidates nodes to consider.
-Recall that implementing maximum tree depth control with a termination signal can break Markovianity of transitions while depth control with negative rewards can break Markovianity of the rewards, because in either case one has to keep track of the \textit{time} since the last base action.
-We actually find that when $p+1$, the IBMDP information gathering space parameter, is a prime number, then as a direct consequence of the \textit{Chinese Reminder Theorem} (cite)(proof), the current tree is encoded in the current observation $o_t$. 
-Hence, when $p+1$ is prime, we can control the depth through trnasitions or rewards without tracking the time.
+On the other hand, on Figures (cite) and (cite), we observe that baselines seeking fully observable policies (RL + IBMDP and RL + MDP), learn better CartPole policies in average for both DQN and PPO-like baselines. 
+We do notice that for DQN-like baselines, learning seems difficult in general indepedently of the setting while on Figure (cite) it is clear that for PPO baselines seeking fully observable, learning is super efficient and agent find optimal policies with reward 200.
 
 \begin{table}[h]
     \centering
@@ -203,11 +201,11 @@ Hence, when $p+1$ is prime, we can control the depth through trnasitions or rewa
     \toprule
     Rank & $p$ & Depth control & Activation & Exploration & $\zeta$ & {Final Performance} \\
     \midrule
-    1 & 2 & termination & $\operatorname{tanh}()$ & 0.5 & 0.01 & 79.16 \\
-    2 & 2 & termination & $\operatorname{tanh}()$ & 0.5 & -0.01 & 72.92 \\
-    3 & 2 & termination & $\operatorname{tanh}()$ & 0.9 & 0.01 & 63.85 \\
-    4 & 2 & termination & $\operatorname{tanh}()$ & 0.9 & -0.01 & 54.36 \\
-    5 & 3 & termination & $\operatorname{tanh}()$ & 0.5 & -0.01 & 27.30 \\
+    1 & 3 & termination & $\operatorname{tanh}()$ & 0.9 & 0.01 & 53 \\
+    2 & 2 & termination & $\operatorname{tanh}()$ & 0.5 & -0.01 & 24 \\
+    3 & 3 & termination & $\operatorname{tanh}()$ & 0.5 & -0.01 & 24 \\
+    4 & 2 & termination & $\operatorname{tanh}()$ & 0.5 & 0.01 & 23 \\
+    5 & 2 & termination & $\operatorname{tanh}()$ & 0.9 & -0.01 & 22 \\
     \bottomrule
     \end{tabular}
     \end{table}
@@ -220,11 +218,11 @@ Hence, when $p+1$ is prime, we can control the depth through trnasitions or rewa
         \toprule
         Rank & $p$ & Depth Control & Activation & $\zeta$ & {Final Performance} \\
         \midrule
-        1 & 3 & none & $\operatorname{tanh}()$ & -0.01 & 89.24 \\
-        2 & 3 & reward & $\operatorname{relu}()$ & 0.01 & 71.73 \\
-        3 & 3 & reward & $\operatorname{tanh}()$ & 0.01 & 54.92 \\
-        4 & 3 & none & $\operatorname{tanh}()$ & 0.01 & 52.55 \\
-        5 & 3 & reward & $\operatorname{relu}()$ & -0.01 & 38.49 \\
+        1 & 3 & reward & $\operatorname{relu}()$ & 0.01 & 139 \\
+        2 & 3 & done & $\operatorname{relu}()$ & 0.01 & 132 \\
+        3 & 3 & reward & $\operatorname{tanh}()$ & -0.01 & 119 \\
+        4 & 3 & reward & $\operatorname{relu}()$ & -0.01 & 117 \\
+        5 & 3 & reward & $\operatorname{tanh}()$ & 0.01 & 116 \\
         \bottomrule
         \end{tabular}
         \end{table}
@@ -262,8 +260,8 @@ Hence, when $p+1$ is prime, we can control the depth through trnasitions or rewa
         
 
         % Tree 7: if x <= 0.5 and y <= 0.5 move right else move down
-        \node[decision] (tree7_root) at (5,0) {$\dot{\theta}\leq 0.04$};
-        \node[decision] (tree7_y) at (3,-2) {$\dot{\theta}\leq -0.02$};
+        \node[decision] (tree7_root) at (5,0) {$\dot{\theta}\leq 0.467$};
+        \node[decision] (tree7_y) at (3,-2) {$\dot{\theta}\leq -0.16$};
         \node[leaf] (tree7_right) at (2,-4) {$\leftarrow$};
         \node[leaf] (tree7_down) at (4,-4) {$\rightarrow$};
         \node[leaf] (tree7_down2) at (6,-2) {$\rightarrow$};
@@ -281,6 +279,18 @@ Hence, when $p+1$ is prime, we can control the depth through trnasitions or rewa
         \node[leaf] (tree4_left) at (9,-2) {$\rightarrow$};
         \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
         \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
+
+
+        % Tree 7: if x <= 0.5 and y <= 0.5 move right else move down
+        \node[decision] (tree7_root) at (13,0) {$\dot{\theta}\leq 0.539$};
+        \node[decision] (tree7_y) at (11,-2) {$\theta\leq 0$};
+        \node[leaf] (tree7_right) at (10,-4) {$\leftarrow$};
+        \node[leaf] (tree7_down) at (12,-4) {$\rightarrow$};
+        \node[leaf] (tree7_down2) at (14,-2) {$\rightarrow$};
+        \draw[->] (tree7_root) -- (tree7_y) node[edge_label, above left] {True};
+        \draw[->] (tree7_root) -- (tree7_down2) node[edge_label, above right] {False};
+        \draw[->] (tree7_y) -- (tree7_right) node[edge_label, above left] {True};
+        \draw[->] (tree7_y) -- (tree7_down) node[edge_label, above right] {False};
         
 
 
