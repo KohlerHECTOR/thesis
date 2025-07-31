@@ -168,7 +168,7 @@ Next, we present our results and discuss the reproducibility and limitations of 
 
 \section{Results}
 
-\subsection{Can Modified Deep Reinforcement Learning consistently learn good decision tree policies for CartPole?}
+\subsection{Can Modified Deep Reinforcement Learning learn in CartPole IBMDPs?}
 
 \begin{figure}
     \centering
@@ -226,6 +226,7 @@ We do notice that for DQN-like baselines, learning seems difficult in general in
         \bottomrule
         \end{tabular}
         \end{table}
+
 
 \subsection{How does direct interpretable reinforcement learning perform compared to the indirect approach?}
 
@@ -297,7 +298,9 @@ We do notice that for DQN-like baselines, learning seems difficult in general in
         % Labels
         \node[above] at (0,1) {{\small Best Modified PPO tree}};
         \node[above] at (5,1) {{\small Best Modified DQN tree}};
-        \node[above] at (8,1) {{\small Typical PPO+Dagger tree}};
+        \node[above] at (8,1) {{\small Typical Imitation tree}};
+        \node[above] at (13,1) {{\small DQN + Viper tree with max reward}};
+
 
     \end{tikzpicture}
     \caption{Trees obtained by DRL against trees obtained with imitation.}
@@ -306,13 +309,14 @@ We do notice that for DQN-like baselines, learning seems difficult in general in
 
 
 On Figure (cite), we isolate the best performing baselines that learn decision tree policies for CartPole using either Modified DQN or Modified PPO and compare them with imitation learning baselines that use the surrogate objective (cite) to find CartPole decision tree policies.
-We find that despite having poor performances in \textit{average} (c.f. Figure (cite)), the deep reinforcement learning baselines find very good decision tree policies and also extremly poor ones as shown by the min-max shaded areas on the left of Figure (cite) and the histograms of final trees performances on Figure (cite).
+We find that despite having poor performances in \textit{average} (c.f. Figure (cite)), the deep reinforcement learning baselines find very good decision tree policies and also extremly poor ones as shown by the min-max shaded areas on the left of Figure (cite) and the estimated density of final trees performances on Figure (cite).
 In fact, when compared with imitation learning baselines, that fit the policy of a PPO + MDP or fit the greedy policy w.r.t to the $Q$-network of a DQN + MDP, when running e.g., 20 seeds of direct reinforcement learning baselines, there are some seeds that can find good decision tree policies as fast as the indirect imitation learning baselines: if we look at the shaded area of Modified DQN on Figure (cite), we can observe that it is consitently overlapping with an inderect method curve.
 However this is not desirable, a user want an agent that can consistantly find good decision tree policy.
-As shown by the histogram (cite), indirect methods consistently find good decision tree policies (there is only 1 histogram bin where good CartPole scores are). On the other hand, the final trees returned by direct RL methods seem equally distributed on both extremes of the scores.
+As shown by the estimated densities (cite), indirect methods consistently find good decision tree policies (the higher modes of distributions are on the right of the plot). On the other hand, the final trees returned by direct RL methods seem equally distributed on both extremes of the scores.
 
 On Figure (cite), we compare the best trees returned by Modified DQN and Modified PPO. We used Algorithm 6 to extract 20 trees from the 20 partially observable policies returned by deeop reinforcement learning over 20 seeds. We then plot the best tree for each baseline. Those trees get an everage reward of roughly 175.
-Similarly, we imitation learning returns 20 trees. However unlike for direct methods, the tree returned are extremely similar across seed. In particular they often only vary in the scalar value used in the root node but in general have the same structure and test the angular velocity.
+Similarly, we plot a representative tree for imitation learning baseline as well as a tree that has max reward obtained with Viper. 
+However unlike for direct methods, the tree returned are extremely similar across seed. In particular they often only vary in the scalar value used in the root node but in general have the same structure and test the angular velocity.
 On the other hand the most frequent tree across seed returned by modified RL baselines is the ``infinite'' tree that corresponds to only taking an information gathering action.
 
 

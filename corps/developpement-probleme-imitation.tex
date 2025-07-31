@@ -1,4 +1,70 @@
 \chapter{Evaluation}
+
+\begin{figure}[b]
+    \centering
+    \includegraphics[width=1.\textwidth]{images/images_part3/pong_state_space.pdf}
+    \caption{\textbf{Oracle decision rules are oblique} illustrated on PPO for different state space partitions of the Pong environment. Decisions boundaries are both oblique and parallel.}
+    \label{fig:pong_states}
+\end{figure}
+
+
+\begin{figure}[b]
+    \centering
+    \includegraphics[width=1.\textwidth]{images/images_part3/dis_mujoco+f_atari.pdf}
+    \caption{\textbf{Oracle decision rules are oblique} illustrated on PPO for different state space partitions of the Pong environment. Decisions boundaries are both oblique and parallel.}
+    \label{fig:pong_states}
+\end{figure}
+
+\begin{figure}[b]
+    \centering
+    \includegraphics[width=1.\textwidth]{images/images_part3/fi_dssat_copy_human.pdf}
+    \caption{\textbf{Oracle decision rules are oblique} illustrated on PPO for different state space partitions of the Pong environment. Decisions boundaries are both oblique and parallel.}
+    \label{fig:pong_states}
+\end{figure}
+
+\textbf{Oblique decision trees.} One can imitate oracles with programs that make tests of linear combinations of features. Many oracles learn oblique or more complex decision rules over an MDP state space. This is illustrated in Figure~\ref{fig:pong_states} where a PPO neural oracle creates oblique partitions of the state-space for the Pong environments. Programs that test only individual features would fail to fit this partition (see Figure~\ref{fig:pong_states}). 
+We thus modify CART~\citep{breiman}, an algorithm returning axes-parallel trees for regression and supervised classification problems, for it to return oblique decision trees. 
+
+In addition to single feature tests, our oblique trees consider linear combinations of two features with weights $1$ and $-1$, e.g., for MDP states $s_i \in \mathbb{R}^{p}$, the oblique features values are $s^{oblique}_i = \{s_{i1} - s_{i0}, s_{i2} - s_{i0}, \ldots, s_{ip} - s_{i0}, \ldots, s_{ip-1} - s_{ip}\} \in \mathbb{R}^{p^2}$. For example, using an oracle dataset with $n$ state-actions pairs: $(\bar{S}, \bar{A} = \pi^{*}(\bar{S})) \subsetneq \mathbb{R}^{n\cdot(p+\dim(A))}$, we obtain oblique decision trees by fitting $(\bar{S},\bar{S}^{oblique} , \bar{A} = \pi^{*}(\bar{S})) \subsetneq \mathbb{R}^{n\cdot(p(p+1)+\dim(A))}$. 
+Given $\bar{S}$, computing $\bar{S}^{oblique}$ can be done efficiently by computing the values of the lower (or upper) triangles in the $\bar{S} \otimes \bar{S} - (\bar{S} \otimes \bar{S})^T$ tensor (excluding the diagonals) (see line~\ref{alg:oblique2} of Algorithm~\ref{alg:iqdagger}). We further demonstrate the superiority of oblique trees in our experimental evaluation on a diverse set of RL tasks.
+
+\begin{wraptable}[7]{r}{0.55\textwidth}
+\centering
+\vspace{-0.5mm}
+\caption{ \textbf{\small Automated masking reduces the number of features in MDP}, illustrated on $8$ Atari environments.}
+\setlength{\tabcolsep}{3pt}
+\scalebox{0.9}{
+\begin{tabular}{@{}ccccccccc@{}}
+\toprule
+MDP        & \small Ast. & Box. & \small Free. & \small Kang. & \small Pong & \small Sea. & \small SpaceI. & Ten. \\ \midrule
+Full    & 100         & 8    & 48           & 196          & 12          & 172         & 176            & 16   \\
+Simplified & 90          & 8    & 22           & 28           & 8           & 54          & 164            & 16   \\ \bottomrule
+\end{tabular}}
+\label{tab:repartitions}
+\end{wraptable}
+
+\textbf{The complexity} of building the tree (line \ref{alg:cart2} of algorithm \ref{alg:iqdagger}) is $O(pn\log_2(n))$ when no maximum tree depth is given, and $O(pnD)$ with a maximum tree depth of $D$ \citep{complexcart}. 
+In particular, at iteration $i$ of our algorithm the complexity of building the tree is $O(p(p+1)itD)$, as rollouts of $t$ MDP transitions are aggregated (line \ref{alg:aggreg}) and oblique features are added to states (line \ref{alg:oblique2}). 
+This means that at each iteration $i$, the cost of computing an oblique tree is $p+1$ times the cost of computing an axes-parallel tree. In our algorithm we pass $K$ the maximum number of leaf nodes as an argument. A tree with $K$ leaf nodes has $2K - 1$ total nodes and a depth of at most $D=K-1$.
+
+\subsection{Real life use case of \interpreter tree programs for fertilization of soils (Q3)}
+\begin{wrapfigure}[18]{r}{0.53\textwidth}
+\centering
+\vspace{-5.6mm}
+\footnotesize
+\inputminted{Python}{annexes/programmes/play_dssat_oblique_66.2_copy_human.py}
+\caption{\textbf{\interpreter can explain human heuristic policies.} \interpreter program with 100\% accuracy on human oracle policy.}
+\vspace{-2mm}
+\label{fig:dssat-iqdagger}
+\end{wrapfigure}
+In this last experiment, we distill a human expert policy for soil fertilization on the \texttt{gym-DSSAT gym} environment \cite{gautron2023learning}. Here, an RL agent has to learn to manage a crop, based on an accurate simulated mechanistic model of plant growth. 
+We consider the task that consists in optimizing plant nitrogen absorption while penalizing the application of fertilizer to minimize the economical and the environmental costs. 
+We extract an \interpreter's Python program, depicted in Figure~\ref{fig:dssat-iqdagger}. 
+This program outputs the exact same actions as the human heuristic given the soil state and obtain the same cumulative reward in average (corresponding to an accuracy of $100\%$). 
+It also provides an interpretation of the human expert heuristic that delivers a certain amount of fertilizer ($\{27, 35, 54\}$) after $\{39, 45, 80\}$ days after seeding, respectively). 
+The feature importance coincides with agronomic principles and have been validated by an expert from the \textit{Consultative Group on International Agricultural Research}. 
+The nitrogen requirements of corn vary depending on the growth stage. They are important during the vegetative phase (plant growth) and the reproductive phase (from flowering to grain filling). This is why it is essential to consider the number of days after planting and the growth stage of the corn, as nitrogen requirements are highest during grain filling.
+
 \section{Methodology Overview}\label{sec:methodology}
 In this section, we explain our methodology for the evaluation of interpretability.
 Our approach consists of three main steps: (1) obtaining deep neural network policies trained with reinforcement learning that obtain high cumulative rewards, (2) distilling those policies into less complex ones to use as baselines (3) after parsing baselines from different classes into a common comparable language, we evaluate the interpretability of the policies using proxy metrics for \textit{simulatability}.
@@ -143,17 +209,17 @@ def play(x):
                     return 3
                 else:
                     #Fire main engine
-                    (*@\colorbox{cyan}{return 2}@*)
+                    return 2
     else:
         if (x[0] - x[6]) <= -0.840:
             return 0
         else:
             if (x[0] - x[4]) <= -0.007:
                 # Fire right engine
-                (*@\colorbox{yellow}{return 3}@*)
+                return 3
             else:
                 # Fire left engine
-                (*@\colorbox{pink}{return 1}@*)
+                return 1
 \end{lstlisting}
 \end{tcolorbox}
 \end{minipage}

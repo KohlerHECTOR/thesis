@@ -404,6 +404,29 @@ Optimistic & True, False & Optimistic initialization \\
     \caption{Success rates of different RL algorithms over thousands of runs when applied to a POIBMDP and its fully observable IBMDP counterpart}\label{fig:po-vs-ib}
 \end{figure}
 
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|c|c|c|}
+    \textbf{Hyperparameter} & \textbf{Asym Q-learning (10/10)} & \textbf{Asym Sarsa (10/10)} & \textbf{PG (4/10)} \\
+    \toprule
+    epsilon\_start & 1.0 & 1.0 & - \\
+    epsilon\_decay & 0.99 & 0.99 & - \\
+    batch\_size & 1 & 1 & - \\
+    lambda\_ & 0.0 & 0.0 & - \\
+    lr\_o & 0.01 & 0.1 & - \\
+    lr\_v & 0.1 & 0.005 & - \\
+    optimistic & False & False & - \\
+    lr & - & - & 0.05 \\
+    tau & - & - & 0.1 \\
+    eps & - & - & 0.1 \\
+    n\_steps & - & - & 2000 \\
+    \bottomrule
+    \end{tabular}
+    \caption{Best hyperparameters for each algorithm on the POIBMDP problem}
+    \label{tab:algorithm-hyperparameters}
+    \end{table}
+
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.32\textwidth}
@@ -428,38 +451,13 @@ Optimistic & True, False & Optimistic initialization \\
 \end{figure}
 
 
-
-
-Best hyperparams of Asymmetric Q-learning solves the POIBMDP 10/10 times: \\
-epsilon_start: 1.0 \\
-epsilon_decay: 0.99 \\
-batch_size: 1\\ 
-lambda_: 0.0\\
-lr_o: 0.01\\ 
-lr_v: 0.1\\ 
-optimistic: False \\ 
-
-Asym Sarsa (10/10):\\ 
-epsilon_start: 1.0 \\
-epsilon_decay: 0.99 \\
-batch_size: 1 \\ 
-lambda_: 0.0 \\
-lr_o: 0.1 \\ 
-lr_v: 0.005 \\
-optimistic: False \\
-
-Best hyperparameters for PG (4/10): \\
-lr: 0.05 \\
-tau: 0.1 \\
-eps: 0.1 \\
-n_steps: 2000 \\
-
 The key observations from Figure (cite) is that POIBMDPs are way harder than their IBMDPs counterparts.
 Even though asymmetry seems to increase performances; learning a decision tree policy for a simple grid world directly with RL using the framework of POIBMDP seem way to difficult and costly as successes might require a million steps for such a seemingly simple problem.
 An other difficulty in practice that we did not cover is the choice of information gathering actions.
 For the grid world MDP, choosing good IGAs ($x\leq1$ and $y\leq1$) is simple but what about more complicated MDPs? 
 Even after choosing candidate IGAs; RL with large action space is known to be an already difficult problem.
 
+It is important to note that some hyperparameter sets gave a 10/10 success rate for asymmetric baselines (c.f. Table (cite)). However, when we try those top performing hyperparameters on more seeds, as shown in Figure (cite), even though we observe an increase in the proportion of depth-1 trees learned, the performance are still not satisfactory for such a simple task. 
 
 \section{Conclusion}
 We suggest researchers and practitioners interested in decision tree policies for MDPs to forget about the direct RL approach and focus on the indirect imitation-based approach (cite) that despite being prone to failures too (cite), is cheaper sample and computation wise as one can re-use pretrained expert policies.
