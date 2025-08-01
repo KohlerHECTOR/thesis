@@ -1,33 +1,34 @@
 \chapter{Understanding the Limits of Direct Reinforcement Learning}
 
+From the previous Chapter (cite) we know that to directly learn decision trees for an MDP, one can learn a partially observable policy for an IBMDP (cite).
+Such problems are classical instances of Partially Observable Markov Decision Processes (POMDPs) (cite). This connexion with POMDP was not done by the authors of IBMDPs. 
+
 \subsection{Partially Observable IBMDPs}
 
-Now we know that to find a decision tree policy for a given MPD $\mathcal{M}$ satisfying the definition (cite); one has to find a partially observable--sometimes called \textit{memoryless} or \textit{reactive}--deterministic policy for an IBMDP $\mathcal{M}_{IB}$.
-Such problems are classical instances of Partially Observable Markov Decision Processes (POMDPs) (cite). This connection with POMDP was not done by the authors of IBMDPs. 
 
 \begin{definition}[Partially Observable Markov Decision Processes]
 A Partially Observable Markov Decision Process (POMDP) is a tuple $\langle X, A, O, T, T_0, \Omega, R\rangle$ where:
 \begin{itemize}
-    \item $X$ is the state space (like in the base definition of MDPs).
-    \item $A$ is a finite set of actions (like in the base definition of MDPs).
+    \item $X$ is the state space (like in the definition of MDPs (cite)).
+    \item $A$ is a finite set of actions (like in the definition of MDPs(cite)).
     \item $O$ is a set of observations.
-    \item $T: X \times A \rightarrow \Delta X$ is the transition kernal, where $T(s, a, x') = P(x'|x, a)$ is the probability of transitioning to state $x'$ when taking action $a$ in state $x$
+    \item $T: X \times A \rightarrow \Delta X$ is the transition kernal, where $T(boldsymbol{x}_t, a, \boldsymbol{x}_{t+1}) = P(\boldsymbol{x}_t|\boldsymbol{x}_{t+1}, a)$ is the probability of transitioning to state $\boldsymbol{x}_{t}$ when taking action $a$ in state $\boldsymbol{x}$
     \item $T_0$: is the intial distribution over states. 
-    \item $\Omega: X \rightarrow \Delta O$ is the observation kernel, where $\Omega(x', a, o) = P(o|x', a)$ is the probability of observing $o$ in state $x$
-    \item $R: X \times A \rightarrow \mathbb{R}$ is the reward function, where $R(x, a)$ is the immediate reward for taking action $a$ in state $x$
+    \item $\Omega: X \rightarrow \Delta O$ is the observation kernel, where $\Omega(\boldsymbol{o}, a, \boldsymbol{x}) = P(\boldsymbol{o}|\boldsymbol{x}, a)$ is the probability of observing $\boldsymbol{o}$ in state $\boldsymbol{x}$
+    \item $R: X \times A \rightarrow \mathbb{R}$ is the reward function, where $R(\boldsymbol{x}, a)$ is the immediate reward for taking action $a$ in state $\boldsymbol{x}$
 \end{itemize}
 Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP (cite).
 \end{definition}
 
 We can simply extend the definition of Iterative Bounding MDPs (cite) with an observation kernel to get Partially Observable IBMDPs:
-\begin{definition}[Partially Observable Iterative Bounding Markov Decision Processes] a Partially Observable Iterative Bounding Markov Decision Process (POIBMDP) is a an IBMDP (cite) extended with an observation kernel 
+\begin{definition}[Partially Observable Iterative Bounding Markov Decision Processes] a Partially Observable Iterative Bounding Markov Decision Process (POIBMDP) is an IBMDP (cite) extended with an observation kernel 
     \begin{align*}
-        \langle \overbrace{S, \underbrace{O}_{\text{Observations}}}^{\text{fully observable states X}}, \underbrace{A, A_{info}}_{A}, \overbrace{R, \zeta}^{R}, \underbrace{T_{info}, T, T_0}_{T, T_0}, \Omega \rangle
+        \langle \overbrace{S\times \underbrace{O}_{\text{Observations}}}^{\text{fully observable states}}, \underbrace{A\cup A_{info}}_{Action space}, \overbrace{(R, \zeta)}^{Rewards}, \underbrace{(T_{info}, T, T_0)}_{Transitions}, \Omega \rangle
     \end{align*}
+    The transition kernel $\Omega$ maps state features and observations to observations, $\Omega:S\times O \rightarrow O$, with $P(\boldsymbol{o}|(\boldsymbol{s}, \boldsymbol{o}))=1$ 
 \end{definition}
 
-The sole specifity of POIBMDPs compared to the general definition of POMDPs, is that $\Omega(o|(s, o'))$, the probability of observing $o$ in $(s,o')$, is $1_{o=o'}$.
-This particular instance of POMDPs with observations being some indices of the fully-observable states has other names in the litterature: Mixed Observability MDPs (cite), Block MDPs (cite).
+POIBMDPs are a particular instance of POMDPs with observations being some indices of the fully-observable states. This setting has other names in the litterature: Mixed Observability MDPs (cite), Block MDPs (cite) N-MDPs (cite).
 POIBMDPs can also be seen as non-stationary MDPs in which there is one different transition kernel per base MDP state: these are called Hidden-Mode MDPs (cite). 
 
 Following (cite) we can write the definition of the value of a deterministic partially observable policy $\pi:O\rightarrow A$ in observation $o$.
@@ -43,17 +44,27 @@ with $P^{\pi}((s, o')|o)$ the asymptotic occupancy distribution (see cite for de
 The asymptotic occupancy distribution is the probability of a policy $\pi$ to be in $(s,o')$ while observing $o$ and having taken actions given by $\pi$.  
 
 The problem that we solve is to find the deterministic partially observable policy that maximizes the excpeted value in the initial observation:
+\begin{definition}[Revised Direct interpretable RL objective]
 \begin{align}
-    \pi^{\star} &= \underset{\pi}{\operatorname{argmax}}J(\pi) = \underset{\pi}{\operatorname{argmax}}V^{\pi}(o_0)
+    \pi_{po}^{\star} &= \underset{\pi_{po}}{\operatorname{argmax}}J(\pi_{po}) = \underset{\pi_{po}}{\operatorname{argmax}}V^{\pi}(\boldsymbol{o}_0)
 \end{align}
-With $\pi:O\rightarrow A\cup A_{info}$. There is no expectation over possible initial observation in the above objective function as there is only one initial observation in a POIBMDP: $o_0=(L_1, U_1, \dots, L_n, U_n)$.
+With $\pi_{po}$ a determintic partially observable policy $\pi_{po}:O\rightarrow A\cup A_{info}$. There is no expectation over possible initial observation in the above objective function as there is only one initial observation in a POIBMDP: $o_0=(L_1, U_1, \dots, L_n, U_n)$.
+\end{definition}
+In general, the policy that maximizes the expected discounted cumulative reward in a POMDP maps ``belief states'' or observations histories (cite) to actions, i.e., they are not solutions to our problem (cite).
+If this would have been the case, any standard RL algorithm would find solutions to problem (cite) because both histories and belief states are sufficient statistic for the POMDP hidden states (cite).
 
-This particular problem of learning deterministic partially observable policies for POMDPs has been studied in the works of Littman, Singh and Jordan: (cite).
-In (cite) atuhors give som intution behind why the above optimization problem is hard. For example, the optimal partially observable policy can be stochastic (cite precise section), hence policy gradient algoriothms (cite) are to avoid. 
-Furthermore, the optimal deterministic patially observable policy might not maximize all the value of all observations simulataneously (cite precise section) which makes difficult the use the Bellman optimality equation (cite) to compute policies.
+The particular problem of finding the optimal deterministic partially observable policies for POMDPs is NP-HARD (cite) (Memoryless Littman section 3.2).
+It means there is not necessarily an algorithman that can find the optimal deterministic policy and if there were one, it would be slow.
+
+Hence it is interesting to study reinforcement learning for finding the best deterministic partially observable policy since it would not search the whole solution space.
+
+In (cite), authors show that the optimal partially observable policy can be stochastic (cite precise section), hence policy gradient algoriothms (cite) are to avoid since we want the best deterministic policy. 
+Furthermore, the optimal deterministic patially observable policy might not maximize all the values of all observations simulataneously (cite precise section) which makes difficult the use of the Bellman optimality equation (cite) to compute policies.
+
 Despite those hardness results, empirical results of applying RL to POMDPs by naively setting the states to be observations has shown promising results (cite). 
 More recently, the framework of Baisero et. al. (cite) called asymmetric RL has also shown promising empirical and theoretical results when leveraging fully-observable state information during training of a partially observable policy.
-In the next chapter, we use reinforcement learning to train decision tree policies for MDPs by seeking deterministic partially observable policies for POIBMDPs (cite).  
+In this Chapter, we use reinforcement learning to train decision tree policies for MDPs by seeking deterministic partially observable policies for POIBMDPs (cite).  
+
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}
@@ -90,11 +101,8 @@ In the next chapter, we use reinforcement learning to train decision tree polici
 \label{fig:nested_decision_processes}
 \end{figure}
 
-In this chapter we investigate the properties of reinforcement learning for learning a depth-1 decision tree policy for a very simple Markov decision process.
-Using the formal framework of partially observable iterative bounding Markvov decision processes (cite), we aim to learn partially observable deterministic policies that correspond to decision tree policies (cite).
-
-We will attempt to learn a depth-1 tree policy for the $2\times 2$ grid world from (cite) as the base MDP by soving the example POIBMDP from the previous chapter.
-To focus on reinforcement learning properties in POIBMDPs rather than, e.g., modelling properties, we will carefully craft POIBMDPs such that the \textit{optimal} partially observable deterministic policy corresponds to a depth-1 tree policy.
+We will attempt to learn a depth-1 tree policy for the $2\times 2$ grid world from Example (cite) as the base MDP by soving the example POIBMDP with similar parameters as the Example IBMDP from the previous Chapter (cite).
+We carefully craft POIBMDPs such that the \textit{optimal} partially observable deterministic policy corresponds to a decision tree policy of detph 1.
 To do so, we present next how the POIBMDP objective values (cite) from different decision tree policies change with $\zeta$ for some fixed discount factor $\gamma$.  
 
 \section{Constructing POIBMDPs which optimal solutions are the depth-1 tree}
@@ -156,8 +164,7 @@ To do so, we present next how the POIBMDP objective values (cite) from different
     \label{fig:optimal-policy-trees}
 \end{figure}
 
-In this section we compute the \textit{exact} objective values of POIBMDP policies as functions of $\zeta$. AFter doing so, we can look for $\zeta$ values such that the optimal POIBMDP policy corresponds to a depth-1 decision tree for the grid world MDP from the previous chapter.  
-Indeed, because we know all the base states, all the observations, all the actions, all the rewards and all the transitions, we can compute exactly the values of different partially observable deterministic policies given $\zeta$ the reward for IGAs and $\gamma$ the discount factor.
+Because we know all the base states, all the observations, all the actions, all the rewards and all the transitions of our POIBMDP, we can compute exactly the values of different partially observable deterministic policies given $\zeta$ the reward for IGAs and $\gamma$ the discount factor.
 
 Each of those policies can be one of the following trees illustrated in Figure (cite): 
 \begin{itemize}
@@ -167,7 +174,7 @@ Each of those policies can be one of the following trees illustrated in Figure (
     \item $\pi_{\mathcal{T}_2}$: a depth-2 tree that alternates between taking two IGAs and a base action
     \item an inifinite ``tree'' that only takes IGAs
 \end{itemize}
-Furthermore, because from (cite) we know that for POMDPs, stochastic policies can sometimes be optimal, we also compute the value of the stochastic policy that alternates between two base actions: $\rightarrow$ and $\downarrow$.
+Furthermore, because from (cite) we know that for POMDPs, stochastic policies can sometimes get better expected discounted rewards than deterministic policies, we also compute the value of the stochastic policy that alternates between two base actions: $\rightarrow$ and $\downarrow$.
 Those two base actions always lead to the goal state in expectation.
 
 We detail the calculations for the detpth-1 decision tree objective value (cite) and defer the calculations for the other policies to the Appendix (cite).
@@ -219,7 +226,7 @@ Interestingly, two POMDP challenges described in (cite) can also be observed in 
 First, there is a whole range of $\zeta$ values for which the stochastic policy is optimal.
 Second, for e.g. $\zeta=0.5$, while the depth-1 tree is the optimal deterministic partially observable policy, the value of state $(s_2, o_0) = (1.5, 1.5, 0, 2, 0, 2)$ is not maximized by this policy but by the sub-optimal policy that always goes down.
 
-Now that we know to what values to set $\zeta$ in our POIBMDPs, we can apply reinforcement learning algorithms to learn partially observable deterministic policies corresponding to the optimal depth-1 decision tree.
+Now that we know to what values to set $\zeta$ in our POIBMDPs, we can apply reinforcement learning algorithms to learn partially observable deterministic policies and see if we can retrieve the optimal depth-1 decision tree.
 
 \section{Results}
 
@@ -309,7 +316,7 @@ Second, we consider the distribution of the learned trees structure over the 100
 Indeed, since for every POIBMDP we train each baseline 100 times, we obtain 100 partially observable deterministic policies from which we can extract the equivalent 100 decision tree policies using Algorithm (cite).
 This helps understand which trees RL tend to learn.
 
-\subsection{Can RL baselines solve POIBMDPs?}
+\subsection{Can RL baselines find the optimal deterministic partially observable POIBMDP policies?}
 
 In Figure (cite), we plot the sub-optimality gaps--averaged over 100 seeds--of learned policies during training.
 We do so for 200 different POIBMDPs where we change the reward for information gathering actions: we sample $\zeta$ uniformily in $[-1, 2]$.
@@ -348,11 +355,11 @@ Next, we quantify how difficult it is to do RL to learn policies in POIBMDPs.
 
 \subsection{How difficult is it to learn in POIBMPDs?}
 
-As discussed in the previous chapter (cite), POIBMDPs inherit many difficulties from POMDPs.
-To prove that solving POIBMDPs, even though there are only a handful of states, observations, and actions (16, 9, and 6 respectively), we compare the success rate of RL baselines when applied to a POIBMDP with $\gamma=0.99$, $\zeta=0.5$ and when applied to the corresponding fully observable IBMDP.
-Because we know that for those values of $\zeta$ and $\gamma$, the optimal deterministic partially observable policy is a depth-1 tree and the optimal fully observable policy is a tabular policy from Figure (cite); we can compute the success rate of an RL algorithm as the proportion of learned policies that match their optimal counterparts.
+To show that learning the optimal deterministic partially observable POIBMDP policy is very difficult, even though there are only a handful of states, observations, and actions (16, 9, and 6 respectively), we compare the success rate of RL baselines when applied to a POIBMDP with $\gamma=0.99$, $\zeta=0.5$ and when applied to the corresponding fully observable IBMDP, and MDP.
 
-Furhtermore; we also consider advanced tricks for tabular RL in order to properly assess the difficulty of learning in POIBMDPs compared to learning in IBMDPs:
+Because we know that for those values of $\zeta$ and $\gamma$, the optimal deterministic partially observable policy is a depth-1 tree and the optimal fully observable policy is a tabular policy from Figure (cite); we can compute the success rate of an algorithm as the proportion of learned policies that match their optimal counterparts.
+
+Furhtermore; we also consider advanced tricks for tabular RL in order to properly assess the difficulty of learning in POIBMDPs compared to learning in (IB)MDPs:
 \begin{enumerate}
     \item Optimistic Q-function (cite)
     \item Entropy regularization (cite)
@@ -360,12 +367,12 @@ Furhtermore; we also consider advanced tricks for tabular RL in order to properl
     \item $\epsilon$-decay (cite)
 \end{enumerate}
 In particular, for each of the aforementioned RL baselines; we learn policies using a wide variety of hyperparamters.
-For example, in Table (cite) we provide the detailed hyperparameter space of Asymmetric Sarsa, which induce a total of 1152 instances of Asymmetric Sarsa, and in Table (cite) we provide the hyperparameter space sizes for all baselines 
-We run each baseline using each hyperparamters combination 10 times on 1 million timesteps.
+For example, in Table (cite) we provide the detailed hyperparameter space of Asymmetric Sarsa, which induce a total of 1152 instances of Asymmetric Sarsa, and in Table (cite) we provide the hyperparameter space sizes for all baselines.
+We run each baseline using each hyperparamters combination 10 times on 200000 timesteps.
 
 \begin{table}[h]
 \centering
-\caption{Asymmetric Sarsa Hyperparameter Space (768 combinations)}
+\caption{Asymmetric Sarsa Hyperparameter Space (768 combinations each run 10 times)}
 \begin{tabular}{lll}
 \toprule
 \textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
@@ -382,7 +389,7 @@ Optimistic & True, False & Optimistic initialization \\
 
 \begin{table}[h]
     \centering
-    \caption{Summary of RL baselines Hyperparameter Spaces}
+    \caption{Summary of RL baselines Hyperparameters}
     \begin{tabular}{llr}
     \toprule
     \textbf{Algorithm} & \textbf{Problem} & \textbf{Total Hyperparameter Combinations} \\
@@ -401,7 +408,7 @@ Optimistic & True, False & Optimistic initialization \\
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{images/images_part1/algorithm_performance_comparison_flattened.pdf}
-    \caption{Success rates of different RL algorithms over thousands of runs when applied to a POIBMDP and its fully observable IBMDP counterpart}\label{fig:po-vs-ib}
+    \caption{Success rates of different RL algorithms over thousands of runs when applied to a POIBMDP and its fully observable IBMDP and MDP counterparts}\label{fig:po-vs-ib}
 \end{figure}
 
 
@@ -457,12 +464,15 @@ An other difficulty in practice that we did not cover is the choice of informati
 For the grid world MDP, choosing good IGAs ($x\leq1$ and $y\leq1$) is simple but what about more complicated MDPs? 
 Even after choosing candidate IGAs; RL with large action space is known to be an already difficult problem.
 
-It is important to note that some hyperparameter sets gave a 10/10 success rate for asymmetric baselines (c.f. Table (cite)). However, when we try those top performing hyperparameters on more seeds, as shown in Figure (cite), even though we observe an increase in the proportion of depth-1 trees learned, the performance are still not satisfactory for such a simple task. 
+It is important to note that some hyperparameter sets gave a 10/10 success rate for asymmetric baselines (c.f. Table (cite)). 
+However, when we try those top performing hyperparameters on more seeds, as shown in Figure (cite), even though we observe an increase in the proportion of depth-1 trees learned, the performance are still not satisfactory for such a simple task. 
 
 \section{Conclusion}
-We suggest researchers and practitioners interested in decision tree policies for MDPs to forget about the direct RL approach and focus on the indirect imitation-based approach (cite) that despite being prone to failures too (cite), is cheaper sample and computation wise as one can re-use pretrained expert policies.
+In this Chapter, we have shown that direct learning of decision tree policies for MDPs can be reduced to learning deterministic partially observable policies in POMDPs. 
+We once again showed the difficulty of the latter by crafting a POIBMDP for which we know exactly the optimal deterministic partially observable policy.
+This allowed to show 1) that existing (asymmetric) RL algorithms fail to consistently learn the optimal deterministic partially observable policy (c.f. Figure (cite)) and 2) to show that for similar transitions and rewards, learning a partially observable deterministic policy is way harder than learning a fully observable one (c.f. Figure (cite)).
 
-If for some reason one has to avoid imitation; fitting parametric trees, trees whose depth and nodes are predifined and where only thresholds are optimized, then one can use SYMPOL (cite) or Soft decision trees (cite).
-The latter approach can be beneficial when the user has lots of domain knowledge on what nodes should be in a decision tree policy.
-
-In the next chapter, we show that when the base MDP's transitions are independent of the action, then POIBMDPs are actually \textit{fully} observable which can lead to new decision tree induction for supervised learning.
+So interesting future work could be to design POIBMDP-specific algorithm or to find another framework for the direct learning of decision trees for MDPs.
+Overall, in the two last Chapter, it seems fair to say that indirect interpretability is more suited for MDPs
+Despite those negative conclusion, there is still some positive directions coming out of this work.
+In the next Chapter, we show that when the base MDP's transitions are independent of the action, then POIBMDPs are actually \textit{fully} observable which can lead to new decision tree induction for supervised learning.

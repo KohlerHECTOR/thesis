@@ -74,14 +74,14 @@ Indeed, an agent evolving in an IBMDP essentially builds a tree by taking sequen
 
 However, authors from (cite) show that not all IBMDP policies are decision tree policies. In particular they show that only deterministic policies depending solely on the observation part of the IBMDP states are guaranteed to correspond to decision tree policies for the base MDP.
 
-\begin{proposition}[Partially observable IBMDP policies are decision trees] 
-    Given an IBMDP $\mathcal{M}_{IB} $ $ \langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ a partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ is a decision tree policy $\pi_{\mathcal{T}}: S \rightarrow A$ for the base factored MDP $\langle S, A, R, T, T_0\rangle$ (cite).
+\begin{proposition}[Deterministic partially observable IBMDP policies are decision trees] 
+    Given an IBMDP $\mathcal{M}_{IB} $ $ \langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ a deterministic partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ is a decision tree policy $\pi_{\mathcal{T}}: S \rightarrow A$ for the base factored MDP $\langle S, A, R, T, T_0\rangle$ (cite).
 \end{proposition}
-\begin{proof}(Sketch) Algorithm (cite) that takes as input a partially observable policy $\pi_{po}$ for an IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$, returns a decision tree policy $\pi_{\mathcal{T}}$ for $\mathcal{M}=\langle S, A, R, T, T_0\rangle$ and always terminates unless the partially observable policy only takes IGAs.
+\begin{proof}(Sketch) Algorithm (cite) that takes as input a deterministic partially observable policy $\pi_{po}$ for an IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$, returns a decision tree policy $\pi_{\mathcal{T}}$ for $\mathcal{M}=\langle S, A, R, T, T_0\rangle$ and always terminates unless the partially observable policy only takes IGAs.
 \end{proof}
 
 \begin{algorithm}[t]
-    \KwData{Partially observable policy $\pi_{po}$ for IBMDP $ \langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ and observation IBMDP $\boldsymbol{o}=(L'_1, U'_1, \dots, L'_n, U'_n)$}
+    \KwData{Deterministic partially observable policy $\pi_{po}$ for IBMDP $ \langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ and observation IBMDP $\boldsymbol{o}=(L'_1, U'_1, \dots, L'_n, U'_n)$}
     \KwResult{Decision tree policy $\pi_{\mathcal{T}}$ for MDP $\langle S, A, R, T, T_0\rangle$}
     
     \SetKwProg{Fn}{Function}{:}{}
