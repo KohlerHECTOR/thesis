@@ -1,37 +1,38 @@
-\chapter{A Formal Framework for the Reinforcement Learning of Decision Tree Policies}
-In this part of the manuscript, we show that direct reinforcement learning of decision tree policies is often way more difficult, in terms of computations required to obtain a good policy or in terms of policy quality, than learning tabular or neural network policies.
-In this chapter we present the formal framework based on MDPs to learn decision tree policies introduced in (cite).
-In chapter (cite), we reproduce some experiments from (cite) and show that  direct interpretable reinforcement learning underperforms compared to their indirect or non-interpretable counterparts.
-In chapter (cite), we bridge the gap between direct reinforcement learning of decision tree policies and Partially Observable MDPs (cite) to give further insights into the difficulty of direct interpretable RL.
+\chapter{Introduction}
+In this part of the manuscript, we show that direct reinforcement learning of decision tree policies for MDPs is often very difficult compared to indirect imitation of a neural network policy with a decision tree.
 
-\section{Learning Decision Tree policies}
-Algorithms have been developed to return decision tree policies for MDPs.
-Those interpretable machine learning algorithms either learn parametric trees or non-parametric trees.
+This first part of the manuscript is organised as follows.
+In this chapter we present Topin et. al. formal framework for direct reinforcement learning of decision tree policies (cite).
+In chapter (cite), we reproduce experiments from Topin et. al. where we compare direct deep reinforcement learning of decision tree policies to indirect imitation of a neural networf policy with a decision tree for the simple CartPole MDP.
+In chapter (cite), we show that the direct approach proposed by Topin et. al. is equivalent to learning deterministic memoryless policy for partially observable MDPs (POMDPs) which is way more difficult that learning the same policies MDPs.
+In chapter (cite), we show that when doing direct reinforcement learning of decision tree policies for MDPs which transitions are uniform, e.g. when the MDPs encode classification or regression tasks (cite), those POMDP problems are easy to solve. 
+
+\section{Learning Decision Tree policies for MDPs}
+There already exist algorithms that return decision tree policies for MDPs.
+Those algorithms either learn parametric trees or non-parametric trees.
 
 Parametric trees are not ``grown'' from the root by iteratively adding internal or leaf nodes depending on the interpretability-performance trade-off to optimize, but are rather ``optimized'': the depth, internal nodes arrengement, and state-features to consider in each nodes are fixed \textit{a priori} and only the tested thresholds of each nodes are optimized similarly to how the weights of a neural network are optimized.
 As the reader might have guessed, those parametric trees are advantageous in that they can be learned with gradient descent and in the context of decision tree policies, with the policy gradient (cite).
 The downside of those approaches is that a user cannot know \textit{a priori}  what a ``good'' tree policy structure should be for a particular MDP: either the specified structure is too deep and pruning will be required after training or the tree structure is not expressive enough to encode a good policy. 
 Similar approaches exist in supervised learning exist where a parametric tree is fitted with gradient descent (cite). However their benefit over non-parametric trees have not been shown.
 When parametric trees are learned for MDPs; extra stabilizing tricks are required during training such as adaptive batch sizes (cite).
+Non-parametric trees are the standard model in supervised learning (cite) and can naturally trade-off between interpretability and performances. 
+However, specialized approaches are required since growing a tree from the root in an RL fashion is not possible.
+Recall that interpretable machine learning algorithms are either indirect.
+In the introduction (cite), we showed that indirect imitation learning of neural network experts can lead to sub-optimal decision tree policies in terms of the RL objective (cite) because those trees optimize a surrogate imitation loss rather than the RL objective directly.
 
-Non-parametric trees are the standard model in supervised learning (cite) and can naturally trade-off between interpretability and performances. However, specialized approaches are required since growing a tree from the root in an RL fashion is not possible.
-
-Recall that interpretable machine learning methods are either indirect, like imitation learning presented in the introduction (cite), or direct, like the ones we study in this part of the manuscript.
-
-In the next section we present, the only direct approach to learn non-parametric decision tree policies for MDPs.
-
-In 2021, Topin et. al. introduced Iterative Bouding Markov Decision Processes (IBMDPs) (cite). 
+In 2021, Topin et. al. introduced iterative bouding Markov decision processes (IBMDPs) (cite). 
 Given an MDP for which one wants to learn a decision tree policy, IBMDPs are an augmented version of this base MDP with more state features, more actions, additional rewards and additional transitions.
-The promise of IBMDPs is to shift the challenges of direct non-parametric decision tree policy learning in the problem formulation rather than in the design of specialized reinforcement learning algorithms.
-Indeed, authors showed that certain IBMDP policies, that can be learned \textit{directly} with RL, are equivalent to decision tree policies for the base MDP. 
+Authors showed that certain IBMDP policies, that can be learned \textit{directly} with RL, are equivalent to decision tree policies for the base MDP.
 
-There exists more specialized approaches that can return decision tree policies only for small problem classes.
+There also exists more specialized approaches that can return decision tree policies only for small problem classes.
 In (cite), authors prove that for maze-like MDPs, there always exist an optimal decision tree policy and provide an algorithm to find it. 
 In (cite), authors give an algorithm to return decision tree policies for MDPs that are constrained to have depth less than 3. 
 Finally, in (cite), authors study decision tree policies for planning in MDPs, i.e., when the transitions and rewards are known.
-
 In the next section we present IBMDPs as introduced in (cite).
+
 \section{Iterative Bounding Markov Decision Processes}
+
 The key thing to know about IBMDPs is that they are, as their name suggests, MDPs.
 Hence, IBMPDs inherit MDPs properties such as existence of an optimal deterministic Markovian policy for problem (cite).
 The states in an IBMDP are concatenations of the base MDP states and some observations. Those observations are information about the base states that are refined--``iteratively bounded''-- at each step and represent a subspace of the base MDP state space.
@@ -57,27 +58,29 @@ Given a \textit{factored} (cite) MDP $\mathcal{M}$ (cite) $\langle S, A, R, T, T
 Given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_n, U'_n) \in O$ and state features $\boldsymbol{s}_t=(s'_1, s'_2, \dots, s'_n)$ if an IGA $\langle i, v \rangle$ is taken, the new observation is:
 \begin{align*}
     \boldsymbol{o}_{t+1} &= \begin{cases}
-        (L''_1, U''_1, \dots , L''_i, \min\{v, U''_i\}, \dots , L''_n, U''_n) \text{ if } s_i \leq v\\
-        (L''_1, U''_1, \dots , \max\{v, L'_i\}, U''_i, \dots , L''_n, U''_n) \text{ if } s_i > v
+        (L'_1, U'_1, \dots , L'_i, \min\{v, U'_i\}, \dots , L''_n, U'_n) \text{ if } s_i \leq v\\
+        (L'_1, U'_1, \dots , \max\{v, L'_i\}, U'_i, \dots , L''_n, U'_n) \text{ if } s_i > v
     \end{cases}
 \end{align*}
 If a base action $a_t\in A$ is taken, the new observation is the default state bounds $(L_1, U_1,\dots, L_n, U_n)$ and the state features change according to the base MDP transitition kernel: $\boldsymbol{s}_{t+1}\sim T(\boldsymbol{s}_t, a_t)$.
 At initialization, the base state features are drawn from the base MDP $T_0$ and the observation is always set to the default state features bounds $\boldsymbol{o}_0=(L_1, U_1,\dots, L_n, U_n)$.
 \end{itemize}
 \end{definition}
+
 Now remains to extract a decision tree policy for MDP $\mathcal{M}$ from a policy for an associated IBMDP $\mathcal{M}_{IB}$. 
 
 \subsection{From Policies to Trees}
 
-One can notice that information gathering actions resemble the Boolean functions that make up internal decision tree nodes (cite). 
-Indeed, an agent evolving in an IBMDP essentially builds a tree by taking sequences of IGAs (internal nodes) and then a base action (leaf node) and repeats this process over time.
+One can notice that information gathering actions resemble the Boolean functions that make up internal decision tree nodes (cite).
+Indeed, a policy taking actions in an IBMDP essentially builds a tree by taking sequences of IGAs (internal nodes) and then a base action (leaf node) and repeats this process over time.
 
-However, authors from (cite) show that not all IBMDP policies are decision tree policies. In particular they show that only deterministic policies depending solely on the observation part of the IBMDP states are guaranteed to correspond to decision tree policies for the base MDP.
+However, authors from (cite) show that not all IBMDP policies are decision tree policies.
+In particular they show that only deterministic policies depending solely on the observation part of the IBMDP states are guaranteed to correspond to decision tree policies for the base MDP.
 
 \begin{proposition}[Deterministic partially observable IBMDP policies are decision trees] 
     Given an IBMDP $\mathcal{M}_{IB} $ $ \langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ a deterministic partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ is a decision tree policy $\pi_{\mathcal{T}}: S \rightarrow A$ for the base factored MDP $\langle S, A, R, T, T_0\rangle$ (cite).
 \end{proposition}
-\begin{proof}(Sketch) Algorithm (cite) that takes as input a deterministic partially observable policy $\pi_{po}$ for an IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$, returns a decision tree policy $\pi_{\mathcal{T}}$ for $\mathcal{M}=\langle S, A, R, T, T_0\rangle$ and always terminates unless the partially observable policy only takes IGAs.
+\begin{proof}(Sketch) Algorithm (cite) that takes as input a deterministic partially observable policy $\pi_{po}$ for an IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$, returns a decision tree policy $\pi_{\mathcal{T}}$ for $\mathcal{M}=\langle S, A, R, T, T_0\rangle$ and always terminates unless the deterministic partially observable policy only takes IGAs.
 \end{proof}
 
 \begin{algorithm}[t]
@@ -105,7 +108,7 @@ However, authors from (cite) show that not all IBMDP policies are decision tree 
     \caption{Extract a Decision Tree Policy}\label{alg_extract_tree}
 \end{algorithm}
 
-We defer the connexions with Partially Observable MDPs to Chapter (cite).
+We defer the connexions with POMDPs to Chapter (cite).
 
 \subsection{Example: an IBMDP for a grid world}
 Suppose a factored MDP representing a grid world with 4 cells like in Example (cite). 
@@ -226,7 +229,8 @@ In Figure (cite) we show a trajectory in this IBMDP.
 
     
 \end{tikzpicture}
-\caption{An IBMDP trajectory when the base MDP is 2$\times$2 grid world, and equivalent decision tree policy traversal. 
+\caption{An IBMDP trajectory when the base MDP is 2$\times$2 grid world, and equivalent decision tree policy traversal.
+The pink obstructed squares represent the current bounds over state features. The more IGAs are taking, the more refined the bounds get.
 At $t=0$, the state features are $\boldsymbol{s}_0 = (0.5, 1.5)$. 
 The initial observation is always the base MDP default feature bounds, here $\boldsymbol{o}_0=(0, 2, 0, 2)$ because the base states are in $[0, 2] \times [0, 2]$.
 The first action is an IGA that tests the feature $x$ of the states against the value $1$ and the reward $\zeta$. 
@@ -237,8 +241,10 @@ This gives a reward 0, reinitialized the observation to the original bounds, and
 \end{figure}
 
 \section{Summary}
-We presented the approach of Topin et. al. (cite) that allows for direct reinforcement learning of decision tree policies.
-We can thus write the interpretable RL objective that we optimize in the following chapters:
+In this chapter, we presented the approach of Topin et. al. (cite) to find trees that directly optimize the RL objective (cite) rather than the surrogate imitation loss.
+To achieve that Topin et. al. showed that one can do RL of a partially observable deterministic policy for some IBMDP.
+
+We can thus write an interpretable RL objective as follows:
 \begin{definition}[Interpretable RL objective]
     Given a factored MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$, a discount factor $\gamma \in (0,1)$, and an associated IBMDP $\mathcal{M}_{IB}=\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$, the goal of an interpetable RL agent is to find a partially observable IBMDP policy $\pi^\star_{po}:O\rightarrow A\cup A_{info}$ such that:
 \begin{align*}
@@ -246,7 +252,7 @@ We can thus write the interpretable RL objective that we optimize in the followi
     &= \underset{\pi_{po}}{\operatorname{argmax}} \mathbb{E}[V^{\pi}(s_0, o_0)| s_0\sim T_0]
 \end{align*}
 \end{definition}
-In Figure (cite) we summarized how we will directly decision tree policies for MDPs using RL in IBMDPs in the next chapter
+In Figure (cite) we summarized the direct reinforcement learning approach of Topin et. al. that we use in the next chapters. 
 \begin{figure}[h]
     \centering
     \begin{tikzpicture}
