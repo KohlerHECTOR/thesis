@@ -1,19 +1,18 @@
-\chapter{A Case Study of Direct Deep Reinforcement Learning of Decision Tree Policies}
-In this chapter compare direct reinforcement learning of decision tree policies to imitation learning (cite) of decision tree policies.
-We follow the methodology introduced in (cite) and summarized in Figure (cite) to learn decision tree policies for the CartPole control problem.
-In particular, we attempt to reproduce the results from Table (cite) in which authors use imitation learning or deep reinforcement learning in IBMDPs to directly learn a detph-2 decision tree for the CartPole control.
+\chapter{Direct Deep Reinforcement Learning of Decision Tree Policies}
+In this chapter, we compare direct deep reinforcement learning of decision tree policies with imitation learning of decision tree policies.
+We use deep reinforcement learning to optimize the interpretable RL objective from (cite) for the CartPole MDP (cite).
 
-We run the \textit{same} algorithms using the \textit{same} hyperparameters when possible and show our results differ from (cite) in that we find that direct interpretable reinforcement learning underperforms compared to the indirect approach (cite).
+In particular, we attempt to reproduce the results from Table (cite) in which authors use imitation learning or deep reinforcement learning in IBMDPs to learn a detph-2 decision tree for the CartPole MDP.
+We run the \textit{same} algorithms using the \textit{same} hyperparameters when possible and show that our results differ from (cite) in that we find that direct interpretable reinforcement learning underperforms compared to the indirect imitation learning approach (cite).
 
 \section{Reproducing ``Iterative Bounding MDPs: Learning Interpretable Policies via Non-Interpretable Methods''}
 
 \subsection{IBMDP formulation}
 As described in (cite), given a base MDP $\mathcal{M}\langle S, A, R, T, T_0\rangle$, in order to define an IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{\info}, (R, \zeta),( T, T_0, T_{info})\rangle$, the user needs to provide the set of information gathering actions $A_{info}$ and the reward $\zeta$ for taking those.
+Authors propose to parametrize the set of IGAs with $i \times p$ actions $\langle v_k, i \rangle$ with $v_k$ depending on the current observation $\boldsymbol{o}_t=(L'_1, U'_1, \dots, L'_i, U'_i, \dots, L'_n, U'_n)$: $v_k = \frac{k(U'_i - L'_i)}{p+1}$.
+This parametric IGAs space keeps the discrete IBMDP action space at a reasonable size while providing a learning agent with varied IGAs to try.
 
-For CartPole and other MDPs with large state spaces, authors propose to parametrize the set of IGAs with $i \times p$ actions $\langle v_k, i \rangle$ with $v_k$ depending on the current observation $\boldsymbol{o}_t=(L'_1, U'_1, \dots, L'_i, U'_i, \dots, L'_n, U'_n)$: $v_k = \frac{k(U'_i - L'_i)}{p+1}$.
-This parametric IGAs space keeps the discrete IBMDP action space at a reasonable size while providing a learning agent with very veried tests.
-
-For example, if we define an IBMDP with $p=3$ for the grid world IBMDP from Example (cite), at every time six actions are available. 
+For example, if we define an IBMDP with $p=3$ for the grid world from Example (cite), the grid world action space is augmented with six IGAs. 
 At $t=0$, recall that $\boldsymbol{o}_0=(0, 2, 0, 2)$, so if an agent takes, e.g., IGA $\langle v_2, 2 \rangle$, the effective IGA is $\langle v_2=\frac{k(2-0)}{3+1}, i \rangle = \langle 1, 2 \rangle$ which in turn effectively corresponds to an internal decision tree node $y \leq 1$.
 If the current state $y$-feature value is $0.5$, then the next observation at $t=1$ is $\boldsymbol{o}_1=(0, 2, 0, 1)$. At $t=2$ if $a_t=\langle v_2, 2 \rangle$ again, it would be effectively $\langle v_2=\frac{k(1-0)}{3+1}, i \rangle = \langle 0.5, 2 \rangle$. 
 This would give the next observation at $t=2$ $\boldsymbol{o}_2=(0, 2, 0, 0.5)$ and so on \dots. 
@@ -21,29 +20,74 @@ This would give the next observation at $t=2$ $\boldsymbol{o}_2=(0, 2, 0, 0.5)$ 
 Furthermore, author propose to regularize the learned decision tree policy with a maximum depth parameter $D$.
 Unfortunately, authors did not describe how they implemented the depth control in their work, hence we have to try different approaches to reproduce their results.
 
-To control the tree depth during learning we can either give negative reward for taking $D$ IGAs since the last base action, or we could terminate the trajectory. 
-The penalization approaches can break the MDP formalism because the reward function now depends on time while it should only depend on states and actions (cite). 
-Similarly, the termination approach requires a transition function that depends on time breaking the Makrov property.
+To control the tree depth during learning we can either give negative reward for taking $D$ IGAs in a row, or we could terminate the trajectory. 
+The penalization approaches can break the MDP formalism because the reward function now depends on time while it should only depend on states and actions (cite).
+Similarly, the termination approach requires a transition function that depends on time which also breaks the Makrov property.
 
 We actually find that when $p+1$, the IBMDP information gathering space parameter, is a prime number, then as a direct consequence of the \textit{Chinese Reminder Theorem} (cite)(proof), the current tree depth is directly encoded in the current observation $o_t$. 
-Hence, when $p+1$ is prime, we can control the depth through trnasitions or rewards without tracking the time.
+Hence, when $p+1$ is prime, we can control the depth through either transitions or rewards without tracking the time.
 
-We will try various $\zeta$, various $p$ and various depth control approaches in our experiments but first we describe the reinforcement learning agents.
+We will try various $\zeta$, various $p$, and various depth control approaches in our experiments but first we describe the reinforcement learning agents.
 
 
 \subsection{Modified Deep Reinforcement Learning algorithms}
 Authors of (cite) use two deep reinforcement learning baselines to which they apply some modifications in order to learn partially observable policies as required by proposition (cite).
 
 The first algorithm is a modified proximal policy optimization algorithm (PPO)(cite)(algo).
-To satisfy proposition (cite) authors modify the default PPO and train a neural network policy $O\rightarrow A\cup A_{info}$ while the neural network value function is $S\times O\rightarrow A\cup A_{info}$ like in the traditional PPO.
+To satisfy proposition (cite), authors modify the standard PPO and train a neural network policy $O\rightarrow A\cup A_{info}$ while the neural network value function is $S\times O\rightarrow A\cup A_{info}$.
 
 The second deep reinforcement learning algorithm used is the deep Q-networks algorithm (DQN) (cite)(algo).
-A similar modification is done to DQN to work with partially observable policy. The trained $Q$-function is approximated with a neural network $O\rightarrow \rightarrow \mathbb{R}^{|A\cup A_{info}|}$ rather than $S\times O\rightarrow \mathbb{R}^{|A\cup A_{info}|}$.
+A similar modification is done to DQN to return a partially observable policy. The trained $Q$-function is approximated with a neural network $O\rightarrow \rightarrow \mathbb{R}^{|A\cup A_{info}|}$ rather than $S\times O\rightarrow \mathbb{R}^{|A\cup A_{info}|}$.
 In this modified DQN, the temporal difference error target for the $Q$-function $O\rightarrow A\cup A_{info}$ is approximated by a neural network $S\times O\rightarrow A\cup A_{info}$ that is in turn trained by bootstrapping the temporal difference error with itself.
 
-Those two variants of DQN and PPO have first been introduced in (PINTO) for robotics task and later studied theoretically to solve POMDPs (cite) in Baisero's work and we defer their connexions to direct interpretable reinforcement learning to the next Chapter.
+Those two variants of DQN and PPO have first been introduced in (PINTO) for robotics tasks and later studied theoretically to solve POMDPs in Baisero's work (cite) and we defer their connexions to direct interpretable reinforcement learning to the next Chapter.
 
 Next, we present the precise experimental setup we use to reproduce the work of (cite) in order to study direct deep reinforcement learning of decision tree policies for the CartPole MDP.
+
+\begin{algorithm}
+    \KwData{IBMDP $\mathcal{M}_{IB} = \langle S\times O, A\cup A_{\info}, (R, \zeta),( T, T_0, T_{info})\rangle$, learning rate $\alpha$, exploration rate $\epsilon$, Q-network parameters $\theta$, target network parameters $\theta^-$, replay buffer $\mathcal{B}$, update frequency $C$}
+    \KwResult{Partially observable policy $\pi_{po}: O \rightarrow A \cup A_{info}$}
+    Initialize Q-network parameters $\theta$ and target network parameters $\theta^- = \theta$ \\
+    Initialize replay buffer $\mathcal{D} = \emptyset$ \\
+    \For{each episode}{
+        Initialize base state $\boldsymbol{s}_0 \sim T_0$ and observation $\boldsymbol{o}_0 = (L_1, U_1, \dots, L_n, U_n)$\\
+        \For{each step $t$}{
+            Take action $a_t$ in $\mathcal{M}_{IB}$ using $\epsilon$-greedy: $a_t = \arg\max_a Q_\theta(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$} \\
+            Store transition $(\boldsymbol{s}_t, \boldsymbol{o}_t, a_t, r_t, \boldsymbol{s}_{t+1}, \boldsymbol{o}_{t+1})$ in $\mathcal{B}$ \\
+            Sample random batch $(\boldsymbol{s}_i, \boldsymbol{o}_i, a_i, r_i, \boldsymbol{s}_{i+1}, \boldsymbol{o}_{i+1}) \sim \mathcal{B}$ \\
+            $y_i = r_i + \gamma \max_{a'} Q_{\theta^-}(\boldsymbol{o}_{i+1}, a')$ \Comment{// Compute target using next observation}
+            $\theta \leftarrow \theta - \alpha \nabla_\theta (Q_\theta(\boldsymbol{o}_i, a_i) - y_i)^2$ \Comment{// Update Q-network using observation}
+            \If{$t \bmod C = 0$}{
+                $\theta^- \leftarrow \theta$ \Comment{// Update target network}
+            }
+            $\boldsymbol{s}_t \leftarrow \boldsymbol{s}_{t+1}$ \\
+            $\boldsymbol{o}_t \leftarrow \boldsymbol{o}_{t+1}$ \\
+        }
+    }
+    \textcolor{red}{$\pi_{po}(\boldsymbol{o}) = \arg\max_a Q_\theta(\boldsymbol{o},a)$} \Comment{// Extract greedy partially observable policy}
+    \caption{Modified Deep Q-Network (DQN) for IBMDPs}\label{alg:mod-dqn}
+\end{algorithm}
+
+
+\begin{algorithm}
+    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, policy parameters $\theta$, old policy parameters $\theta_{old}$, clipping parameter $\epsilon$, value function parameters $\phi$}
+    \KwResult{Policy $\pi_\theta$}
+    Initialize policy parameters $\theta$ and value function parameters $\phi$ \\
+    \For{each episode}{
+        \textcolor{red}{Generate trajectory $\tau = (s_0, o_0, a_0, r_0, s_1, o_1, a_1, r_1, \ldots)$ following $\pi_\theta$} \\
+        \For{each timestep $t$ in trajectory}{
+            $G_t \leftarrow \sum_{k=t}^{T} \gamma^{k-t} r_k$ \Comment{// Compute return}
+            \textcolor{red}{$A_t \leftarrow G_t - V_\phi(s_t)$} \Comment{// Compute advantage using full state}
+            \textcolor{red}{$r_t(\theta) \leftarrow \frac{\pi_\theta(a_t|o_t)}{\pi_{\theta_{old}}(a_t|o_t)}$} \Comment{// Compute probability ratio using observation}
+            $L^{CLIP}_t \leftarrow \min(r_t(\theta) A_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t)$ \Comment{// Clipped objective}
+            \textcolor{red}{$\theta \leftarrow \theta + \alpha \nabla_\theta L^{CLIP}_t$} \Comment{// Policy update using observation-based policy}
+            \textcolor{red}{$\phi \leftarrow \phi + \alpha \nabla_\phi (G_t - V_\phi(s_t))^2$} \Comment{// Value function update using full state}
+        }
+        $\theta_{old} \leftarrow \theta$ \Comment{// Update old policy}
+    }
+    \caption{Modified Proximal Policy Optimization (PPO) for IBMDPs}\label{alg:mod-ppo}
+\end{algorithm}
+
 
 \section{Experimental setup}
 \subsection{(IB)MDP} 
