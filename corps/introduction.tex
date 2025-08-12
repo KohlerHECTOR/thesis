@@ -936,17 +936,17 @@ However, not many algorithms consider the learning of policies that can be easil
 
 \section{Deep reinforcement learning for large or continuous state spaces}
 \begin{algorithm}
-    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$, Q-network parameters $\theta$, target network parameters $\theta^-$, replay buffer $\mathcal{D}$, update frequency $C$}
+    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$, Q-network parameters $\theta$, replay buffer $\mathcal{B}$, update frequency $C$}
     \KwResult{Policy $\pi$}
     Initialize Q-network parameters $\theta$ and target network parameters $\theta^- = \theta$ \\
-    Initialize replay buffer $\mathcal{D} = \emptyset$ \\
+    Initialize replay buffer $\mathcal{B} = \emptyset$ \\
     \For{each episode}{
         Initialize state $s_0 \sim T_0$ \\
         \For{each step $t$}{
             Choose action $a_t$ using $\epsilon$-greedy: $a_t = \arg\max_a Q_\theta(s_t,a)$ with prob. $1-\epsilon$ \\
             Take action $a_t$, observe $r_t = R(s_t,a_t)$ and $s_{t+1} \sim T(s_t,a_t)$ \\
-            Store transition $(s_t, a_t, r_t, s_{t+1})$ in $\mathcal{D}$ \\
-            Sample random batch $(s_i, a_i, r_i, s_{i+1}) \sim \mathcal{D}$ \\
+            Store transition $(s_t, a_t, r_t, s_{t+1})$ in $\mathcal{B}$ \\
+            Sample random batch $(s_i, a_i, r_i, s_{i+1}) \sim \mathcal{B}$ \\
             $y_i = r_i + \gamma \max_{a'} Q_{\theta^-}(s_{i+1}, a')$ \Comment{// Compute target}
             $\theta \leftarrow \theta - \alpha \nabla_\theta (Q_\theta(s_i, a_i) - y_i)^2$ \Comment{// Update Q-network}
             \If{$t \bmod C = 0$}{

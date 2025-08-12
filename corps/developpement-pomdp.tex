@@ -45,49 +45,56 @@ Those two variants of DQN and PPO have first been introduced in (PINTO) for robo
 Next, we present the precise experimental setup we use to reproduce the work of (cite) in order to study direct deep reinforcement learning of decision tree policies for the CartPole MDP.
 
 \begin{algorithm}
-    \KwData{IBMDP $\mathcal{M}_{IB} = \langle S\times O, A\cup A_{\info}, (R, \zeta),( T, T_0, T_{info})\rangle$, learning rate $\alpha$, exploration rate $\epsilon$, Q-network parameters $\theta$, target network parameters $\theta^-$, replay buffer $\mathcal{B}$, update frequency $C$}
-    \KwResult{Partially observable policy $\pi_{po}: O \rightarrow A \cup A_{info}$}
-    Initialize Q-network parameters $\theta$ and target network parameters $\theta^- = \theta$ \\
-    Initialize replay buffer $\mathcal{D} = \emptyset$ \\
+    \KwData{IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{\info}, (R, \zeta),( T, T_0, T_{info})\rangle$, learning rate $\alpha$, exploration rate $\epsilon$, partially observable Q-network parameters $\theta$, Fully observable Q-network parameters $\phi$, replay buffer $\mathcal{B}$, update frequency $C$}
+    \KwResult{Partially pbservable deterministic policy $\pi_{po}$}
+    Initialize partially observable Q-network parameters $\theta$\\
+    Initialize fully observable Q-network parameters $\phi$ and target network parameters $\phi^- = \phi$ \\
+
+    Initialize replay buffer $\mathcal{B} = \emptyset$ \\
     \For{each episode}{
-        Initialize base state $\boldsymbol{s}_0 \sim T_0$ and observation $\boldsymbol{o}_0 = (L_1, U_1, \dots, L_n, U_n)$\\
+        Initialize state $s_0 \sim T_0$ \\
+        Initialize state $o_0 = (L_1, U_1, \dots, L_n, U_n)$ \\
+
         \For{each step $t$}{
-            Take action $a_t$ in $\mathcal{M}_{IB}$ using $\epsilon$-greedy: $a_t = \arg\max_a Q_\theta(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$} \\
-            Store transition $(\boldsymbol{s}_t, \boldsymbol{o}_t, a_t, r_t, \boldsymbol{s}_{t+1}, \boldsymbol{o}_{t+1})$ in $\mathcal{B}$ \\
-            Sample random batch $(\boldsymbol{s}_i, \boldsymbol{o}_i, a_i, r_i, \boldsymbol{s}_{i+1}, \boldsymbol{o}_{i+1}) \sim \mathcal{B}$ \\
-            $y_i = r_i + \gamma \max_{a'} Q_{\theta^-}(\boldsymbol{o}_{i+1}, a')$ \Comment{// Compute target using next observation}
-            $\theta \leftarrow \theta - \alpha \nabla_\theta (Q_\theta(\boldsymbol{o}_i, a_i) - y_i)^2$ \Comment{// Update Q-network using observation}
+            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \arg\max_a Q_\theta(o_t,a)$ with prob. $1-\epsilon$ \\
+            Take action $a_t$, observe $r_t$ \\
+            Store transition $(s_t, o_t, a_t, r_t, s_{t+1})$ in $\mathcal{B}$ \\
+            Sample random batch $(s_i, o_i, a_i, r_i, s_{i+1}) \sim \mathcal{B}$ \\
+            $a' = \underset{a}{\operatorname{argmax}} Q_{\theta}(o_i, a)$ \\
+            $y_i = r_i + \gamma Q_{\phi^-}(s_{i+1}, a')$ \Comment{// Compute target}
+            $\phi \leftarrow \phi - \alpha \nabla_\phi (Q_\phi(s_i, a_i) - y_i)^2$ \Comment{// Update fully observable Q-network}
+            $\theta \leftarrow \theta - \alpha \nabla_\theta (Q_\theta(o_i, a_i) - y_i)^2$ \Comment{// Update partially observable Q-network}
+
             \If{$t \bmod C = 0$}{
                 $\theta^- \leftarrow \theta$ \Comment{// Update target network}
             }
-            $\boldsymbol{s}_t \leftarrow \boldsymbol{s}_{t+1}$ \\
-            $\boldsymbol{o}_t \leftarrow \boldsymbol{o}_{t+1}$ \\
+            $s_t \leftarrow s_{t+1}$ \\
+            $o_t \leftarrow o_{t+1}$ \\
         }
     }
-    \textcolor{red}{$\pi_{po}(\boldsymbol{o}) = \arg\max_a Q_\theta(\boldsymbol{o},a)$} \Comment{// Extract greedy partially observable policy}
-    \caption{Modified Deep Q-Network (DQN) for IBMDPs}\label{alg:mod-dqn}
+    $\pi_{po}(o) = \arg\max_a Q_\theta(o,a)$ \Comment{// Extract greedy policy}
+    \caption{Modified Deep Q-Network (DQN)}\label{alg:mod-dqn}
 \end{algorithm}
 
 
 \begin{algorithm}
-    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, policy parameters $\theta$, old policy parameters $\theta_{old}$, clipping parameter $\epsilon$, value function parameters $\phi$}
-    \KwResult{Policy $\pi_\theta$}
+    \KwData{IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{\info}, (R, \zeta),( T, T_0, T_{info})\rangle$, learning rate $\alpha$, policy parameters $\theta$, clipping parameter $\epsilon$, value function parameters $\phi$}
+    \KwResult{Partially observable stochastic policy $\pi_{po_\theta}$}
     Initialize policy parameters $\theta$ and value function parameters $\phi$ \\
     \For{each episode}{
-        \textcolor{red}{Generate trajectory $\tau = (s_0, o_0, a_0, r_0, s_1, o_1, a_1, r_1, \ldots)$ following $\pi_\theta$} \\
+        Generate trajectory $\tau = (s_0, o_0, a_0, r_0, s_1, o_1, a_1, r_1, \ldots)$ following $\pi_\theta$ \\
         \For{each timestep $t$ in trajectory}{
             $G_t \leftarrow \sum_{k=t}^{T} \gamma^{k-t} r_k$ \Comment{// Compute return}
-            \textcolor{red}{$A_t \leftarrow G_t - V_\phi(s_t)$} \Comment{// Compute advantage using full state}
-            \textcolor{red}{$r_t(\theta) \leftarrow \frac{\pi_\theta(a_t|o_t)}{\pi_{\theta_{old}}(a_t|o_t)}$} \Comment{// Compute probability ratio using observation}
+            $A_t \leftarrow G_t - V_\phi(s_t)$ \Comment{// Compute advantage}
+            $r_t(\theta) \leftarrow \frac{\pi_{po_\theta}(a_t|o_t)}{\pi_{po_\theta}_{old}(a_t|o_t)}$ \Comment{// Compute probability ratio}
             $L^{CLIP}_t \leftarrow \min(r_t(\theta) A_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t)$ \Comment{// Clipped objective}
-            \textcolor{red}{$\theta \leftarrow \theta + \alpha \nabla_\theta L^{CLIP}_t$} \Comment{// Policy update using observation-based policy}
-            \textcolor{red}{$\phi \leftarrow \phi + \alpha \nabla_\phi (G_t - V_\phi(s_t))^2$} \Comment{// Value function update using full state}
+            $\theta \leftarrow \theta + \alpha \nabla_\theta L^{CLIP}_t$ \Comment{// Policy update}
+            $\phi \leftarrow \phi + \alpha \nabla_\phi (G_t - V_\phi(s_t))^2$ \Comment{// Value function update}
         }
         $\theta_{old} \leftarrow \theta$ \Comment{// Update old policy}
     }
-    \caption{Modified Proximal Policy Optimization (PPO) for IBMDPs}\label{alg:mod-ppo}
+    \caption{Proximal Policy Optimization (PPO)}\label{alg:ppo}
 \end{algorithm}
-
 
 \section{Experimental setup}
 \subsection{(IB)MDP} 
