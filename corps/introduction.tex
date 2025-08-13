@@ -488,27 +488,18 @@ As an alternative to decision trees, programs offer another interpretable repres
 \cite{zhu_inductive_2019} propose a search technique to mimic neural network policies for verification, exploiting safe state information to guide program generation. \cite{burke_explanation_2019} learn programmatic representations from demonstrations for robotics tasks by fitting sequences of low-level controllers and clustering them into symbolic traces. \cite{Koul_learning_2019} extract finite-state machine representations from recurrent neural network policies, providing more interpretable approximations that can be fine-tuned to match original performance.
 
 \subsection{Learning easy to imitate experts}
-
 Beyond the direct and indirect approaches to interpretable policy learning, a complementary strategy focuses on learning policies that are inherently easier to imitate and understand. This approach leverages interpretability-oriented penalty formulations during training to encourage the emergence of expert behaviors that are more accessible to human observers and imitation learning algorithms.
-
-Several regularization techniques have been proposed to achieve this goal. Erratic-behavior penalties improve policy smoothness \citep{jia_advanced_2019}, making the expert's behavior more predictable and easier to follow. Similarly, objectives targeting legible and predictable motions \citep{dragan_legibility_2013} ensure that the expert's actions clearly communicate its intentions, facilitating both human understanding and algorithmic imitation. Another example is provided by \cite{francois-lavet_combined_2019}, who introduce a cosine similarity loss term to align predicted abstract state changes with chosen embedding vectors. This regularization drives the abstract state representation to be more meaningful and generalizable, potentially enabling more efficient planning and imitation.
-
-More sophisticated interpretability-oriented regularizers have also been developed, including first-order logic constraints \citep{serafini_logic_2016} and tree-regularizers \citep{wu_optimizing_2019}. The regional tree-regularization approach proposed by \cite{wu_optimizing_2019} specifically targets the learning of deep policy networks whose decision boundaries can be well approximated by small decision trees, thereby enhancing human simulatability. By incorporating interpretability considerations from the very beginning of training---in contrast to indirect approaches that attempt to approximate black-box policy networks with interpretable models a posteriori---these methods can more effectively achieve both good performance and simulatability. This advantage stems from the \textit{multiple optima} property of deep networks, which allows for the existence of multiple high-performing solutions, some of which may naturally align with interpretability constraints. Indeed, indirect approaches may be unreliable as the original unregularized black-box neural network has no inherent incentive to be simulatable or decomposable.
-
+Several regularization techniques have been proposed to achieve this goal. Erratic-behavior penalties improve policy smoothness \cite{jia_advanced_2019}, making the expert's behavior more predictable and easier to follow. Similarly, objectives targeting legible and predictable motions \cite{dragan_legibility_2013} ensure that the expert's actions clearly communicate its intentions, facilitating both human understanding and algorithmic imitation. Another example is provided by \cite{francois-lavet_combined_2019}, who introduce a cosine similarity loss term to align predicted abstract state changes with chosen embedding vectors. This regularization drives the abstract state representation to be more meaningful and generalizable, potentially enabling more efficient planning and imitation.
+More sophisticated interpretability-oriented regularizers have also been developed, including first-order logic constraints \cite{serafini_logic_2016} and tree-regularizers \cite{wu_optimizing_2019}. The regional tree-regularization approach proposed by \cite{wu_optimizing_2019} specifically targets the learning of deep policy networks whose decision boundaries can be well approximated by small decision trees, thereby enhancing human simulatability. By incorporating interpretability considerations from the very beginning of training---in contrast to indirect approaches that attempt to approximate black-box policy networks with interpretable models a posteriori---these methods can more effectively achieve both good performance and simulatability. This advantage stems from the \textit{multiple optima} property of deep networks, which allows for the existence of multiple high-performing solutions, some of which may naturally align with interpretability constraints. Indeed, indirect approaches may be unreliable as the original unregularized black-box neural network has no inherent incentive to be simulatable or decomposable.
 These interpretability penalties can be viewed as a form of curriculum learning for imitation, where the expert is trained to be not only competent but also pedagogically effective---exhibiting behaviors that are easier for imitators to learn and reproduce.
 
 \paragraph{Conclusion Indirect vs Direct Approach}
-
 The direct and indirect approaches to interpretable reinforcement learning represent fundamentally different strategies. The direct approach simultaneously addresses two challenges: solving the RL problem while maintaining interpretability constraints, often through regularization techniques that guide the learning process toward interpretable solutions. In contrast, the indirect approach decouples these objectives by first solving the RL problem with any efficient algorithm, then approximating the resulting policy with an interpretable model through supervised learning.
-
 This decoupling offers significant advantages: the indirect approach can leverage any state-of-the-art RL algorithm without interpretability constraints, then apply specialized imitation learning or policy distillation techniques to create interpretable approximations. However, this two-stage process introduces potential limitations—the interpretable model may not capture the full complexity of the original policy, and the training data's non-i.i.d. nature can pose challenges for supervised learning.
-
 The choice between approaches depends on the specific requirements: direct methods may achieve better performance-interpretability trade-offs when interpretability is a primary concern from the start, while indirect methods offer greater flexibility and can leverage existing RL solutions when interpretability is a secondary requirement.
-
 The work by \citet{verma_imitation-projected_2019} seems a promising approach to combine the direct and indirect approaches.
 While the authors show that the performance of their proposition outperforms NDPS, it is currently still not completely clear which of a direct method or an indirect one should be preferred to learn good interpretable policies.
 It also faces similar issues as imitation learning, notably the non-i.i.d. nature of the training data.
-
 
 \subsection{Mis-alignment detection}
 Aside from pure readibility and transparency reqruiements, the work of Quentin Delfosse (cite) presents interpretability as a mean to detect mis-alignments of policies (cite).
@@ -518,21 +509,16 @@ While interpretable RL focuses on learning policies that are inherently understa
 
 \paragraph{The Explainable RL Paradigm.}
 The goal in XRL is to provide explanations regarding an RL agent's decisions, such as highlighting the main features that influenced a decision and their relative importance. This is commonly done via a post-hoc and often model-agnostic procedure after a black-box model is already trained, which usually only aims to offer a functional understanding rather than revealing the true decision-making process.
-
 Many contextual parameters should be taken into consideration when defining what constitutes a "good" explanation for a scenario, including the background knowledge and levels of expertise of the explanation's recipient, their needs and expectations, and—often neglected—the time available to them. Unlike interpretable policies where the structure itself provides understanding, explanations in XRL must be carefully crafted to bridge the gap between complex internal representations and human comprehension.
 
 \paragraph{Visual Explanations.}
-Visual explanations represent one of the most common approaches in XRL. Using the DQN algorithm, \cite{zahavy_graying_2016} builds two graphical representations to analyze the decisions made by the DQN network: (1) t-SNE maps \citep{maaten_visualizing_2008} from the activations of the last hidden layer of the network and (2) saliency maps from the Jacobian of the network. 
-
+Visual explanations represent one of the most common approaches in XRL. Using the DQN algorithm, \cite{zahavy_graying_2016} builds two graphical representations to analyze the decisions made by the DQN network: (1) t-SNE maps \cite{maaten_visualizing_2008} from the activations of the last hidden layer of the network and (2) saliency maps from the Jacobian of the network. 
 Motivated by the limitations of Jacobian saliency maps, \cite{greydanus_visualizing_2018} proposes to build saliency maps using a perturbation-based approach, which provides information about the importance of a perturbed region. Continuing this line of research, \cite{gupta_explain_2020} introduces the idea of balancing specificity and relevance to build saliency maps that highlight more relevant regions.
-
-In order to take into account non-visual inputs as well, \cite{wang_attribution-based_2020} extends a generic explanation technique called SHAP (SHapley Additive exPlanation) \citep{lundberg_unified_2017} to select important features for RL.
-
+In order to take into account non-visual inputs as well, \cite{wang_attribution-based_2020} extends a generic explanation technique called SHAP (SHapley Additive exPlanation) \cite{lundberg_unified_2017} to select important features for RL.
 Another approach is based on attention mechanisms. \cite{shi_self-supervised_2020} propose to learn attention masks in a self-supervised way to highlight information important for a decision. In \cite{kim_attentional_2020}, attention is further combined with an information bottleneck mechanism to generate sparser attention maps. Using a different kind of explanation, \cite{sequeira_interestingness_2020} investigates the use of visual summaries extracted from histories to explain an agent's behavior.
 
 \paragraph{Textual Explanations.}
 Textual explanations offer another avenue for making black-box policies more understandable. The work of \cite{hayes_improving_2017} generates explanations for choosing an action by finding state predicates that co-occur with that action. Inspired by that approach, \cite{van_der_waa_contrastive_2018} extend it by introducing outcome predicates and provide contrastive explanations using both state and outcome predicates.
-
 In a setting where the agent learns from instructions given by a human tutor, \cite{fukuchi_autonomous_2017} proposes to explain the agent's decisions by reusing the provided instructions. This approach leverages the natural language structure that was already part of the learning process to create explanations.
 
 \paragraph{Causal Explanations.}
@@ -540,25 +526,15 @@ Causal explanations represent a more sophisticated approach that attempts to unc
 
 \paragraph{Limitations and Challenges.}
 Despite the variety of explanation techniques available, XRL faces fundamental limitations that distinguish it from interpretable approaches. Saliency maps, while popular, are viewed as insufficient for explaining RL, as the conclusions drawn from them are highly subjective \cite{atrey2019exploratory}. Indeed, the majority of claims in the surveyed papers either propose an \textit{ad hoc} explanation of agent behavior after observing saliency or develop an \textit{a priori} explanation of behavior evaluated using saliency.
-
-We categorize saliency map techniques using the decomposition in \cite{atrey2019exploratory} (see \Cref{tab:saliency}). For example, \cite{greydanus2018visualizing} construct saliency maps by perturbing the input image describing the state with Gaussian blur, then measuring changes in the policy after removing information from an area. For more details, we refer the reader to \cite{atrey2019exploratory}.
-
+We categorize saliency map techniques using the decomposition in \cite{atrey2019exploratory} (see \ref{tab:saliency}). For example, \cite{greydanus2018visualizing} construct saliency maps by perturbing the input image describing the state with Gaussian blur, then measuring changes in the policy after removing information from an area. For more details, we refer the reader to \cite{atrey2019exploratory}.
 Furthermore, there are questions about the validity of these explanations. Some work leverages templates for the agent to fill in \cite{ImpRoboticController}, while other work allows the agent to generate free-form explanations. The former type typically enjoys more clarity but requires the explanation to adhere to a specified template. \cite{frogger} and \cite{wang2019verbalexplanations} leverage human-provided action-explanation pairs to \textit{rationalize} agent behavior. We caution against post-hoc rationalizations that produce plausible but not valid explanations: they may increase agent trust, but the trust is unfounded without grounding to the agent's actual decision-making process.
-
 In real-world settings, we desire more reliable explanations than what current XRL methods can provide. This limitation motivates the need for truly interpretable policies that are transparent by design, rather than attempting to explain opaque systems after the fact.
 
-\Cref{fig:explainable RL} illustrates the high-level procedure in XRL, which can be contrasted with the approaches for interpretable decision-making described in \Cref{fig:interpretable decision making}. A more thorough discussion on XRL can be found in the recent surveys by \cite{alharin_reinforcement_2020} or \cite{heuillet_explainability_2021}. A summary of the work discussed in this section can be found in \Cref{tab:xrl}.
+In (cite) the authors present the following open problems in interpretable RL:
 
-\section{Other related works}
-While in the previous section we mostly followed section 6 and 7 of Glanois and section 5 of Milani, present next other related works.
-\subsection{Explaining Rewards or Transitions}
-\subsection{Causality}
-\subsection{Mechanistic Interpretability in the era of large language models}
+In this thesis we tackle some of those open problems.
 
-
-Next, we present the outline of this thesis.
 \section{Outline of the Thesis}
-
 In this thesis we take a stab at the difficult task of designing global direct algorithms for interpretable sequential decision making. In the first part of the manuscript we will present a mathematical formalism for the reinforcement learning of decision trees for sequential decision making. In particular we will show that indeed the direct approach can yield better trees than the indirect one. However the unfortunate key result from this opening part is that a good direct method cannot find decision trees for sequential decision making that are not \textit{very} easy.
 Fortunately for us, in the second part of this manuscript, we show that some of these easy instances of interpretable sequential decision making tasks can be made \textit{non}-sequential giving rise to a whole new decision tree induction algorithm for supervised learning. In particular, we thoroughly benchmark our new decision tree induction algorithm and claim the state-of-the-art for decision tree induction.
 Finally, after heavily studying decision trees and direct methods, we will leverage the diversity and simplicity of \textit{indirect} methods to compare other model classes of programs and show that in some cases neural networks can be considered more interpretable than trees and there exist problems for which there is no need to trade-off performance for interpretability. 
@@ -607,8 +583,8 @@ We summarize the outline of the manuscript in Figure~\ref{fig:thesis-outline}
 \end{figure}
 
 
-
 \section{Technical Preliminaries}
+
 \subsection{What are decision trees?}
 \begin{figure}[htbp]
     \centering
@@ -645,6 +621,7 @@ We summarize the outline of the manuscript in Figure~\ref{fig:thesis-outline}
     \label{fig:decision-tree-structure}
 \end{figure}
 As mentioned earlier, as opposed to neural networks, decision trees are supposedly very interpretable because they only apply boolean operations on the program input without relying on internal complex representations.
+
 \begin{definition}[Decision tree]
 A decision tree is a rooted tree $T = (V, E)$ where:
 \begin{itemize}
@@ -655,6 +632,19 @@ A decision tree is a rooted tree $T = (V, E)$ where:
 \end{itemize}
 \end{definition}
 \subsection{How to learn decision trees?}
+Training decision trees top optimize the supervised learning objective (cite) has been studied for decades.
+
+\begin{definition}[Supervised learning]
+We assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$.
+For a classification task $Y=\mathbb{Z}^K$ and for a regression task $Y\subset \mathbb{R}$.
+\begin{align}
+    f^* &= \underset{f \in \mathcal{F}}{\operatorname{argmin}}\ \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, f(x_i)) + \alpha C(f),
+    \label{eq:suplearning}
+\end{align}
+where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a penalty for regularization
+\end{definition}
+In particular fitting a decision tree to some training data in a greedy manner is fast and the resulting trees are accurate and generalize well (cite).
+
 \begin{figure}
     \centering
     \includegraphics[width=0.3\textwidth]{images/images_intro/Leo_Breiman.jpg}
@@ -662,15 +652,22 @@ A decision tree is a rooted tree $T = (V, E)$ where:
     \label{fig:leo-breiman}
 \end{figure}
 
-The Classification and Regression Trees (CART) algorithm, developed by Leo Breiman and colleagues (Figure~\ref{fig:leo-breiman}), is one of the most widely used methods for learning decision trees from supervised data. CART builds binary decision trees through a greedy, top-down approach that recursively partitions the feature space. At each internal node, the algorithm selects the feature and threshold that best splits the data according to a purity criterion such as the Gini impurity for classification or mean squared error for regression.
+The Classification and Regression Trees (CART) algorithm, developed by Leo Breiman and colleagues (Figure~\ref{fig:leo-breiman}), is one of the most widely used methods for learning decision trees from supervised data. 
+CART builds binary decision trees through a greedy, top-down approach that recursively partitions the feature space. 
+At each internal node, the algorithm selects the feature and threshold that best splits the data according to a purity criterion such as the Gini impurity for classification or mean squared error for regression.
+CART uses threshold-based test functions of the form $f_v(x) = \mathbb{I}[x[feature] \leq threshold]$ where $\mathbb{I}[\cdot]$ is the indicator function, consistent with the general decision tree definition above. 
+The key idea is to find splits that maximize the homogeneity of the resulting subsets. For classification, this means finding test functions that separate different classes as cleanly as possible. The algorithm continues splitting until a stopping criterion is met, such as reaching a minimum number of samples per leaf or achieving sufficient purity. The complete CART procedure is detailed in Algorithm~\ref{alg:cart}.
+We use CART as well as other decision tree algorithm in this manuscript and use the stable implementation from (cite).
 
-CART uses threshold-based test functions of the form $f_v(x) = \mathbb{I}[x[feature] \leq threshold]$ where $\mathbb{I}[\cdot]$ is the indicator function, consistent with the general decision tree definition above. The key idea is to find splits that maximize the homogeneity of the resulting subsets. For classification, this means finding test functions that separate different classes as cleanly as possible. The algorithm continues splitting until a stopping criterion is met, such as reaching a minimum number of samples per leaf or achieving sufficient purity. The complete CART procedure is detailed in Algorithm~\ref{alg:cart}.
+In particular in the second part we will challenge decision tree algorithm that perform better than CART for the supervised learning objective.
+In first and third part we study CART in conjonction with reinforcement learning as a mean to obtain deicision trees for sequential decision making.
 
+In the next few sections we present the material related to sequential decision making.
 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
-    \KwData{Training data $(X, y)$ where $X \in \mathbb{R}^{n \times d}$ and $y \in \{1, 2, \ldots, K\}^n$}
+    \KwData{Training data $(X, y)$ where $X \in \mathbb{R}^{n \times p}$ and $y \in \{1, 2, \ldots, K\}^n$}
     \KwResult{Decision tree $T$}
     
     \SetKwProg{Fn}{Function}{:}{}
@@ -704,7 +701,7 @@ CART uses threshold-based test functions of the form $f_v(x) = \mathbb{I}[x[feat
         $best\_feature \leftarrow None$ \\
         $best\_threshold \leftarrow None$ \\
         
-        \For{each feature $f \in \{1, 2, \ldots, d\}$}{
+        \For{each feature $f \in \{1, 2, \ldots, p\}$}{
             \For{each unique value $v$ in $X[:, f]$}{
                 $y_{left} \leftarrow \{y_i : X[i, f] \leq v\}$ \\
                 $y_{right} \leftarrow \{y_i : X[i, f] > v\}$ \\
@@ -726,9 +723,8 @@ CART uses threshold-based test functions of the form $f_v(x) = \mathbb{I}[x[feat
     }
     
     \Return BuildTree$(X, y)$
-    \caption{CART Algorithm for Decision Tree Learning}\label{alg:cart}
+    \caption{CART for decision tree induction to optimize the supervised learning objective (cite)}\label{alg:cart}
 \end{algorithm}
-
 
 \subsection{Markov decision processes/problems}
 \begin{figure}[htbp]
@@ -781,16 +777,16 @@ We can also define Factored MDPs that represents a special class of MDPs with a 
 \end{definition}
 
 Now we can also model the ``goal'' of the agent. Informally, the goal of an agent is to behave such that it gets as much reward as it can over time. For example, in the cancer treatment case, the best reward the agent can get is to completely get rid of the patient's tumor after some time. Furthermore, we want our agent to prefer behaviour that gets rid of the patient's tumor as fast as possible. We can formally model the agent's goal as an optimization problem as follows. %talk about alignment?
+
 \begin{definition}[Markov decision problem] Given an MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$, the goal of an agent following policy $\pi: S \rightarrow A$ is to maximize the expected discounted sum of rewards:
 $$J(\pi) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
 where $\gamma \in (0,1)$ is the discount factor that controls the trade-off between immediate and future rewards.
 \end{definition}
 
-
 Hence, algorithms presented in this manuscript aim to find solutions to Markov decision problems, i.e. the optimal policy: $\pi^\star =\underset{\pi}{\operatorname{argmax}}J(\pi)$
 For the rest of this text, we will use an abuse of notation and denote both a Markov decision process and the associated Markov decision problem by MDP.
-\subsection{Example: a grid world MDP}
 
+\subsection{Example: a grid world MDP}
 \begin{figure}[h]
     \centering
     \begin{tikzpicture}
@@ -817,12 +813,49 @@ For the rest of this text, we will use an abuse of notation and denote both a Ma
         \node at (1.5,0.3) {$s_g$};
         \node at (1.5,1.5) {$s_2$};
         \node at (0.5,1.5) {$s_1$};
+
+
+        % Draw grid
+        \draw[grid] (3,0) grid (5,2);
+        
+        % Add axes
+        \draw[thick, ->] (3,0) -- (5.5,0) node[right] {$x$};
+        \draw[thick, ->] (3,0) -- (3,2.5) node[above] {$y$};
+        
+        % Add tick marks and labels
+        \foreach \x in {3,4,5} {
+            \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
+        }
+        \foreach \y in {0,1,2} {
+            \draw[thick] (3,\y) -- (2.9,\y) node[left] {$\y$};
+        }
+        
+        % Add state labels clockwise from bottom left
+        \node at (3.5,0.5) {{\color{green} $\rightarrow$}};
+        \node at (4.5,0.5) {$\star$};
+        \node at (4.5,0.7) {{\color{red} $\uparrow$}};
+        \node at (4.5,0.3) {{\color{green} $\downarrow$}};
+        \node at (4.7,0.5) {{\color{green} $\rightarrow$}};
+        \node at (4.3,0.5) {{\color{red} $\leftarrow$}};
+        \node at (4.5,1.5) {{\color{green} $\downarrow$}};
+        \node at (3.2,1.3) {{\color{green} $\downarrow$}};
+        \node at (3.5,1.5) {{\color{green} $\rightarrow$}};
     \end{tikzpicture}
-    \caption{A grid world MDP state space: it is a $2\times2$ grid.}
+    \caption{A grid world MDP (left) and optimal actions w.r.t objective (cite) (right).}
     \end{figure}
-    
+
+In Figure (cite), we present a very simple MDP (cite).
+This MDP is essentially a grid where the starting state is chosen at random and the goal is to reach the bottom right cell as fast as possible in order to maximize objective (cite).
+The state space is discrete with state labels representing 2D-coordinates.
+The actions are to move up left right or down. The MDP transitions to the resulting cell. 
+Only the bottom right cell gives reward 1 and is an absorbing state, i.e. once in the state, the MDP stays in this state forever.
+The optimal actions that get to the goal as fast as possible in every state (cell) are presented in green.
+
+Next we present the tools to find solutions to MDPs and retrieve such optimal policies.
+
 \subsection{Exact solutions for Markov decision problems}
-It is possible to compute the exact optimal policy $\pi^\star$ using dynamic programming (cite). Indeed, one can leverage the Markov property to find for all states the best action to take based on the reward of upcoming states.
+It is possible to compute the exact optimal policy $\pi^\star$ using dynamic programming (cite).
+Indeed, one can leverage the Markov property to find for all states the best action to take based on the reward of upcoming states.
 \begin{definition}[Value of a state] The value of a state $s\in S$ under policy $\pi$ is the expected discounted sum of rewards starting from state $s$ and following policy $\pi$:
     $$V^\pi(s) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 = s, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
     Applying the Markov property gives a recursive definition of the value of $s$ under policy $\pi$:
@@ -859,6 +892,7 @@ Hence, the algorithms we study in the thesis can also be seen as solving the pro
 \end{algorithm}
 
 More realistically, neither the transition kernel $T$ nor the reward function $R$ of the MDP are known, e.g., the doctor can't \textbf{know} how the tumor and the patient health will change after a dose of chemotherapy, it can only \textbf{observe} the change. This distinction between the information available to the agent is paralleled with the distinction between dynamic programming and reinforcement learning (RL) that we describe next. 
+
 \subsection{Reinforcement learning of approximate solutions to MDPs}
 \begin{figure}
     \centering
@@ -888,8 +922,11 @@ More realistically, neither the transition kernel $T$ nor the reward function $R
        \caption{The godfathers of sequential decision making. Andrew Barto and Richard Sutton are the ACM Turing Prize 2024 laureate and share an advisor advisee relationship.}
        \label{fig:rl-pioneers}
 \end{figure}
+
 Reinforcement learning algorithms popularized by Richard Sutton (Figure~\ref{fig:rl-pioneers}) (cite) don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of observations ${(s_t, a_t, r_t, s_{t+1})}_t$.
-RL algorithms usually fall into two categories: value-based (cite) and policy gradient (cite). The first group of RL algorithms computes an approximation of $V^{\star}$ using temporal difference learning, while the second class leverages the policy gradient theorem to approximate $\pi^{\star}$. Examples of these approaches are shown in Algorithms~\ref{alg:qlearning} and~\ref{alg:reinforce}.
+RL algorithms usually fall into two categories: value-based (cite) and policy search (cite).
+The first group of RL algorithms computes an approximation of $V^{\star}$ using temporal difference learning, while the second class leverages the policy gradient theorem to approximate $\pi^{\star}$.
+Examples of these approaches are shown in Algorithms~\ref{alg:qlearning} and~\ref{alg:reinforce}.
 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
@@ -935,54 +972,97 @@ However, not many algorithms consider the learning of policies that can be easil
 
 
 \section{Deep reinforcement learning for large or continuous state spaces}
+
+Reinforcement learning has also been successfully combined with function approximations (cite) to solve MDPs with large discrete state spaces or continuous state spaces ($S \subset \mathbb{R^n}$).
+In the rest of this manuscript, unless stated otherwise, we write $\boldsymbol{s}$ a state vector in a continuous space.
+
+Deep Q-Networks (DQN)(cite)(algo)(fig) was a breakthrough in modern reinforcement learning. Authors successfully extended the Q-learning (algo) to the function approximation setting by introduction target networks to mitigate distributional shift in the td error and replay buffer to increase sample efficiency.
+DQN achieved super-human performance on a set of Atari games.
+
+Proximal Policy Optimization (PPO)(cite)(algo) is an actor-critic algorithm (cite) optimizing neural network policies. 
+Actor-critic algorithms are instances of policy gradient algorithms (cite) where the returns $G_t$ are also estimated with a neural network. 
+Actor-critic are not as simple efficient as DQN but is known to work well in a variety of domains including robot control in simulation among others (cite).
+
 \begin{algorithm}
-    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$, Q-network parameters $\theta$, replay buffer $\mathcal{B}$, update frequency $C$}
+    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$, Q-network parameters $\theta$, update frequency $C$}
     \KwResult{Policy $\pi$}
     Initialize Q-network parameters $\theta$ and target network parameters $\theta^- = \theta$ \\
     Initialize replay buffer $\mathcal{B} = \emptyset$ \\
     \For{each episode}{
         Initialize state $s_0 \sim T_0$ \\
         \For{each step $t$}{
-            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \arg\max_a Q_\theta(s_t,a)$ with prob. $1-\epsilon$ \\
-            Take action $a_t$, observe $r_t = R(s_t,a_t)$ and $s_{t+1} \sim T(s_t,a_t)$ \\
-            Store transition $(s_t, a_t, r_t, s_{t+1})$ in $\mathcal{B}$ \\
-            Sample random batch $(s_i, a_i, r_i, s_{i+1}) \sim \mathcal{B}$ \\
-            $y_i = r_i + \gamma \max_{a'} Q_{\theta^-}(s_{i+1}, a')$ \Comment{// Compute target}
-            $\theta \leftarrow \theta - \alpha \nabla_\theta (Q_\theta(s_i, a_i) - y_i)^2$ \Comment{// Update Q-network}
+            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \arg\max_a Q_\theta(\boldsymbol{s}_t,a)$ with prob. $1-\epsilon$ \\
+            Take action $a_t$, observe $r_t = R(s_t,a_t)$ and $\boldsymbol{s}_{t+1} \sim T(\boldsymbol{s}_t,a_t)$ \\
+            Store transition $(\boldsymbol{s}_t, a_t, r_t, \boldsymbol{s}_{t+1})$ in $\mathcal{B}$ \\
+            Sample random batch $(\boldsymbol{s}_i, a_i, r_i, \boldsymbol{s}_{i+1}) \sim \mathcal{B}$ \\
+            $y_i = r_i + \gamma \max_{a'} Q_{\theta^-}(\boldsymbol{s}_{i+1}, a')$ \Comment{// Compute target}
+            $\theta \leftarrow \theta - \alpha \nabla_\theta (Q_\theta(\boldsymbol{s}_i, a_i) - y_i)^2$ \Comment{// Update Q-network}
             \If{$t \bmod C = 0$}{
                 $\theta^- \leftarrow \theta$ \Comment{// Update target network}
             }
-            $s_t \leftarrow s_{t+1}$ \\
+            $\boldsymbol{s}_t \leftarrow \boldsymbol{s}_{t+1}$ \\
         }
     }
-    $\pi(s) = \arg\max_a Q_\theta(s,a)$ \Comment{// Extract greedy policy}
+    $\pi(\boldsymbol{s}) = \arg\max_a Q_\theta(\boldsymbol{s},a)$ \Comment{// Extract greedy policy}
     \caption{Deep Q-Network (DQN)}\label{alg:dqn}
 \end{algorithm}
 
+\begin{figure}
+\centering
+\includegraphics[width=0.5\textwidht]{images/dqn_schema.png}
+\caption{DQN tricks by Antonin Raffin}
+\end{figure}
+
 
 \begin{algorithm}
-    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, policy parameters $\theta$, old policy parameters $\theta_{old}$, clipping parameter $\epsilon$, value function parameters $\phi$}
+    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, policy parameters $\theta$, clipping parameter $\epsilon$, value function parameters $\phi$}
     \KwResult{Policy $\pi_\theta$}
     Initialize policy parameters $\theta$ and value function parameters $\phi$ \\
     \For{each episode}{
-        Generate trajectory $\tau = (s_0, a_0, r_0, s_1, a_1, r_1, \ldots)$ following $\pi_\theta$ \\
+        Generate trajectory $\tau = (\boldsymbol{s}_0, a_0, r_0, \boldsymbol{s}_1, a_1, r_1, \ldots)$ following $\pi_\theta$ \\
         \For{each timestep $t$ in trajectory}{
             $G_t \leftarrow \sum_{k=t}^{T} \gamma^{k-t} r_k$ \Comment{// Compute return}
-            $A_t \leftarrow G_t - V_\phi(s_t)$ \Comment{// Compute advantage}
-            $r_t(\theta) \leftarrow \frac{\pi_\theta(a_t|s_t)}{\pi_{\theta_{old}}(a_t|s_t)}$ \Comment{// Compute probability ratio}
+            $A_t \leftarrow G_t - V_\phi(\boldsymbol{s}_t)$ \Comment{// Compute advantage}
+            $r_t(\theta) \leftarrow \frac{\pi_\theta(a_t|\boldsymbol{s}_t)}{\pi_{\theta_{old}}(a_t|\boldsymbol{s}_t)}$ \Comment{// Compute probability ratio}
             $L^{CLIP}_t \leftarrow \min(r_t(\theta) A_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t)$ \Comment{// Clipped objective}
             $\theta \leftarrow \theta + \alpha \nabla_\theta L^{CLIP}_t$ \Comment{// Policy update}
-            $\phi \leftarrow \phi + \alpha \nabla_\phi (G_t - V_\phi(s_t))^2$ \Comment{// Value function update}
+            $\phi \leftarrow \phi + \alpha \nabla_\phi (G_t - V_\phi(\boldsymbol{s}_t))^2$ \Comment{// Value function update}
         }
         $\theta_{old} \leftarrow \theta$ \Comment{// Update old policy}
     }
     \caption{Proximal Policy Optimization (PPO)}\label{alg:ppo}
 \end{algorithm}
+In this manuscript we study those two deep reinforcement learning algorithms for various problems and often use their stable implementation (cite).
 
-\subsection{Imitation learning, the baseline (indirect) global interpretable reinforcement learning method}
+\subsection{Imitation learning a baseline (indirect) global interpretable reinforcement learning method}
+
+Unlike PPO or DQN for neural networks, there does not exist algorithm that train decision tree policies to optimize the RL objective (cite).
+In fact we will show in the first part of the manuscript that training decision tre that optimize the RL objective is very difficult.
+
+Hence, many interpretable reinforcement learning approahces first train a neural network policy with e.g. DQN or PPO (cite)(alog) to optimize the RL objective (cite) and then fit e.g. a decision tree (cite) with e.g. CART (cite) to optimize the supervised learning objective (cite) with neural policy actions as targets.
+This approach is known as imitation learning and is essentially training an policy to optimize the objective:
+
+\begin{definition}[Imitation learning]
+Given an expert policy $\pi^*$ and a policy class $\Pi$, the imitation learning objective is to find a policy $\pi \in \Pi$ that minimizes the expected action disagreement with the expert:
+\begin{equation}
+\min_{\pi \in \Pi} \mathbb{E}_{s \sim \rho(s)} \left[ \mathcal{L}(\pi(s), \pi^*(s)) \right]
+\end{equation}
+where $\rho(s)$ is the state distribution induced by the expert policy and $\mathcal{L}$ is a loss function measuring the disagreement between the learned policy's action $\pi(s)$ and the expert's action $\pi^*(s)$.
+\end{definition}
+
+There are two main imitation learning used for interpretable reinforcement learning.
+Dagger (cite)(algo) is a very straightforward way to fit a decision tree policy to optimize the imitation learning objective (cite).
+VIPER (cite)(algo) was designed specifically for interpretable reinfrocement learning.
+VIPER reweights the transitions collected by the neural network expert by some function of the state-action value (cite).
+Authors of VIPER showed that decision tree policy fitted with VIPER tend to have the RL objective value as Dagger trees while being more interpretable (less deep or with less nodes).
+Dagger and VIPER are two strong baseline for decision tree learning in MDP but optimize a surrogate objective only even though in practice the resulting decision tree policies often achieve high RL objective value.
+
+We use the two algorithms extensively throughout the manuscript.
+
+Next we show how to learn a decision tree policy for the Example MDP (cite).
 \begin{algorithm}
-    \caption{Imitate Expert~\cite{behavior-cloning,dagger,viper}}\label{alg:distill}
-    \KwIn{Expert policy $\pi^*$, MDP $M$, policy class $\Pi$, number of iterations $N$, total samples $S$, importance sampling flag $I$}
+    \caption{Dagger}\label{alg:dagger}
+    \KwIn{Expert policy $\pi^*$, MDP $M$, policy class $\Pi$}
     \KwOut{Fitted student policy $\hat{\pi}_i$}
     
     % Initialize empty dataset and initial policy
@@ -992,21 +1072,15 @@ However, not many algorithms consider the learning of policies that can be easil
     \For{$i \gets 1$ \KwTo $N$}{
         % Create mixed policy using expert and current policy
         \lIf{i = 1}{
-        $\pi_i \gets \pi^*$\
+        $\hat{\pi} \gets \pi^*$\
         }
           \lElse{
             $\pi_i \gets \hat{\pi}_i$
           } \label{alg:expert-or-student}
         % Collect data using mixed policy
-        Sample $S/N$ transitions from $M$ using $\pi_i$\;
-        \lIf{$I$ is True}{
-        $w(s) \gets V^{\pi*}(s) - \operatorname{min}_aQ^{\pi*}(s, a)$
-        }
-          \lElse{
-            $w(s) \gets 1$
-          }
+        Sample transitions from $M$ using $\hat{\pi}$\;
         % Get expert actions for visited states
-        Collect dataset $\mathcal{D}_i \gets \{ (s, \pi^*(s), w(s)) \}$ of states visited by $\pi_i$ and expert actions\;\label{alg:actions-expert}
+        Collect dataset $\mathcal{D}_i \gets \{ (s, \pi^*(s)) \}$ of states visited by $\hat{\pi}$\;
         
         % Aggregate datasets
         $\mathcal{D} \gets \mathcal{D} \cup \mathcal{D}_i$\;
@@ -1014,9 +1088,40 @@ However, not many algorithms consider the learning of policies that can be easil
         % Train new policy
        Fit classifier/regressor $\hat{\pi}_{i+1}$ on $\mathcal{D}$\;\label{alg:fit}
     }
-    
-    \Return $\hat{\pi}_N$\;
+    \Return $\hat{\pi}$\;
     \end{algorithm}
+
+
+    \begin{algorithm}
+        \caption{VIPER}\label{alg:dagger}
+        \KwIn{Expert policy $\pi^*$, Expert Q-function $\Q^*$, MDP $M$, policy class $\Pi$}
+        \KwOut{Fitted student policy $\hat{\pi}_i$}
+        
+        % Initialize empty dataset and initial policy
+        Initialize dataset $\mathcal{D} \gets \emptyset$\;
+        Initialize $\hat{\pi}_1$ arbitrarily from $\Pi$\;
+        
+        \For{$i \gets 1$ \KwTo $N$}{
+            % Create mixed policy using expert and current policy
+            \lIf{i = 1}{
+            $\hat{\pi} \gets \pi^*$\
+            }
+              \lElse{
+                $\pi_i \gets \hat{\pi}_i$
+              } \label{alg:expert-or-student}
+            % Collect data using mixed policy
+            Sample transitions from $M$ using $\hat{\pi}$\;
+            % Get expert actions for visited states
+            Weight each transition by $w(s) \gets V^{\pi*}(s) - \operatorname{min}_a Q^{\pi*}(s, a)$\;
+            Collect dataset $\mathcal{D}_i \gets \{ (s, \pi^*(s), w(s)) \}$ of states visited by $\hat{\pi}$\;            
+            % Aggregate datasets
+            $\mathcal{D} \gets \mathcal{D} \cup \mathcal{D}_i$\;
+            
+            % Train new policy
+           Fit classifier/regressor $\hat{\pi}_{i+1}$ on the wight dataset $\mathcal{D}$\;\label{alg:fit}
+        }
+        \Return $\hat{\pi}$\;
+        \end{algorithm}
 
 \section{Your first decision tree policy}
 We believe this toy problem can reveal interesting properties of interpretable machine learning methods as this particular base MDP can in fact be optiamlly controlled by a detph-1 decision tree.
@@ -1044,32 +1149,6 @@ We believe this toy problem can reveal interesting properties of interpretable m
         \draw[->] (tree5_root) -- (tree5_right) node[edge_label, above left] {True};
         \draw[->] (tree5_root) -- (tree5_left) node[edge_label, above right] {False};
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
-        
-        % Draw grid
-        \draw[grid] (0,0) grid (2,2);
-        
-        % Add axes
-        \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
-        \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
-        
-        % Add tick marks and labels
-        \foreach \x in {0,1,2} {
-            \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
-        }
-        \foreach \y in {0,1,2} {
-            \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
-        }
-        
-        % Add state labels clockwise from bottom left
-        \node at (0.5,0.5) {{\color{green} $\rightarrow$}};
-        \node at (1.5,0.5) {$\star$};
-        \node at (1.5,0.7) {{\color{red} $\uparrow$}};
-        \node at (1.5,0.3) {{\color{green} $\downarrow$}};
-        \node at (1.7,0.5) {{\color{green} $\rightarrow$}};
-        \node at (1.3,0.5) {{\color{red} $\leftarrow$}};
-        \node at (1.5,1.5) {{\color{green} $\downarrow$}};
-        \node at (0.2,1.3) {{\color{green} $\downarrow$}};
-        \node at (0.5,1.5) {{\color{green} $\rightarrow$}};
 
     \end{tikzpicture}
     \caption{Grid world MDP optimal actions. An optimal policy that takes any of the red actions in the bottom right state might not be imitated by the best depth-1 tree in terms of performance interpretability trade-offs.
