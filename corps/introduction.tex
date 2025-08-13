@@ -1124,7 +1124,23 @@ Next we show how to learn a decision tree policy for the Example MDP (cite).
         \end{algorithm}
 
 \section{Your first decision tree policy}
-We believe this toy problem can reveal interesting properties of interpretable machine learning methods as this particular base MDP can in fact be optiamlly controlled by a detph-1 decision tree.
+Now the reader should know how to train decision tree classifiers or regressors for supervised learning (cite) using CART.
+The reader should also know what an MDP is and how to compute or learn policies that optimize the objective (cite) with (deep) reinforcement learning.
+Finally, the reader should now know how to get a decision tree policy for an MDP through imitation learning by first using RL to get an expert policy and then fitting decision trees to optimize the supervised learning objective (cite) when the target labels are given by that expert.
+Since in theory there is no guarantee that such decision tree policies also maximize the RL objective, i.e. they only maximize the imitation learning objective (cite).
+
+In this section we present the first decision tree policies of this manuscript obtained using Dagger or VIPER after learning an expert policy and expert Q-function for the grid world MDP (cite) with Q-learning (cite).
+Recall the optimal policies for the grid world, taking the green actions in each state in Figure (cite). 
+Among the optimal policies, the ones that take action to go left or up in the goal state can be problematic for imitation learning algorithms.
+
+Indeed, we know that for this grid world MDP there exist a decision tree policy that is optimal and very interpretable (depth-1): one goes right if the $x$-label of the state is greater than 1 and goes left otherwise.
+This tree takes exactly the same actions in the same states as some of the optimal policy from Figure (cite).
+
+On Figure (cite) we present a depth-1 decision tree policy that optimal w.r.t the RL objective (cite) and a depth-1 tree that is sub-optimal.
+Indeed we see on Figure (cite) that the presented optimal depth-1 tree gets exactly the same RL objective value as the optimal policies from Figure (cite) independently of the objective function parameter, the discount factor $\gamma$.
+
+Now a fair question to ask is: can Dagger or VIPER retrieve such depth-1 optimal tree given access to an expert optimal policy from Figure (cite)?
+
 
 \begin{figure}[h]
     \centering
@@ -1151,8 +1167,7 @@ We believe this toy problem can reveal interesting properties of interpretable m
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
 
     \end{tikzpicture}
-    \caption{Grid world MDP optimal actions. An optimal policy that takes any of the red actions in the bottom right state might not be imitated by the best depth-1 tree in terms of performance interpretability trade-offs.
-    Center, an optimal depth-1 decision tree policy. On the right, a sub-optimal depth-1 decision tree policy.}
+    \caption{Left, an optimal depth-1 decision tree policy. On the right, a sub-optimal depth-1 decision tree policy.}
     \end{figure}
 
 \begin{figure}
