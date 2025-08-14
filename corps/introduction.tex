@@ -534,8 +534,9 @@ In real-world settings, we desire more reliable explanations than what current X
 
 \section{Outline of the Thesis}
 
-In this thesis we take a stab at the difficult task of designing global direct algorithms for interpretable sequential decision making. In the first part of the manuscript we will present a mathematical formalism for the reinforcement learning of decision trees for sequential decision making. In particular we will show that indeed the direct approach can yield better trees than the indirect one. However the unfortunate key result from this opening part is that a good direct method cannot find decision trees for sequential decision making that are not \textit{very} easy.
-Fortunately for us, in the second part of this manuscript, we show that some of these easy instances of interpretable sequential decision making tasks can be made \textit{non}-sequential giving rise to a whole new decision tree induction algorithm for supervised learning. In particular, we thoroughly benchmark our new decision tree induction algorithm and claim the state-of-the-art for decision tree induction.
+In this thesis we study different decision tree learning algorithms in different settings 
+In the first part of the manuscript, we show that direct decision tree learning methods stuggle to find decision trees even for very simple sequential decision making problems.
+In the second part of this manuscript, we formulate decision tree induction algorithm for supervised learning as solving a sequential decision making problem. 
 Finally, after heavily studying decision trees and direct methods, we will leverage the diversity and simplicity of \textit{indirect} methods to compare other model classes of programs and show that in some cases neural networks can be considered more interpretable than trees and there exist problems for which there is no need to trade-off performance for interpretability. 
 We summarize the outline of the manuscript in Figure~\ref{fig:thesis-outline} 
 
