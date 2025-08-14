@@ -79,7 +79,7 @@ For example, as depicted in Figure~\ref{fig:cancer-treatment-sdm}, a doctor coul
 Machine learning algorithms~\cite{turing} output such helpful programs.
 For non-sequential decision making, when the doctor only takes one decision and does not need to react to the updated patient's health, e.g. making a diagnosis about cancer type, a program can be fitted to example data: given lots of patient records and the associated diagnoses, the program learns to make the same diagnosis a doctor would given the same patient record, this is \textit{supervised} learning~\cite{sl}. 
 In the cancer treatment example, the doctor follows the patient over time and adapts treatment to the patient's changing health. In that case, machine learning—and in particular \textit{reinforcement} learning~\cite{sutton}—can be used to teach the program how to take decisions that lead to recovery based on how the patient's health changes from one dose to another.  
-Such machine learning algorithms train increasingly performant models that are deployed to, e.g., identify digits in images~\cite{lenet}, control tokamak fusion~\cite{tokamak}, or write the abstract of a scientific article~\cite{bert}.
+Such machine learning algorithms train increasingly performant programs that are deployed to, e.g., identify digits in images~\cite{lenet}, control tokamak fusion~\cite{tokamak}, or write the abstract of a scientific article~\cite{bert}.
 
 However, the key problem behind this manuscript is that the computations performed by these programs cannot be understood and verified by humans: the programs are black-box.
 Next, we describe the notion of interpretability that is key to ensure safe deployment of computer programs trained with machine learning in critical sectors like medicine.
@@ -322,11 +322,12 @@ In Figure~\ref{fig:cancer-treatment-sdm-ml}, we illustrate how existing machine 
 In Figure~\ref{fig:cancer-treatment-comparison}, we illustrate how machine learning \textit{should} be used in practice. We would ideally want doctors to have access to computer programs that can recommend ``good'' treatments and whose recommendations are interpretable. 
 
 The key challenge of doing research on interpretability is the lack of formalism; there is no \textit{formal} definition of what constitutes an interpretable computer program. Hence, unlike for performance objectives, which have well-defined optimization targets (e.g., maximizing accuracy in supervised learning or maximizing rewards over time in reinforcement learning), it is not clear how to design machine learning algorithms to maximize interpretability. 
-Despite this lack of formalism, the necessity of deploying interpretable models has sparked many works, which we present next.
+Despite this lack of formalism, the necessity of deploying interpretable programs has sparked many works, which we present next.
 \subsection{What are existing approaches for learning interpretable programs?}
 
-In this section we follow sections 6 and 7 of Glanois and section 5 of Milani, present next other related works.
-
+In this section we follow Sections 6 and 7 of \cite{glanois-survey} and Section 5 of \cite{milani-survey}. 
+Furthermore we now employ the term ``model'' to refer to ``programs'' to be consistent with the machine learning research conventions.
+Models are essentially mappings from inputs to outputs that can be trained with machine learning algorithms while programs might designate other types of computations like sorting.
 
 \begin{figure}[htbp]
     \centering
@@ -375,12 +376,18 @@ In this section we follow sections 6 and 7 of Glanois and section 5 of Milani, p
     \label{fig:interpretability-performance-tradeoff}
 \end{figure}
 Interpretable machine learning provides either local or global explanations \cite{glanois-survey}.
-Global methods output a program whose recommendations can be interpreted without additional computations, e.g., a decision tree~\cite{breiman1984classification}. By contrast, local methods require additional computations but are agnostic to the model class: they can give an \textit{approximate} interpretation of, e.g., neural network recommendations.
+Global methods output a model whose outputs can be interpreted without additional computations, e.g., a decision tree~\cite{breiman1984classification}. By contrast, local methods require additional computations but are agnostic to the model class: they can give an \textit{approximate} interpretation of, e.g., neural network outputs.
 In Figure~\ref{fig:interpretability-performance-tradeoff} we present the popular trade-off between interpretability and performance of different model classes.
 
-The most famous local explanation algorithm is LIME (Local Interpretable Model-agnostic Explanations)~\cite{lime}. Given a program, LIME works by perturbing the input and learning a simple interpretable model locally to explain that particular prediction. For each individual prediction, LIME provides explanations by identifying which features were most important for that specific decision.
-Hence, as stated above, LIME needs to learn a local surrogate model per recommendation to be interpreted; this requires substantial computation.
-(Figure) HEATMAPS-FEATURE IMPORTANCE: key message is that Global => Local and Local =\=> Global.
+Given a model, LIME (Local Interpretable Model-agnostic Explanations)~\cite{lime} works by perturbing the input and learning a simple interpretable model locally to explain that particular prediction (see Figure \ref{fig:lime}). For each individual prediction, LIME provides explanations by identifying which features were most important for that specific decision.
+Hence, as stated above, LIME needs to learn one local surrogate model per output to be interpreted; this requires substantial computation.
+
+\begin{figure}
+    \includegraphics[width=0.9\textwidth]{images/lime.png}
+    \caption{Local Interpretable Model-agnostic Explanations~\cite{lime} fit an interpretable linear model to data around the red cross prediction to be interpreted.}\label{fig:lime}
+\end{figure}
+
+
 \begin{figure}[htbp]
     \centering
     \begin{tikzpicture}[
@@ -473,17 +480,22 @@ Hence, as stated above, LIME needs to learn a local surrogate model per recommen
 \end{figure}
 
 Global approaches are either direct or indirect~\cite{milani-survey}. 
-Direct algorithms, such as decision tree induction~\cite{breiman1984classification}, directly search a space of interpretable programs (see Figure~\ref{fig:interpretability-performance-tradeoff}). One key challenge motivating this thesis is that decision tree induction is well-developed for supervised learning but not for reinforcement learning. To directly learn interpretable policies for sequential decision making, one must design new algorithms. 
-Most existing research has focused on working around this limitation and developing indirect methods. 
-Indirect methods for interpretable sequential decision making—sometimes called post hoc—start with reinforcement learning of a non-interpretable program (e.g., a neural network), and then use supervised learning to fit an interpretable model that emulates the black-box program. This approach is called behavior cloning or imitation learning~\cite{behavior-cloning,dagger}, and many works on interpretable sequential decision making use this indirect approach\cite{viper,PIRL}.
-Figure~\ref{fig:direct-vs-indirect-methods} illustrates the key difference between these two approaches. 
+Direct algorithms, such as decision tree induction~\cite{breiman1984classification}, \textit{directly} learn an interpretable models optimizing some objective (see Figure~\ref{fig:interpretability-performance-tradeoff}).
+One key challenge motivating this thesis is that decision tree induction is well-developed for supervised learning but not for reinforcement learning.
+To directly learn interpretable policies for sequential decision making, one must design new algorithms. 
 
-Researchers have only recently started to study the advantages of direct over indirect learning of interpretable programs~\cite{topin2021iterative,leap}. In short, direct methods optimize the interpretable program for the actual task (e.g., patient treatment), while indirect methods optimize an interpretable program to match the behavior of a black-box model that was itself optimized for the task. There is no guarantee that optimizing this surrogate objective yields the best interpretability–performance trade-offs. 
-Hence, the ideal solution to interpretable sequential decision making would be global direct algorithms.
+Most existing research has focues on developing indirect methods. 
+Indirect methods for interpretable sequential decision making—sometimes called \textit{post hoc} methods—begin by learning a non-interpretable model (e.g., reinforcement learning of a neural network model), and then use supervised learning to fit an interpretable model that emulates the black-box.
+This approach is called behavior cloning or imitation learning~\cite{behavior-cloning,dagger}, and many works on interpretable sequential decision rely on this indirect approach\cite{viper,PIRL}.
+However we believe this might be problematic.
+
+Indeed, unlike direct methods that return interpretable models optimizing the desired objective, indirect methods learn an interpretable model to match the behavior of a black-box that itself optimizes the objective of interest. 
+Hence, there is no guarantee that optimizing this surrogate objective yields the best interpretability–performance trade-offs. 
+Figure~\ref{fig:direct-vs-indirect-methods} illustrates the key difference between these two approaches. 
 
 \subsection{Programmatic machine learning}
 
-Besides decision trees, programmatic policy representations have been proposed as interpretable alternatives. Programmatically Interpretable Reinforcement Learning (PIRL) \cite{verma_programmatically_2018} synthesizes policies in a high-level language via Neurally Directed Program Search (NDPS), typically by imitating a neural oracle. Related work derives programmatic or automata-like abstractions from demonstrations or trained policies \cite{zhu_inductive_2019,burke_explanation_2019,Koul_learning_2019}, yielding structured controllers that can sometimes be verified or edited. These approaches share our goal—transparent policies for sequential decision making—but most operate indirectly by distilling from black-box experts, and thus inherit the limitations of imitation.
+Programmatic models are an interpretable class that contains decision trees. Programmatically Interpretable Reinforcement Learning (PIRL) \cite{verma_programmatically_2018} synthesizes policies in a high-level language via Neurally Directed Program Search (NDPS), typically by imitating a neural oracle. Related work derives programmatic or automata-like abstractions from demonstrations or trained policies \cite{zhu_inductive_2019,burke_explanation_2019,Koul_learning_2019}, yielding structured controllers that can sometimes be verified or edited. These approaches share our goal—transparent policies for sequential decision making—but most operate indirectly by distilling from black-box experts, and thus inherit the limitations of imitation.
 
 \subsection{Learning easy-to-imitate experts}
 Beyond direct and indirect learning, a complementary strategy is to train experts that are inherently easier to imitate and understand. This is achieved by adding interpretability-oriented regularization during training. Examples include smoothness penalties to reduce erratic behavior \cite{jia_advanced_2019}, objectives that promote legible and predictable motions \cite{dragan_legibility_2013}, and representation-shaping losses \cite{francois-lavet_combined_2019}. More structured constraints—such as first-order logic \cite{serafini_logic_2016} or regional tree regularization \cite{wu_optimizing_2019}—can bias decision boundaries toward small trees and improve human simulatability.
@@ -498,58 +510,6 @@ Beyond transparency and readability, interpretability also supports detecting sp
 \subsection{Explainability}
 Interpretable RL constrains the policy class so that the computation is transparent by construction. Explainable RL (XRL), by contrast, keeps black-box policies and generates post hoc explanations of their decisions. Typical XRL techniques include visual explanations (t-SNE and saliency maps \cite{zahavy_graying_2016,maaten_visualizing_2008,greydanus_visualizing_2018,gupta_explain_2020}, attribution such as SHAP \cite{lundberg_unified_2017,wang_attribution-based_2020}, attention-based highlighting \cite{shi_self-supervised_2020,kim_attentional_2020}, and trajectory summaries \cite{sequeira_interestingness_2020}) and textual or logic-based explanations \cite{hayes_improving_2017,van_der_waa_contrastive_2018,fukuchi_autonomous_2017}. Causal approaches learn explicit causal models to support contrastive reasoning \cite{madumal_explainable_2020,madumal_distal_2020}.
 While useful for insight, these explanations are often subjective, template-bound, or weakly faithful to the underlying computation \cite{atrey2019exploratory}, and post hoc rationalizations can increase misplaced trust. For safety-critical settings, this motivates our focus on policies that are interpretable by design; we therefore use XRL primarily for context and comparison, not as our main objective.
-
-
-
-\section{Outline of the thesis}
-
-In this thesis we study different decision tree learning algorithms in different settings. 
-In the first part of the manuscript, we show that direct decision tree learning methods struggle to find decision trees even for very simple sequential decision making problems.
-In the second part of the manuscript, we formulate decision tree induction for supervised learning as solving a sequential decision making problem. 
-Finally, after thoroughly studying decision trees and direct methods, we leverage the diversity and simplicity of \textit{indirect} methods to compare other model classes and show that, in some cases, neural networks can be considered more interpretable than trees, and there exist problems for which there is no need to trade off performance for interpretability. 
-We summarize the outline of the manuscript in Figure~\ref{fig:thesis-outline}.
-
-\begin{enumerate}
-    \item Direct reinforcement learning of decision tree policies is hard because it involves POMDPs.
-    \item One can use Dynamic Programming in MDPs to induce highly performing decision tree classifiers and regressors.
-    \item In practice, controlling MDPs with interpretable policies does not necessarily decrease performance and has many advantages.
-\end{enumerate}
-
-\begin{figure}[htbp]
-    \centering
-    \begin{tikzpicture}[
-        bubble/.style={rectangle, rounded corners=15pt, draw, thick, fill=blue!20, text width=3.5cm, text centered, minimum height=1.5cm, font=\small},
-        arrow/.style={->, thick},
-        label/.style={font=\footnotesize, text width=3cm, text centered}
-    ]
-        
-        % Define the three vertices of the triangle
-        % Top bubble - Chapter 1
-        \node[bubble] (ch1) at (0,4) {Part 1\\Direct learning of interpretable policies for MDPs};
-        
-        % Bottom left bubble - Chapter 2  
-        \node[bubble] (ch2) at (-4,0) {Part 2\\Supervised learning of decision tree classifiers with MDPs};
-        
-        % Bottom right bubble - Chapter 3
-        \node[bubble] (ch3) at (4,0) {Part 3\\Indirect learning of interpretable policies to compare different model classes};
-        
-        % Arrow from Chapter 1 to Chapter 2
-        \draw[arrow] (ch1.south west) -- (ch2.north);
-        \node[label] at (-4.5,2.5) {Too difficult, let us assume uniform transitions};
-        
-        % Arrow from Chapter 1 to Chapter 3  
-        \draw[arrow] (ch1.south east) -- (ch3.north);
-        \node[label] at (4.5,2.5) {Too difficult, let us use indirect approach};
-
-        % Arrow from Chapter 1 to Chapter 3  
-        \draw[arrow] (ch2.east) -- (ch3.west);
-        \node[label] at (0,1.1) {Use new decision tree induction to learn better interpretable policies};
-        
-        
-    \end{tikzpicture}
-    \caption{Thesis structure showing the progression from direct reinforcement learning of decision tree policies (Chapter 1) to simplified approaches: supervised learning with uniform transitions (Chapter 2) and indirect learning methods (Chapter 3).}
-    \label{fig:thesis-outline}
-\end{figure}
 
 
 \section{Technical preliminaries}
@@ -589,7 +549,7 @@ We summarize the outline of the manuscript in Figure~\ref{fig:thesis-outline}.
     \caption{A generic decision tree structure. Internal nodes contain test functions $f_v(x): \mathcal{X} \rightarrow \{0,1\}$ that map input features to boolean values. Edges represent the outcomes of these tests (True/False), and leaf nodes contain predictions $y_\ell \in \mathcal{Y}$. For any input $x$, the tree defines a unique path from root to leaf.}
     \label{fig:decision-tree-structure}
 \end{figure}
-As mentioned earlier, in contrast to neural networks, decision trees are considered highly interpretable because they apply Boolean operations on the program input without relying on internal complex representations.
+As mentioned earlier, in contrast to neural networks, decision trees are considered highly interpretable because they apply Boolean operations on inputs without relying on internal complex representations.
 
 \begin{definition}[Decision tree]
 A decision tree is a rooted tree $T = (V, E)$ where:
@@ -606,6 +566,7 @@ Training decision trees to optimize the supervised learning objective (cite) has
 \begin{definition}[Supervised learning]
 We assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$.
 For a classification task $\mathcal{Y}=\{1,\ldots,K\}$ and for a regression task $\mathcal{Y}\subseteq \mathbb{R}$.
+The goal of supervised learning is to find a classifier (or regressor) $f:X \rightarrow  y$ where $f$ is model in $\mathacal{F}$, e.g. neural networks or decision tres.
 \begin{align}
     f^* &= \underset{f \in \mathcal{F}}{\operatorname{argmin}}\ \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, f(x_i)) + \alpha C(f),
     \label{eq:suplearning}
@@ -739,10 +700,6 @@ Markov decision processes (MDPs) were first introduced in the 1950s by Richard B
 \item $T: S \times A \rightarrow \Delta(S)$ is the transition function that maps state-action pairs to probability distributions over next states, where $\Delta(S)$ denotes the probability simplex over $S$.
 \item $T_0 \in \Delta(S)$ is the initial distribution over states.
 \end{itemize}
-\end{definition}
-We can also define factored MDPs that represent a special class of MDPs with a continuous state space rather than a finite set of states.
-
-\begin{definition}[Factored Markov decision process] A factored MDP is an MDP (cite) where the state space is a hyperrectangle: $S\subseteq \mathbb{R}^n$.
 \end{definition}
 
 Now we can also model the goal of the agent. Informally, the goal of an agent is to behave so as to obtain as much reward as possible over time. For example, in cancer treatment, the best outcome is to eliminate the patient's tumor as quickly as possible. We can formally model the agent's goal as an optimization problem as follows.
@@ -895,6 +852,13 @@ More realistically, neither the transition kernel $T$ nor the reward function $R
 Reinforcement learning algorithms popularized by Richard Sutton (Figure~\ref{fig:rl-pioneers}) (cite) don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of observations ${(s_t, a_t, r_t, s_{t+1})}_t$.
 RL algorithms usually fall into two categories: value-based (cite) and policy search (cite).
 The first group of RL algorithms computes an approximation of $V^{\star}$ using temporal difference learning, while the second class leverages the policy gradient theorem to approximate $\pi^{\star}$.
+The goal of an RL algorithm (also called agent) is to learn a policy that optimizes the following:
+\begin{definition}[Reinforcement learning objective] Given an MDP $M$ (cite) with unknown transitions and rewards, the reinforcement learning objective, is to maximize the expected states values over the initial distribution:
+\begin{align}
+    \pi^{\star} &= \underset{\pi}{\operatorname{argmax}}\mathbb{E}\left[V^{\pi}(s_0)|s_0\sim T_0 \right]
+\end{align}
+\end{definition}
+
 Examples of these approaches are shown in Algorithms~\ref{alg:qlearning} and~\ref{alg:reinforce}.
 
 \RestyleAlgo{ruled}
@@ -945,6 +909,12 @@ However, not many algorithms consider the learning of policies that can be easil
 Reinforcement learning has also been successfully combined with function approximations (cite) to solve MDPs with large discrete state spaces or continuous state spaces ($S \subset \mathbb{R^n}$).
 In the rest of this manuscript, unless stated otherwise, we write $\boldsymbol{s}$ a state vector in a continuous space.
 
+We can also define factored MDPs that represent a special class of MDPs with a continuous state space rather than a finite set of states.
+
+\begin{definition}[Factored Markov decision process] A factored MDP is an MDP (cite) where the state space is a hyperrectangle: $S\subseteq \mathbb{R}^n$.
+\end{definition}
+Note that discrete states MDP (cite) can be encoded into factored MDP by one-hot encoding individual states.
+
 Deep Q-Networks (DQN)(cite)(algo)(fig) was a breakthrough in modern reinforcement learning. Authors successfully extended the Q-learning (algo) to the function approximation setting by introduction target networks to mitigate distributional shift in the td error and replay buffer to increase sample efficiency.
 DQN achieved super-human performance on a set of Atari games.
 
@@ -978,7 +948,7 @@ Actor-critic are not as simple efficient as DQN but is known to work well in a v
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.6\textwidth]{images/dqn_schema.png}
+    \includegraphics[width=0.8\textwidth]{images/dqn_schema.png}
     \caption{DQN tricks by Antonin Raffin}
 \end{figure}
 
@@ -1165,3 +1135,58 @@ Despite this negative result, we still find that VIPER almost always finds the o
 
 
 Now that the reader has seen how to get an interpretable policy for an MDP, we believe it is ready to dive into the contributions of this thesis.
+
+\section{Outline of the thesis}
+
+In this thesis we study different decision tree learning algorithms in different settings. 
+In the first part of the manuscript, we show that direct decision tree learning methods (cite) struggle to find decision trees even for very simple sequential decision making problems.
+For that, we reproduce the work from (cite) that present a formalism for learning decision tree policies that optimize (cite) directly using reinforcement learning and make connexions with hardness results from the partially observable MDPs litterature (cite).
+
+In the second part of the manuscript, we formulate decision tree induction for supervised learning as solving a sequential decision making problem.
+By formalizing decision tree induction for objective (cite) as solving an MDP, we design novel algorithms that achieve very good performances.
+
+In the last part, after thoroughly studying direct decision tree learning, we leverage the simplicity of \textit{indirect} methods to obtain good enough interpretable policies for diverse problems and show that interpretable policy do not necessarily perform worse than e.g. neural networks.
+
+We summarize our results as follows:
+
+\begin{enumerate}
+    \item Direct reinforcement learning of decision tree policies is hard because it involves POMDPs.
+    \item One can use Dynamic Programming in MDPs to induce highly performing decision tree classifiers and regressors.
+    \item In practice, controlling MDPs with interpretable policies does not necessarily decrease performance.
+\end{enumerate}
+
+% \begin{figure}[htbp]
+%     \centering
+%     \begin{tikzpicture}[
+%         bubble/.style={rectangle, rounded corners=15pt, draw, thick, fill=blue!20, text width=3.5cm, text centered, minimum height=1.5cm, font=\small},
+%         arrow/.style={->, thick},
+%         label/.style={font=\footnotesize, text width=3cm, text centered}
+%     ]
+        
+%         % Define the three vertices of the triangle
+%         % Top bubble - Chapter 1
+%         \node[bubble] (ch1) at (0,4) {Part 1\\Direct learning of interpretable policies for MDPs};
+        
+%         % Bottom left bubble - Chapter 2  
+%         \node[bubble] (ch2) at (-4,0) {Part 2\\Supervised learning of decision tree classifiers with MDPs};
+        
+%         % Bottom right bubble - Chapter 3
+%         \node[bubble] (ch3) at (4,0) {Part 3\\Indirect learning of interpretable policies to compare different model classes};
+        
+%         % Arrow from Chapter 1 to Chapter 2
+%         \draw[arrow] (ch1.south west) -- (ch2.north);
+%         \node[label] at (-4.5,2.5) {Too difficult, let us assume uniform transitions};
+        
+%         % Arrow from Chapter 1 to Chapter 3  
+%         \draw[arrow] (ch1.south east) -- (ch3.north);
+%         \node[label] at (4.5,2.5) {Too difficult, let us use indirect approach};
+
+%         % Arrow from Chapter 1 to Chapter 3  
+%         \draw[arrow] (ch2.east) -- (ch3.west);
+%         \node[label] at (0,1.1) {Use new decision tree induction to learn better interpretable policies};
+        
+        
+%     \end{tikzpicture}
+%     \caption{Thesis structure showing the progression from direct reinforcement learning of decision tree policies (Chapter 1) to simplified approaches: supervised learning with uniform transitions (Chapter 2) and indirect learning methods (Chapter 3).}
+%     \label{fig:thesis-outline}
+% \end{figure}
