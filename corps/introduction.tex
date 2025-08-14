@@ -530,11 +530,10 @@ We categorize saliency map techniques using the decomposition in \cite{atrey2019
 Furthermore, there are questions about the validity of these explanations. Some work leverages templates for the agent to fill in \cite{ImpRoboticController}, while other work allows the agent to generate free-form explanations. The former type typically enjoys more clarity but requires the explanation to adhere to a specified template. \cite{frogger} and \cite{wang2019verbalexplanations} leverage human-provided action-explanation pairs to \textit{rationalize} agent behavior. We caution against post-hoc rationalizations that produce plausible but not valid explanations: they may increase agent trust, but the trust is unfounded without grounding to the agent's actual decision-making process.
 In real-world settings, we desire more reliable explanations than what current XRL methods can provide. This limitation motivates the need for truly interpretable policies that are transparent by design, rather than attempting to explain opaque systems after the fact.
 
-In (cite) the authors present the following open problems in interpretable RL:
 
-In this thesis we tackle some of those open problems.
 
 \section{Outline of the Thesis}
+
 In this thesis we take a stab at the difficult task of designing global direct algorithms for interpretable sequential decision making. In the first part of the manuscript we will present a mathematical formalism for the reinforcement learning of decision trees for sequential decision making. In particular we will show that indeed the direct approach can yield better trees than the indirect one. However the unfortunate key result from this opening part is that a good direct method cannot find decision trees for sequential decision making that are not \textit{very} easy.
 Fortunately for us, in the second part of this manuscript, we show that some of these easy instances of interpretable sequential decision making tasks can be made \textit{non}-sequential giving rise to a whole new decision tree induction algorithm for supervised learning. In particular, we thoroughly benchmark our new decision tree induction algorithm and claim the state-of-the-art for decision tree induction.
 Finally, after heavily studying decision trees and direct methods, we will leverage the diversity and simplicity of \textit{indirect} methods to compare other model classes of programs and show that in some cases neural networks can be considered more interpretable than trees and there exist problems for which there is no need to trade-off performance for interpretability. 
@@ -1054,7 +1053,7 @@ There are two main imitation learning used for interpretable reinforcement learn
 Dagger (cite)(algo) is a very straightforward way to fit a decision tree policy to optimize the imitation learning objective (cite).
 VIPER (cite)(algo) was designed specifically for interpretable reinfrocement learning.
 VIPER reweights the transitions collected by the neural network expert by some function of the state-action value (cite).
-Authors of VIPER showed that decision tree policy fitted with VIPER tend to have the RL objective value as Dagger trees while being more interpretable (less deep or with less nodes).
+Authors of VIPER showed that decision tree policies fitted with VIPER tend to have the same RL objective value as Dagger trees while being more interpretable (less deep or with less nodes) and sometimes simply outperform Dagger trees performances.
 Dagger and VIPER are two strong baseline for decision tree learning in MDP but optimize a surrogate objective only even though in practice the resulting decision tree policies often achieve high RL objective value.
 
 We use the two algorithms extensively throughout the manuscript.
@@ -1141,6 +1140,18 @@ Indeed we see on Figure (cite) that the presented optimal depth-1 tree gets exac
 
 Now a fair question to ask is: can Dagger or VIPER retrieve such depth-1 optimal tree given access to an expert optimal policy from Figure (cite)?
 
+We start by running the standard Q-learning algorithm as presented in (cite) with $\epsilon=0.3$, $\alpha=0.1$ over 10 000 timesteps.
+The careful reader might wonder how ties are broken in the $\operatorname{argmax}$ operation from Algorithm (cite).
+While Richard Sutton writes in his book (cite) that ties are borken by index value (the greedy action is the $\argmax$ action with smallest index), we show that the choice of tie breaks greatly influence the performances of subsequent imitation learning algorithms.
+Indeed, depending on how actions are odered in practice, Q-learning might be biased towards some optimal policies rather than others.
+While this does not matter for one who just wants to find an optimal policy, in our example of finding the optimal depth-1 decision tree policy, it matters \textit{a lot}.
+
+On the left plot of Figure (cite) we see that Q-learning, independently of how ties are broken, consistently converges to an optimal policy over 100 runs (or random seeds).
+However, on the right of the Figure (cite), where we plot the proportion over 100 runs of optimal decision trees returned by Dagger or VIPER at different stages of the Q-learning, we observe that imitating the optimal policy when the latter was obtained by breaking ties at random consistently yields more optimal trees than ties with indices.
+What actually happens, is that the most likely output of Q-learning when ties are broken by indices is the optimal policy that goes left in the goal state.
+Which can't be perfectly represented by a depth-1 decision tree. Because there are three different actions taken and a binary tree of depth $D=1$ can only map to $2^D=2$ labels.
+
+Despite this negative result, we still find that VIPER almost alway finds the optimal depth-1 decision tree policy in terms of RL objective (cite) when the ties are broken at random.
 
 \begin{figure}[h]
     \centering
@@ -1167,7 +1178,7 @@ Now a fair question to ask is: can Dagger or VIPER retrieve such depth-1 optimal
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
 
     \end{tikzpicture}
-    \caption{Left, an optimal depth-1 decision tree policy. On the right, a sub-optimal depth-1 decision tree policy.}
+    \caption{Left, a sub-optimal depth-1 decision tree policy. On the right, an optimal depth-1 decision tree policy.}
     \end{figure}
 
 \begin{figure}
@@ -1181,3 +1192,6 @@ Now a fair question to ask is: can Dagger or VIPER retrieve such depth-1 optimal
     \includegraphics[width=1\textwidth]{images/images_part1/base_mdp.pdf}
     \caption{Left, sample complexity curve of Q-learning with default hyperparameters on the $2\times 2$ grid world MDP over 100 random seeds. Right, performances of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages. }
 \end{figure}
+
+
+Now that the reader has seen how to get an interpretable policy for an MDP, we believe it is ready to dive into the contributions of this thesis.
