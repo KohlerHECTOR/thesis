@@ -208,7 +208,7 @@ Since the probability of being in any base states at initialization given that t
 \end{proof}
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{images/images_part1/objective_values_plot.pdf}
+    \includegraphics[width=0.6\textwidth]{images/images_part1/objective_values_plot.pdf}
     \caption{POIBMDP objective values of different policies as functions of $\zeta$. Shaded areas show the optimal policies in different ranges of $\zeta$ values.}\label{fig:objectives}
 \end{figure}
 
@@ -383,9 +383,10 @@ In that range, no baseline consistently minimize the sub-optimality gap.
 In Figure (cite), we plot the distributions over the final learned trees in function of $\zeta$ from the above runs.
 For example, in Figure (cite), in the top left plot, when learning 100 times in a POIBMP with $\zeta=0.5$, Q-learning returned almost 100 times a depth 0 tree.
 Again, on none of those subplots do we see a high rate of learned depth 1 trees for $\zeta\in ]0, 1[$.
+It is alerting that the most frequent learned trees are the depth 0 trees for $\zeta\in ]0, 1[$ because such trees are way more sub-optimal w.r.t to (cite) than e.g. the depth 2 unbalanced trees (c.f. Figure cite).  
 One interpretation of this phenomenon is that the learning in POIBMDPs is very difficult and so agents tend to converge to trivial policies, e.g., repeating the same base action.
 
-However, we observe that asymmetric versions of Q-learning and Sarsa have found the optimal policy, the depth 1 decision tree, more frequently than their symmetric counter-parts for $\zeta\in ]0, 1[$.
+However, on the positive side, we observe that asymmetric versions of Q-learning and Sarsa have found the optimal policy, the depth 1 decision tree, more frequently than their symmetric counter-parts for $\zeta\in ]0, 1[$.
 Next, we quantify how difficult it is to do RL to learn partially observable policies in POIBMDPs.
 
 \begin{figure}
@@ -406,22 +407,41 @@ Next, we quantify how difficult it is to do RL to learn partially observable pol
 \end{figure}
 
 
-\subsection{How difficult is it to learn in POIBMPDs?}
+\subsection{How difficult is it to learn in POIBMDPs?}
 
-To show that learning the optimal deterministic partially observable POIBMDP policy is very difficult, even though there are only a handful of states, observations, and actions (16, 9, and 6 respectively), we compare the success rate of RL baselines when applied to a POIBMDP with $\gamma=0.99$, $\zeta=0.5$ and when applied to the corresponding fully observable IBMDP, and MDP.
+In this section we run the same (asymmetric) reinforcement learning algorithms to optimize either the RL objective (cite) in MDPs (cite) or IBMDPs (cite), or the direct interpretable RL objective in POIBMDPs.
+This essentially results in three disctint problems:
+\begin{enumerate}
+    \item Learning an optimal deterministic state dependent policy in MDPs (cite).
+    \item Learning an optimal deterministic fully observable state dependent policy in IBMDPs (cite).
+    \item Learning an optimal deterministic partially observable policy in POIBMDPs (cite) (our problem of interest (cite)).
+\end{enumerate}
 
-Because we know that for those values of $\zeta$ and $\gamma$, the optimal deterministic partially observable policy is a depth-1 tree and the optimal fully observable policy is a tabular policy from Figure (cite); we can compute the success rate of an algorithm as the proportion of learned policies that match their optimal counterparts.
+In order to see how difficult each of these three problems is, we can run a \textit{big} number of experiments on each and compare success rates.
+To make success rates comparable we consider a unique instance for each of those problems.
+Problem 1., is learning one of the optimal policy from Figure (cite) for the grid world from (cite) with $\gamma=0.99$.
+Problem 2., is learning one deterministic optimal policy for the IBMDP from Figure (cite) with $\gamma=0.99$ and $\zeta=0.5$.
+This is similar to the previous chapter's experiments where we applied DQN or PPO to the IBMDP for CartPole without constraining the search to partially observable policies.
+So an optimal policy for problem 2. is taking the same actions as an optimal policy from Figure (cite) in the corresponding base MDP state that it can see.
+Problem 3. is what has been done in the previous section (cite) where in addition of fixing $\gamma=0.99$ we also fix $\zeta=0.5$.
 
-Furhtermore; we also consider advanced tricks for tabular RL in order to properly assess the difficulty of learning in POIBMDPs compared to learning in (IB)MDPs:
+We use the six (asymmetric) RL algoroithms from the previous section (cite) and try a wide set of hyperparameters and additional learning tricks that we list next.
+We only provide the detailed hyperparameters for asymmetric Sarsa and a an overall summary for all the algorithms.
+The complete detailed lists of hyperparameters are given in the Appendix (cite).
+Furhtermore, the careful reader might notice that there is no point running asymmetric RL on MDPs or IBMDPs when the problem does not require partial observability.
+Hence, we only run asymmetric RL for POIBMDPs and otherwise run all other RL algorithms and all problems.
+
+Each unique hyperparameters combination for a given algorithm on a given problem is run 10 times on 1 million learning steps.
+For example, for asymmetric Sarsa, we run a total of $10\times 768= 7680$ experiments for learning partially observable deterministic policies for a POIBMDP. To get a success rate, we can simply divide the number of learned depth 1 tree by 7680 (recall that for $\gamma=0.99$ and $\zeta=0.5$, the optimal policy is the depth 1 tree from Figure (cite) as per Figure (cite)). 
+
+
 \begin{enumerate}
     \item Optimistic Q-function (cite)
     \item Entropy regularization (cite)
     \item Eligibility traces (cite)
     \item $\epsilon$-decay (cite)
 \end{enumerate}
-In particular, for each of the aforementioned RL baselines; we learn policies using a wide variety of hyperparamters.
-For example, in Table (cite) we provide the detailed hyperparameter space of Asymmetric Sarsa, which induce a total of 1152 instances of Asymmetric Sarsa, and in Table (cite) we provide the hyperparameter space sizes for all baselines.
-We run each baseline using each hyperparamters combination 10 times on 200000 timesteps.
+
 
 \begin{table}[h]
 \centering
@@ -433,8 +453,8 @@ We run each baseline using each hyperparamters combination 10 times on 200000 ti
 Epsilon Schedules & (0.3, 1), (0.3, 0.99), (1, 1) & Initial exploration and decrease rate \\
 Epsilon Schedules & (0.1, 1), (0.1, 0.99), (0.3, 0.99) & Initial exploration and decrease rate \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
-Learning Rate $U$ & 0.001, 0.005, 0.01, 0.1 & $Q$ learning rate \\
-Learning Rate $Q$ & 0.001, 0.005, 0.01, 0.1 & $U$ learning rate \\
+Learning Rate $U$ & 0.001, 0.005, 0.01, 0.1 & learning rate for the fully observable state dependent Q-function \\
+Learning Rate $Q$ & 0.001, 0.005, 0.01, 0.1 & learning rate for the partially observable state dependent Q-function \\
 Optimistic & True, False & Optimistic initialization \\
 \bottomrule
 \end{tabular}
@@ -458,74 +478,42 @@ Optimistic & True, False & Optimistic initialization \\
     \end{table}
 
 
+The key observations from Figure (cite) is that problem 3 (cite) is way harder than problem 2 and 3.
+Even though asymmetry seems to increase performances; learning a decision tree policy for a simple grid world directly with RL using the framework of POIBMDP (cite) seem way to difficult and costly as successes might require a million steps for such a seemingly simple problem.
+An other difficulty in practice that we did not cover here is the choice of information gathering actions.
+For the grid world MDP, choosing good IGAs ($x\leq1$ and $y\leq1$) is simple but what about more complicated MDPs: how to instantiate the (PO)IBMDP action space such that internal nodes in resulting trees are useful for predictions?
+
+To go further, on Figure (cite) we re-run experiments from Figures (cite) and Figures (cite) with the top performing hyperparameters for asymmetric Q-learning (given in Appendinx (cite)). While those hyperparemeters resulted in asymmetric Q-learning returning 10 of out 10 times the optimal depth 1 tree in FIgure (cite),
+the performance don't transfer on Figure (cite) depsite higher success rates in the region $\zeta\in]0,1[$ compared to Figure (cite). 
+
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{images/images_part1/algorithm_performance_comparison_flattened.pdf}
-    \caption{Success rates of different RL algorithms over thousands of runs when applied to a POIBMDP and its fully observable IBMDP and MDP counterparts}\label{fig:po-vs-ib}
+    \includegraphics[width=0.8\textwidth]{images/images_part1/algorithm_performance_comparison_flattened.pdf}
+    \caption{Success rates of different (asymmetric) RL algorithms over thousands of runs when applied to learning partially observable deterministic policies in a POIBMDP or learning fully observable deterministic policies in associated MDP and IBMDP.}\label{fig:po-vs-ib}
 \end{figure}
 
 
-\begin{table}[h]
-    \centering
-    \begin{tabular}{|l|c|c|c|}
-    \textbf{Hyperparameter} & \textbf{Asym Q-learning (10/10)} & \textbf{Asym Sarsa (10/10)} & \textbf{PG (4/10)} \\
-    \toprule
-    epsilon\_start & 1.0 & 1.0 & - \\
-    epsilon\_decay & 0.99 & 0.99 & - \\
-    batch\_size & 1 & 1 & - \\
-    lambda\_ & 0.0 & 0.0 & - \\
-    lr\_o & 0.01 & 0.1 & - \\
-    lr\_v & 0.1 & 0.005 & - \\
-    optimistic & False & False & - \\
-    lr & - & - & 0.05 \\
-    tau & - & - & 0.1 \\
-    eps & - & - & 0.1 \\
-    n\_steps & - & - & 2000 \\
-    \bottomrule
-    \end{tabular}
-    \caption{Best hyperparameters for each algorithm on the POIBMDP problem}
-    \label{tab:algorithm-hyperparameters}
-    \end{table}
-
 \begin{figure}
-    \centering
-    \begin{subfigure}[b]{0.32\textwidth}
-        \includegraphics[width=\textwidth]{images/images_part1/hyperparameter_importance_ql_asym.pdf}
-        \caption{Hyperparameter importance for Asymmetric Q-learning}
-        \label{fig:hyperparam-importance}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{images/images_part1/ql_asym_best_learning_curves.pdf}
-        \caption{Best learning curves for Asymmetric Q-learning}
+        \caption{Learning curves for asymmetric Q-learning with good hyperparameters.}
         \label{fig:best-learning-curves}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{images/images_part1/ql_asym_best_tree_distributions.pdf}
-        \caption{Best tree distributions for Asymmetric Q-learning}
+        \caption{Trees distributions for asymmetric Q-learning with good hyperparameters}
         \label{fig:best-tree-distributions}
     \end{subfigure}
-    \caption{Asymmetric Q-learning performance analysis: hyperparameter importance, learning curves, and tree distributions across different POIBMDP configurations.}
+    \caption{Asymmetric Q-learning performance analysis using the top hyperparamters from Figure (cite): learning curves, and tree distributions across different POIBMDP configurations.}
     \label{fig:asym-ql-analysis}
 \end{figure}
 
 
-The key observations from Figure (cite) is that POIBMDPs are way harder than their IBMDPs counterparts.
-Even though asymmetry seems to increase performances; learning a decision tree policy for a simple grid world directly with RL using the framework of POIBMDP seem way to difficult and costly as successes might require a million steps for such a seemingly simple problem.
-An other difficulty in practice that we did not cover is the choice of information gathering actions.
-For the grid world MDP, choosing good IGAs ($x\leq1$ and $y\leq1$) is simple but what about more complicated MDPs? 
-Even after choosing candidate IGAs; RL with large action space is known to be an already difficult problem.
-
-It is important to note that some hyperparameter sets gave a 10/10 success rate for asymmetric baselines (c.f. Table (cite)). 
-However, when we try those top performing hyperparameters on more seeds, as shown in Figure (cite), even though we observe an increase in the proportion of depth-1 trees learned, the performance are still not satisfactory for such a simple task. 
-
 \section{Conclusion}
-In this Chapter, we have shown that direct learning of decision tree policies for MDPs can be reduced to learning deterministic partially observable policies in POMDPs. 
-We once again showed the difficulty of the latter by crafting a POIBMDP for which we know exactly the optimal deterministic partially observable policy.
-This allowed to show 1) that existing (asymmetric) RL algorithms fail to consistently learn the optimal deterministic partially observable policy (c.f. Figure (cite)) and 2) to show that for similar transitions and rewards, learning a partially observable deterministic policy is way harder than learning a fully observable one (c.f. Figure (cite)).
+In this Chapter, we have shown that direct learning of decision tree policies for MDPs can be reduced to learning deterministic partially observable policies in POMDPs that we called POIBMDPs.
+By crafting a POIBMDP for which we know exactly the optimal deterministic partially observable policy, we were able to benchmark the sub-optimality of solutions learned with (asymmetric) reinforcement learning.
 
-So interesting future work could be to design POIBMDP-specific algorithm or to find another framework for the direct learning of decision trees for MDPs.
-Overall, in the two last Chapter, it seems fair to say that indirect interpretability is more suited for MDPs
-Despite those negative conclusion, there is still some positive directions coming out of this work.
-In the next Chapter, we show that when the base MDP's transitions are independent of the action, then POIBMDPs are actually \textit{fully} observable which can lead to new decision tree induction for supervised learning.
+Across our experiments, we found that no algorithm could consistently learn a depth 1 decision tree policy for a grid world MDP despite it being optimal both in the POIBMDP and in the base MDP.
+
+In the next chapter, we find that RL can find optimal deterministic partially observable policies for a special class of POIBMDPs that we believe makes for a convincing argument as to why learning in POIBMDP, i.e. direct learning of decision tree policies that optimize the RL objective (cite) is so difficult.

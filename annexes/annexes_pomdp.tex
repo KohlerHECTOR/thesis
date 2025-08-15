@@ -226,3 +226,26 @@ Optimistic & True, False & Optimistic initialization \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|l|c|c|c|}
+    \textbf{Hyperparameter} & \textbf{Asym Q-learning (10/10)} & \textbf{Asym Sarsa (10/10)} & \textbf{PG (4/10)} \\
+    \toprule
+    epsilon\_start & 1.0 & 1.0 & - \\
+    epsilon\_decay & 0.99 & 0.99 & - \\
+    batch\_size & 1 & 1 & - \\
+    lambda\_ & 0.0 & 0.0 & - \\
+    lr\_o & 0.01 & 0.1 & - \\
+    lr\_v & 0.1 & 0.005 & - \\
+    optimistic & False & False & - \\
+    lr & - & - & 0.05 \\
+    tau & - & - & 0.1 \\
+    eps & - & - & 0.1 \\
+    n\_steps & - & - & 2000 \\
+    \bottomrule
+    \end{tabular}
+    \caption{Best hyperparameters for each algorithm on the POIBMDP problem}
+    \label{tab:algorithm-hyperparameters}
+    \end{table}
