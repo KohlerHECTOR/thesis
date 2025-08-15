@@ -868,12 +868,13 @@ This distinction in available information parallels the distinction between dyna
 
 Reinforcement learning algorithms popularized by Richard Sutton~\cite{sutton}(Figure~\ref{fig:rl-pioneers}) don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of observations ${(s_t, a_t, r_t, s_{t+1})}_t$.
 RL algorithms usually fall into two categories: value-based (cite) and policy search~\cite{pg_sutton}.
-Examples of these approaches are shown in Algorithms~\ref{alg:qlearning} and~\ref{alg:reinforce}.
-The first group of RL algorithms computes an approximation of $V^{\star}$ using temporal difference learning, while the second class leverages the policy gradient theorem to approximate $\pi^{\star}$.
+Examples of these approaches are shown in Algorithms~\ref{alg:qlearning},~\ref{alg:sarsa} and~\ref{alg:reinforce}.
+Q-learning and Sarsa compute an approximation of $Q^{\star}$ using temporal difference learning. Q-learning is \textit{off policy}, it collects new transisitions with a random policy, e.g. epsilon-greedy, while Sarsa is on policy, it collects new transitions greedily w.r.t. the current q-values estimates.
+Policy gradient algorithms leverages the policy gradient theorem to approximate $\pi^{\star}$.
 The goal of an RL algorithm (also called agent) is to learn a policy that solves a Markov decision problem(~\ref{def:mdp-obj}) without access to transitions and rewards from the MDP.
 From now on, we refer to~\ref{def:mdp-obj} as the RL objective.
 
-Both classes of algorithms are known to converge to the optimal value or (locally) optimal policy under some conditions.
+Q-learning, Sarsa, and Policy gradients are known to converge to the optimal value or (locally) optimal policy under some conditions.
 The books from Puterman~\cite{puterman}, or Sutton and Barto~\cite{sutton}, offer a great overview of MDPs and algorithms to solve them.
 There are many other ways to learn policies such as simple random search~\cite{random-search} or model-based reinforcement learning~\cite{dyna}. 
 However, not many algorithms consider the learning of policies that can be easily understood by humans which we discuss next and that is the core of this manuscript.
@@ -895,6 +896,26 @@ However, not many algorithms consider the learning of policies that can be easil
     }
     $\pi(s) = \arg\max_a Q(s,a)$ \Comment{// Extract greedy policy}
     \caption{Value-based RL (Q-Learning)}\label{alg:qlearning}
+\end{algorithm}
+
+
+\RestyleAlgo{ruled}
+\SetKwComment{Comment}{}{}
+\begin{algorithm}
+    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$}
+    \KwResult{Policy $\pi$}
+    Initialize $Q(s,a) = 0$ for all $s \in S, a \in A$ \\
+    \For{each episode}{
+        Initialize state $s_0 \sim T_0$ \\
+        \For{each step $t$}{
+            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \arg\max_a Q(s_t,a)$ with prob. $1-\epsilon$ \\
+            Take action $a_t$, observe $r_t = R(s_t,a_t)$ and $s_{t+1} \sim T(s_t,a_t)$ \\
+            $Q(s_t,a_t) \leftarrow Q(s_t,a_t) + \alpha[r_t + \gamma \max_{a'} Q(s_{t+1},a') - Q(s_t,a_t)]$ \\
+            $s_t \leftarrow s_{t+1}$ \\
+        }
+    }
+    $\pi(s) = \arg\max_a Q(s,a)$ \Comment{// Extract greedy policy}
+    \caption{Value-based RL (Sarsa)}\label{alg:sarsa}
 \end{algorithm}
 
 
