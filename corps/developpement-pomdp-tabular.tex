@@ -2,7 +2,8 @@
 
 From the previous Chapter (cite) we know that to directly learn decision trees for an MDP, one can learn a deterministic partially observable policy for an IBMDP (cite).
 Such problems are classical instances of partially observable Markov decision processes (POMDPs)~\cite{POMDP}. This connexion with POMDPs brings novel insights to direct reinforcement learning of decision tree policies. 
-In this chapter, all the decision processes presented have a finite number of vector-valued states and observations. Hence we will use bold fonts for states and observations but can still use summations rather than integrals when required.
+In this chapter, all the decision processes presented have a finite number of vector-valued states and observations.
+Hence we will use bold fonts for states and observations but can still use summations rather than integrals when required.
 
 \subsection{Partially Observable IBMDPs}
 A POMDP is an MDP where the current state is hidden; only some information about the current state is observable.
@@ -205,8 +206,6 @@ Since the probability of being in any base states at initialization given that t
     &= \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma^2)}
 \end{align*}
 \end{proof}
-
-
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{images/images_part1/objective_values_plot.pdf}
@@ -247,6 +246,18 @@ In Algorithms (cite) and (cite) we present asymmetric Q-learning and asymmetric 
 
 In (cite), authors introduce policy search algorithm (cite) that learns a (stochastic) policy $\pi:O\rightarrow\Delta A$ and a critic (cite) $V:X\rightarrow \mathbb{R}$ using Monte Carlo estimates to guide policy improvement.
 We write this algorithm that call JSJ (for the authors name Jakkola, Sing, Jordan) in Algorithm (cite). JSJ is equivalent to a tabular asymmetric policy gradient (cite) algorithm. 
+
+
+Until recently the benefits of asymmetric RL over standard RL was only shown empirically and only for history-dependent models.
+The work of Gaspard Lambrechts (cite thesis and article) proves that some asymmetric RL algorithms learn better history-dependent \textbf{or} observation-dependent policies for solving POMDPs.
+This is exactly what we wish however those algorithms are intractable in practice because they require estimation of the quantity $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$.
+We leave it to future work to use those algorithms that combine asymmetric RL and estimation of future visitations since those result are contemporary to the writing of this manuscript.
+
+We still try vanilla asymmetric Q-learning and vanilla asymmetric Policy Gradient (cite) and we already tried, in the previous chapter, modified DQN (cite) and modified PPO (cite) that are respectively Asymmetric DQN (cite) and Asymmetric (PPO) from (cite) and (cite).
+
+
+In the next section, we use those algorithms to learn decision tree policies for the grid world MDP (cite).
+
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
@@ -329,70 +340,60 @@ We write this algorithm that call JSJ (for the authors name Jakkola, Sing, Jorda
     \caption{JSJ algorithm. Uses Monte Carlo estimates of the average reawrd value functions to perform policy imporvements (cite)}\label{alg:jsj}
 \end{algorithm}
 
-Until recently the benefits of asymmetric RL over standard RL was only shown empirically and only for history-dependent models.
-The work of Gaspard Lambrechts (cite thesis and article) proves that some asymmetric RL algorithms learn better history-dependent \textbf{or} observation-dependent policies for solving POMDPs.
-This is exactly what we wish however those algorithms are intractable in practice because they require estimation of the quantity $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$.
-We leave it to future work to use those algorithms that combine asymmetric RL and estimation of future visitations since those result are contemporary to the writing of this manuscript.
-
-We still try vanilla asymmetric Q-learning and vanilla asymmetric Policy Gradient (cite) and we already tried, in the previous chapter, modified DQN (cite) and modified PPO (cite) that are respectively Asymmetric DQN (cite) and Asymmetric (PPO) from (cite) and (cite).
-
 \section{Results}
 
 Unfortunately, our results are negative and show that (asymmetric) reinforcement learning fails for the aforementioned problem. Let us understand why.
 
 \subsection{Experimental Setup}
 
-\paragraph{Baselines:} we consider two groups of RL algorithms. The first group is standard tabular RL naively applied to POIBMDPs; Q-learning (cite)(cite), Sarsa (cite)(cite), and Policy Gradient (cite)(cite).
-(cite) and (cite) already studied the theoretical and practical implications of applying standard RL directly to POMDP by considering that partial observations are full MDP states.
-(cite) proved that Q-Learning will converge but without optimality guarantees. 
-(cite) showed empirically that Sarsa-$\lambda$ (cite), a version of Sarsa with some sort of memory, can learn good deterministic solutions to POMDP which makes it a good candiate for our problem.
-
-We also use a vanilla tabular Policy Gradient baseline (cite) with softmax policy, which to the best of our knowledge, nobody studied in our setting.
+\paragraph{Baselines:} we consider two groups of RL algorithms.
+The first group is standard tabular RL naively applied to POIBMDPs; Q-learning (cite)(cite), Sarsa (cite)(cite), and Policy Gradient with a softmax policy (cite)(cite).
 In theory the Policy Gradient algorithm should not be a good candidate for our problem since it searches for stochastic policies that we showed can be better than our seeked depth-1 decision tree policy (c.f. Figure (cite)).
 
-More recently, RL algorithms were developped specially for learning policies in POMDPs. Those algorithms are called asymmetric RL which authors of the original IBMDP paper (cite) use without knowing. 
-Asymmetric algorithms leverage the fact that, even if the deployed policy should depend only on partial observation, nothing forbids the use of full state information during training if the latter is available.
-Asymmetric Q-learning (cite) makes use of full-state-action value function $U:S\times O \timesA \rightarrow \mathbb{R}$ to use as a temporal difference error target (cite) when updating the $Q:O\times A\rightarrow \mathbb{R}$ of intereset. 
-In Algorithm (cite), we write the Asymmetric Q-learning algorithm.    
-
-In addition to the traditional tabular RL algorithms, we also apply Asymmetric Q-learning and Asymmetric Sarsa and JSJ, the tabular algorithm from (cite)(cite) which is equivalent to a tabular Asymmetric Policy Gradient algorithm.
-
-We use at least 200 000 time steps to train each agent. Each agent is trained on 100 seeds on each POIBMDP.  
+In addition to the traditional tabular RL algorithms above, we also apply Asymmetric Q-learning, Asymmetric Sarsa, and JSJ (cite)(cite)(cite).
+We use at least 200 000 POIBMDP time steps per experiment. Each experiment, i.e an RL algorithm learning in a POIBMDP, is repeated 100 times.  
 
 \paragraph{Hyperparameters:} For all baselines we use, when applicable, exploration rates $\epsilon=0.3$ and learning rates $\alpha=0.1$.
 
 \paragraph{Metrics:} we will consider two metrics.
-First, the sub-optimality gap of the learned policy POIBMDP value with respect to the optimal deterministic partially observable POIBMP policy: $|V^\pi^{\star}(o_0) - V^\pi(o_0)|$
-Because we know the whole POIBMDP model that we can represent exactly as tables; and because we know for each $\zeta$ value the POIBMDP objective value of the optimal partially observable policy (c.f. Figure); we can report the \textit{exact} sub-optimality gaps.
+First, the sub-optimality gap during training of the learned partially observable policy value with respect to the optimal deterministic partially observable POIBMP policy: $|V^\pi^{\star}(o_0) - V^\pi(o_0)|$
+Because we know the whole POIBMDP model that we can represent exactly as tables; and because we know for each $\zeta$ the POIBMDP objective value of the optimal partially observable policy (c.f. Figure); we can report the \textit{exact} sub-optimality gaps.
 
-Second, we consider the distribution of the learned trees structure over the 100 training seeds.
-Indeed, since for every POIBMDP we train each baseline 100 times, we obtain 100 partially observable deterministic policies from which we can extract the equivalent 100 decision tree policies using Algorithm (cite).
-This helps understand which trees RL tend to learn.
+Second, we consider the distribution of the learned trees over the 100 training seeds.
+Indeed, since for every POIBMDP we run each algorihtm 100 times, at the end of training we get 100 partially observable deterministic policies (we compute the greedy policy for stochastic policies returned by JSJ and Policy Gradient), from which we can extract the equivalent 100 decision tree policies using Algorithm (cite) and we can count which one are of e.g. depth 1.
+This helps understand which trees RL algorithms tend to learn.
 
-\subsection{Can RL baselines find the optimal deterministic partially observable POIBMDP policies?}
+\subsection{Can (asymmetric) RL retrieve optimal deterministic partially observable POIBMDP policies?}
 
 In Figure (cite), we plot the sub-optimality gaps--averaged over 100 seeds--of learned policies during training.
-We do so for 200 different POIBMDPs where we change the reward for information gathering actions: we sample $\zeta$ uniformily in $[-1, 2]$.
-For (asymmetric) Q-learning and (asymmetric) Sarsa, we extract the greedy policies from the learned Q-functions and evaluate them every 2000 steps.
-For the Policy Gradient and the JSJ baselines we directly evaluate the learned stochastic policies.
+We do so for 200 different POIBMDPs where we change the reward for information gathering actions (cite): we sample 200 $\zeta$ values uniformily in $[-1, 2]$.
+Recall from Figure (cite) that for:
+\begin{itemize}
+    \item $\zeta\in [-1, 0]$, the optimal deterministic partiall observable policy is the depth 0 tree
+    \item $\zeta\in ]0, 1[$, the optimal deterministic partiall observable is the depth 1 tree
+    \item $\zeta\in [1, 2]$, the optimal deterministic partiall observable is the ``inifnite'' tree that contains infinite number of internal nodes.
+\end{itemize}
+In Figure (cite), a different color represents a different POIBMDP.
+We observe that, despite all experiments converging, independently of the $\zeta$ values, not all algorithms in all POIBMDPs fully minimize the sub-optimality gap.
+In particular, all RL algorithms seem to consistantly minimze the gap, i.e. learn the optimal policy or Q-function, only for $\zeta \in [1, 2]$ (all the yellow lines go to 0).
+However, we are interested in the range $\zeta\in ]0, 1[$ where the optimal decision tree is not taking the same action for ever.
+In that range, no baseline consistently minimize the sub-optimality gap.
+
 
 In Figure (cite), we plot the distributions over the final learned trees in function of $\zeta$ from the above runs.
-For the Policy Gradient and JSJ baselines, we extract the tree from the policy that is greedy w.r.t to the action probabilities as ALgorithm 6 requires a deterministic partially observable policy to return a tree policy.
-
-We observe that, despite all runs converging, independently of the $\zeta$ values, not all runs fully minimize the sub-optimality gap.
-In particular all RL algorithms seem to consistantly minimze the gap, i.e. learn the optimal policy or Q-function, for $\zeta \in [-1, 0]$, where the optimal policy is the detph-0 tree.
-For $\zeta \in [1, 2]$, where the optimal policy is to repeat taking information gathering actions, only the Q-learning baseline learns the optimal policy. 
-In $\zeta \in ]0, 1[$, where the depth-1 tree is optimal, no baseline can consistently learn the optimal solution. However, we observe that asymmetric versions of Q-learning and Sarsa have found the optimal policy more frequently than other baselines.
+For example, in Figure (cite), in the top left plot, when learning 100 times in a POIBMP with $\zeta=0.5$, Q-learning returned almost 100 times a depth 0 tree.
+Again, on none of those subplots do we see a high rate of learned depth 1 trees for $\zeta\in ]0, 1[$.
 One interpretation of this phenomenon is that the learning in POIBMDPs is very difficult and so agents tend to converge to trivial policies, e.g., repeating the same base action.
 
-Next, we quantify how difficult it is to do RL to learn policies in POIBMDPs.
+However, we observe that asymmetric versions of Q-learning and Sarsa have found the optimal policy, the depth 1 decision tree, more frequently than their symmetric counter-parts for $\zeta\in ]0, 1[$.
+Next, we quantify how difficult it is to do RL to learn partially observable policies in POIBMDPs.
+
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{images/images_part1/learning_curves.pdf}
-    \caption{Baselines learning curves of partially observable policies in POIBMDPs. 
-    In each subplot, each single learning curve is colored by the value of $\zeta$ in the corresponding POIBMDP in which learning occurs. 
+    \caption{(Asymmetric) reinforcement learning in POIBMDPs. 
+    In each subplot, each single line is colored by the value of $\zeta$ in the corresponding POIBMDP in which learning occurs. 
     Each single learning curve represent the sub-optimality gap averaged over 100 seeds.
-    So for each baseline we ran a total of $200 \times 100$ single training run.
     }\label{fig:rl-poibmdp}
 \end{figure}
 
@@ -400,8 +401,7 @@ Next, we quantify how difficult it is to do RL to learn policies in POIBMDPs.
     \centering
     \includegraphics[width=1\textwidth]{images/images_part1/tree_distributions.pdf}
     \caption{Distributions of final tree policies learned across the 100 seeds.
-    For each $\zeta$ value, there are four color points each represeting the share of depth-0 trees (red), depth-1 trees (green), unbalanced depth-2 trees (orange) and depth-2 trees (blue).
-    Note that those tres do not necessary correspond to tres in Figure (cite). We simply check the structure of trees and not if they are the best-in-class tree. 
+    For each $\zeta$ value, there are four colored points. Each point represent the share of depth-0 trees (red), depth-1 trees (green), unbalanced depth-2 trees (orange) and depth-2 trees (blue).
     }\label{fig:dt-distrib-poibmdp}
 \end{figure}
 

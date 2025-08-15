@@ -529,6 +529,7 @@ This something that will be key in our study of decision tree models that we int
     \item Each leaf node $\ell \in V$ is associated with a prediction $y_\ell \in \mathcal{Y}$, where $\mathcal{Y}$ is the output space.
     \item For any input $x \in \mathcal{X}$, the tree defines a unique path from root to leaf, determining the prediction $T(x) = y_\ell$ where $\ell$ is the reached leaf.
     \end{itemize}
+    The depth of a tree is the maximum path lentght from root to any leaf.
     \end{definition}
 
 \begin{figure}[htbp]
@@ -562,7 +563,7 @@ This something that will be key in our study of decision tree models that we int
         \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
         
     \end{tikzpicture}
-    \caption{A generic decision tree structure. Internal nodes contain test functions $f_v(x): \mathcal{X} \rightarrow \{0,1\}$ that map input features to boolean values. Edges represent the outcomes of these tests (True/False), and leaf nodes contain predictions $y_\ell \in \mathcal{Y}$. For any input $x$, the tree defines a unique path from root to leaf.}
+    \caption{A generic depth 2 decision tree with 3 nodes and 3 leaves. Internal nodes contain test functions $f_v(x): \mathcal{X} \rightarrow \{0,1\}$ that map input features to boolean values. Edges represent the outcomes of these tests (True/False), and leaf nodes contain predictions $y_\ell \in \mathcal{Y}$. For any input $x$, the tree defines a unique path from root to leaf.}
     \label{fig:dt}
 \end{figure}
 
