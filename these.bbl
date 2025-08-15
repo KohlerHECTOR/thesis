@@ -164,6 +164,44 @@
       \verb https://openreview.net/forum?id=S3FUKFMRw8
       \endverb
     \endentry
+    \entry{Atrey2020Exploratory}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=ab467bdac0c36c2ed9ca15ca7aebad14}{%
+           family={Atrey},
+           familyi={A\bibinitperiod},
+           given={Akanksha},
+           giveni={A\bibinitperiod}}}%
+        {{hash=23c9a23e53d763cb392d7d0b5e611539}{%
+           family={Clary},
+           familyi={C\bibinitperiod},
+           given={Kaleigh},
+           giveni={K\bibinitperiod}}}%
+        {{hash=95fcfcbf5ee56bd5402045905627b7a6}{%
+           family={Jensen},
+           familyi={J\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{0a7230b175608df9cd27fc70ac276afd}
+      \strng{fullhash}{0a7230b175608df9cd27fc70ac276afd}
+      \strng{bibnamehash}{0a7230b175608df9cd27fc70ac276afd}
+      \strng{authorbibnamehash}{0a7230b175608df9cd27fc70ac276afd}
+      \strng{authornamehash}{0a7230b175608df9cd27fc70ac276afd}
+      \strng{authorfullhash}{0a7230b175608df9cd27fc70ac276afd}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International Conference on Learning Representations}
+      \field{title}{Exploratory Not Explanatory: Counterfactual Analysis of Saliency Maps for Deep Reinforcement Learning}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://openreview.net/forum?id=rkl3m1BFDB
+      \endverb
+      \verb{url}
+      \verb https://openreview.net/forum?id=rkl3m1BFDB
+      \endverb
+    \endentry
     \entry{lens-complexity}{article}{}
       \name{author}{4}{}{%
         {{hash=1b311c76b1d53d7a7ea31d940e188e80}{%
@@ -282,6 +320,27 @@
       \field{year}{2013}
       \field{pages}{253\bibrangedash 279}
       \range{pages}{27}
+    \endentry
+    \entry{Bellman}{book}{}
+      \name{author}{1}{}{%
+        {{hash=7bb51e859e70aaedef4ed1f3bb67779b}{%
+           family={Bellman},
+           familyi={B\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{7bb51e859e70aaedef4ed1f3bb67779b}
+      \strng{fullhash}{7bb51e859e70aaedef4ed1f3bb67779b}
+      \strng{bibnamehash}{7bb51e859e70aaedef4ed1f3bb67779b}
+      \strng{authorbibnamehash}{7bb51e859e70aaedef4ed1f3bb67779b}
+      \strng{authornamehash}{7bb51e859e70aaedef4ed1f3bb67779b}
+      \strng{authorfullhash}{7bb51e859e70aaedef4ed1f3bb67779b}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Dynamic Programming}
+      \field{year}{1957}
     \endentry
     \entry{pmlr-v28-bergstra13}{article}{}
       \name{author}{3}{}{%
@@ -486,6 +545,49 @@
       \field{labeltitlesource}{title}
       \field{title}{The Laws of Thought}
       \field{year}{1854}
+    \endentry
+    \entry{fmdp}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=049505423af7aff38a0e953619ee8317}{%
+           family={Boutilier},
+           familyi={B\bibinitperiod},
+           given={Craig},
+           giveni={C\bibinitperiod}}}%
+        {{hash=5eac58f71e450d96418f25079668603b}{%
+           family={Dearden},
+           familyi={D\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+        {{hash=6c75df9b672d8e5bb7e99b40aa6501bc}{%
+           family={Goldszmidt},
+           familyi={G\bibinitperiod},
+           given={Moises},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Montreal, Quebec, Canada}%
+      }
+      \list{publisher}{1}{%
+        {Morgan Kaufmann Publishers Inc.}%
+      }
+      \strng{namehash}{601e6fd38db4db79b2b15fe09836fd8c}
+      \strng{fullhash}{601e6fd38db4db79b2b15fe09836fd8c}
+      \strng{bibnamehash}{601e6fd38db4db79b2b15fe09836fd8c}
+      \strng{authorbibnamehash}{601e6fd38db4db79b2b15fe09836fd8c}
+      \strng{authornamehash}{601e6fd38db4db79b2b15fe09836fd8c}
+      \strng{authorfullhash}{601e6fd38db4db79b2b15fe09836fd8c}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Markov decision processes (MDPs) have recently been applied to the problem of modeling decision-theoretic planning. While traditional methods for solving MDPs are often practical for small states spaces, their effectiveness for large AI planning problems is questionable. We present an algorithm, called structured policy Iteration (SPI), that constructs optimal policies without explicit enumeration of the state space. The algorithm retains the fundamental computational steps of the commonly used modified policy iteration algorithm, but exploits the variable and prepositional independencies reflected in a temporal Bayesian network representation of MDPs. The principles behind SPI can be applied to any structured representation of stochastic actions, policies and value functions, and the algorithm itself can be used in conjunction with recent approximation methods.}
+      \field{booktitle}{Proceedings of the 14th International Joint Conference on Artificial Intelligence - Volume 2}
+      \field{isbn}{1558603638}
+      \field{series}{IJCAI'95}
+      \field{title}{Exploiting structure in policy construction}
+      \field{year}{1995}
+      \field{pages}{1104\bibrangedash 1111}
+      \range{pages}{8}
     \endentry
     \entry{breiman1984classification}{book}{}
       \name{author}{4}{}{%
@@ -2881,6 +2983,138 @@
       \field{pages}{329\bibrangedash 348}
       \range{pages}{20}
     \endentry
+    \entry{shap}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=2a1075150e1e1dad8127b019f7ca9031}{%
+           family={Lundberg},
+           familyi={L\bibinitperiod},
+           given={Scott\bibnamedelima M.},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=ee964079d93879aaef2382a5fff343d3}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Su-In},
+           giveni={S\bibinithyphendelim I\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Long Beach, California, USA}%
+      }
+      \list{publisher}{1}{%
+        {Curran Associates Inc.}%
+      }
+      \strng{namehash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{fullhash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{bibnamehash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{authorbibnamehash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{authornamehash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{authorfullhash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Understanding why a model makes a certain prediction can be as crucial as the prediction's accuracy in many applications. However, the highest accuracy for large modern datasets is often achieved by complex models that even experts struggle to interpret, such as ensemble or deep learning models, creating a tension between accuracy and interpretability. In response, various methods have recently been proposed to help users interpret the predictions of complex models, but it is often unclear how these methods are related and when one method is preferable over another. To address this problem, we present a unified framework for interpreting predictions, SHAP (SHapley Additive exPlanations). SHAP assigns each feature an importance value for a particular prediction. Its novel components include: (1) the identification of a new class of additive feature importance measures, and (2) theoretical results showing there is a unique solution in this class with a set of desirable properties. The new class unifies six existing methods, notable because several recent methods in the class lack the proposed desirable properties. Based on insights from this unification, we present new methods that show improved computational performance and/or better consistency with human intuition than previous approaches.}
+      \field{booktitle}{Proceedings of the 31st International Conference on Neural Information Processing Systems}
+      \field{isbn}{9781510860964}
+      \field{series}{NIPS'17}
+      \field{title}{A unified approach to interpreting model predictions}
+      \field{year}{2017}
+      \field{pages}{4768\bibrangedash 4777}
+      \range{pages}{10}
+    \endentry
+    \entry{madumal}{article}{}
+      \name{author}{4}{}{%
+        {{hash=d76c44c9feff91588db53fa620c0934f}{%
+           family={Madumal},
+           familyi={M\bibinitperiod},
+           given={Prashan},
+           giveni={P\bibinitperiod}}}%
+        {{hash=c41411769fd972add78f7652d57a6afc}{%
+           family={Miller},
+           familyi={M\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod}}}%
+        {{hash=8debdf080e5922de36253d0b2e8bf47d}{%
+           family={Sonenberg},
+           familyi={S\bibinitperiod},
+           given={Liz},
+           giveni={L\bibinitperiod}}}%
+        {{hash=3565c89055aefece6f20084d824e75df}{%
+           family={Vetere},
+           familyi={V\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{aa8ad3ce34a2415b87ebcea7880d935b}
+      \strng{fullhash}{bf80f01c42792c22c2a2c493ef658060}
+      \strng{bibnamehash}{aa8ad3ce34a2415b87ebcea7880d935b}
+      \strng{authorbibnamehash}{aa8ad3ce34a2415b87ebcea7880d935b}
+      \strng{authornamehash}{aa8ad3ce34a2415b87ebcea7880d935b}
+      \strng{authorfullhash}{bf80f01c42792c22c2a2c493ef658060}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the AAAI Conference on Artificial Intelligence}
+      \field{month}{4}
+      \field{number}{03}
+      \field{title}{Explainable Reinforcement Learning through a Causal Lens}
+      \field{volume}{34}
+      \field{year}{2020}
+      \field{pages}{2493\bibrangedash 2500}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1609/aaai.v34i03.5631
+      \endverb
+      \verb{urlraw}
+      \verb https://ojs.aaai.org/index.php/AAAI/article/view/5631
+      \endverb
+      \verb{url}
+      \verb https://ojs.aaai.org/index.php/AAAI/article/view/5631
+      \endverb
+    \endentry
+    \entry{random-search}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=c9a92d36b8abe1d608f3669f77008540}{%
+           family={Mania},
+           familyi={M\bibinitperiod},
+           given={Horia},
+           giveni={H\bibinitperiod}}}%
+        {{hash=8bc2c63cf1c4c6e9e4d317839dda4de2}{%
+           family={Guy},
+           familyi={G\bibinitperiod},
+           given={Aurelia},
+           giveni={A\bibinitperiod}}}%
+        {{hash=3503059e1c0c778913607c87d8c5173a}{%
+           family={Recht},
+           familyi={R\bibinitperiod},
+           given={Benjamin},
+           giveni={B\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Montr\'{e}al, Canada}%
+      }
+      \list{publisher}{1}{%
+        {Curran Associates Inc.}%
+      }
+      \strng{namehash}{4671a6a5c43e8f8468962c189b1745f5}
+      \strng{fullhash}{4671a6a5c43e8f8468962c189b1745f5}
+      \strng{bibnamehash}{4671a6a5c43e8f8468962c189b1745f5}
+      \strng{authorbibnamehash}{4671a6a5c43e8f8468962c189b1745f5}
+      \strng{authornamehash}{4671a6a5c43e8f8468962c189b1745f5}
+      \strng{authorfullhash}{4671a6a5c43e8f8468962c189b1745f5}
+      \field{extraname}{1}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Model-free reinforcement learning aims to offer off-the-shelf solutions for controlling dynamical systems without requiring models of the system dynamics. We introduce a model-free random search algorithm for training static, linear policies for continuous control problems. Common evaluation methodology shows that our method matches state-of-the-art sample efficiency on the benchmark MuJoCo locomotion tasks. Nonetheless, more rigorous evaluation reveals that the assessment of performance on these benchmarks is optimistic. We evaluate the performance of our method over hundreds of random seeds and many different hyperparameter configurations for each benchmark task. This extensive evaluation is possible because of the small computational footprint of our method. Our simulations highlight a high variability in performance in these benchmark tasks, indicating that commonly used estimations of sample efficiency do not adequately evaluate the performance of RL algorithms. Our results stress the need for new baselines, benchmarks and evaluation methodology for RL algorithms.}
+      \field{booktitle}{Proceedings of the 32nd International Conference on Neural Information Processing Systems}
+      \field{series}{NIPS'18}
+      \field{title}{Simple random search of static linear policies is competitive for reinforcement learning}
+      \field{year}{2018}
+      \field{pages}{1805\bibrangedash 1814}
+      \range{pages}{10}
+    \endentry
     \entry{empirical-evidence}{article}{}
       \name{author}{3}{}{%
         {{hash=c9a92d36b8abe1d608f3669f77008540}{%
@@ -2943,6 +3177,7 @@
       \strng{editorbibnamehash}{233f4c9ba2f85af3db1eed171136508c}
       \strng{editornamehash}{233f4c9ba2f85af3db1eed171136508c}
       \strng{editorfullhash}{f08403ac24c2e0a0ae72822c0c0afda6}
+      \field{extraname}{2}
       \field{sortinit}{M}
       \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
       \field{labelnamesource}{author}
@@ -3753,6 +3988,64 @@
       \field{pages}{6639\bibrangedash 6649}
       \range{pages}{11}
     \endentry
+    \entry{Puri2020Explain}{inproceedings}{}
+      \name{author}{7}{}{%
+        {{hash=377a66549f72fae2cac24ae1fab9649d}{%
+           family={Puri},
+           familyi={P\bibinitperiod},
+           given={Nikaash},
+           giveni={N\bibinitperiod}}}%
+        {{hash=f48485b811df3a5ca6ea4693840e37ac}{%
+           family={Verma},
+           familyi={V\bibinitperiod},
+           given={Sukriti},
+           giveni={S\bibinitperiod}}}%
+        {{hash=150ff686967aca218104fe61281682b3}{%
+           family={Gupta},
+           familyi={G\bibinitperiod},
+           given={Piyush},
+           giveni={P\bibinitperiod}}}%
+        {{hash=c036b966f63ba42c0aedb6bd209f945b}{%
+           family={Kayastha},
+           familyi={K\bibinitperiod},
+           given={Dhruv},
+           giveni={D\bibinitperiod}}}%
+        {{hash=f353d7edccf20e742e2654790f39e5d1}{%
+           family={Deshmukh},
+           familyi={D\bibinitperiod},
+           given={Shripad},
+           giveni={S\bibinitperiod}}}%
+        {{hash=bd749c8ac5ee21436048de365e0981c5}{%
+           family={Krishnamurthy},
+           familyi={K\bibinitperiod},
+           given={Balaji},
+           giveni={B\bibinitperiod}}}%
+        {{hash=0b9694812f0dc77974d99bb875a76d48}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Sameer},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{87bf9c5b864eba1982e83fdbe5eb8541}
+      \strng{fullhash}{78e32f98567079591a20dff183d52d86}
+      \strng{bibnamehash}{87bf9c5b864eba1982e83fdbe5eb8541}
+      \strng{authorbibnamehash}{87bf9c5b864eba1982e83fdbe5eb8541}
+      \strng{authornamehash}{87bf9c5b864eba1982e83fdbe5eb8541}
+      \strng{authorfullhash}{78e32f98567079591a20dff183d52d86}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International Conference on Learning Representations}
+      \field{title}{Explain Your Move: Understanding Agent Actions Using Specific and Relevant Feature Attribution}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://openreview.net/forum?id=SJgzLkBKPB
+      \endverb
+      \verb{url}
+      \verb https://openreview.net/forum?id=SJgzLkBKPB
+      \endverb
+    \endentry
     \entry{puterman}{book}{}
       \name{author}{1}{}{%
         {{hash=b4258b9291d903d97b69d703eebf790a}{%
@@ -4370,6 +4663,61 @@
       \endverb
       \keyw{Machine learning,Clinical outcome,Predictive model,Deep neural network}
     \endentry
+    \entry{attention}{article}{}
+      \name{author}{6}{}{%
+        {{hash=6dd0c2ded902b0a6ba5e646508f89d6f}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={Wenjie},
+           giveni={W\bibinitperiod}}}%
+        {{hash=0d12f90a1d1945cb1b98f583c9dc9572}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Gao},
+           giveni={G\bibinitperiod}}}%
+        {{hash=1184f58bd9293ce5d9a8b33fa6c10d9e}{%
+           family={Song},
+           familyi={S\bibinitperiod},
+           given={Shiji},
+           giveni={S\bibinitperiod}}}%
+        {{hash=6d5c0c7fb3a34127605e511eac619894}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Zhuoyuan},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=c4732368f49cf8187020e983a4af124b}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Tingyu},
+           giveni={T\bibinitperiod}}}%
+        {{hash=9ec1d35ff9048459d8d4b29365fe0508}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Cheng},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{d00ecc5d8af10ec8d45d1ee755e67a6c}
+      \strng{fullhash}{ec9b3522c900032099d708e8b0695141}
+      \strng{bibnamehash}{d00ecc5d8af10ec8d45d1ee755e67a6c}
+      \strng{authorbibnamehash}{d00ecc5d8af10ec8d45d1ee755e67a6c}
+      \strng{authornamehash}{d00ecc5d8af10ec8d45d1ee755e67a6c}
+      \strng{authorfullhash}{ec9b3522c900032099d708e8b0695141}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Pattern Analysis and Machine Intelligence}
+      \field{number}{5}
+      \field{title}{Self-Supervised Discovering of Interpretable Features for Reinforcement Learning}
+      \field{volume}{44}
+      \field{year}{2022}
+      \field{pages}{2712\bibrangedash 2724}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1109/TPAMI.2020.3037898
+      \endverb
+      \keyw{Task analysis;Decision making;Perturbation methods;Reinforcement learning;Jacobian matrices;Visualization;Games;Deep reinforcement learning;interpretability;attention map;decision-making process}
+    \endentry
     \entry{shindo2024blendrl}{article}{}
       \name{author}{4}{}{%
         {{hash=e841b1816d7ddd67fdf4c2560ecd9243}{%
@@ -4501,6 +4849,158 @@
       \verb https://arxiv.org/abs/2106.01342
       \endverb
     \endentry
+    \entry{POMDP}{article}{}
+      \name{author}{1}{}{%
+        {{hash=96bc98b52dcec17421d6db92e2f9d83e}{%
+           family={Sondik},
+           familyi={S\bibinitperiod},
+           given={Edward\bibnamedelima J.},
+           giveni={E\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {INFORMS}%
+      }
+      \strng{namehash}{96bc98b52dcec17421d6db92e2f9d83e}
+      \strng{fullhash}{96bc98b52dcec17421d6db92e2f9d83e}
+      \strng{bibnamehash}{96bc98b52dcec17421d6db92e2f9d83e}
+      \strng{authorbibnamehash}{96bc98b52dcec17421d6db92e2f9d83e}
+      \strng{authornamehash}{96bc98b52dcec17421d6db92e2f9d83e}
+      \strng{authorfullhash}{96bc98b52dcec17421d6db92e2f9d83e}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper treats the discounted cost, optimal control problem for Markov processes with incomplete state information. The optimization approach for these partially observable Markov processes is a generalization of the well-known policy iteration technique for finding optimal stationary policies for completely observable Markov processes. The state space for the problem is the space of state occupancy probability distributions (the unit simplex). The development of the algorithm introduces several new ideas, including the class of finitely transient policies, which are shown to possess piecewise linear cost functions. The paper develops easily implemented approximations to stationary policies based on these finitely transient policies and shows that the concave hull of an approximation can be included in the well-known Howard policy improvement algorithm with subsequent convergence. The paper closes with a detailed example illustrating the application of the algorithm to the two-state partially observable Markov process.}
+      \field{issn}{0030364X, 15265463}
+      \field{journaltitle}{Operations Research}
+      \field{number}{2}
+      \field{title}{The Optimal Control of Partially Observable Markov Processes Over the Infinite Horizon: Discounted Costs}
+      \field{urlday}{14}
+      \field{urlmonth}{8}
+      \field{urlyear}{2025}
+      \field{volume}{26}
+      \field{year}{1978}
+      \field{urldateera}{ce}
+      \field{pages}{282\bibrangedash 304}
+      \range{pages}{23}
+      \verb{urlraw}
+      \verb http://www.jstor.org/stable/169635
+      \endverb
+      \verb{url}
+      \verb http://www.jstor.org/stable/169635
+      \endverb
+    \endentry
+    \entry{pg_sutton}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=eb920e5277d3d5fd0903f3cd41e11871}{%
+           family={Sutton},
+           familyi={S\bibinitperiod},
+           given={Richard\bibnamedelima S},
+           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=09a4af5c985fc9a46727803f19cd8272}{%
+           family={McAllester},
+           familyi={M\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=74d941c38e5affcd359ed5814815805f}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Satinder},
+           giveni={S\bibinitperiod}}}%
+        {{hash=ad31daafb6eb6186dd51ffeae5196ec0}{%
+           family={Mansour},
+           familyi={M\bibinitperiod},
+           given={Yishay},
+           giveni={Y\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=b355381619d6a313804fe1e82c3c5d5e}{%
+           family={Solla},
+           familyi={S\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=d0fa2183d141c3c709a512cab4fee1b2}{%
+           family={Leen},
+           familyi={L\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=45d0bd8fb04f1a74dbec720c7ccf750e}{%
+           family={M\"{u}ller},
+           familyi={M\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press}%
+      }
+      \strng{namehash}{176c86aa36fab51e81d033c2d8ea8cbe}
+      \strng{fullhash}{6b36fd87902dbca910efbc0f913a7749}
+      \strng{bibnamehash}{176c86aa36fab51e81d033c2d8ea8cbe}
+      \strng{authorbibnamehash}{176c86aa36fab51e81d033c2d8ea8cbe}
+      \strng{authornamehash}{176c86aa36fab51e81d033c2d8ea8cbe}
+      \strng{authorfullhash}{6b36fd87902dbca910efbc0f913a7749}
+      \strng{editorbibnamehash}{fa42941c20b5f08a036d8fc84cd1cdf0}
+      \strng{editornamehash}{fa42941c20b5f08a036d8fc84cd1cdf0}
+      \strng{editorfullhash}{fa42941c20b5f08a036d8fc84cd1cdf0}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in Neural Information Processing Systems}
+      \field{title}{Policy Gradient Methods for Reinforcement Learning with Function Approximation}
+      \field{volume}{12}
+      \field{year}{1999}
+      \verb{urlraw}
+      \verb https://proceedings.neurips.cc/paper_files/paper/1999/file/464d828b85b0bed98e80ade0a5c43b0f-Paper.pdf
+      \endverb
+      \verb{url}
+      \verb https://proceedings.neurips.cc/paper_files/paper/1999/file/464d828b85b0bed98e80ade0a5c43b0f-Paper.pdf
+      \endverb
+    \endentry
+    \entry{dyna}{article}{}
+      \name{author}{1}{}{%
+        {{hash=eb920e5277d3d5fd0903f3cd41e11871}{%
+           family={Sutton},
+           familyi={S\bibinitperiod},
+           given={Richard\bibnamedelima S.},
+           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computing Machinery}%
+      }
+      \strng{namehash}{eb920e5277d3d5fd0903f3cd41e11871}
+      \strng{fullhash}{eb920e5277d3d5fd0903f3cd41e11871}
+      \strng{bibnamehash}{eb920e5277d3d5fd0903f3cd41e11871}
+      \strng{authorbibnamehash}{eb920e5277d3d5fd0903f3cd41e11871}
+      \strng{authornamehash}{eb920e5277d3d5fd0903f3cd41e11871}
+      \strng{authorfullhash}{eb920e5277d3d5fd0903f3cd41e11871}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Dyna is an AI architecture that integrates learning, planning, and reactive execution. Learning methods are used in Dyna both for compiling planning results and for updating a model of the effects of the agent's actions on the world. Planning is incremental and can use the probabilistic and ofttimes incorrect world models generated by learning processes. Execution is fully reactive in the sense that no planning intervenes between perception and action. Dyna relies on machine learning methods for learning from examples---these are among the basic building blocks making up the architecture---yet is not tied to any particular method. This paper briefly introduces Dyna and discusses its strengths and weaknesses with respect to other architectures.}
+      \field{issn}{0163-5719}
+      \field{journaltitle}{SIGART Bull.}
+      \field{month}{7}
+      \field{number}{4}
+      \field{title}{Dyna, an integrated architecture for learning, planning, and reacting}
+      \field{volume}{2}
+      \field{year}{1991}
+      \field{pages}{160\bibrangedash 163}
+      \range{pages}{4}
+      \verb{doi}
+      \verb 10.1145/122344.122377
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/122344.122377
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/122344.122377
+      \endverb
+    \endentry
     \entry{sutton}{book}{}
       \name{author}{2}{}{%
         {{hash=eb920e5277d3d5fd0903f3cd41e11871}{%
@@ -4532,6 +5032,50 @@
       \field{labeltitlesource}{title}
       \field{title}{Reinforcement Learning: {A}n Introduction}
       \field{year}{1998}
+    \endentry
+    \entry{td-gammon}{article}{}
+      \name{author}{1}{}{%
+        {{hash=778694b9dda05914a1456df10efb774c}{%
+           family={Tesauro},
+           familyi={T\bibinitperiod},
+           given={Gerald},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computing Machinery}%
+      }
+      \strng{namehash}{778694b9dda05914a1456df10efb774c}
+      \strng{fullhash}{778694b9dda05914a1456df10efb774c}
+      \strng{bibnamehash}{778694b9dda05914a1456df10efb774c}
+      \strng{authorbibnamehash}{778694b9dda05914a1456df10efb774c}
+      \strng{authornamehash}{778694b9dda05914a1456df10efb774c}
+      \strng{authorfullhash}{778694b9dda05914a1456df10efb774c}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Ever since the days of Shannon's proposal for a chess-playing algorithm [12] and Samuel's checkers-learning program [10] the domain of complex board games such as Go, chess, checkers, Othello, and backgammon has been widely regarded as an ideal testing ground for exploring a variety of concepts and approaches in artificial intelligence and machine learning. Such board games offer the challenge of tremendous complexity and sophistication required to play at expert level. At the same time, the problem inputs and performance measures are clear-cut and well defined, and the game environment is readily automated in that it is easy to simulate the board, the rules of legal play, and the rules regarding when the game is over and determining the outcome.}
+      \field{issn}{0001-0782}
+      \field{journaltitle}{Commun. ACM}
+      \field{month}{3}
+      \field{number}{3}
+      \field{title}{Temporal difference learning and TD-Gammon}
+      \field{volume}{38}
+      \field{year}{1995}
+      \field{pages}{58\bibrangedash 68}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1145/203330.203343
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/203330.203343
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/203330.203343
+      \endverb
     \endentry
     \entry{mujoco}{article}{}
       \name{author}{3}{}{%
@@ -5225,6 +5769,7 @@
       \strng{authorbibnamehash}{4d3d13ea77f4aa6683b9b9db29489cf9}
       \strng{authornamehash}{4d3d13ea77f4aa6683b9b9db29489cf9}
       \strng{authorfullhash}{da15029585e97b1955073ab1b635154d}
+      \field{extraname}{1}
       \field{sortinit}{W}
       \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
       \field{labelnamesource}{author}
@@ -5241,6 +5786,78 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/2401.14461
+      \endverb
+    \endentry
+    \entry{parbhoo}{article}{}
+      \name{author}{8}{}{%
+        {{hash=33bee2d30dd5a612712e3d8beba79029}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Mike},
+           giveni={M\bibinitperiod}}}%
+        {{hash=c6606e9570fb90f19818699b15a003e5}{%
+           family={Parbhoo},
+           familyi={P\bibinitperiod},
+           given={Sonali},
+           giveni={S\bibinitperiod}}}%
+        {{hash=f6e03cc60aaa26aa3dc5630d8dc53cde}{%
+           family={Hughes},
+           familyi={H\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=93adf49e3b200dc5cd0cdf8587686f93}{%
+           family={Kindle},
+           familyi={K\bibinitperiod},
+           given={Ryan},
+           giveni={R\bibinitperiod}}}%
+        {{hash=57122ac34e51323d4497792c08a51a55}{%
+           family={Celi},
+           familyi={C\bibinitperiod},
+           given={Leo},
+           giveni={L\bibinitperiod}}}%
+        {{hash=3cce86b43224f4dd770c52a88f28d8f9}{%
+           family={Zazzi},
+           familyi={Z\bibinitperiod},
+           given={Maurizio},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3197334999b3b592056a5406aba8b9a3}{%
+           family={Roth},
+           familyi={R\bibinitperiod},
+           given={Volker},
+           giveni={V\bibinitperiod}}}%
+        {{hash=b01a5e92cd39a5551d74ab2393c7b9fd}{%
+           family={Doshi-Velez},
+           familyi={D\bibinithyphendelim V\bibinitperiod},
+           given={Finale},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{ad70d13707a3a5d50603a321af0c95fc}
+      \strng{fullhash}{a77652d130391b8a0fb1cfaedca64882}
+      \strng{bibnamehash}{ad70d13707a3a5d50603a321af0c95fc}
+      \strng{authorbibnamehash}{ad70d13707a3a5d50603a321af0c95fc}
+      \strng{authornamehash}{ad70d13707a3a5d50603a321af0c95fc}
+      \strng{authorfullhash}{a77652d130391b8a0fb1cfaedca64882}
+      \field{extraname}{2}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the AAAI Conference on Artificial Intelligence}
+      \field{month}{4}
+      \field{number}{04}
+      \field{title}{Regional Tree Regularization for Interpretability in Deep Neural Networks}
+      \field{volume}{34}
+      \field{year}{2020}
+      \field{pages}{6413\bibrangedash 6421}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1609/aaai.v34i04.6112
+      \endverb
+      \verb{urlraw}
+      \verb https://ojs.aaai.org/index.php/AAAI/article/view/6112
+      \endverb
+      \verb{url}
+      \verb https://ojs.aaai.org/index.php/AAAI/article/view/6112
       \endverb
     \endentry
     \entry{hierarchical}{article}{}
@@ -5367,6 +5984,8 @@
   \missing{IBMDP}
   \missing{McTavish_Zhong_Achermann_Karimalis_Chen_Rudin_Seltzer_2022}
   \missing{cart}
+  \missing{def:mdp}
+  \missing{gautron2023learning}
   \missing{kohler2024interpretable}
   \missing{kohler2024interpretableeditableprogrammatictree}
   \missing{marton2024sympolsymbolictreebasedonpolicy}
