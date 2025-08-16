@@ -31,25 +31,28 @@ In the next section we present IBMDPs as introduced in Topin et. al.\cite{topin2
 \section{Iterative Bounding Markov Decision Processes}\label{sec:ibmdp}
 
 The key thing to know about IBMDPs is that they are, as their name suggests, MDPs.
-Hence, IBMPDs inherit MDPs properties such as existence of an optimal deterministic Markovian policy for problem (cite).
-The states in an IBMDP are concatenations of the base MDP states and some observations. Those observations are information about the base states that are refined--``iteratively bounded''-- at each step and represent a subspace of the base MDP state space.
+Hence, IBMDPs admits an optimal deterministic Markovian policy for problem (\ref{def:mdp-obj}).
+In this part we will assume that all the MDP we consider are factored MDPs \ref{def:fmdp} so we use bold fonts for states and observations as they are vector-valued.
+Given an MDP for which we want to learn a decision tree policy, that we call the base MDP, the states in an associated IBMDP are concatenations of the base MDP states and some observations. 
+Those observations are information about the base states that are refined--``iteratively bounded''-- at each step and represent a subspace of the base MDP state space.
 Actions available in an IBMDP are the actions of the base MDP, that change the state of the latter, and \textit{information gathering} actions that change the observation part of the IBMDP state.
-Now, taking base actions in an IBMDP is rewarded like in the base MDP, this ensures that the base objective, e.g. balancing the pole or treating cancer, is still encoded in the IBMDP reward. When taking an information gathering action, the reward is an arbitrary value supposed to balance performance and interpretability.
+Now, taking base actions in an IBMDP is rewarded like in the base MDP, this ensures that the base objective, e.g. balancing the pole or treating cancer, is still encoded in the IBMDP reward.
+When taking an information gathering action, the reward is an arbitrary value such that optimizing (\ref{def:mdp-obj}) in the IBMDP is equivalent to optimizing (\ref{def:mdp-obj}) in the base MDP \texit{and} some interpretability measure.
  
-Before showing how to get decision tree policies from IBMDP policies, we give a formal definition of IBMDPs following Topin et. al. (cite).
+Before showing how to get decision tree policies from IBMDP policies, we give a formal definition of IBMDPs following Topin et. al.~\cite{topin2021iterative}.
 
-\begin{definition}[Iterative Bounding Markov decision process]
-Given a \textit{factored} (cite) MDP $\mathcal{M}$ (cite) $\langle S, A, R, T, T_0 \rangle$, an associated Iterative Bouding MDP $\mathcal{M}_{IB}$ is a tuple:
+\begin{definition}[Iterative Bounding Markov decision process]\label{def:ibmdp}
+Given a \textit{factored} MDP $\mathcal{M}$ $\langle S, A, R, T, T_0 \rangle$ (\ref{def:fmdp}), an associated iterative bouding Markov decision process $\mathcal{M}_{IB}$ is a tuple:
 \begin{align*}
     \langle \overbrace{S \times O}^{\text{State space}}, \underbrace{A \cup A_{info}}_{\text{Action space}}, \overbrace{(R, \zeta)}^{\text{Reward function}}, \underbrace{(T_{info}, T, T_0)}_{\text{Transitions}}\rangle
 \end{align*}
 
 \begin{itemize}
-\item $S$ the base MDP factored state space. A state $\boldsymbol{s} = (s_1, \dots, s_n)\in S$ has $n$ bounded features $s_i \in [L_i, U_i]$ where $\infty < L_i \leq U_i < \infty \forall 1\leq i \leq n$.
-\item $O$ are the observations in an IBMDP. They are partial information about the base MDP state features. The set of observations is the bounds of the state features bounds: $O\subsetneq S^2 =  [L_1, U_1]\times \dots \times [L_n, U_n] \times [L_1, U_1]\times \dots \times [L_n, U_n]$. So the complete IBMDP state space is $S \times O$ the concatenations of state features and observations.
+\item $S$ is the base MDP factored state space. A state $\boldsymbol{s} = (s_1, \dots, s_n)\in S$ has $n$ bounded features $s_i \in [L_i, U_i]$ where $\infty < L_i \leq U_i < \infty \forall 1\leq i \leq n$.
+\item $O$ are the observations in an IBMDP. They are partial information about the base MDP state features. The set of observations is the current features bounds: $O\subsetneq S^2 =  [L_1, U_1]\times \dots \times [L_n, U_n] \times [L_1, U_1]\times \dots \times [L_n, U_n]$. So the complete IBMDP state space is $S \times O$, the concatenations of base state features and observations.
 \item $A$ is the base MDP actions set.
 \item $A_{info}$ are \textit{information gathering} actions (IGAs) of the form $\langle i, v \rangle$ where $i$ is a state feature index $1 \leq i \leq n$ and $v$ is a real number. So the complete action space of an IBMDP is the set of base MDP actions and information gathering actions $A \cup A_{info}$.
-\item $R: S\times A \rightarrow \mathbb{R}$ is the base MDP reward function that maps base states and actions to a real-valued reward signal.
+\item $R: S\times A \rightarrow \mathbb{R}$ is the base MDP reward function.
 \item $\zeta$ is a reward signal for taking an information gathering action. So the IBMDP reward function is to get a reward from the base MDP if the action is a base MDP action or to get $\zeta$ if the action is an IGA action.
 \item $T_{info}: S\times O \times( A_{info} \cup A )\rightarrow \Delta (S\times O)$ is the transition kernel of IBMDPs: 
 Given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_n, U'_n) \in O$ and state features $\boldsymbol{s}_t=(s'_1, s'_2, \dots, s'_n)$ if an IGA $\langle i, v \rangle$ is taken, the new observation is:
@@ -59,7 +62,7 @@ Given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_n, U'_n) \in O
         (L'_1, U'_1, \dots , \max\{v, L'_i\}, U'_i, \dots , L''_n, U'_n) \text{ if } s_i > v
     \end{cases}
 \end{align*}
-If a base action $a_t\in A$ is taken, the new observation is the default state bounds $(L_1, U_1,\dots, L_n, U_n)$ and the state features change according to the base MDP transitition kernel: $\boldsymbol{s}_{t+1}\sim T(\boldsymbol{s}_t, a_t)$.
+If a base action $a_t\in A$ is taken, the new observation is reset to the default state bounds $(L_1, U_1,\dots, L_n, U_n)$ and the state features change according to the base MDP transitition kernel: $\boldsymbol{s}_{t+1}\sim T(\boldsymbol{s}_t, a_t)$.
 At initialization, the base state features are drawn from the base MDP $T_0$ and the observation is always set to the default state features bounds $\boldsymbol{o}_0=(L_1, U_1,\dots, L_n, U_n)$.
 \end{itemize}
 \end{definition}
@@ -68,16 +71,17 @@ Now remains to extract a decision tree policy for MDP $\mathcal{M}$ from a polic
 
 \subsection{From Policies to Trees}
 
-One can notice that information gathering actions resemble the Boolean functions that make up internal decision tree nodes (cite).
-Indeed, a policy taking actions in an IBMDP essentially builds a tree by taking sequences of IGAs (internal nodes) and then a base action (leaf node) and repeats this process over time.
+One can notice that information gathering actions (\ref{def:ibmdp}) resemble the Boolean functions that make up internal decision tree nodes (c.f. Figure \ref{fig:dt}).
+Indeed, a policy taking actions in an IBMDP essentially builds a tree by taking sequences of IGAs (internal nodes) and then a base action to act in the base MDP (leaf node) and repeats this process over time.
 
-However, authors from (cite) show that not all IBMDP policies are decision tree policies.
-In particular they show that only deterministic policies depending solely on the observation part of the IBMDP states are guaranteed to correspond to decision tree policies for the base MDP.
+However, authors from \cite{topin2021iterative} show that not all IBMDP policies are decision tree policies.
+In particular, they show that only deterministic policies depending solely on the observation part of the IBMDP states are guaranteed to correspond to decision tree policies for the base MDP.
 
-\begin{proposition}[Deterministic partially observable IBMDP policies are decision trees] 
-    Given an IBMDP $\mathcal{M}_{IB} $ $ \langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ a deterministic partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ is a decision tree policy $\pi_{\mathcal{T}}: S \rightarrow A$ for the base factored MDP $\langle S, A, R, T, T_0\rangle$ (cite).
+\begin{proposition}[Deterministic partially observable IBMDP policies are decision trees]\label{def:po-policy}
+    Given a factored MDP $\mathcal{M}$ $\langle S, A, R, T, T_0\rangle$ (\ref{def:fmdp}) and an associated IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}), a deterministic partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ is a decision tree policy $\pi_{\mathcal{T}}: S \rightarrow A$ for the base MDP $\mathcal{M}$.
 \end{proposition}
-\begin{proof}(Sketch) Algorithm (cite) that takes as input a deterministic partially observable policy $\pi_{po}$ for an IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$, returns a decision tree policy $\pi_{\mathcal{T}}$ for $\mathcal{M}=\langle S, A, R, T, T_0\rangle$ and always terminates unless the deterministic partially observable policy only takes IGAs.
+
+\begin{proof}(Sketch) Algorithm \ref{agl:extract-tree} that takes as input a deterministic partially observable policy (\ref{def:po-policy}) for an IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}), returns a decision tree policy $\pi_{\mathcal{T}}$ (\ref{def:dt}) for $\mathcal{M}$ $\langle S, A, R, T, T_0\rangle$ and always terminates unless the deterministic partially observable policy only takes IGAs.
 \end{proof}
 
 \begin{algorithm}[t]
@@ -101,31 +105,31 @@ In particular they show that only deterministic policies depending solely on the
             \Return Internal\_Node(feature: $i$, value: $v$, children: $(child_L, child_R)$)
         }
     }
-    
-    \caption{Extract a Decision Tree Policy}\label{alg_extract_tree}
+    \caption{Extract a Decision Tree Policy}\label{alg:extract-tree}
 \end{algorithm}
 
-We defer the connexions with POMDPs to Chapter (cite).
+While the connexions with partially observable MDPs~\cite{POMDP,chap2} is obvious, we defer the implications to Chapter \ref{sec:pomdp} as this connexion was not make in the original IBMDP paper~\cite{topin2021iterative}.
+Next we present an example of an IBMDP policy that is a decision tree for the base MDP.
 
 \subsection{Example: an IBMDP for a grid world}
-Suppose a factored MDP representing a grid world with 4 cells like in Example (cite). 
-The states are the $(x,y)$-cooridnates $S = \{(0.5, 0.5), (0.5, 1.5), (1.5, 1.5), (1.5, 0.5)\}\subsetneq [0, 2] \times [0, 2]$.
+For the sake of example, we re-formulate the example MDP (\ref{example:grid}) as a factored MDP with a finite number of vector valued states ($x,y$-coordinates).
+The states are $S = \{(0.5, 0.5), (0.5, 1.5), (1.5, 1.5), (1.5, 0.5)\}\subsetneq [0, 2] \times [0, 2]$.
 The actions are the cardinal directions $A = \{\rightarrow, \leftarrow, \downarrow, \uparrow\}$ that shift the states by one as long as the coordinates remain in the grid.
 The reward for taking any action is 0 except when in the bottom right state $(1.5, 0.5)$ which is an absorbing state: once in this state, you stay there forever. 
-Optimal deterministic tabular policies were presented for this MDP in Example (cite).
+Optimal deterministic tabular policies were presented for this MDP in Example (\ref{example:grid}).
 
-Suppose an associated IBMDP with two IGAs:
+Suppose an associated IBMDP (\ref{def:ibmdp}) with two IGAs:
 \begin{itemize}
     \item $\langle x, 1\rangle$ that tests if $x\leq 1$
     \item $\langle y, 1\rangle$ that tests if $y\leq 1$
 \end{itemize}
-The initial observation is always the grid bounds $\boldsymbol{o}_0=(0, 2, 0, 2)$.
-There are only finitely many observations since with those two IGAs there are only nine possible observations that can be attained from $\boldsymbol{o}_0$ following the IBMDP transitions (cite).
-For example when starting in state $\boldsymbol{s}_0 = (0.5, 1.5)$, and taking first $\langle x, 1\rangle$ then $\langle y, 1\rangle$ the corresponding observations are first $\boldsymbol{o}_{t+1} = (0, 1, 0, 2)$ and then $\boldsymbol{o}_{t+2} = (0, 1, 1, 2)$.
+The initial observation is always the grid bounds $\boldsymbol{o}_0=(0, 2, 0, 2)$ because a state in the grid world is always in $[0, 2] \times [0, 2]$.
+There are only finitely many observations since with those two IGAs there are only nine possible observations that can be attained from $\boldsymbol{o}_0$ following the IBMDP transitions (\ref{def:ibmdp}).
+For example when the IBMDP initial state features are $\boldsymbol{s}_0 = (0.5, 1.5)$, and taking first $\langle x, 1\rangle$ then $\langle y, 1\rangle$ the corresponding observations are first $\boldsymbol{o}_{t+1} = (0, 1, 0, 2)$ and then $\boldsymbol{o}_{t+2} = (0, 1, 1, 2)$.
 The full observation set is $O = \{(0, 2, 0, 2), (0, 1, 0, 2), (0, 2, 0, 1), (0, 1, 0, 1), (1, 2, 0, 2), (1, 2, 0, 1), (1, 2, 1, 2), (0, 1, 1, 2), (0, 2, 1, 2)\}$.
-The transitions and rewards are given by definition (cite).
+The transitions and rewards are given by definition (\ref{def:ibmdp}).
 
-In Figure (cite) we show a trajectory in this IBMDP.
+In Figure (\ref{example:ibmdp}) we show a trajectory in this IBMDP.
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}[scale=0.6]
@@ -135,152 +139,202 @@ In Figure (cite) we show a trajectory in this IBMDP.
     
     % Row 1: IBMDP States (s, o)
     % t=0: Initial state
-    \node at (2,8.5) {\small $t=0$};
-    \node at (2,7.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
-    \node at (2,6.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
+    \node at (2,9.5) {\small $t=0$};
+    \node at (2,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
+    \node at (2,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
 
-    \draw[grid] (0,4) grid (2,6);
-    \node at (0.5, 5.5) {$\mathcal{A}$};
-    \node at (1.5, 4.5) {$\star$};
-
-    \draw[rectangle] (2,4) rectangle (4,6);  
+    \draw[rectangle] (1,4) rectangle (3,6);
+    \draw[grid] (1,4) grid (3,6);
+    % Add axes
+    \draw[thick, ->] (1,4) -- (3.2,4) node[right] {$x$};
+    \draw[thick, ->] (1,4) -- (1,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+1,4) -- (\x+1,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (1,\y+4) -- (0.9,\y+4) node[left] {$\y$};
+    }
+    \node at (1.5, 5.5) {$\mathcal{A}$};
+    \node at (2.5, 4.5) {$\star$};
     
     % Curved arrow from t=0 to t=1
-    \draw[thick, ->] (2,4) to[bend right=30] node[midway, below] {\small $a_t = x \leq 1, r_t = \zeta$} (7,4);
+    \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {\small $a_t = x \leq 1, r_t = \zeta$} (7,3);
 
     % % t=1: After AIG x≤0.5
-    \node at (7,8.5) {\small $t=1$};
-    \node at (7,7.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
-    \node at (7,6.5) {\small $\boldsymbol{o}_t=(0, 1, 0, 2)$};
+    \node at (7,9.5) {\small $t=1$};
+    \node at (7,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
+    \node at (7,7.5) {\small $\boldsymbol{o}_t=(0, 1, 0, 2)$};
 
-    \draw[grid] (5,4) grid (7,6);
-    \node at (5.5, 5.5) {$\mathcal{A}$};
-    \node at (6.5, 4.5) {$\star$};
+    \draw[rectangle] (6,4) rectangle (7,6);
+    \draw[grid] (6,4) grid (8,6);
+    % Add axes
+    \draw[thick, ->] (6,4) -- (8.2,4) node[right] {$x$};
+    \draw[thick, ->] (6,4) -- (6,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+6,4) -- (\x+6,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (6,\y+4) -- (5.9,\y+4) node[left] {$\y$};
+    }
+    \node at (6.5, 5.5) {$\mathcal{A}$};
+    \node at (7.5, 4.5) {$\star$};
 
-    \draw[grid] (7,4) grid (9,6);
-    \draw[rectangle] (8,4) rectangle (9,6);
 
     % Curved arrow from t=1 to t=2
-    \draw[thick, ->] (7,4) to[bend right=30] node[midway, below] {\small $a_t = \rightarrow, r_t  = 0$}(12,4);
+    \draw[thick, ->] (7,3) to[bend right=30] node[midway, below] {\small $a_t = \rightarrow, r_t  = 0$}(12,3);
 
-    \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,1) {$x \leq 1$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-2) {$\rightarrow$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-2) {$\downarrow$};
+    \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-3) {$\rightarrow$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
     \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
     \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
 
-    \node at (12,8.5) {\small $t=2$};
-    \node at (12,7.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
-    \node at (12,6.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
+    \node at (12,9.5) {\small $t=2$};
+    \node at (12,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
+    \node at (12,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
     
-    \draw[grid] (10,4) grid (12,6);
-    \node at (11.5, 5.5) {$\mathcal{A}$};
-    \node at (11.5, 4.5) {$\star$};
-    \draw[rectangle] (12,4) rectangle (14,6);
+    \draw[rectangle] (11,4) rectangle (13,6);
+    \draw[grid] (11,4) grid (13,6);
+    % Add axes
+    \draw[thick, ->] (11,4) -- (13.2,4) node[right] {$x$};
+    \draw[thick, ->] (11,4) -- (11,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+11,4) -- (\x+11,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (11,\y+4) -- (10.9,\y+4) node[left] {$\y$};
+    }
+    \node at (12.5, 5.5) {$\mathcal{A}$};
+    \node at (12.5, 4.5) {$\star$};
     
     % Curved arrow from t=2 to t=4
-    \draw[thick, ->] (12,4) to[bend right=30] node[midway, below] {\small $a_t = x \leq 1, r_t = \zeta$} (17,4);
+    \draw[thick, ->] (12,3) to[bend right=30] node[midway, below] {\small $a_t = x \leq 1, r_t = \zeta$} (17,3);
 
-    \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,1) {$x \leq 1$};
-    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-2) {$\rightarrow$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-2) {$\downarrow$};
+    \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-3) {$\downarrow$};
     \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
     \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
 
     
-    \node at (17,8.5) {\small $t=4$};
-    \node at (17,7.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
-    \node at (17,6.5) {\small $\boldsymbol{o}_t=(1, 2, 0, 2)$};
+    \node at (17,9.5) {\small $t=4$};
+    \node at (17,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
+    \node at (17,7.5) {\small $\boldsymbol{o}_t=(1, 2, 0, 2)$};
 
-    \draw[grid] (15,4) grid (17,6);
-    \node at (16.5, 5.5) {$\mathcal{A}$};
-    \node at (16.5, 4.5) {$\star$};
-    \draw[grid] (17,4) grid (19,6);
     \draw[rectangle] (17,4) rectangle (18,6);
+    \draw[grid] (16,4) grid (18,6);
+    % Add axes
+    \draw[thick, ->] (16,4) -- (18.2,4) node[right] {$x$};
+    \draw[thick, ->] (16,4) -- (16,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+16,4) -- (\x+16,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (16,\y+4) -- (15.9,\y+4) node[left] {$\y$};
+    }
+    \node at (17.5, 5.5) {$\mathcal{A}$};
+    \node at (17.5, 4.5) {$\star$};
     
-    \draw[thick, ->] (17,4) to[bend right=30] node[midway, below] {\small $a_t = \downarrow, r_t = 0$} (22,4);
+    \draw[thick, ->] (17,3) to[bend right=30] node[midway, below] {\small $a_t = \downarrow, r_t = 0$} (22,3);
     
-    \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,1) {$x \leq 1$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-2) {$\rightarrow$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-2) {$\downarrow$};
+    \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
     \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
     \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
 
 
-    \node at (22,8.5) {\small $t=5$};
-    \node at (22,7.5) {\small $\boldsymbol{s}_t=(1.5, 0.5)$};
-    \node at (22,6.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
+    \node at (22,9.5) {\small $t=5$};
+    \node at (22,8.5) {\small $\boldsymbol{s}_t=(1.5, 0.5)$};
+    \node at (22,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
  
-    \draw[grid] (20,4) grid (22,6);
-    \node at (21.5, 4.5) {$\mathcal{A}$};
-    \node at (21.5, 4.5) {$\star$};
-    \draw[rectangle] (22,4) rectangle (24,6);
+    \draw[rectangle] (21,4) rectangle (23,6);
+    \draw[grid] (21,4) grid (23,6);
+    % Add axes
+    \draw[thick, ->] (21,4) -- (23.2,4) node[right] {$x$};
+    \draw[thick, ->] (21,4) -- (21,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+21,4) -- (\x+21,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (21,\y+4) -- (20.9,\y+4) node[left] {$\y$};
+    }
+    \node at (22.5, 4.5) {$\mathcal{A}$};
+    \node at (22.5, 4.5) {$\star$};
 
-    \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,1) {$x \leq 1$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-2) {$\rightarrow$};
-    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-2) {$\downarrow$};
+    \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
+    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
     \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
     \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-
-    
 
     
 \end{tikzpicture}
 \caption{An IBMDP trajectory when the base MDP is 2$\times$2 grid world, and equivalent decision tree policy traversal.
-The pink obstructed squares represent the current bounds over state features. The more IGAs are taking, the more refined the bounds get.
+$\mathcal{A}$ indicates the current state $\boldsymbol{s}_t$ in the grid.
+The pink obstructions of the grid represent the current partial observations $\boldsymbol{o}_t$ of the state features.
+When the pink covers the whole grid, the information contained in the observation is ``the current state could be anywhere in the grid''.
+The more Information gathering actions are taken, the more refined the bounds on the current state features get.
 At $t=0$, the state features are $\boldsymbol{s}_0 = (0.5, 1.5)$. 
 The initial observation is always the base MDP default feature bounds, here $\boldsymbol{o}_0=(0, 2, 0, 2)$ because the base states are in $[0, 2] \times [0, 2]$.
 The first action is an IGA that tests the feature $x$ of the states against the value $1$ and the reward $\zeta$. 
 This transition corresponds to going through an internal node in a decision tree policy as illustrated in the figure. 
-At $t=1$, after gathering the information that the $x$-value of the current base state is below 1, the observation is updated with the refined state bounds $\boldsymbol{o}_1=(0, 1, 0, 2)$ and the base state features remains unchanged. The agent then takes a base action that is to move right. 
-This gives a reward 0, reinitialized the observation to the original bounds, and changes the base state to $\boldsymbol{s}_2=(1.5, 1.5)$. And the trajectory continues like this until the agent reaches the absorbing base state $\boldsymbol{s}_5=(1.5, 0.5)$.}
-\label{fig:poibmdp_trajectory}
+At $t=1$, after gathering the information that the $x$-value of the current base state is below 1, the observation is updated with the refined state bounds $\boldsymbol{o}_1=(0, 1, 0, 2)$, i.e. the pink area shrinks, and the base state features remain unchanged.
+The agent then takes a base action that is to move right. 
+This gives a reward 0, resets the observation to the original bounds, and changes the base state to $\boldsymbol{s}_2=(1.5, 1.5)$. And the trajectory continues like this until the agent reaches the absorbing base state $\boldsymbol{s}_5=(1.5, 0.5)$.}
+\label{example:ibmdp}
 \end{figure}
 
 \section{Summary}
-In this chapter, we presented the approach of Topin et. al. (cite) to find trees that directly optimize the RL objective (cite) rather than the surrogate imitation loss.
-To achieve that Topin et. al. showed that one can do RL of a partially observable deterministic policy for some IBMDP.
+In this chapter, we presented the approach of Topin et. al.~\cite{topin2021iterative} to find decision tree policies that directly trade off interpretability and the RL objective (\ref{def:mdp-obj}) rather than the surrogate imitation loss (\ref{def:il}).
+To achieve that Topin et. al. showed that partially observable deterministic policy in some MDP, an IBMDP (\ref{def:ibmdp}).
+
+The promise of Topin et. al. is that optimizing (\ref{def:mdp-obj}) in an IBMDP trades off naturally the base MDP rewards and the interpretability of the policy through the reward signal $\zeta$.
 
 We can thus write an interpretable RL objective as follows:
-\begin{definition}[Interpretable RL objective]
-    Given a factored MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$, a discount factor $\gamma \in (0,1)$, and an associated IBMDP $\mathcal{M}_{IB}=\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$, the goal of an interpetable RL agent is to find a partially observable IBMDP policy $\pi^\star_{po}:O\rightarrow A\cup A_{info}$ such that:
+\begin{definition}[Interpretable RL objective]\label{def:irl}
+    Given a factored MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$ for which we want an interpretable policy, e.g. a decision tree, a discount factor $\gamma \in (0,1)$, some interpretability penalty $\zeta$, and a set of information gathering actions $A_{info}$, we solve:
 \begin{align*}
     \pi^\star_{po} &= \underset{\pi_{po}}{\opertarname{argmax}} \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R((\boldsymbol{s}_t, \boldsymbol{o}_t), a_t) \mid \boldsymbol{s}_0 \sim T_0, a_t = \pi_{po}(\boldsymbol{o}_t), \boldsymbol{s}_{t+1} \sim T(\boldsymbol{s}_t, a_t), \boldsymbol{o}_{t+1}\sim T(\boldsymbol{o_t}, a_t)\right]\\
-    &= \underset{\pi_{po}}{\operatorname{argmax}} \mathbb{E}[V^{\pi}(s_0, o_0)| s_0\sim T_0]
+    &= \underset{\pi_{po}}{\operatorname{argmax}} \mathbb{E}[V^{\pi_{po}}(s_0, o_0)| s_0\sim T_0]
 \end{align*}
+With $V^{\pi_{po}}$ the value function (\ref{def:vs}) of partially observable deterministic policy $\pi_{po}: O \rightarrow A\cup A_{info}$ (\ref{def:po-policy}) in the IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}).
 \end{definition}
-In Figure (cite) we summarized the direct reinforcement learning approach of Topin et. al. that we use in the next chapters. 
-\begin{figure}[h]
-    \centering
-    \begin{tikzpicture}
-        \draw[fill=blue!30] (0, 0) rectangle (5.9, 3);
-        \node at (3, 2.5) {IBMDP $\mathcal{M}_{IB} \langle \mathcal{M}, O, A_{info}, \zeta, T_{info}\rangle$};
-        \draw[fill=blue!10] (0, 0) rectangle (5, 2);
-        \node at (3, 1.5) {MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$};
+
+After optimizing objective (\ref{def:irl}) with, e.g. reinforcement learning, we thus use Algorithm \ref{alg:extract-tree} to obtain a decision tree policy that trades off between interpretability and the RL objectvie (\ref{def:mdp-obj}) for our MDP of intereset.
+This is exactly what we do in the next chapters.
+% In Figure (\ref{fig:summary-ibmdp}) we summarize the direct reinforcement learning approach of Topin et. al. that we use in the next chapters. 
+% \begin{figure}[h]
+%     \centering
+%     \begin{tikzpicture}
+%         \draw[fill=blue!30] (0, 0) rectangle (5.9, 3);
+%         \node at (3, 2.5) {IBMDP $\mathcal{M}_{IB} \langle \mathcal{M}, O, A_{info}, \zeta, T_{info}\rangle$};
+%         \draw[fill=blue!10] (0, 0) rectangle (5, 2);
+%         \node at (3, 1.5) {MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$};
         
-        \draw[fill=red!10] (10, 0) rectangle (14, 3);
-        \node at (12, 2) {\textbf{Objective}};
-        \node at (12, 1) {$\pi^{\star}_{po} = \underset{\pi_{po}}{\operatorname{argmax}} \mathbb{E}[V^{\pi_{po}}(\boldsymbol{s}_0, \boldsymbal{o}_0)| \boldsymbol{s}_0\sim T_0]$};
+%         \draw[fill=red!10] (10, 0) rectangle (14, 3);
+%         \node at (12, 2) {\textbf{Objective}};
+%         \node at (12, 1) {$\pi^{\star}_{po} = \underset{\pi_{po}}{\operatorname{argmax}} \mathbb{E}[V^{\pi_{po}}(\boldsymbol{s}_0, \boldsymbal{o}_0)| \boldsymbol{s}_0\sim T_0]$};
         
-        \draw[fill=red!10] (1, -5) rectangle (5, -2);
-        \node at (3, -3) {\textbf{Decision Tree Policy}};
-        \node at (3, -4) {$\pi_{\mathcal{T}}: S \rightarrow A$};
+%         \draw[fill=red!10] (1, -5) rectangle (5, -2);
+%         \node at (3, -3) {\textbf{Decision Tree Policy}};
+%         \node at (3, -4) {$\pi_{\mathcal{T}}: S \rightarrow A$};
         
-        \draw[fill=red!10] (9.5, -5) rectangle (14.5, -2);
-        \node at (12, -3) {\textbf{Deterministic Policy}};
-        \node at (12, -4) {$\pi_{po}: O \rightarrow A \cup A_{info}$};
+%         \draw[fill=red!10] (9.5, -5) rectangle (14.5, -2);
+%         \node at (12, -3) {\textbf{Deterministic Policy}};
+%         \node at (12, -4) {$\pi_{po}: O \rightarrow A \cup A_{info}$};
         
-        \draw[thick, ->] (6, 2) -- (10, 2) node[midway, above] {$\gamma$};
-        \draw[thick, <-] (5, -3.5) -- (9.5, -3.5) node[midway, above] {Extract tree with Alg 6};
-        \draw[thick, ->] (12, 0) -- (12, -2) node[midway, left] {Solve with e.g. RL};
-        \draw[thick, <-] (3, 0.5) -- (3, -2) node[midway, left] {Can be interpreted};
+%         \draw[thick, ->] (6, 2) -- (10, 2) node[midway, above] {$\gamma$};
+%         \draw[thick, <-] (5, -3.5) -- (9.5, -3.5) node[midway, above] {Extract tree with Alg 6};
+%         \draw[thick, ->] (12, 0) -- (12, -2) node[midway, left] {Solve with e.g. RL};
+%         \draw[thick, <-] (3, 0.5) -- (3, -2) node[midway, left] {Can be interpreted};
     
         
-        % % Final arrow from tree back to base MDP - adjusted position
-        % \draw[thick, ->] (1.75, -2.5) -- (1.75, -0.5) node[midway, right] {Can deploy\\and interpret};
+%         % % Final arrow from tree back to base MDP - adjusted position
+%         % \draw[thick, ->] (1.75, -2.5) -- (1.75, -0.5) node[midway, right] {Can deploy\\and interpret};
         
-    \end{tikzpicture}
-    \caption{A formal framework to learn decision tree policies for MDPs. This include learning a partially observable deterministic policy in a POIBMDP (cite).}
-    \label{fig:nested_decision_processes}
-    \end{figure}
+%     \end{tikzpicture}
+%     \caption{A formal framework to learn decision tree policies for MDPs. This include learning a partially observable deterministic policy in a POIBMDP (cite).}
+%     \label{fig:summary-ibmdp}
+%     \end{figure}
 
