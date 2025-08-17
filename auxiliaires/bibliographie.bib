@@ -107,6 +107,113 @@ pages = {253–279},
 numpages = {27}
 }
 
+
+@InProceedings{hmmdp,
+  title = 	 {Solving Hidden-Mode Markov Decision Problems},
+  author =       {Choi, Samuel Ping-Man and Zhang, Nevin Lianwen and Yeung, Dit-Yan},
+  booktitle = 	 {Proceedings of the Eighth International Workshop on Artificial Intelligence and Statistics},
+  pages = 	 {49--56},
+  year = 	 {2001},
+  editor = 	 {Richardson, Thomas S. and Jaakkola, Tommi S.},
+  volume = 	 {R3},
+  series = 	 {Proceedings of Machine Learning Research},
+  month = 	 {04--07 Jan},
+  publisher =    {PMLR},
+  pdf = 	 {http://proceedings.mlr.press/r3/choi01a/choi01a.pdf},
+  url = 	 {https://proceedings.mlr.press/r3/choi01a.html},
+  abstract = 	 {Markov decision processes (HM-MDPs) are a novel mathematical framework for a subclass of nonstationary reinforcement learning problems where environment dynamics change over time according to a Markov process. HM-MDPs are a special case of partially observable Markov decision processes (POMDPs), and therefore nonstationary problems of this type can in principle be addressed indirectly via existing POMDP algorithms. However, previous research has shown that such an indirect approach is inefficient compared with a direct HM-MDP approach in terms of the model learning time. In this paper, we investigate how to solve HM-MDP problems efficiently by using a direct approach. We exploit the HM-MDP structure and derive an equation for dynamic programming update. Our equation decomposes the value function into a number of components and as a result, substantially reduces the amount of computations in finding optimal policies. Based on the incremental pruning and point-based improvement techniques, a value iteration algorithm is also implemented. Empirical results show that the HM-MDP approach outperforms the POMDP one several order of magnitude with respect to both space requirement and speed.},
+  note =         {Reissued by PMLR on 31 March 2021.}
+}
+
+
+@inproceedings{littman1,
+author = {Littman, Michael L.},
+title = {Memoryless policies: theoretical limitations and practical results},
+year = {1994},
+isbn = {0262531224},
+publisher = {MIT Press},
+address = {Cambridge, MA, USA},
+booktitle = {Proceedings of the Third International Conference on Simulation of Adaptive Behavior : From Animals to Animats 3: From Animals to Animats 3},
+pages = {238–245},
+numpages = {8},
+location = {Brighton, United Kingdom},
+series = {SAB94}
+}
+
+@inproceedings{sarsa-pomdp,
+author = {Loch, John and Singh, Satinder P.},
+title = {Using Eligibility Traces to Find the Best Memoryless Policy in Partially Observable Markov Decision Processes},
+year = {1998},
+isbn = {1558605568},
+publisher = {Morgan Kaufmann Publishers Inc.},
+address = {San Francisco, CA, USA},
+booktitle = {Proceedings of the Fifteenth International Conference on Machine Learning},
+pages = {323–331},
+numpages = {9},
+series = {ICML '98}
+}
+
+@inproceedings{justif-asym,
+title={A Theoretical Justification for Asymmetric Actor-Critic Algorithms},
+author={Gaspard Lambrechts and Damien Ernst and Aditya Mahajan},
+booktitle={Forty-second International Conference on Machine Learning},
+year={2025},
+url={https://openreview.net/forum?id=F1yANMCnAn}
+}
+
+@inproceedings{jsj,
+author = {Jaakkola, Tommi and Singh, Satinder P. and Jordan, Michael I.},
+title = {Reinforcement learning algorithm for partially observable Markov decision problems},
+year = {1994},
+publisher = {MIT Press},
+address = {Cambridge, MA, USA},
+abstract = {Increasing attention has been paid to reinforcement learning algorithms in recent years, partly due to successes in the theoretical analysis of their behavior in Markov environments. If the Markov assumption is removed, however, neither generally the algorithms nor the analyses continue to be usable. We propose and analyze a new learning algorithm to solve a certain class of non-Markov decision problems. Our algorithm applies to problems in which the environment is Markov, but the learner has restricted access to state information. The algorithm involves a Monte-Carlo policy evaluation combined with a policy improvement method that is similar to that of Markov decision problems and is guaranteed to converge to a local maximum. The algorithm operates in the space of stochastic policies, a space which can yield a policy that performs considerably better than any deterministic policy. Although the space of stochastic policies is continuous--even for a discrete action space--our algorithm is computationally tractable.},
+booktitle = {Proceedings of the 8th International Conference on Neural Information Processing Systems},
+pages = {345–352},
+numpages = {8},
+location = {Denver, Colorado},
+series = {NIPS'94}
+}
+
+@article{lambrechts2025informed,
+    title={Informed {POMDP}: {L}everaging Additional Information in Model-Based {RL}},
+    author={Lambrechts, Gaspard and Bolland, Adrien and Ernst, Damien},
+    journal={Reinforcement Learning Journal},
+    volume={2},
+    pages={763--784},
+    year={2025}
+}
+
+@inproceedings{learning-pomdp,
+author = {Singh, Satinder P. and Jaakkola, Tommi S. and Jordan, Michael I.},
+title = {Learning without state-estimation in partially observable Markovian decision processes},
+year = {1994},
+isbn = {1558603352},
+publisher = {Morgan Kaufmann Publishers Inc.},
+address = {San Francisco, CA, USA},
+booktitle = {Proceedings of the Eleventh International Conference on International Conference on Machine Learning},
+pages = {284–292},
+numpages = {9},
+location = {New Brunswick, NJ, USA},
+series = {ICML'94}
+}
+
+@inproceedings{momdp,
+  TITLE = {{A Closer Look at MOMDPs}},
+  AUTHOR = {Araya-L{\'o}pez, Mauricio and Thomas, Vincent and Buffet, Olivier and Charpillet, Fran{\c c}ois},
+  URL = {https://inria.hal.science/inria-00535559},
+  BOOKTITLE = {{Proceedings of the 22nd International Conference on Tools with Artificial Intelligence}},
+  ADDRESS = {Arras, France},
+  PUBLISHER = {{IEEE}},
+  SERIES = {Proceedings of the 22nd International Conference on Tools with Artificial Intelligence},
+  YEAR = {2010},
+  MONTH = Oct,
+  KEYWORDS = {Partially Observable Markov Decision Processes ; Mixed Observability Markov Decision Processes ; POMDP ; MOMDP},
+  PDF = {https://inria.hal.science/inria-00535559v1/file/ictai10.pdf},
+  HAL_ID = {inria-00535559},
+  HAL_VERSION = {v1},
+}
+
 @Article{gymnasium,
   title={Gymnasium: A Standard Interface for Reinforcement Learning Environments},
   author={Towers, Mark and Kwiatkowski, Ariel and Terry, Jordan and Balis, John U and De Cola, Gianluca and Deleu, Tristan and Goul{\~a}o, Manuel and Kallinteris, Andreas and Krimmel, Markus and KG, Arjun and others},

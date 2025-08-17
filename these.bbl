@@ -164,6 +164,61 @@
       \verb https://openreview.net/forum?id=S3FUKFMRw8
       \endverb
     \endentry
+    \entry{momdp}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=02ada44e5f7bb0aa75a393683d62bee0}{%
+           family={Araya-L\'{o}pez},
+           familyi={A\bibinithyphendelim L\bibinitperiod},
+           given={Mauricio},
+           giveni={M\bibinitperiod}}}%
+        {{hash=31f82cd1f068b3a41cdbbf73dcb70b3a}{%
+           family={Thomas},
+           familyi={T\bibinitperiod},
+           given={Vincent},
+           giveni={V\bibinitperiod}}}%
+        {{hash=72d40a76adebe96166d4cdcbeb844c72}{%
+           family={Buffet},
+           familyi={B\bibinitperiod},
+           given={Olivier},
+           giveni={O\bibinitperiod}}}%
+        {{hash=007cf000b0f0ec9832eac8ef72c2c9ec}{%
+           family={Charpillet},
+           familyi={C\bibinitperiod},
+           given={Fran\c{c}ois},
+           giveni={F\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Arras, France}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{8283801f65568c585d1d2d54208f11d7}
+      \strng{fullhash}{5339ff1289846b59e95b41ac05a8da84}
+      \strng{bibnamehash}{8283801f65568c585d1d2d54208f11d7}
+      \strng{authorbibnamehash}{8283801f65568c585d1d2d54208f11d7}
+      \strng{authornamehash}{8283801f65568c585d1d2d54208f11d7}
+      \strng{authorfullhash}{5339ff1289846b59e95b41ac05a8da84}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{{Proceedings of the 22nd International Conference on Tools with Artificial Intelligence}}
+      \field{month}{10}
+      \field{series}{Proceedings of the 22nd International Conference on Tools with Artificial Intelligence}
+      \field{title}{{A Closer Look at MOMDPs}}
+      \field{year}{2010}
+      \verb{file}
+      \verb https://inria.hal.science/inria-00535559v1/file/ictai10.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://inria.hal.science/inria-00535559
+      \endverb
+      \verb{url}
+      \verb https://inria.hal.science/inria-00535559
+      \endverb
+      \keyw{Partially Observable Markov Decision Processes ; Mixed Observability Markov Decision Processes ; POMDP ; MOMDP}
+    \endentry
     \entry{Atrey2020Exploratory}{inproceedings}{}
       \name{author}{3}{}{%
         {{hash=ab467bdac0c36c2ed9ca15ca7aebad14}{%
@@ -1184,6 +1239,72 @@
       \endverb
       \verb{url}
       \verb https://openreview.net/forum?id=AY8zfZm0tDd
+      \endverb
+    \endentry
+    \entry{hmmdp}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=39464d4391fb985885ccdaa213ebbec8}{%
+           family={Choi},
+           familyi={C\bibinitperiod},
+           given={Samuel\bibnamedelima Ping-Man},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinithyphendelim M\bibinitperiod}}}%
+        {{hash=a507bbd1017035e16b33a31a339dd68f}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Nevin\bibnamedelima Lianwen},
+           giveni={N\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=08526b4206cdff511b54e9b0678b1fd3}{%
+           family={Yeung},
+           familyi={Y\bibinitperiod},
+           given={Dit-Yan},
+           giveni={D\bibinithyphendelim Y\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=eabf99a26b5a1ac7dd40719ea6e697e2}{%
+           family={Richardson},
+           familyi={R\bibinitperiod},
+           given={Thomas\bibnamedelima S.},
+           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=1ebba49b22f851536356de9d887f66dc}{%
+           family={Jaakkola},
+           familyi={J\bibinitperiod},
+           given={Tommi\bibnamedelima S.},
+           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {PMLR}%
+      }
+      \strng{namehash}{138af67a96905c4dc6854b994d6eb6f3}
+      \strng{fullhash}{138af67a96905c4dc6854b994d6eb6f3}
+      \strng{bibnamehash}{138af67a96905c4dc6854b994d6eb6f3}
+      \strng{authorbibnamehash}{138af67a96905c4dc6854b994d6eb6f3}
+      \strng{authornamehash}{138af67a96905c4dc6854b994d6eb6f3}
+      \strng{authorfullhash}{138af67a96905c4dc6854b994d6eb6f3}
+      \strng{editorbibnamehash}{16e1b802c5e9e1e6486baf2943044e24}
+      \strng{editornamehash}{16e1b802c5e9e1e6486baf2943044e24}
+      \strng{editorfullhash}{16e1b802c5e9e1e6486baf2943044e24}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Markov decision processes (HM-MDPs) are a novel mathematical framework for a subclass of nonstationary reinforcement learning problems where environment dynamics change over time according to a Markov process. HM-MDPs are a special case of partially observable Markov decision processes (POMDPs), and therefore nonstationary problems of this type can in principle be addressed indirectly via existing POMDP algorithms. However, previous research has shown that such an indirect approach is inefficient compared with a direct HM-MDP approach in terms of the model learning time. In this paper, we investigate how to solve HM-MDP problems efficiently by using a direct approach. We exploit the HM-MDP structure and derive an equation for dynamic programming update. Our equation decomposes the value function into a number of components and as a result, substantially reduces the amount of computations in finding optimal policies. Based on the incremental pruning and point-based improvement techniques, a value iteration algorithm is also implemented. Empirical results show that the HM-MDP approach outperforms the POMDP one several order of magnitude with respect to both space requirement and speed.}
+      \field{booktitle}{Proceedings of the Eighth International Workshop on Artificial Intelligence and Statistics}
+      \field{month}{04--07 Jan}
+      \field{note}{Reissued by PMLR on 31 March 2021.}
+      \field{series}{Proceedings of Machine Learning Research}
+      \field{title}{Solving Hidden-Mode Markov Decision Problems}
+      \field{volume}{R3}
+      \field{year}{2001}
+      \field{pages}{49\bibrangedash 56}
+      \range{pages}{8}
+      \verb{file}
+      \verb http://proceedings.mlr.press/r3/choi01a/choi01a.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://proceedings.mlr.press/r3/choi01a.html
+      \endverb
+      \verb{url}
+      \verb https://proceedings.mlr.press/r3/choi01a.html
       \endverb
     \endentry
     \entry{costa2023recent}{article}{}
@@ -2600,6 +2721,48 @@
       \endverb
       \keyw{Binary decision trees,computational complexity,NP-complete}
     \endentry
+    \entry{jsj}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=521085652a07e67bdff5323e2febc138}{%
+           family={Jaakkola},
+           familyi={J\bibinitperiod},
+           given={Tommi},
+           giveni={T\bibinitperiod}}}%
+        {{hash=0778520109d58859c98d71f3b7e75837}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Satinder\bibnamedelima P.},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=8a36116840c7ee55901618c95fd08a58}{%
+           family={Jordan},
+           familyi={J\bibinitperiod},
+           given={Michael\bibnamedelima I.},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Denver, Colorado}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press}%
+      }
+      \strng{namehash}{78bec5b22fee435c1ca475d0e58349ee}
+      \strng{fullhash}{78bec5b22fee435c1ca475d0e58349ee}
+      \strng{bibnamehash}{78bec5b22fee435c1ca475d0e58349ee}
+      \strng{authorbibnamehash}{78bec5b22fee435c1ca475d0e58349ee}
+      \strng{authornamehash}{78bec5b22fee435c1ca475d0e58349ee}
+      \strng{authorfullhash}{78bec5b22fee435c1ca475d0e58349ee}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Increasing attention has been paid to reinforcement learning algorithms in recent years, partly due to successes in the theoretical analysis of their behavior in Markov environments. If the Markov assumption is removed, however, neither generally the algorithms nor the analyses continue to be usable. We propose and analyze a new learning algorithm to solve a certain class of non-Markov decision problems. Our algorithm applies to problems in which the environment is Markov, but the learner has restricted access to state information. The algorithm involves a Monte-Carlo policy evaluation combined with a policy improvement method that is similar to that of Markov decision problems and is guaranteed to converge to a local maximum. The algorithm operates in the space of stochastic policies, a space which can yield a policy that performs considerably better than any deterministic policy. Although the space of stochastic policies is continuous--even for a discrete action space--our algorithm is computationally tractable.}
+      \field{booktitle}{Proceedings of the 8th International Conference on Neural Information Processing Systems}
+      \field{series}{NIPS'94}
+      \field{title}{Reinforcement learning algorithm for partially observable Markov decision problems}
+      \field{year}{1994}
+      \field{pages}{345\bibrangedash 352}
+      \range{pages}{8}
+    \endentry
     \entry{10.1145/3637528.3671903}{article}{}
       \name{author}{2}{}{%
         {{hash=d7dbfce2a83a7ecb28e0ca4f0863e1db}{%
@@ -2812,6 +2975,79 @@
       \range{pages}{6}
       \verb{doi}
       \verb 10.25080/Majora-14bd3278-006
+      \endverb
+    \endentry
+    \entry{lambrechts2025informed}{article}{}
+      \name{author}{3}{}{%
+        {{hash=c619f73c7a1ab4105515f41ff91f3c07}{%
+           family={Lambrechts},
+           familyi={L\bibinitperiod},
+           given={Gaspard},
+           giveni={G\bibinitperiod}}}%
+        {{hash=bbe39ad0bb1c5904579755d81259deb2}{%
+           family={Bolland},
+           familyi={B\bibinitperiod},
+           given={Adrien},
+           giveni={A\bibinitperiod}}}%
+        {{hash=6fbe33fd3b6a25f54629f311cb113551}{%
+           family={Ernst},
+           familyi={E\bibinitperiod},
+           given={Damien},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{bb8fdebed402b005a615cc63a2d02a69}
+      \strng{fullhash}{bb8fdebed402b005a615cc63a2d02a69}
+      \strng{bibnamehash}{bb8fdebed402b005a615cc63a2d02a69}
+      \strng{authorbibnamehash}{bb8fdebed402b005a615cc63a2d02a69}
+      \strng{authornamehash}{bb8fdebed402b005a615cc63a2d02a69}
+      \strng{authorfullhash}{bb8fdebed402b005a615cc63a2d02a69}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Reinforcement Learning Journal}
+      \field{title}{Informed {POMDP}: {L}everaging Additional Information in Model-Based {RL}}
+      \field{volume}{2}
+      \field{year}{2025}
+      \field{pages}{763\bibrangedash 784}
+      \range{pages}{22}
+    \endentry
+    \entry{justif-asym}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=c619f73c7a1ab4105515f41ff91f3c07}{%
+           family={Lambrechts},
+           familyi={L\bibinitperiod},
+           given={Gaspard},
+           giveni={G\bibinitperiod}}}%
+        {{hash=6fbe33fd3b6a25f54629f311cb113551}{%
+           family={Ernst},
+           familyi={E\bibinitperiod},
+           given={Damien},
+           giveni={D\bibinitperiod}}}%
+        {{hash=6f6392a2b417cca965884ab536e38f54}{%
+           family={Mahajan},
+           familyi={M\bibinitperiod},
+           given={Aditya},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{35b9a64623edc08fc5636838cfbcff24}
+      \strng{fullhash}{35b9a64623edc08fc5636838cfbcff24}
+      \strng{bibnamehash}{35b9a64623edc08fc5636838cfbcff24}
+      \strng{authorbibnamehash}{35b9a64623edc08fc5636838cfbcff24}
+      \strng{authornamehash}{35b9a64623edc08fc5636838cfbcff24}
+      \strng{authorfullhash}{35b9a64623edc08fc5636838cfbcff24}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Forty-second International Conference on Machine Learning}
+      \field{title}{A Theoretical Justification for Asymmetric Actor-Critic Algorithms}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://openreview.net/forum?id=F1yANMCnAn
+      \endverb
+      \verb{url}
+      \verb https://openreview.net/forum?id=F1yANMCnAn
       \endverb
     \endentry
     \entry{study-4}{article}{}
@@ -3146,6 +3382,75 @@
       \field{year}{2018}
       \field{pages}{31\bibrangedash 57}
       \range{pages}{27}
+    \endentry
+    \entry{littman1}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=211e529e9f10ad1bfacff2284da10ea7}{%
+           family={Littman},
+           familyi={L\bibinitperiod},
+           given={Michael\bibnamedelima L.},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Brighton, United Kingdom}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press}%
+      }
+      \strng{namehash}{211e529e9f10ad1bfacff2284da10ea7}
+      \strng{fullhash}{211e529e9f10ad1bfacff2284da10ea7}
+      \strng{bibnamehash}{211e529e9f10ad1bfacff2284da10ea7}
+      \strng{authorbibnamehash}{211e529e9f10ad1bfacff2284da10ea7}
+      \strng{authornamehash}{211e529e9f10ad1bfacff2284da10ea7}
+      \strng{authorfullhash}{211e529e9f10ad1bfacff2284da10ea7}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Third International Conference on Simulation of Adaptive Behavior\x{202f}: From Animals to Animats 3: From Animals to Animats 3}
+      \field{isbn}{0262531224}
+      \field{series}{SAB94}
+      \field{title}{Memoryless policies: theoretical limitations and practical results}
+      \field{year}{1994}
+      \field{pages}{238\bibrangedash 245}
+      \range{pages}{8}
+    \endentry
+    \entry{sarsa-pomdp}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=c145897148f15de828ff544e596162c9}{%
+           family={Loch},
+           familyi={L\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+        {{hash=0778520109d58859c98d71f3b7e75837}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Satinder\bibnamedelima P.},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {San Francisco, CA, USA}%
+      }
+      \list{publisher}{1}{%
+        {Morgan Kaufmann Publishers Inc.}%
+      }
+      \strng{namehash}{76d3be2c9b755dea83b3c11a089caf39}
+      \strng{fullhash}{76d3be2c9b755dea83b3c11a089caf39}
+      \strng{bibnamehash}{76d3be2c9b755dea83b3c11a089caf39}
+      \strng{authorbibnamehash}{76d3be2c9b755dea83b3c11a089caf39}
+      \strng{authornamehash}{76d3be2c9b755dea83b3c11a089caf39}
+      \strng{authorfullhash}{76d3be2c9b755dea83b3c11a089caf39}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Fifteenth International Conference on Machine Learning}
+      \field{isbn}{1558605568}
+      \field{series}{ICML '98}
+      \field{title}{Using Eligibility Traces to Find the Best Memoryless Policy in Partially Observable Markov Decision Processes}
+      \field{year}{1998}
+      \field{pages}{323\bibrangedash 331}
+      \range{pages}{9}
     \endentry
     \entry{loh2014fifty}{article}{}
       \name{author}{1}{}{%
@@ -5138,6 +5443,48 @@
       \verb{url}
       \verb https://proceedings.mlr.press/v108/silva20a.html
       \endverb
+    \endentry
+    \entry{learning-pomdp}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=0778520109d58859c98d71f3b7e75837}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Satinder\bibnamedelima P.},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=1ebba49b22f851536356de9d887f66dc}{%
+           family={Jaakkola},
+           familyi={J\bibinitperiod},
+           given={Tommi\bibnamedelima S.},
+           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=8a36116840c7ee55901618c95fd08a58}{%
+           family={Jordan},
+           familyi={J\bibinitperiod},
+           given={Michael\bibnamedelima I.},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New Brunswick, NJ, USA}%
+      }
+      \list{publisher}{1}{%
+        {Morgan Kaufmann Publishers Inc.}%
+      }
+      \strng{namehash}{b9d7379e811c09673c647f0437cbfddd}
+      \strng{fullhash}{b9d7379e811c09673c647f0437cbfddd}
+      \strng{bibnamehash}{b9d7379e811c09673c647f0437cbfddd}
+      \strng{authorbibnamehash}{b9d7379e811c09673c647f0437cbfddd}
+      \strng{authornamehash}{b9d7379e811c09673c647f0437cbfddd}
+      \strng{authorfullhash}{b9d7379e811c09673c647f0437cbfddd}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Eleventh International Conference on International Conference on Machine Learning}
+      \field{isbn}{1558603352}
+      \field{series}{ICML'94}
+      \field{title}{Learning without state-estimation in partially observable Markovian decision processes}
+      \field{year}{1994}
+      \field{pages}{284\bibrangedash 292}
+      \range{pages}{9}
     \endentry
     \entry{sparsity}{misc}{}
       \name{author}{3}{}{%

@@ -838,7 +838,7 @@ The well-known Value Iteration algorithm~\ref{alg:value_iteration} solves this p
 More realistically, neither the transition kernel $T$ nor the reward function $R$ of the MDP are known; e.g., the doctor cannot \textbf{know} how the tumor and the patient's health will change after a dose of chemotherapy, but can only \textbf{observe} the change.
 This distinction in available information parallels the distinction between dynamic programming and reinforcement learning (RL), described next. 
 
-\subsection{Reinforcement learning of approximate solutions to MDPs}
+\subsection{Reinforcement learning of approximate solutions to MDPs}\label{sef:rl}
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.22\textwidth}
@@ -909,11 +909,13 @@ However, not many algorithms consider the learning of policies that can be easil
     Initialize $Q(s,a) = 0$ for all $s \in S, a \in A$ \\
     \For{each episode}{
         Initialize state $s_0 \sim T_0$ \\
+        Choose action $a_0$ using $\epsilon$-greedy: $a_0 = \arg\max_a Q(s_0,a)$ with prob. $1-\epsilon$ \\
         \For{each step $t$}{
-            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \arg\max_a Q(s_t,a)$ with prob. $1-\epsilon$ \\
             Take action $a_t$, observe $r_t = R(s_t,a_t)$ and $s_{t+1} \sim T(s_t,a_t)$ \\
-            $Q(s_t,a_t) \leftarrow Q(s_t,a_t) + \alpha[r_t + \gamma \max_{a'} Q(s_{t+1},a') - Q(s_t,a_t)]$ \\
+            Choose action $a_{t+1}$ using $\epsilon$-greedy: $a_{t+1} = \arg\max_a Q(s_{t+1},a)$ with prob. $1-\epsilon$ \\
+            $Q(s_t,a_t) \leftarrow Q(s_t,a_t) + \alpha[r_t + \gamma Q(s_{t+1},a_{t+1}) - Q(s_t,a_t)]$ \\
             $s_t \leftarrow s_{t+1}$ \\
+            $a_t \leftarrow a_{t+1}$ \\
         }
     }
     $\pi(s) = \arg\max_a Q(s,a)$ \Comment{// Extract greedy policy}

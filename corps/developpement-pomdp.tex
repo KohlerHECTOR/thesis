@@ -45,10 +45,10 @@ The connexions from Deep RL in IBMDPs for objective \ref{def:irl} is absent from
 Next, we present the precise experimental setup we use to reproduce~\cite[Table 1]{topin2021iterative} in order to study direct deep reinforcement learning of decision tree policies for the CartPole MDP.
 
 \begin{algorithm}
-    \KwData{IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{\info}, (R, \zeta),( T, T_0, T_{info})\rangle$, learning rate $\alpha$, exploration rate $\epsilon$, partially observable Q-network parameters $\theta$, Fully observable Q-network parameters $\phi$, replay buffer $\mathcal{B}$, update frequency $C$}
+    \KwData{IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{\info}, (R, \zeta),( T, T_0, T_{info})\rangle$, learning rate $\alpha$, exploration rate $\epsilon$, partially observable Q-network parameters $\theta$, Q-network parameters $\phi$, replay buffer $\mathcal{B}$, update frequency $C$}
     \KwResult{Partially pbservable deterministic policy $\pi_{po}$}
     Initialize partially observable Q-network parameters $\theta$\\
-    Initialize fully observable Q-network parameters $\phi$ and target network parameters $\phi^- = \phi$ \\
+    Initialize Q-network parameters $\phi$ and target network parameters $\phi^- = \phi$ \\
 
     Initialize replay buffer $\mathcal{B} = \emptyset$ \\
     \For{each episode}{
@@ -62,7 +62,7 @@ Next, we present the precise experimental setup we use to reproduce~\cite[Table 
             Sample random batch $(\boldsymbol{s}_i, \boldsymbol{o}_i, a_i, r_i, \boldsymbol{s}_{i+1}) \sim \mathcal{B}$ \\
             $a' = \underset{a}{\operatorname{argmax}} Q_{\theta}(\boldsymbol{o}_i, a)$ \\
             $y_i = r_i + \gamma Q_{\phi^-}(\boldsymbol{s}_{i+1}, a')$ \Comment{// Compute target}
-            $\phi \leftarrow \phi - \alpha \nabla_\phi (Q_\phi(\boldsymbol{s}_i, a_i) - y_i)^2$ \Comment{// Update fully observable Q-network}
+            $\phi \leftarrow \phi - \alpha \nabla_\phi (Q_\phi(\boldsymbol{s}_i, a_i) - y_i)^2$ \Comment{// Update Q-network}
             $\theta \leftarrow \theta - \alpha \nabla_\theta (Q_\theta(\boldsymbol{o}_i, a_i) - y_i)^2$ \Comment{// Update partially observable Q-network}
 
             \If{$t \bmod C = 0$}{
@@ -132,7 +132,7 @@ Authors did not share what activations they used so we try both $\operatorname{t
 
 We match training budgets: we train modified DQN on 1 million timesteps and modified PPO on 4 million timesteps.
 
-\paragraph{DQN and PPO} We also benchmark the non-modified standard DQN and PPO when learning fully observable IBMDP policies $\pi:S\times O\rightarrow A\cup A_{info}$ and when learning standard $\pi:S\rightarrow A$ policies directly in the CartPole MDP.
+\paragraph{DQN and PPO} We also benchmark the standard DQN and PPO when learning IBMDP policies $\pi:S\times O\rightarrow A\cup A_{info}$ and when learning standard $\pi:S\rightarrow A$ policies directly in the CartPole MDP.
 
 We summarize hyperpameters for the IBMDP and for the learning algorithms in Tables \ref{tab:ibmdp-params}, \ref{tab:ibmdp-rl1} and \ref{tab:ibmdp-rl2}.
 
@@ -199,7 +199,7 @@ The key metric of this section is performance when controlling the CartPole, i.e
 For modified RL algorithms that learn a partially observable policy (or $Q$-function) in an IBMPD, we periodically extract the policy (or $Q$-function) and use Alg.\ref{alg:extract-tree} to extract a decision tree for the CartPole MDP. 
 We then evaluate the tree on 100 independent trajectories in the MDP and report the mean undiscounted cumulative reward.
 
-For standard RL applied to IBMDPs, since we can't deploy learned policies directly to the base MDP as the state dimensions mismatch (such policies are $S\times O\rightarrow A \cup A_{info}$ but the MDP states are in $S$), we periodically evaluate those fully observable IBMDP policies in a copy of the training IBMDP in which we fix $\zeta=0$ ensuring that the copied IBMDP undiscounted cumulative rewards only correspond to rewards from the base CartPole MDP (non-zero rewards in the IBMDP only occur when a reward from the base MDP is given, i.e. when $a_t\in A$ in the IBMDP (c.f. Def.~\ref{def:ibmdp})).
+For standard RL applied to IBMDPs, since we can't deploy learned policies directly to the base MDP as the state dimensions mismatch (such policies are $S\times O\rightarrow A \cup A_{info}$ but the MDP states are in $S$), we periodically evaluate those IBMDP policies in a copy of the training IBMDP in which we fix $\zeta=0$ ensuring that the copied IBMDP undiscounted cumulative rewards only correspond to rewards from the base CartPole MDP (non-zero rewards in the IBMDP only occur when a reward from the base MDP is given, i.e. when $a_t\in A$ in the IBMDP (c.f. Def.~\ref{def:ibmdp})).
 Similarly, we do 100 trajectories of the extracted policies in the copied IBMDP and report the average undiscounted cumulative reward.
 
 For RL applied directly to the base MDP we can just periodically extract the learned policies and evaluate them on 100 CartPole trajectories.
@@ -241,8 +241,8 @@ On Figure~\ref{fig:res-ppo}, we observe that modified PPO finds decision tree po
 However it could also be because DQN-like algorithm with those hyperpameters struggle to learn in CartPole (IB)MDPs.
 Indeed, we notice that for DQN-like baselines, learning seems difficult in general indepedently of the setting.
 
-On Figures~\ref{fig:res-dqn} and~\ref{fig:res-ppo}, we observe that baselines seeking fully observable policies (RL + IBMDP and RL + MDP), learn better CartPole policies in average than their modified counterparts that learn partially observable policies (\ref{def:po-policy}). 
-on Figure~\ref{fig:res-ppo}, it is clear that for PPO baselines seeking fully observable poliices, learning is super efficient and algorithms learn optimal policies with reward 200 in few thousands steps.
+On Figures~\ref{fig:res-dqn} and~\ref{fig:res-ppo}, we observe that standard RL baselines (RL + IBMDP and RL + MDP), learn better CartPole policies in average than their modified counterparts that learn partially observable policies (\ref{def:po-policy}). 
+on Figure~\ref{fig:res-ppo}, it is clear that for the standard PPO baselines, learning is super efficient and algorithms learn optimal policies with reward 200 in few thousands steps.
 
 In Tables ~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperparameters for Modified RL baselines when learning partially observable IBMDP policies in terms of extracted decision tree policies performances in CartPole control.
 \begin{table}[h]
@@ -379,7 +379,7 @@ On the other hand the most frequent trees across seeds returned by modified RL b
 
 
 \section{Discussion}
-We have shown that compared to learning non-interpretable neural network policies for the base MDP or some associated IBMDP, learning partially observable policies in IBMDP is difficult (c.f. Figures~\ref{fig:mod-dqn} and~\ref{fig:mod-ppo}). 
+We have shown that compared to learning non-interpretable neural network policies for the base MDP or some associated IBMDP, reinforcement learning of partially observable policies in IBMDP is less efficient (c.f. Figures~\ref{fig:res-dqn} and~\ref{fig:res-ppo}). 
 As a consequence, only a handful of modified RL runs are able to learn decision tree policies that are on par with imitated trees (c.f. Figure~\ref{fig:ppo-trees}).
 
 In the next chapter, we highlight the conncexions between direct interpretable RL (Def.~\ref{def:irl}) and POMDPs to get insights on the hardness of direct reinforcement learning of decision trees.
