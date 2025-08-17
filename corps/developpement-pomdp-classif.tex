@@ -3,7 +3,7 @@ In this section, we show that for a special class of POIBMDPs~\ref{def:poibmp}, 
 This class of POIBMDPs are those for which base MDPs have uniform transitions, i.e. $T(s, a, s') = \frac{1}{|S|}$ in~\ref{def:mdp}.
 Supervised learning problems~\ref{def:sl} can be formulated as MDPs with such uniform transitions.
 Indeed a supervised learning problem can be formulated as an MDP where, actions are class (or target) labels, states are training data, the reward at every step is 1 if the correct label was predicted and 0 otherwise, and the transitions are uniform: the next state is given by uniformly sampling a new training datum. 
-This implies that learning partially observable deterministic policies in POIBMDPs where the base MDP encodes a supervised learning task is equivalent to doing decision tree induction to optimize the supervised learning objective~\ref{def:sl}.
+This implies that learning deterministic partially observable policies in POIBMDPs where the base MDP encodes a supervised learning task is equivalent to doing decision tree induction to optimize the supervised learning objective~\ref{def:sl}.
 If RL does work for such fully observable POIBMDPs, this would mean that: 1. the difficulty of direct learning of decision tree policies for \textit{any} MDP with POIMDPs exhibited in the previous chapters, is most likely due to the partial observability, and 2., it means that we can design new decision tree induction algorithms for~\ref{def:sl} by solving MDPs.
 
 Let us show that, POIBMDPs~\ref{def:poibmdp} associated with a supervised learning problems formulated as an MDP, are in fact MDPs~\ref{def:mdp}.
@@ -121,31 +121,31 @@ Since classification POIBMDPs are MDPs, we do not need to analyze asymmetric RL 
 
 Fortunately this time, compared to general POIBMDPs, RL can be used to retrieve optimal policies in classification POIBMDPs that are equivalent to decision tree classifiers.
 We observe on Figure~\ref{fig:rl-classif-poibmdp} that both Q-learning and Sarsa consistently minimize the sub-optimality gap indepedently of the interpretability-performance trade-off $\zeta$. 
-Hence they are able to retrieve the optimal detph-1 decision tree classifier (Fig.~\ref{example:cmdp}) most of the time in the optimality range $\zeta\in ]0, 1[$ (c.f. Fig.~\ref{fig:tree-distrib-classif-poibmdp}).
+Hence they are able to retrieve the optimal depth-1 decision tree classifier (Fig.~\ref{example:cmdp}) most of the time in the optimality range $\zeta\in ]0, 1[$ (cf. Fig.~\ref{fig:tree-distrib-classif-poibmdp}).
 
 
 \section{Conclusion}
-In this part of the manuscript we were interested in algorithms that can learn decision tree policies for (factored) MDPs that optimize some trade-off of interpretability and performance w.r.t the RL objective~\ref{def:mdp-obj}.
+In this part of the manuscript we were interested in algorithms that can learn decision tree policies for (factored) MDPs that optimize some trade-off of interpretability and performance w.r.t. the RL objective~\ref{def:mdp-obj}.
 In particular, using the framework of Topin et. al.~\cite{topin2021iterative}, we were able to explicitly write this optimization problem~\ref{def:irl}.
 
 In Chapter~\ref{sec:topin}, we compared the algorithms proposed in~\cite{topin2021iterative} that directly solve this problem, to imitation learning algorithms that only solve a proxy problem.
-While those direct RL algorithms are able to \textit{learn}, i.e. find better and better solutions with time (c.f. Figs.~\ref{fig:res-dqn} and~\ref{ifg:res-ppo}), the decision tree policies returned perform worse in average than imitated decision trees w.r.t to the RL objective of interest (c.f. Figs.~\ref{dif:trees-drl}).
+While those direct RL algorithms are able to \textit{learn}, i.e. find better and better solutions with time (cf. Figs.~\ref{fig:res-dqn} and~\ref{ifg:res-ppo}), the decision tree policies returned perform worse in average than imitated decision trees w.r.t. to the RL objective of interest (cf. Figs.~\ref{dif:trees-drl}).
 
 We further analyzed the failure mode of direct learning of decision tree policies by making connexions with POMDPs~\cite{POMDP,chap2}.
-In Chapter~\ref{sec:pomdp}, we showed that learning decision tree policies for MDPs that optimize the RL objective could be explicitely formulated as learning a deterministic partially observable (also known as memoryless or reactive) policy in a specific POMDP that we called POIBMDP~\ref{def:poibmdp}.
+In Chapter~\ref{sec:pomdp}, we showed that learning decision tree policies for MDPs that optimize the RL objective could be explicitly formulated as learning a deterministic partially observable (also known as memoryless or reactive) policy in a specific POMDP that we called POIBMDP~\ref{def:poibmdp}.
 We showed that both RL and asymmetric RL, a class of algorithms specifically designed for POMDPs~\ref{baisero-ppo,baisero-dqn}, were unable to consistently retrieve an optimal depth-1 decision tree policies for a very small grid world MDP.
 In particular, with this new context of partial observability, we compared, in a very controlled experiment, the success rates of the same learning algorithms applied to partially observable and standard MDPs that shared the same transitions and rewards.
-We demonstrated on Figure~\ref{fig:po-vs-ib} that introducing partial observability greatly reduced the success rates (we also observed this explicitely on Figures~\ref{fig:dqn} and~\ref{fig:res-ppo}).  
+We demonstrated on Figure~\ref{fig:po-vs-ib} that introducing partial observability greatly reduced the success rates (we also observed this implicitly on Figures~\ref{fig:dqn} and~\ref{fig:res-ppo}).  
 
-Finally, in this Chapter we showed that RL in fully observable POIBMDPs, i.e. POIBMDPs that are just MDPs, could retrieve optimal decision tree policies (c.f. Figures~\ref{fig:rl-poibmdp-classif} and~\ref{fig:tree-distrib-poibmdp-classif}) adding new evidence that direct interpretable RL is difficult because it involves POMDPs.
+Finally, in this Chapter we showed that RL in fully observable POIBMDPs, i.e. POIBMDPs that are just MDPs, could retrieve optimal decision tree policies (cf. Figures~\ref{fig:rl-poibmdp-classif} and~\ref{fig:tree-distrib-poibmdp-classif}) adding new evidence that direct interpretable RL is difficult because it involves POMDPs.
 
-This class of fully observable POIBMDPs contains the decision tree induction problem for supervised learning tasks~\ref{def:sl} (c.f. Defs.~\ref{def:cmdp} and~\ref{def:cpoibmdp}).
+This class of fully observable POIBMDPs contains the decision tree induction problem for supervised learning tasks~\ref{def:sl} (cf. Defs.~\ref{def:cmdp} and~\ref{def:cpoibmdp}).
 This sparks the question: what kind of decision tree induction algorithm can we get using the MDP formalisms?
 This exactly what we study in the next part of this manuscript.
 
 Those few chapters raise some interesting questions.
 First, while we focused on non-parametric tree learning with the promise that RL algorithms could naturally trade off interpretability and performances, parametric tree learning should be studied since it does not have this partial observability component.
-Since existing RL for parametric decision tree policies \cite{silva,vos2024optimizinginterpretabledecisiontree,sympol} require to re-train a policy entirely for each interpretability-performance trade off a user might want, future research in this direction should focus on algorithms for parametric tree policies that can re-use samples from one interpretability-performance trade-off to train a tree policy for an other trade-off more efficiently.
+Since existing RL for parametric decision tree policies \cite{silva,vos2024optimizinginterpretabledecisiontree,sympol} require to re-train a policy entirely for each decision tree structure, future research in this direction should focus on algorithms for parametric tree policies that can re-use samples from one tree learning to train a different tree structure more efficiently.
 This would reduce the required quantity of a priori knowledge on the decision tree policy structure mentioned in Section~\ref{sec:intro1}
 
 Attempting to overcome the partial observability challenges highlighted so far seems like a bad research avenue.

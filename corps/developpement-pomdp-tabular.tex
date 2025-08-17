@@ -20,7 +20,7 @@ A partially observable Markov decision process is a tuple $\langle X, A, O, T, T
     \item $\Omega: X \rightarrow \Delta O$ is the observation kernel, where $\Omega(\boldsymbol{o}, a, \boldsymbol{x}) = P(\boldsymbol{o}|\boldsymbol{x}, a)$ is the probability of observing $\boldsymbol{o}$ in state $\boldsymbol{x}$
     \item $R: X \times A \rightarrow \mathbb{R}$ is the reward function, where $R(\boldsymbol{x}, a)$ is the immediate reward for taking action $a$ in state $\boldsymbol{x}$
 \end{itemize}
-Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP (cite).
+Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP~\ref{def:mdp}.
 \end{definition}
 
 Let us define explicitely a partially observable iterative bounding Markove decision process (POIBMDP). It is essentially an IBMDP extended with an observation space and an observation kernel:
@@ -43,18 +43,18 @@ Following~\cite{learning-pomdp} we can write the value of a deterministic partia
     \begin{align*}
         V^{\pi}(\boldsymbol{o}) &= \underset{(s,\boldsymbol{o}')\in S\times O}{\sum}P^{\pi}((\boldsymbol{s}, \boldsymbol{o}')|\boldsymbol{o})V^{\pi}((\boldsymbol{s}, \boldsymbol{o}'))
     \end{align*}
-with $P^{\pi}((\boldsymbol{s}, \boldsymbol{o}')|\boldsymbol{o})$ the asymptotic occupancy distribution (see \cite[Section 4]{learning-pomdp} for the full defintion) of the complete POIBMDP state $(\boldsymbol{s},\boldsymbol{o}')$ given the partial observation $o$ and $V^{\pi}((s, o'))$ the classical state-value function defined in (cite).
+with $P^{\pi}((\boldsymbol{s}, \boldsymbol{o}')|\boldsymbol{o})$ the asymptotic occupancy distribution (see \cite[Section 4]{learning-pomdp} for the full defintion) of the complete POIBMDP state $(\boldsymbol{s},\boldsymbol{o}')$ given the partial observation $o$ and $V^{\pi}((s, o'))$ the classical state-value function~\ref{def:vs}.
 \end{definition}
 
 The asymptotic occupancy distribution is the probability of a policy $\pi$ to arrive in $(s,\boldsymbol{o}')$ while observing $\boldsymbol{o}$ in some trajectory.  
 We can re-write the direct interpretable RL objective (\ref{def:irl}) in terms of POIBMDPs:
 
 \begin{definition}[Revised direct interpretable RL objective]\label{def:revised}
-    Given an MDP $\mathcal{M}$ (cite) and an associated POIBMDP $\mathcal{M}_{POIB}$ (\ref{def:poibmdp}), the direct interpretable RL objective becomes:
+    Given a (factored) MDP $\mathcal{M}$~\ref{def:fmdp} and an associated POIBMDP $\mathcal{M}_{POIB}$ (\ref{def:poibmdp}), the direct interpretable RL objective becomes:
 \begin{align}
     \pi^{\star} &= \underset{\pi}{\operatorname{argmax}}J(\pi) = \underset{\pi}{\operatorname{argmax}}V^{\pi}(\boldsymbol{o}_0)
 \end{align}
-With $\pi$ a determintic partially observable policy $\pi:O\rightarrow A\cup A_{info}$. There is no expectation over possible initial observation in the above objective function as there is only one initial observation in a POIBMDP: $\boldsymbol{o}_0=(L_1, U_1, \dots, L_n, U_n)$ (c.f. Def.\ref{def:ibmdp}).
+With $\pi$ a deterministic partially observable policy $\pi:O\rightarrow A\cup A_{info}$. There is no expectation over possible initial observation in the above objective function as there is only one initial observation in a POIBMDP: $\boldsymbol{o}_0=(L_1, U_1, \dots, L_n, U_n)$ (cf. Def.\ref{def:ibmdp}).
 \end{definition}
 This revised objective is just a re-writing of (\ref{def:irl}) making explicit the POMDP model.
 In this Chapter, we use reinforcement learning to train decision tree policies for MDPs by seeking deterministic partially observable policies for POIBMDPs (\ref{def:poibmdp}), i.e. by solving (\ref{def:revised}).
@@ -93,16 +93,16 @@ We summarized the approach in Figure~\ref{fig:summary-rl}
     
 \end{tikzpicture}
 \caption{A formal framework to learn decision tree policies for MDPs that directly optimize a trade-off between the RL objective~\ref{def:mdp-obj} and interpretability.
-This framework relies on learning a partially observable deterministic policy in a POIBMDP~\ref{def:poibmdp}.}
+This framework relies on learning a deterministic partially observable policy in a POIBMDP~\ref{def:poibmdp}.}
 \label{fig:summary-rl}
 \end{figure}
 
-We will attempt to \textit{learn} an optimal depth-1 tree policy w.r.t the RL objective (\ref{def:mdp-obj}) for the $2\times 2$ grid world from Example \ref{example:grid}.
+We will attempt to \textit{learn} an optimal depth-1 tree policy w.r.t. the RL objective (\ref{def:mdp-obj}) for the $2\times 2$ grid world from Example \ref{example:grid}.
 One of those two optimal depth-1 tree is given in Figure~\ref{fig:optimal-policy-trees}. The other optimal depth-1 tree is to go right when $y\leq 1$ and down otherwise
 We formulate this as solving the (revised) direct interpretble RL objective~\ref{def:revised} where the base MDP is the grid world and the POIBMDP is obtained from the IBMDP of Example \ref{example:ibmdp}.
 
 We choose $\gamma$ and $\zeta$ in the POIBMDP such that the \textit{optimal} partially observable deterministic policy, i.e. the solution to (\ref{def:revised}), corresponds exactly to the decision tree of depth 1 from Figure~\ref{fig:trees-intro}.
-This depth 1 tree is in turn optimal in the grid world MDP w.r.t to the base RL objective (\ref{def:mdp-obj}).
+This depth-1 tree is in turn optimal in the grid world MDP w.r.t. to the base RL objective (\ref{def:mdp-obj}).
 Next we present some insights about the solution space of (\ref{def:revised}).
 
 \section{Constructing POIBMDPs which optimal solutions are the depth-1 tree}
@@ -164,7 +164,7 @@ Next we present some insights about the solution space of (\ref{def:revised}).
     \label{fig:optimal-policy-trees}
 \end{figure}
 
-Because we know all the base states, all the observations, all the actions, all the rewards and all the transitions of our POIBMDP, we can compute exactly the values of different partially observable deterministic policies given $\zeta$ the reward for IGAs and $\gamma$ the discount factor.
+Because we know all the base states, all the observations, all the actions, all the rewards and all the transitions of our POIBMDP, we can compute exactly the values of different deterministic partially observable policies given $\zeta$ the reward for IGAs and $\gamma$ the discount factor.
 Each of those policies can be one of the following trees illustrated in Figure~\ref{fig:optimal-policy-trees}: 
 
 \begin{itemize}
@@ -175,7 +175,7 @@ Each of those policies can be one of the following trees illustrated in Figure~\
     \item an inifinite ``tree'' that only takes IGAs
 \end{itemize}
 Furthermore, because from~\cite{learning-pomdp} we know that for POMDPs, stochastic policies can sometimes get better expected discounted rewards than deterministic policies, we also compute the value of the stochastic policy that alternates between two base actions: $\rightarrow$ and $\downarrow$.
-Those two base actions always lead to the goal state (c.f. Figure~\ref{example:grid}) in expectation.
+Those two base actions always lead to the goal state (cf. Figure~\ref{example:grid}) in expectation.
 
 We detail the calculations for the detpth-1 decision tree objective value~\ref{def:revised} and defer the calculations for the other policies to the Appendix~\ref{calcs}.
 
@@ -250,7 +250,7 @@ The history-dependent (or observation-dependent) model can thus be deplyed in th
 In Algorithms~\ref{alg:asymqlearning} and~\ref{alg:asymsarsa} we present asymmetric Q-learning and asymmetric Sarsa. Given a POMDP, both train an observation-dependet Q-function $Q:O\times A\rightarrow\mathbb{R}$ and a state-dependent Q-function $U:X\times A\rightarrow\mathbb{R}$.
 
 In~\cite{jsj}, authors introduce a policy search algorithm~\ref{sec:rl} that learns a (stochastic) policy $\pi:O\rightarrow\Delta A$ and a critic $V:X\rightarrow \mathbb{R}$ using Monte Carlo estimates to guide policy improvement.
-We write this algorithm that we call JSJ (for the authors name Jaakkola, Singh, Jordan) in Algorithm~\ref{alg:jsj}. JSJ is equivalent to a tabular asymmetric policy gradient algorithm (c.f. Alg.~\ref{alg:reinforce}). 
+We write this algorithm that we call JSJ (for the authors name Jaakkola, Singh, Jordan) in Algorithm~\ref{alg:jsj}. JSJ is equivalent to a tabular asymmetric policy gradient algorithm (cf. Alg.~\ref{alg:reinforce}). 
 
 Until recently, the benefits of asymmetric RL over standard RL was only shown empirically and only for history-dependent models.
 The work of Gaspard Lambrechts~\cite{justif-asym} proves that some asymmetric RL algorithms learn better history-dependent \textbf{or} observation-dependent policies for solving POMDPs.
@@ -352,8 +352,8 @@ Unfortunately, our results are negative and show that (asymmetric) reinforcement
 \subsection{Experimental Setup}
 
 \paragraph{Baselines:} we consider two groups of RL algorithms.
-The first group is standard tabular RL naively applied to POIBMDPs; Q-learning, Sarsa, and Policy Gradient with a softmax policy (c.f. Sec.~\ref{sec:rl}).
-In theory the Policy Gradient algorithm should not be a good candidate for our problem since it searches for stochastic policies that we showed can be better than our seeked depth-1 decision tree policy (c.f. Figure (cite)).
+The first group is standard tabular RL naively applied to POIBMDPs; Q-learning, Sarsa, and Policy Gradient with a softmax policy (cf. Sec.~\ref{sec:rl}).
+In theory the Policy Gradient algorithm should not be a good candidate for our problem since it searches for stochastic policies that we showed can be better than our seeked depth-1 decision tree policy (cf. Figure~\ref{fig:objectives}).
 
 In addition to the traditional tabular RL algorithms above, we also apply asymmetric Q-learning, asymmetric Sarsa, and JSJ (Algorithms~\ref{alg:asymqlearning},~\ref{alg:asymsarsa} and~\ref{alg:jsj}).
 We use at least 200 000 POIBMDP time steps per experiment. Each experiment, i.e an RL algorithm learning in a POIBMDP, is repeated 100 times.  
@@ -362,10 +362,10 @@ We use at least 200 000 POIBMDP time steps per experiment. Each experiment, i.e 
 
 \paragraph{Metrics:} we will consider two metrics.
 First, the sub-optimality gap during training of the learned partially observable policy value with respect to the optimal deterministic partially observable POIBMP policy: $|V^\pi^{\star}(\boldsymbol{o}_0) - V^\pi(\boldsymbol{o}_0)|$
-Because we know the whole POIBMDP model that we can represent exactly as tables; and because we know for each $\zeta$ the POIBMDP objective value of the optimal partially observable policy (c.f. Figure); we can report the \textit{exact} sub-optimality gaps.
+Because we know the whole POIBMDP model that we can represent exactly as tables; and because we know for each $\zeta$ the POIBMDP objective value of the optimal partially observable policy (cf. Figure); we can report the \textit{exact} sub-optimality gaps.
 
 Second, we consider the distribution of the learned trees over the 100 training seeds.
-Indeed, since for every POIBMDP we run each algorihtm 100 times, at the end of training we get 100 partially observable deterministic policies (we compute the greedy policy for stochastic policies returned by JSJ and Policy Gradient), from which we can extract the equivalent 100 decision tree policies using Algorithm~\ref{alg:extract-tree} and we can count which one are of e.g. depth-1.
+Indeed, since for every POIBMDP we run each algorihtm 100 times, at the end of training we get 100 deterministic partially observable policies (we compute the greedy policy for stochastic policies returned by JSJ and Policy Gradient), from which we can extract the equivalent 100 decision tree policies using Algorithm~\ref{alg:extract-tree} and we can count which one are of e.g. depth-1.
 This helps understand which trees RL algorithms tend to learn.
 
 \subsection{Can (asymmetric) RL retrieve optimal deterministic partially observable POIBMDP policies?}
@@ -389,7 +389,7 @@ In that range, no baseline consistently minimizes the sub-optimality gap.
 In Figure~\ref{fig:dt-distrib-poibmdp}, we plot the distributions over the final learned trees in function of $\zeta$ from the above runs.
 For example, in Figure~\ref{fig:dt-distrib-poibmdp}, in the top left plot, when learning 100 times in a POIBMP with $\zeta=0.5$, Q-learning returned almost 100 times a depth 0 tree.
 Again, on none of those subplots do we see a high rate of learned depth-1 trees for $\zeta\in ]0, 1[$.
-It is alerting that the most frequent learned trees are the depth-0 trees for $\zeta\in ]0, 1[$ because such trees are way more sub-optimal w.r.t to (\ref{def:revised}) than e.g. the depth-2 unbalanced trees (c.f. Figure~\ref{fig:objectives}).  
+It is alerting that the most frequent learned trees are the depth-0 trees for $\zeta\in ]0, 1[$ because such trees are way more sub-optimal w.r.t. to (\ref{def:revised}) than e.g. the depth-2 unbalanced trees (cf. Figure~\ref{fig:objectives}).  
 One interpretation of this phenomenon is that the learning in POIBMDPs is very difficult and so agents tend to converge to trivial policies, e.g., repeating the same base action.
 
 However, on the positive side, we observe that asymmetric versions of Q-learning and Sarsa have found the optimal policy, the depth-1 decision tree, more frequently throught the optimality range $]0,1[$ than their symmetric counter-parts for $\zeta\in ]0, 1[$.
@@ -437,7 +437,7 @@ Furhtermore, the careful reader might notice that there is no point running asym
 Hence, we only run asymmetric RL for POIBMDPs and otherwise run all other RL algorithms and all problems.
 
 Each unique hyperparameters combination for a given algorithm on a given problem is run 10 times on 1 million learning steps.
-For example, for asymmetric Sarsa, we run a total of $10\times 768= 7680$ experiments for learning partially observable deterministic policies for a POIBMDP (c.f. Table~\ref{tab:hp-sarsa}).
+For example, for asymmetric Sarsa, we run a total of $10\times 768= 7680$ experiments for learning deterministic partially observable policies for a POIBMDP (cf. Table~\ref{tab:hp-sarsa}).
 To get a success rate, we can simply divide the number of learned depth 1 tree by 7680 (recall that for $\gamma=0.99$ and $\zeta=0.5$, the optimal policy is a depth-1 tree (e.g. Figure~\ref{fig:optimal-policy-trees}) as per Figure~\ref{fig:objectives}). 
 
 \begin{table}[h]
@@ -478,7 +478,7 @@ Optimistic & True, False & Optimistic initialization \\
     \end{table}
 
 
-The key observations from Figure~\ref{fig:po-vs-ib} is that reinforcement learning a partially observable determninistic policy in a POIBMDP, is way harder than learning Q-function of policies that have access to all the state information.
+The key observations from Figure~\ref{fig:po-vs-ib} is that reinforcement learning a deterministic partially observable policy in a POIBMDP, is way harder than learning Q-function of policies that have access to all the state information.
 For example, Q-learning only finds the optimal solution to (\ref{def:revised}) in only 3\% of the experiments while the same algorithms to optimize the standard RL objective (\ref{def:mdp-obj}) in an MDP or IBMDP found the optimal solutions 50\% of the time.
 Even though asymmetry seems to increase performances; learning a decision tree policy for a simple grid world directly with RL using the framework of POIBMDP originally developed in~\cite{topin2021iterative} seem way to difficult and costly as successes might require a million steps for such a seemingly simple problem.
 An other difficulty in practice that we did not cover here, is the choice of information gathering actions.
@@ -492,7 +492,7 @@ On Figure~\ref{fig:asym-ql-analysis} depsite higher success rates in the region 
 \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{images/images_part1/algorithm_performance_comparison_flattened.pdf}
-    \caption{Success rates of different (asymmetric) RL algorithms over thousands of runs when applied to learning partially observable deterministic policies in a POIBMDP or learning deterministic policies in associated MDP and IBMDP.}\label{fig:po-vs-ib}
+    \caption{Success rates of different (asymmetric) RL algorithms over thousands of runs when applied to learning deterministic partially observable policies in a POIBMDP or learning deterministic policies in associated MDP and IBMDP.}\label{fig:po-vs-ib}
 \end{figure}
 
 
