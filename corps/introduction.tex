@@ -720,7 +720,7 @@ We can formally this goal as an optimization problem as follows.
 
 \begin{definition}[Markov decision problem]\label{def:mdp-obj} Given an MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$ (~\ref{def:mdp}), the objective of a model, aslo known as a policy $\pi: S \rightarrow A$ is to maximize the expected discounted sum of rewards:
 $$J(\pi) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
-where $\gamma \in (0,1)$ is the discount factor that controls the trade-off between immediate and future rewards.
+where $\gamma \in (0,1]$ is the discount factor that controls the trade-off between immediate and future rewards.
 \end{definition}
 
 Hence, algorithms presented in this manuscript aim to find solutions to Markov decision problems, i.e., to model the optimal policy: $\pi^\star =\underset{\pi}{\operatorname{argmax}}J(\pi)$.

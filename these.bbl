@@ -202,6 +202,111 @@
       \verb https://openreview.net/forum?id=rkl3m1BFDB
       \endverb
     \endentry
+    \entry{baisero-ppo}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=f49a8d34e0eef47ad9020b763e7d9564}{%
+           family={Baisero},
+           familyi={B\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod}}}%
+        {{hash=fa9a6826b3f1170680cb17b160340e97}{%
+           family={Amato},
+           familyi={A\bibinitperiod},
+           given={Christopher},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Virtual Event, New Zealand}%
+      }
+      \list{publisher}{2}{%
+        {International Foundation for Autonomous Agents}%
+        {Multiagent Systems}%
+      }
+      \strng{namehash}{694344f74b170905908c6ba1ebb14e00}
+      \strng{fullhash}{694344f74b170905908c6ba1ebb14e00}
+      \strng{bibnamehash}{694344f74b170905908c6ba1ebb14e00}
+      \strng{authorbibnamehash}{694344f74b170905908c6ba1ebb14e00}
+      \strng{authornamehash}{694344f74b170905908c6ba1ebb14e00}
+      \strng{authorfullhash}{694344f74b170905908c6ba1ebb14e00}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{In partially observable reinforcement learning, offline training gives access to latent information which is not available during online training and/or execution, such as the system state. Asymmetric actor-critic methods exploit such information by training a history-based policy via a state-based critic. However, many asymmetric methods lack theoretical foundation, and are only evaluated on limited domains. We examine the theory of asymmetric actor-critic methods which use state-based critics, and expose fundamental issues which undermine the validity of a common variant, and limit its ability to address partial observability. We propose an unbiased asymmetric actor-critic variant which is able to exploit state information while remaining theoretically sound, maintaining the validity of the policy gradient theorem, and introducing no bias and relatively low variance into the training process. An empirical evaluation performed on domains which exhibit significant partial observability confirms our analysis, demonstrating that unbiased asymmetric actor-critic converges to better policies and/or faster than symmetric and biased asymmetric baselines.}
+      \field{booktitle}{Proceedings of the 21st International Conference on Autonomous Agents and Multiagent Systems}
+      \field{isbn}{9781450392136}
+      \field{series}{AAMAS '22}
+      \field{title}{Unbiased Asymmetric Reinforcement Learning under Partial Observability}
+      \field{year}{2022}
+      \field{pages}{44\bibrangedash 52}
+      \range{pages}{9}
+      \keyw{actor-critic,partial observability,reinforcement learning}
+    \endentry
+    \entry{baisero-dqn}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=f49a8d34e0eef47ad9020b763e7d9564}{%
+           family={Baisero},
+           familyi={B\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod}}}%
+        {{hash=3dee193211f8d0965c856cb59320e13c}{%
+           family={Daley},
+           familyi={D\bibinitperiod},
+           given={Brett},
+           giveni={B\bibinitperiod}}}%
+        {{hash=fa9a6826b3f1170680cb17b160340e97}{%
+           family={Amato},
+           familyi={A\bibinitperiod},
+           given={Christopher},
+           giveni={C\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=7971c2473560d8ed681f91ee565ec39f}{%
+           family={Cussens},
+           familyi={C\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod}}}%
+        {{hash=62735e1af0391d63c09ff9fbcd3d4d54}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Kun},
+           giveni={K\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {PMLR}%
+      }
+      \strng{namehash}{16f993e59c769913580a291b60e1b18b}
+      \strng{fullhash}{16f993e59c769913580a291b60e1b18b}
+      \strng{bibnamehash}{16f993e59c769913580a291b60e1b18b}
+      \strng{authorbibnamehash}{16f993e59c769913580a291b60e1b18b}
+      \strng{authornamehash}{16f993e59c769913580a291b60e1b18b}
+      \strng{authorfullhash}{16f993e59c769913580a291b60e1b18b}
+      \strng{editorbibnamehash}{6d40d4e240cafd38666c10c613351f33}
+      \strng{editornamehash}{6d40d4e240cafd38666c10c613351f33}
+      \strng{editorfullhash}{6d40d4e240cafd38666c10c613351f33}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Offline training in simulated partially observable environments allows reinforcement learning methods to exploit privileged state information through a mechanism known as asymmetry. Such privileged information has the potential to greatly improve the optimal convergence properties, if used appropriately. However, current research in asymmetric reinforcement learning is often heuristic in nature, with few connections to underlying theory or theoretical guarantees, and is primarily tested through empirical evaluation. In this work, we develop the theory of Asymmetric Policy Iteration, an exact model-based dynamic programming solution method, and then apply relaxations which eventually result in Asymmetric DQN, a model-free deep reinforcement learning algorithm. Our theoretical findings are complemented and validated by empirical experimentation performed in environments which exhibit significant amounts of partial observability, and require both information gathering strategies and memorization.}
+      \field{booktitle}{Proceedings of the Thirty-Eighth Conference on Uncertainty in Artificial Intelligence}
+      \field{month}{01--05 Aug}
+      \field{series}{Proceedings of Machine Learning Research}
+      \field{title}{Asymmetric {DQN} for partially observable reinforcement learning}
+      \field{volume}{180}
+      \field{year}{2022}
+      \field{pages}{107\bibrangedash 117}
+      \range{pages}{11}
+      \verb{file}
+      \verb https://proceedings.mlr.press/v180/baisero22a/baisero22a.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://proceedings.mlr.press/v180/baisero22a.html
+      \endverb
+      \verb{url}
+      \verb https://proceedings.mlr.press/v180/baisero22a.html
+      \endverb
+    \endentry
     \entry{lens-complexity}{article}{}
       \name{author}{4}{}{%
         {{hash=1b311c76b1d53d7a7ea31d940e188e80}{%
@@ -238,6 +343,46 @@
       \field{journaltitle}{Advances in neural information processing systems}
       \field{title}{Model interpretability through the lens of computational complexity}
       \field{year}{2020}
+    \endentry
+    \entry{cartpole}{article}{}
+      \name{author}{3}{}{%
+        {{hash=32a0a208f8bcf56a13b0a8e618aa806a}{%
+           family={Barto},
+           familyi={B\bibinitperiod},
+           given={Andrew\bibnamedelima G.},
+           giveni={A\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=eb920e5277d3d5fd0903f3cd41e11871}{%
+           family={Sutton},
+           familyi={S\bibinitperiod},
+           given={Richard\bibnamedelima S.},
+           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=aa40e122da320ed490093f1fdba57a7c}{%
+           family={Anderson},
+           familyi={A\bibinitperiod},
+           given={Charles\bibnamedelima W.},
+           giveni={C\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{dafe52c634697414186a08cce01e057a}
+      \strng{fullhash}{dafe52c634697414186a08cce01e057a}
+      \strng{bibnamehash}{dafe52c634697414186a08cce01e057a}
+      \strng{authorbibnamehash}{dafe52c634697414186a08cce01e057a}
+      \strng{authornamehash}{dafe52c634697414186a08cce01e057a}
+      \strng{authorfullhash}{dafe52c634697414186a08cce01e057a}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Systems, Man, and Cybernetics}
+      \field{number}{5}
+      \field{title}{Neuronlike adaptive elements that can solve difficult learning control problems}
+      \field{volume}{SMC-13}
+      \field{year}{1983}
+      \field{pages}{834\bibrangedash 846}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1109/TSMC.1983.6313077
+      \endverb
+      \keyw{Adaptive systems;Problem-solving;Training;Pattern recognition;Neurons;Supervised learning;Biological neural networks}
     \endentry
     \entry{viper}{article}{}
       \name{author}{3}{}{%
@@ -4004,6 +4149,58 @@
       \field{year}{2011}
       \field{pages}{2825\bibrangedash 2830}
       \range{pages}{6}
+    \endentry
+    \entry{pinto}{misc}{}
+      \name{author}{5}{}{%
+        {{hash=9d4b78f1220fe5cab8395d811fc9c5b2}{%
+           family={Pinto},
+           familyi={P\bibinitperiod},
+           given={Lerrel},
+           giveni={L\bibinitperiod}}}%
+        {{hash=0d8b72cabbd1b548097b4a7b81a0f335}{%
+           family={Andrychowicz},
+           familyi={A\bibinitperiod},
+           given={Marcin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=462853f8544f0acfb7014fe747f84922}{%
+           family={Welinder},
+           familyi={W\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=e9fec85bbce1b087a6ebefe26e73f7bf}{%
+           family={Zaremba},
+           familyi={Z\bibinitperiod},
+           given={Wojciech},
+           giveni={W\bibinitperiod}}}%
+        {{hash=e28d4ee199593959d8c29980a64f1974}{%
+           family={Abbeel},
+           familyi={A\bibinitperiod},
+           given={Pieter},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{009a5c68c897047df971c989b06bc577}
+      \strng{fullhash}{d012a902a710a88caa929eec5b3f11c1}
+      \strng{bibnamehash}{009a5c68c897047df971c989b06bc577}
+      \strng{authorbibnamehash}{009a5c68c897047df971c989b06bc577}
+      \strng{authornamehash}{009a5c68c897047df971c989b06bc577}
+      \strng{authorfullhash}{d012a902a710a88caa929eec5b3f11c1}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.RO}
+      \field{eprinttype}{arXiv}
+      \field{title}{Asymmetric Actor Critic for Image-Based Robot Learning}
+      \field{year}{2017}
+      \verb{eprint}
+      \verb 1710.06542
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1710.06542
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1710.06542
+      \endverb
     \endentry
     \entry{behavior-cloning}{article}{}
       \name{author}{1}{}{%

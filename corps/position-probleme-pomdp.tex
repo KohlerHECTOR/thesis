@@ -1,4 +1,4 @@
-\chapter{Introduction}
+\chapter{Introduction}\label{sec:intro-pomdp}
 In the first part of the manuscript, we show that direct reinforcement learning of decision tree policies for MDPs, i.e. learning a decision tree that optimizes (\ref{def:mdp-obj}) is often very difficult.
 In particular, we provide some insights as to why it is so difficult and show that indirect imitation of a neural network policy (Sec. \ref{sec:imit}), while not optimizing (\ref{def:mdp-obj}) directly, often yields very good tree policies.
 
@@ -14,8 +14,8 @@ Those algorithms either learn parametric trees or non-parametric trees.
 
 Parametric trees are not ``grown'' from the root by iteratively adding internal or leaf nodes (c.f. Fig. \ref{fig:dt}), but are rather ``optimized'': the depth, internal nodes arrengement, and state-features to consider in each nodes are fixed \textit{a priori} and only the thresholds of each nodes are learned similar to doing gradient descent on neural network weights.
 As the reader might have guessed, those parametric trees are advantageous in that they can be learned with the policy gradient \cite{pg_sutton}. Both \cite{silva}, \cite{vos2024optimizinginterpretabledecisiontree} and \cite{sympol} use PPO \cite{ppo} to optimize such differentiable decision trees. In particular, \cite{sympol} explicitely studies the gap in performances between their direct optimization and the indirect imitation.
-While their results are encouraging performance-wise, in general a user cannot know \textit{a priori}  what a ``good'' tree policy structure should be for a particular MDP: either the specified structure is too deep and pruning will be required after training or the tree structure is not expressive enough to encode a good policy, i.e. parametric trees cannot trade off interpretability and performances during training.
-Furthermore, in addition to PPO, authors from \cite{sympol} show that extra stabilizing tricks, such as adaptive batch sizes, are required during training to outperform indirect imitation.
+While those methods optimize the RL objective (\ref{def:mdp-obj}) directly and train high-performing policies w.r.t the downstream tasks, in general a user cannot know \textit{a priori}  what a ``good'' tree policy structure should be for a particular MDP: either the specified structure is too deep and pruning will be required after training or the tree structure is not expressive enough to encode a good policy, i.e. parametric trees cannot trade off interpretability and performances during training.
+Furthermore, authors from \cite{sympol} show that extra stabilizing tricks, such as adaptive batch sizes, are required during training to outperform indirect imitation in terms of RL objective (\ref{def:mdp-obj}).
 
 Non-parametric trees are the standard model in supervised learning \cite{breiman1984classification,ID3,c45} and offer good trade-off between interpretability and performances when optimizing (\ref{def:sl}).
 On the other hand, to the best of our knowledge, there exists onlye one work studying non-parametric trees to optimize a trade-off between interpretability and the RL objective (\ref{def:mdp-obj}): Topin et. al. \cite{topin2021iterative}.
@@ -32,7 +32,8 @@ In the next section we present IBMDPs as introduced in Topin et. al.\cite{topin2
 
 The key thing to know about IBMDPs is that they are, as their name suggests, MDPs.
 Hence, IBMDPs admits an optimal deterministic Markovian policy for problem (\ref{def:mdp-obj}).
-In this part we will assume that all the MDP we consider are factored MDPs \ref{def:fmdp} so we use bold fonts for states and observations as they are vector-valued.
+In this part we will assume that all the MDP we consider are factored MDPs \ref{def:fmdp} with a finite set of actions, so we use bold fonts for states and observations as they are vector-valued.
+However all our results generalize to discrete states (in $\mathbb{Z}^m$) MDP that we can factor using one-hot encodings. 
 Given an MDP for which we want to learn a decision tree policy, that we call the base MDP, the states in an associated IBMDP are concatenations of the base MDP states and some observations. 
 Those observations are information about the base states that are refined--``iteratively bounded''-- at each step and represent a subspace of the base MDP state space.
 Actions available in an IBMDP are the actions of the base MDP, that change the state of the latter, and \textit{information gathering} actions that change the observation part of the IBMDP state.
@@ -76,12 +77,13 @@ Indeed, a policy taking actions in an IBMDP essentially builds a tree by taking 
 
 However, authors from \cite{topin2021iterative} show that not all IBMDP policies are decision tree policies.
 In particular, they show that only deterministic policies depending solely on the observation part of the IBMDP states are guaranteed to correspond to decision tree policies for the base MDP.
+The intuition is that if one trains a policy $\pi:S\timesO\rightarrow A\cup A_{info}$, the policy might learn to rely only on state features of the base MDP $\boldsymbol{s}$ and take only base actions (no IGAs) which would simply be any policy for the base MDP.
 
 \begin{proposition}[Deterministic partially observable IBMDP policies are decision trees]\label{def:po-policy}
     Given a factored MDP $\mathcal{M}$ $\langle S, A, R, T, T_0\rangle$ (\ref{def:fmdp}) and an associated IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}), a deterministic partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ is a decision tree policy $\pi_{\mathcal{T}}: S \rightarrow A$ for the base MDP $\mathcal{M}$.
 \end{proposition}
 
-\begin{proof}(Sketch) Algorithm \ref{agl:extract-tree} that takes as input a deterministic partially observable policy (\ref{def:po-policy}) for an IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}), returns a decision tree policy $\pi_{\mathcal{T}}$ (\ref{def:dt}) for $\mathcal{M}$ $\langle S, A, R, T, T_0\rangle$ and always terminates unless the deterministic partially observable policy only takes IGAs.
+\begin{proof}(Sketch) Algorithm~\ref{alg:extract-tree} that takes as input a deterministic partially observable policy (\ref{def:po-policy}) for an IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}), returns a decision tree policy $\pi_{\mathcal{T}}$ (\ref{def:dt}) for $\mathcal{M}$ $\langle S, A, R, T, T_0\rangle$ and always terminates unless the deterministic partially observable policy only takes IGAs.
 \end{proof}
 
 \begin{algorithm}[t]
@@ -293,7 +295,7 @@ The promise of Topin et. al. is that optimizing (\ref{def:mdp-obj}) in an IBMDP 
 
 We can thus write an interpretable RL objective as follows:
 \begin{definition}[Interpretable RL objective]\label{def:irl}
-    Given a factored MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$ for which we want an interpretable policy, e.g. a decision tree, a discount factor $\gamma \in (0,1)$, some interpretability penalty $\zeta$, and a set of information gathering actions $A_{info}$, we solve:
+    Given a factored MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$ for which we want an interpretable policy, e.g. a decision tree, a discount factor $\gamma \in (0,1]$, some interpretability penalty $\zeta$, and a set of information gathering actions $A_{info}$, we solve:
 \begin{align*}
     \pi^\star_{po} &= \underset{\pi_{po}}{\opertarname{argmax}} \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R((\boldsymbol{s}_t, \boldsymbol{o}_t), a_t) \mid \boldsymbol{s}_0 \sim T_0, a_t = \pi_{po}(\boldsymbol{o}_t), \boldsymbol{s}_{t+1} \sim T(\boldsymbol{s}_t, a_t), \boldsymbol{o}_{t+1}\sim T(\boldsymbol{o_t}, a_t)\right]\\
     &= \underset{\pi_{po}}{\operatorname{argmax}} \mathbb{E}[V^{\pi_{po}}(s_0, o_0)| s_0\sim T_0]

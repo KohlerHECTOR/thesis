@@ -873,6 +873,40 @@ series = {IJCAI'95}
   abstract = 	 {Decision trees are one of the most useful and popular methods in the machine learning toolbox. In this paper, we consider the problem of learning optimal decision trees, a combinatorial optimization problem that is challenging to solve at scale. A common approach in the literature is to use greedy heuristics, which may not be optimal. Recently there has been significant interest in learning optimal decision trees using various approaches (e.g., based on integer programming, dynamic programming)—to achieve computational scalability, most of these approaches focus on classification tasks with binary features. In this paper, we present a new discrete optimization method based on branch-and-bound (BnB) to obtain optimal decision trees. Different from existing customized approaches, we consider both regression and classification tasks with continuous features. The basic idea underlying our approach is to split the search space based on the quantiles of the feature distribution—leading to upper and lower bounds for the underlying optimization problem along the BnB iterations. Our proposed algorithm Quant-BnB shows significant speedups compared to existing approaches for shallow optimal trees on various real datasets.}
 }
 
+
+@inproceedings{baisero-ppo,
+author = {Baisero, Andrea and Amato, Christopher},
+title = {Unbiased Asymmetric Reinforcement Learning under Partial Observability},
+year = {2022},
+isbn = {9781450392136},
+publisher = {International Foundation for Autonomous Agents and Multiagent Systems},
+address = {Richland, SC},
+abstract = {In partially observable reinforcement learning, offline training gives access to latent information which is not available during online training and/or execution, such as the system state. Asymmetric actor-critic methods exploit such information by training a history-based policy via a state-based critic. However, many asymmetric methods lack theoretical foundation, and are only evaluated on limited domains. We examine the theory of asymmetric actor-critic methods which use state-based critics, and expose fundamental issues which undermine the validity of a common variant, and limit its ability to address partial observability. We propose an unbiased asymmetric actor-critic variant which is able to exploit state information while remaining theoretically sound, maintaining the validity of the policy gradient theorem, and introducing no bias and relatively low variance into the training process. An empirical evaluation performed on domains which exhibit significant partial observability confirms our analysis, demonstrating that unbiased asymmetric actor-critic converges to better policies and/or faster than symmetric and biased asymmetric baselines.},
+booktitle = {Proceedings of the 21st International Conference on Autonomous Agents and Multiagent Systems},
+pages = {44–52},
+numpages = {9},
+keywords = {actor-critic, partial observability, reinforcement learning},
+location = {Virtual Event, New Zealand},
+series = {AAMAS '22}
+}
+
+@InProceedings{baisero-dqn,
+  title = 	 {Asymmetric {DQN} for partially observable reinforcement learning},
+  author =       {Baisero, Andrea and Daley, Brett and Amato, Christopher},
+  booktitle = 	 {Proceedings of the Thirty-Eighth Conference on Uncertainty in Artificial Intelligence},
+  pages = 	 {107--117},
+  year = 	 {2022},
+  editor = 	 {Cussens, James and Zhang, Kun},
+  volume = 	 {180},
+  series = 	 {Proceedings of Machine Learning Research},
+  month = 	 {01--05 Aug},
+  publisher =    {PMLR},
+  pdf = 	 {https://proceedings.mlr.press/v180/baisero22a/baisero22a.pdf},
+  url = 	 {https://proceedings.mlr.press/v180/baisero22a.html},
+  abstract = 	 {Offline training in simulated partially observable environments allows reinforcement learning methods to exploit privileged state information through a mechanism known as asymmetry. Such privileged information has the potential to greatly improve the optimal convergence properties, if used appropriately. However, current research in asymmetric reinforcement learning is often heuristic in nature, with few connections to underlying theory or theoretical guarantees, and is primarily tested through empirical evaluation. In this work, we develop the theory of Asymmetric Policy Iteration, an exact model-based dynamic programming solution method, and then apply relaxations which eventually result in Asymmetric DQN, a model-free deep reinforcement learning algorithm. Our theoretical findings are complemented and validated by empirical experimentation performed in environments which exhibit significant amounts of partial observability, and require both information gathering strategies and memorization.}
+}
+
+
 @Article{murtree,
   author  = {Emir Demirovic and Anna Lukina and Emmanuel Hebrard and Jeffrey Chan and James Bailey and Christopher Leckie and Kotagiri Ramamohanarao and Peter J. Stuckey},
   title   = {MurTree: Optimal Decision Trees via Dynamic Programming and Search},
@@ -1215,6 +1249,16 @@ author = {Yoav Freund and Robert E Schapire},
 abstract = {In the first part of the paper we consider the problem of dynamically apportioning resources among a set of options in a worst-case on-line framework. The model we study can be interpreted as a broad, abstract extension of the well-studied on-line prediction model to a general decision-theoretic setting. We show that the multiplicative weight-update Littlestone–Warmuth rule can be adapted to this model, yielding bounds that are slightly weaker in some cases, but applicable to a considerably more general class of learning problems. We show how the resulting learning algorithm can be applied to a variety of problems, including gambling, multiple-outcome prediction, repeated games, and prediction of points in Rn. In the second part of the paper we apply the multiplicative weight-update technique to derive a new boosting algorithm. This boosting algorithm does not require any prior knowledge about the performance of the weak learning algorithm. We also study generalizations of the new boosting algorithm to the problem of learning functions whose range, rather than being binary, is an arbitrary finite set or a bounded segment of the real line.}
 }
 
+@misc{pinto,
+      title={Asymmetric Actor Critic for Image-Based Robot Learning}, 
+      author={Lerrel Pinto and Marcin Andrychowicz and Peter Welinder and Wojciech Zaremba and Pieter Abbeel},
+      year={2017},
+      eprint={1710.06542},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/1710.06542}, 
+}
+
 @Book{book-boosting,
 author = {Zhou, Zhi-Hua},
 title = {Ensemble Methods: Foundations and Algorithms},
@@ -1331,6 +1375,18 @@ pages = {81–106},
       primaryClass={cs.LG},
       url={https://arxiv.org/abs/2206.04266}, 
 }
+
+@ARTICLE{cartpole,
+  author={Barto, Andrew G. and Sutton, Richard S. and Anderson, Charles W.},
+  journal={IEEE Transactions on Systems, Man, and Cybernetics}, 
+  title={Neuronlike adaptive elements that can solve difficult learning control problems}, 
+  year={1983},
+  volume={SMC-13},
+  number={5},
+  pages={834-846},
+  keywords={Adaptive systems;Problem-solving;Training;Pattern recognition;Neurons;Supervised learning;Biological neural networks},
+  doi={10.1109/TSMC.1983.6313077}}
+
 
 @inproceedings{dt-opt-mdp,
 author = {Vos, Dani\"{e}l and Verwer, Sicco},
