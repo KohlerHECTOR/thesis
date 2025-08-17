@@ -856,60 +856,6 @@
       \field{pages}{5\bibrangedash 32}
       \range{pages}{28}
     \endentry
-    \entry{pmlr-v247-bressan24a}{article}{}
-      \name{author}{6}{}{%
-        {{hash=282e19c4de13fd7e59b4fabcf759e827}{%
-           family={Bressan},
-           familyi={B\bibinitperiod},
-           given={Marco},
-           giveni={M\bibinitperiod}}}%
-        {{hash=4de530030244169e16641806ebdfde2b}{%
-           family={Cesa-Bianchi},
-           familyi={C\bibinithyphendelim B\bibinitperiod},
-           given={Nicol\`{o}},
-           giveni={N\bibinitperiod}}}%
-        {{hash=aa9852bfe2c158652eed89828dc2706c}{%
-           family={Esposito},
-           familyi={E\bibinitperiod},
-           given={Emmanuel},
-           giveni={E\bibinitperiod}}}%
-        {{hash=ad31daafb6eb6186dd51ffeae5196ec0}{%
-           family={Mansour},
-           familyi={M\bibinitperiod},
-           given={Yishay},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=cf2c7811cbeaca3f08824c9c5b2ebd58}{%
-           family={Moran},
-           familyi={M\bibinitperiod},
-           given={Shay},
-           giveni={S\bibinitperiod}}}%
-        {{hash=048ef6813121ba4922267e6d54f28fb9}{%
-           family={Thiessen},
-           familyi={T\bibinitperiod},
-           given={Maximilian},
-           giveni={M\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {PMLR}%
-      }
-      \strng{namehash}{e15425c10d83061c101c76519eca4331}
-      \strng{fullhash}{dd7b59d4257f2257331dee4b8c0f5a34}
-      \strng{bibnamehash}{e15425c10d83061c101c76519eca4331}
-      \strng{authorbibnamehash}{e15425c10d83061c101c76519eca4331}
-      \strng{authornamehash}{e15425c10d83061c101c76519eca4331}
-      \strng{authorfullhash}{dd7b59d4257f2257331dee4b8c0f5a34}
-      \field{sortinit}{B}
-      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Proceedings of Thirty Seventh Conference on Learning Theory}
-      \field{series}{Proceedings of Machine Learning Research}
-      \field{title}{A Theory of Interpretable Approximations}
-      \field{volume}{247}
-      \field{year}{2024}
-      \field{pages}{648\bibrangedash 668}
-      \range{pages}{21}
-    \endentry
     \entry{sklearn_api}{article}{}
       \name{author}{15}{}{%
         {{hash=5325438f4daa7970e2720791d9ac690f}{%
@@ -1779,43 +1725,6 @@
       \field{year}{2019}
       \field{pages}{4171\bibrangedash 4186}
       \range{pages}{16}
-    \endentry
-    \entry{rigourous}{article}{}
-      \name{author}{2}{}{%
-        {{hash=b01a5e92cd39a5551d74ab2393c7b9fd}{%
-           family={Doshi-Velez},
-           familyi={D\bibinithyphendelim V\bibinitperiod},
-           given={Finale},
-           giveni={F\bibinitperiod}}}%
-        {{hash=a11a6718c039f3e3f3f31167e5094c10}{%
-           family={Kim},
-           familyi={K\bibinitperiod},
-           given={Been},
-           giveni={B\bibinitperiod}}}%
-      }
-      \strng{namehash}{66c38242b4ecdd0e74f6a1fb48199a21}
-      \strng{fullhash}{66c38242b4ecdd0e74f6a1fb48199a21}
-      \strng{bibnamehash}{66c38242b4ecdd0e74f6a1fb48199a21}
-      \strng{authorbibnamehash}{66c38242b4ecdd0e74f6a1fb48199a21}
-      \strng{authornamehash}{66c38242b4ecdd0e74f6a1fb48199a21}
-      \strng{authorfullhash}{66c38242b4ecdd0e74f6a1fb48199a21}
-      \field{sortinit}{D}
-      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{stat.ML}
-      \field{eprinttype}{arXiv}
-      \field{title}{Towards A Rigorous Science of Interpretable Machine Learning}
-      \field{year}{2017}
-      \verb{eprint}
-      \verb 1702.08608
-      \endverb
-      \verb{urlraw}
-      \verb https://arxiv.org/abs/1702.08608
-      \endverb
-      \verb{url}
-      \verb https://arxiv.org/abs/1702.08608
-      \endverb
     \endentry
     \entry{Dulac_Arnold_2011}{article}{}
       \name{author}{4}{}{%
@@ -3353,35 +3262,6 @@
       \verb{url}
       \verb https://arxiv.org/abs/2409.12788
       \endverb
-    \endentry
-    \entry{lipton}{article}{}
-      \name{author}{1}{}{%
-        {{hash=599ae457cf41d4ce64e09433edbc964b}{%
-           family={Lipton},
-           familyi={L\bibinitperiod},
-           given={Zachary\bibnamedelima C.},
-           giveni={Z\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {Association for Computing Machinery}%
-      }
-      \strng{namehash}{599ae457cf41d4ce64e09433edbc964b}
-      \strng{fullhash}{599ae457cf41d4ce64e09433edbc964b}
-      \strng{bibnamehash}{599ae457cf41d4ce64e09433edbc964b}
-      \strng{authorbibnamehash}{599ae457cf41d4ce64e09433edbc964b}
-      \strng{authornamehash}{599ae457cf41d4ce64e09433edbc964b}
-      \strng{authorfullhash}{599ae457cf41d4ce64e09433edbc964b}
-      \field{sortinit}{L}
-      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Queue}
-      \field{number}{3}
-      \field{title}{The Mythos of Model Interpretability: In machine learning, the concept of interpretability is both important and slippery.}
-      \field{volume}{16}
-      \field{year}{2018}
-      \field{pages}{31\bibrangedash 57}
-      \range{pages}{27}
     \endentry
     \entry{littman1}{inproceedings}{}
       \name{author}{1}{}{%
@@ -4963,210 +4843,6 @@
       \field{title}{A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning}
       \field{year}{2010}
     \endentry
-    \entry{saux:hal-04192198}{article}{}
-      \name{author}{34}{}{%
-        {{hash=ade2706b214564d20b4a80b03c780cf5}{%
-           family={Saux},
-           familyi={S\bibinitperiod},
-           given={Patrick},
-           giveni={P\bibinitperiod}}}%
-        {{hash=008b3b04b8cb17a48ac271d632bbe8e3}{%
-           family={Bauvin},
-           familyi={B\bibinitperiod},
-           given={Pierre},
-           giveni={P\bibinitperiod}}}%
-        {{hash=9ef593372eecd04b5dd040e8a11b7037}{%
-           family={Raverdy},
-           familyi={R\bibinitperiod},
-           given={Violeta},
-           giveni={V\bibinitperiod}}}%
-        {{hash=1a90d307d3d6b25f24c3550bcc14cf63}{%
-           family={Teigny},
-           familyi={T\bibinitperiod},
-           given={Julien},
-           giveni={J\bibinitperiod}}}%
-        {{hash=d7d29bd066fe5fb7cffaad7e6e9e6515}{%
-           family={Verkindt},
-           familyi={V\bibinitperiod},
-           given={H\'{e}l\`{e}ne},
-           giveni={H\bibinitperiod}}}%
-        {{hash=96b1c2d13fb91ad0dd510951af34e9ca}{%
-           family={Soumphonphakdy},
-           familyi={S\bibinitperiod},
-           given={Tomy},
-           giveni={T\bibinitperiod}}}%
-        {{hash=3c9611cfcc304c8bd35ef44e293435f1}{%
-           family={Debert},
-           familyi={D\bibinitperiod},
-           given={Maxence},
-           giveni={M\bibinitperiod}}}%
-        {{hash=b0bfdedcbc5791f6934d358d9be8642d}{%
-           family={Jacobs},
-           familyi={J\bibinitperiod},
-           given={Anne},
-           giveni={A\bibinitperiod}}}%
-        {{hash=9a7db6236637742352abc9ea458cd166}{%
-           family={Jacobs},
-           familyi={J\bibinitperiod},
-           given={Daan},
-           giveni={D\bibinitperiod}}}%
-        {{hash=76317402af85a90a64b15aeeffd06321}{%
-           family={Monpellier},
-           familyi={M\bibinitperiod},
-           given={Valerie},
-           giveni={V\bibinitperiod}}}%
-        {{hash=c3ca4a18ad987a83ff977c76c81585ce}{%
-           family={Lee},
-           familyi={L\bibinitperiod},
-           given={Phong\bibnamedelima Ching},
-           giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
-        {{hash=662575723b8aac9df8e0e4beca30c156}{%
-           family={Lim},
-           familyi={L\bibinitperiod},
-           given={Chin\bibnamedelima Hong},
-           giveni={C\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
-        {{hash=4ce06f90fecdfaa03c8a2133ba3f3e7f}{%
-           family={Andersson-Assarsson},
-           familyi={A\bibinithyphendelim A\bibinitperiod},
-           given={Johanna\bibnamedelima C},
-           giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
-        {{hash=937e208cb46a68b611548a5779585bef}{%
-           family={Carlsson},
-           familyi={C\bibinitperiod},
-           given={Lena},
-           giveni={L\bibinitperiod}}}%
-        {{hash=926e6a2803dd733182a19cf858523e61}{%
-           family={Svensson},
-           familyi={S\bibinitperiod},
-           given={Per-Arne},
-           giveni={P\bibinithyphendelim A\bibinitperiod}}}%
-        {{hash=f9cad5532828dc10ae4e46022e5e0cea}{%
-           family={Galtier},
-           familyi={G\bibinitperiod},
-           given={Florence},
-           giveni={F\bibinitperiod}}}%
-        {{hash=d62cbc3566b5a537d9d602e903fec8e1}{%
-           family={Dezfoulian},
-           familyi={D\bibinitperiod},
-           given={Guelareh},
-           giveni={G\bibinitperiod}}}%
-        {{hash=391964c483c38d823a0e1c10add4cc58}{%
-           family={Moldovanu},
-           familyi={M\bibinitperiod},
-           given={Mihaela},
-           giveni={M\bibinitperiod}}}%
-        {{hash=5c74cb10fcc52b675ae7ebb38e0d44cc}{%
-           family={Andrieux},
-           familyi={A\bibinitperiod},
-           given={Severine},
-           giveni={S\bibinitperiod}}}%
-        {{hash=4457d0655978b0ad0e4c0211b3fcde06}{%
-           family={Couster},
-           familyi={C\bibinitperiod},
-           given={Julien},
-           giveni={J\bibinitperiod}}}%
-        {{hash=fecd15b82fcd1c1ce5fa1020ef714717}{%
-           family={Lepage},
-           familyi={L\bibinitperiod},
-           given={Marie},
-           giveni={M\bibinitperiod}}}%
-        {{hash=8e10bdfac2147785336e20cdbedf37a2}{%
-           family={Lembo},
-           familyi={L\bibinitperiod},
-           given={Erminia},
-           giveni={E\bibinitperiod}}}%
-        {{hash=df189638f6843ebe6b0f77faa4e46cc0}{%
-           family={Verrastro},
-           familyi={V\bibinitperiod},
-           given={Ornella},
-           giveni={O\bibinitperiod}}}%
-        {{hash=5738f5f43b264dc5d87d6cec0c3da049}{%
-           family={Robert},
-           familyi={R\bibinitperiod},
-           given={Maud},
-           giveni={M\bibinitperiod}}}%
-        {{hash=038e72fb5488264b028aa0f3a5a3a7bc}{%
-           family={Salminen},
-           familyi={S\bibinitperiod},
-           given={Paulina},
-           giveni={P\bibinitperiod}}}%
-        {{hash=cbc6261b28c21f1d536b1d9f2c81fcd3}{%
-           family={Mingrone},
-           familyi={M\bibinitperiod},
-           given={Geltrude},
-           giveni={G\bibinitperiod}}}%
-        {{hash=c283ca96a2a749ef8068e5c4296f1281}{%
-           family={Peterli},
-           familyi={P\bibinitperiod},
-           given={Ralph},
-           giveni={R\bibinitperiod}}}%
-        {{hash=cf4792b3481e351e28aa3df2af493841}{%
-           family={Cohen},
-           familyi={C\bibinitperiod},
-           given={Ricardo\bibnamedelima V},
-           giveni={R\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
-        {{hash=5b30ca9206a082a9d79f8400933d6708}{%
-           family={Zerrweck},
-           familyi={Z\bibinitperiod},
-           given={Carlos},
-           giveni={C\bibinitperiod}}}%
-        {{hash=5e8cf5a9ae3307b23abf206d989c8727}{%
-           family={Nocca},
-           familyi={N\bibinitperiod},
-           given={David},
-           giveni={D\bibinitperiod}}}%
-        {{hash=42d9d79f8fef1725c72fbc66510e206d}{%
-           family={Le\bibnamedelima Roux},
-           familyi={L\bibinitperiod\bibinitdelim R\bibinitperiod},
-           given={Carel\bibnamedelima W},
-           giveni={C\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
-        {{hash=5ea93458898fcaa1cb9a392d44a91fe8}{%
-           family={Caiazzo},
-           familyi={C\bibinitperiod},
-           given={Robert},
-           giveni={R\bibinitperiod}}}%
-        {{hash=2abefc415f2026af7741d49d13f0762e}{%
-           family={Preux},
-           familyi={P\bibinitperiod},
-           given={Philippe},
-           giveni={P\bibinitperiod}}}%
-        {{hash=1c21428af348342866acdab9fdd1e581}{%
-           family={Pattou},
-           familyi={P\bibinitperiod},
-           given={Fran\c{c}ois},
-           giveni={F\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {Elsevier}%
-      }
-      \strng{namehash}{ae1144f61ea2f86fda695c9a915e4d03}
-      \strng{fullhash}{a1a92d6c1492384e87b35b4a12f6b19e}
-      \strng{bibnamehash}{ae1144f61ea2f86fda695c9a915e4d03}
-      \strng{authorbibnamehash}{ae1144f61ea2f86fda695c9a915e4d03}
-      \strng{authornamehash}{ae1144f61ea2f86fda695c9a915e4d03}
-      \strng{authorfullhash}{a1a92d6c1492384e87b35b4a12f6b19e}
-      \field{sortinit}{S}
-      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{{The Lancet Digital Health}}
-      \field{month}{8}
-      \field{title}{{Development and validation of an interpretable machine learning-based calculator for predicting 5-year weight trajectories after bariatric surgery: a multinational retrospective cohort SOPHIA study}}
-      \field{year}{2023}
-      \verb{doi}
-      \verb 10.1016/S2589-7500(23)00135-8
-      \endverb
-      \verb{file}
-      \verb https://hal.science/hal-04192198v1/file/22tldig1227.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://hal.science/hal-04192198
-      \endverb
-      \verb{url}
-      \verb https://hal.science/hal-04192198
-      \endverb
-      \keyw{Bariatric Surgery ; Obesity ; Regression trees}
-    \endentry
     \entry{ppo}{article}{}
       \name{author}{5}{}{%
         {{hash=3e09bd2a25d237ebdaed560a07c0451e}{%
@@ -6312,49 +5988,6 @@
       \verb https://doi.org/10.24963/ijcai.2023/606
       \endverb
     \endentry
-    \entry{mdpdt}{article}{}
-      \name{author}{2}{}{%
-        {{hash=af67a701713493112110caaf89edb654}{%
-           family={Vos},
-           familyi={V\bibinitperiod},
-           given={Dani\"{e}l},
-           giveni={D\bibinitperiod}}}%
-        {{hash=ea9decd5528aef262468b61eaf0ceb3c}{%
-           family={Verwer},
-           familyi={V\bibinitperiod},
-           given={Sicco},
-           giveni={S\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {Macao, P.R.China}%
-      }
-      \strng{namehash}{df34493678846f60e92d85f308eda739}
-      \strng{fullhash}{df34493678846f60e92d85f308eda739}
-      \strng{bibnamehash}{df34493678846f60e92d85f308eda739}
-      \strng{authorbibnamehash}{df34493678846f60e92d85f308eda739}
-      \strng{authornamehash}{df34493678846f60e92d85f308eda739}
-      \strng{authorfullhash}{df34493678846f60e92d85f308eda739}
-      \field{extraname}{2}
-      \field{sortinit}{V}
-      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{abstract}{Interpretability of reinforcement learning policies is essential for many real-world tasks but learning such interpretable policies is a hard problem. Particularly, rule-based policies such as decision trees and rules lists are difficult to optimize due to their non-differentiability. While existing techniques can learn verifiable decision tree policies, there is no guarantee that the learners generate a policy that performs optimally. In this work, we study the optimization of size-limited decision trees for Markov Decision Processes (MPDs) and propose OMDTs: Optimal MDP Decision Trees. Given a user-defined size limit and MDP formulation, OMDT directly maximizes the expected discounted return for the decision tree using Mixed-Integer Linear Programming. By training optimal tree policies for different MDPs we empirically study the optimality gap for existing imitation learning techniques and find that they perform suboptimally. We show that this is due to an inherent shortcoming of imitation learning, namely that complex policies cannot be represented using size-limited trees. In such cases, it is better to directly optimize the tree for expected return. While there is generally a trade-off between the performance and interpretability of machine learning models, we find that on small MDPs, depth 3 OMDTs often perform close to optimally.}
-      \field{isbn}{978-1-956792-03-4}
-      \field{journaltitle}{Proceedings of the Thirty-Second International Joint Conference on Artificial Intelligence}
-      \field{series}{IJCAI '23}
-      \field{title}{Optimal decision tree policies for Markov decision processes}
-      \field{year}{2023}
-      \verb{doi}
-      \verb 10.24963/ijcai.2023/606
-      \endverb
-      \verb{urlraw}
-      \verb https://doi.org/10.24963/ijcai.2023/606
-      \endverb
-      \verb{url}
-      \verb https://doi.org/10.24963/ijcai.2023/606
-      \endverb
-    \endentry
     \entry{vos2024optimizinginterpretabledecisiontree}{article}{}
       \name{author}{2}{}{%
         {{hash=af67a701713493112110caaf89edb654}{%
@@ -6374,7 +6007,7 @@
       \strng{authorbibnamehash}{df34493678846f60e92d85f308eda739}
       \strng{authornamehash}{df34493678846f60e92d85f308eda739}
       \strng{authorfullhash}{df34493678846f60e92d85f308eda739}
-      \field{extraname}{3}
+      \field{extraname}{2}
       \field{sortinit}{V}
       \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
       \field{labelnamesource}{author}
@@ -6684,12 +6317,11 @@
   \missing{BELLMAN1958228}
   \missing{IBMDP}
   \missing{McTavish_Zhong_Achermann_Karimalis_Chen_Rudin_Seltzer_2022}
+  \missing{breiman1984classif}
   \missing{cart}
   \missing{def:mdp}
   \missing{gautron2023learning}
-  \missing{kohler2024interpretable}
   \missing{kohler2024interpretableeditableprogrammatictree}
-  \missing{marton2024sympolsymbolictreebasedonpolicy}
   \missing{mythos}
   \missing{norton}
   \missing{oblique}

@@ -8,7 +8,7 @@ In Chapter \ref{sec:topin}, we reproduce experiments from Topin et. al. where we
 In Chapter \ref{sec:pomdp}, we show that the direct approach proposed by Topin et. al. is equivalent to learning a deterministic memoryless policy for partially observable MDP (POMDP)\cite{POMDP,chap2} and show that this might be the biggest source of hardness.
 In Chapter \ref{sec:pomdp-classif}, we further support this claim by constructing special instances of Topin et. al. in which the POMDPs are virtually fully observable, and show that in those cases, direct reinforcement learning of decision tree works well.  
 
-\section{Learning Decision Tree policies for MDPs}
+\section{Learning Decision Tree policies for MDPs}\label{related-work-pomdp}
 In the introductory example~\ref{sec:limits-il}, we have shown that imitation learning that optimizes the objective (\ref{def:il}) rather than the RL objective~\ref{def:mdp-obj}, are, unsuprisingly, prone tosub-optimality w.r.t. the lattter objective.
 This motivates the study and development of \textit{direct} decision tree learning algorithms.
 There already exist such algorithms that return decision tree policies optimizing the RL objective for a given MDP.

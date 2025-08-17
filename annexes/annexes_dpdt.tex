@@ -1,0 +1,140 @@
+
+\section{Additional Experiments and Hyperparameters}
+In this section we provide additional experimental results. In Table \ref{tab:regression}, we compare DPDT trees to CART and STreeD trees using 50 train/test splits of regression datasets from \cite{grinsztajn2022tree}. All algorithms are run with default hyperparameters. 
+
+The configuration of DPDT is (4, 4, 4) or (4,4,4,4,4). STreeD is run with a time limit of 4 hours per tree computation and on binarized versions of the datasets. 
+Both for depth-3 and depth-5 trees, DPDT outperforms other baselines in terms of train and test accuracies. Indeed, because STreeD runs on ``approximated'' datasets, it performs pretty poorly. 
+
+In Table \ref{tab:more-res}, we compare DPDT(4, 4, 4, 4, 4) to additional optimal decision tree baselines on datasets with \textbf{binary features}. The optimal decision tree baselines run with default hyperparameters and a time-limit of 10 minutes. The results show that even on binary datasets that optimal algorithms are designed to handle well; DPDT outperforms other baselimes. This is likely because optimal trees are slow and/or don't scale well to depth 5.
+
+In Table~\ref{tab:lookahead} compare DPDT to lookahead depth-3 trees when optimizing Eq.\ref{eq:suplearning}. Unlike the other greedy approaches, lookahead decision trees~\cite{norton} do not pick the split that optimizes a heuristic immediately. Instead, they pick a split that sets up the best possible heuristic value on the following split. Lookahead-1 chooses nodes at depth $d<3$ by looking 1 depth in the future: it looks for the sequence of 2 splits that maximizes the information gain at depth $d + 1$. Lookahead-2 is the optimal depth-3 tree and Lookahead-0 would be just building the tree greedily like CART. The conclusion are roughly the same as for Table~\ref{tab:tree_comparison_combined}. Both lookahead trees and DPDT\footnote{\url{https://github.com/KohlerHECTOR/DPDTreeEstimator}} are in \texttt{Python} which makes them slow but comparable.
+
+We also provide the hyperparameters necessary to reproduce experiments from section \ref{sec:generalization} and \ref{sec:boosting} in Table~\ref{tab:tree_hyperparams}.
+
+
+\begin{table}
+\caption{Train accuracies of depth-3 trees (with number of operations). Lookahead trees are trained with a time limit of 12 hours.}
+\centering
+\begin{tabular}{l|c|c}
+\toprule
+\textbf{Dataset} & \textbf{DPDT} & \textbf{Lookahead-1} \\
+\midrule
+avila & 57.22 (1304) & OoT \\
+bank & 97.99 (699) & 96.54 (7514) \\
+bean & 85.30 (1297) & OoT \\
+bidding & 99.27 (744) & 98.12 (20303) \\
+eeg & 69.38 (1316) & 69.09 (10108) \\
+fault & 67.40 (1263) & 67.20 (32514) \\
+htru & 98.01 (1388) & OoT \\
+magic & 82.81 (1451) & OoT \\
+occupancy & 99.31 (1123) & 99.01 (15998) \\
+page & 97.03 (1243) & 96.44 (16295) \\
+raisin & 88.61 (1193) & 86.94 (9843) \\
+rice & 93.44 (1367) & 93.24 (37766) \\
+room & 99.23 (1196) & 99.04 (5638) \\
+segment & 87.88 (871) & 68.83 (24833) \\
+skin & 96.60 (1300) & 96.61 (1290) \\
+wilt & 99.47 (862) & 99.31 (36789) \\
+\bottomrule
+\end{tabular}
+\label{tab:lookahead}
+\end{table}
+
+\begin{table}
+\centering
+\footnotesize
+\caption{Mean train and test scores (with standard errors) for regression datasets over 50 cross-validation runs.}\label{tab:regression}
+\begin{tabular}{l|rr|rr|rr||rr|rr|rr|rr}
+\hline
+ & \multicolumn{6}{c||}{\textbf{Depth 3}} & \multicolumn{6}{c|}{\textbf{Depth 5}} \\ \hline
+Dataset & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c|}{Optimal} & \multicolumn{2}{c||}{CART} & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c|}{Optimal} & \multicolumn{2}{c|}{CART} \\
+ & Train & Test & Train & Test & Train & Test & Train & Test & Train & Test & Train & Test \\
+\hline
+nyc-taxi & 39.0 ± 0.0 & 38.9 ± 0.2 & 33.8 ± 0.0 & 33.8 ± 0.1 & 39.0 ± 0.0 & 38.9 ± 0.2 & 45.8 ± 0.0 & 45.7 ± 0.2 & 33.8 ± 0.0 & 33.8 ± 0.1 & 42.7 ± 0.0 & 42.6 ± 0.2 \\
+medical\_charges & 95.2 ± 0.0 & 95.2 ± 0.0 & 90.1 ± 0.0 & 90.1 ± 0.1 & 95.2 ± 0.0 & 95.2 ± 0.0 & 97.7 ± 0.0 & 97.7 ± 0.0 & 90.1 ± 0.0 & 90.1 ± 0.1 & 97.7 ± 0.0 & 97.7 ± 0.0 \\
+diamonds & 93.0 ± 0.0 & 92.9 ± 0.1 & 90.1 ± 0.0 & 90.1 ± 0.1 & 92.7 ± 0.0 & 92.6 ± 0.1 & 94.2 ± 0.0 & 94.0 ± 0.1 & 90.1 ± 0.0 & 90.1 ± 0.1 & 94.1 ± 0.0 & 93.9 ± 0.1 \\
+house\_16H & 39.9 ± 0.1 & 38.1 ± 2.5 & 32.8 ± 0.1 & 29.4 ± 1.6 & 35.8 ± 0.1 & 35.8 ± 1.9 & 59.4 ± 0.1 & 35.2 ± 4.1 & 32.8 ± 0.1 & 29.4 ± 1.6 & 51.5 ± 0.1 & 41.3 ± 3.1 \\
+house\_sales & 67.0 ± 0.0 & 66.0 ± 0.4 & 65.1 ± 0.0 & 64.4 ± 0.4 & 66.8 ± 0.0 & 66.1 ± 0.4 & 77.6 ± 0.0 & 76.1 ± 0.3 & 65.1 ± 0.0 & 64.4 ± 0.4 & 76.8 ± 0.0 & 75.3 ± 0.4 \\
+superconduct & 73.1 ± 0.0 & 72.7 ± 0.5 & 70.9 ± 0.0 & 70.5 ± 0.5 & 70.4 ± 0.0 & 69.7 ± 0.5 & 83.0 ± 0.0 & 81.7 ± 0.4 & 70.9 ± 0.0 & 70.5 ± 0.5 & 78.2 ± 0.0 & 76.5 ± 0.5 \\
+houses & 51.7 ± 0.0 & 50.7 ± 0.7 & 48.5 ± 0.1 & 47.3 ± 0.7 & 49.5 ± 0.0 & 48.4 ± 0.7 & 69.1 ± 0.0 & 67.6 ± 0.5 & 48.5 ± 0.1 & 47.3 ± 0.7 & 60.4 ± 0.1 & 58.5 ± 0.6 \\
+Bike\_Sharing & 55.2 ± 0.0 & 54.7 ± 0.5 & 45.1 ± 0.1 & 44.8 ± 0.7 & 48.1 ± 0.0 & 47.9 ± 0.5 & 65.2 ± 0.0 & 63.3 ± 0.5 & 45.1 ± 0.1 & 44.8 ± 0.7 & 59.1 ± 0.0 & 58.6 ± 0.5 \\
+elevators & 48.0 ± 0.0 & 46.8 ± 1.1 & 40.2 ± 0.1 & 38.2 ± 1.0 & 46.8 ± 0.0 & 45.5 ± 1.2 & 65.6 ± 0.0 & 61.2 ± 1.0 & 40.2 ± 0.1 & 38.2 ± 1.0 & 61.9 ± 0.0 & 58.0 ± 1.2 \\
+pol & 72.2 ± 0.0 & 71.3 ± 0.6 & 67.8 ± 0.1 & 67.5 ± 0.9 & 72.0 ± 0.0 & 71.2 ± 0.8 & 93.3 ± 0.0 & 92.4 ± 0.3 & 67.8 ± 0.1 & 67.5 ± 0.9 & 92.1 ± 0.0 & 91.7 ± 0.3 \\
+MiamiHousing2016 & 62.3 ± 0.0 & 60.4 ± 0.8 & 60.8 ± 0.0 & 58.3 ± 0.8 & 62.3 ± 0.0 & 60.6 ± 0.8 & 79.8 ± 0.0 & 77.5 ± 0.5 & 60.8 ± 0.0 & 58.3 ± 0.8 & 77.3 ± 0.1 & 74.7 ± 0.6 \\
+Ailerons & 63.5 ± 0.0 & 62.6 ± 0.7 & 61.6 ± 0.0 & 60.3 ± 0.7 & 63.5 ± 0.0 & 62.6 ± 0.7 & 76.0 ± 0.0 & 72.9 ± 0.6 & 61.6 ± 0.0 & 60.3 ± 0.7 & 75.5 ± 0.0 & 73.2 ± 0.5 \\
+Brazilian\_houses & 90.7 ± 0.0 & 90.3 ± 0.8 & 89.2 ± 0.0 & 89.4 ± 0.8 & 90.7 ± 0.0 & 90.4 ± 0.8 & 97.6 ± 0.0 & 96.6 ± 0.4 & 89.2 ± 0.0 & 89.4 ± 0.8 & 97.3 ± 0.0 & 96.4 ± 0.4 \\
+sulfur & 72.5 ± 0.1 & 66.6 ± 2.2 & 35.7 ± 0.1 & 19.1 ± 6.7 & 72.0 ± 0.1 & 68.0 ± 2.2 & 89.0 ± 0.0 & 68.4 ± 6.7 & 35.7 ± 0.1 & 19.1 ± 6.7 & 81.8 ± 0.1 & 74.0 ± 2.2 \\
+yprop\_41 & 6.3 ± 0.0 & 2.3 ± 0.7 & 3.6 ± 0.0 & 1.5 ± 0.4 & 6.2 ± 0.0 & 2.1 ± 0.8 & 13.2 ± 0.0 & 1.2 ± 1.7 & 3.6 ± 0.0 & 1.5 ± 0.4 & 10.8 ± 0.0 & -1.7 ± 1.4 \\
+cpu\_act & 93.4 ± 0.0 & 92.0 ± 0.6 & 89.0 ± 0.0 & 86.5 ± 1.9 & 93.4 ± 0.0 & 92.0 ± 0.6 & 96.5 ± 0.0 & 94.7 ± 0.5 & 89.0 ± 0.0 & 86.5 ± 1.9 & 96.3 ± 0.0 & 95.1 ± 0.4 \\
+wine\_quality & 27.9 ± 0.0 & 23.3 ± 0.9 & 25.2 ± 0.0 & 23.7 ± 0.8 & 27.7 ± 0.0 & 24.5 ± 0.8 & 37.4 ± 0.0 & 26.7 ± 1.0 & 25.2 ± 0.0 & 23.7 ± 0.8 & 35.9 ± 0.1 & 26.7 ± 0.9 \\
+abalone & 46.3 ± 0.0 & 39.6 ± 1.6 & 42.5 ± 0.0 & 40.4 ± 1.4 & 43.3 ± 0.0 & 39.2 ± 1.2 & 58.6 ± 0.0 & 44.7 ± 1.8 & 42.5 ± 0.0 & 40.4 ± 1.4 & 54.5 ± 0.0 & 46.3 ± 1.4 \\
+\hline
+\end{tabular}
+\end{table}
+\begin{table}
+    \centering
+    \footnotesize
+    \caption{Train/test accuracies of different decision tree induction algorithms. All algorithms induce trees of depth at most 5 on 8 classification datasets. A time limit of 10 minutes is set for OCT-type algorithms. The values in this table are averaged over 3 seeds giving 3 different train/test datasets. %More details about OCT-type algorithms and seeding are given at \url{https://github.com/LucasBoTang/Optimal_Classification_Trees}.\PP{voir des temps de calcul nuls me choque profondément. Si le tps minimal que l'on mesure est 1ms, écrire par exemple $< 0.001$}.
+    }
+    \begin{tabular}{|c|ccc|ccccc|ccccc|}
+    \hline \multicolumn{4}{|c}{ Datasets } & \multicolumn{5}{|c|}{ Train Accuracy depth-5}& \multicolumn{5}{c|}{ Test Accuracy depth-5} \\
+    Names & Samples & Features & Classes & DPDT & OCT & MFOCT & BinOCT & CART & DPDT & OCT & MFOCT & BinOCT & CART \\
+    \hline 
+    balance-scale & $624$ & 4 & 3 & $ 90.9 \%$ & $ 71.8 \%$ & $ 82.6 \%$ & $ 67.5 \%$ & $ 86.5 \%$ & $ 77.1 \%$ & $ 66.9 \%$ & $ 71.3 \%$ & $ 61.6 \%$ & $ 76.4 \%$  \\
+    breast-cancer & $276$ & 9 & 2 & $ 94.2 \%$ & $ 88.6 \%$ & $ 91.1 \%$ & $ 75.4 \%$ & $ 87.9 \%$ & $ 66.4 \%$ & $ 67.1 \%$ & $ 73.8 \%$ & $ 62.4 \%$ & $ 70.3 \%$ \\
+    car-evaluation & $1728$ & 6 & 4 & $ 92.2 \%$  & $ 70.1 \%$ & $ 80.4 \%$ & $ 84.0 \%$ & $ 87.1 \%$ & $ 90.3 \%$  &$ 69.5 \%$ & $ 79.8 \%$ & $ 82.3 \%$ & $ 87.1 \%$ \\
+    hayes-roth & $160$ & 9 & 3 & $ 93.3 \%$  & $ 82.9 \%$ & $ 95.4 \%$ & $ 64.6 \%$ & $ 76.7 \%$ & $ 75.4 \%$ &$ 77.5 \%$ & $ 77.5 \%$ & $ 54.2 \%$ & $ 69.2 \%$ \\
+    house-votes-84 & $232$ & 16 & 2 & $ 100.0 \%$ & $ 100.0 \%$ & $ 100.0 \%$ & $ 100.0 \%$ & $ 99.4 \%$ & $ 95.4 \%$ &$ 93.7 \%$ & $ 94.3 \%$ & $ 96.0 \%$ & $ 95.1 \%$\\
+    soybean-small & $46$ & 50 & 4 & $ 100.0 \%$  & $ 100.0 \%$ & $ 100.0 \%$ & $ 76.8 \%$ & $ 100.0 \%$ & $ 93.1 \%$ &$ 94.4 \%$ & $ 91.7 \%$ & $ 72.2 \%$ & $ 93.1 \%$ \\
+    spect & $266$ & 22 & 2 & $ 93.0 \%$ & $ 92.5 \%$ & $ 93.0 \%$ & $ 92.2 \%$ & $ 88.5 \%$ & $ 73.1 \%$ &$ 75.6 \%$ & $ 74.6 \%$ & $ 73.1 \%$ & $ 75.1 \%$\\
+    tic-tac-toe & $958$ & 24 & 2 & $ 90.8 \%$ & $ 68.5 \%$ & $ 76.1 \%$ & $ 85.7 \%$ & $ 85.8 \%$ & $ 82.1 \%$  &$ 69.6 \%$ & $ 73.6 \%$ & $ 79.6 \%$ & $ 81.0 \%$\\
+    \hline
+    \end{tabular}
+    \label{tab:more-res}
+\end{table}
+
+\begin{table}
+\centering
+\footnotesize
+\caption{Hyperparameter search spaces for tree-based models. More details about the hyperparamters meaning are given in \cite{komer-proc-scipy-2014}.}
+\begin{tabular}{p{2.8cm}p{2.3cm}p{2.3cm}p{2.3cm}p{2.3cm}p{2.3cm}}
+\toprule
+\textbf{Parameter} & \textbf{CART} & \textbf{Boosted-CART} & \textbf{DPDT} & \textbf{Boosted-DPDT} & \textbf{STreeD} \\
+\midrule
+
+\multicolumn{6}{l}{\textit{Common Tree Parameters}} \\
+\cmidrule(l){1-6}
+max\_depth & \{5: 0.7,\newline 2,3,4: 0.1\} & \{2: 0.4,\newline 3: 0.6\} & \{5: 0.7,\newline 2,3,4: 0.1\} & \{2: 0.4,\newline 3: 0.6\} & 5 \\
+
+min\_samples\_split & \{2: 0.95,\newline 3: 0.05\} & \{2: 0.95,\newline 3: 0.05\} & \{2: 0.95,\newline 3: 0.05\} & \{2: 0.95,\newline 3: 0.05\} & -- \\
+
+min\_impurity\_decrease & \{0.0: 0.85,\newline 0.01,0.02,0.05: 0.05\} & \{0.0: 0.85,\newline 0.01,0.02,0.05: 0.05\} & \{0.0: 0.85,\newline 0.01,0.02,0.05: 0.05\} & \{0.0: 0.85,\newline 0.01,0.02,0.05: 0.05\} & -- \\
+
+min\_samples\_leaf & $\mathcal{Q}(\log\text{-}\mathcal{U}[2,51])$ & $\mathcal{Q}(\log\text{-}\mathcal{U}[2,51])$ & $\mathcal{Q}(\log\text{-}\mathcal{U}[2,51])$ & $\mathcal{Q}(\log\text{-}\mathcal{U}[2,51])$ & $\mathcal{Q}(\log\text{-}\mathcal{U}[2,51])$ \\
+
+min\_weight\_fraction\_leaf   &   \{  0.0: 0.95,\newline 0.01: 0.05\} & \{0.0: 0.95,\newline 0.01: 0.05\} & \{0.0: 0.95,\newline 0.01: 0.05\} & \{0.0: 0.95,\newline 0.01: 0.05\} & -- \\
+
+max\_features & \{"sqrt": 0.5,\newline "log2": 0.25,\newline 10000: 0.25\} & \{"sqrt": 0.5,\newline "log2": 0.25,\newline 10000: 0.25\} & \{"sqrt": 0.5,\newline "log2": 0.25,\newline 10000: 0.25\} & \{"sqrt": 0.5,\newline "log2": 0.25,\newline 10000: 0.25\} & -- \\
+
+\midrule
+\multicolumn{6}{l}{\textit{Model-Specific Parameters}} \\
+\cmidrule(l){1-6}
+max\_leaf\_nodes & \{32: 0.85,\newline 5,10,15: 0.05\} & \{8: 0.85,\newline 5: 0.05,\newline 7: 0.1\} & -- & -- & -- \\
+
+cart\_nodes\_list & -- & -- & 8 configs\newline (uniform) & 5 configs\newline (uniform) & -- \\
+
+learning\_rate & -- & $\log\mathcal{N}(\ln(0.01),\ln(10))$ & -- & $\log\mathcal{N}(\ln(0.01),\ln(10))$ & -- \\
+
+n\_estimators & -- & 1000 & -- & 1000 & -- \\
+
+max\_num\_nodes & -- & -- & -- & -- & \{3,5,7,11,\newline 17,25,31\}\newline (uniform) \\
+
+n\_thresholds & -- & -- & -- & -- & \{5,10,20,50\}\newline (uniform) \\
+
+cost\_complexity & -- & -- & -- & -- & 0 \\
+
+time\_limit & -- & -- & -- & -- & 1800 \\
+\bottomrule
+\end{tabular}
+\label{tab:tree_hyperparams}
+\end{table}

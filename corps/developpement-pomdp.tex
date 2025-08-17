@@ -11,7 +11,7 @@ Given a a factored base MDP $\mathcal{M}\langle S, A, R, T, T_0\rangle$ (\ref{de
 Authors of~\cite{topin2021iterative} propose to parametrize the set of IGAs with $i \times p$ actions $\langle v_k, i \rangle$ with $v_k$ depending on the current observation $\boldsymbol{o}_t=(L'_1, U'_1, \dots, L'_i, U'_i, \dots, L'_n, U'_n)$: $v_k = \frac{k(U'_i - L'_i)}{p+1}$.
 This parametric IGAs space keeps the discrete IBMDP action space at a reasonable size while providing a learning algorithm with varied IGAs to try.
 
-For example, if we define an IBMDP with $p=3$ for the grid world from Example~\ref{example:grid}, the grid world action space is augmented with six IGAs. 
+For example, if we define an IBMDP with $q=3$ for the grid world from Example~\ref{example:grid}, the grid world action space is augmented with six IGAs. 
 At $t=0$, recall that $\boldsymbol{o}_0=(0, 2, 0, 2)$, so if an IGA is taken, e.g. $\langle v_2, 2 \rangle$, the effective IGA is $\langle v_2=\frac{k(2-0)}{3+1}, i \rangle = \langle 1, 2 \rangle$ which in turn effectively corresponds to an internal decision tree node $y \leq 1$.
 If the current state $y$-feature value is $0.5$, then the next observation at $t=1$ is $\boldsymbol{o}_1=(0, 2, 0, 1)$. At $t=2$ if $a_t=\langle v_2, 2 \rangle$ again, it would be effectively $\langle v_2=\frac{k(1-0)}{3+1}, i \rangle = \langle 0.5, 2 \rangle$. 
 This would give the next observation at $t=2$ $\boldsymbol{o}_2=(0, 2, 0, 0.5)$ and so on \dots. 
@@ -23,10 +23,10 @@ To control the tree depth during learning in the IBMDP, we can either give negat
 The penalization approaches can break the MDP formalism because the reward function now depends on time while it should only depend on states and actions (\ref{def:mdp}).
 Similarly, the termination approach requires a transition function that depends on time which also breaks the Makrov property.
 
-We actually find that when $p+1$, the IBMDP information gathering space parameter, is a prime number, then as a direct consequence of the \textit{Chinese Reminder Theorem}, the current tree depth is directly encoded in the current observation $\boldsymbol{o}_t$. 
-Hence, when $p+1$ is prime, we can control the depth through either transitions or rewards without tracking the time.
+We actually find that when $q+1$, the IBMDP information gathering space parameter, is a prime number, then as a direct consequence of the \textit{Chinese Reminder Theorem}, the current tree depth is directly encoded in the current observation $\boldsymbol{o}_t$. 
+Hence, when $q+1$ is prime, we can control the depth through either transitions or rewards without tracking the time.
 
-We will try various $\zeta$, various $p$, and various depth control in our experiments but first we describe the reinforcement learning algorithms used in~\cite{topin2021iterative}.
+We will try various $\zeta$, various $q$, and various depth control in our experiments but first we describe the reinforcement learning algorithms used in~\cite{topin2021iterative}.
 
 \subsection{Modified Deep Reinforcement Learning algorithms}
 Authors of \cite{topin2021iterative} use two deep reinforcement learning baselines to which they apply some modifications in order to learn partially observable policies as required by proposition (\ref{def:po-policy}) and objective (\ref{def:irl}).
@@ -108,8 +108,8 @@ If the cart is out of balance; the MDP transitions to an absorbing terminal stat
 Like in~\cite{topin2021iterative}, we use the gymnasium \texttt{CartPole-v0} implementation~\cite{gymnasium} of the CartPole MDP in which trajectories are truncated after 200 timesteps making the maximum cumulative reward, i.e. the optimal value of objective \ref{def:mdp-obj}, to be 200.
 The state features of the CartPole MDP are in $[-2, 2] \times [-2, 2] \times [-0.14, 0.14] \times [-1.4, 1.4]$.
 
-\paragraph{IBMDP} Authors define the associated IBMDP with $\zeta=-0.01$ and parametric information gathering action space defined by $p=3$.
-In addition we also try $\zeta=0.01$ and $p=2$.
+\paragraph{IBMDP} Authors define the associated IBMDP with $\zeta=-0.01$ and parametric information gathering action space defined by $q=3$.
+In addition we also try $\zeta=0.01$ and $q=2$.
 The discount factor used by the authors is $\gamma=1$.
 
 We potentially differ from the original paper setting in the way we handle maximum depth limiation. 
@@ -144,7 +144,7 @@ We summarize hyperparameters for the IBMDP and for the learning algorithms in Ta
     \textbf{Hyperparameter} & \textbf{Values}\\
     \midrule
     Discount factor $\gamma$ & \textcolor{green}{1} \\
-    Information gathering actions parameter $p$ & 2, \textcolor{green}{3} \\
+    Information gathering actions parameter $q$ & 2, \textcolor{green}{3} \\
     Information gathering actions rewards $\zeta$ & \textcolor{green}{-0.01}, 0.01 \\
     \textcolor{red}{Depth control} & Done signal, negative reward, none \\ 
     \bottomrule
@@ -251,7 +251,7 @@ In Tables ~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperpara
     \label{tab:top5_results}
     \begin{tabular}{ccccccS}
     \toprule
-    Rank & $p$ & Depth control & Activation & Exploration & $\zeta$ & {Final Performance} \\
+    Rank & $q$ & Depth control & Activation & Exploration & $\zeta$ & {Final Performance} \\
     \midrule
     1 & 3 & termination & $\operatorname{tanh}()$ & 0.9 & 0.01 & 53 \\
     2 & 2 & termination & $\operatorname{tanh}()$ & 0.5 & -0.01 & 24 \\
@@ -268,7 +268,7 @@ In Tables ~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperpara
         \label{tab:top5_ppo_results}
         \begin{tabular}{cccccS}
         \toprule
-        Rank & $p$ & Depth Control & Activation & $\zeta$ & {Final Performance} \\
+        Rank & $q$ & Depth Control & Activation & $\zeta$ & {Final Performance} \\
         \midrule
         1 & 3 & reward & $\operatorname{relu}()$ & 0.01 & 139 \\
         2 & 3 & done & $\operatorname{relu}()$ & 0.01 & 132 \\

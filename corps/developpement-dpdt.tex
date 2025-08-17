@@ -1,77 +1,74 @@
-\chapter{DPDT-paper}
+\chapter{Decision Tree Induction as a solving an MDP}\label{sec:dt-mdp}
 
-\section{Decision Trees for Supervised Learning}
-
-%Let us consider input-output pairs $(x,y)$ drawn from an unknown distribution $\mathcal{D}$ over $\mathcal{X} \times \mathcal{Y}$, where $\mathcal{X} \subseteq \mathbb{R}^p$ is the input space and $\mathcal{Y}$ is the output space.
-%We assume each datum $x$ is described by $p$ attributes and drawn from a certain input space $x \in \mathcal{X} \subseteq \mathbb{R}^p$. Labels are drawn from a finite set $\mathcal{Y}$.
-%We have access to a set of examples $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$ of $N$ i.i.d.\@ samples drawn according to some (unknown) distribution $\mathcal{D}$.
-
-Let us briefly introduce some notations for the supervised classification problem considered in this paper.
-We assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$.
-
-A decision tree is made of two types of nodes: split nodes that are traversed, and leaf nodes that finally assign a label.
-To predict the label of a datum $x$, a decision tree $T$ sequentially applies a series of splits before assigning it a label $T(x) \in \mathcal Y$.
-In this paper, we focus on binary decision trees with axis-aligned splits as in~\cite{breiman1984classification}, where each split compares the value of one feature with a threshold. 
-
-Our goal is to learn a tree that generalizes well to unseen data. To avoid overfitting, we constrain the maximum depth $D$ of the tree, where $D$ is the maximum number of splits that can be applied to classify a data. We let $\mathcal{T}_{D}$ be the set of all binary decision trees of depth $\leq D$. Given a loss function ${\ell}: \mathcal{Y} \times \mathcal{Y} \rightarrow \mathbb{R}_+$, we induce trees with a regularized training loss defined by:
-
-\begin{align}
-    T^* &= \underset{T \in \mathcal{T}_D}{\operatorname{argmin}}\ {\mathcal L}_\alpha(T), \nonumber \\
-    T^* &= \underset{T \in \mathcal{T}_D}{\operatorname{argmin}}\ \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, T(x_i)) + \alpha C(T),
-    \label{eq:suplearning}
-\end{align}
-
-where $C: \mathcal{T} \rightarrow \mathbb{R}$ is a complexity penalty that helps prevent or reduce overfitting such as the number of nodes~\cite{breiman1984classification,quantbnb}, or the expected number of splits to label a data\cite{how-eff}. The complexity penalty is weighted by $\alpha \in [0, 1]$. %For regression problems where $\mathcal{Y} \subset \mathbb R$, we use the squared error $\ell(y_i, T(x_i)) = {(y_i - T(x_i))}^2$. 
-For supervised classification problems, we use the 0--1 loss: $\ell(y_i, T(x_i)) = \mathds{1}_{\{y_i\neq T(x_i)\}}$. Please note while we focus on supervised classification problems in this paper, our framework extends naturally to regression problems.
-
-We now formulate the decision tree induction problem \ref{eq:suplearning} as finding the optimal policy in an MDP.
-
-\section{Decision Tree Induction as an MDP}\label{sec:MDP}
-
-% Unlike \cite{topk} that also construct a heuristic solution space we formulate decision tree induction as finding the optimal policy in an MDP this allows us to use known MDP theory to prove results about our proposed solutions.
+\section{The Markov decision process}\label{sec:the-mdp}
+We now formulate the decision tree induction problem \ref{eq:suplearning} as finding the optimal policy in an MDP (\ref{def:mdp-obj}).
 
 Given a set of examples $\mathcal{E}$, the induction of a decision tree is made of a sequence of decisions: at each node, we must decide whether it is better to split (a subset of) $\mathcal{E}$, or %assign a class label and 
 to create a leaf node.
 
-This sequential decision-making process corresponds to a Markov Decision Problem (MDP) \cite{puterman} $\mathcal{M}=\langle S, A, R_{\alpha}, P, D \rangle$.
+This sequential decision-making process corresponds to an MDP $\mathcal{M} \langle S, A, R_{\alpha}, T, T_0 \rangle$ (\ref{def:mdp}) that we present next.
 %The state space $S$ consists of pairs $(X,d)$ where $X \subseteq \mathcal{E}$, and $d \in \{0,\ldots,D\}$ is the current depth in the tree. Formally $S = \{ (X, d) \in P(\mathcal{E}) \times \{0, \ldots, D\} \}$ where $P(\mathcal{E})$ denotes the power set of $\mathcal{E}$.
-A state is a pair made of a subset of examples $X\subseteq\mathcal E$ and a depth $d$. Then, the set of states is $S = \{ (X, d) \in P(\mathcal{E}) \times \{0, \ldots, D\} \}$ where $P(\mathcal{E})$ denotes the power set of $\mathcal{E}$. $d \in \{0,\ldots,D\}$ is the current depth in the tree.
-An action $A$ consists in creating either a split node, or a leaf node (label assignment). We denote the set of candidate split nodes 
-$ {\mathcal F} $. A split node in $\mathcal F$ is a pair made of one feature $i$ and a threshold value $x_{ij}\in \mathcal{E}$.
-So, we can write $A = {\mathcal{F} \cup \{ 1, \ldots, K \}}$.
-From state $s=(X,d)$ and a splitting action $a \in {\mathcal F}$, the transition function $P$ moves to the next state $s_l = (X_l, d+1)$ with probability $p_l = \frac{|X_l|}{|X|}$ where $X_l = \{(x_i, y_i) \in X: x_i \leq x_{ij}\}$, or to state $s_r = (X \setminus X_l, d+1)$ with probability $1-p_l$. For a class assignment action $a \in \{1,\ldots,K\}$, the chain reaches an absorbing terminal state with probability 1. 
-The reward function $R_{\alpha}: S \times A \rightarrow \mathbb{R}$ returns $-\alpha$ for splitting actions and the proportion of misclassified examples of $X$ $-\frac{1}{|X|}\sum_{(x_i,y_i) \in X} \ell(y_i, a)$ for class assignment actions. $\alpha \in [0,1]$ controls the accuracy-complexity trade-off defined in the regularized training objective \ref{eq:suplearning}. 
-The horizon $D$ limits tree depth to $D$ by forbidding class assignments after $D$ MDP transitions.
+A state is a pair made of a subset of examples $X\subseteq\mathcal E$ and a depth $d$.
+Like for classification POIBMDPs (cf. Def.~\ref{def:ibmdp} and Alg.~\ref{alg:extract-tree}), the depth $d$ is actually not necessary to extract a tree from a policy.
+However, it is necessary in order to solve the MDP.
+Indeed, because we constrain the model class to limited-depth trees, the horizon of our MDP is finite and hence as per~\cite{puterman}, the optimal policy is non-Markovian and depends on the time.
 
-The solution to this MDP is a deterministic policy $\pi: S \rightarrow A$ that maximizes $J_{\alpha}(\pi) ={\mathbb{E}}\left[\sum_{t = 0}^D R_{\alpha}(s_t, \pi(s_t))\right]$, the expected sum of rewards where the expectation is taken over transitions $s_{t+1}\sim P(s_t, \pi(s_t))$ starting from initial state $s_0 = (\mathcal{E}, 0)$. 
-Any such policy can be converted into a binary decision tree through a recursive extraction function $E(\pi, s)$ that returns, either a leaf node with class $\pi(s)$ if $\pi(s)$ is a class assignment, or a tree with root node containing split $\pi(s)$ and left/right sub-trees $E(\pi, s_l)$/$E(\pi, s_r)$ if $\pi(s)$ is a split. The final decision tree $T$ is obtained by calling $E(\pi, s_0)$ on the initial state $s_0$. 
+The set of states is $S = \{ (X, d) \in P(\mathcal{E}) \times \{0, \ldots, D\} \}$ where $P(\mathcal{E})$ denotes the power set of $\mathcal{E}$. $d \in \{0,\ldots,D\}$ is the current depth in the tree.
+An action $A$ consists in creating either a split node, or a leaf node (label assignment). We denote the set of candidate split nodes $ {\mathcal F} $. A split node in $\mathcal F$ is a pair made of one feature $i$ and a threshold value $x_{ij}\in \mathcal{E}$.
+So, we can write $A = {\mathcal{F} \cup \{ 1, \ldots, K \}}$ (these are essentially information gathering actions).
+From state $s=(X,d)$ and a splitting action $a \in {\mathcal F}$, the transition function $P$ moves to the next state $s_l = (X_l, d+1)$ with probability $p_l = \frac{|X_l|}{|X|}$ where $X_l = \{(x_i, y_i) \in X: x_i \leq x_{ij}\}$, or to state $s_r = (X \setminus X_l, d+1)$ with probability $1-p_l$. For a class assignment action $a \in \{1,\ldots,K\}$, the chain reaches an absorbing terminal state with probability 1. 
+The reward function $R_{\alpha}: S \times A \rightarrow \mathbb{R}$ returns $-\alpha$ for splitting actions (this is $\zeta$ in a classificaion POIBMDP (\ref{def:cpoibmdp})) and the proportion of misclassified examples of $X$ $-\frac{1}{|X|}\sum_{(x_i,y_i) \in X} \ell(y_i, a)$ for class assignment actions. $\alpha \in [0,1]$ controls the accuracy-complexity trade-off defined in the regularized training objective \ref{eq:suplearning}. 
+
+The solution to this MDP is a deterministic policy $\pi: S \rightarrow A$ that maximizes {$J_{\alpha}(\pi) ={\mathbb{E}}\left[\sum_{t = 0}^D R_{\alpha}(s_t, \pi(s_t))\right]$\label{def:finite-mdp-obj}}, the expected sum of rewards where the expectation is taken over transitions $s_{t+1}\sim P(s_t, \pi(s_t))$ starting from initial state $s_0 = (\mathcal{E}, 0)$.
+This objective is a re-writing of (\ref{def:mdp-obj}) where the trajectory have finite lengths $D$ rather than being infinite.
+Any such policy can be converted into a binary decision tree through a recursive extraction function $E(\pi, s)$ (equivalent to Alg.~\ref{alg:extract-tree}) that returns, either a leaf node with class $\pi(s)$ if $\pi(s)$ is a class assignment, or a tree with root node containing split $\pi(s)$ and left/right sub-trees $E(\pi, s_l)$/$E(\pi, s_r)$ if $\pi(s)$ is a split. The final decision tree $T$ is obtained by calling $E(\pi, s_0)$ on the initial state $s_0$. 
 
 \begin{proposition}[Objective Equivalence]\label{prop:equiv}
-Let $\pi$ be a deterministic policy of the MDP and $\pi^*$ be an optimal deterministic policy. 
-Then $J_\alpha(\pi) = -{\mathcal L}_\alpha(E(\pi, s_0))$ and $T^* = E(\pi^*, s_0)$ where $T^*$ is a tree that optimizes Eq.~\ref{eq:suplearning}.
+Let $\pi$ be a deterministic policy of the MDP (\ref{sec:the-mdp}) and $\pi^*$ be an optimal deterministic policy. 
+Then $J_\alpha(\pi) = -{\mathcal L}_\alpha(E(\pi, s_0))$ and $T^* = E(\pi^*, s_0)$ where $T^*$ is a tree that optimizes (~\ref{eq:suplearning}).
 \end{proposition}
+This proposition is key as it states that the return of any policy of the MDP defined above is equal to the regularized training accuracy of the tree extracted from this policy.
+A consequence of this proposition is that when all possible splits are considered, the optimal policy will generate the optimal tree in the sense defined by (~\eqref{eq:suplearning}).
 
-This proposition is key as it states that the return of any policy of the MDP defined above is equal to the regularized training accuracy of the tree extracted from this policy. A consequence of this proposition is that when all possible splits are considered, the optimal policy will generate the optimal tree in the sense defined by Eq.~\eqref{eq:suplearning}. The proof is given in the Appendix \ref{sec:proof-equiv}.
+\begin{proof}
+For the purpose of the proof, we overload the definition of $J_\alpha$ and $\mathcal L_\alpha$, to make explicit the dependency on the dataset and the maximum depth. 
+As such, $J_\alpha(\pi)$ becomes $J_\alpha(\pi, {\mathcal E}, D)$ and ${\mathcal L}_\alpha(T)$ becomes ${\mathcal L}_\alpha(T, {\mathcal E})$. 
+Let us first show that the relation $J_\alpha(\pi, {\mathcal E}, 0) = -{\mathcal L}_\alpha(T, {\mathcal E})$ is true. 
+If the maximum depth is $D = 0$ then $\pi(s_0)$ is necessarily a class assignment, in which case the expected number of splits is zero and the relation is obviously true since the reward is the opposite of the average classification loss. 
+Now assume it is true for any dataset and tree of depth at most $D$ with $D \geq 0$ and let us prove that it holds for all trees of depth $D + 1$. 
+For a tree $T$ of depth $D + 1$ the root is necessarily a split node. Let $T_l = E(\pi, s_l)$ and $T_r = E(\pi, s_r)$ be the left and right sub-trees of the root node of $T$. 
+Since both sub-trees are of depth at most $D$, the relation holds and we have $J_\alpha(\pi, X_l, D) = {\mathcal L}_\alpha(T_l, X_l)$ and $J_\alpha(\pi, X_r, D) = {\mathcal L}_\alpha(T_r, X_r)$, where $X_l$ and $X_r$ are the datasets of the ``right'' and ``left'' states to which the MDP transitions---with probabilities $p_l$ and $p_r$---upon application of $\pi(s_0)$ in $s_0$, as described in the MDP formulation. 
+Moreover, from the definition of the policy return we have 
+\begin{align*}
+   J_\alpha(&\pi, {\mathcal E}, D + 1) = -\alpha + p_l * J_\alpha(\pi, X_l, D) + p_r * J_\alpha(\pi, X_r, D)\\
+   &= -\alpha - p_l * {\mathcal L}_\alpha(T_l, X_l) - p_r * {\mathcal L}_\alpha(T_r, D)\\
+   &= -\alpha - p_l * \Bigg(\frac{1}{|X_l|}\sum_{(x_i, y_i)\in X_l}\ell(y_i, T_l(x_i))  + \alpha C(T_l)\Bigg)\\
+   &\ - p_r * \Bigg(\frac{1}{|X_r|}\sum_{(x_i, y_i)\in X_r}\ell(y_i, T_r(x_i))  + \alpha C(T_r)\Bigg)\\
+   &= -\frac{1}{N}\sum_{(x_i, y_i)\in X}\ell(y_i, T(x_i)) - \alpha (1 + p_l C(T_l) + p_r C(T_r))\\
+   &= -{\mathcal L}(T, {\mathcal E}) 
+\end{align*}
+\end{proof}
 
 \section{Algorithm}\label{sec:dpdt}
 
 We now present the Dynamic Programming Decision Tree (DPDT) induction algorithm. 
-The algorithm consists of two essential steps. The first and most computationally expensive step constructs the MDP presented in Section~\ref{sec:MDP}. 
-The second step solves it to obtain a policy that maximizes Eq.\ref{sec:MDP} and that is equivalent to a decision tree. Both steps are now detailed.
+The algorithm consists of two essential steps. The first and most computationally expensive step constructs the MDP presented in Section~\ref{sec:the-mdp}. 
+The second step solves it to obtain a policy that maximizes (\ref{def:finite-mdp-obj}) and that is equivalent to a decision tree. Both steps are now detailed.
 
 \subsection{Constructing the MDP}
 
-An algorithm constructing the MDP of section~\ref{sec:MDP} essentially computes the set of all possible decision trees of maximum depth $D$ which decision nodes are in $\mathcal F$. 
+An algorithm constructing the MDP of Section~\ref{sec:the-mdp} essentially computes the set of all possible decision trees of maximum depth $D$ which decision nodes are in $\mathcal F$. 
 The transition function of this specific MDP is a directed acyclic graph. Each node of this graph corresponds to a state for which one computes the transition and reward functions. 
 %% PP : je comment-out ce qui suit qui est un détail d'implantation qui ne change rien à la complexité de l'algorithme. Il faut le dire plus loin ; d'ailleurs il en est aussi déjà question en 4.3.
 %To limit memory usage of non-terminal nodes, instead of storing all the samples in $(X,d)$, we only store $d$ and the binary vector of size $N$, $x_{bin} = {(\mathds{1}_{\{x_i \in X\}})}_{i\in \{1,\ldots,N\}}$. 
 %Even then,
-Considering all possible splits in $\mathcal F$ does not scale. We thus introduce a state-dependent action space $A_s$, much smaller than $A$ and populated by a splits generating function. In Figure \ref{fig:schema-mdp}, we illustrate the MDP constructed for the classification of a toy dataset using some arbitrary splitting function.
+Considering all possible splits in $\mathcal F$ does not scale.
+We thus introduce a state-dependent action space $A_s$, much smaller than $A$ and populated by a splits generating function. In Figure \ref{fig:schema-mdp}, we illustrate the MDP constructed for the classification of a toy dataset using some arbitrary splitting function.
 
 \begin{figure}
       \centering
       \includegraphics[width=0.9\linewidth]{images/figures/schema_mdp.pdf}
-      \caption{Schematics of the MDP to learn a decision tree of depth 2 to classify a toy dataset with three samples, two features (x,y), and two classes (oval, diamond) and using an arbitrary splits generating function.}
+      \caption{Schematics of the MDP (\ref{sec:the-mdp}) to learn a decision tree of depth 2 to classify a toy dataset with three samples, two features (x,y), and two classes (oval, diamond) and using an arbitrary splits generating function.}
       \end{figure}
 
 \subsection{Heuristic splits generating functions}\label{sec:testgen}
@@ -79,7 +76,7 @@ Considering all possible splits in $\mathcal F$ does not scale. We thus introduc
 A split generating function is any function $\phi$ that maps an MDP state, i.e., a subset of training examples, to a split node. It has the form $\phi: S \rightarrow P(\mathcal{F})$, where $P(\mathcal{F})$ is the power set of all possible split nodes in $\mathcal F$. 
 For a state $s \in S$, the state-dependent action space is defined by $A_s = \phi(s) \cup  \{1,\ldots,K\}$. 
 
-When the split generating function does not return all the possible candidate split nodes given a state, solving the MDP with state-dependent actions $A_s$ is not guaranteed to yield the minimizing tree of Eq.~\ref{eq:suplearning}, as the 
+When the split generating function does not return all the possible candidate split nodes given a state, solving the MDP with state-dependent actions $A_s$ is not guaranteed to yield the minimizing tree of (\ref{eq:suplearning}), as the 
 optimization is then performed on the subset of trees of depth smaller or equal to $D$, $\mathcal{T}_D$. 
 We now define some interesting split generating functions and provide the time complexity of the associated decision tree algorithms. The time complexity is given in big-O of the number of candidate split nodes considered during computations. 
 % Building a depth-1 greedy tree hides a time complexity of $O(np\log(np))$ to sort the splits by information gains \cite{breiman1984classification}.
@@ -99,13 +96,13 @@ The number of MDP states would be $O({(2B)}^D)$.\textit{When $B=1$, the MDP poli
 
 \begin{figure}
       \centering
-      \includegraphics[trim={0 0cm 0 0},clip,width=0.5\textwidth]{images/figures/schematic_cart_node_select.pdf}
+      \includegraphics[trim={0 0cm 0 0},clip,width=0.9\textwidth]{images/figures/schematic_cart_node_select.pdf}
       \caption{How CART is used in DPDT to generate candidate splits given the example data in the current state.}\label{fig:schema-dpdt}
 \end{figure}
 
 
 
-\subsection{Dynamic Programming to solve the MDP}
+\subsection{Dynamic programming to solve the MDP}
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
         \begin{algorithm}
@@ -127,7 +124,7 @@ After constructing the MDP with a chosen splits generating function, we solve fo
 From now on, we write DPDT to denote Algorithm \ref{alg:dpdt} when the split function is a call to CART. We discuss key bottlenecks when implementing DPDT in subsequent sections. We now state theoretical results when using DPDT with the CART heuristic. 
 
 \subsection{Performance Guarantees of DPDT}
-We now show that: 1) DPDT minimizes the loss from Eq.~\ref{eq:suplearning} at least as well as greedy trees and 2) there exists problems for which DPDT has strictly lower loss than greedy trees. 
+We now show that: 1) DPDT minimizes the loss from (\ref{eq:suplearning}) at least as well as greedy trees and 2) there exists problems for which DPDT has strictly lower loss than greedy trees. 
 As we restrict the action space at a given state $s$ to a subset of all possible split nodes, DPDT is not guaranteed to find the tree minimizing Eq. \ref{eq:suplearning}. However, we are still guaranteed to find trees that are better or equivalent to those induced by CART:
 \begin{theorem}[MDP solutions are not worse than the greedy tree]\label{prop:cart}
 Let $\pi^*$ be an optimal deterministic policy of the MDP, where the action space at every state is restricted to the top $B$ most informative or discriminative splits. 
@@ -189,391 +186,8 @@ We can now formally prove theorem \ref{thm:better_greedy}.
 
 \subsection{Practical Implementation}
 
-The key bottlenecks lie in the MDP construction step of DPDT (Section \ref{sec:MDP}). In nature, all decision tree induction algorithms have time complexity exponential in the number of training subsets per tree depth $D$: $O((2B)^D)$, e.g., CART has $O(2^D)$ time complextiy. We already saw that DPDT saves time by not considering all possible tree splits but only $B$ of them. Using state-dependent split generation also allows to generate more or less candidates at different depths of the tree. Indeed, the MDP state $s = (X,d)$ contains the current depth during the MDP construction process. This means that one can control DPDT's time complexity by giving multiple values of maximum nodes: given $(B_1, B_2, ..., B_D)$, the splits generating function in Algorithm~\ref{alg:dpdt} becomes $\phi(s_i) = \phi(X_i, d=1) = nodes(\text{CART}(s, max\_nodes=B_1))$ and  $\phi(s_j) = \phi(X_j, d=2) = nodes(\text{CART}(s, max\_nodes=B_2))$.
+The key bottlenecks lie in the MDP construction step of DPDT (Section \ref{sec:the-mdp}). In nature, all decision tree induction algorithms have time complexity exponential in the number of training subsets per tree depth $D$: $O((2B)^D)$, e.g., CART has $O(2^D)$ time complextiy. We already saw that DPDT saves time by not considering all possible tree splits but only $B$ of them. Using state-dependent split generation also allows to generate more or less candidates at different depths of the tree. Indeed, the MDP state $s = (X,d)$ contains the current depth during the MDP construction process. This means that one can control DPDT's time complexity by giving multiple values of maximum nodes: given $(B_1, B_2, ..., B_D)$, the splits generating function in Algorithm~\ref{alg:dpdt} becomes $\phi(s_i) = \phi(X_i, d=1) = nodes(\text{CART}(s, max\_nodes=B_1))$ and  $\phi(s_j) = \phi(X_j, d=2) = nodes(\text{CART}(s, max\_nodes=B_2))$.
 
-Similarly, the space complexity of DPDT is exponential in the space required to store training examples $\mathcal E$. Indeed, the MDP states that DPDT builds in Algorithm~\ref{alg:dpdt} are training samples $X\subseteq \mathcal E$. Hence, the total space required to run DPDT is $O({Np}(2B)^{D})$ where $Np$ is the size of $\mathcal{E}$. In practice, one should implement DPDT in a depth first search manner to obtain a space complexity linear in the size of training set: $O(DNp)$. In practice DPDT builds the MDP from Section~\ref{sec:MDP} by starting from the root and recursively splitting the training set while backpropagating the $Q$-values. This is possible because the MDP we solve has a (not necessarily binary) tree structure (see Figure~\ref{fig:schema-mdp}) and because the $Q$-values of a state only depend on future states. 
+Similarly, the space complexity of DPDT is exponential in the space required to store training examples $\mathcal E$. Indeed, the MDP states that DPDT builds in Algorithm~\ref{alg:dpdt} are training samples $X\subseteq \mathcal E$. Hence, the total space required to run DPDT is $O({Np}(2B)^{D})$ where $Np$ is the size of $\mathcal{E}$. In practice, one should implement DPDT in a depth first search manner to obtain a space complexity linear in the size of training set: $O(DNp)$. In practice DPDT builds the MDP from Section~\ref{sec:the-mdp} by starting from the root and recursively splitting the training set while backpropagating the $Q$-values. This is possible because the MDP we solve has a (not necessarily binary) tree structure (see Figure~\ref{fig:schema-mdp}) and because the $Q$-values of a state only depend on future states. 
 
 We implemented DPDT\footnote{\url{https://github.com/KohlerHECTOR/DPDTreeEstimator}} following scikit-learn API~\cite{sklearn_api} with depth-first search and state-depth-dependent splits generating. 
-
-\section{Empirical Evaluation}
-
-In this section, we empirically demonstrate strong properties of DPDT trees. 
-The first part of our experiments focuses on the quality of solutions obtained by DPDT for objective Eq.\ref{eq:suplearning} compared to greedy and optimal trees. We know by theorems \ref{prop:cart} and \ref{thm:better_greedy} that DPDT trees should find better solutions than greedy algorithms for certain problems; but what about real problems?
-After showing that DPDT can find optimal trees by considering much less solutions and thus performing orders of magnitude less operations, we will study the generalization capabilities of the latter: do DPDT trees label unseen data accurately?
-
-\subsection{DPDT optimizing capabilities}
-\begin{table*}[ht]
-    \centering
-    \small
-        \caption{Comparison of train accuracies of depth-3 trees and number of operations on classification tasks. For DPDT and Top-B, ``light'' configurations have split function parameters (8, 1, 1) ``full'' have parameters (8, 8, 8). We also include the mean train accuracy over 5 deep RL runs. \textbf{Bold} values are optimal accuracies and {\color{blue} blue} values are the largest non-optimal accuracies.}
-    \label{tab:tree_comparison_combined}
-    \begin{tabular}{l|cc||cc|cc|cc|c||cc|cc|cc}
-    \toprule
-    & & & \multicolumn{7}{c||}{\textbf{Accuracy}} & \multicolumn{6}{c}{\textbf{Operations}}\\
-    \midrule
-    & & & Opt & Greedy & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c|}{Top-B} & \multicolumn{1}{c||}{Deep RL} & Opt & Greedy & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c}{Top-B}\\
-    \textbf{Dataset} & N & p & Quant-BnB & CART & light & full & light & full & Custard & Quant-BnB & CART & light & full & light & full \\
-    % version précédente rempplacée par les 3 lignes ci-dessus :
-    % & & & \multicolumn{2}{c|}{\textbf{Accuracy}} & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c|}{Top-B} & \multicolumn{1}{c||}{Deep RL} & \multicolumn{2}{c|}{\textbf{Operations}} & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c}{Top-B}\\
-    % \textbf{Dataset} & N & p & Opt & Greedy & light & full & light & full & Custard & Opt & Greedy & light & full & light & full \\
-    \midrule
-    room & 8103 & 16 & \textbf{0.992} & 0.968 & \color{blue} 0.991 & \textbf{0.992} & 0.990 & \textbf{0.992} & 0.715 &$10^6$ & 15 & 286 & 16100 & 111 & 16100 \\
-    bean & 10888 & 16  & \textbf{0.871} & 0.777 & 0.812 & \color{blue} 0.853 & 0.804 & 0.841 & 0.182 & 5$\cdot 10^6$ & 15 & 295 & 25900 & 112 & 16800 \\
-    eeg & 11984 & 14  & \textbf{0.708} & 0.666 & 0.689 & \color{blue} 0.706 & 0.684 & 0.699 & 0.549 & 2$\cdot 10^6$ & 13 & 289 & 26000 & 95 & 11000 \\
-    avila & 10430 & 10  & \textbf{0.585} & 0.532 & \color{blue}0.574 & \textbf{0.585} & 0.563 & 0.572 & 0.409 & 3$\cdot 10^7$ & 9 & 268 & 24700 & 60 & 38900 \\
-    magic & 15216 & 10 & \textbf{0.831} & 0.801 & 0.822 & \color{blue} 0.828 & 0.807 & 0.816 & 0.581 &6$\cdot 10^6$ & 15 & 298 & 28000 & 70 & 4190 \\
-    htru & 14318 & 8  & \textbf{0.981} & 0.979 & 0.979 & \color{blue}0.980 & 0.979 & \color{blue}0.980 & 0.860 & 6$\cdot 10^7$ & 15 & 295 & 25300 & 55 & 2180 \\
-    occup. & 8143 & 5 & \textbf{0.994} & 0.989 & 0.991 & \textbf{0.994} & 0.990 & \color{blue}0.992 & 0.647 & 7$\cdot 10^5$ & 13 & 280 & 16300 & 33 & 510 \\
-    skin & 196045 & 3 & \textbf{0.969} & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & 0.612 & 7$\cdot 10^4$ & 15 & 301 & 23300 & 20 & 126 \\
-    fault & 1552 & 27 & \textbf{0.682} & 0.553 & 0.672 & \color{blue}0.674 & 0.672 & 0.673 & 0.303 & 9$\cdot 10^8$ & 13 & 295 & 24200 & 111 & 16800 \\
-    segment & 1848 & 18 & \textbf{0.887} & 0.574 & 0.812 & \color{blue}0.879 & 0.786 & 0.825 & 0.137 & 2$\cdot 10^6$ & 7 & 220 & 16300 & 68 & 11400 \\
-    page & 4378 & 10 &  \textbf{0.971} & 0.964 & \color{blue}0.970 & \color{blue}0.970 & 0.964 & 0.965 & 0.902 &$10^7$ & 15 & 298 & 22400 & 701 & 4050 \\
-    bidding & 5056 & 9  & \textbf{0.993} & 0.981 & \color{blue}0.985 & \textbf{0.993} & 0.985 & \textbf{0.993} & 0.810 & 3$\cdot 10^5$ & 13 & 256 & 9360 & 58 & 2700 \\
-    raisin & 720 & 7 & \textbf{0.894} & 0.869 & 0.879 & \color{blue}0.886 & 0.875 & 0.883 & 0.509 & 4$\cdot 10^6$ & 15 & 295 & 20900 & 48 & 1440 \\
-    rice & 3048 & 7 & \textbf{0.938} & 0.933 & 0.934 & \color{blue}0.937 & 0.933 & 0.936 & 0.519 & 2$\cdot 10^7$ & 15 & 298 & 25500 & 49 & 1470 \\
-    wilt & 4339 & 5 & \textbf{0.996} & 0.993 & 0.994 & \color{blue}0.995 & 0.994 & 0.994 & 0.984 &3$\cdot 10^5$ & 13 & 274 & 11300 & 33 & 465 \\
-    bank & 1097 & 4 & \textbf{0.983} & 0.933 & 0.971 & \color{blue}0.980 & 0.951 & 0.974 & 0.496 & 6$\cdot 10^4$ & 13 & 271 & 7990 & 26 & 256 \\
-% ancienne présentation :
-    %% room & 8103 & 16 & 0.992 & 0.968 & 0.991 & 0.992 & 0.990 & 0.992 & 0.715 & 1.34e+06 & 15 & 286 & 16100 & 111 & 16100 \\
-    %% bean & 10888 & 16  & 0.871 & 0.777 & 0.812 & 0.853 & 0.804 & 0.841 & 0.182 & 4.66e+06 & 15 & 295 & 25900 & 112 & 16800 \\
-    %% eeg & 11984 & 14  & 0.708 & 0.666 & 0.689 & 0.706 & 0.684 & 0.699 & 0.549 & 1.50e+08 & 13 & 289 & 26000 & 95 & 11000 \\
-    %% avila & 10430 & 10  & 0.585 & 0.532 & 0.574 & 0.585 & 0.563 & 0.572 & 0.409 & 2.70e+07 & 9 & 268 & 24700 & 60 & 38900 \\
-    %% magic & 15216 & 10 & 0.831 & 0.801 & 0.822 & 0.828 & 0.807 & 0.816 & 0.581 &5.71e+06 & 15 & 298 & 28000 & 70 & 4190 \\
-    %% htru & 14318 & 8  & 0.981 & 0.979 & 0.979 & 0.980 & 0.979 & 0.980 & 0.860 & 6.22e+07 & 15 & 295 & 25300 & 55 & 2180 \\
-    %% occupancy & 8143 & 5 & 0.994 & 0.989 & 0.991 & 0.994 & 0.990 & 0.992 & 0.647 & 6.81e+05 & 13 & 280 & 16300 & 33 & 510 \\
-    %% skin & 196045 & 3 & 0.969 & 0.966 & 0.966 & 0.966 & 0.966 & 0.966 & 0.612 & 71100 & 15 & 301 & 23300 & 20 & 126 \\
-    %% fault & 1552 & 27 & 0.682 & 0.553 & 0.672 & 0.674 & 0.672 & 0.673 & 0.303 & 9.32e+08 & 13 & 295 & 24200 & 111 & 16800 \\
-    %% segment & 1848 & 18 & 0.887 & 0.574 & 0.812 & 0.879 & 0.786 & 0.825 & 0.137 & 2.13e+06 & 7 & 220 & 16300 & 68 & 11400 \\
-    %% page & 4378 & 10 &  0.971 & 0.964 & 0.970 & 0.970 & 0.964 & 0.965 & 0.902 & 9.62e+06 & 15 & 298 & 22400 & 701 & 4050 \\
-    %% bidding & 5056 & 9  & 0.993 & 0.981 & 0.985 & 0.993 & 0.985 & 0.993 & 0.810 & 2.69e+05 & 13 & 256 & 9360 & 58 & 2700 \\
-    %% raisin & 720 & 7 & 0.894 & 0.869 & 0.879 & 0.886 & 0.875 & 0.883 & 0.509 & 3.98e+06 & 15 & 295 & 20900 & 48 & 1440 \\
-    %% rice & 3048 & 7 & 0.938 & 0.933 & 0.934 & 0.937 & 0.933 & 0.936 & 0.519 & 2.08e+07 & 15 & 298 & 25500 & 49 & 1470 \\
-    %% wilt & 4339 & 5 & 0.996 & 0.993 & 0.994 & 0.995 & 0.994 & 0.994 & 0.984 &3.20e+05 & 13 & 274 & 11300 & 33 & 465 \\
-    %% bank & 1097 & 4 & 0.983 & 0.933 & 0.971 & 0.980 & 0.951 & 0.974 & 0.496 & 62500 & 13 & 271 & 7990 & 26 & 256 \\
-    \bottomrule
-    \end{tabular}
-\end{table*}
-\begin{figure}
-    \centering
-    \includegraphics[width=1\linewidth]{images/figures/splits_tsne_combined.pdf}
-    \caption{Root splits candidate obtained with DPDT compared to the optimal root split on the Bank dataset. Each split creates a partition of $p$-dimensional data that we projected in the $2$-dimensional space using t-SNE.}
-    \label{fig:splits_dpdt}
-\end{figure}
-\begin{figure}
-    \centering
-    \includegraphics[width=1\linewidth]{images/figures/splits_tsne_combined_topk.pdf}
-    \caption{Root splits candidate obtained with Top-B\cite{topk} on the Bank dataset. Each split creates a partition of $p$-dimensional data that we projected using t-SNE.}
-    \label{fig:splits_topb}
-\end{figure}
-
-From an empirical perspective, it is key to evaluate DPDT training accuracy since optimal decision tree algorithms against which we wish to compare ourselves are designed to optimize the regularized training loss Eq.\ref{eq:suplearning}.
-
-\subsubsection{Setup}
-\paragraph{Metrics:} we are interested in the regularized training loss of algorithms optimizing Eq.\ref{eq:suplearning} with $\alpha=0$ and a maximum depth $D$. We are also interested in the number of key operations performed by each baseline, namely computing candidate split nodes for subsets of the training data. We disregard running times as solvers are implemented in different programming languages and/or using optimized code: operations count is more representative of an algorithm efficiency. We also qualitatively compare different decision trees root splits to some optimal root split.
-\paragraph{Baselines:} we benchmark DPDT against greedy trees and optimal trees. For greedy trees we compare DPDT to CART \cite{breiman1984classification}. For optimal trees we compare DPDT to Quant-BnB \cite{quantbnb} which is the only solver specialized for depth 3 trees and continuous features. We also consider the non-greedy baseline Top-B \cite{topk}. Ideally, DPDT should have training accuracy close to the optimal tree while performing a number of operations close to the greedy algorithm. Furthermore, comparing DPDT to Top-B brings answers to which heuristic splits are better to consider. 
-
-We use the CART algorithm implemented in \texttt{scikit-learn}~\cite{scikit-learn} in \texttt{CPython} with a maximum depth of 3. Optimal trees are obtained by running the \texttt{Julia} implementation of the Quant-BnB solver from~\cite{quantbnb} specialized in depth 3 trees for datasets with continuous features. We use a time limit of 24 hours per dataset. 
-DPDT and Top-B trees are obtained with Algorithm~\ref{alg:dpdt} implemented in pure \texttt{Python} and the calls to CART and Top-B most informative splits generating functions from Section~\ref{sec:MDP} respectively.
-We also include Custard, a deep  RL baseline ~\cite{topin2021iterative}. Custard fits a neural network online one datum at a time rather than solving exactly the MDP from Section~\ref{sec:MDP} which states are sets of data. Similarly to DPDT, Custard neural network policy is equivalent to a decision tree. We implement Custard with the DQN agent from \texttt{stable-baselines3}~\cite{stable-baselines3} and train until convergence. 
-
-\paragraph{Datasets:} we us the same datasets as the Quant-BnB paper~\cite{quantbnb}.
-
-\subsubsection{Observations}
-
-\paragraph{Near-optimality.} Our experimental results demonstrate that unlike Deep RL, DPDT and Top-B approaches consistently improve upon greedy solutions while requiring significantly fewer operations than exact solvers. Looking at Table~\ref{tab:tree_comparison_combined}, we observe several key patterns:
-first, light DPDT with 16 candidate root splits consistently outperforms the greedy baseline in all datasets. This shows that in practice DPDT can be strictly netter than CART outside of theorem \ref{thm:better_greedy} assumptions. 
-Second, when comparing DPDT to Top-B, we see that DPDT generally achieves better accuracy for the same configuration. For example, on the bean dataset, full DPDT reaches 85.3\% accuracy while full Top-B achieves 84.1\%. This pattern holds on most datasets, suggesting that DPDT is more effective than selecting splits based purely on information gain.
-
-
-Third, both approaches achieve impressive computational efficiency compared to exact solvers. While optimal solutions require between $10^4$ to $10^8$ operations, DPDT and Top-B typically need only $10^2$ to $10^4$ operations, a reduction of 2 to 4 orders of magnitude.
-Notably, on several datasets (room, avila, occupancy, bidding), full DPDT matches or comes extremely close to optimal accuracy while requiring far fewer operations. For example, on the room dataset, full DPDT achieves the optimal accuracy of 99.2\% while reducing operations from $1.34\times10^6$ to $1.61\times10^4$.
-These results demonstrate that DPDT provides an effective middle ground between greedy approaches and exact solvers, offering near-optimal solutions with reasonable computational requirements. While both DPDT and Top-B improve upon greedy solutions, DPDT CART-based split generation strategy appears to be particularly effective at finding high-quality solutions.
-
-\paragraph{DPDT splits} To understand why the CART-based split generation yields more accurate DPDT trees than the Top-B heuristic, we visualize how splits partition the feature space (Figures \ref{fig:splits_dpdt}, \ref{fig:splits_topb}). We run both DPDT with splits from CART and DPDT with the Top-B most informative splits on the bank dataset. We use t-SNE to create a two-dimensional representations of the dataset partitions given by candidates root splits from CART and Top-B. 
-The optimal root split for the depth-3 tree for bank--obtained with Quant-BnB--is shown on Figure \ref{fig:splits_dpdt} in the top-left subplot using green and orange colors for the resulting partitions. On the same figure we can see that the DPDT split generated with CART $x_0 \leq 0.259$ is very similar to the optimal root split. However, on Figure \ref{fig:splits_topb} we observe that no Top-B candidate splits resemble the optimal root and that in general Top-B split lack diversity: they always split along the same feature. We tried to enforce diversity by getting the most informative split \textit{per feature} but no candidate split resembles the optimal root.
-
-\subsection{DPDT generalization capabilities}\label{sec:generalization}
-\begin{figure*}
-    \centering
-    \begin{minipage}{0.24\textwidth}
-        \includegraphics[width=\textwidth]{images/figures/tab_bench/random_search_classif_numerical_depth5.pdf}
-        \subcaption{Single Tree Numerical}\label{fig:gen-num}
-    \end{minipage}
-    \begin{minipage}{0.24\textwidth}
-        \includegraphics[width=\textwidth]{images/figures/tab_bench/random_search_classif_categorical_depth5.pdf}
-        \subcaption{Single Tree Categorical}\label{fig:gen-cat}
-    \end{minipage}
-        \centering
-    \begin{minipage}{0.24\textwidth}
-        \includegraphics[width=\textwidth]{images/figures/tab_bench/benchmark_time_numerical_classif.pdf}
-        \subcaption{Single Tree Numerical}\label{fig:gen-num-time}
-    \end{minipage}
-    \begin{minipage}{0.24\textwidth}
-        \includegraphics[width=\textwidth]{images/figures/tab_bench/benchmark_time_categorical_classif.pdf}
-        \subcaption{Single Tree Categorical}\label{fig:gen-cat-time}
-    \end{minipage}
-          \begin{minipage}{0.24\textwidth}
-          \includegraphics[width=\textwidth]{images/figures/tab_bench/random_search_classif_numerical_boosting_w_weak.pdf}
-          \subcaption{Boosting vs Single Tree Num.}\label{fig:boost-num}
-      \end{minipage}
-      \begin{minipage}{0.24\textwidth}
-          \includegraphics[width=\textwidth]{images/figures/tab_bench/random_search_classif_categorical_boosting_w_weak.pdf}
-          \subcaption{Boosting vs Single Tree Cat.}\label{fig:boost-cat}
-      \end{minipage}
-    \centering
-    \begin{minipage}{0.24\textwidth}
-        \includegraphics[width=\textwidth]{images/figures/tab_bench/random_search_classif_numerical_boosting_all_notgb.pdf}
-        \subcaption{Boosting vs Neural Numerical}\label{fig:classif-num-all}
-    \end{minipage}
-    \begin{minipage}{0.24\textwidth}
-        \includegraphics[width=\textwidth]{images/figures/tab_bench/random_search_classif_categorical_boosting_all_notgb.pdf}
-        \subcaption{Boosting vs Neural Categorical}\label{fig:classif-cat-all}
-    \end{minipage}
-\caption{Benchmark on medium-sized datasets. Dotted lines correspond to the score of the default hyperparameters, which is also the first random search iteration. Each value corresponds to the test score of the best model (obtained on the validation set) after a specific number of random search iterations (a, b) or after a specific time spent doing random search (c, d), averaged on 15 shuffles of the random search order. The ribbon corresponds to the minimum and maximum scores on these 15 shuffles.}\label{fig:gen-classif}
-\end{figure*}
-
-The goal of this section is to have a fair comparison of generalization capabilities of different tree induction algorithms. Fairness of comparison should take into account the number of hyperparameters, choice of programming language, intrinsic purposes of each algorithms (what are they designed to do?), the type of data they can read (categorical features or numerical features). We benchmark DPDT using~\cite{grinsztajn2022tree}. We choose this benchmark because it was used to establish XGBoost~\cite{xgb} as the SOTA tabular learning model. 
-
-\subsubsection{Setup}
-
-\paragraph{Metrics:} We re-use the code from \cite{grinsztajn2022tree}~\footnote{https://github.com/leogrin/tabular-benchmark}. It relies on random searches for hyper-parameter tuning \cite{pmlr-v28-bergstra13}. We run a random search of 100 iterations per dataset for each benchmarked tree algorithms. To study performance as a function of the number $n$ of random search iterations, we compute the best hyperparameter combination on the validation set on these $n$ iterations (for each model and dataset), and evaluate it on the test set. Following \cite{grinsztajn2022tree}, we do this 15 times while shuffling the random search order at each time. This gives us bootstrap-like estimates of the expected test score of the best tree found on the validation set after each number of random search iterations. In addition, we always start the random searches with the default hyperparameters of each tree induction aglorithm. We use the test set accuracy (classification) to measure model performance. The aggregation metric is discussed in details in \cite[Section 3]{grinsztajn2022tree}.
-
-\paragraph{Datasets:} we use the datasets curated by \cite{grinsztajn2022tree}. They are available on \texttt{OpenML} \cite{10.1145/2641190.2641198} and described in details in \cite[Appendix A.1]{grinsztajn2022tree}. The attributes in these datasets are either %Those datasets are either 
-numerical (a real number), or categorical (a symbolic values among a finite set of possible values). %,  strings as well as numbers). 
-The considered datasets follow a strict selection \cite[Section 3]{grinsztajn2022tree} to focus on core learning challenges. Some datasets are very large (millions of samples) like Higgs or Covertype \cite{higgs_280,covertype_31}. To ensure non-trivial learning tasks, datasets where simple models (e.g.\@ logistic regression) performed within 5\% of complex models (e.g.\@ ResNet~\cite{resnet}, HistGradientBoosting~\cite{scikit-learn}) are removed. We use the same data partitioning strategy as~\cite{grinsztajn2022tree}: 70\% of samples are allocated for training, with the remaining 30\% split between validation (30\%) and test (70\%) sets. Both validation and test sets are capped at 50,000 samples for computational efficiency. All algorithms and hyperparameter combinations were evaluated on identical folds. Finally, while we focus on classification datasets in the main text, we provide results for regression problems in table~\ref{tab:regression} in the appendix.
-
-\paragraph{Baselines:}
-we benchmark DPDT against CART and STreeD when inducing trees of depth at most 5.  We use hyperparameter search spaces from \cite{komer-proc-scipy-2014} for CART and DPDT. For DPDT we additionally consider eight different splits functions parameters configurations for the maximum nodes in the calls to CART. Surprisingly, after computing the importance of each hyperparameter of DPDT, we found that the maximum node numbers in the calls to CART are only the third most important hyperparametrer behind classical ones like the minimum size of leaf nodes or the minimum impurity decrease (Table~\ref{tab:importance_comparison}). We use the \texttt{CPython} implementation of STreeD\footnote{PySTreeD: \url{https://github.com/AlgTUDelft/pystreed}}. All hyperparameter grids are given in table \ref{tab:tree_hyperparams} in the appendix.
-
-\paragraph{Hardware:} experiments were conducted on a heterogeneous computing infrastructure made of AMD EPYC 7742/7702 64-Core and Intel Xeon processors, with hardware allocation based on availability and algorithm requirements. DPDT and CART random searches ran for the equivalent of 2-days while \texttt{PySTreeD} ran for 10-days.
-
-\begin{table}
-\centering
-\small
-\caption{Hyperparameters importance comparison. A description of the hyperparameters can be found in the scikit-learn documentation: \url{https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html}.}
-\begin{tabular}{lccc}
-\toprule
-\textbf{Hyperparameter} & \textbf{DPDT (\%)}  & \textbf{CART (\%)} & \textbf{STreeD (\%)} \\
-\midrule
-min\_samples\_leaf & 35.05 & 33.50 & 50.50 \\
-min\_impurity\_decrease & 24.60 & 24.52 & - \\
-cart\_nodes\_list & 15.96 & - & - \\
-max\_features & 11.16 & 18.06 & - \\
-max\_depth & 7.98 & 10.19 & 0.00 \\
-max\_leaf\_nodes & - & 7.84 & - \\
-min\_samples\_split & 2.67 & 2.75 & - \\
-min\_weight\_fraction\_leaf & 2.58 & 3.14 & - \\
-max\_num\_nodes & - & - & 27.51 \\
-n\_thresholds & - & - & 21.98 \\
-\bottomrule
-\end{tabular}
-\label{tab:importance_comparison}
-\end{table}
-
-\subsubsection{Observations}
-
-\paragraph{Generalization} In Figure \ref{fig:gen-classif}, we observe that DPDT learns better trees than CART and STreeD both in terms of generalization capabilities and in terms of computation cost. On Figures \ref{fig:gen-num} and \ref{fig:gen-cat}, DPDT obtains best generalization scores for classification on numerical and categorical data after 100 iterations of random hyperparameters search over both CART and STreeD. Similarly, we also present generalization scores as a function of compute time (instead of random search iterations). On Figures \ref{fig:gen-num-time} and \ref{fig:gen-cat-time}, despite being coded in the slowest language (\texttt{Python} vs. \texttt{CPython}), our implementation of DPDT finds the best overall model before all STreeD random searches even finish.
-The results from Figure \ref{fig:gen-classif} are appealing for machine learning practitioners and data scientists that have to do hyperparameters search to find good models for their data while having computation constrains.
-
-Now that we have shown that DPDT is extremely efficient to learn shallow decision trees that generalize well to unseen data, it is fair to ask if DPDT can also learn deep trees on very large datasets.
-
-\begin{table}
-\centering
-\caption{Depth-10 decision trees for the KDD 1999 cup dataset.}
-\label{tab:model-comparison}
-\small
-\begin{tabular}{lccc}
-\hline
-\textbf{Model} & \textbf{Test Accuracy (\%)} & \textbf{Time (s)} & \textbf{Memory (MB)} \\
-\hline
-DPDT-(4,) & \textbf{91.30} & 339.85 & 5054 \\
-DPDT-(4,4,) & \textbf{91.30} & 881.07 & 5054 \\
-CART & 91.29 & 25.36 & 1835 \\
-GOSDT-$\alpha=0.0005$& 65.47 & 5665.47 & 1167 \\
-GOSDT-$\alpha=0.001$ & 65.45 & 5642.85 & 1167 \\
-\hline
-\end{tabular}
-\end{table}
-
-\paragraph{Deeper trees on bigger datasets.} We also stress test DPDT by inducing deep trees of depth 10 for the KDD 1999 cup dataset\footnote{\url{http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html}}. The training set has 5 million rows and a mix of 80 continuous and categorical features representing network intrusions. We fit DPDT with 4 split candidates for the root node (DPDT-(4,)) and with 4 split candidates for the root and for each of the internal nodes at depth 1 (DPDT-(4,4,)). We compare DPDT to CART with a maximum depth of 10 and to GOSDT\footnote{Code available at: \url{https://github.com/ubc-systopia/gosdt-guesses}}~\cite{McTavish_Zhong_Achermann_Karimalis_Chen_Rudin_Seltzer_2022} with different regularization values $\alpha$. GOSDT first trains a tree ensemble to binarize a dataset and then solve for the optimal decision tree of depth 10 on the binarized problem. In Table~\ref{tab:model-comparison} we report the test accuracy of each tree on the KDD 1999 cup test set. We also report the memory peak during training and the training duration (all experiments are run on the same CPU). We observe that DPDT can improve over CART even for deep trees and large datasets while using reasonable time and memory. Furthermore, Table \ref{tab:model-comparison} highlights the limitation of optimal trees for practical problems when the dataset is not binary. We observed that GOSDT could not find a good binarization of the dataset even when increasing the budget of the tree ensemble up to the point where most of the computations are spent on fitting the ensemble (see more details about this phenomenon in \cite[Section 5.3]{McTavish_Zhong_Achermann_Karimalis_Chen_Rudin_Seltzer_2022}). In table \ref{tab:more-res} in the appendix, we also show that DPDT performs better than optimal trees for natively binary datasets. In the next section we study the performance of boosted DPDT trees.
-
-\section{Application of DPDT to Boosting}
-
-In the race for machine learning algorithms for tabular data, boosting procedures are often considered the go-to methods for classification and regression problems. Boosting algorithms \cite{FREUND1997119,stcohFriedman,FriedmanBoosting} sequentially add weak learners to an ensemble called strong learner. The development of those boosting algorithms has focused on what data to train newly added weak learners \cite{stcohFriedman,FriedmanBoosting},  or on efficient implementation of those algorithms \cite{xgb,10.5555/3327757.3327770}. We show next that Boosted-DPDT (boosting DPDT trees with AdaBoost \cite{FREUND1997119}) improves over recent deep learning algorithms. 
-
-\subsection{Boosted-DPDT}\label{sec:boosting}
-
-We benchmark Boosted-DPDT with the same datasets, metrics, and hardware as in the previous section on single-tree training. Second, we verify the competitiveness of Boosted-DPDT with other models such as deep learning ones (SAINT~\cite{somepalli2021saintimprovedneuralnetworks} and other deep learning architectures from \cite{resnet}). 
-
-On Figures \ref{fig:boost-num} and \ref{fig:boost-cat} we can notice 2 properties of DPDT. First, as in any boosting procedure, Boosted-DPDT outperforms its weak counterpart DPDT. This serves as a sanity check for boosting DPDT trees. Second, it is clear that boosting DPDT trees yields better models than boosting CART trees on both numerical and categorical data. Figures~\ref{fig:classif-num-all} and \ref{fig:classif-cat-all} show that boosting DPDT trees using the default AdaBoost procedure~\cite{FREUND1997119} is enough to learn models outperforming deep learning algorithms on datasets with numerical features and models in the top-tier on datasets with categorical features. This show great promise for models obtained when boosting DPDT trees with more advanced procedures.
-
-\subsection{(X)GB-DPDT}
-\begin{figure}
-    \centering
-    \includegraphics[trim={0 0 0 0},clip,width=0.8\linewidth]{images/figures/xgboosting_normalized_wo_opt.pdf}
-    \caption{Aggregated mean test accuracies of Gradient Boosting models as a function of the number of single trees.}
-    \label{fig:gb}
-\end{figure}
-
-We also boost DPDT trees with Gradient Boosting and eXtreme Gradient Boosting~\cite{FriedmanBoosting,stcohFriedman,xgb}(X(GB)-DPDT). For each dataset from~\cite{grinsztajn2022tree}, we trained (X)GB-DPDT models with 150 boosted single DPDT trees and a maximum depth of 3 for each. We evaluate two DPDT configurations for the single trees: light (DPDT-(4, 1, 1)) and the default (DPDT-(4,4,4)). We compare (X)GB-DPDT to (X)GB-CART: 150 boosted CART trees with maximum depth of 3 and default hyperparameters for each. All models use a learning rate of 0.1. For each each dataset, we normalize all boosted models scores by the accuracy of a single depth-3 CART decision tree and aggregate the results: the final curves represent the mean performance across all datasets, with confidence intervals computed using 5 different random seeds.
-
-Figure~\ref{fig:gb} shows that similarly to simple boosting procedures like AdaBoost, more advanced ones like (eXtreme) Gradient Boosting yields better models when the weak learners are DPDT trees rather than greedy trees. This is a motivation to develop efficient implementation of (eXtreme) Gradient Boosting with DPDT as the weak learning algorithm to perform extensive benchmarking following \cite{grinsztajn2022tree} and potentially claim the state-of-the-art.
-
-\section{Proof of Propostion~\ref{prop:equiv}}
-\label{sec:proof-equiv}
-For the purpose of the proof, we overload the definition of $J_\alpha$ and $\mathcal L_\alpha$, to make explicit the dependency on the dataset and the maximum depth. 
-As such, $J_\alpha(\pi)$ becomes $J_\alpha(\pi, {\mathcal E}, D)$ and ${\mathcal L}_\alpha(T)$ becomes ${\mathcal L}_\alpha(T, {\mathcal E})$. 
-Let us first show that the relation $J_\alpha(\pi, {\mathcal E}, 0) = -{\mathcal L}_\alpha(T, {\mathcal E})$ is true. 
-If the maximum depth is $D = 0$ then $\pi(s_0)$ is necessarily a class assignment, in which case the expected number of splits is zero and the relation is obviously true since the reward is the opposite of the average classification loss. 
-Now assume it is true for any dataset and tree of depth at most $D$ with $D \geq 0$ and let us prove that it holds for all trees of depth $D + 1$. 
-For a tree $T$ of depth $D + 1$ the root is necessarily a split node. Let $T_l = E(\pi, s_l)$ and $T_r = E(\pi, s_r)$ be the left and right sub-trees of the root node of $T$. 
-Since both sub-trees are of depth at most $D$, the relation holds and we have $J_\alpha(\pi, X_l, D) = {\mathcal L}_\alpha(T_l, X_l)$ and $J_\alpha(\pi, X_r, D) = {\mathcal L}_\alpha(T_r, X_r)$, where $X_l$ and $X_r$ are the datasets of the ``right'' and ``left'' states to which the MDP transitions---with probabilities $p_l$ and $p_r$---upon application of $\pi(s_0)$ in $s_0$, as described in the MDP formulation. 
-Moreover, from the definition of the policy return we have 
-\begin{align*}
-   J_\alpha(&\pi, {\mathcal E}, D + 1) = -\alpha + p_l * J_\alpha(\pi, X_l, D) + p_r * J_\alpha(\pi, X_r, D)\\
-   &= -\alpha - p_l * {\mathcal L}_\alpha(T_l, X_l) - p_r * {\mathcal L}_\alpha(T_r, D)\\
-   &= -\alpha - p_l * \Bigg(\frac{1}{|X_l|}\sum_{(x_i, y_i)\in X_l}\ell(y_i, T_l(x_i))  + \alpha C(T_l)\Bigg)\\
-   &\ - p_r * \Bigg(\frac{1}{|X_r|}\sum_{(x_i, y_i)\in X_r}\ell(y_i, T_r(x_i))  + \alpha C(T_r)\Bigg)\\
-   &= -\frac{1}{N}\sum_{(x_i, y_i)\in X}\ell(y_i, T(x_i)) - \alpha (1 + p_l C(T_l) + p_r C(T_r))\\
-   &= -{\mathcal L}(T, {\mathcal E}) 
-\end{align*}
-\section{Additional Experiments and Hyperparameters}
-In this section we provide additional experimental results. In Table \ref{tab:regression}, we compare DPDT trees to CART and STreeD trees using 50 train/test splits of regression datasets from \cite{grinsztajn2022tree}. All algorithms are run with default hyperparameters. 
-\vfill\eject
-The configuration of DPDT is (4, 4, 4) or (4,4,4,4,4). STreeD is run with a time limit of 4 hours per tree computation and on binarized versions of the datasets. 
-Both for depth-3 and depth-5 trees, DPDT outperforms other baselines in terms of train and test accuracies. Indeed, because STreeD runs on ``approximated'' datasets, it performs pretty poorly. 
-
-In Table \ref{tab:more-res}, we compare DPDT(4, 4, 4, 4, 4) to additional optimal decision tree baselines on datasets with \textbf{binary features}. The optimal decision tree baselines run with default hyperparameters and a time-limit of 10 minutes. The results show that even on binary datasets that optimal algorithms are designed to handle well; DPDT outperforms other baselimes. This is likely because optimal trees are slow and/or don't scale well to depth 5.
-
-In Table~\ref{tab:lookahead} compare DPDT to lookahead depth-3 trees when optimizing Eq.\ref{eq:suplearning}. Unlike the other greedy approaches, lookahead decision trees~\cite{norton} do not pick the split that optimizes a heuristic immediately. Instead, they pick a split that sets up the best possible heuristic value on the following split. Lookahead-1 chooses nodes at depth $d<3$ by looking 1 depth in the future: it looks for the sequence of 2 splits that maximizes the information gain at depth $d + 1$. Lookahead-2 is the optimal depth-3 tree and Lookahead-0 would be just building the tree greedily like CART. The conclusion are roughly the same as for Table~\ref{tab:tree_comparison_combined}. Both lookahead trees and DPDT\footnote{\url{https://github.com/KohlerHECTOR/DPDTreeEstimator}} are in \texttt{Python} which makes them slow but comparable.
-
-We also provide the hyperparameters necessary to reproduce experiments from section \ref{sec:generalization} and \ref{sec:boosting} in Table~\ref{tab:tree_hyperparams}.
-
-
-\begin{table}
-\caption{Train accuracies of depth-3 trees (with number of operations). Lookahead trees are trained with a time limit of 12 hours.}
-\centering
-\begin{tabular}{l|c|c}
-\toprule
-\textbf{Dataset} & \textbf{DPDT} & \textbf{Lookahead-1} \\
-\midrule
-avila & 57.22 (1304) & OoT \\
-bank & 97.99 (699) & 96.54 (7514) \\
-bean & 85.30 (1297) & OoT \\
-bidding & 99.27 (744) & 98.12 (20303) \\
-eeg & 69.38 (1316) & 69.09 (10108) \\
-fault & 67.40 (1263) & 67.20 (32514) \\
-htru & 98.01 (1388) & OoT \\
-magic & 82.81 (1451) & OoT \\
-occupancy & 99.31 (1123) & 99.01 (15998) \\
-page & 97.03 (1243) & 96.44 (16295) \\
-raisin & 88.61 (1193) & 86.94 (9843) \\
-rice & 93.44 (1367) & 93.24 (37766) \\
-room & 99.23 (1196) & 99.04 (5638) \\
-segment & 87.88 (871) & 68.83 (24833) \\
-skin & 96.60 (1300) & 96.61 (1290) \\
-wilt & 99.47 (862) & 99.31 (36789) \\
-\bottomrule
-\end{tabular}
-\label{tab:lookahead}
-\end{table}
-
-\begin{table*}
-\centering
-\footnotesize
-\caption{Mean train and test scores (with standard errors) for regression datasets over 50 cross-validation runs.}\label{tab:regression}
-\begin{tabular}{l|rr|rr|rr||rr|rr|rr|rr}
-\hline
- & \multicolumn{6}{c||}{\textbf{Depth 3}} & \multicolumn{6}{c|}{\textbf{Depth 5}} \\ \hline
-Dataset & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c|}{Optimal} & \multicolumn{2}{c||}{CART} & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c|}{Optimal} & \multicolumn{2}{c|}{CART} \\
- & Train & Test & Train & Test & Train & Test & Train & Test & Train & Test & Train & Test \\
-\hline
-nyc-taxi & 39.0 ± 0.0 & 38.9 ± 0.2 & 33.8 ± 0.0 & 33.8 ± 0.1 & 39.0 ± 0.0 & 38.9 ± 0.2 & 45.8 ± 0.0 & 45.7 ± 0.2 & 33.8 ± 0.0 & 33.8 ± 0.1 & 42.7 ± 0.0 & 42.6 ± 0.2 \\
-medical\_charges & 95.2 ± 0.0 & 95.2 ± 0.0 & 90.1 ± 0.0 & 90.1 ± 0.1 & 95.2 ± 0.0 & 95.2 ± 0.0 & 97.7 ± 0.0 & 97.7 ± 0.0 & 90.1 ± 0.0 & 90.1 ± 0.1 & 97.7 ± 0.0 & 97.7 ± 0.0 \\
-diamonds & 93.0 ± 0.0 & 92.9 ± 0.1 & 90.1 ± 0.0 & 90.1 ± 0.1 & 92.7 ± 0.0 & 92.6 ± 0.1 & 94.2 ± 0.0 & 94.0 ± 0.1 & 90.1 ± 0.0 & 90.1 ± 0.1 & 94.1 ± 0.0 & 93.9 ± 0.1 \\
-house\_16H & 39.9 ± 0.1 & 38.1 ± 2.5 & 32.8 ± 0.1 & 29.4 ± 1.6 & 35.8 ± 0.1 & 35.8 ± 1.9 & 59.4 ± 0.1 & 35.2 ± 4.1 & 32.8 ± 0.1 & 29.4 ± 1.6 & 51.5 ± 0.1 & 41.3 ± 3.1 \\
-house\_sales & 67.0 ± 0.0 & 66.0 ± 0.4 & 65.1 ± 0.0 & 64.4 ± 0.4 & 66.8 ± 0.0 & 66.1 ± 0.4 & 77.6 ± 0.0 & 76.1 ± 0.3 & 65.1 ± 0.0 & 64.4 ± 0.4 & 76.8 ± 0.0 & 75.3 ± 0.4 \\
-superconduct & 73.1 ± 0.0 & 72.7 ± 0.5 & 70.9 ± 0.0 & 70.5 ± 0.5 & 70.4 ± 0.0 & 69.7 ± 0.5 & 83.0 ± 0.0 & 81.7 ± 0.4 & 70.9 ± 0.0 & 70.5 ± 0.5 & 78.2 ± 0.0 & 76.5 ± 0.5 \\
-houses & 51.7 ± 0.0 & 50.7 ± 0.7 & 48.5 ± 0.1 & 47.3 ± 0.7 & 49.5 ± 0.0 & 48.4 ± 0.7 & 69.1 ± 0.0 & 67.6 ± 0.5 & 48.5 ± 0.1 & 47.3 ± 0.7 & 60.4 ± 0.1 & 58.5 ± 0.6 \\
-Bike\_Sharing & 55.2 ± 0.0 & 54.7 ± 0.5 & 45.1 ± 0.1 & 44.8 ± 0.7 & 48.1 ± 0.0 & 47.9 ± 0.5 & 65.2 ± 0.0 & 63.3 ± 0.5 & 45.1 ± 0.1 & 44.8 ± 0.7 & 59.1 ± 0.0 & 58.6 ± 0.5 \\
-elevators & 48.0 ± 0.0 & 46.8 ± 1.1 & 40.2 ± 0.1 & 38.2 ± 1.0 & 46.8 ± 0.0 & 45.5 ± 1.2 & 65.6 ± 0.0 & 61.2 ± 1.0 & 40.2 ± 0.1 & 38.2 ± 1.0 & 61.9 ± 0.0 & 58.0 ± 1.2 \\
-pol & 72.2 ± 0.0 & 71.3 ± 0.6 & 67.8 ± 0.1 & 67.5 ± 0.9 & 72.0 ± 0.0 & 71.2 ± 0.8 & 93.3 ± 0.0 & 92.4 ± 0.3 & 67.8 ± 0.1 & 67.5 ± 0.9 & 92.1 ± 0.0 & 91.7 ± 0.3 \\
-MiamiHousing2016 & 62.3 ± 0.0 & 60.4 ± 0.8 & 60.8 ± 0.0 & 58.3 ± 0.8 & 62.3 ± 0.0 & 60.6 ± 0.8 & 79.8 ± 0.0 & 77.5 ± 0.5 & 60.8 ± 0.0 & 58.3 ± 0.8 & 77.3 ± 0.1 & 74.7 ± 0.6 \\
-Ailerons & 63.5 ± 0.0 & 62.6 ± 0.7 & 61.6 ± 0.0 & 60.3 ± 0.7 & 63.5 ± 0.0 & 62.6 ± 0.7 & 76.0 ± 0.0 & 72.9 ± 0.6 & 61.6 ± 0.0 & 60.3 ± 0.7 & 75.5 ± 0.0 & 73.2 ± 0.5 \\
-Brazilian\_houses & 90.7 ± 0.0 & 90.3 ± 0.8 & 89.2 ± 0.0 & 89.4 ± 0.8 & 90.7 ± 0.0 & 90.4 ± 0.8 & 97.6 ± 0.0 & 96.6 ± 0.4 & 89.2 ± 0.0 & 89.4 ± 0.8 & 97.3 ± 0.0 & 96.4 ± 0.4 \\
-sulfur & 72.5 ± 0.1 & 66.6 ± 2.2 & 35.7 ± 0.1 & 19.1 ± 6.7 & 72.0 ± 0.1 & 68.0 ± 2.2 & 89.0 ± 0.0 & 68.4 ± 6.7 & 35.7 ± 0.1 & 19.1 ± 6.7 & 81.8 ± 0.1 & 74.0 ± 2.2 \\
-yprop\_41 & 6.3 ± 0.0 & 2.3 ± 0.7 & 3.6 ± 0.0 & 1.5 ± 0.4 & 6.2 ± 0.0 & 2.1 ± 0.8 & 13.2 ± 0.0 & 1.2 ± 1.7 & 3.6 ± 0.0 & 1.5 ± 0.4 & 10.8 ± 0.0 & -1.7 ± 1.4 \\
-cpu\_act & 93.4 ± 0.0 & 92.0 ± 0.6 & 89.0 ± 0.0 & 86.5 ± 1.9 & 93.4 ± 0.0 & 92.0 ± 0.6 & 96.5 ± 0.0 & 94.7 ± 0.5 & 89.0 ± 0.0 & 86.5 ± 1.9 & 96.3 ± 0.0 & 95.1 ± 0.4 \\
-wine\_quality & 27.9 ± 0.0 & 23.3 ± 0.9 & 25.2 ± 0.0 & 23.7 ± 0.8 & 27.7 ± 0.0 & 24.5 ± 0.8 & 37.4 ± 0.0 & 26.7 ± 1.0 & 25.2 ± 0.0 & 23.7 ± 0.8 & 35.9 ± 0.1 & 26.7 ± 0.9 \\
-abalone & 46.3 ± 0.0 & 39.6 ± 1.6 & 42.5 ± 0.0 & 40.4 ± 1.4 & 43.3 ± 0.0 & 39.2 ± 1.2 & 58.6 ± 0.0 & 44.7 ± 1.8 & 42.5 ± 0.0 & 40.4 ± 1.4 & 54.5 ± 0.0 & 46.3 ± 1.4 \\
-\hline
-\end{tabular}
-\end{table*}
-\begin{table*}
-    \centering
-    \footnotesize
-    \caption{Train/test accuracies of different decision tree induction algorithms. All algorithms induce trees of depth at most 5 on 8 classification datasets. A time limit of 10 minutes is set for OCT-type algorithms. The values in this table are averaged over 3 seeds giving 3 different train/test datasets. %More details about OCT-type algorithms and seeding are given at \url{https://github.com/LucasBoTang/Optimal_Classification_Trees}.\PP{voir des temps de calcul nuls me choque profondément. Si le tps minimal que l'on mesure est 1ms, écrire par exemple $< 0.001$}.
-    }
-    \begin{tabular}{|c|ccc|ccccc|ccccc|}
-    \hline \multicolumn{4}{|c}{ Datasets } & \multicolumn{5}{|c|}{ Train Accuracy depth-5}& \multicolumn{5}{c|}{ Test Accuracy depth-5} \\
-    Names & Samples & Features & Classes & DPDT & OCT & MFOCT & BinOCT & CART & DPDT & OCT & MFOCT & BinOCT & CART \\
-    \hline 
-    balance-scale & $624$ & 4 & 3 & $ 90.9 \%$ & $ 71.8 \%$ & $ 82.6 \%$ & $ 67.5 \%$ & $ 86.5 \%$ & $ 77.1 \%$ & $ 66.9 \%$ & $ 71.3 \%$ & $ 61.6 \%$ & $ 76.4 \%$  \\
-    breast-cancer & $276$ & 9 & 2 & $ 94.2 \%$ & $ 88.6 \%$ & $ 91.1 \%$ & $ 75.4 \%$ & $ 87.9 \%$ & $ 66.4 \%$ & $ 67.1 \%$ & $ 73.8 \%$ & $ 62.4 \%$ & $ 70.3 \%$ \\
-    car-evaluation & $1728$ & 6 & 4 & $ 92.2 \%$  & $ 70.1 \%$ & $ 80.4 \%$ & $ 84.0 \%$ & $ 87.1 \%$ & $ 90.3 \%$  &$ 69.5 \%$ & $ 79.8 \%$ & $ 82.3 \%$ & $ 87.1 \%$ \\
-    hayes-roth & $160$ & 9 & 3 & $ 93.3 \%$  & $ 82.9 \%$ & $ 95.4 \%$ & $ 64.6 \%$ & $ 76.7 \%$ & $ 75.4 \%$ &$ 77.5 \%$ & $ 77.5 \%$ & $ 54.2 \%$ & $ 69.2 \%$ \\
-    house-votes-84 & $232$ & 16 & 2 & $ 100.0 \%$ & $ 100.0 \%$ & $ 100.0 \%$ & $ 100.0 \%$ & $ 99.4 \%$ & $ 95.4 \%$ &$ 93.7 \%$ & $ 94.3 \%$ & $ 96.0 \%$ & $ 95.1 \%$\\
-    soybean-small & $46$ & 50 & 4 & $ 100.0 \%$  & $ 100.0 \%$ & $ 100.0 \%$ & $ 76.8 \%$ & $ 100.0 \%$ & $ 93.1 \%$ &$ 94.4 \%$ & $ 91.7 \%$ & $ 72.2 \%$ & $ 93.1 \%$ \\
-    spect & $266$ & 22 & 2 & $ 93.0 \%$ & $ 92.5 \%$ & $ 93.0 \%$ & $ 92.2 \%$ & $ 88.5 \%$ & $ 73.1 \%$ &$ 75.6 \%$ & $ 74.6 \%$ & $ 73.1 \%$ & $ 75.1 \%$\\
-    tic-tac-toe & $958$ & 24 & 2 & $ 90.8 \%$ & $ 68.5 \%$ & $ 76.1 \%$ & $ 85.7 \%$ & $ 85.8 \%$ & $ 82.1 \%$  &$ 69.6 \%$ & $ 73.6 \%$ & $ 79.6 \%$ & $ 81.0 \%$\\
-    \hline
-    \end{tabular}
-    \label{tab:more-res}
-\end{table*}
-
-\begin{table*}
-\centering
-\footnotesize
-\caption{Hyperparameter search spaces for tree-based models. More details about the hyperparamters meaning are given in \cite{komer-proc-scipy-2014}.}
-\begin{tabular}{p{2.8cm}p{2.3cm}p{2.3cm}p{2.3cm}p{2.3cm}p{2.3cm}}
-\toprule
-\textbf{Parameter} & \textbf{CART} & \textbf{Boosted-CART} & \textbf{DPDT} & \textbf{Boosted-DPDT} & \textbf{STreeD} \\
-\midrule
-
-\multicolumn{6}{l}{\textit{Common Tree Parameters}} \\
-\cmidrule(l){1-6}
-max\_depth & \{5: 0.7,\newline 2,3,4: 0.1\} & \{2: 0.4,\newline 3: 0.6\} & \{5: 0.7,\newline 2,3,4: 0.1\} & \{2: 0.4,\newline 3: 0.6\} & 5 \\
-
-min\_samples\_split & \{2: 0.95,\newline 3: 0.05\} & \{2: 0.95,\newline 3: 0.05\} & \{2: 0.95,\newline 3: 0.05\} & \{2: 0.95,\newline 3: 0.05\} & -- \\
-
-min\_impurity\_decrease & \{0.0: 0.85,\newline 0.01,0.02,0.05: 0.05\} & \{0.0: 0.85,\newline 0.01,0.02,0.05: 0.05\} & \{0.0: 0.85,\newline 0.01,0.02,0.05: 0.05\} & \{0.0: 0.85,\newline 0.01,0.02,0.05: 0.05\} & -- \\
-
-min\_samples\_leaf & $\mathcal{Q}(\log\text{-}\mathcal{U}[2,51])$ & $\mathcal{Q}(\log\text{-}\mathcal{U}[2,51])$ & $\mathcal{Q}(\log\text{-}\mathcal{U}[2,51])$ & $\mathcal{Q}(\log\text{-}\mathcal{U}[2,51])$ & $\mathcal{Q}(\log\text{-}\mathcal{U}[2,51])$ \\
-
-min\_weight\_fraction\_leaf   &   \{  0.0: 0.95,\newline 0.01: 0.05\} & \{0.0: 0.95,\newline 0.01: 0.05\} & \{0.0: 0.95,\newline 0.01: 0.05\} & \{0.0: 0.95,\newline 0.01: 0.05\} & -- \\
-
-max\_features & \{"sqrt": 0.5,\newline "log2": 0.25,\newline 10000: 0.25\} & \{"sqrt": 0.5,\newline "log2": 0.25,\newline 10000: 0.25\} & \{"sqrt": 0.5,\newline "log2": 0.25,\newline 10000: 0.25\} & \{"sqrt": 0.5,\newline "log2": 0.25,\newline 10000: 0.25\} & -- \\
-
-\midrule
-\multicolumn{6}{l}{\textit{Model-Specific Parameters}} \\
-\cmidrule(l){1-6}
-max\_leaf\_nodes & \{32: 0.85,\newline 5,10,15: 0.05\} & \{8: 0.85,\newline 5: 0.05,\newline 7: 0.1\} & -- & -- & -- \\
-
-cart\_nodes\_list & -- & -- & 8 configs\newline (uniform) & 5 configs\newline (uniform) & -- \\
-
-learning\_rate & -- & $\log\mathcal{N}(\ln(0.01),\ln(10))$ & -- & $\log\mathcal{N}(\ln(0.01),\ln(10))$ & -- \\
-
-n\_estimators & -- & 1000 & -- & 1000 & -- \\
-
-max\_num\_nodes & -- & -- & -- & -- & \{3,5,7,11,\newline 17,25,31\}\newline (uniform) \\
-
-n\_thresholds & -- & -- & -- & -- & \{5,10,20,50\}\newline (uniform) \\
-
-cost\_complexity & -- & -- & -- & -- & 0 \\
-
-time\_limit & -- & -- & -- & -- & 1800 \\
-\bottomrule
-\end{tabular}
-\label{tab:tree_hyperparams}
-\end{table*}
-
