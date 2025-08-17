@@ -1,47 +1,47 @@
 [0] Config.pm:307> INFO - This is Biber 2.17
 [0] Config.pm:310> INFO - Logfile is 'these.blg'
-[68] biber:340> INFO - === sam. août 16, 2025, 22:28:44
-[81] Biber.pm:418> INFO - Reading 'these.bcf'
-[214] Biber.pm:972> INFO - Found 155 citekeys in bib section 0
-[228] Biber.pm:4383> INFO - Processing section 0
-[237] Biber.pm:4574> INFO - Looking for bibtex file 'auxiliaires/bibliographie.bib' for section 0
-[250] bibtex.pm:1713> INFO - LaTeX decoding ...
-[425] bibtex.pm:1518> INFO - Found BibTeX data source 'auxiliaires/bibliographie.bib'
-[1189] Biber.pm:4574> INFO - Looking for bibtex file 'biblatex-examples.bib' for section 0
-[1303] bibtex.pm:1713> INFO - LaTeX decoding ...
-[1447] bibtex.pm:1518> INFO - Found BibTeX data source '/usr/share/texlive/texmf-dist/bibtex/bib/biblatex/biblatex/biblatex-examples.bib'
-[1663] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1663] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1664] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
-[1664] Biber.pm:4209> INFO - No sort tailoring available for locale 'fr-FR'
-[1780] bbl.pm:654> INFO - Writing 'these.bbl' with encoding 'ascii'
-[1780] bbl.pm:655> INFO - Converting UTF-8 to TeX macros on output to .bbl
-[1981] bbl.pm:757> INFO - Output to these.bbl
-[1981] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'auxiliaires/bibliographie.bib', skipping ...
-[1981] Biber.pm:130> WARN - Duplicate entry key: 'vos2024optimizinginterpretabledecisiontree' in file 'auxiliaires/bibliographie.bib', skipping ...
-[1982] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'parbhoo' is not an integer - this will probably not sort properly.
-[1982] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'madumal' is not an integer - this will probably not sort properly.
-[1982] Biber.pm:130> WARN - legacy month field '26--28 Aug' in entry 'silva' is not an integer - this will probably not sort properly.
-[1982] Biber.pm:130> WARN - legacy month field '01--05 Aug' in entry 'baisero-dqn' is not an integer - this will probably not sort properly.
-[1982] Biber.pm:130> WARN - legacy month field '04--07 Jan' in entry 'hmmdp' is not an integer - this will probably not sort properly.
-[1982] Biber.pm:130> WARN - legacy month field '17--23 Jul' in entry 'quantbnb' is not an integer - this will probably not sort properly.
-[1982] Biber.pm:130> WARN - legacy month field '23--29 Jul' in entry 'blossom' is not an integer - this will probably not sort properly.
-[1982] Biber.pm:130> WARN - ISBN '9798400704901' in entry '10.1145/3637528.3671903' is invalid - run biber with '--validate_datamodel' for details.
-[1982] Biber.pm:130> WARN - legacy month field '17--19 Jun' in entry 'pmlr-v28-bergstra13' is not an integer - this will probably not sort properly.
-[1982] Biber.pm:130> WARN - legacy month field '10--15 Jul' in entry 'deep-rl-relu1' is not an integer - this will probably not sort properly.
-[1982] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_l0H3/fc5b366787d68e4234f7436cbf80900b_66938.utf8, line 624, warning: 1 characters of junk seen at toplevel
-[1982] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_l0H3/fc5b366787d68e4234f7436cbf80900b_66938.utf8, line 1189, warning: 6 characters of junk seen at toplevel
-[1982] Biber.pm:130> WARN - I didn't find a database entry for 'def:mdp' (section 0)
-[1983] Biber.pm:130> WARN - I didn't find a database entry for 'kohler2024interpretable' (section 0)
-[1983] Biber.pm:130> WARN - I didn't find a database entry for 'marton2024sympolsymbolictreebasedonpolicy' (section 0)
-[1983] Biber.pm:130> WARN - I didn't find a database entry for 'BELLMAN1958228' (section 0)
-[1983] Biber.pm:130> WARN - I didn't find a database entry for 'McTavish_Zhong_Achermann_Karimalis_Chen_Rudin_Seltzer_2022' (section 0)
-[1983] Biber.pm:130> WARN - I didn't find a database entry for 'norton' (section 0)
-[1983] Biber.pm:130> WARN - I didn't find a database entry for 'kohler2024interpretableeditableprogrammatictree' (section 0)
-[1983] Biber.pm:130> WARN - I didn't find a database entry for 'rigorous' (section 0)
-[1983] Biber.pm:130> WARN - I didn't find a database entry for 'mythos' (section 0)
-[1983] Biber.pm:130> WARN - I didn't find a database entry for 'gautron2023learning' (section 0)
-[1983] Biber.pm:130> WARN - I didn't find a database entry for 'cart' (section 0)
-[1983] Biber.pm:130> WARN - I didn't find a database entry for 'oblique' (section 0)
-[1983] Biber.pm:130> WARN - I didn't find a database entry for 'IBMDP' (section 0)
-[1983] Biber.pm:132> INFO - WARNINGS: 27
+[66] biber:340> INFO - === dim. août 17, 2025, 16:53:07
+[78] Biber.pm:418> INFO - Reading 'these.bcf'
+[202] Biber.pm:972> INFO - Found 155 citekeys in bib section 0
+[213] Biber.pm:4383> INFO - Processing section 0
+[234] Biber.pm:4574> INFO - Looking for bibtex file 'auxiliaires/bibliographie.bib' for section 0
+[242] bibtex.pm:1713> INFO - LaTeX decoding ...
+[407] bibtex.pm:1518> INFO - Found BibTeX data source 'auxiliaires/bibliographie.bib'
+[1170] Biber.pm:4574> INFO - Looking for bibtex file 'biblatex-examples.bib' for section 0
+[1296] bibtex.pm:1713> INFO - LaTeX decoding ...
+[1432] bibtex.pm:1518> INFO - Found BibTeX data source '/usr/share/texlive/texmf-dist/bibtex/bib/biblatex/biblatex/biblatex-examples.bib'
+[1646] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1646] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1647] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
+[1647] Biber.pm:4209> INFO - No sort tailoring available for locale 'fr-FR'
+[1770] bbl.pm:654> INFO - Writing 'these.bbl' with encoding 'ascii'
+[1770] bbl.pm:655> INFO - Converting UTF-8 to TeX macros on output to .bbl
+[2005] bbl.pm:757> INFO - Output to these.bbl
+[2006] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'auxiliaires/bibliographie.bib', skipping ...
+[2006] Biber.pm:130> WARN - Duplicate entry key: 'vos2024optimizinginterpretabledecisiontree' in file 'auxiliaires/bibliographie.bib', skipping ...
+[2006] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'parbhoo' is not an integer - this will probably not sort properly.
+[2006] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'madumal' is not an integer - this will probably not sort properly.
+[2006] Biber.pm:130> WARN - legacy month field '26--28 Aug' in entry 'silva' is not an integer - this will probably not sort properly.
+[2006] Biber.pm:130> WARN - legacy month field '01--05 Aug' in entry 'baisero-dqn' is not an integer - this will probably not sort properly.
+[2006] Biber.pm:130> WARN - legacy month field '04--07 Jan' in entry 'hmmdp' is not an integer - this will probably not sort properly.
+[2006] Biber.pm:130> WARN - legacy month field '17--23 Jul' in entry 'quantbnb' is not an integer - this will probably not sort properly.
+[2006] Biber.pm:130> WARN - legacy month field '23--29 Jul' in entry 'blossom' is not an integer - this will probably not sort properly.
+[2006] Biber.pm:130> WARN - ISBN '9798400704901' in entry '10.1145/3637528.3671903' is invalid - run biber with '--validate_datamodel' for details.
+[2006] Biber.pm:130> WARN - legacy month field '17--19 Jun' in entry 'pmlr-v28-bergstra13' is not an integer - this will probably not sort properly.
+[2006] Biber.pm:130> WARN - legacy month field '10--15 Jul' in entry 'deep-rl-relu1' is not an integer - this will probably not sort properly.
+[2006] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_GRdr/fc5b366787d68e4234f7436cbf80900b_22249.utf8, line 624, warning: 1 characters of junk seen at toplevel
+[2006] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_GRdr/fc5b366787d68e4234f7436cbf80900b_22249.utf8, line 1189, warning: 6 characters of junk seen at toplevel
+[2006] Biber.pm:130> WARN - I didn't find a database entry for 'def:mdp' (section 0)
+[2006] Biber.pm:130> WARN - I didn't find a database entry for 'kohler2024interpretable' (section 0)
+[2006] Biber.pm:130> WARN - I didn't find a database entry for 'marton2024sympolsymbolictreebasedonpolicy' (section 0)
+[2006] Biber.pm:130> WARN - I didn't find a database entry for 'BELLMAN1958228' (section 0)
+[2006] Biber.pm:130> WARN - I didn't find a database entry for 'McTavish_Zhong_Achermann_Karimalis_Chen_Rudin_Seltzer_2022' (section 0)
+[2007] Biber.pm:130> WARN - I didn't find a database entry for 'norton' (section 0)
+[2007] Biber.pm:130> WARN - I didn't find a database entry for 'kohler2024interpretableeditableprogrammatictree' (section 0)
+[2007] Biber.pm:130> WARN - I didn't find a database entry for 'rigorous' (section 0)
+[2007] Biber.pm:130> WARN - I didn't find a database entry for 'mythos' (section 0)
+[2007] Biber.pm:130> WARN - I didn't find a database entry for 'gautron2023learning' (section 0)
+[2007] Biber.pm:130> WARN - I didn't find a database entry for 'cart' (section 0)
+[2007] Biber.pm:130> WARN - I didn't find a database entry for 'oblique' (section 0)
+[2007] Biber.pm:130> WARN - I didn't find a database entry for 'IBMDP' (section 0)
+[2007] Biber.pm:132> INFO - WARNINGS: 27
