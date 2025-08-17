@@ -480,9 +480,9 @@ Hence, as stated above, LIME needs to learn one local surrogate model per output
 \end{figure}
 
 Global approaches are either direct or indirect~\cite{milani-survey}. 
-Direct algorithms, such as decision tree induction~\cite{breiman1984classification}, \textit{directly} learn an interpretable models optimizing some objective (see Figure~\ref{fig:interpretability-performance-tradeoff}).
+Direct algorithms, such as decision tree induction~\cite{breiman1984classification}, \textit{directly} learn an interpretable model optimizing some objective (see Figure~\ref{fig:interpretability-performance-tradeoff}).
 One key challenge motivating this thesis is that decision tree induction is well-developed for supervised learning but not for reinforcement learning.
-To directly learn interpretable models for sequential decision making, one must design new algorithms. 
+To directly learn interpretable models for sequential decision making, one must design new algorithms which will be the core of the first part of this thesis. 
 
 Most existing research has focused on developing indirect methods. 
 Indirect methods for interpretable sequential decision making—sometimes called \textit{post hoc} methods—begin by learning a non-interpretable model (e.g., reinforcement learning of a neural network model), and then use supervised learning to fit an interpretable model that emulates the black-box.
@@ -1012,7 +1012,7 @@ Actor-critic are not as simple efficient as DQN but is known to work well in a v
 \end{algorithm}
 In this manuscript we study those two deep reinforcement learning algorithms for various problems and use their stable-baselines3 implementations\cite{stable-baselines3}.
 
-\subsection{Imitation learning: a baseline (indirect) global interpretable reinforcement learning method}\label{sec:imit}
+\subsection{Imitation learning: a baseline (indirect) interpretable reinforcement learning method}\label{sec:imit}
 
 Unlike PPO or DQN for neural networks, there does not exist an algorithm that trains decision tree policies to optimize the RL objective (\ref{def:mdp-obj}).
 In fact, we will show in the first part of the manuscript that training decision trees that optimize the RL objective is very difficult.
@@ -1101,7 +1101,7 @@ Next we show how to learn a decision tree policy for the Example MDP \ref{exampl
         \Return $\hat{\pi}$\;
         \end{algorithm}
 
-\section{Your first decision tree policy}
+\section{Your first decision tree policy}\label{sec:limits-il}
 Now the reader should know how to train decision tree classifiers or regressors for supervised learning using CART\ref{sec:sl}.
 The reader should also know what an MDP is and how to compute or learn policies that optimize the RL objective \ref{def:mdp-obj} with (deep) reinforcement learning\ref{sec:drl}.
 Finally, the reader should now know how to obtain a decision tree policy for an MDP through imitation learning by first using RL to get an expert policy and then fitting decision trees to optimize the supervised learning objective\ref{def:sl}, using the expert's actions as labels.
@@ -1131,7 +1131,7 @@ What actually happens is that the most likely output of Q-learning when ties are
 which cannot be perfectly represented by a depth-1 decision tree, because there are three different actions taken and a binary tree of depth $D=1$ can only map to $2^D=2$ labels.
 
 Despite this negative result, we still find that VIPER almost always finds the optimal depth-1 decision tree policy in terms of the RL objective\ref{def:mdp-obj} when ties are broken at random.
-
+Importantly, this sheds light on the sub-optimality of indirect imitation w.r.t the RL objective (~\ref{def:mdp-obj}) and motivates the study of direct approaches.
 \begin{figure}[h]
     \centering
     \begin{tikzpicture}[
@@ -1172,26 +1172,44 @@ Despite this negative result, we still find that VIPER almost always finds the o
     \caption{Left, sample complexity curve of Q-learning with default hyperparameters on the $2\times 2$ grid-world MDP over 100 random seeds. Right, performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
 \end{figure}
 
-
 Now that the reader has seen how to get an interpretable policy for an MDP, we believe it is ready to dive into the contributions of this thesis.
 
 \section{Outline of the thesis}
-
+Throughout our thesis, we make the assumption that constraing models (e.g. policies or classifiers) to decision trees is engouh ensuring interpretability.
 In this thesis we study different decision tree learning algorithms in different settings. 
-In the first part of the manuscript, we show that direct decision tree learning methods~\ref{fig:direct-vs-indirect-methods} struggle to find decision trees even for very simple sequential decision making problems.
-For that, we first reproduce the work from\cite{topin2021iterative} that presents a formalism for learning decision tree policies that optimize~\ref{def:mdp-obj} directly using reinforcement learning, and then make connexions with hardness results from the partially observable MDPs (POMDPs)\cite{POMDP} litterature.
+In the first part of the manuscript, we show that direct decision tree learning methods~\ref{fig:direct-vs-indirect-methods} struggle to find decision tree policies even for very simple sequential decision making problems.
+For that, we first reproduce the work from\cite{topin2021iterative} that presents a formalism for learning decision tree policies that optimize~\ref{def:mdp-obj} directly using reinforcement learning, and then make connexions with hardness results from the partially observable MDPs (POMDPs)\cite{POMDP,chap2} litterature.
 We defer the introduction of POMDPs to later sections.
 In the second part of the manuscript, we formulate decision tree induction for supervised learning as solving a sequential decision making problem.
 By formalizing decision tree induction for objective\ref{def:sl} as solving an MDP~\ref{def:mdp}, we design novel algorithms that achieve very good performances.
 
-In the last part, after thoroughly studying direct decision tree learning, we leverage the simplicity of \textit{indirect} methods to obtain good enough interpretable policies for diverse problems and show that interpretable policy do not necessarily perform worse than e.g. neural networks.
+In the last part of the text, we lift our assumption about decision tree learning guaranteeing interpretability and study other model classes.
+In particular, we leverage the simplicity of \textit{indirect} methods~\ref{fig:direct-vs-indirect} to imitate neural network experts with models from~\ref{fig:interpretability-performance-tradeoff} and and perform a large-scale empirical study of the interpretability-performances trade-offs on various sequential decision making tasks.
+In Table~\ref{tab:summary-parts} we summarize the outline of this manuscript in terms of learning objective (~\ref{def:sl},~\ref{def:mdp-obj}, or~\ref{def:il}) and model class (Figure~\ref{fig:interpretability-performance-tradeoff}).
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{|l|c|c|c|c|}
+        \hline
+         & \textbf{Decision Trees} & \textbf{Linear} & \textbf{Ensembles} & \textbf{Neural Networks} \\
+        \hline
+        Supervised Learning & Part II &  & Part II & Part II\\
+        \hline
+        Reinforcement Learning & Part I, III & Part III & & Part I, III \\
+        \hline
+        Imitation Learning & Part I, III & Part III & & Part III \\
+        \hline
+    \end{tabular}
+    \caption{Summary of objectives and model classes studied in this manuscript.}
+    \label{tab:summary-parts}
+\end{table}
 
 We summarize our results as follows:
 
 \begin{enumerate}
     \item Direct reinforcement learning of decision tree policies is hard because it involves POMDPs.
-    \item One can use Dynamic Programming in MDPs to induce highly performing decision tree classifiers and regressors.
-    \item In practice, controlling MDPs with interpretable policies does not necessarily decrease performance.
+    \item One can use dynamic programming in MDPs to induce highly performing decision tree classifiers and regressors.
+    \item In practice, controlling MDPs with interpretable policies does not necessarily decrease performances.
 \end{enumerate}
 
 % \begin{figure}[htbp]

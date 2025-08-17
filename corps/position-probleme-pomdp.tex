@@ -1,6 +1,6 @@
 \chapter{Introduction}\label{sec:intro-pomdp}
 In the first part of the manuscript, we show that direct reinforcement learning of decision tree policies for MDPs, i.e. learning a decision tree that optimizes (\ref{def:mdp-obj}) is often very difficult.
-In particular, we provide some insights as to why it is so difficult and show that indirect imitation of a neural network policy (Sec. \ref{sec:imit}), while not optimizing (\ref{def:mdp-obj}) directly, often yields very good tree policies.
+In particular, we provide some insights as to why it is so difficult and show that indirect imitation of a neural network policy (Sec. \ref{sec:imit}), while not optimizing (\ref{def:mdp-obj}) directly, often yields very good tree policies in practice.
 
 This first part of the manuscript is organised as follows.
 In this Chapter we present, Topin et. al. \cite{topin2021iterative} framework for direct reinforcement learning of decision tree policies.
@@ -9,7 +9,9 @@ In Chapter \ref{sec:pomdp}, we show that the direct approach proposed by Topin e
 In Chapter \ref{sec:pomdp-classif}, we further support this claim by constructing special instances of Topin et. al. in which the POMDPs are virtually fully observable, and show that in those cases, direct reinforcement learning of decision tree works well.  
 
 \section{Learning Decision Tree policies for MDPs}
-There already exist algorithms that return decision tree policies for MDPs.
+In the introductory example~\ref{sec:limits-il}, we have shown that imitation learning that optimizes the objective (\ref{def:il}) rather than the RL objective~\ref{def:mdp-obj}, are, unsuprisingly, prone tosub-optimality w.r.t the lattter objective.
+This motivates the study and development of \textit{direct} decision tree learning algorithms.
+There already exist such algorithms that return decision tree policies optimizing the RL objective for a given MDP.
 Those algorithms either learn parametric trees or non-parametric trees.
 
 Parametric trees are not ``grown'' from the root by iteratively adding internal or leaf nodes (c.f. Fig. \ref{fig:dt}), but are rather ``optimized'': the depth, internal nodes arrengement, and state-features to consider in each nodes are fixed \textit{a priori} and only the thresholds of each nodes are learned similar to doing gradient descent on neural network weights.
@@ -38,7 +40,7 @@ Given an MDP for which we want to learn a decision tree policy, that we call the
 Those observations are information about the base states that are refined--``iteratively bounded''-- at each step and represent a subspace of the base MDP state space.
 Actions available in an IBMDP are the actions of the base MDP, that change the state of the latter, and \textit{information gathering} actions that change the observation part of the IBMDP state.
 Now, taking base actions in an IBMDP is rewarded like in the base MDP, this ensures that the base objective, e.g. balancing the pole or treating cancer, is still encoded in the IBMDP reward.
-When taking an information gathering action, the reward is an arbitrary value such that optimizing (\ref{def:mdp-obj}) in the IBMDP is equivalent to optimizing (\ref{def:mdp-obj}) in the base MDP \texit{and} some interpretability measure.
+When taking an information gathering action, the reward is an arbitrary value such that optimizing (\ref{def:mdp-obj}) in the IBMDP is equivalent to optimizing some trade-off between \ref{def:mdp-obj} in the base MDP and interpretability.
  
 Before showing how to get decision tree policies from IBMDP policies, we give a formal definition of IBMDPs following Topin et. al.~\cite{topin2021iterative}.
 
@@ -54,7 +56,8 @@ Given a \textit{factored} MDP $\mathcal{M}$ $\langle S, A, R, T, T_0 \rangle$ (\
 \item $A$ is the base MDP actions set.
 \item $A_{info}$ are \textit{information gathering} actions (IGAs) of the form $\langle i, v \rangle$ where $i$ is a state feature index $1 \leq i \leq n$ and $v$ is a real number. So the complete action space of an IBMDP is the set of base MDP actions and information gathering actions $A \cup A_{info}$.
 \item $R: S\times A \rightarrow \mathbb{R}$ is the base MDP reward function.
-\item $\zeta$ is a reward signal for taking an information gathering action. So the IBMDP reward function is to get a reward from the base MDP if the action is a base MDP action or to get $\zeta$ if the action is an IGA action.
+\item $\zeta$ is a reward signal for taking an information gathering action.
+So the IBMDP reward function is to get a reward from the base MDP if the action is a base MDP action or to get $\zeta$ if the action is an IGA action.
 \item $T_{info}: S\times O \times( A_{info} \cup A )\rightarrow \Delta (S\times O)$ is the transition kernel of IBMDPs: 
 Given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_n, U'_n) \in O$ and state features $\boldsymbol{s}_t=(s'_1, s'_2, \dots, s'_n)$ if an IGA $\langle i, v \rangle$ is taken, the new observation is:
 \begin{align*}
@@ -73,9 +76,10 @@ Now remains to extract a decision tree policy for MDP $\mathcal{M}$ from a polic
 \subsection{From Policies to Trees}
 
 One can notice that information gathering actions (\ref{def:ibmdp}) resemble the Boolean functions that make up internal decision tree nodes (c.f. Figure \ref{fig:dt}).
-Indeed, a policy taking actions in an IBMDP essentially builds a tree by taking sequences of IGAs (internal nodes) and then a base action to act in the base MDP (leaf node) and repeats this process over time.
+Indeed, a policy taking actions in an IBMDP essentially builds a tree by taking sequences of IGAs (internal nodes) and then a base action in the base MDP (leaf node) and repeats this process over time.
+In particular, the IGA rewards $\zeta$ can be seen as a regularization or a penalty for interpretabiliy: if $\zeta$ is very low compared to base rewards, a policy will try to act in the base MDP as often as possible, i.e. build shallow trees that short paths between root and leaves.
 
-However, authors from \cite{topin2021iterative} show that not all IBMDP policies are decision tree policies.
+Authors from \cite{topin2021iterative} show that not all IBMDP policies are decision tree policies.
 In particular, they show that only deterministic policies depending solely on the observation part of the IBMDP states are guaranteed to correspond to decision tree policies for the base MDP.
 The intuition is that if one trains a policy $\pi:S\timesO\rightarrow A\cup A_{info}$, the policy might learn to rely only on state features of the base MDP $\boldsymbol{s}$ and take only base actions (no IGAs) which would simply be any policy for the base MDP.
 
@@ -294,7 +298,7 @@ To achieve that Topin et. al. showed that partially observable deterministic pol
 The promise of Topin et. al. is that optimizing (\ref{def:mdp-obj}) in an IBMDP trades off naturally the base MDP rewards and the interpretability of the policy through the reward signal $\zeta$.
 
 We can thus write an interpretable RL objective as follows:
-\begin{definition}[Interpretable RL objective]\label{def:irl}
+\begin{definition}[direct interpretable RL objective]\label{def:irl}
     Given a factored MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$ for which we want an interpretable policy, e.g. a decision tree, a discount factor $\gamma \in (0,1]$, some interpretability penalty $\zeta$, and a set of information gathering actions $A_{info}$, we solve:
 \begin{align*}
     \pi^\star_{po} &= \underset{\pi_{po}}{\opertarname{argmax}} \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R((\boldsymbol{s}_t, \boldsymbol{o}_t), a_t) \mid \boldsymbol{s}_0 \sim T_0, a_t = \pi_{po}(\boldsymbol{o}_t), \boldsymbol{s}_{t+1} \sim T(\boldsymbol{s}_t, a_t), \boldsymbol{o}_{t+1}\sim T(\boldsymbol{o_t}, a_t)\right]\\

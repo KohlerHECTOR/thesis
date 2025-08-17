@@ -298,16 +298,16 @@ In Tables ~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperpara
         edge_label/.style={font=\footnotesize, midway}
     ]
 
-        \node[leaf] (tree7_root) at (-6,0) {$\rightarrow$};
+        \node[leaf] (tree7_root) at (-2,3) {$\rightarrow$};
         \draw[->] (tree7_root) to[out=45,in=0,looseness=5] (tree7_root);
 
-        \node[decision] (tree7_root) at (-6,-4) {$\dot{\theta} \leq 0$};
+        \node[decision] (tree7_root) at (4,3) {$\dot{\theta} \leq 0$};
         \draw[->] (tree7_root) to[out=45,in=0,looseness=5] (tree7_root);
         
         % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree4_root) at (0,0) { $\dot{\theta}\leq 0$};
-        \node[leaf] (tree4_right) at (-1,-2) {$\leftarrow$};
-        \node[leaf] (tree4_left) at (1,-2) {$\rightarrow$};
+        \node[decision] (tree4_root) at (-3,0) { $\dot{\theta}\leq 0$};
+        \node[leaf] (tree4_right) at (-4,-2) {$\leftarrow$};
+        \node[leaf] (tree4_left) at (-2,-2) {$\rightarrow$};
         \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
         \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
         
@@ -347,10 +347,10 @@ In Tables ~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperpara
         
 
         % Labels
-        \node[above] at (-8,1) {{\small Most frequent modified PPO tree (12)}};
-        \node[above] at (-7,-3) {{\small Most frequent modified DQN tree (9.5)}};
+        \node[above] at (-2,4) {{\small Most frequent modified PPO tree (12)}};
+        \node[above] at (3,5) {{\small Most frequent modified DQN tree (9.5)}};
 
-        \node[above] at (-1,1) {{\small Best modified PPO tree (175)}};
+        \node[above] at (-3,1) {{\small Best modified PPO tree (175)}};
         \node[above] at (5,1) {{\small Best modified DQN tree (160)}};
         \node[above] at (-3,-6) {{\small Typical imitated tree (185)}};
         \node[above] at (5,-6) {{\small Best DQN + VIPER tree (\textbf{200})}};

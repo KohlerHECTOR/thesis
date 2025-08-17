@@ -1,16 +1,16 @@
-\chapter{When transitions in POIBMDPs are uniform, Reinforcement Learning works}\label{sec:pomdp-classif}
-In this section, we show that for a special class of POIBMDPs (cite), reinforcement learning such as Q-learning or Sarsa can retrieve optimal deterministic partially observable policies, i.e we can do direct deicision tree policy learning for MDPs.
-This class of POIBMDPs are those which base MDP have uniform transitions, i.e. $T(s, a, s') = \frac{1}{|S|}$ in (cite).
-Supervised learning problems (cite) can be formulated as MDPs with such uniform transitions.
-Indeed a supervised learning problem (cite) can be formulated as an MDP (cite) where, actions are class labels, states are training data, the reward at every step is 1 if the correct label was predicted and 0 otherwise, and the transitions are uniform: the next state is given by uniformly sampling a new training datum (similarly to contextual bandits (cite)). 
-This implies that learning partially observable deterministic policies in POIBMDPs where the base MDP is a supervised learning task is equivalent to doing decision tree induction to optimize the supervised learning objective (cite).
-If RL does work for such fully observable POIBMDPs (they are just MDPs (cite)), this would mean that: 1. the difficulty of direct learning of decision tree policies for \textit{any} MDP with POIMDPs is most likely due to the partial observability of the latter, and 2., we can design new decision tree induction algorithms by solving MDPs.
+\chapter{Reinforcement Learning works in POIBMDPs for classification tasks}\label{sec:pomdp-classif}
+In this section, we show that for a special class of POIBMDPs~\ref{def:poibmp}, reinforcement learning~\ref{sec:rl} can retrieve optimal deterministic partially observable policies, i.e we can do direct decision tree policy learning for MDPs.
+This class of POIBMDPs are those for which base MDPs have uniform transitions, i.e. $T(s, a, s') = \frac{1}{|S|}$ in~\ref{def:mdp}.
+Supervised learning problems~\ref{def:sl} can be formulated as MDPs with such uniform transitions.
+Indeed a supervised learning problem can be formulated as an MDP where, actions are class (or target) labels, states are training data, the reward at every step is 1 if the correct label was predicted and 0 otherwise, and the transitions are uniform: the next state is given by uniformly sampling a new training datum. 
+This implies that learning partially observable deterministic policies in POIBMDPs where the base MDP encodes a supervised learning task is equivalent to doing decision tree induction to optimize the supervised learning objective~\ref{def:sl}.
+If RL does work for such fully observable POIBMDPs, this would mean that: 1. the difficulty of direct learning of decision tree policies for \textit{any} MDP with POIMDPs exhibited in the previous chapters, is most likely due to the partial observability, and 2., it means that we can design new decision tree induction algorithms for~\ref{def:sl} by solving MDPs.
 
-Let us show that, POIBMDPs associated with a supervised learning problems formulated as an MDP, are also MDPs.
+Let us show that, POIBMDPs~\ref{def:poibmdp} associated with a supervised learning problems formulated as an MDP, are in fact MDPs~\ref{def:mdp}.
 
-Let us define such supervised learning MDPs in the context of a classification task.
-\begin{definition}[Classification Markov Decision Process]
-    Given a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$ where each datum $x_i$ is described by a set of $p$ features and $y_i \in \mathbb{Z}^m$ is the label associated with $x_i$, a classification Markov decision Process is an MDP (cite) $\langle S, A, R, T, T_0 \rangle$ where:
+Let us define such supervised learning MDPs in the context of a classification task (this definition extends trivially to regression tasks).
+\begin{definition}[Classification Markov Decision Process]\label{def:cmdp}
+    Given a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$ where each datum $x_i$ is described by a set of $p$ features and $y_i \in \mathbb{Z}^m$ is the label associated with $x_i$, a classification Markov decision Process is a (factored) MDP $\langle S, A, R, T, T_0 \rangle$~\ref{def:fmdp} where:
     \begin{itemize}
         \item the state space is $S={\{x_i\}}_{i=1}^N$, the set of data features
         \item the action space is $A=\mathbb{Z}^m$, the set of unique labels
@@ -20,10 +20,10 @@ Let us define such supervised learning MDPs in the context of a classification t
     \end{itemize}
 \end{definition}
 
-One can be convinced that policies that maximize the RL objective (cite) in classification MDPs (cite) are classifiers that maximize the prediction accuracy because $\sum_{i=1}^N 1_{\pi(x_i)=y_i} = \sum_{i=1}^N R(x_i, \pi(x_i))$.
+One can be convinced that policies that maximize the RL objective~\ref{def:mdp-obj} in classification MDPs are classifiers that maximize the prediction accuracy because $\sum_{i=1}^N 1_{\pi(x_i)=y_i} = \sum_{i=1}^N R(x_i, \pi(x_i))$.
 We defer the formal proof in the next part of the manuscript in which we extensively study supervised learning problems.
 
-In Figure (cite) we give an example of such classification MDP with 4 data in the training set and 2 classes:
+In Figure~\ref{example:cmdp} we give an example of such classification MDP with 4 data in the training set and 2 classes:
 \begin{align*}
     \mathcal{X} &= \{(0.5, 0.5), (0.5, 1.5), (1.5, 1.5), (1.5, 0.5)\}\\
     y &= \{0, 0, 1, 1\} 
@@ -69,63 +69,82 @@ In Figure (cite) we give an example of such classification MDP with 4 data in th
 
     \end{tikzpicture}
     \caption{Classification MDP optimal actions. In this classification MDP, there are four data to which to assign either a green or red label.
-    On the right, there is the unique optimal depth-1 tree for this particular classification MDP. This depth-1 tree also maximizes the accuracy on the corresponding classification task.}
+    On the right, there is the unique optimal depth-1 tree for this particular classification MDP. This depth-1 tree also maximizes the accuracy on the corresponding classification task.}\label{example:cmdp}
     \end{figure}
 
 Now let us show that associated POIBMDPs are in fact MDPs. We show this by construction.
 
 \begin{definition}[Classification POIBMDP]
-    Given a classification MDP (cite) $\langle {\{x_i\}}_{i=1}^N, \mathbb{Z}^m, R, T, T_0 \rangle$, and an associated POIBMDP (cite) $\langle S, O, A, A_{info}, R, \zeta, T_{info}, T, T_0\rangle$, a classification POIBMDP is an MDP:
+    Given a classification MDP $\langle {\{x_i\}}_{i=1}^N, \mathbb{Z}^m, R, T, T_0 \rangle$ (\ref{def:cmdp}), and an associated POIBMDP $\langle S, O, A, A_{info}, R, \zeta, T_{info}, T, T_0\rangle$ (\ref{def:poibmdp}), a classification POIBMDP is an MDP (\ref{def:mdp}):
     \begin{align*}
         \langle \overbrace{O}^{\text{State space}}, \underbrace{\mathbb{Z}^m, A_{info}}_{\text{Action space}}, \overbrace{R, \zeta}^{\text{Reward function}}, \underbrace{\mathcal{P}, \mathcal{P}_0}_{\text{Transition kernels}} \rangle
     \end{align*}
     \begin{itemize}
         \item $O$ is the set of possible observations in $[L_1, U_1] \times \dots \times [L_d, U_d] \times [L_1, U_1] \ times \dots \times [L_d, U_d] $ where $L_j$ is the minimum value of feature $j$ over all data $x_i$ and $U_j$ the maximum
         \item $\mathbb{Z}^m \cup A_{info}$ is action space: actions can be label assignments in $\mathbb{Z}^m$ or bounds refinement in $A_{info}$
-        \item The reward for assigning label $a\in \mathbb{Z}^m$ when observing some observation $o=(L'_1, U'_1, \dots, L'_d, U'_d)$ is the proportion of training data satistifying the bounds and having label $a$: $R(o, a) = \frac{|\{x_i: L'_j \leq x_{ij} \leq U'_j \forall i,j \} \cap \{x_i: y_i = a \forall i \}|}{|\{x_i: L'_j \leq x_{ij} \leq U'_j \forall i,j \}|}$. 
+        \item The reward for assigning label $a\in \mathbb{Z}^m$ when observing some observation $\boldsymbol{o}=(L'_1, U'_1, \dots, L'_d, U'_d)$ is the proportion of training data satistifying the bounds and having label $a$: $R(o, a) = \frac{|\{x_i: L'_j \leq x_{ij} \leq U'_j \forall i,j \} \cap \{x_i: y_i = a \forall i \}|}{|\{x_i: L'_j \leq x_{ij} \leq U'_j \forall i,j \}|}$. 
         The reward for taking an information gathering action that refines bounds is $\zeta$
         \item The transition kernel is $\mathcal{P}:O \times (\mathbb{Z}^m \cup A_{info}) \rightarrow \Delta O$ where:
         \begin{itemize}
-            \item For $a \in \mathbb{Z}^m$: $\mathcal{P}(o, a, (L_1, U_1, \dots, L_d, U_d)) = 1$ (reset to full bounds)
-            \item For $a = (k, v) \in A_{info}$: from $o=(L'_1, U'_1, \dots, L'_d, U'_d)$, the MDP will transit to $o_{left} = (L'_1, U'_1, \dots, L_k, v, dots, L'_d, U'_d)$ (resp. $o_{right} = (L'_1, U'_1, \dots, U'_k, v, dots, L'_d, U'_d)$) with probability $\frac{|\{x_i: L'_j \leq x_{ij} \leq U'_j \forall j \land x_{ik} \leq v\}|}{|\{x_i: L'_j \leq x_{ij} \leq U'_j \forall j\}|}$ (resp. $\frac{|\{x_i: L'_j \leq x_{ij} \leq U'_j \forall j \land x_{ik} > v\}|}{|\{x_i: L'_j \leq x_{ij} \leq U'_j \forall j\}|}$)
+            \item For $a \in \mathbb{Z}^m$: $\mathcal{P}(\boldsymbol{o}, a, (L_1, U_1, \dots, L_d, U_d)) = 1$ (reset to full bounds)
+            \item For $a = (k, v) \in A_{info}$: from $\boldsymbol{o}=(L'_1, U'_1, \dots, L'_d, U'_d)$, the MDP will transit to $\boldsymbol{o}_{left} = (L'_1, U'_1, \dots, L_k, v, dots, L'_d, U'_d)$ (resp. $\boldsymbol{o}_{right} = (L'_1, U'_1, \dots, U'_k, v, dots, L'_d, U'_d)$) with probability $\frac{|\{{x}_i: L'_j \leq x_{ij} \leq U'_j \forall j \land x_{ik} \leq v\}|}{|\{x_i: L'_j \leq x_{ij} \leq U'_j \forall j\}|}$ (resp. $\frac{|\{x_i: L'_j \leq x_{ij} \leq U'_j \forall j \land x_{ik} > v\}|}{|\{x_i: L'_j \leq x_{ij} \leq U'_j \forall j\}|}$)
         \end{itemize}
     \end{itemize}
 \end{definition}
 
-We have constructed classification POIBMDPs that are POIBMDP for learning decision tree classifiers.
-Next, we apply RL to learn deterministic policies $O\rightarrow A$ in classification POIBMDPs.
+Those classification POIBMDPs are essentially MDPs with stochastic transitions.
+It means that deterministic partially observable policies (\ref{def:po-policy}) $O:\rightarrow A\cup A_{info}$ are in fact Markovian policy for those classification POIBMDPs.
+More importantly, it means that, for a given $\gamma$ and $\zeta$, if we were to know the whole POIBMDP model, we could use planning, e.g. value iteration (\ref{alg:vi}), to compute \textit{optimal} decision tree policies.
+Similarly, standard RL algorithms like Q-learning (\ref{sec:rl}) should work as well as for any MDP to retrieve optimal decision tree policies.
 
-\section{How well can RL baselines learn in Classification POIBMDPs?}
+This exactly what we check next.
+We use the exact the same framework to learn decision tree policies as summarized in Figure~\ref{fig:summary-rl} except that now, the base MDP is a classification task and not a sequential decision making task.
+
+\section{How well can RL baselines learn in classification POIBMDPs?}
 Similarly to the previous chapter, we are interested in a very simple classification POIBMDP.
-We study classification POIBMDPs associated with the example classification MDP from Figure (cite).
+We study classification POIBMDPs associated with the example classification MDP from Figure~\ref{example:cmdp}.
 
-We construct Classification POIBMDPs with $\gamma=0.99$, 200 values of $\zeta \in [0,1]$ and IGAs $x\leq 1$ and $y\leq 1$.
-Since Classification POIBMDPs are MDPs, we do not need to analyze asymmetric RL and JSJ baselines (cite).
+We construct classification POIBMDPs with $\gamma=0.99$, 200 values of $\zeta \in [0,1]$ and IGAs $x\leq 1$ and $y\leq 1$.
+Since classification POIBMDPs are MDPs, we do not need to analyze asymmetric RL and JSJ baselines like in the previous Chapter (Aglorithms~\ref{alg:asmyqlearning},~\ref{alg:asymsarsa}, and~\ref{alg:jsj}).
 
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{images/images_part1/learning_curves_classif.pdf}
-    \caption{}\label{fig:rl-classif-poibmdp}
+    \caption{We reproduce the same plot as in Figure~\ref{fig:rl-poibmdp} for classification POIBMDPs. Each individual curve is the sub-optimality gap of the learned policy during training averaged over 100 runs for a single $\zeta$ value.}\label{fig:rl-classif-poibmdp}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{images/images_part1/tree_distributions_classif.pdf}
-    \caption{}\label{fig:tree-distrib-classif-poibmdp}
+    \caption{We reproduce the same plot as in Figure~\ref{fig:dt-distrib-poibmdp} for classification POIBMDPs. Each colored dot is the number of final learned trees with a specific structure for a given $\zeta$.}\label{fig:tree-distrib-classif-poibmdp}
 \end{figure}
 
-Fortunately this time, compared to general POIBMDPs, RL can be used to retrieve optimal policies in classification POIBMDPs equivalent to decision tree classifiers.
-We observe on Figure (cite) that both Q-learning and Sarsa consistently minimize the sub-optimality gap. 
-Hence they are able to retrieve the optimal detph-1 decision tree classifier from Figure (cite).
+Fortunately this time, compared to general POIBMDPs, RL can be used to retrieve optimal policies in classification POIBMDPs that are equivalent to decision tree classifiers.
+We observe on Figure~\ref{fig:rl-classif-poibmdp} that both Q-learning and Sarsa consistently minimize the sub-optimality gap indepedently of the interpretability-performance trade-off $\zeta$. 
+Hence they are able to retrieve the optimal detph-1 decision tree classifier (Fig.~\ref{example:cmdp}) most of the time in the optimality range $\zeta\in ]0, 1[$ (c.f. Fig.~\ref{fig:tree-distrib-classif-poibmdp}).
 
-In this part of the manuscript, we have highlighted the challenges of directly learning decision tree policies for MDPs.
-In particular in Chapter (cite), we showed that when we tried to reproduce existing baselines for direct RL of decision tree policies (cite), those often performed worse in terms of RL objective than the indirect approaches VIPER or Dagger even though the latter optimize the imitation learning objective (cite).
 
-We further analyzed the failure mode of direct learning of decision tree policies by making connexions with POMDPs.
-In Chapter (cite), we showed that learning decision tree policies for MDPs that optimize the RL objective could be explicitely formulated as learning a deterministic partially observable (also known as memoryless or reactive) policy in a specific POMDP that we called POIBMDP.
-We showed that both RL and asymmetric RL, a class of algorithms specifically designed for POMDPs, were unable to consistently retrieve optimal depth 1 decision tree policy for a very small $2\times2$ grid world.
+\section{Conclusion}
+In this part of the manuscript we were interested in algorithms that can learn decision tree policies for (factored) MDPs that optimize some trade-off of interpretability and performance w.r.t the RL objective~\ref{def:mdp-obj}.
+In particular, using the framework of Topin et. al.~\cite{topin2021iterative}, we were able to explicitly write this optimization problem~\ref{def:irl}.
 
-Finally, in this Chapter we showed that RL in fully observable POIBMDPs, i.e. POIBMDPs that are just MDPs, could retrieve optimal decision tree policies, we conjecture that most of the difficulty for the general POIBMDP case arise from the partial observability.
+In Chapter~\ref{sec:topin}, we compared the algorithms proposed in~\cite{topin2021iterative} that directly solve this problem, to imitation learning algorithms that only solve a proxy problem.
+While those direct RL algorithms are able to \textit{learn}, i.e. find better and better solutions with time (c.f. Figs.~\ref{fig:res-dqn} and~\ref{ifg:res-ppo}), the decision tree policies returned perform worse in average than imitated decision trees w.r.t to the RL objective of interest (c.f. Figs.~\ref{dif:trees-drl}).
+
+We further analyzed the failure mode of direct learning of decision tree policies by making connexions with POMDPs~\cite{POMDP,chap2}.
+In Chapter~\ref{sec:pomdp}, we showed that learning decision tree policies for MDPs that optimize the RL objective could be explicitely formulated as learning a deterministic partially observable (also known as memoryless or reactive) policy in a specific POMDP that we called POIBMDP~\ref{def:poibmdp}.
+We showed that both RL and asymmetric RL, a class of algorithms specifically designed for POMDPs~\ref{baisero-ppo,baisero-dqn}, were unable to consistently retrieve an optimal depth-1 decision tree policies for a very small grid world MDP.
+In particular, with this new context of partial observability, we compared, in a very controlled experiment, the success rates of the same learning algorithms applied to partially observable and standard MDPs that shared the same transitions and rewards.
+We demonstrated on Figure~\ref{fig:po-vs-ib} that introducing partial observability greatly reduced the success rates (we also observed this explicitely on Figures~\ref{fig:dqn} and~\ref{fig:res-ppo}).  
+
+Finally, in this Chapter we showed that RL in fully observable POIBMDPs, i.e. POIBMDPs that are just MDPs, could retrieve optimal decision tree policies (c.f. Figures~\ref{fig:rl-poibmdp-classif} and~\ref{fig:tree-distrib-poibmdp-classif}) adding new evidence that direct interpretable RL is difficult because it involves POMDPs.
+
+This class of fully observable POIBMDPs contains the decision tree induction problem for supervised learning tasks~\ref{def:sl}.
+This sparks the question: what kind of decision tree induction algorithm can we get using the MDP formalisms?
+This exactly what we study in the next part of this manuscript.
+
+
+, we conjecture that most of the difficulty for the general POIBMDP case arise from the partial observability.
 This provides one clear avenue for future research: developing algorithm tailored for POIBMDPs.
 
 However it is hard to encourage such research when indirect methods like VIPER or Dagger already optimize the RL objective pretty well and often require few samples if an neural network expert policy is already available.

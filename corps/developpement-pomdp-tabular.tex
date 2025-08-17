@@ -1,4 +1,4 @@
-\chapter{Understanding the Limits of Direct Reinforcement Learning}\label{sec:pomdp}
+\chapter{Limits of Direct Reinforcement Learning of Decision Tree Policies}\label{sec:pomdp}
 
 From the previous Chapter~\ref{sec:topin} we know that to directly learn decision trees that directly optimize the RL objective~\ref{def:mdp-obj} for an MDP, one can learn a deterministic partially observable policy for an IBMDP (Definitions~\ref{def:ibmdp} and~\ref{def:irl} and Proposition~\ref{def:po-policy}).
 Such problems are classical instances of partially observable Markov decision processes (POMDPs)~\cite{POMDP,chap2}.
@@ -6,7 +6,7 @@ This connexion with POMDPs brings novel insights to direct reinforcement learnin
 In this chapter, all the decision processes presented have a finite number of vector-valued states and observations.
 Hence we will use bold fonts for states and observations but can still use summations rather than integrals when required.
 
-\subsection{Partially Observable IBMDPs}
+\subsection{Partially Observable IBMDPs}\label{sec:poibmdp}
 A POMDP is an MDP where the current state is hidden; only some information about the current state is observable.
 
 \begin{definition}[Partially Observable Markov Decision Processes]\label{def:pomdp}
@@ -57,43 +57,45 @@ We can re-write the direct interpretable RL objective (\ref{def:irl}) in terms o
 With $\pi$ a determintic partially observable policy $\pi:O\rightarrow A\cup A_{info}$. There is no expectation over possible initial observation in the above objective function as there is only one initial observation in a POIBMDP: $\boldsymbol{o}_0=(L_1, U_1, \dots, L_n, U_n)$ (c.f. Def.\ref{def:ibmdp}).
 \end{definition}
 This revised objective is just a re-writing of (\ref{def:irl}) making explicit the POMDP model.
-In this Chapter, we use reinforcement learning to train decision tree policies for MDPs by seeking deterministic partially observable policies for POIBMDPs (\ref{def:poibmdp}), i.e. by solving (\ref{def:revised}).  
+In this Chapter, we use reinforcement learning to train decision tree policies for MDPs by seeking deterministic partially observable policies for POIBMDPs (\ref{def:poibmdp}), i.e. by solving (\ref{def:revised}).
+We summarized the approach in Figure~\ref{fig:summary-rl}  
 
-% \begin{figure}[h]
-% \centering
-% \begin{tikzpicture}
-%     \draw[fill=blue!40] (0, 0) rectangle (6, 4);
-%     \node at (3, 3.5) {POIBMDP $\mathcal{M}_{POIB}\langle\mathcal{M}_{IB}, \Omega\rangle$};
-%     \draw[fill=blue!30] (0, 0) rectangle (5.9, 3);
-%     \node at (3, 2.5) {IBMDP $\mathcal{M}_{IB} \langle \mathcal{M}, O, A_{info}, \zeta, T_{info}\rangle$};
-%     \draw[fill=blue!10] (0, 0) rectangle (5, 2);
-%     \node at (3, 1.5) {MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$};
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+    \draw[fill=blue!40] (0, 0) rectangle (6, 4);
+    \node at (3, 3.5) {POIBMDP $\mathcal{M}_{POIB}\langle\mathcal{M}_{IB}, \Omega\rangle$};
+    \draw[fill=blue!30] (0, 0) rectangle (5.9, 3);
+    \node at (3, 2.5) {IBMDP $\mathcal{M}_{IB} \langle \mathcal{M}, O, A_{info}, \zeta, T_{info}\rangle$};
+    \draw[fill=blue!10] (0, 0) rectangle (5, 2);
+    \node at (3, 1.5) {MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$};
     
-%     \draw[fill=red!10] (10, 0) rectangle (14, 3);
-%     \node at (12, 2) {\textbf{Objective}};
-%     \node at (12, 1) {$\pi^{\star} = \underset{\pi}{\operatorname{argmax}} V^{\pi}(o_0)$};
+    \draw[fill=red!10] (10, 0) rectangle (14, 3);
+    \node at (12, 2) {\textbf{Objective~\ref{def:revised}}};
+    \node at (12, 1) {$\pi^{\star} = \underset{\pi}{\operatorname{argmax}} V^{\pi}(\boldsymbol{o}_0)$};
     
-%     \draw[fill=red!10] (1, -5) rectangle (5, -2);
-%     \node at (3, -3) {\textbf{Decision Tree Policy}};
-%     \node at (3, -4) {$\pi_{\mathcal{T}}: S \rightarrow A$};
+    \draw[fill=red!10] (1, -5) rectangle (5, -2);
+    \node at (3, -3) {\textbf{Decision Tree Policy}};
+    \node at (3, -4) {$\pi_{\mathcal{T}}: S \rightarrow A$};
     
-%     \draw[fill=red!10] (9.5, -5) rectangle (14.5, -2);
-%     \node at (12, -3) {\textbf{Deterministic PO Policy}};
-%     \node at (12, -4) {$\pi: O \rightarrow A \cup A_{info}$};
+    \draw[fill=red!10] (9.5, -5) rectangle (14.5, -2);
+    \node at (12, -3) {\textbf{Deterministic policy}};
+    \node at (12, -4) {$\pi: O \rightarrow A \cup A_{info}$};
     
-%     \draw[thick, ->] (6, 2) -- (10, 2) node[midway, above] {$\gamma$};
-%     \draw[thick, <-] (5, -3.5) -- (9.5, -3.5) node[midway, above] {Extract tree with Alg 6};
-%     \draw[thick, ->] (12, 0) -- (12, -2) node[midway, left] {Solve with e.g. RL};
-%     \draw[thick, <-] (3, 0.5) -- (3, -2) node[midway, left] {Can be interpreted};
+    \draw[thick, ->] (6, 2) -- (10, 2) node[midway, above] {$\gamma$};
+    \draw[thick, <-] (5, -3.5) -- (9.5, -3.5) node[midway, above] {Extract tree with Alg.\ref{alg:extract-tree}};
+    \draw[thick, ->] (12, 0) -- (12, -2) node[midway, left] {Solve with e.g. RL~\ref{sec:rl}};
+    \draw[thick, <-] (3, 0.5) -- (3, -2) node[midway, left] {Can be interpreted};
 
     
-%     % % Final arrow from tree back to base MDP - adjusted position
-%     % \draw[thick, ->] (1.75, -2.5) -- (1.75, -0.5) node[midway, right] {Can deploy\\and interpret};
+    % % Final arrow from tree back to base MDP - adjusted position
+    % \draw[thick, ->] (1.75, -2.5) -- (1.75, -0.5) node[midway, right] {Can deploy\\and interpret};
     
-% \end{tikzpicture}
-% \caption{A formal framework to learn decision tree policies for MDPs that directly optimize the RL objective (cite). This include learning a partially observable deterministic policy in a POIBMDP (cite).}
-% \label{fig:nested_decision_processes}
-% \end{figure}
+\end{tikzpicture}
+\caption{A formal framework to learn decision tree policies for MDPs that directly optimize a trade-off between the RL objective~\ref{def:mdp-obj} and interpretability.
+This framework relies on learning a partially observable deterministic policy in a POIBMDP~\ref{def:poibmdp}.}
+\label{fig:summary-rl}
+\end{figure}
 
 We will attempt to \textit{learn} an optimal depth-1 tree policy w.r.t the RL objective (\ref{def:mdp-obj}) for the $2\times 2$ grid world from Example \ref{example:grid}.
 One of those two optimal depth-1 tree is given in Figure~\ref{fig:optimal-policy-trees}. The other optimal depth-1 tree is to go right when $y\leq 1$ and down otherwise
