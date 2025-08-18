@@ -19,39 +19,6 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global}
-    \entry{fi-rl3}{article}{}
-      \name{author}{2}{}{%
-        {{hash=7bb15d6577bd8ec2e0fa568781402139}{%
-           family={Acero},
-           familyi={A\bibinitperiod},
-           given={Fernando},
-           giveni={F\bibinitperiod}}}%
-        {{hash=1b6b60843377801f1185fe1d2f2ee8a7}{%
-           family={Li},
-           familyi={L\bibinitperiod},
-           given={Zhibin},
-           giveni={Z\bibinitperiod}}}%
-      }
-      \strng{namehash}{7d758f55384c86a87ffb931d1da9fd39}
-      \strng{fullhash}{7d758f55384c86a87ffb931d1da9fd39}
-      \strng{bibnamehash}{7d758f55384c86a87ffb931d1da9fd39}
-      \strng{authorbibnamehash}{7d758f55384c86a87ffb931d1da9fd39}
-      \strng{authornamehash}{7d758f55384c86a87ffb931d1da9fd39}
-      \strng{authorfullhash}{7d758f55384c86a87ffb931d1da9fd39}
-      \field{sortinit}{A}
-      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Workshop on Interpretable Policies in Reinforcement Learning @RLC-2024}
-      \field{title}{Distilling Reinforcement Learning Policies for Interpretable Robot Locomotion: Gradient Boosting Machines and Symbolic Regression}
-      \field{year}{2024}
-      \verb{urlraw}
-      \verb https://openreview.net/forum?id=fa3fjH3dEW
-      \endverb
-      \verb{url}
-      \verb https://openreview.net/forum?id=fa3fjH3dEW
-      \endverb
-    \endentry
     \entry{rliable}{article}{}
       \name{author}{5}{}{%
         {{hash=a3ce7bf5b3d6fcc96d09f5142950dd8d}{%
@@ -128,40 +95,6 @@
       \field{year}{2020}
       \verb{eprint}
       \verb 2002.09142
-      \endverb
-    \endentry
-    \entry{fi-rl2}{article}{}
-      \name{author}{2}{}{%
-        {{hash=b2236b16f8cfbed5318cebf1d5109f23}{%
-           family={Alver},
-           familyi={A\bibinitperiod},
-           given={Safa},
-           giveni={S\bibinitperiod}}}%
-        {{hash=4428b76e1301b2db58587fb18bb59a38}{%
-           family={Precup},
-           familyi={P\bibinitperiod},
-           given={Doina},
-           giveni={D\bibinitperiod}}}%
-      }
-      \strng{namehash}{b4bbea9a3a45a30e37891cb7633d522e}
-      \strng{fullhash}{b4bbea9a3a45a30e37891cb7633d522e}
-      \strng{bibnamehash}{b4bbea9a3a45a30e37891cb7633d522e}
-      \strng{authorbibnamehash}{b4bbea9a3a45a30e37891cb7633d522e}
-      \strng{authornamehash}{b4bbea9a3a45a30e37891cb7633d522e}
-      \strng{authorfullhash}{b4bbea9a3a45a30e37891cb7633d522e}
-      \field{sortinit}{A}
-      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{issn}{2835-8856}
-      \field{journaltitle}{Transactions on Machine Learning Research}
-      \field{title}{An Attentive Approach for Building Partial Reasoning Agents from Pixels}
-      \field{year}{2024}
-      \verb{urlraw}
-      \verb https://openreview.net/forum?id=S3FUKFMRw8
-      \endverb
-      \verb{url}
-      \verb https://openreview.net/forum?id=S3FUKFMRw8
       \endverb
     \endentry
     \entry{momdp}{inproceedings}{}
@@ -2886,6 +2819,68 @@
       \verb 10.25080/Majora-14bd3278-006
       \endverb
     \endentry
+    \entry{study-5}{misc}{}
+      \name{author}{7}{}{%
+        {{hash=390b7656679e580c973d9eabbe22ed35}{%
+           family={Lage},
+           familyi={L\bibinitperiod},
+           given={Isaac},
+           giveni={I\bibinitperiod}}}%
+        {{hash=0d9ef40c3451566d8104bb3eee7c151b}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Emily},
+           giveni={E\bibinitperiod}}}%
+        {{hash=c84dab40b336090cfa7d38312d1a12a8}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Jeffrey},
+           giveni={J\bibinitperiod}}}%
+        {{hash=e587a362ff3d3b74c593e75705aeb08b}{%
+           family={Narayanan},
+           familyi={N\bibinitperiod},
+           given={Menaka},
+           giveni={M\bibinitperiod}}}%
+        {{hash=a11a6718c039f3e3f3f31167e5094c10}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Been},
+           giveni={B\bibinitperiod}}}%
+        {{hash=82d7d77d1d75f07e789b64725dbd55cf}{%
+           family={Gershman},
+           familyi={G\bibinitperiod},
+           given={Sam},
+           giveni={S\bibinitperiod}}}%
+        {{hash=b01a5e92cd39a5551d74ab2393c7b9fd}{%
+           family={Doshi-Velez},
+           familyi={D\bibinithyphendelim V\bibinitperiod},
+           given={Finale},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{fc78e8c460ecf84f281e6bb320f65191}
+      \strng{fullhash}{af7c3415a916c5425973e6c448db2179}
+      \strng{bibnamehash}{fc78e8c460ecf84f281e6bb320f65191}
+      \strng{authorbibnamehash}{fc78e8c460ecf84f281e6bb320f65191}
+      \strng{authornamehash}{fc78e8c460ecf84f281e6bb320f65191}
+      \strng{authorfullhash}{af7c3415a916c5425973e6c448db2179}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{An Evaluation of the Human-Interpretability of Explanation}
+      \field{year}{2019}
+      \verb{eprint}
+      \verb 1902.00006
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1902.00006
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1902.00006
+      \endverb
+    \endentry
     \entry{lambrechts2025informed}{article}{}
       \name{author}{3}{}{%
         {{hash=c619f73c7a1ab4105515f41ff91f3c07}{%
@@ -3263,6 +3258,35 @@
       \verb https://arxiv.org/abs/2409.12788
       \endverb
     \endentry
+    \entry{lipton}{article}{}
+      \name{author}{1}{}{%
+        {{hash=599ae457cf41d4ce64e09433edbc964b}{%
+           family={Lipton},
+           familyi={L\bibinitperiod},
+           given={Zachary\bibnamedelima C.},
+           giveni={Z\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computing Machinery}%
+      }
+      \strng{namehash}{599ae457cf41d4ce64e09433edbc964b}
+      \strng{fullhash}{599ae457cf41d4ce64e09433edbc964b}
+      \strng{bibnamehash}{599ae457cf41d4ce64e09433edbc964b}
+      \strng{authorbibnamehash}{599ae457cf41d4ce64e09433edbc964b}
+      \strng{authornamehash}{599ae457cf41d4ce64e09433edbc964b}
+      \strng{authorfullhash}{599ae457cf41d4ce64e09433edbc964b}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Queue}
+      \field{number}{3}
+      \field{title}{The Mythos of Model Interpretability: In machine learning, the concept of interpretability is both important and slippery.}
+      \field{volume}{16}
+      \field{year}{2018}
+      \field{pages}{31\bibrangedash 57}
+      \range{pages}{27}
+    \endentry
     \entry{littman1}{inproceedings}{}
       \name{author}{1}{}{%
         {{hash=211e529e9f10ad1bfacff2284da10ea7}{%
@@ -3398,6 +3422,53 @@
       \field{year}{2017}
       \field{pages}{4768\bibrangedash 4777}
       \range{pages}{10}
+    \endentry
+    \entry{insight}{article}{}
+      \name{author}{6}{}{%
+        {{hash=092f8b2a14430d8706ed07d15f786d57}{%
+           family={Luo},
+           familyi={L\bibinitperiod},
+           given={Lirui},
+           giveni={L\bibinitperiod}}}%
+        {{hash=039f4f252185e7a35f633b65f2667170}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Guoxi},
+           giveni={G\bibinitperiod}}}%
+        {{hash=6c45d01126af698a9ebafebd5bcd908a}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={Hongming},
+           giveni={H\bibinitperiod}}}%
+        {{hash=616d3b0b19e3536f5c65dfab2a48a659}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Yaodong},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=b0bd797faebd5ac625f7d384ea3bc3f3}{%
+           family={Fang},
+           familyi={F\bibinitperiod},
+           given={Cong},
+           giveni={C\bibinitperiod}}}%
+        {{hash=16a77262afb7cc9b0229c21f168bd098}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Qing},
+           giveni={Q\bibinitperiod}}}%
+      }
+      \strng{namehash}{3421cda0499b9ad1d27130216b374bbe}
+      \strng{fullhash}{24d1625bfb7cf2afbb082bddd6e269a0}
+      \strng{bibnamehash}{3421cda0499b9ad1d27130216b374bbe}
+      \strng{authorbibnamehash}{3421cda0499b9ad1d27130216b374bbe}
+      \strng{authornamehash}{3421cda0499b9ad1d27130216b374bbe}
+      \strng{authorfullhash}{24d1625bfb7cf2afbb082bddd6e269a0}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Conference on Machine Learning (ICML)}
+      \field{title}{End-to-End Neuro-Symbolic Reinforcement Learning with Textual Explanations}
+      \field{year}{2024}
     \endentry
     \entry{madumal}{article}{}
       \name{author}{4}{}{%
@@ -5162,6 +5233,53 @@
       \field{pages}{284\bibrangedash 292}
       \range{pages}{9}
     \endentry
+    \entry{study-6}{misc}{}
+      \name{author}{4}{}{%
+        {{hash=01f4c9955748561ecb4eaf07807c2f84}{%
+           family={Slack},
+           familyi={S\bibinitperiod},
+           given={Dylan},
+           giveni={D\bibinitperiod}}}%
+        {{hash=b2b40e7a0fdfbdbcf9af2da7c8e59417}{%
+           family={Friedler},
+           familyi={F\bibinitperiod},
+           given={Sorelle\bibnamedelima A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=de216a4cef9daa2d1fce563e8b498941}{%
+           family={Scheidegger},
+           familyi={S\bibinitperiod},
+           given={Carlos},
+           giveni={C\bibinitperiod}}}%
+        {{hash=637f056ba98a4be9428a84c0c1e8e236}{%
+           family={Roy},
+           familyi={R\bibinitperiod},
+           given={Chitradeep\bibnamedelima Dutta},
+           giveni={C\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \strng{namehash}{23fe5aa116c2cc173d03ce2937e16b22}
+      \strng{fullhash}{253819bea6aecf84f62a8e07255d6cec}
+      \strng{bibnamehash}{23fe5aa116c2cc173d03ce2937e16b22}
+      \strng{authorbibnamehash}{23fe5aa116c2cc173d03ce2937e16b22}
+      \strng{authornamehash}{23fe5aa116c2cc173d03ce2937e16b22}
+      \strng{authorfullhash}{253819bea6aecf84f62a8e07255d6cec}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{Assessing the Local Interpretability of Machine Learning Models}
+      \field{year}{2019}
+      \verb{eprint}
+      \verb 1902.03501
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1902.03501
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1902.03501
+      \endverb
+    \endentry
     \entry{sparsity}{misc}{}
       \name{author}{3}{}{%
         {{hash=e91826b1ae2324de835ec5cd2fdbc17d}{%
@@ -6026,39 +6144,6 @@
       \verb https://arxiv.org/abs/2408.11632
       \endverb
     \endentry
-    \entry{fi-rl}{article}{}
-      \name{author}{2}{}{%
-        {{hash=83d9dd7b3d9e5a91e8cb5b5e3aed1ad7}{%
-           family={Wabartha},
-           familyi={W\bibinitperiod},
-           given={Maxime},
-           giveni={M\bibinitperiod}}}%
-        {{hash=5b77dedc7f77ff84caad46064e6e3cbb}{%
-           family={Pineau},
-           familyi={P\bibinitperiod},
-           given={Joelle},
-           giveni={J\bibinitperiod}}}%
-      }
-      \strng{namehash}{a1d8d3f2077c36a36d12979e4cbc87fb}
-      \strng{fullhash}{a1d8d3f2077c36a36d12979e4cbc87fb}
-      \strng{bibnamehash}{a1d8d3f2077c36a36d12979e4cbc87fb}
-      \strng{authorbibnamehash}{a1d8d3f2077c36a36d12979e4cbc87fb}
-      \strng{authornamehash}{a1d8d3f2077c36a36d12979e4cbc87fb}
-      \strng{authorfullhash}{a1d8d3f2077c36a36d12979e4cbc87fb}
-      \field{sortinit}{W}
-      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{The Twelfth International Conference on Learning Representations}
-      \field{title}{Piecewise Linear Parametrization of Policies: Towards Interpretable Deep Reinforcement Learning}
-      \field{year}{2024}
-      \verb{urlraw}
-      \verb https://openreview.net/forum?id=hOMVq57Ce0
-      \endverb
-      \verb{url}
-      \verb https://openreview.net/forum?id=hOMVq57Ce0
-      \endverb
-    \endentry
     \entry{higgs_280}{article}{}
       \name{author}{1}{}{%
         {{hash=64809702c4162acaf5083abae65c9d5f}{%
@@ -6317,12 +6402,12 @@
   \missing{BELLMAN1958228}
   \missing{IBMDP}
   \missing{McTavish_Zhong_Achermann_Karimalis_Chen_Rudin_Seltzer_2022}
+  \missing{blosson}
   \missing{breiman1984classif}
   \missing{cart}
   \missing{def:mdp}
-  \missing{gautron2023learning}
-  \missing{kohler2024interpretableeditableprogrammatictree}
   \missing{mythos}
+  \missing{nduge}
   \missing{norton}
   \missing{oblique}
   \missing{rigorous}

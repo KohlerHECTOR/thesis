@@ -1,10 +1,123 @@
-\chapter{Imitation and Evaluation}
-\section{Intro}
-There exist applications of reinforcement learning like medicine where policies need to be ``interpretable'' by humans. User studies have shown that some policy classes might be more interpretable than others. However, it is costly to conduct human studies of policy interpretability. Furthermore, there is no clear definition of policy interpretabiliy, i.e., no clear metrics for interpretability and thus claims depend on the chosen definition. We tackle the problem of empirically evaluating policies interpretability without humans. Despite this lack of clear definition, researchers agree on the notions of ``\textit{simulatability}'': policy interpretability should relate to how humans understand policy actions given states. To advance research in interpretable reinforcement learning, we contribute a new methodology to evaluate policy interpretability. We distillate expert neural networks policies into small programs that we use as baselines. We then show that using our methodology to evaluate the baselines interpretability leads to similar conclusions as user studies. Most importantly, we show that there is no policy class that better trades off interpretability and performance across tasks. 
+\chapter{Introduction}
+While in Parts~\ref{part1} and~\ref{part2} we quantified the performances of a given interpretable model class, e.g. decision trees of some maximum depth, this time we focus on quantifying the interpretability-performance trade-offs of different model classes.
+Most research interpretable machine learning, including~\cite{topin2021iterative}, relies on beliefs such that ``decision trees are more interpretable than neural networks'' illustrated for example in Figre~\ref{fig:interpretability-performance-trade-off}.
+In this part we propose a methodology to empirically compare the interpretability-perofrmance trade-offs of multiple models from potentially different model classes.
 
-There is increasing research in developing reinforcement learning algorithms that return ``interpretable" policies such as trees, programs, first-order logic, or linear maps \cite{viper,PIRL,empirical-evidence,nudge,milani-survey,glanois-survey,kohler2024interpretableeditableprogrammatictree}. Indeed, interpretability has been useful for different applications: policy verification \cite{viper}, mis-alignment detection \cite{scobots,sympol} and features importance analysis \cite{fi-rl,fi-rl2,fi-rl3}.
-%Those concerns are at the core of our work. 
+In this chapter, we present results from existing empirical evaluations of model interpretability and introduce our methodology
+In Chapter~\ref{sec:exps1}, we validate our methodology against results obtained with user studies.
+In Chapter~\ref{sec:exps2},using our methodology, we present a large scale study of interpretability-performance trade-offs of different model classes when optimizing the RL objective (~\ref{def:mdp-obj}).
 
-User studies have established the common beliefs that decision trees are more ``interpretable" than linear maps, oblique trees (trees where nodes are tests of linear combinations of features), and multi-layer perceptrons (MLPs)~\cite{study-0,study-1,study-2,study-3}. Furthermore, for a fixed class of models, humans give different values of interpretability to models with different numbers of parameters~\cite{study-4}. However, survey works argue that every belief about interpretability needs to be verified with user studies and that interpretability evaluations are grounded to a specific set of users, to a specific application, and to a specific definition of interpretability \cite{rigorous,mythos}. For example, \cite{mythos} claims that depending on the notion of \textit{simulatability} studied, MLPs can be more interpretable than trees, since deep trees can be harder for a human to read than compact MLPs. Hence, even with access to users it would be difficult to research interpretability. More realistically, since the cost of user studies is high (time, variety of subjects required, ethics, etc.), designing proxies for interpretability in machine learning has become an important open problem in both supervised~\cite{rigorous} and reinforcement learning~\cite{glanois-survey}.
+\section{Evaluating interpretability with humans}\label{res:humans}
+User studies typically evaluate interpretability through tasks such as simulation (whether a person can predict the model’s output for a given input), verification (whether a person can check if the model’s prediction is correct), and “what-if” reasoning (whether a person can predict how the output changes if the input is slightly modified)~\cite{study-6,study-5}.
+Results consistently show that for rule- and tree-based models are more ``interpretable'' as models involving equations like linear models or neural networks, users are faster and more accurate when asked to simulate or verify their predictions, with trees and rule sets both in terms of speed and correctness~\citep{study-0,study-1,study-2,study-3,study-7}.
+Indeed, when using neural networks or linear models, human participants struggle to simulate or reason about their predictions, largely because these models impose a higher operation count, i.e., more mental steps needed to reproduce a decision~\cite{study-5}.
 
-In this work, we propose a methodology to evaluate the interpretability of reinforcement learning without human evaluators, by measuring inference times and memory consumptions of policies as programs. We show that those measures constitute adequate proxies for the notions of ``\textit{simulatability}'' described in~\cite{mythos}, which relates the interpretability of policy to humans ability to understand the inference of actions given states. In addition to the contributions summarized next, we open source some of the interpretable baselines to be be used for future interpretability research and teaching\footnote{\url{https://anonymous.4open.science/r/interpretable-rl-zoo-4DCC/README.md}}.
+Linear models can also be relatively easy for users to simulate when they involve only a small number of parameters~\citep{study-4}.
+Indeed, as stated in \citep{study-0}, optimizing interpretability can also be seen as regularizing the learned model. 
+
+Finally, for a fixed class of models, humans gave different values of interpretability to models with different numbers of parameters~\citep{study-4}, e.g. a tree with less nodes was deemed more interpretable than a tree with lots of nodes.
+
+Some works~\cite{lipton,rigorous} argue that model interpretability can only be measured by the the specific end user and only for the specific downstream tasks.
+This prompts a methodology that could give good measures of interpretability without requiring to perform time and resource consuming user studies.
+However, measuring model interpretability without humans is still an open problem~\cite{glanois-survey} and there probably do not exist a decisive solution.
+
+\section{The mythos of interpretability}\label{res:lipton}
+When comparing interpretability of models inside the same class~\cite{murtree,blosson,pystreed,vanderlinden2024optimalgreedydecisiontrees,sympol,viper,topin2021iterative} one does not need to worry about their methodology since the number of model parameters is enough as a measure~\cite{study-4}.
+However comparing the interpretability of models from different classes, without user studies, requires caution: which is more interpretable, a depth-50 decision tree or a neural network with two layers of 16 neurons (Figure)?
+
+Work that compare model interpretability across different model classes without humans, rely on the notion of \textit{simulatibility} introduced in~\cite{lipton}.
+Inspired, by results from user studies, Z. Lipton postulates that interpretabiliy of a model should relate to two things.
+First, it should relate to how a user simulates the prediction of the model given an input~\cite{study-6,study-5}.
+Second, it should relate to how a user gets a global idea of the model's internals, i.e. without any inputs, what does the user understands from reading the model.
+
+This notion of simulatibility is closely related to space and time complexities of programs.
+In~\cite{viper}, authors use verification time as a proxy to compare the interpretability of neural network policies and imitated decision tree policies.
+Since decision trees and neural networks are implemented differently in their experiments, they can't use the same verification softwares (\cite{z3} against \cite{maraboupy}) which makes it difficult to conclude if the verification times are different because of interpretability or because of the computations hidden in the verifiers.
+Similarly, in~\cite{insight} authors compare the inference speed of neural network policies to first-order logic policies~\cite{nduge} but one uses GPU acceleration while the other is run on CPU.
+
+If one wants to use the notion of simulatibility and ultimately of time or space complexity of programs as a proxy for interpretability, one has to implement and compare policies from different classes similarly.
+
+The key contriubtion of this part is to offer a sound methodology to compare the interpretability-performance trade-offs of models from different model classes without requiring humans.
+
+\section{Methodology overview}
+While our methodology could be applied to evaluate the interpretability-performance trade-offs of different model classes when optimizing the supervised learning objective (~\ref{def:mdp-obj}), we focus in this part on sequential decision making tasks.
+
+\subsection{Measuring Policy Interpretability}
+One might argue that once the policy is trained, one could use directly the actual space or time complexity of the policy as the measure of interpretability.
+However, we argue that for decision tree-like models, the time complexity of a predicition will be different for each input (tree traversal will differ) and computing an expected complexity is difficult as the inputs distribution can only be obtained by running the policy in the MDP it was trained for (e.g. with Monte-Carlo estimates).  
+Hence, we use the two metrics presented next in order to evaluate policy interpretability without requiring human intervention:
+
+\textit{1. Policy Inference Time:} we measure policy inference time in seconds given states averaged over many trajectories.
+\textit{2. Policy Size:} we measure the policy size in bytes. While this correlates with inference time for MLPs and linear models, tree-based policies may have large sizes but quick inference because they do not traverse all decision paths at each step.
+
+Those two metrics are proxies for the notion of simulatability~\cite{mythos} that gives insights on how a human being would read a policy to understand how actions are inferred.
+Measure the average inference time over entire trajectories rathen than over different states could also make sense.
+However it would also be difficulut to make sense of the results as different policies can have different trajectory lengths.
+
+Most importantly, as these measurements depend on many technical details (programming language, the compiler if any, the operating system, versions of libraries, the hardware it is executed on, etc), to ensure fair comparisons, we translate all policies into a simple representation that mimics how a human being "reads" a policy.
+We call this process of standardizing policies language ``unfolding'' and present it next.
+
+\subsection{Policy unfolding}
+
+%we ``unfold'' all policies into a common sequential representation without hardware optimizations or vectorized operations, as humans process information sequentially.
+In Figure \ref{lst:unfolded-linear}, \ref{lst:generic-linear}, and \ref{lst:policy_ll}, we present some unfolded policy programs. Other works have distilled neural networks into programs \cite{PIRL} or even directly learn programmatic policies \cite{pirl2} from scratch. However, those works directly consider programs as a policy class and could compare a generic program (not unfolded, with, e.g., while loops or array operations) to, e.g, a decision tree \cite{leap}. We will discuss later on the limitations of unfolding policies in the overall methodology.
+
+\begin{figure}
+\centering
+\begin{minipage}{0.487\textwidth}
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+import gymnasium as gym
+
+env = gym.make("MountainCar")
+s, _ = env.reset()
+done = False
+while not done:
+    y0 = 0.969*s[0]-30.830*s[1]+0.575
+    y1 = -0.205*s[0]+22.592*s[1]-0.63
+    y2 = -0.763*s[0]+8.237*s[1]+0.054
+    max_val = y0
+    action = 0
+    if y1 > max_val:
+        max_val = y1
+        action = 1
+    if y2 > max_val:
+        action = 2
+    s, r, terminated, truncated, \
+    infos = env.step(action)
+    done = terminated or truncated
+\end{lstlisting}
+\end{tcolorbox}
+\caption{Unfolded linear policy interacting with an environment.}\label{lst:unfolded-linear}
+\end{minipage}
+\hfill
+\begin{minipage}{0.505\textwidth}
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+def play(x):
+    h_layer_0_0 = 1.238*x[0]+0.971*x[1]
+                  +0.430*x[2]+0.933
+    h_layer_0_0 = max(0, h_layer_0_0)
+    h_layer_0_1 = -1.221*x[0]+1.001
+                  *x[1]-0.423*x[2]
+                  +0.475
+    h_layer_0_1 = max(0, h_layer_0_1)
+    h_layer_1_0 = -0.109*h_layer_0_0
+                  -0.377*h_layer_0_1
+                  +1.694
+    h_layer_1_0 = max(0, h_layer_1_0)
+    h_layer_1_1 = -3.024*h_layer_0_0
+                  -1.421*h_layer_0_1
+                  +1.530
+    h_layer_1_1 = max(0, h_layer_1_1)
+
+    h_layer_2_0 = -1.790*h_layer_1_0
+                  +2.840*h_layer_1_1
+                  +0.658
+    y_0 = h_layer_2_0
+    return [y_0]
+\end{lstlisting}
+\end{tcolorbox}
+\caption{Tiny ReLU MLP for Pendulum.}\label{lst:generic-linear}
+\end{minipage}
+\end{figure}
