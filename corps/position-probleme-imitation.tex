@@ -17,7 +17,7 @@ Indeed, as stated in \citep{study-0}, optimizing interpretability can also be se
 
 Finally, for a fixed class of models, humans gave different values of interpretability to models with different numbers of parameters~\citep{study-4}, e.g. a tree with less nodes was deemed more interpretable than a tree with lots of nodes.
 
-Some works~\cite{lipton,rigorous} argue that model interpretability can only be measured by the the specific end user and only for the specific downstream tasks.
+Some works~\cite{lipton,rigourous} argue that model interpretability can only be measured by the the specific end user and only for the specific downstream tasks.
 This prompts a methodology that could give good measures of interpretability without requiring to perform time and resource consuming user studies.
 However, measuring model interpretability without humans is still an open problem~\cite{glanois-survey} and there probably do not exist a decisive solution.
 
@@ -42,7 +42,6 @@ The key contriubtion of this part is to offer a sound methodology to compare the
 \section{Methodology overview}
 While our methodology could be applied to evaluate the interpretability-performance trade-offs of different model classes when optimizing the supervised learning objective (~\ref{def:mdp-obj}), we focus in this part on sequential decision making tasks.
 
-\subsection{Measuring Policy Interpretability}
 One might argue that once the policy is trained, one could use directly the actual space or time complexity of the policy as the measure of interpretability.
 However, we argue that for decision tree-like models, the time complexity of a predicition will be different for each input (tree traversal will differ) and computing an expected complexity is difficult as the inputs distribution can only be obtained by running the policy in the MDP it was trained for (e.g. with Monte-Carlo estimates).  
 Hence, we use the two metrics presented next in order to evaluate policy interpretability without requiring human intervention:
@@ -55,12 +54,13 @@ Measure the average inference time over entire trajectories rathen than over dif
 However it would also be difficulut to make sense of the results as different policies can have different trajectory lengths.
 
 Most importantly, as these measurements depend on many technical details (programming language, the compiler if any, the operating system, versions of libraries, the hardware it is executed on, etc), to ensure fair comparisons, we translate all policies into a simple representation that mimics how a human being "reads" a policy.
-We call this process of standardizing policies language ``unfolding'' and present it next.
-
-\subsection{Policy unfolding}
+We call this process of standardizing policies language ``unfolding''..
 
 %we ``unfold'' all policies into a common sequential representation without hardware optimizations or vectorized operations, as humans process information sequentially.
-In Figure \ref{lst:unfolded-linear}, \ref{lst:generic-linear}, and \ref{lst:policy_ll}, we present some unfolded policy programs. Other works have distilled neural networks into programs \cite{PIRL} or even directly learn programmatic policies \cite{pirl2} from scratch. However, those works directly consider programs as a policy class and could compare a generic program (not unfolded, with, e.g., while loops or array operations) to, e.g, a decision tree \cite{leap}. We will discuss later on the limitations of unfolding policies in the overall methodology.
+In Figure \ref{lst:unfolded-linear}, \ref{lst:generic-linear}, and \ref{lst:policy_ll}, we present some unfolded policy programs.
+Other works have distilled neural networks into programs \cite{PIRL} or even directly learn programmatic policies \cite{pirl2} from scratch.
+However, those works directly consider programs as a policy class and could compare a generic program (not unfolded, with, e.g., while loops or array operations) to, e.g, a decision tree \cite{leap}.
+We will discuss later on the limitations of unfolding policies in the overall methodology.
 
 \begin{figure}
 \centering
@@ -118,6 +118,6 @@ def play(x):
     return [y_0]
 \end{lstlisting}
 \end{tcolorbox}
-\caption{Tiny ReLU MLP for Pendulum.}\label{lst:generic-linear}
+\caption{Tiny rely neural network for Pendulum.}\label{lst:generic-linear}
 \end{minipage}
 \end{figure}

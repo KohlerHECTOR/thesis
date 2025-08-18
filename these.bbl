@@ -1077,49 +1077,6 @@
       \field{pages}{785\bibrangedash 794}
       \range{pages}{10}
     \endentry
-    \entry{deep-rl-relu2}{article}{}
-      \name{author}{4}{}{%
-        {{hash=990c2a11561970a00d732a8a88ccf307}{%
-           family={Chen},
-           familyi={C\bibinitperiod},
-           given={Xinyue},
-           giveni={X\bibinitperiod}}}%
-        {{hash=521fd73f0153325d9fd97704d413bcbf}{%
-           family={Wang},
-           familyi={W\bibinitperiod},
-           given={Che},
-           giveni={C\bibinitperiod}}}%
-        {{hash=bee31c9da81a9ef759119ddd1dca746f}{%
-           family={Zhou},
-           familyi={Z\bibinitperiod},
-           given={Zijian},
-           giveni={Z\bibinitperiod}}}%
-        {{hash=c2e119f22d4ef9df7cfb63c82975b459}{%
-           family={Ross},
-           familyi={R\bibinitperiod},
-           given={Keith\bibnamedelima W.},
-           giveni={K\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
-      }
-      \strng{namehash}{1eaa580670e3072061e854a30183a6c4}
-      \strng{fullhash}{ba68c80795e3642e5cd92ea8800b988c}
-      \strng{bibnamehash}{1eaa580670e3072061e854a30183a6c4}
-      \strng{authorbibnamehash}{1eaa580670e3072061e854a30183a6c4}
-      \strng{authornamehash}{1eaa580670e3072061e854a30183a6c4}
-      \strng{authorfullhash}{ba68c80795e3642e5cd92ea8800b988c}
-      \field{sortinit}{C}
-      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{International Conference on Learning Representations}
-      \field{title}{Randomized Ensembled Double Q-Learning: Learning Fast Without a Model}
-      \field{year}{2021}
-      \verb{urlraw}
-      \verb https://openreview.net/forum?id=AY8zfZm0tDd
-      \endverb
-      \verb{url}
-      \verb https://openreview.net/forum?id=AY8zfZm0tDd
-      \endverb
-    \endentry
     \entry{hmmdp}{inproceedings}{}
       \name{author}{3}{}{%
         {{hash=39464d4391fb985885ccdaa213ebbec8}{%
@@ -1658,6 +1615,43 @@
       \field{year}{2019}
       \field{pages}{4171\bibrangedash 4186}
       \range{pages}{16}
+    \endentry
+    \entry{rigourous}{article}{}
+      \name{author}{2}{}{%
+        {{hash=b01a5e92cd39a5551d74ab2393c7b9fd}{%
+           family={Doshi-Velez},
+           familyi={D\bibinithyphendelim V\bibinitperiod},
+           given={Finale},
+           giveni={F\bibinitperiod}}}%
+        {{hash=a11a6718c039f3e3f3f31167e5094c10}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Been},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{66c38242b4ecdd0e74f6a1fb48199a21}
+      \strng{fullhash}{66c38242b4ecdd0e74f6a1fb48199a21}
+      \strng{bibnamehash}{66c38242b4ecdd0e74f6a1fb48199a21}
+      \strng{authorbibnamehash}{66c38242b4ecdd0e74f6a1fb48199a21}
+      \strng{authornamehash}{66c38242b4ecdd0e74f6a1fb48199a21}
+      \strng{authorfullhash}{66c38242b4ecdd0e74f6a1fb48199a21}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{stat.ML}
+      \field{eprinttype}{arXiv}
+      \field{title}{Towards A Rigorous Science of Interpretable Machine Learning}
+      \field{year}{2017}
+      \verb{eprint}
+      \verb 1702.08608
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1702.08608
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1702.08608
+      \endverb
     \endentry
     \entry{Dulac_Arnold_2011}{article}{}
       \name{author}{4}{}{%
@@ -2473,54 +2467,6 @@
       \field{pages}{1026\bibrangedash 1034}
       \range{pages}{9}
     \endentry
-    \entry{deep-rl-relu3}{article}{}
-      \name{author}{5}{}{%
-        {{hash=34c0958ca8ed4fa1de46e9d431fe44cf}{%
-           family={Hiraoka},
-           familyi={H\bibinitperiod},
-           given={Takuya},
-           giveni={T\bibinitperiod}}}%
-        {{hash=435353b3c65d8fe0bd5913c05eaaef6d}{%
-           family={Imagawa},
-           familyi={I\bibinitperiod},
-           given={Takahisa},
-           giveni={T\bibinitperiod}}}%
-        {{hash=52785e72ea2493be01b0c74dc580c162}{%
-           family={Hashimoto},
-           familyi={H\bibinitperiod},
-           given={Taisei},
-           giveni={T\bibinitperiod}}}%
-        {{hash=b72885951be929ef51dc853c755e67e5}{%
-           family={Onishi},
-           familyi={O\bibinitperiod},
-           given={Takashi},
-           giveni={T\bibinitperiod}}}%
-        {{hash=c6f3b0c6c919ce3981dde162aeac0203}{%
-           family={Tsuruoka},
-           familyi={T\bibinitperiod},
-           given={Yoshimasa},
-           giveni={Y\bibinitperiod}}}%
-      }
-      \strng{namehash}{bf2a392a9aa583e94b8ac4ca51897205}
-      \strng{fullhash}{fd7ee696d2dc03c25cb6aae7d3f01649}
-      \strng{bibnamehash}{bf2a392a9aa583e94b8ac4ca51897205}
-      \strng{authorbibnamehash}{bf2a392a9aa583e94b8ac4ca51897205}
-      \strng{authornamehash}{bf2a392a9aa583e94b8ac4ca51897205}
-      \strng{authorfullhash}{fd7ee696d2dc03c25cb6aae7d3f01649}
-      \field{sortinit}{H}
-      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{International Conference on Learning Representations}
-      \field{title}{Dropout Q-Functions for Doubly Efficient Reinforcement Learning}
-      \field{year}{2022}
-      \verb{urlraw}
-      \verb https://openreview.net/forum?id=xCVJMsPv3RT
-      \endverb
-      \verb{url}
-      \verb https://openreview.net/forum?id=xCVJMsPv3RT
-      \endverb
-    \endentry
     \entry{npcomplete}{article}{}
       \name{author}{2}{}{%
         {{hash=e85f8ce0a6b692a613b601d2bbde2925}{%
@@ -2712,32 +2658,6 @@
       \field{year}{2017}
       \field{pages}{3146\bibrangedash 3154}
       \range{pages}{9}
-    \endentry
-    \entry{adam}{article}{}
-      \name{author}{2}{}{%
-        {{hash=b6fbd171848aad4edf3925543f1f1522}{%
-           family={Kingma},
-           familyi={K\bibinitperiod},
-           given={Diederik\bibnamedelima P.},
-           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
-        {{hash=8aa66e8231cc2fdbe67aa4f18ca970c6}{%
-           family={Ba},
-           familyi={B\bibinitperiod},
-           given={Jimmy},
-           giveni={J\bibinitperiod}}}%
-      }
-      \strng{namehash}{a09df9f123146b8e2c7f1134c9496932}
-      \strng{fullhash}{a09df9f123146b8e2c7f1134c9496932}
-      \strng{bibnamehash}{a09df9f123146b8e2c7f1134c9496932}
-      \strng{authorbibnamehash}{a09df9f123146b8e2c7f1134c9496932}
-      \strng{authornamehash}{a09df9f123146b8e2c7f1134c9496932}
-      \strng{authorfullhash}{a09df9f123146b8e2c7f1134c9496932}
-      \field{sortinit}{K}
-      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{title}{Adam: A Method for Stochastic Optimization}
-      \field{year}{2015}
     \endentry
     \entry{knuth63}{thesis}{}
       \name{author}{1}{}{%
@@ -6400,17 +6320,15 @@
     \endentry
   \enddatalist
   \missing{BELLMAN1958228}
-  \missing{IBMDP}
   \missing{McTavish_Zhong_Achermann_Karimalis_Chen_Rudin_Seltzer_2022}
+  \missing{behaviour-cloning}
   \missing{blosson}
+  \missing{breiman1984clasification}
   \missing{breiman1984classif}
-  \missing{cart}
   \missing{def:mdp}
   \missing{mythos}
   \missing{nduge}
   \missing{norton}
-  \missing{oblique}
-  \missing{rigorous}
 \endrefsection
 \endinput
 
