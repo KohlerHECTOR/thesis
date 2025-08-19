@@ -54,49 +54,6 @@ Designing interesting queries covering all risks is an open problem, hence to ev
 
 On Figure \ref{fig:trade-off-verif}, we can observe that verification time decreases exponentially with MLP interpretability, both memory and inference speed, as shown in \cite{lens-complexity}. This is another good validation of our proposed methodology as well as a motivation to learn interpretable policies. 
 
-\section{Experimental details}
-
-In this section we give all the experimental details necessary to reproduce our results.
-
-
-
-\begin{table}[ht]
-\centering
-\small
-\begin{tabular}{lll}
-\hline
-\textbf{Classic} & \textbf{MuJoCo} & \textbf{OCAtari}\\
-\hline
-CartPole (4, 2, \textbf{490}) & Swimmer (8, 2, \textbf{300}) & Breakout (452, 4, \textbf{30})\\
-LunarLander (8, 4, \textbf{200}) & Walker2d (17, 6, \textbf{2000}) & Pong (20, 6, \textbf{14})\\
-LunarLanderContinuous (8, 2, \textbf{200}) & HalfCheetah (17, 6, \textbf{3000}) & SpaceInvaders (188, 6, \textbf{680})\\
-BipedalWalker (24, 4, \textbf{250}) & Hopper (11, 3, \textbf{2000}) & Seaquest (180, 18, \textbf{2000})\\
-MountainCar (2, 3, \textbf{90}) & \\
-MountainCarContinuous (2, 1, \textbf{-110}) & \\
-Acrobot (6, 3, \textbf{-100}) & \\
-Pendulum (3, 1, \textbf{-400}) & \\
-\hline
-\end{tabular}
-\caption{Summary of considered environments (dimensions of states and number or dimensions of actions, \textbf{reward thresholds}). The rewards thresholds are obtained from gymnasium \cite{gymnasium}. For OCAtari environments, we choose the thresholds as the minimum between the DQN expert from \cite{zoo} and the human scores. We also adapt subjectively some thresholds that we find too restrictive especially for MuJoCo (for example, the PPO expert from \cite{zoo} has 2200 reward on Hopper while the default threshold was 3800).}
-\label{tab:envs}
-\end{table}
-
-\begin{table}
-    \centering
-    \footnotesize
-    \begin{tabular}{c|cccccc}
-    \toprule
-    Envs & BC & BC & DAgger & DAgger & $Q$ & $Q$-DAgger\\
-     & 50K & 100K & 50K & 100K & 50K & 100K\\
-    \midrule
-    Classic& 50 (PPO, DQN)& 50 (PPO, DQN)& 50 (PPO, DQN)& 50 (PPO, DQN)&  50 (DQN) & 50 (DQN)\\
-    OCAtari& 0 & 0 & 0 & 5 (DQN)&  0 & 5 (DQN)\\
-    Mujoco& 10 (SAC)& 10 (SAC)& 10 (SAC)& 10 (SAC)&  0 & 0\\
-    \bottomrule
-    \end{tabular}
-    \caption{Repetitions of each imitation learning algorithm on each environment. We specify which deep reinforcement learning agent from the zoo~\cite{zoo} uses as experts in parentheses.}
-    \label{tab:repet-distill}
-\end{table}
 
 \section{All interpretability-performance trade-offs}
 In this appendix we provide the interpretability-performance trade-offs of all the tested environments. All the measures come from the experiment from Section \ref{sec:res-trade-offs}.

@@ -39,7 +39,7 @@ If one wants to use the notion of simulatibility and ultimately of time or space
 
 The key contriubtion of this part is to offer a sound methodology to compare the interpretability-performance trade-offs of models from different model classes without requiring humans.
 
-\section{Methodology overview}
+\section{Methodology overview}\label{sec:unfold}
 While our methodology could be applied to evaluate the interpretability-performance trade-offs of different model classes when optimizing the supervised learning objective (~\ref{def:mdp-obj}), we focus in this part on sequential decision making tasks.
 
 One might argue that once the policy is trained, one could use directly the actual space or time complexity of the policy as the measure of interpretability.
@@ -64,9 +64,8 @@ We will discuss later on the limitations of unfolding policies in the overall me
 
 \begin{figure}
 \centering
-\begin{minipage}{0.487\textwidth}
-\begin{tcolorbox}
-\begin{lstlisting}[language=Python]
+\begin{minipage}{0.47\textwidth}
+\begin{lstlisting}[language=Python,style=mystyle]
 import gymnasium as gym
 
 env = gym.make("MountainCar")
@@ -87,13 +86,11 @@ while not done:
     infos = env.step(action)
     done = terminated or truncated
 \end{lstlisting}
-\end{tcolorbox}
 \caption{Unfolded linear policy interacting with an environment.}\label{lst:unfolded-linear}
 \end{minipage}
 \hfill
-\begin{minipage}{0.505\textwidth}
-\begin{tcolorbox}
-\begin{lstlisting}[language=Python]
+\begin{minipage}{0.47\textwidth}
+\begin{lstlisting}[language=Python,style=mystyle]
 def play(x):
     h_layer_0_0 = 1.238*x[0]+0.971*x[1]
                   +0.430*x[2]+0.933
@@ -117,7 +114,6 @@ def play(x):
     y_0 = h_layer_2_0
     return [y_0]
 \end{lstlisting}
-\end{tcolorbox}
 \caption{Tiny rely neural network for Pendulum.}\label{lst:generic-linear}
 \end{minipage}
 \end{figure}

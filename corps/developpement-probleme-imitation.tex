@@ -21,7 +21,7 @@ Furthermore, if policies are already available for some MDPs, we can simply re-u
 Linear Policies & Determined by state-action dimensions & Linear/Logistic Regression \\
 Decision Trees & [4, 8, 16, 64, 128] nodes & CART \\
 Oblique Decision Trees & [4, 8, 16, 64, 128] nodes & CART \\
-ReLU neural networks & [2$\times$2, 4$\times$4, 8$\times$8, 16$\times$16] weigths & Gradient descent with Adam optimizer \\
+relu neural networks & [2$\times$2, 4$\times$4, 8$\times$8, 16$\times$16] weigths & SGD \\
 \hline
 \end{tabular}
 \caption{Summary of policy classes parameters and supervised learning algorithms to fit experts.}
@@ -36,7 +36,10 @@ Oblique decision trees are decision trees which does not necessarily partitions 
 A test node in an oblique decision tree can be the linear combinations of two state features. 
 We train trees using the default CART (Algorithm~\ref{alg:cart} ~\cite{breiman1984clasification}) implementation of scikit-learn with varying numbers of parameters (number of nodes in the tree).
 We explain in more details how we adapt CART to return oblique decision trees in Appendix~\ref{chap-app-imit}.
-We also consider neural networks with ReLU activations~\cite{relunet} with varying number of parameters (total number of weights).
+We also consider neural networks with relu activations~\cite{relunet} with varying number of parameters (total number of weights).
+
+In Table~\ref{tab:policy-classes} we summarize the different policy classes we will consider for our study.
+There is one class of linear policies, five classes of decision trees and oblique decision trees, each defined by the maximum number of nodes in the tree, and four classes or relu networks each defined by the number and sizes of hidden layers.
 
 \subsection{Which expert policies to imitate with what algorithm?}
 We do not have to re-run deep reinforcement learning algorithms \cite{dqn,ppo,deep-rl-relu1}, we can simply use the pre-trained policies from the stables-baselines3 zoo \cite{zoo} and try our methodology to evaluate their interpretability.
@@ -48,14 +51,15 @@ All experts are compatible with Dagger~\cite{dagger}.
 We also consider an additional imitation learning algorithm: behaviour cloning (BC)~\cite{behaviour-cloning}.
 BC is essentially just one iteration of Dagger imitation i.e. samples are only collected with the expert policy once before fitting a new poicy class.
 For Dagger and VIPER we use 10 iterations of samples collections with experts and teacher policy (cf. Algorithms~\ref{dagger} and~\ref{viper}) with different total samples budget.
+In Table~\ref{tab:repet-distill}, we summarize the different algorithms used to imitate each expert.
+We also specify the total number of samples collected during the imitations as well as the number of times we repet the imitations for statistical significance.
 
-  
 \begin{table}
   \centering
   \footnotesize
   \begin{tabular}{c|cccccc}
   \toprule
-  Envs & BC & BC & DAgger & DAgger & $Q$ & $Q$-DAgger\\
+  Envs & BC & BC & Dagger & Dagger & VIPER & VIPER\\
    & 50K & 100K & 50K & 100K & 50K & 100K\\
   \midrule
   Classic& 50 (PPO, DQN)& 50 (PPO, DQN)& 50 (PPO, DQN)& 50 (PPO, DQN)&  50 (DQN) & 50 (DQN)\\
@@ -63,7 +67,7 @@ For Dagger and VIPER we use 10 iterations of samples collections with experts an
   Mujoco& 10 (SAC)& 10 (SAC)& 10 (SAC)& 10 (SAC)&  0 & 0\\
   \bottomrule
   \end{tabular}
-  \caption{Repetitions of each imitation learning algorithm on each environment. We specify which deep reinforcement learning agent from the zoo~\citep{zoo} uses as experts in parentheses.}
+  \caption{Repetitions of each imitation learning algorithm on each environment. We specify from which deep RL algorithms expert policies from the zoo~\citep{zoo} come from in parentheses.}
   \label{tab:repet-distill}
 \end{table}
 
@@ -71,6 +75,12 @@ For Dagger and VIPER we use 10 iterations of samples collections with experts an
 We evaluate the interpretability of policies for common environments in reinforcement learning research.
 We consider the classic control tasks from gymnasium \cite{gymnasium}, MuJoCo robots from \cite{mujoco}, and Atari games from \cite{atari}.
 For Atari games, since the state space is frame pixels that can't be interpreted, we use the object-centric version of the games from \cite{ocatari} in which states are objects in the frame and their positions.
+
+In Table~\ref{tab:envs}, we summarize which environment we consider with their state-action space sizes and a threshold representing the rewards of a ``good'' policy.
+In total, we compute across policy classes, imitation algorithms, experts origins, and environments, roughly 40 000 unique policies.
+
+Using those 40 000 policies as baselines, we describe next the experimental setup used to evaluate their interpretability using our methodology.
+All the experiments presented next run on a dedicated cluster of Intel Xeon Gold 6130 (Skylake-SP), 2.10GHz, 2 CPUs/node, 16 cores/CPU with a timeout of 4 hours per experiment.
 
 \begin{table}[ht]
   \centering
@@ -81,10 +91,10 @@ For Atari games, since the state space is frame pixels that can't be interpreted
   \hline
   CartPole (4, 2, \textbf{490}) & Swimmer (8, 2, \textbf{300}) & Breakout (452, 4, \textbf{30})\\
   LunarLander (8, 4, \textbf{200}) & Walker2d (17, 6, \textbf{2000}) & Pong (20, 6, \textbf{14})\\
-  LunarLanderContinuous (8, 2, \textbf{200}) & HalfCheetah (17, 6, \textbf{3000}) & SpaceInvaders (188, 6, \textbf{680})\\
+  //    Continuous (8, 2, \textbf{200}) & HalfCheetah (17, 6, \textbf{3000}) & SpaceInvaders (188, 6, \textbf{680})\\
   BipedalWalker (24, 4, \textbf{250}) & Hopper (11, 3, \textbf{2000}) & Seaquest (180, 18, \textbf{2000})\\
   MountainCar (2, 3, \textbf{90}) & \\
-  MountainCarContinuous (2, 1, \textbf{-110}) & \\
+  //    Continuous (2, 1, \textbf{-110}) & \\
   Acrobot (6, 3, \textbf{-100}) & \\
   Pendulum (3, 1, \textbf{-400}) & \\
   \hline
@@ -95,10 +105,9 @@ For Atari games, since the state space is frame pixels that can't be interpreted
 
 
 \section{Running the imitation learning algorithms}
-All the experiments presented next run on a dedicated cluster of Intel Xeon Gold 6130 (Skylake-SP), 2.10GHz, 2 CPUs/node, 16 cores/CPU with a timeout of 4 hours per experiment.
-Using Algorithm \ref{alg:distill}, we distill deep neural network expert policies into less complex policy classes.
-
-In this section, we present the results of the expert distillation into smaller policies. For each environment, we fit all the policy classes. To do so, we run different instantiations of Algorithm \ref{alg:distill} multiple times with different total sample sizes. For each environment and each imitation learning variant, we summarize the number of times we fit all the baselines to an expert and which expert we use. The number of runs and imitation algorithm variants of Algorithm \ref{alg:distill} are summarized in Appendix \ref{tab:repet-distill}. After running the imitation learnings, we obtain roughly 40000 baseline policies (35000 for classic control, 5000 thousands for MuJoCo and 400 for OCAtari). A dataset with all the baselines measurements is given in the supplementary material.
+Using the reinforcement learning evaluation library rliable~\cite{rliable}, we plot on Figure \ref{fig:performance_comparison} the interquartile means (IQM, an estimator of the mean robust to outliers) of the baseline policies cumulative rewards averaged over 100 episodes.
+For each imitation algorithm variant, we aggregate cumulative rewards over environments and policy classes.
+We normalize the baselines cumulative rewards between expert and random agent cumulative rewards.
 
 \begin{figure}[ht]
 \centering
@@ -125,9 +134,11 @@ In this section, we present the results of the expert distillation into smaller 
 \end{figure}
 
 \subsection{What is the best imitation algorithm?}
-Even though the focus of our work is to evaluate trained policies, we still provide some insights on the best way to obtain interpretable policies from experts. Using the reinforcement learning evaluation library rliable~\cite{rliable}, we plot on Figure \ref{fig:performance_comparison} the interquartile means (IQM, an estimator of the mean robust to outliers) of the baseline policies cumulative rewards averaged over 100 episodes. For each imitation algorithm variant, we aggregate cumulative rewards over environments and policy classes. We normalize the baselines cumulative rewards between expert and random agent cumulative rewards.
 
-The key observation is that for tested environments (Figures \ref{fig:ppo_classic},\ref{fig:sac_mujoco}), Behavior Cloning is not an efficient way to train baseline policies compared to DAgger. This is probably because Behavior Cloning trains a student policy to match the expert's actions on states visited by the expert while DAgger trains a student to take the expert's actions on the states visited by the student~\cite{dagger}. An other observation is that the best performing imitation algorithms for MuJoCo (DAgger, Figure \ref{fig:sac_mujoco}) and OCAtari ($Q$-Dagger, Figure \ref{fig:dqn_atari}) obtain baselines that in average cannot match well the performances of the experts. However baseline policies almost always match the expert on simple tasks like classic control (Figure \ref{fig:ppo_classic}).
+The key observation is that for tested environments (Figures \ref{fig:ppo_classic},\ref{fig:sac_mujoco}), behavior cloning is not an efficient way to train baseline policies compared to Dagger.
+This is probably because BC trains a policy to match the expert's actions on states visited by the expert, while Dagger trains a policy to take the expert's actions on the states visited by the trained policy~\cite{dagger}.
+An other observation is that the best performing imitation algorithms for MuJoCo (Dagger, Figure \ref{fig:sac_mujoco}) and OCAtari (VIPER, Figure \ref{fig:dqn_atari}) obtain baselines that in average cannot match well the performances of the experts.
+However baseline policies almost always match the experts on simple tasks like classic control (Figure \ref{fig:ppo_classic}).
 
 \subsection{What is the best policy class in terms of reward?}
 
@@ -138,7 +149,11 @@ The key observation is that for tested environments (Figures \ref{fig:ppo_classi
     \label{fig:perf-combined}
 \end{figure}
 
-We also wonder if there is a policy class that matches expert performances more often than others across environments. For that we plot performance profiles of the different policy classes obtained with a fixed expert and fixed imitation learning algorithm. In particular, for each environments group we use the baseline policies obtained from the best performing imitation learning algorithm from Figure \ref{fig:performance_comparison}. From Figure \ref{fig:perf-combined} we see that on classic control environments, neural networks tend to perform better than other classes while on OCAtari games, trees tend to perform better than other classes. Now we move on to interpretability evaluation of our programmatic policies.
+We also wonder if there is a policy class that matches expert performances more often than others across environments.
+For that we plot performance profiles of the different policy classes obtained with a fixed expert and fixed imitation learning algorithm.
+In particular, for each environments group we use the baseline policies obtained from the best performing imitation learning algorithm from Figure \ref{fig:performance_comparison}.
+From Figure \ref{fig:perf-combined} we see that on classic control environments, neural networks tend to perform better than other classes while on OCAtari games, trees tend to perform better than other classes.
+Now we move on to the interpretability evaluation.
 
 \section{Is our methodology sound with respect to user studies?}
 
@@ -149,9 +164,32 @@ We also wonder if there is a policy class that matches expert performances more 
     \label{fig:abl-proxies}
 \end{figure}
 
-In this section, we compute the step inference times, as well as the policy size for both the folded and unfolded variant of each policy obtained for classic control environments with DAgger-100K. To unfold policies, we convert them into Python programs formatted with PEP 8 (comparing other unfolding formats such as ONNX \url{https://github.com/onnx/onnx} is left to future work). We ensure that all policies operations are performed sequentially and compute the metrics for each policy on 100 episodes using the same CPUs.
+In this section, we compute the step inference times, as well as the policy size for both the folded and unfolded variant of each policy (cf. Sec.~\ref{sec:unfold}) obtained for classic control environments with Dagger-100K.
+To unfold policies, we convert them into Python programs formatted with PEP 8 (comparing other unfolding formats such as ONNX \url{https://github.com/onnx/onnx} is left to future work).
+We ensure that all policies operations are performed sequentially, similarly to how a humand would operate, and compute the metrics for each policy on 100 episodes using the same CPUs.
 
-\subsection{Is it necessary to unfold policies to compute interpretability metrics?} We see on Figure \ref{fig:abl-proxies} that folded policies of the same class almost always give similar interpretability values (dotted lines) despite having very different number of parameters. Hence, measuring folded policies interpretability would contradict established results from user studies such as, e.g., trees of different sizes have different levels of interpretability~\cite{study-4}. 
+\subsection{Is it necessary to unfold policies to compute interpretability metrics?}
+We see on Figure \ref{fig:abl-proxies} that folded policies of the same class almost always give similar interpretability values (dotted lines) despite having very different number of parameters.
+Hence, measuring folded policies interpretability would contradict established results from user studies such as, e.g., trees of different sizes have different levels of interpretability~\cite{study-4}. 
 
 \subsection{Is there a best policy class in terms of interpretability?}
-User studies from~\cite{study-1,study-2,study-3} show that decision trees are easier to understand than models involving mathematical equations like oblique trees, linear maps, and neural networks. However,~\cite{mythos} states that for a human wanting to have a global idea of the inference of a policy, a compact neural network can be more interpretable than a very deep decision tree. In Figure \ref{fig:abl-proxies}, we show that inference speed and memory size of programs help us capture those nuances: policy interpretability does not only depend on the policy class but also on the metric choice. Indeed, when we measure interpretability with inference times, we do observe that trees are more interpretable than neural networks. However, when measuring interpretability with policy size, we observe that neural networks can be more interpretable than trees for similar number of parameters. Because there seem to not be a more interpretable policy class across proxy metrics, we will keep studying both metrics at the same time.
+User studies from~\cite{study-1,study-2,study-3} show that decision trees are easier to understand than models involving mathematical equations like oblique trees, linear maps, and neural networks.
+However,~\cite{mythos} states that for a human wanting to have a global idea of the inference of a policy, a compact neural network can be more interpretable than a very deep decision tree.
+In Figure \ref{fig:abl-proxies}, we show that inference speed and memory size of unfolded policies help us capture those nuances: policy interpretability does not only depend on the policy class but also on the metric choice.
+Indeed, when we measure interpretability with inference times, we do observe that trees are more interpretable than neural networks.
+However, when measuring interpretability with policy size, we observe that neural networks can be more interpretable than trees for similar number of parameters.
+Because there seem to not be a more interpretable policy class across proxy metrics, we will keep studying both metrics at the same time.
+
+\section{Discussion}
+\begin{figure}
+  \center
+  \includegraphics[trim={0 0 22cm 0},clip,width=0.7\textwidth]{images/images_part3/dis_mujoco+f_atari.pdf}
+  \caption{State features importance for MuJoCo environments given by medium-sized oblique decision trees.}\label{fig:mujoco-feat}
+\end{figure}
+To validate the methodology proposed in the previous chapter, we distillated pre-trained experts neural networks into various less complex policies with imitation learning.
+We obtain diverse baselines policies for diverse environment obtained from diverse experts and imitation learning algorithms.
+We open source the best policy of each class on each environment here:~\url{https://github.com/KohlerHECTOR/interpretable-rl-zoo}.
+We hope that those transparent policies can help teaching and research in sequential decision making.
+One direct use of those baselines could be to look, for each environment, what are the important state features to control the MDPs.
+We give an example of the MuJoCo feature importances obtain with a medium-sized oblique decision tree in Figure~\ref{fig:mujoco-feat}
+In the next chapter, we keep only those open source baselines and study how they trade off our metrics of interpretability and the RL objective~\ref{def:mdp-obj}.
