@@ -26,7 +26,7 @@ Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP~\ref{def:mdp}.
 Let us define explicitely a partially observable iterative bounding Markove decision process (POIBMDP). It is essentially an IBMDP extended with an observation space and an observation kernel:
 \begin{definition}[Partially Observable Iterative Bounding Markov Decision Processes]\label{def:poibmdp} a partially observable iterative bounding Markov decision process $\mathcal{M}_{POIB}$
     \begin{align*}
-        \langle \overbrace{S\times \underbrace{O}_{\text{Observations}}}^{\text{full states}}, \underbrace{A\cup A_{info}}_{Action space}, \overbrace{(R, \zeta)}^{Rewards}, \underbrace{(T_{info}, T, T_0)}_{Transitions}, \Omega \rangle
+        \langle \overbrace{S\times O}^{\text{full states}}, \underbrace{A\cup A_{info}}_{Action space},\overbrace{O}_{\text{Observations}} ,\underbrace{(R, \zeta)}^{Rewards}, \overbrace{(T_{info}, T, T_0)}_{Transitions}, \Omega \rangle
     \end{align*}
     Note that $\langle S\times O, A\cup A_{\info}, (R, \zeta),( T, T_0, T_{info})\rangle$ is an IBMDP~\ref{def:ibmdp}.
     The transition kernel $\Omega$ maps state features and observations to observations, $\Omega:S\times O \rightarrow O$, with $P(\boldsymbol{o}|(\boldsymbol{s}, \boldsymbol{o}))=1$ 
@@ -64,9 +64,9 @@ We summarized the approach in Figure~\ref{fig:summary-rl}
 \centering
 \begin{tikzpicture}
     \draw[fill=blue!40] (0, 0) rectangle (6, 4);
-    \node at (3, 3.5) {POIBMDP $\mathcal{M}_{POIB}\langle\mathcal{M}_{IB}, \Omega\rangle$};
+    \node at (3, 3.5) {POIBMDP $\mathcal{M}_{POIB}\langle\mathcal{M}_{IB}, O, \Omega\rangle$};
     \draw[fill=blue!30] (0, 0) rectangle (5.9, 3);
-    \node at (3, 2.5) {IBMDP $\mathcal{M}_{IB} \langle \mathcal{M}, O, A_{info}, \zeta, T_{info}\rangle$};
+    \node at (3, 2.5) {IBMDP $\mathcal{M}_{IB} \langle \mathcal{M}, A_{info}, \zeta \rangle$};
     \draw[fill=blue!10] (0, 0) rectangle (5, 2);
     \node at (3, 1.5) {MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$};
     

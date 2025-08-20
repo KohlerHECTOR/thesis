@@ -73,15 +73,18 @@ Next, we compare our proxies for interpretability with another one; the verifica
 
 
 \subsection{Verifying interpretable policies}
-\cite{lens-complexity} states that the cost of formally verifying properties of MLPs scales exponentially with the number of the parameters.
-Hence, they propose to measure interpretability of a policy as the computations required to verify properties of actions given state subspaces, what they call local explainability queries \cite{query}.
-Before \cite{lens-complexity}, \cite{viper} also compared the time to formally verified properties of trees to the time to verify properties of MLPs to evaluate interpretability.
-In practice, this amounts to passing states and actions bounds and solving the SAT problem of finding a state in the state bounds for which the policy outputs an action in the action bounds.
-For example, for the LunarLander problem, a query could be to verify if when the y-position of the lander is below some threshold value, i.e, when the lander is close to the ground, there exists a state such that the tested policy would output the action of pushing towards the ground: if the solver outputs ``SAT'', then there is a risk that the lander crashes. 
+\cite{lens-complexity} states that the cost of formally verifying properties of a relu neural network scales exponentially with the number of parameters (hidden units).
+Hence, they propose to measure interpretability of a policy as the computations required to verify properties of actions given state features subspaces, what they call local explainability queries \cite{query}.
+Interestingly, VIPER (Alg.~\ref{alg:viper},~\cite{viper}) was designed in hope to get policies tht were easy to verify.
+In practice, this amounts to passing a subspace of state feaures and a subspace of (continuous) action features and solving the SAT problem of finding at least one state in the subspace for which the policy outputs an action in the action subspace.
+For example, for the LunarLander problem, a verification query could be to verify if when the y-position of the lander is below some threshold value, i.e, when the lander is close to the ground, there exists a state such that the tested policy would output the action of pushing towards the ground: if the solver returns \texttt{True}, then there is a risk that the lander crashes when deployed because it might push towards the ground even at low altitude.
 
-Designing interesting queries covering all risks is an open problem, hence to evaluate the verification times of our baseline policies, we generate 500 random queries per environment by sampling state and action subspaces uniformily.
-Out of those queries we only report the verification times of ``UNSAT'' queries since to verify that, e.g., the lander does not crash we want the queries mentioned above to be ``UNSAT''.
-We also only verify instances of ReLU MLPs using \cite{maraboupy} for this experiment as verifying decision trees requires a different software \cite{z3} for which verification times would not be comparable.
+Designing interesting queries covering all risks is an open problem, hence to evaluate the verification times of our best in class policies, we generate 500 random queries per environment by sampling state and action subspaces uniformily.
+Out of those queries we only report the verification times of UNSAT queries since to verify that, e.g., the lander does not crash we want the example query mentioned above to be UNSAT.
+We also only verify instances of neural netowrks and linear policies using the solver~\cite{maraboupy} for this experiment as verifying decision trees requires a different software~\cite{z3} for which verification times would not be comparable.
+We verify each policy using the same verification algorithm with the same hyperparameters and queries on the same CPU to obtain faire measurements of verification times.
+We leave it to future work to write decision tree policies as relu networks to then compare their verification times fairly.
+Indeed it is known that oblique decision trees can be written as a relu neural networks~\cite{Lee2020Oblique}.
 
 \begin{figure}[ht]
     \centering
@@ -90,7 +93,7 @@ We also only verify instances of ReLU MLPs using \cite{maraboupy} for this exper
     \label{fig:trade-off-verif}
 \end{figure}
 
-On Figure \ref{fig:trade-off-verif}, we can observe that verification time decreases exponentially with MLP interpretability, both memory and inference speed, as shown in \cite{lens-complexity}.
+On Figure \ref{fig:trade-off-verif}, we can observe that verification time decreases exponentially with our measures of interpretability as shown theoretically in \cite{lens-complexity}.
 This is another good validation of our proposed methodology as well as a motivation to learn interpretable policies. 
 
 \section{Limitations and conclusions}\label{sec:ccl}

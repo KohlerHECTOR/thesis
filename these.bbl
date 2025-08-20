@@ -2972,6 +2972,39 @@
       \field{pages}{541\bibrangedash 551}
       \range{pages}{11}
     \endentry
+    \entry{Lee2020Oblique}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=3b7cccd175df0f79095555444a298746}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Guang-He},
+           giveni={G\bibinithyphendelim H\bibinitperiod}}}%
+        {{hash=1ebba49b22f851536356de9d887f66dc}{%
+           family={Jaakkola},
+           familyi={J\bibinitperiod},
+           given={Tommi\bibnamedelima S.},
+           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{74376a2993037fa629dd2c74561a249f}
+      \strng{fullhash}{74376a2993037fa629dd2c74561a249f}
+      \strng{bibnamehash}{74376a2993037fa629dd2c74561a249f}
+      \strng{authorbibnamehash}{74376a2993037fa629dd2c74561a249f}
+      \strng{authornamehash}{74376a2993037fa629dd2c74561a249f}
+      \strng{authorfullhash}{74376a2993037fa629dd2c74561a249f}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International Conference on Learning Representations}
+      \field{title}{Oblique Decision Trees from Derivatives of ReLU Networks}
+      \field{year}{2020}
+      \verb{urlraw}
+      \verb https://openreview.net/forum?id=Bke8UR4FPB
+      \endverb
+      \verb{url}
+      \verb https://openreview.net/forum?id=Bke8UR4FPB
+      \endverb
+    \endentry
     \entry{driving}{thesis}{}
       \name{author}{1}{}{%
         {{hash=7b53512730787663ca2ecd7377cdf557}{%
