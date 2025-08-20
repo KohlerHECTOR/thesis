@@ -5233,48 +5233,6 @@
       \verb https://arxiv.org/abs/1902.03501
       \endverb
     \endentry
-    \entry{sparsity}{misc}{}
-      \name{author}{3}{}{%
-        {{hash=e91826b1ae2324de835ec5cd2fdbc17d}{%
-           family={Soligo},
-           familyi={S\bibinitperiod},
-           given={Anna},
-           giveni={A\bibinitperiod}}}%
-        {{hash=a18f4da5c1736a6d71a3d283f588340e}{%
-           family={Ferraro},
-           familyi={F\bibinitperiod},
-           given={Pietro},
-           giveni={P\bibinitperiod}}}%
-        {{hash=dfe6db4ce7ff47b487ba93ea2af5f991}{%
-           family={Boyle},
-           familyi={B\bibinitperiod},
-           given={David},
-           giveni={D\bibinitperiod}}}%
-      }
-      \strng{namehash}{84314ac5a86449ea594d2b7d6e369586}
-      \strng{fullhash}{84314ac5a86449ea594d2b7d6e369586}
-      \strng{bibnamehash}{84314ac5a86449ea594d2b7d6e369586}
-      \strng{authorbibnamehash}{84314ac5a86449ea594d2b7d6e369586}
-      \strng{authornamehash}{84314ac5a86449ea594d2b7d6e369586}
-      \strng{authorfullhash}{84314ac5a86449ea594d2b7d6e369586}
-      \field{sortinit}{S}
-      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{cs.LG}
-      \field{eprinttype}{arXiv}
-      \field{title}{Induced Modularity and Community Detection for Functionally Interpretable Reinforcement Learning}
-      \field{year}{2025}
-      \verb{eprint}
-      \verb 2501.17077
-      \endverb
-      \verb{urlraw}
-      \verb https://arxiv.org/abs/2501.17077
-      \endverb
-      \verb{url}
-      \verb https://arxiv.org/abs/2501.17077
-      \endverb
-    \endentry
     \entry{somepalli2021saintimprovedneuralnetworks}{article}{}
       \name{author}{5}{}{%
         {{hash=04f28f61b8bde3c985b241a85f05c4c9}{%
@@ -6230,44 +6188,6 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/2401.14461
-      \endverb
-    \endentry
-    \entry{hierarchical}{article}{}
-      \name{author}{3}{}{%
-        {{hash=19735589a5ef6dcdef775bed855af4aa}{%
-           family={Zhang},
-           familyi={Z\bibinitperiod},
-           given={Jesse},
-           giveni={J\bibinitperiod}}}%
-        {{hash=a2758999045ba18a17161e93cd7525ae}{%
-           family={Yu},
-           familyi={Y\bibinitperiod},
-           given={Haonan},
-           giveni={H\bibinitperiod}}}%
-        {{hash=b1dd1a9ff59cc6aeba590fc68bcc39cf}{%
-           family={Xu},
-           familyi={X\bibinitperiod},
-           given={Wei},
-           giveni={W\bibinitperiod}}}%
-      }
-      \strng{namehash}{c3926dda2031efd42ec7b8a71a1fb568}
-      \strng{fullhash}{c3926dda2031efd42ec7b8a71a1fb568}
-      \strng{bibnamehash}{c3926dda2031efd42ec7b8a71a1fb568}
-      \strng{authorbibnamehash}{c3926dda2031efd42ec7b8a71a1fb568}
-      \strng{authornamehash}{c3926dda2031efd42ec7b8a71a1fb568}
-      \strng{authorfullhash}{c3926dda2031efd42ec7b8a71a1fb568}
-      \field{sortinit}{Z}
-      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{International Conference on Learning Representations}
-      \field{title}{Hierarchical Reinforcement Learning by Discovering Intrinsic Options}
-      \field{year}{2021}
-      \verb{urlraw}
-      \verb https://openreview.net/forum?id=r-gPPHEjpmw
-      \endverb
-      \verb{url}
-      \verb https://openreview.net/forum?id=r-gPPHEjpmw
       \endverb
     \endentry
     \entry{9534446}{article}{}

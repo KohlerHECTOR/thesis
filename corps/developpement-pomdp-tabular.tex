@@ -26,13 +26,13 @@ Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP~\ref{def:mdp}.
 Let us define explicitely a partially observable iterative bounding Markove decision process (POIBMDP). It is essentially an IBMDP extended with an observation space and an observation kernel:
 \begin{definition}[Partially Observable Iterative Bounding Markov Decision Processes]\label{def:poibmdp} a partially observable iterative bounding Markov decision process $\mathcal{M}_{POIB}$
     \begin{align*}
-        \langle \overbrace{S\times O}^{\text{full states}}, \underbrace{A\cup A_{info}}_{Action space},\overbrace{O}_{\text{Observations}} ,\underbrace{(R, \zeta)}^{Rewards}, \overbrace{(T_{info}, T, T_0)}_{Transitions}, \Omega \rangle
+        \langle \overbrace{S\times O}^{\text{States}}, \underbrace{A\cup A_{info}}_{Action space},\overbrace{O}_{\text{Observations}} ,\underbrace{(R, \zeta)}^{Rewards}, \overbrace{(T_{info}, T, T_0)}_{Transitions}, \Omega \rangle
     \end{align*}
     Note that $\langle S\times O, A\cup A_{\info}, (R, \zeta),( T, T_0, T_{info})\rangle$ is an IBMDP~\ref{def:ibmdp}.
     The transition kernel $\Omega$ maps state features and observations to observations, $\Omega:S\times O \rightarrow O$, with $P(\boldsymbol{o}|(\boldsymbol{s}, \boldsymbol{o}))=1$ 
 \end{definition}
 
-One can see POIBMDPs as particular instances of POMDPs where the observation kernel simply applies a mask over some features of the full state.
+One can see POIBMDPs as particular instances of POMDPs where the observation kernel simply applies a mask over some features of the state.
 This setting has other names in the litterature.
 For example, POIBMDPs are Mixed Observability MDPs \cite{momdp} with base MDP state features as the \textit{hidden variables} and feature bounds as \textit{visible} variables.
 POIBMDPs can also be seen as non-stationary MDPs (N-MDPS)~\cite{learning-pomdp} in which there is one different transition kernel per base MDP state: these are called Hidden-Mode MDPs~\cite{hmmdp}. 
@@ -229,7 +229,7 @@ We can now define a POIBMDP with the grid wolrd (\ref{example:grid}) as the base
 \subsection{Reinforcement Learning in PO(IB)MDPs}
 
 In general, the policy that maximizes the expected discounted cumulative reward in a POMDP maps ``belief states'' or observations histories~\cite{chap2} to actions, i.e., those policies are not solutions to our problem since we require that policies depend only on the current observation.
-If we did not have this constraint, we could apply any standard RL algorithm to solve POIBMDPs by seeking such policies because both histories and belief states are sufficient statistic for POMDPs full states~\cite{chap2,lambrechts2025informed}.
+If we did not have this constraint, we could apply any standard RL algorithm to solve POIBMDPs by seeking such policies because both histories and belief states are sufficient statistic for POMDPs hidden states~\cite{chap2,lambrechts2025informed}.
 
 The particular, the problem of finding the optimal deterministic partially observable policies for POMDPs is NP-HARD, even with full knowledge of transitions and rewards~\cite[Section 3.2]{littman1}. 
 
@@ -245,8 +245,8 @@ Indeed, doing a TD-learning update of one partially observable value~\ref{def:vp
 
 Despite those hardness results, empirical results of applying RL to POMDPs by naively replacing $\boldsymbol{x}$ by $\boldsymbol{o}$ in Q-learning or Sarsa, has already demonstrated successful in practice~\cite{sarsa-pomdp}. 
 More recently, the framework of Baisero et. al. called asymmetric RL~\cite{baisero-dqn,baisero-ppo} has also shown promising results to learn POMDP solutions.
-Asymmetric RL trains a full-state-dependent model and a history-dependent (or observation-dependent) model informed by the former.
-The history-dependent (or observation-dependent) model can thus be deplyed in the POMDP after training since it does not require access to the hidden full state to output actions.
+Asymmetric RL trains a model depending on hidden states (only available at train time) and a history-dependent (or observation-dependent) model informed by the former.
+The history-dependent (or observation-dependent) model can thus be deplyed in the POMDP after training since it does not require access to the hidden state to output actions.
 In Algorithms~\ref{alg:asymqlearning} and~\ref{alg:asymsarsa} we present asymmetric Q-learning and asymmetric Sarsa. Given a POMDP, both train an observation-dependet Q-function $Q:O\times A\rightarrow\mathbb{R}$ and a state-dependent Q-function $U:X\times A\rightarrow\mathbb{R}$.
 
 In~\cite{jsj}, authors introduce a policy search algorithm~\ref{sec:rl} that learns a (stochastic) policy $\pi:O\rightarrow\Delta A$ and a critic $V:X\rightarrow \mathbb{R}$ using Monte Carlo estimates to guide policy improvement.
@@ -418,8 +418,8 @@ Next, we quantify how difficult it is to do RL to learn partially observable pol
 In this section we run the same (asymmetric) reinforcement learning algorithms to optimize either the RL objective (\ref{def:mdp-obj}) in MDPs (\ref{def:mdp}) or IBMDPs (\ref{def:ibmdp}), or the interpretable RL objective in POIBMDPs~\ref{def:revised}.
 This essentially results in three disctint problems:
 \begin{enumerate}
-    \item Learning an optimal deterministic state-dependent policy in MDPs.
-    \item Learning an optimal deterministic full-state-dependent policy in IBMDPs.
+    \item Learning an optimal deterministic policy in MDPs.
+    \item Learning an optimal deterministic policy in IBMDPs.
     \item Learning an optimal deterministic partially observable policy in POIBMDPs.
 \end{enumerate}
 
@@ -452,7 +452,7 @@ Epsilon Schedules & (0.3, 1), (0.3, 0.99), (1, 1) & Initial exploration and decr
 Epsilon Schedules & (0.1, 1), (0.1, 0.99), (0.3, 0.99) & Initial exploration and decrease rate \\
 Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
 Learning Rate $U$ & 0.001, 0.005, 0.01, 0.1 & learning rate for \\
- & & the full-state-dependent Q-function \\
+ & & the Q-function \\
 Learning Rate $Q$ & 0.001, 0.005, 0.01, 0.1 & learning rate for the \\
  & & partial observation dependent Q-function \\
 Optimistic & True, False & Optimistic initialization \\
