@@ -3,10 +3,10 @@
 In this chapter, we validate our methodology to evaluate the interpretability.
 In particular we verify that our methodology that relies on policy unfolding can retrieve conclusions from user studies, e.g. we want that our measures of interpretability to change with parameter number inside a given policy class.
 
-Because in this part of the manuscript we do evaluate learning capabilities of interpretable machine learning algorithms but solely their outputs, we use indirect imitation learning (cf. Sec.~\ref{sec:il}) to obtain policies from different classes.
+Because in this part of the manuscript we do evaluate learning capabilities of interpretable machine learning algorithms but solely their outputs, we use indirect imitation learning (cf. section~\ref{sec:il}) to obtain policies from different classes.
 Imitation learning is a great baseline to obtain policies from different classes.
-Indeed, as long as there exists a supervised learning algorithm for a given model class, this algorithm can be used in e.g. Algorithms~\ref{alg:dagger} or~\ref{alg:viper} to distillate the behaviour of any expert policy into the desired policy class. 
-Furthermore, if policies are already available for some MDPs, we can simply re-use them as experts in e.g. Algorithms~\ref{alg:dagger} or~\ref{alg:viper}.
+Indeed, as long as there exists a supervised learning algorithm for a given model class, this algorithm can be used in e.g. algorithms~\ref{alg:dagger} or~\ref{alg:viper} to distillate the behaviour of any expert policy into the desired policy class. 
+Furthermore, if policies are already available for some MDPs, we can simply re-use them as experts in e.g. algorithms~\ref{alg:dagger} or~\ref{alg:viper}.
 
 \section{Obtaining policies from different classes}
 
@@ -16,7 +16,7 @@ Furthermore, if policies are already available for some MDPs, we can simply re-u
 \small
 \begin{tabular}{lll}
 \hline
-\textbf{Policy Class} & \textbf{Parameters} & \textbf{Training Algorithm} \\
+\textbf{Policy Class} & \textbf{Parameters} & \textbf{Training algorithm} \\
 \hline
 Linear Policies & Determined by state-action dimensions & Linear/Logistic Regression \\
 Decision Trees & \{4, 8, 16, 64, 128\} nodes & CART \\
@@ -34,7 +34,7 @@ We fit linear policies to expert policies using simple linear (logistic) regress
 We also consider decision trees~\cite{breiman1984clasification} and oblique decision trees~\cite{murthy1994system}.
 Oblique decision trees are decision trees which does not necessarily partitions the input domain parallel to axes.
 A test node in an oblique decision tree can be the linear combinations of two state features.
-We give an example of an oblique decision tree unfolded for the Pong game in Figure~\ref{lst:pong}.
+We give an example of an oblique decision tree unfolded for the Pong game in figure~\ref{lst:pong}.
 \begin{figure}
   \centering
   \begin{minipage}{0.47\textwidth}
@@ -95,8 +95,8 @@ We give an example of an oblique decision tree unfolded for the Pong game in Fig
   \caption{The Pong game on Atari 2600.}\label{lst:generic-linear}
   \end{minipage}
   \end{figure}
-We train trees using the default CART (Algorithm~\ref{alg:cart} ~\cite{breiman1984clasification}) implementation of scikit-learn with varying numbers of parameters (number of nodes in the tree).
-We explain in more details how we adapt CART to return oblique decision trees in Appendix~\ref{chap-app-imit}.
+We train trees using the default CART (algorithm~\ref{alg:cart} ~\cite{breiman1984clasification}) implementation of scikit-learn with varying numbers of parameters (number of nodes in the tree).
+We explain in more details how we adapt CART to return oblique decision trees in appendix~\ref{chap-app-imit}.
 We also consider neural networks with relu activations~\cite{relunet} with varying number of parameters (total number of weights).
 
 In Table~\ref{tab:policy-classes} we summarize the different policy classes we will consider for our study.
@@ -111,7 +111,7 @@ We do not use PPO experts with VIPER either: despite working with discrete actio
 All experts are compatible with Dagger~\cite{dagger}.
 We also consider an additional imitation learning algorithm: behaviour cloning (BC)~\cite{behaviour-cloning}.
 BC is essentially just one iteration of Dagger imitation i.e. samples are only collected with the expert policy once before fitting a new poicy class.
-For Dagger and VIPER we use 10 iterations of samples collections with experts and teacher policy (cf. Algorithms~\ref{dagger} and~\ref{viper}) with different total samples budget.
+For Dagger and VIPER we use 10 iterations of samples collections with experts and teacher policy (cf. algorithms~\ref{dagger} and~\ref{viper}) with different total samples budget.
 In Table~\ref{tab:repet-distill}, we summarize the different algorithms used to imitate each expert.
 We also specify the total number of samples collected during the imitations as well as the number of times we repet the imitations for statistical significance.
 
@@ -166,7 +166,7 @@ All the experiments presented next run on a dedicated cluster of Intel Xeon Gold
 
 
 \section{Running the imitation learning algorithms}
-Using the reinforcement learning evaluation library rliable~\cite{rliable}, we plot on Figure \ref{fig:performance_comparison} the interquartile means (IQM, an estimator of the mean robust to outliers) of the baseline policies cumulative rewards averaged over 100 episodes.
+Using the reinforcement learning evaluation library rliable~\cite{rliable}, we plot on figure \ref{fig:performance_comparison} the interquartile means (IQM, an estimator of the mean robust to outliers) of the baseline policies cumulative rewards averaged over 100 episodes.
 For each imitation algorithm variant, we aggregate cumulative rewards over environments and policy classes.
 We normalize the baselines cumulative rewards between expert and random agent cumulative rewards.
 
@@ -190,16 +190,16 @@ We normalize the baselines cumulative rewards between expert and random agent cu
   \caption{OCAtari, DQN expert}
   \label{fig:dqn_atari}
 \end{subfigure}%
-\caption{Performance of imitation learning variants of Algorithm \ref{alg:distill} on different environments. We plot the 95\% stratified bootstrapped confidence intervals around the IQMs.}
+\caption{Performance of imitation learning variants of algorithm \ref{alg:distill} on different environments. We plot the 95\% stratified bootstrapped confidence intervals around the IQMs.}
 \label{fig:performance_comparison}
 \end{figure}
 
 \subsection{What is the best imitation algorithm?}
 
-The key observation is that for tested environments (Figures \ref{fig:ppo_classic},\ref{fig:sac_mujoco}), behavior cloning is not an efficient way to train baseline policies compared to Dagger.
+The key observation is that for tested environments (figures \ref{fig:ppo_classic},\ref{fig:sac_mujoco}), behavior cloning is not an efficient way to train baseline policies compared to Dagger.
 This is probably because BC trains a policy to match the expert's actions on states visited by the expert, while Dagger trains a policy to take the expert's actions on the states visited by the trained policy~\cite{dagger}.
-An other observation is that the best performing imitation algorithms for MuJoCo (Dagger, Figure \ref{fig:sac_mujoco}) and OCAtari (VIPER, Figure \ref{fig:dqn_atari}) obtain baselines that in average cannot match well the performances of the experts.
-However baseline policies almost always match the experts on simple tasks like classic control (Figure \ref{fig:ppo_classic}).
+An other observation is that the best performing imitation algorithms for MuJoCo (Dagger, figure \ref{fig:sac_mujoco}) and OCAtari (VIPER, figure \ref{fig:dqn_atari}) obtain baselines that in average cannot match well the performances of the experts.
+However baseline policies almost always match the experts on simple tasks like classic control (figure \ref{fig:ppo_classic}).
 
 \subsection{What is the best policy class in terms of reward?}
 
@@ -212,8 +212,8 @@ However baseline policies almost always match the experts on simple tasks like c
 
 We also wonder if there is a policy class that matches expert performances more often than others across environments.
 For that we plot performance profiles of the different policy classes obtained with a fixed expert and fixed imitation learning algorithm.
-In particular, for each environments group we use the baseline policies obtained from the best performing imitation learning algorithm from Figure \ref{fig:performance_comparison}.
-From Figure \ref{fig:perf-combined} we see that on classic control environments, neural networks tend to perform better than other classes while on OCAtari games, trees tend to perform better than other classes.
+In particular, for each environments group we use the baseline policies obtained from the best performing imitation learning algorithm from figure \ref{fig:performance_comparison}.
+From figure \ref{fig:perf-combined} we see that on classic control environments, neural networks tend to perform better than other classes while on OCAtari games, trees tend to perform better than other classes.
 Now we move on to the interpretability evaluation.
 
 \section{Is our methodology sound with respect to user studies?}
@@ -225,18 +225,18 @@ Now we move on to the interpretability evaluation.
     \label{fig:abl-proxies}
 \end{figure}
 
-In this section, we compute the step inference times, as well as the policy size for both the folded and unfolded variant of each policy (cf. Sec.~\ref{sec:unfold}) obtained for classic control environments with Dagger-100K.
+In this section, we compute the step inference times, as well as the policy size for both the folded and unfolded variant of each policy (cf. section~\ref{sec:unfold}) obtained for classic control environments with Dagger-100K.
 To unfold policies, we convert them into Python programs formatted with PEP 8 (comparing other unfolding formats such as ONNX \url{https://github.com/onnx/onnx} is left to future work).
 We ensure that all policies operations are performed sequentially, similarly to how a humand would operate, and compute the metrics for each policy on 100 episodes using the same CPUs.
 
 \subsection{Is it necessary to unfold policies to compute interpretability metrics?}
-We see on Figure \ref{fig:abl-proxies} that folded policies of the same class almost always give similar interpretability values (dotted lines) despite having very different number of parameters.
+We see on figure \ref{fig:abl-proxies} that folded policies of the same class almost always give similar interpretability values (dotted lines) despite having very different number of parameters.
 Hence, measuring folded policies interpretability would contradict established results from user studies such as, e.g., trees of different sizes have different levels of interpretability~\cite{study-4}. 
 
 \subsection{Is there a best policy class in terms of interpretability?}
 User studies from~\cite{study-1,study-2,study-3} show that decision trees are easier to understand than models involving mathematical equations like oblique trees, linear maps, and neural networks.
 However,~\cite{mythos} states that for a human wanting to have a global idea of the inference of a policy, a compact neural network can be more interpretable than a very deep decision tree.
-In Figure \ref{fig:abl-proxies}, we show that inference speed and memory size of unfolded policies help us capture those nuances: policy interpretability does not only depend on the policy class but also on the metric choice.
+In figure \ref{fig:abl-proxies}, we show that inference speed and memory size of unfolded policies help us capture those nuances: policy interpretability does not only depend on the policy class but also on the metric choice.
 Indeed, when we measure interpretability with inference times, we do observe that trees are more interpretable than neural networks.
 However, when measuring interpretability with policy size, we observe that neural networks can be more interpretable than trees for similar number of parameters.
 Because there seem to not be a more interpretable policy class across proxy metrics, we will keep studying both metrics at the same time.

@@ -1,12 +1,12 @@
 \chapter{Introduction}\label{sec:intro-pomdp}
 In the first part of the manuscript, we show that direct reinforcement learning of decision tree policies for MDPs, i.e. learning a decision tree that optimizes (\ref{def:mdp-obj}) is often very difficult.
-In particular, we provide some insights as to why it is so difficult and show that indirect imitation of a neural network policy (Sec. \ref{sec:imit}), while not optimizing (\ref{def:mdp-obj}) directly, often yields very good tree policies in practice.
+In particular, we provide some insights as to why it is so difficult and show that indirect imitation of a neural network policy (section \ref{sec:imit}), while not optimizing (\ref{def:mdp-obj}) directly, often yields very good tree policies in practice.
 
 This first part of the manuscript is organised as follows.
-In this Chapter we present, Topin et. al. \cite{topin2021iterative} framework for direct reinforcement learning of decision tree policies.
-In Chapter \ref{sec:topin}, we reproduce experiments from Topin et. al. where we compare direct deep reinforcement learning (Sec. \ref{sec:drl}) of decision tree policies to indirect imitation of a neural network policy with a decision tree for the simple CartPole MDP.
-In Chapter \ref{sec:pomdp}, we show that the direct approach proposed by Topin et. al. is equivalent to learning a deterministic memoryless policy for partially observable MDP (POMDP)\cite{POMDP,chap2} and show that this might be the biggest source of hardness.
-In Chapter \ref{sec:pomdp-classif}, we further support this claim by constructing special instances of Topin et. al. in which the POMDPs are virtually fully observable, and show that in those cases, direct reinforcement learning of decision tree works well.  
+In this chapter we present, Topin et. al. \cite{topin2021iterative} framework for direct reinforcement learning of decision tree policies.
+In chapter \ref{sec:topin}, we reproduce experiments from Topin et. al. where we compare direct deep reinforcement learning (section \ref{sec:drl}) of decision tree policies to indirect imitation of a neural network policy with a decision tree for the simple CartPole MDP.
+In chapter \ref{sec:pomdp}, we show that the direct approach proposed by Topin et. al. is equivalent to learning a deterministic memoryless policy for partially observable MDP (POMDP)\cite{POMDP,chap2} and show that this might be the biggest source of hardness.
+In chapter \ref{sec:pomdp-classif}, we further support this claim by constructing special instances of Topin et. al. in which the POMDPs are virtually fully observable, and show that in those cases, direct reinforcement learning of decision tree works well.  
 
 \section{Learning Decision Tree policies for MDPs}\label{related-work-pomdp}
 In the introductory example~\ref{sec:limits-il}, we have shown that imitation learning that optimizes the objective (\ref{def:il}) rather than the RL objective~\ref{def:mdp-obj}, are, unsuprisingly, prone tosub-optimality w.r.t. the lattter objective.
@@ -14,7 +14,7 @@ This motivates the study and development of \textit{direct} decision tree learni
 There already exist such algorithms that return decision tree policies optimizing the RL objective for a given MDP.
 Those algorithms either learn parametric trees or non-parametric trees.
 
-Parametric trees are not ``grown'' from the root by iteratively adding internal or leaf nodes (cf. Fig. \ref{fig:dt}), but are rather ``optimized'': the depth, internal nodes arrengement, and state-features to consider in each nodes are fixed \textit{a priori} and only the thresholds of each nodes are learned similar to doing gradient descent on neural network weights.
+Parametric trees are not ``grown'' from the root by iteratively adding internal or leaf nodes (cf. figure \ref{fig:dt}), but are rather ``optimized'': the depth, internal nodes arrengement, and state-features to consider in each nodes are fixed \textit{a priori} and only the thresholds of each nodes are learned similar to doing gradient descent on neural network weights.
 As the reader might have guessed, those parametric trees are advantageous in that they can be learned with the policy gradient \cite{pg_sutton}. Both \cite{silva}, \cite{vos2024optimizinginterpretabledecisiontree} and \cite{sympol} use PPO \cite{ppo} to optimize such differentiable decision trees. In particular, \cite{sympol} explicitely studies the gap in performances between their direct optimization and the indirect imitation.
 While those methods optimize the RL objective (\ref{def:mdp-obj}) directly and train high-performing policies w.r.t. the downstream tasks, in general a user cannot know \textit{a priori}  what a ``good'' tree policy structure should be for a particular MDP: either the specified structure is too deep and pruning will be required after training or the tree structure is not expressive enough to encode a good policy, i.e. parametric trees cannot trade off interpretability and performances during training.
 Furthermore, authors from \cite{sympol} show that extra stabilizing tricks, such as adaptive batch sizes, are required during training to outperform indirect imitation in terms of RL objective (\ref{def:mdp-obj}).
@@ -75,7 +75,7 @@ Now remains to extract a decision tree policy for MDP $\mathcal{M}$ from a polic
 
 \subsection{From Policies to Trees}
 
-One can notice that information gathering actions (\ref{def:ibmdp}) resemble the Boolean functions that make up internal decision tree nodes (cf. Figure \ref{fig:dt}).
+One can notice that information gathering actions (\ref{def:ibmdp}) resemble the Boolean functions that make up internal decision tree nodes (cf. figure \ref{fig:dt}).
 Indeed, a policy taking actions in an IBMDP essentially builds a tree by taking sequences of IGAs (internal nodes) and then a base action in the base MDP (leaf node) and repeats this process over time.
 In particular, the IGA rewards $\zeta$ can be seen as a regularization or a penalty for interpretabiliy: if $\zeta$ is very low compared to base rewards, a policy will try to act in the base MDP as often as possible, i.e. build shallow trees that short paths between root and leaves.
 
@@ -87,7 +87,7 @@ The intuition is that if one trains a policy $\pi:S\timesO\rightarrow A\cup A_{i
     Given a factored MDP $\mathcal{M}$ $\langle S, A, R, T, T_0\rangle$ (\ref{def:fmdp}) and an associated IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}), a deterministic partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ is a decision tree policy $\pi_{\mathcal{T}}: S \rightarrow A$ for the base MDP $\mathcal{M}$.
 \end{proposition}
 
-\begin{proof}(Sketch) Algorithm~\ref{alg:extract-tree} that takes as input a deterministic partially observable policy (\ref{def:po-policy}) for an IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}), returns a decision tree policy $\pi_{\mathcal{T}}$ (\ref{def:dt}) for $\mathcal{M}$ $\langle S, A, R, T, T_0\rangle$ and always terminates unless the deterministic partially observable policy only takes IGAs.
+\begin{proof}(Sketch) algorithm~\ref{alg:extract-tree} that takes as input a deterministic partially observable policy (\ref{def:po-policy}) for an IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}), returns a decision tree policy $\pi_{\mathcal{T}}$ (\ref{def:dt}) for $\mathcal{M}$ $\langle S, A, R, T, T_0\rangle$ and always terminates unless the deterministic partially observable policy only takes IGAs.
 \end{proof}
 
 \begin{algorithm}[t]
@@ -114,7 +114,7 @@ The intuition is that if one trains a policy $\pi:S\timesO\rightarrow A\cup A_{i
     \caption{Extract a Decision Tree Policy}\label{alg:extract-tree}
 \end{algorithm}
 
-While the connexions with partially observable MDPs~\cite{POMDP,chap2} is obvious, we defer the implications to Chapter \ref{sec:pomdp} as this connexion was not make in the original IBMDP paper~\cite{topin2021iterative}.
+While the connexions with partially observable MDPs~\cite{POMDP,chap2} is obvious, we defer the implications to chapter \ref{sec:pomdp} as this connexion was not make in the original IBMDP paper~\cite{topin2021iterative}.
 Next we present an example of an IBMDP policy that is a decision tree for the base MDP.
 
 \subsection{Example: an IBMDP for a grid world}
@@ -135,7 +135,7 @@ For example when the IBMDP initial state features are $\boldsymbol{s}_0 = (0.5, 
 The full observation set is $O = \{(0, 2, 0, 2), (0, 1, 0, 2), (0, 2, 0, 1), (0, 1, 0, 1), (1, 2, 0, 2), (1, 2, 0, 1), (1, 2, 1, 2), (0, 1, 1, 2), (0, 2, 1, 2)\}$.
 The transitions and rewards are given by definition (\ref{def:ibmdp}).
 
-In Figure (\ref{example:ibmdp}) we show a trajectory in this IBMDP.
+In figure (\ref{example:ibmdp}) we show a trajectory in this IBMDP.
 \begin{figure}[h]
 \centering
 \begin{tikzpicture}[scale=0.6]
@@ -307,9 +307,9 @@ We can thus write an interpretable RL objective as follows:
 With $V^{\pi_{po}}$ the value function (\ref{def:vs}) of deterministic partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ (\ref{def:po-policy}) in the IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}).
 \end{definition}
 
-After optimizing objective (\ref{def:irl}) with, e.g. reinforcement learning, we thus use Algorithm \ref{alg:extract-tree} to obtain a decision tree policy that trades off between interpretability and the RL objectvie (\ref{def:mdp-obj}) for our MDP of intereset.
+After optimizing objective (\ref{def:irl}) with, e.g. reinforcement learning, we thus use algorithm \ref{alg:extract-tree} to obtain a decision tree policy that trades off between interpretability and the RL objectvie (\ref{def:mdp-obj}) for our MDP of intereset.
 This is exactly what we do in the next chapters.
-% In Figure (\ref{fig:summary-ibmdp}) we summarize the direct reinforcement learning approach of Topin et. al. that we use in the next chapters. 
+% In figure (\ref{fig:summary-ibmdp}) we summarize the direct reinforcement learning approach of Topin et. al. that we use in the next chapters. 
 % \begin{figure}[h]
 %     \centering
 %     \begin{tikzpicture}

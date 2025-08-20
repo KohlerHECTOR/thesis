@@ -75,7 +75,7 @@ In automotive settings, the autopilot system has to decide how to steer based on
 These sequential decision making processes exhibit key similarities: an agent takes actions based on current information to achieve a goal.
 
 As computer scientists, we ought to design computer programs~\cite{knuth63} that can help humans during these sequential decision making processes. 
-For example, as depicted in Figure~\ref{fig:cancer-treatment-sdm}, a doctor could benefit from a program that would recommend the ``best'' treatment given the patient's state. 
+For example, as depicted in figure~\ref{fig:cancer-treatment-sdm}, a doctor could benefit from a program that would recommend the ``best'' treatment given the patient's state. 
 Machine learning algorithms~\cite{turing} output such helpful programs.
 For non-sequential decision making, when the doctor only takes one decision and does not need to react to the updated patient's health, e.g. making a diagnosis about cancer type, a program can be fitted to example data: given lots of patient records and the associated diagnoses, the program learns to make the same diagnosis a doctor would given the same patient record, this is \textit{supervised} learning~\cite{sl}. 
 In the cancer treatment example, the doctor follows the patient over time and adapts treatment to the patient's changing health. In that case, machine learning—and in particular \textit{reinforcement} learning (RL)~\cite{sutton}—can be used to teach the program how to take decisions that lead to recovery based on how the patient's health changes from one dose to another.  
@@ -88,7 +88,7 @@ Next, we describe the notion of interpretability that is key to ensure safe depl
 
 
 Originally, the etymology of ``interpretability'' is the Latin ``interpretabilis'', meaning ``that can be understood and explained''.
-According to the Oxford English Dictionary, the first recorded use of the English word ``interpretability'' dates back to 1854, when the British logician George Boole (Figure~\ref{fig:george-boole}) described the addition of concepts:
+According to the Oxford English Dictionary, the first recorded use of the English word ``interpretability'' dates back to 1854, when the British logician George Boole (figure~\ref{fig:george-boole}) described the addition of concepts:
 
 \begin{displaycquote}[p.~48]{boole}
 I would remark in the first place that the generality of a method in Logic
@@ -318,14 +318,14 @@ In Boole's era, the concern was whether logical operations like addition could b
     \label{fig:cancer-treatment-comparison-combined}
 \end{figure}
 
-In Figure~\ref{fig:cancer-treatment-sdm-ml}, we illustrate how existing machine learning algorithms \textit{could} be used in principle to help with cancer treatment. In truth, this should be prohibited without some kind of transparency in the program's recommendation: why did the program recommend such a dosage?
-In Figure~\ref{fig:cancer-treatment-comparison}, we illustrate how machine learning \textit{should} be used in practice. We would ideally want doctors to have access to computer programs that can recommend ``good'' treatments and whose recommendations are interpretable. 
+In figure~\ref{fig:cancer-treatment-sdm-ml}, we illustrate how existing machine learning algorithms \textit{could} be used in principle to help with cancer treatment. In truth, this should be prohibited without some kind of transparency in the program's recommendation: why did the program recommend such a dosage?
+In figure~\ref{fig:cancer-treatment-comparison}, we illustrate how machine learning \textit{should} be used in practice. We would ideally want doctors to have access to computer programs that can recommend ``good'' treatments and whose recommendations are interpretable. 
 
 The key challenge of doing research on interpretability is the lack of formalism; there is no \textit{formal} definition of what constitutes an interpretable computer program. Hence, unlike for performance objectives, which have well-defined optimization targets (e.g., maximizing accuracy in supervised learning or maximizing rewards over time in reinforcement learning), it is not clear how to design machine learning algorithms to maximize interpretability. 
 Despite this lack of formalism, the necessity of deploying interpretable programs has sparked many works, which we present next.
 \subsection{What are existing approaches for learning interpretable programs?}
 
-In this section we follow Sections 6 and 7 of \cite{glanois-survey} and Section 5 of \cite{milani-survey}. 
+In this section we follow sections 6 and 7 of \cite{glanois-survey} and section 5 of \cite{milani-survey}. 
 Furthermore we now employ the term ``model'' to refer to ``programs'' to be consistent with the machine learning research conventions.
 Models are essentially mappings from inputs to outputs that can be trained with machine learning algorithms while programs might designate other types of computations like sorting.
 
@@ -377,9 +377,9 @@ Models are essentially mappings from inputs to outputs that can be trained with 
 \end{figure}
 Interpretable machine learning provides either local or global explanations \cite{glanois-survey}.
 Global methods output a model whose outputs can be interpreted without additional computations, e.g., a decision tree~\cite{breiman1984classification}. By contrast, local methods require additional computations but are agnostic to the model class: they can give an \textit{approximate} interpretation of, e.g., neural network outputs.
-In Figure~\ref{fig:interpretability-performance-tradeoff} we present the popular trade-off between interpretability and performance of different model classes.
+In figure~\ref{fig:interpretability-performance-tradeoff} we present the popular trade-off between interpretability and performance of different model classes.
 
-Given a model, LIME (Local Interpretable Model-agnostic Explanations)~\cite{lime} works by perturbing the input and learning a simple interpretable model locally to explain that particular prediction (see Figure~\ref{fig:lime}). For each individual prediction, LIME provides explanations by identifying which features were most important for that specific decision.
+Given a model, LIME (Local Interpretable Model-agnostic Explanations)~\cite{lime} works by perturbing the input and learning a simple interpretable model locally to explain that particular prediction (see figure~\ref{fig:lime}). For each individual prediction, LIME provides explanations by identifying which features were most important for that specific decision.
 Hence, as stated above, LIME needs to learn one local surrogate model per output to be interpreted; this requires substantial computation.
 
 \begin{figure}
@@ -480,7 +480,7 @@ Hence, as stated above, LIME needs to learn one local surrogate model per output
 \end{figure}
 
 Global approaches are either direct or indirect~\cite{milani-survey}. 
-Direct algorithms, such as decision tree induction~\cite{breiman1984classification}, \textit{directly} learn an interpretable model optimizing some objective (see Figure~\ref{fig:interpretability-performance-tradeoff}).
+Direct algorithms, such as decision tree induction~\cite{breiman1984classification}, \textit{directly} learn an interpretable model optimizing some objective (see figure~\ref{fig:interpretability-performance-tradeoff}).
 One key challenge motivating this thesis is that decision tree induction is well-developed for supervised learning but not for reinforcement learning.
 To directly learn interpretable models for sequential decision making, one must design new algorithms which will be the core of the first part of this thesis. 
 
@@ -491,7 +491,7 @@ However we believe this might be problematic.
 
 Indeed, unlike direct methods that return interpretable models optimizing the desired objective, indirect methods learn an interpretable model to match the behavior of a black-box that itself optimizes the objective of interest. 
 Hence, there is no guarantee that optimizing this surrogate objective yields the best interpretability–performance trade-offs. 
-Figure~\ref{fig:direct-vs-indirect-methods} illustrates the key difference between these two approaches. 
+figure~\ref{fig:direct-vs-indirect-methods} illustrates the key difference between these two approaches. 
 
 Verifiable Reinforcement learning via Policy Extraction, or VIPER \cite{viper}, is a strong indirect method to learn decision tree models for sequential decision making. VIPER first trains a neural network model with reinforcement learning and then fit a decision tree to minimize the disagreement between the nerual network and the tree outputs given the same inputs.
 They show that decision tree models, in addition to being transparent, are also fast to verify in the formal sense of the term \cite{maraboupy}.
@@ -519,7 +519,7 @@ Next we describe technical preliminaries useful to understand the content of thi
 
 As the reader might have already guessed, we will put great emphasis as decision tree models as a mean to study interpretability.
 While other interpretable models might have other properties that the ones we will highlight through this thesis, one conjecture from \cite{glanois-survey} is that interpretable models are all hard to optimize or learn because they are non-differentiable in nature.
-This something that will be key in our study of decision tree models that we introduce next and that we illustrate in Figure~\ref{fig:dt}.
+This something that will be key in our study of decision tree models that we introduce next and that we illustrate in figure~\ref{fig:dt}.
 
 \begin{definition}[Decision tree]
     A decision tree is a rooted tree $T = (V, E)$ where:
@@ -581,7 +581,7 @@ Training decision trees to optimize the supervised learning objective~\ref{def:s
     where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a regularization penalty.
     \end{definition}
 
-The Classification and Regression Trees (CART) algorithm \cite{breiman1984classification} (Algorithm~\ref{alg:cart}), developed by Leo Breiman and colleagues (Figure~\ref{fig:leo-breiman}), is one of the most widely used methods for learning decision trees from supervised data.
+The Classification and Regression Trees (CART) algorithm \cite{breiman1984classification} (algorithm~\ref{alg:cart}), developed by Leo Breiman and colleagues (figure~\ref{fig:leo-breiman}), is one of the most widely used methods for learning decision trees from supervised data.
 CART builds binary decision trees through a greedy, top-down approach that recursively partitions the feature space. 
 At each internal node, the algorithm selects the feature and threshold that best splits the data according to a purity criterion such as the Gini impurity for classification or mean squared error for regression.
 CART uses threshold-based test functions of the form $f_v(x) = \mathbb{I}[x[\text{feature}] \leq \text{threshold}]$, where $\mathbb{I}[\cdot]$ is the indicator function. 
@@ -786,7 +786,7 @@ For the rest of this text, by abuse of notation, we denote both a Markov decisio
     \caption{A grid-world MDP (left) and optimal actions w.r.t. the objective~\ref{def:mdp-obj} (right).}\label{example:grid}
     \end{figure}
 
-In Figure~\ref{example:grid}, we present a very simple MDP(~\ref{def:mdp}).
+In figure~\ref{example:grid}, we present a very simple MDP(~\ref{def:mdp}).
 This MDP is essentially a grid where the starting state is chosen at random and the goal is to reach the bottom-right cell as fast as possible in order to maximize the objective~\ref{def:mdp-obj}.
 The state space is discrete with state labels representing 2D-coordinates.
 The actions are to move up, left, right, or down. The MDP transitions to the resulting cell. 
@@ -868,9 +868,9 @@ This distinction in available information parallels the distinction between dyna
        \label{fig:rl-pioneers}
 \end{figure}
 
-Reinforcement learning algorithms popularized by Richard Sutton~\cite{sutton}(Figure~\ref{fig:rl-pioneers}) don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of observations ${(s_t, a_t, r_t, s_{t+1})}_t$.
+Reinforcement learning algorithms popularized by Richard Sutton~\cite{sutton}(figure~\ref{fig:rl-pioneers}) don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of observations ${(s_t, a_t, r_t, s_{t+1})}_t$.
 RL algorithms usually fall into two categories: value-based (cite) and policy search~\cite{pg_sutton}.
-Examples of these approaches are shown in Algorithms~\ref{alg:qlearning},~\ref{alg:sarsa} and~\ref{alg:reinforce}.
+Examples of these approaches are shown in algorithms~\ref{alg:qlearning},~\ref{alg:sarsa} and~\ref{alg:reinforce}.
 Q-learning and Sarsa compute an approximation of $Q^{\star}$ using temporal difference learning. Q-learning is \textit{off policy}, it collects new transisitions with a random policy, e.g. epsilon-greedy, while Sarsa is on policy, it collects new transitions greedily w.r.t. the current q-values estimates.
 Policy gradient algorithms leverages the policy gradient theorem to approximate $\pi^{\star}$.
 The goal of an RL algorithm (also called agent) is to learn a policy that solves a Markov decision problem(~\ref{def:mdp-obj}) without access to transitions and rewards from the MDP.
@@ -953,11 +953,11 @@ We also consider that the Example MDP(\ref{example:grid}) is continuous with two
 In the rest of this manuscript, unless stated otherwise, we write $\boldsymbol{s}$ a state vector in a continuous space.
 Note that discrete states MDP can be encoded into factored MDP by one-hot encoding individual states.
 
-Deep Q-Networks (DQN)~\cite{dqn}, described in Algorithm~\ref{alg:dqn} was a breakthrough in modern reinforcement learning.
-Authors successfully extended the Q-learning (Algorithm~\ref{alg:qlearning}) to the function approximation setting by introduction target networks to mitigate distributional shift in the td error and replay buffer to increase sample efficiency (see Figure~\ref{fig:dqn} for the tricks used to adap Q-learning to the function approximation setting).
+Deep Q-Networks (DQN)~\cite{dqn}, described in algorithm~\ref{alg:dqn} was a breakthrough in modern reinforcement learning.
+Authors successfully extended the Q-learning (algorithm~\ref{alg:qlearning}) to the function approximation setting by introduction target networks to mitigate distributional shift in the td error and replay buffer to increase sample efficiency (see figure~\ref{fig:dqn} for the tricks used to adap Q-learning to the function approximation setting).
 DQN achieved super-human performance on a set of Atari games.
 
-Proximal Policy Optimization (PPO)~\cite{ppo}, described in Algorithm~\ref{alg:ppo}, is an actor-critic algorithm\cite{pg_sutton} optimizing neural network policies. 
+Proximal Policy Optimization (PPO)~\cite{ppo}, described in algorithm~\ref{alg:ppo}, is an actor-critic algorithm\cite{pg_sutton} optimizing neural network policies. 
 Actor-critic algorithms are instances of policy gradient algorithms where the cumulative discounted rewards--the returns--are also estimated with a neural network. 
 Actor-critic are not as simple efficient as DQN but is known to work well in a variety of domains including robot control in simulation among others.
 
@@ -988,7 +988,7 @@ Actor-critic are not as simple efficient as DQN but is known to work well in a v
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{images/dqn_schema.png}
-    \caption{DQN tricks added to the vanilla Q-learning (Alg.~\ref{alg:qlearning}). Courtesy of Antonin Raffin.}
+    \caption{DQN tricks added to the vanilla Q-learning (algorithm~\ref{alg:qlearning}). Courtesy of Antonin Raffin.}
 \end{figure}
 
 
@@ -1017,7 +1017,7 @@ In this manuscript we study those two deep reinforcement learning algorithms for
 Unlike PPO or DQN for neural networks, there does not exist an algorithm that trains decision tree policies to optimize the RL objective (\ref{def:mdp-obj}).
 In fact, we will show in the first part of the manuscript that training decision trees that optimize the RL objective is very difficult.
 
-Hence, many interpretable reinforcement learning approaches first train a neural network policy with, e.g., DQN or PPO to optimize the RL objective (\ref{def:mdp-obj}), and then fit, e.g., a decision tree using CART (Alg.\ref{alg:cart}) to optimize the supervised learning objective (\ref{def:sl}) with the neural policy's actions as targets.
+Hence, many interpretable reinforcement learning approaches first train a neural network policy with, e.g., DQN or PPO to optimize the RL objective (\ref{def:mdp-obj}), and then fit, e.g., a decision tree using CART (algorithm\ref{alg:cart}) to optimize the supervised learning objective (\ref{def:sl}) with the neural policy's actions as targets.
 This approach is known as imitation learning and is essentially training a policy to optimize the objective:
 
 \begin{definition}[Imitation learning]\label{def:il}
@@ -1029,17 +1029,17 @@ where $\rho(\boldsymbol{s})$ is the state distribution in $\mathcal{M}$ induced 
 \end{definition}
 
 There are two main imitation learning methods used for interpretable reinforcement learning.
-DAgger (\cite{PIRL}; Algorithm~\ref{alg:dagger}) is a straightforward way to fit a decision tree policy to optimize the imitation learning objective\ref{def:il}.
-VIPER (\cite{viper}; Algorithm~\ref{alg:viper}) was designed specifically for interpretable reinforcement learning.
+Dagger (\cite{PIRL}; algorithm~\ref{alg:dagger}) is a straightforward way to fit a decision tree policy to optimize the imitation learning objective\ref{def:il}.
+VIPER (\cite{viper}; algorithm~\ref{alg:viper}) was designed specifically for interpretable reinforcement learning.
 VIPER reweights the transitions collected by the neural network expert by a function of the state–action value\ref{sec:values}.
-The authors of VIPER showed that decision tree policies fitted with VIPER tend to have the same RL objective value as DAgger trees while being more interpretable (shallower or with fewer nodes) and sometimes outperform DAgger trees.
-DAgger and VIPER are two strong baselines for decision tree learning in MDPs, but they optimize a surrogate objective only, even though in practice the resulting decision tree policies often achieve high RL objective value.
+The authors of VIPER showed that decision tree policies fitted with VIPER tend to have the same RL objective value as Dagger trees while being more interpretable (shallower or with fewer nodes) and sometimes outperform Dagger trees.
+Dagger and VIPER are two strong baselines for decision tree learning in MDPs, but they optimize a surrogate objective only, even though in practice the resulting decision tree policies often achieve high RL objective value.
 
 We use the two algorithms extensively throughout the manuscript.
 
 Next we show how to learn a decision tree policy for the Example MDP \ref{example:grid}.
 \begin{algorithm}
-    \caption{DAgger\cite{dagger}}\label{alg:dagger}
+    \caption{Dagger\cite{dagger}}\label{alg:dagger}
     \KwIn{Expert policy $\pi^*$, MDP $M$, policy class $\Pi$}
     \KwOut{Fitted student policy $\hat{\pi}_i$}
     
@@ -1107,26 +1107,26 @@ The reader should also know what an MDP is and how to compute or learn policies 
 Finally, the reader should now know how to obtain a decision tree policy for an MDP through imitation learning by first using RL to get an expert policy and then fitting decision trees to optimize the supervised learning objective\ref{def:sl}, using the expert's actions as labels.
 Note that, in theory, there is no guarantee that such decision tree policies also maximize the RL objective; they optimize only the imitation learning objective\ref{def:il}.
 
-In this section we present the first decision tree policies of this manuscript obtained using DAgger or VIPER after learning an expert policy and expert Q-function for the grid-world MDP \ref{example:grid} with Q-learning\ref{alg:qlearning}.
-Recall the optimal policies for the grid-world, taking the green actions in each state in Figure\ref{example:grid}. 
+In this section we present the first decision tree policies of this manuscript obtained using Dagger or VIPER after learning an expert policy and expert Q-function for the grid-world MDP \ref{example:grid} with Q-learning\ref{alg:qlearning}.
+Recall the optimal policies for the grid-world, taking the green actions in each state in figure\ref{example:grid}. 
 Among the optimal policies, the ones that take action to go left or up in the goal state can be problematic for imitation learning algorithms.
 
 Indeed, we know that for this grid-world MDP there exists a decision tree policy that is optimal and very interpretable (depth-1): go right if the $x$-label of the state is greater than 1 and go left otherwise.
-This tree takes exactly the same actions in the same states as some of the optimal policy from Figure\ref{example:grid}.
+This tree takes exactly the same actions in the same states as some of the optimal policy from figure\ref{example:grid}.
 
-In Figure\ref{fig:trees-intro}, we present a depth-1 decision tree policy that is optimal w.r.t. the RL objective and a depth-1 tree that is suboptimal.
-Indeed, Figure\ref{fig:objectives} shows that the optimal depth-1 tree achieves exactly the same RL objective value as the optimal policies from Figure\ref{example:grid}, independently of the discount factor $\gamma$.
+In figure\ref{fig:trees-intro}, we present a depth-1 decision tree policy that is optimal w.r.t. the RL objective and a depth-1 tree that is suboptimal.
+Indeed, figure\ref{fig:objectives} shows that the optimal depth-1 tree achieves exactly the same RL objective value as the optimal policies from figure\ref{example:grid}, independently of the discount factor $\gamma$.
 
-Now a fair question is: can DAgger or VIPER retrieve such an optimal depth-1 tree given access to an expert optimal policy from Figure\ref{example:grid}?
+Now a fair question is: can Dagger or VIPER retrieve such an optimal depth-1 tree given access to an expert optimal policy from figure\ref{example:grid}?
 
-We start by running the standard Q-learning algorithm as presented in Algorithm\ref{alg:qlearning} with $\epsilon=0.3$, $\alpha=0.1$ over 10,000 time steps.
-The careful reader might wonder how ties are broken in the $\operatorname{argmax}$ operation from Algorithm\ref{alg:qlearning}.
+We start by running the standard Q-learning algorithm as presented in algorithm\ref{alg:qlearning} with $\epsilon=0.3$, $\alpha=0.1$ over 10,000 time steps.
+The careful reader might wonder how ties are broken in the $\operatorname{argmax}$ operation from algorithm\ref{alg:qlearning}.
 While Sutton and Barto break ties by index value in their book\cite{sutton} (the greedy action is the $\argmax$ action with smallest index), we show that the choice of tie-breaking greatly influences the performance of subsequent imitation learning algorithms.
 Indeed, depending on how actions are ordered in practice, Q-learning may be biased toward some optimal policies rather than others.
 While this does not matter for one who just wants to find an optimal policy, in our example of finding the optimal depth-1 decision tree policy, it matters \textit{a lot}.
 
-In the left plot of Figure\ref{fig:ql-il}, we see that Q-learning, independently of how ties are broken, consistently converges to an optimal policy over 100 runs (random seeds).
-However, in the right plot of Figure\ref{fig:ql-il}, where we plot the proportion over 100 runs of optimal decision trees returned by DAgger or VIPER at different stages of Q-learning, we observe that imitating the optimal policy obtained by breaking ties at random consistently yields more optimal trees than breaking ties by indices.
+In the left plot of figure\ref{fig:ql-il}, we see that Q-learning, independently of how ties are broken, consistently converges to an optimal policy over 100 runs (random seeds).
+However, in the right plot of figure\ref{fig:ql-il}, where we plot the proportion over 100 runs of optimal decision trees returned by Dagger or VIPER at different stages of Q-learning, we observe that imitating the optimal policy obtained by breaking ties at random consistently yields more optimal trees than breaking ties by indices.
 What actually happens is that the most likely output of Q-learning when ties are broken by indices is the optimal policy that goes left in the goal state,
 which cannot be perfectly represented by a depth-1 decision tree, because there are three different actions taken and a binary tree of depth $D=1$ can only map to $2^D=2$ labels.
 
@@ -1163,7 +1163,7 @@ Importantly, this sheds light on the sub-optimality of indirect imitation w.r.t 
 \begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{images/images_part1/policy_values_comparison.pdf}
-    \caption{The objective (\ref{def:mdp-obj}) values of the optimal policies from Figure~\ref{example:grid} and of the decision tree policies from Figure~\ref{fig:trees-intro}.}\label{fig:objectives}
+    \caption{The objective (\ref{def:mdp-obj}) values of the optimal policies from figure~\ref{example:grid} and of the decision tree policies from figure~\ref{fig:trees-intro}.}\label{fig:objectives}
 \end{figure}
 
 \begin{figure}
@@ -1185,7 +1185,7 @@ By formalizing decision tree induction for objective\ref{def:sl} as solving an M
 
 In the last part of the text, we lift our assumption about decision tree learning guaranteeing interpretability and study other model classes.
 In particular, we leverage the simplicity of \textit{indirect} methods~\ref{fig:direct-vs-indirect} to imitate neural network experts with models from~\ref{fig:interpretability-performance-tradeoff} and and perform a large-scale empirical study of the interpretability-performances trade-offs on various sequential decision making tasks.
-In Table~\ref{tab:summary-parts} we summarize the outline of this manuscript in terms of learning objective (~\ref{def:sl},~\ref{def:mdp-obj}, or~\ref{def:il}) and model class (Figure~\ref{fig:interpretability-performance-tradeoff}).
+In Table~\ref{tab:summary-parts} we summarize the outline of this manuscript in terms of learning objective (~\ref{def:sl},~\ref{def:mdp-obj}, or~\ref{def:il}) and model class (figure~\ref{fig:interpretability-performance-tradeoff}).
 
 \begin{table}[htbp]
     \centering
@@ -1221,29 +1221,29 @@ We summarize our results as follows:
 %     ]
         
 %         % Define the three vertices of the triangle
-%         % Top bubble - Chapter 1
+%         % Top bubble - chapter 1
 %         \node[bubble] (ch1) at (0,4) {Part 1\\Direct learning of interpretable policies for MDPs};
         
-%         % Bottom left bubble - Chapter 2  
+%         % Bottom left bubble - chapter 2  
 %         \node[bubble] (ch2) at (-4,0) {Part 2\\Supervised learning of decision tree classifiers with MDPs};
         
-%         % Bottom right bubble - Chapter 3
+%         % Bottom right bubble - chapter 3
 %         \node[bubble] (ch3) at (4,0) {Part 3\\Indirect learning of interpretable policies to compare different model classes};
         
-%         % Arrow from Chapter 1 to Chapter 2
+%         % Arrow from chapter 1 to chapter 2
 %         \draw[arrow] (ch1.south west) -- (ch2.north);
 %         \node[label] at (-4.5,2.5) {Too difficult, let us assume uniform transitions};
         
-%         % Arrow from Chapter 1 to Chapter 3  
+%         % Arrow from chapter 1 to chapter 3  
 %         \draw[arrow] (ch1.south east) -- (ch3.north);
 %         \node[label] at (4.5,2.5) {Too difficult, let us use indirect approach};
 
-%         % Arrow from Chapter 1 to Chapter 3  
+%         % Arrow from chapter 1 to chapter 3  
 %         \draw[arrow] (ch2.east) -- (ch3.west);
 %         \node[label] at (0,1.1) {Use new decision tree induction to learn better interpretable policies};
         
         
 %     \end{tikzpicture}
-%     \caption{Thesis structure showing the progression from direct reinforcement learning of decision tree policies (Chapter 1) to simplified approaches: supervised learning with uniform transitions (Chapter 2) and indirect learning methods (Chapter 3).}
+%     \caption{Thesis structure showing the progression from direct reinforcement learning of decision tree policies (chapter 1) to simplified approaches: supervised learning with uniform transitions (chapter 2) and indirect learning methods (chapter 3).}
 %     \label{fig:thesis-outline}
 % \end{figure}

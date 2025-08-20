@@ -4,8 +4,8 @@ Most research interpretable machine learning, including~\cite{topin2021iterative
 In this part we propose a methodology to empirically compare the interpretability-perofrmance trade-offs of multiple models from potentially different model classes.
 
 In this chapter, we present results from existing empirical evaluations of model interpretability and introduce our methodology
-In Chapter~\ref{sec:exps1}, we validate our methodology against results obtained with user studies.
-In Chapter~\ref{sec:exps2},using our methodology, we present a large scale study of interpretability-performance trade-offs of different model classes when optimizing the RL objective (~\ref{def:mdp-obj}).
+In chapter~\ref{sec:exps1}, we validate our methodology against results obtained with user studies.
+In chapter~\ref{sec:exps2},using our methodology, we present a large scale study of interpretability-performance trade-offs of different model classes when optimizing the RL objective (~\ref{def:mdp-obj}).
 
 \section{Evaluating interpretability with humans}\label{res:humans}
 User studies typically evaluate interpretability through tasks such as simulation (whether a person can predict the model’s output for a given input), verification (whether a person can check if the model’s prediction is correct), and “what-if” reasoning (whether a person can predict how the output changes if the input is slightly modified)~\cite{study-6,study-5}.
@@ -23,7 +23,7 @@ However, measuring model interpretability without humans is still an open proble
 
 \section{The mythos of interpretability}\label{res:lipton}
 When comparing interpretability of models inside the same class~\cite{murtree,blosson,pystreed,vanderlinden2024optimalgreedydecisiontrees,sympol,viper,topin2021iterative} one does not need to worry about their methodology since the number of model parameters is enough as a measure~\cite{study-4}.
-However comparing the interpretability of models from different classes, without user studies, requires caution: which is more interpretable, a depth-50 decision tree or a neural network with two layers of 16 neurons (Figure)?
+However comparing the interpretability of models from different classes, without user studies, requires caution: which is more interpretable, a depth-50 decision tree or a neural network with two layers of 16 neurons (figure)?
 
 Work that compare model interpretability across different model classes without humans, rely on the notion of \textit{simulatibility} introduced in~\cite{lipton}.
 Inspired, by results from user studies, Z. Lipton postulates that interpretabiliy of a model should relate to two things.
@@ -57,7 +57,7 @@ Most importantly, as these measurements depend on many technical details (progra
 We call this process of standardizing policies language ``unfolding''..
 
 %we ``unfold'' all policies into a common sequential representation without hardware optimizations or vectorized operations, as humans process information sequentially.
-In Figure \ref{lst:unfolded-linear}, \ref{lst:generic-linear}, and \ref{lst:policy_ll}, we present some unfolded policy programs.
+In figure \ref{lst:unfolded-linear}, \ref{lst:generic-linear}, and \ref{lst:policy_ll}, we present some unfolded policy programs.
 Other works have distilled neural networks into programs \cite{PIRL} or even directly learn programmatic policies \cite{pirl2} from scratch.
 However, those works directly consider programs as a policy class and could compare a generic program (not unfolded, with, e.g., while loops or array operations) to, e.g, a decision tree \cite{leap}.
 We will discuss later on the limitations of unfolding policies in the overall methodology.

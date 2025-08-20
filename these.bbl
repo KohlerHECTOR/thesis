@@ -1033,7 +1033,7 @@
       \field{labeltitlesource}{title}
       \field{eprintclass}{cs.LG}
       \field{eprinttype}{arXiv}
-      \field{title}{Branches: A Fast Dynamic Programming and Branch {\&} Bound Algorithm for Optimal Decision Trees}
+      \field{title}{Branches: A Fast Dynamic Programming and Branch {\&} Bound algorithm for Optimal Decision Trees}
       \field{year}{2024}
       \verb{eprint}
       \verb 2406.02175
@@ -1206,7 +1206,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Satisfiability Modulo Theories (SMT) problem is a decision problem for logical first order formulas with respect to combinations of background theories such as: arithmetic, bit-vectors, arrays, and uninterpreted functions. Z3 is a new and efficient SMT Solver freely available from Microsoft Research. It is used in various software verification and analysis applications.}
-      \field{booktitle}{Proceedings of the Theory and Practice of Software, 14th International Conference on Tools and Algorithms for the Construction and Analysis of Systems}
+      \field{booktitle}{Proceedings of the Theory and Practice of Software, 14th International Conference on Tools and algorithms for the Construction and Analysis of Systems}
       \field{isbn}{3540787992}
       \field{series}{TACAS'08/ETAPS'08}
       \field{title}{Z3: an efficient SMT solver}
@@ -1562,7 +1562,7 @@
       \field{journaltitle}{Proceedings of the 40th International Conference on Machine Learning}
       \field{month}{23--29 Jul}
       \field{series}{Proceedings of Machine Learning Research}
-      \field{title}{Blossom: an Anytime Algorithm for Computing Optimal Decision Trees}
+      \field{title}{Blossom: an Anytime algorithm for Computing Optimal Decision Trees}
       \field{volume}{202}
       \field{year}{2023}
       \field{pages}{7533\bibrangedash 7562}
@@ -2865,7 +2865,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Forty-second International Conference on Machine Learning}
-      \field{title}{A Theoretical Justification for Asymmetric Actor-Critic Algorithms}
+      \field{title}{A Theoretical Justification for Asymmetric Actor-Critic algorithms}
       \field{year}{2025}
       \verb{urlraw}
       \verb https://openreview.net/forum?id=F1yANMCnAn
@@ -6262,7 +6262,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{2021 International Joint Conference on Neural Networks (IJCNN)}
-      \field{title}{Non-Greedy Algorithms for Decision Tree Optimization: An Experimental Comparison}
+      \field{title}{Non-Greedy algorithms for Decision Tree Optimization: An Experimental Comparison}
       \field{year}{2021}
       \field{pages}{1\bibrangedash 8}
       \range{pages}{8}
