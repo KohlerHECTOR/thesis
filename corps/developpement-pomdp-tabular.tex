@@ -1,4 +1,4 @@
-\chapter{Limits of Direct Reinforcement Learning of Decision Tree Policies}\label{sec:pomdp}
+\chapter{Limits of direct reinforcement learning of decision tree policies}\label{sec:pomdp}
 
 From the previous chapter~\ref{sec:topin} we know that to directly learn decision trees that directly optimize the RL objective~\ref{def:mdp-obj} for an MDP, one can learn a deterministic partially observable policy for an IBMDP (definitions~\ref{def:ibmdp} and~\ref{def:irl} and Proposition~\ref{def:po-policy}).
 Such problems are classical instances of partially observable Markov decision processes (POMDPs)~\cite{POMDP,chap2}.
@@ -6,7 +6,7 @@ This connexion with POMDPs brings novel insights to direct reinforcement learnin
 In this chapter, all the decision processes presented have a finite number of vector-valued states and observations.
 Hence we will use bold fonts for states and observations but can still use summations rather than integrals when required.
 
-\subsection{Partially Observable IBMDPs}\label{sec:poibmdp}
+\section{Partially observable iterative Markov decision processes}\label{sec:poibmdp}
 A POMDP is an MDP where the current state is hidden; only some information about the current state is observable.
 
 \begin{definition}[Partially Observable Markov Decision Processes]\label{def:pomdp}
@@ -226,7 +226,7 @@ Second, for e.g. $\zeta=0.5$, while a depth-1 tree is the optimal deterministic 
 
 We can now define a POIBMDP with the grid wolrd (\ref{example:grid}) as the base MDP, with IGAs as in the IBMDP from Exapmle~\ref{example:ibmdp}, with $\gamma=0.99$ and $0<\zeta<1$ and verify if RL can retrieve the optimal depth-1 decision tree in this very controlled experiment.
 
-\subsection{Reinforcement Learning in PO(IB)MDPs}
+\subsection{Reinforcement learning in PO(IB)MDPs}
 
 In general, the policy that maximizes the expected discounted cumulative reward in a POMDP maps ``belief states'' or observations histories~\cite{chap2} to actions, i.e., those policies are not solutions to our problem since we require that policies depend only on the current observation.
 If we did not have this constraint, we could apply any standard RL algorithm to solve POIBMDPs by seeking such policies because both histories and belief states are sufficient statistic for POMDPs hidden states~\cite{chap2,lambrechts2025informed}.
@@ -349,7 +349,7 @@ In the next section, we use (asymmetric) RL to learn decision tree policies for 
 
 Unfortunately, our results are negative and show that (asymmetric) reinforcement learning fails for the aforementioned problem. Let us understand why.
 
-\subsection{Experimental Setup}
+\subsection{Experimental setup}
 
 \paragraph{Baselines:} we consider two groups of RL algorithms.
 The first group is standard tabular RL naively applied to POIBMDPs; Q-learning, Sarsa, and Policy Gradient with a softmax policy (cf. section~\ref{sec:rl}).

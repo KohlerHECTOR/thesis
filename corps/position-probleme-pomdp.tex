@@ -8,7 +8,7 @@ In chapter \ref{sec:topin}, we reproduce experiments from Topin et. al. where we
 In chapter \ref{sec:pomdp}, we show that the direct approach proposed by Topin et. al. is equivalent to learning a deterministic memoryless policy for partially observable MDP (POMDP)\cite{POMDP,chap2} and show that this might be the biggest source of hardness.
 In chapter \ref{sec:pomdp-classif}, we further support this claim by constructing special instances of Topin et. al. in which the POMDPs are virtually fully observable, and show that in those cases, direct reinforcement learning of decision tree works well.  
 
-\section{Learning Decision Tree policies for MDPs}\label{related-work-pomdp}
+\section{Learning decision tree policies for MDPs}\label{related-work-pomdp}
 In the introductory example~\ref{sec:limits-il}, we have shown that imitation learning that optimizes the objective (\ref{def:il}) rather than the RL objective~\ref{def:mdp-obj}, are, unsuprisingly, prone tosub-optimality w.r.t. the lattter objective.
 This motivates the study and development of \textit{direct} decision tree learning algorithms.
 There already exist such algorithms that return decision tree policies optimizing the RL objective for a given MDP.
@@ -30,7 +30,7 @@ In \cite{dt-maze}, authors prove that for maze-like MDPs, there always exist an 
 Finally, in \cite{dt-opt-mdp}, authors study decision tree policies for planning in MDPs, i.e., when the transitions and rewards are known.
 In the next section we present IBMDPs as introduced in Topin et. al.\cite{topin2021iterative}.
 
-\section{Iterative Bounding Markov Decision Processes}\label{sec:ibmdp}
+\section{Iterative bounding Markov decision processes}\label{sec:ibmdp}
 
 The key thing to know about IBMDPs is that they are, as their name suggests, MDPs.
 Hence, IBMDPs admits an optimal deterministic Markovian policy for problem (\ref{def:mdp-obj}).
@@ -73,7 +73,7 @@ At initialization, the base state features are drawn from the base MDP $T_0$ and
 
 Now remains to extract a decision tree policy for MDP $\mathcal{M}$ from a policy for an associated IBMDP $\mathcal{M}_{IB}$. 
 
-\subsection{From Policies to Trees}
+\subsection{From policies to trees}
 
 One can notice that information gathering actions (\ref{def:ibmdp}) resemble the Boolean functions that make up internal decision tree nodes (cf. figure \ref{fig:dt}).
 Indeed, a policy taking actions in an IBMDP essentially builds a tree by taking sequences of IGAs (internal nodes) and then a base action in the base MDP (leaf node) and repeats this process over time.

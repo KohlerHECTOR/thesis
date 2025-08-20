@@ -1,4 +1,4 @@
-\chapter{Direct Reinforcement Learning of Decision Tree Policies}\label{sec:topin}
+\chapter{Direct reinforcement learning of decision tree policies}\label{sec:topin}
 In this chapter, we compare deep reinforcement learning of decision tree policies (Chaper \ref{sec:intro-pomdp}) to imitation learning of decision tree policies (section \ref{sec:imit}) for the CartPole MDP~\cite{cartpole}.
 
 In particular, we attempt to reproduce the results from~\cite[Table 1]{topin2021iterative} in which authors constraint the solution space of decision tree policies to depth-2 trees.
@@ -28,7 +28,7 @@ Hence, when $q+1$ is prime, we can control the depth through either transitions 
 
 We will try various $\zeta$, various $q$, and various depth control in our experiments but first we describe the reinforcement learning algorithms used in~\cite{topin2021iterative}.
 
-\subsection{Modified Deep Reinforcement Learning algorithms}
+\subsection{Modified deep reinforcement learning algorithms}
 Authors of \cite{topin2021iterative} use two deep reinforcement learning baselines to which they apply some modifications in order to learn partially observable policies as required by proposition (\ref{def:po-policy}) and objective (\ref{def:irl}).
 
 The first algorithm is a modified proximal policy optimization algorithm (PPO)(\cite{ppo}, algorithm \ref{alg:ppo}) that we present in algorithm \ref{alg:mod-ppo}.
@@ -215,7 +215,7 @@ Next, we present our results when reproducing~\cite[Table 1]{topin2021iterative}
 
 \section{Results}
 
-\subsection{How well do modified Deep RL baselines learn in IBMDPs?}
+\subsection{How well do modified deep RL baselines learn in IBMDPs?}
 
 \begin{figure}
     \centering

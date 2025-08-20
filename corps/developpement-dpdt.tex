@@ -1,4 +1,4 @@
-\chapter{Decision Tree Induction as a solving an MDP}\label{sec:dt-mdp}
+\chapter{Decision tree induction as a solving an MDP}\label{sec:dt-mdp}
 
 \section{The Markov decision process}\label{sec:the-mdp}
 We now formulate the decision tree induction problem \ref{eq:suplearning} as finding the optimal policy in an MDP (\ref{def:mdp-obj}).
@@ -49,7 +49,7 @@ Moreover, from the definition of the policy return we have
 \end{align*}
 \end{proof}
 
-\section{algorithm}\label{sec:dpdt}
+\section{Algorithm}\label{sec:dpdt}
 
 We now present the Dynamic Programming Decision Tree (DPDT) induction algorithm. 
 The algorithm consists of two essential steps. The first and most computationally expensive step constructs the MDP presented in section~\ref{sec:the-mdp}. 
@@ -82,10 +82,10 @@ We now define some interesting split generating functions and provide the time c
 % Building a depth-1 greedy tree hides a time complexity of $O(np\log(np))$ to sort the splits by information gains \cite{breiman1984classification}.
 %%%>>>>>>> c90c7909bd5d3b8cfee3901e21a456980dfd72e1
 
-\paragraph{Exhaustive function.} When $\mathcal{F} \subseteq \phi(s), \forall s \in S$, the MDP contains all possible splits of a certain set of examples. In this case, \textit{the optimal MDP policy is the optimal decision tree of depth at most D},
+\paragraph{Exhaustive function} When $\mathcal{F} \subseteq \phi(s), \forall s \in S$, the MDP contains all possible splits of a certain set of examples. In this case, \textit{the optimal MDP policy is the optimal decision tree of depth at most D},
 and the number of states of the MDP would be $O({(2Np)}^D)$. Solving the MDP for $A_s = \phi(s)$ is equivalent to running one of the optimal tree induction algorithms~\cite{verwer2017learning,oct,pystreed,quantbnb,binoct,murtree,mfoct,blossom,lin2020generalized,chaouki2024branchesfastdynamicprogramming}
 
-\paragraph{Top $B$ most informative splits.}\label{topk-heuristic}~\cite{topk} proposed to generate splits with a function that returns, for any state $s=(X,d)$, the $B$ most informative splits over $X$ with respect to some information gain measure such as the entropy or the Gini impurity. 
+\paragraph{Top $B$ most informative splits}\label{topk-heuristic}~\cite{topk} proposed to generate splits with a function that returns, for any state $s=(X,d)$, the $B$ most informative splits over $X$ with respect to some information gain measure such as the entropy or the Gini impurity. 
 The number of states in the MDP would be $O({(2B)}^D)$. \textit{When $B=1$, the optimal policy of the MDP is the greedy tree.} 
 In practice, we noticed that the returned set of splits lacked diversity and often consists of splits on the same feature with minor changes to the threshold value. 
 
@@ -123,7 +123,7 @@ After constructing the MDP with a chosen splits generating function, we solve fo
 
 From now on, we write DPDT to denote algorithm \ref{alg:dpdt} when the split function is a call to CART. We discuss key bottlenecks when implementing DPDT in subsequent sections. We now state theoretical results when using DPDT with the CART heuristic. 
 
-\subsection{Performance Guarantees of DPDT}
+\subsection{Performance guarantees for DPDT}
 We now show that: 1) DPDT minimizes the loss from (\ref{eq:suplearning}) at least as well as greedy trees and 2) there exists problems for which DPDT has strictly lower loss than greedy trees. 
 As we restrict the action space at a given state $s$ to a subset of all possible split nodes, DPDT is not guaranteed to find the tree minimizing Eq. \ref{eq:suplearning}. However, we are still guaranteed to find trees that are better or equivalent to those induced by CART:
 \begin{theorem}[MDP solutions are not worse than the greedy tree]\label{prop:cart}
@@ -147,7 +147,7 @@ There exists a dataset and a depth $D$ such that the DPDT tree $T^{DPDT}_D$ is s
 
 The proof of this theorem is given in the next section.
 
-\subsection{Proof of Improvement over CART}\label{proof-improve-opt}
+\subsection{Proof of improvement over CART}\label{proof-improve-opt}
 In this section we construct a dataset for which the greedy tree of depth 2 fails to accurately classify data while DPDT with calls to CART as a splits generating function guarantees a strictly better accuracy. The dataset is the XOR pattern like in figure \ref{fig:patho}. We will first show that greedy tree induction like CART chooses the first split at random and the second split in between the two columns or rows. Then we will quantify the misclassification of the depth-2 greedy tree on the XOR gate. Finally we will show that using the second greedy split as the root of a tree and then building the remaining nodes greedily, i.e. running DPDT with the CART heuristic, strictly decreases the misclassification. 
 \begin{definition}[XOR dataset]\label{def:checkerboard}
      Let us defined the XOR dataset as $\mathcal{E}_{XOR} = \{(X_i, Y_i)\}_{i=1}^N$. $X_i = (x_i, y_i) \sim \mathcal{U}([0,1]^2)$ are i.i.d 2-features samples. $Y_i = f(X_i)$ are alternating classes with $f(x,y) = (\lfloor 2x \rfloor + \lfloor 2y \rfloor) \bmod 2$.
@@ -184,7 +184,7 @@ We can now formally prove theorem \ref{thm:better_greedy}.
     We know from lemma \ref{lem:dpdt-better} that with high probability, the forced-tree of depth 2 is strictly more accurate than the greedy tree of depth 2 on the XOR dataset. Because we know by proposition \ref{prop:equiv} that DPDT returns the tree with maximal accuracy from its solution set, we can say that DPDT depth-2 trees are strictly better than depth-2 greedy trees returned by e.g. CART on the XOR dataset. 
 \end{proof}
 
-\subsection{Practical Implementation}
+\subsection{Practical implementation}
 
 The key bottlenecks lie in the MDP construction step of DPDT (section \ref{sec:the-mdp}). In nature, all decision tree induction algorithms have time complexity exponential in the number of training subsets per tree depth $D$: $O((2B)^D)$, e.g., CART has $O(2^D)$ time complextiy. We already saw that DPDT saves time by not considering all possible tree splits but only $B$ of them. Using state-dependent split generation also allows to generate more or less candidates at different depths of the tree. Indeed, the MDP state $s = (X,d)$ contains the current depth during the MDP construction process. This means that one can control DPDT's time complexity by giving multiple values of maximum nodes: given $(B_1, B_2, ..., B_D)$, the splits generating function in algorithm~\ref{alg:dpdt} becomes $\phi(s_i) = \phi(X_i, d=1) = nodes(\text{CART}(s, max\_nodes=B_1))$ and  $\phi(s_j) = \phi(X_j, d=2) = nodes(\text{CART}(s, max\_nodes=B_2))$.
 

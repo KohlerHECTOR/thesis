@@ -1,6 +1,5 @@
 \chapter*{Preliminary Concepts}
-\section{Interpretable Sequential Decision Making}
-\subsection{What is Sequential Decision Making?}
+\section{What is sequential decision making?}
 \begin{figure}[htbp]
     \centering
     \begin{tikzpicture}[
@@ -84,7 +83,7 @@ Such machine learning algorithms train increasingly performant programs that are
 However, the key problem behind this manuscript is that the computations performed by these programs cannot be understood and verified by humans: the programs are black-box.
 Next, we describe the notion of interpretability that is key to ensure safe deployment of computer programs trained with machine learning in critical sectors like medicine.
 
-\subsection{What is Interpretability?}
+\section{What is Interpretability?}
 
 
 Originally, the etymology of ``interpretability'' is the Latin ``interpretabilis'', meaning ``that can be understood and explained''.
@@ -323,7 +322,7 @@ In figure~\ref{fig:cancer-treatment-comparison}, we illustrate how machine learn
 
 The key challenge of doing research on interpretability is the lack of formalism; there is no \textit{formal} definition of what constitutes an interpretable computer program. Hence, unlike for performance objectives, which have well-defined optimization targets (e.g., maximizing accuracy in supervised learning or maximizing rewards over time in reinforcement learning), it is not clear how to design machine learning algorithms to maximize interpretability. 
 Despite this lack of formalism, the necessity of deploying interpretable programs has sparked many works, which we present next.
-\subsection{What are existing approaches for learning interpretable programs?}
+\section{What are existing approaches for learning interpretable programs?}
 
 In this section we follow sections 6 and 7 of \cite{glanois-survey} and section 5 of \cite{milani-survey}. 
 Furthermore we now employ the term ``model'' to refer to ``programs'' to be consistent with the machine learning research conventions.
@@ -726,7 +725,7 @@ where $\gamma \in (0,1]$ is the discount factor that controls the trade-off betw
 Hence, algorithms presented in this manuscript aim to find solutions to Markov decision problems, i.e., to model the optimal policy: $\pi^\star =\underset{\pi}{\operatorname{argmax}}J(\pi)$.
 For the rest of this text, by abuse of notation, we denote both a Markov decision process and the associated Markov decision problem by MDP.
 
-\subsection{Example: a grid-world MDP}
+\subsection{Example: a grid world MDP}
 \begin{figure}[h]
     \centering
     \begin{tikzpicture}
@@ -783,7 +782,7 @@ For the rest of this text, by abuse of notation, we denote both a Markov decisio
         \node at (4.2,1.3) {{\color{green} $\downarrow$}};
         \node at (4.5,1.5) {{\color{green} $\rightarrow$}};
     \end{tikzpicture}
-    \caption{A grid-world MDP (left) and optimal actions w.r.t. the objective~\ref{def:mdp-obj} (right).}\label{example:grid}
+    \caption{A grid world MDP (left) and optimal actions w.r.t. the objective~\ref{def:mdp-obj} (right).}\label{example:grid}
     \end{figure}
 
 In figure~\ref{example:grid}, we present a very simple MDP(~\ref{def:mdp}).
@@ -1107,11 +1106,11 @@ The reader should also know what an MDP is and how to compute or learn policies 
 Finally, the reader should now know how to obtain a decision tree policy for an MDP through imitation learning by first using RL to get an expert policy and then fitting decision trees to optimize the supervised learning objective\ref{def:sl}, using the expert's actions as labels.
 Note that, in theory, there is no guarantee that such decision tree policies also maximize the RL objective; they optimize only the imitation learning objective\ref{def:il}.
 
-In this section we present the first decision tree policies of this manuscript obtained using Dagger or VIPER after learning an expert policy and expert Q-function for the grid-world MDP \ref{example:grid} with Q-learning\ref{alg:qlearning}.
-Recall the optimal policies for the grid-world, taking the green actions in each state in figure\ref{example:grid}. 
+In this section we present the first decision tree policies of this manuscript obtained using Dagger or VIPER after learning an expert policy and expert Q-function for the grid world MDP \ref{example:grid} with Q-learning\ref{alg:qlearning}.
+Recall the optimal policies for the grid world, taking the green actions in each state in figure\ref{example:grid}. 
 Among the optimal policies, the ones that take action to go left or up in the goal state can be problematic for imitation learning algorithms.
 
-Indeed, we know that for this grid-world MDP there exists a decision tree policy that is optimal and very interpretable (depth-1): go right if the $x$-label of the state is greater than 1 and go left otherwise.
+Indeed, we know that for this grid world MDP there exists a decision tree policy that is optimal and very interpretable (depth-1): go right if the $x$-label of the state is greater than 1 and go left otherwise.
 This tree takes exactly the same actions in the same states as some of the optimal policy from figure\ref{example:grid}.
 
 In figure\ref{fig:trees-intro}, we present a depth-1 decision tree policy that is optimal w.r.t. the RL objective and a depth-1 tree that is suboptimal.
@@ -1169,7 +1168,7 @@ Importantly, this sheds light on the sub-optimality of indirect imitation w.r.t 
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{images/images_part1/base_mdp.pdf}
-    \caption{Left, sample complexity curve of Q-learning with default hyperparameters on the $2\times 2$ grid-world MDP over 100 random seeds. Right, performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
+    \caption{Left, sample complexity curve of Q-learning with default hyperparameters on the $2\times 2$ grid world MDP over 100 random seeds. Right, performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
 \end{figure}
 
 Now that the reader has seen how to get an interpretable policy for an MDP, we believe it is ready to dive into the contributions of this thesis.

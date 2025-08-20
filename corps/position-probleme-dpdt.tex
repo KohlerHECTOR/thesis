@@ -42,7 +42,7 @@ Theoretically, we show that DPDT minimizes the empirical risk at least as well a
 Empirically, we show that on all tested datasets, DPDT can reach 99\% of the optimal regularized train accuracy while using thousands times less operations than current optimal solvers. 
 More importantly, we follow \cite{grinsztajn2022tree} methodology to benchmark DPDT against both CART and optimal trees on hard datasets. Following the same methodology, we compare boosted DPDT \cite{FREUND1997119} to boosted CART and to some deep learning methods and show clear superiority of DPDT.
 
-\section{Related Work}
+\section{Related work}
 
 To learn decision trees, greedy approaches like CART (algorithm~\ref{alg:cart} \cite{breiman1984classification}) iteratively partition the training dataset by taking splits optimizing a local objective such as the Gini impurity or the entropy. 
 This makes CART suboptimal with respect to training losses (\ref{def:sl}) \cite{Murthy}. 
