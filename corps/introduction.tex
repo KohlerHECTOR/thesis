@@ -525,8 +525,8 @@ This something that will be key in our study of decision tree models that we int
     \begin{itemize}
     \item Each internal node $v \in V$ is associated with a test function $f_v: \mathcal{X} \rightarrow \{0, 1\}$ that maps input features $x \in \mathcal{X}$ to a Boolean.
     \item Each edge $e \in E$ from an internal node corresponds to an outcome of the associated test function.
-    \item Each leaf node $\ell \in V$ is associated with a prediction $y_\ell \in \mathcal{Y}$, where $\mathcal{Y}$ is the output space.
-    \item For any input $x \in \mathcal{X}$, the tree defines a unique path from root to leaf, determining the prediction $T(x) = y_\ell$ where $\ell$ is the reached leaf.
+    \item Each leaf node $l \in V$ is associated with a prediction $y_l \in \mathcal{Y}$, where $\mathcal{Y}$ is the output space.
+    \item For any input $x \in \mathcal{X}$, the tree defines a unique path from root to leaf, determining the prediction $T(x) = y_l$ where $l$ is the reached leaf.
     \end{itemize}
     The depth of a tree is the maximum path lentght from root to any leaf.
     \end{definition}
@@ -562,7 +562,7 @@ This something that will be key in our study of decision tree models that we int
         \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
         
     \end{tikzpicture}
-    \caption{A generic depth 2 decision tree with 3 nodes and 3 leaves. Internal nodes contain test functions $f_v(x): \mathcal{X} \rightarrow \{0,1\}$ that map input features to boolean values. Edges represent the outcomes of these tests (True/False), and leaf nodes contain predictions $y_\ell \in \mathcal{Y}$. For any input $x$, the tree defines a unique path from root to leaf.}
+    \caption{A generic depth 2 decision tree with 3 nodes and 3 leaves. Internal nodes contain test functions $f_v(x): \mathcal{X} \rightarrow \{0,1\}$ that map input features to boolean values. Edges represent the outcomes of these tests (True/False), and leaf nodes contain predictions $y_l \in \mathcal{Y}$. For any input $x$, the tree defines a unique path from root to leaf.}
     \label{fig:dt}
 \end{figure}
 
@@ -572,9 +572,9 @@ Training decision trees to optimize the supervised learning objective~\ref{def:s
 \begin{definition}[Supervised learning]\label{def:sl}
     Assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$.
     For a classification task $\mathcal{Y}=\{1,\ldots,K\}$ and for a regression task $\mathcal{Y}\subseteq \mathbb{R}$.
-    The goal of supervised learning is to find a classifier (or regressor) $f:X \rightarrow  y$ where $f$ is model in $\mathacal{F}$, e.g. neural networks or decision tres.
+    The goal of supervised learning is to find a classifier (or regressor) $f:X \rightarrow  y$ where $f$ is model in $\mathcal{F}$, e.g. neural networks or decision tres.
     \begin{align}
-        f^* &= \underset{f \in \mathcal{F}}{\operatorname{argmin}}\ \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, f(x_i)) + \alpha C(f),
+        f^* &= \underset{f \in \mathcal{F}}{\operatorname{argmin}}\ \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{l}(y_i, f(x_i)) + \alpha C(f),
         \label{eq:suplearning}
     \end{align}
     where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a regularization penalty.
@@ -944,7 +944,7 @@ However, not many algorithms consider the learning of policies that can be easil
 Reinforcement learning has also been successfully combined with function approximations \cite{td-gammon} to solve MDPs with large discrete state spaces or continuous state spaces ($S \subset \mathbb{R^n}$).
 Such continuous states MDP can be formalized as factored MDPs\cite{fmdp}:
 
-\begin{definition}[Factored Markov decision process] A factored MDP is an MDP\cite{def:mdp} where the state space is a hyperrectangle: $S\subseteq \mathbb{R}^n$.
+\begin{definition}[Factored Markov decision process]\label{def:fmdp} A factored MDP is an MDP\ref{def:mdp} where the state space is a hyperrectangle: $S\subseteq \mathbb{R}^n$.
 \end{definition}
 
 From now on, all the MDPs we study in the this manuscript are factored unless stated otherwise. 
@@ -1120,7 +1120,7 @@ Now a fair question is: can Dagger or VIPER retrieve such an optimal depth-1 tre
 
 We start by running the standard Q-learning algorithm as presented in algorithm\ref{alg:qlearning} with $\epsilon=0.3$, $\alpha=0.1$ over 10,000 time steps.
 The careful reader might wonder how ties are broken in the $\operatorname{argmax}$ operation from algorithm\ref{alg:qlearning}.
-While Sutton and Barto break ties by index value in their book\cite{sutton} (the greedy action is the $\argmax$ action with smallest index), we show that the choice of tie-breaking greatly influences the performance of subsequent imitation learning algorithms.
+While Sutton and Barto break ties by index value in their book\cite{sutton} (the greedy action is the $\operatorname{argmax}$ action with smallest index), we show that the choice of tie-breaking greatly influences the performance of subsequent imitation learning algorithms.
 Indeed, depending on how actions are ordered in practice, Q-learning may be biased toward some optimal policies rather than others.
 While this does not matter for one who just wants to find an optimal policy, in our example of finding the optimal depth-1 decision tree policy, it matters \textit{a lot}.
 

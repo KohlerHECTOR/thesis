@@ -28,7 +28,7 @@ Let us define explicitely a partially observable iterative bounding Markove deci
     \begin{align*}
         \langle \overbrace{S\times O}^{\text{States}}, \underbrace{A\cup A_{info}}_{Action space},\overbrace{O}_{\text{Observations}} ,\underbrace{(R, \zeta)}^{Rewards}, \overbrace{(T_{info}, T, T_0)}_{Transitions}, \Omega \rangle
     \end{align*}
-    Note that $\langle S\times O, A\cup A_{\info}, (R, \zeta),( T, T_0, T_{info})\rangle$ is an IBMDP~\ref{def:ibmdp}.
+    Note that $\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$ is an IBMDP~\ref{def:ibmdp}.
     The transition kernel $\Omega$ maps state features and observations to observations, $\Omega:S\times O \rightarrow O$, with $P(\boldsymbol{o}|(\boldsymbol{s}, \boldsymbol{o}))=1$ 
 \end{definition}
 
@@ -276,7 +276,7 @@ In the next section, we use (asymmetric) RL to learn decision tree policies for 
         \For{each step $t$}{
             Choose action $a_t$ using $\epsilon$-greedy: $a_t = \arg\max_a Q(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$ \\
             Take action $a_t$, observe $r_t = R(x_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $\boldsymbol{o}_{t+1} \sim \Omega(x_{t+1})$ \\
-            $y \leftarrow r + \gamma U(x_{t+1}, \argmax_{a'} Q(\boldsymbol{o}_{t+1}, a'))$ \Comment{// TD target} \\
+            $y \leftarrow r + \gamma U(x_{t+1}, \operatorname{argmax}_{a'} Q(\boldsymbol{o}_{t+1}, a'))$ \Comment{// TD target} \\
             $U(x_t,a_t) \leftarrow (1 - \alpha_u) U(x_t, a_t) + \alpha_u y $ \\
             $Q(\boldsymbol{o}_t,a_t) \leftarrow (1 - \alpha_q) Q(\boldsymbol{o}_t, a_t) + \alpha_q y $ \\
             $x_t \leftarrow x_{t+1}$ \\
@@ -336,7 +336,7 @@ In the next section, we use (asymmetric) RL to learn decision tree policies for 
         }
         \For{each observation $o$}{
             \For{each action $a$}{
-                $\pi_1(a|o) \leftarrow 1.0$ if $a = \argmax_{a'} Q(o, a')$, $0.0$ otherwise \Comment{// Deterministic policy from Q-values}
+                $\pi_1(a|o) \leftarrow 1.0$ if $a = \operatorname{argmax}_{a'} Q(o, a')$, $0.0$ otherwise \Comment{// Deterministic policy from Q-values}
                 $\pi(a|o) \leftarrow (1 - \alpha) \pi(a|o) + \alpha \pi_1(a|o)$ \Comment{// Policy improvement step}
             }
         }

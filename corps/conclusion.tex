@@ -19,4 +19,42 @@ Extensive benchmarking highlights that DPDT computes near-optimal decision trees
 Most importantly, we showed that DPDT can be competitive in many machine learning applications as its generalization capabilities when generating single or ensemble of trees are also state-of-the-art compared to greedy and optimal algorithms.
 While this part of the manuscript may have seemed orthogonal to the other two as the primary focus of algorithms studied there is downstream task performances rather than interpertability, this justifies studying interpretability for more than just transparency and safety, e.g. for perofrmances.
 
+In the last part of this manuscript, we reflect on the notion of intepretability of a model and how to measure it.
+While it seems obvious that interpretability only exists with repsect to a user and a task, the speed at which machine learning is moving as a research field prompts new methodologies that don't require humans.
+In chapter~\ref{sec:intro-methodo}, we proposed to measure the interpretaiblity of a given model with inference speed and size in memory.
+Those two metrics echo the notion of simulatability introduced in~\cite{lipton} in which the interpretability of a model is related to the classical notion of complexity in computer science.
+In chapter~\ref{sec:exps1}, we showed that for those measures to be meaningful when comparing models from different classes, one needs to unfold models in a common language such as python.
+Hence, after sequentializing all operations inside a model and running them on the same hardware, we obtain measures for proxies of interpretability that we can meaningfully compare and that aligns with existing results from user studies.
+In chapter~\ref{sec:exps2}, we show that there is no model class that obtain better interpretability-performance trade-off across all tasks.
+This results further highlights the need for careful methodology when researching interpretability as it might not be enough to rely on the assumption that neural networks are less interpretable than decision trees.
 
+We already identified precise future research directions in sections~\ref{sec:ccl-pomdp},~\ref{sec:ccl-dpdt} and~\ref{sec:ccl-imit} and rpresent next some global perspectives on reseach in interpretable sequential decision making.
+Indeed, in an era where research focuses more and more on larger, completely black-box models~\cite{all-you-need} such as large language models (LLMs), it is important to understand if research in interpretability still makes sense or if it is simply rowing against the current.
+Performance-oriented research, i.e. developing algorithms that perform better than others on some benchmark can now have direct impact on our societies.
+Hence a clear motivation for further researching interpretability could be for ``checking'' that deployed models are somehow safe.
+But in our opinion this motivation is only motivational.
+Research going that direction is doomed either because constraining optimization to intrinsically interpretable models will most likely never yield the level of performances of advanced neural networks architectures.
+Or it is doomed because interpreting big models a posteriori will only yield approximated interpretations.
+In one case human will be able to interpret models but those will perform poorly. 
+In the other we can somehow interpret good models but the whole motivation of safety in deployment is then rendered null because of the uncertain nature of interpretations.
+The latter is at the core of emerging and trendy research topics such as mechanistic interpretability or chain-of-thoughts interpretability.
+But not all hope is lost for the future of interpretability research.
+On the contrary, we believe this helps restrict the research directions to ones where interpretability can really be useful.
+Indeed, big transformer models are not the only useful machine learning models.
+Relu networks of any size can be verified formally but we might need to research verification algorithms that scale better with the neural netwrok size.
+Even small neural networks have generalization capabilities and can perform well.
+Similarly, a whole part of this manuscript provided evidence of generalization capability of decision tree predictors.
+Those model classes could be interpreted precisely.
+However, unlike LLMs, there disruptive role in society is still unclear.
+Ideally, future research should focus on identifying a sequential decision making task where interpretability is \textit{strictly} necessary.
+We specify strictly necessary because even for the usual medicine applications presented in the introductions of many interpretability research works (including this one), there have been user studies demonstrating that doctors don't often try to interpret model predictions even if the model is fully transparent~\cite{festor}.
+Perhaps humans trust machine learning programs too much for interpretability to be needed?
+Perhaps, when one has decided to use an artificial intelligence one has already decided to not care about interpretability but only about performances?
+Paradoxically, we believe that interpretable models might be necessary where human operators are not involved after deployment or can only intervene on the deployed model very lightly.
+One extreme could be to think of a military drone controlled by e.g. a neural network policy. If the drone can only launch missiles after a human opertaor presses a button, do we really need interpretabilty?
+Intuitively we want to answer with the positive: what if something wrong happens one needs to understand what went wrong.
+Then how would one motivate a potentiall less performant model that could be verify in a context where performance is sadly the only important thing?
+Another extreme could be to think of a spaceship also controlled by a neural network policy. There it is easier to motivate interpretability through verification of the policy as once deployed, only the neural network will act.
+But in that case isn't designing an exhaustive list of queries to verify (cf. section~\ref{sec:verif}) the same effort as engineering a non-neural controller?
+
+We conclude this manuscript by saying that motivating research in interpretability is probably the hardest open problem in research in interpretability.

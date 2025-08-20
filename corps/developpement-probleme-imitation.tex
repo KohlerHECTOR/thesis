@@ -31,7 +31,7 @@ relu neural networks & \{(2 ,2), (4, 4), (8, 8), (16, 16)\} weigths & SGD \\
 We consider four policy classes for our baselines.
 We consider linear policies that have been shown to be able to solve MuJoCo tasks~\cite{empirical-evidence}.
 We fit linear policies to expert policies using simple linear (logistic) regressions with scikit-learn~\cite{scikit-learn} default implementation.
-We also consider decision trees~\cite{breiman1984clasification} and oblique decision trees~\cite{murthy1994system}.
+We also consider decision trees~\cite{breiman1984classification} and oblique decision trees~\cite{murthy1994system}.
 Oblique decision trees are decision trees which does not necessarily partitions the input domain parallel to axes.
 A test node in an oblique decision tree can be the linear combinations of two state features.
 We give an example of an oblique decision tree unfolded for the Pong game in figure~\ref{lst:pong}.
@@ -95,7 +95,7 @@ We give an example of an oblique decision tree unfolded for the Pong game in fig
   \caption{The Pong game on Atari 2600.}\label{lst:generic-linear}
   \end{minipage}
   \end{figure}
-We train trees using the default CART (algorithm~\ref{alg:cart} ~\cite{breiman1984clasification}) implementation of scikit-learn with varying numbers of parameters (number of nodes in the tree).
+We train trees using the default CART (algorithm~\ref{alg:cart} ~\cite{breiman1984classification}) implementation of scikit-learn with varying numbers of parameters (number of nodes in the tree).
 We explain in more details how we adapt CART to return oblique decision trees in appendix~\ref{chap-app-imit}.
 We also consider neural networks with relu activations~\cite{relunet} with varying number of parameters (total number of weights).
 
@@ -109,7 +109,7 @@ It is important to note that not all experts are compatible with all the variant
 Indeed, SAC experts \cite{deep-rl-relu1} are not compatible with VIPER~\cite{viper} because the latter only works for discrete actions.
 We do not use PPO experts with VIPER either: despite working with discrete actions PPO do not compute a $Q$-function necessary for the samples re-weighting in VIPER.
 All experts are compatible with Dagger~\cite{dagger}.
-We also consider an additional imitation learning algorithm: behaviour cloning (BC)~\cite{behaviour-cloning}.
+We also consider an additional imitation learning algorithm: behaviour cloning (BC)~\cite{behavior-cloning}.
 BC is essentially just one iteration of Dagger imitation i.e. samples are only collected with the expert policy once before fitting a new poicy class.
 For Dagger and VIPER we use 10 iterations of samples collections with experts and teacher policy (cf. algorithms~\ref{dagger} and~\ref{viper}) with different total samples budget.
 In Table~\ref{tab:repet-distill}, we summarize the different algorithms used to imitate each expert.
@@ -128,7 +128,7 @@ We also specify the total number of samples collected during the imitations as w
   Mujoco& 10 (SAC)& 10 (SAC)& 10 (SAC)& 10 (SAC)&  0 & 0\\
   \bottomrule
   \end{tabular}
-  \caption{Repetitions of each imitation learning algorithm on each environment. We specify from which deep RL algorithms expert policies from the zoo~\citep{zoo} come from in parentheses.}
+  \caption{Repetitions of each imitation learning algorithm on each environment. We specify from which deep RL algorithms expert policies from the zoo~\cite{zoo} come from in parentheses.}
   \label{tab:repet-distill}
 \end{table}
 
@@ -160,7 +160,7 @@ All the experiments presented next run on a dedicated cluster of Intel Xeon Gold
   Pendulum (3, 1, \textbf{-400}) & \\
   \hline
   \end{tabular}
-  \caption{Summary of considered environments (dimensions of states and number or dimensions of actions, \textbf{reward thresholds}). The rewards thresholds are obtained from gymnasium \citep{gymnasium}. For OCAtari environments, we choose the thresholds as the minimum between the DQN expert from \citet{zoo} and the human scores. We also adapt subjectively some thresholds that we find too restrictive especially for MuJoCo (for example, the PPO expert from \citet{zoo} has 2200 reward on Hopper while the default threshold was 3800).}
+  \caption{Summary of considered environments (dimensions of states and number or dimensions of actions, \textbf{reward thresholds}). The rewards thresholds are obtained from gymnasium \cite{gymnasium}. For OCAtari environments, we choose the thresholds as the minimum between the DQN expert from \cite{zoo} and the human scores. We also adapt subjectively some thresholds that we find too restrictive especially for MuJoCo (for example, the PPO expert from \cite{zoo} has 2200 reward on Hopper while the default threshold was 3800).}
   \label{tab:envs}
   \end{table}
 
@@ -235,7 +235,7 @@ Hence, measuring folded policies interpretability would contradict established r
 
 \subsection{Is there a best policy class in terms of interpretability?}
 User studies from~\cite{study-1,study-2,study-3} show that decision trees are easier to understand than models involving mathematical equations like oblique trees, linear maps, and neural networks.
-However,~\cite{mythos} states that for a human wanting to have a global idea of the inference of a policy, a compact neural network can be more interpretable than a very deep decision tree.
+However,~\cite{lipton} states that for a human wanting to have a global idea of the inference of a policy, a compact neural network can be more interpretable than a very deep decision tree.
 In figure \ref{fig:abl-proxies}, we show that inference speed and memory size of unfolded policies help us capture those nuances: policy interpretability does not only depend on the policy class but also on the metric choice.
 Indeed, when we measure interpretability with inference times, we do observe that trees are more interpretable than neural networks.
 However, when measuring interpretability with policy size, we observe that neural networks can be more interpretable than trees for similar number of parameters.

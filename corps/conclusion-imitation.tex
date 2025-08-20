@@ -5,8 +5,8 @@ For each environment we hence study five deicision tree policies with varyin num
 To obtain fair interpretability measurements, in our case inference speeds in seconds or sizes in bytes (cf. Sec~\ref{sef:unfold}), we run each unfolded policy \textbf{on the same dedicated CPU} for 100 new environment episodes.
 Since all the policies process computations roughly the same way, and since they are exectued on the exact same device in the same conditions we believe the results presented next are a good illustration of our methodology (cf. section~\ref{sec:unfold}) 
 can be used for interpretability research.
+\section{Is it possible to compute interpretable policies for high-dimensional environments?}
 
-\section{Results}
 \begin{figure}
     \centering
     \includegraphics[trim={1.4cm 0 0 0},clip,width=1\textwidth]{images/images_part3/trade_off_select_combine_one_plot.pdf}
@@ -20,7 +20,6 @@ can be used for interpretability research.
 %     \label{fig:trade-off-summary}
 % \end{figure}
 
-\subsection{Is it possible to compute interpretable policies for high-dimensional environments?}
 In figure~\ref{fig:trade-off-summary}, we present results only for part of the environments that we believe are the most representative.
 This allows us to have a compact comparison of policy trade-offs with either of the metric from section~\ref{sef:unfold}.
 The full trade-offs are presented in appendix~\ref{sec:trade-offs-full}.
@@ -32,7 +31,7 @@ However, for very high-dimensional environments like Seaquest (180 state feature
 This observation resonates with the first part of the manuscript where we showed that even in controled experiments where an interpretable policy is optimal, no RL algorithm to retrieve it.
 This yields the following question.
 
-\subsection{For what environment are there good interpretable policies?}
+\section{For what environment are there good interpretable policies?}
 We fitted a random forest regressor~\cite{random} to predict the interpretability values of our best in class policies using environment attributes. 
 In Table~\ref{tab:combined_importance}, we report the importance of each environment attribute when it comes to accurately predicting interpretability scores.
 We show that as hinted previously, the number of state features of the environment is determining to predict the interpretability of good policies.
@@ -58,7 +57,7 @@ Expert reward - Solve reward & 1.15 & 17.37 \\
 \label{tab:combined_importance}
 \end{table}
 
-\subsection{How does interpretability influence performance?}
+\section{How does interpretability influence performance?}
 In \cite{empirical-evidence,theory1}, authors show the existence of linear and tree policies respectively that solve MuJoCo and continuous maze environments respectively.
 This means that there exist environments for which policies more interpretable than deep neural networks can still compete performance-wise.
 Our evaluation indeed shows the existence of such environments.
@@ -72,7 +71,7 @@ This means that, when research interpretability one needs to be extra careful wh
 Next, we compare our proxies for interpretability with another one; the verification time of policies used in \cite{viper,lens-complexity}.
 
 
-\subsection{Verifying interpretable policies}
+\section{Verifying interpretable policies}\label{sec:verif}
 \cite{lens-complexity} states that the cost of formally verifying properties of a relu neural network scales exponentially with the number of parameters (hidden units).
 Hence, they propose to measure interpretability of a policy as the computations required to verify properties of actions given state features subspaces, what they call local explainability queries \cite{query}.
 Interestingly, VIPER (algorithm~\ref{alg:viper},~\cite{viper}) was designed in hope to get policies tht were easy to verify.
@@ -96,7 +95,7 @@ Indeed it is known that oblique decision trees can be written as a relu neural n
 On figure \ref{fig:trade-off-verif}, we can observe that verification time decreases exponentially with our measures of interpretability as shown theoretically in \cite{lens-complexity}.
 This is another good validation of our proposed methodology as well as a motivation to learn interpretable policies. 
 
-\section{Limitations and conclusions}\label{sec:ccl}
+\section{Limitations and conclusions}\label{sec:ccl-imit}
 In this part of the mansucript, we have proposed to write policies for MDPs from different model classes in a unified language.
 We believe that unfolding policies (cf. section~\ref{sec:unfold}) allows for fair measurements of interpretability proxies.
 In particular, we unfolded thousands of policies from different model classes (cf. Tab~\ref{tab:policy-classes}), and showed that comparing inference speed and sizes gave conclusions about interpretability similar to existing user studies (cf. section~\ref{sec:exps1}).

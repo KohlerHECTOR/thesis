@@ -17,7 +17,7 @@ The set of states is $S = \{ (X, d) \in P(\mathcal{E}) \times \{0, \ldots, D\} \
 An action $A$ consists in creating either a split node, or a leaf node (label assignment). We denote the set of candidate split nodes $ {\mathcal F} $. A split node in $\mathcal F$ is a pair made of one feature $i$ and a threshold value $x_{ij}\in \mathcal{E}$.
 So, we can write $A = {\mathcal{F} \cup \{ 1, \ldots, K \}}$ (these are essentially information gathering actions).
 From state $s=(X,d)$ and a splitting action $a \in {\mathcal F}$, the transition function $P$ moves to the next state $s_l = (X_l, d+1)$ with probability $p_l = \frac{|X_l|}{|X|}$ where $X_l = \{(x_i, y_i) \in X: x_i \leq x_{ij}\}$, or to state $s_r = (X \setminus X_l, d+1)$ with probability $1-p_l$. For a class assignment action $a \in \{1,\ldots,K\}$, the chain reaches an absorbing terminal state with probability 1. 
-The reward function $R_{\alpha}: S \times A \rightarrow \mathbb{R}$ returns $-\alpha$ for splitting actions (this is $\zeta$ in a classificaion POIBMDP (\ref{def:cpoibmdp})) and the proportion of misclassified examples of $X$ $-\frac{1}{|X|}\sum_{(x_i,y_i) \in X} \ell(y_i, a)$ for class assignment actions. $\alpha \in [0,1]$ controls the accuracy-complexity trade-off defined in the regularized training objective \ref{eq:suplearning}. 
+The reward function $R_{\alpha}: S \times A \rightarrow \mathbb{R}$ returns $-\alpha$ for splitting actions (this is $\zeta$ in a classificaion POIBMDP (\ref{def:cpoibmdp})) and the proportion of misclassified examples of $X$ $-\frac{1}{|X|}\sum_{(x_i,y_i) \in X} l(y_i, a)$ for class assignment actions. $\alpha \in [0,1]$ controls the accuracy-complexity trade-off defined in the regularized training objective \ref{eq:suplearning}. 
 
 The solution to this MDP is a deterministic policy $\pi: S \rightarrow A$ that maximizes {$J_{\alpha}(\pi) ={\mathbb{E}}\left[\sum_{t = 0}^D R_{\alpha}(s_t, \pi(s_t))\right]$\label{def:finite-mdp-obj}}, the expected sum of rewards where the expectation is taken over transitions $s_{t+1}\sim P(s_t, \pi(s_t))$ starting from initial state $s_0 = (\mathcal{E}, 0)$.
 This objective is a re-writing of (\ref{def:mdp-obj}) where the trajectory have finite lengths $D$ rather than being infinite.
@@ -42,9 +42,9 @@ Moreover, from the definition of the policy return we have
 \begin{align*}
    J_\alpha(&\pi, {\mathcal E}, D + 1) = -\alpha + p_l * J_\alpha(\pi, X_l, D) + p_r * J_\alpha(\pi, X_r, D)\\
    &= -\alpha - p_l * {\mathcal L}_\alpha(T_l, X_l) - p_r * {\mathcal L}_\alpha(T_r, D)\\
-   &= -\alpha - p_l * \Bigg(\frac{1}{|X_l|}\sum_{(x_i, y_i)\in X_l}\ell(y_i, T_l(x_i))  + \alpha C(T_l)\Bigg)\\
-   &\ - p_r * \Bigg(\frac{1}{|X_r|}\sum_{(x_i, y_i)\in X_r}\ell(y_i, T_r(x_i))  + \alpha C(T_r)\Bigg)\\
-   &= -\frac{1}{N}\sum_{(x_i, y_i)\in X}\ell(y_i, T(x_i)) - \alpha (1 + p_l C(T_l) + p_r C(T_r))\\
+   &= -\alpha - p_l * \Bigg(\frac{1}{|X_l|}\sum_{(x_i, y_i)\in X_l}l(y_i, T_l(x_i))  + \alpha C(T_l)\Bigg)\\
+   &\ - p_r * \Bigg(\frac{1}{|X_r|}\sum_{(x_i, y_i)\in X_r}l(y_i, T_r(x_i))  + \alpha C(T_r)\Bigg)\\
+   &= -\frac{1}{N}\sum_{(x_i, y_i)\in X}l(y_i, T(x_i)) - \alpha (1 + p_l C(T_l) + p_r C(T_r))\\
    &= -{\mathcal L}(T, {\mathcal E}) 
 \end{align*}
 \end{proof}
@@ -113,13 +113,13 @@ The number of MDP states would be $O({(2B)}^D)$.\textit{When $B=1$, the MDP poli
             \Comment{{// Backward induction}}
             $Q^*(s,a) \gets R_{\alpha}^{\mathcal{M}}(s,a) + \sum_{s'} P^{\mathcal{M}}(s,a,s') \max_{a' \in A_{s'}^{\mathcal{M}}} Q^*(s',a') \forall s,a \in \mathcal{M}$\\
             \Comment{{// Get the optimal policy}}
-            $\pi^*(s) = \argmax_{a \in A_s^{\mathcal{M}}} Q^*(s, a) \forall s \in \mathcal{M} $\\
+            $\pi^*(s) = \operatorname{argmax}_{a \in A_s^{\mathcal{M}}} Q^*(s, a) \forall s \in \mathcal{M} $\\
             \Comment{{// Extracting tree from policy}}
             $T \gets E(\pi^*,s_0^{\mathcal{M}}) $
             \caption{DPDT}\label{alg:dpdt}
         \end{algorithm}
         
-After constructing the MDP with a chosen splits generating function, we solve for the optimal policy using dynamic programming. Starting from terminal states and working backward to the initial state, we compute the optimal state-action values using Bellman's optimality equation~\cite{BELLMAN1958228}, and then deducing the optimal policy.
+After constructing the MDP with a chosen splits generating function, we solve for the optimal policy using dynamic programming. Starting from terminal states and working backward to the initial state, we compute the optimal state-action values using Bellman's optimality equation~\cite{Bellman}, and then deducing the optimal policy.
 
 From now on, we write DPDT to denote algorithm \ref{alg:dpdt} when the split function is a call to CART. We discuss key bottlenecks when implementing DPDT in subsequent sections. We now state theoretical results when using DPDT with the CART heuristic. 
 

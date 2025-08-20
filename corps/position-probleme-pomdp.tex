@@ -81,13 +81,13 @@ In particular, the IGA rewards $\zeta$ can be seen as a regularization or a pena
 
 Authors from \cite{topin2021iterative} show that not all IBMDP policies are decision tree policies.
 In particular, they show that only deterministic policies depending solely on the observation part of the IBMDP states are guaranteed to correspond to decision tree policies for the base MDP.
-The intuition is that if one trains a policy $\pi:S\timesO\rightarrow A\cup A_{info}$, the policy might learn to rely only on state features of the base MDP $\boldsymbol{s}$ and take only base actions (no IGAs) which would simply be any policy for the base MDP.
+The intuition is that if one trains a policy $\pi:S\times O\rightarrow A\cup A_{info}$, the policy might learn to rely only on state features of the base MDP $\boldsymbol{s}$ and take only base actions (no IGAs) which would simply be any policy for the base MDP.
 
 \begin{proposition}[Deterministic partially observable IBMDP policies are decision trees]\label{def:po-policy}
     Given a factored MDP $\mathcal{M}$ $\langle S, A, R, T, T_0\rangle$ (\ref{def:fmdp}) and an associated IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}), a deterministic partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ is a decision tree policy $\pi_{\mathcal{T}}: S \rightarrow A$ for the base MDP $\mathcal{M}$.
 \end{proposition}
 
-\begin{proof}(Sketch) algorithm~\ref{alg:extract-tree} that takes as input a deterministic partially observable policy (\ref{def:po-policy}) for an IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}), returns a decision tree policy $\pi_{\mathcal{T}}$ (\ref{def:dt}) for $\mathcal{M}$ $\langle S, A, R, T, T_0\rangle$ and always terminates unless the deterministic partially observable policy only takes IGAs.
+\begin{proof}(Sketch) algorithm~\ref{alg:extract-tree} that takes as input a deterministic partially observable policy (\ref{def:po-policy}) for an IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}), returns a decision tree policy $\pi_{\mathcal{T}}$ (\ref{sec:dt}) for $\mathcal{M}$ $\langle S, A, R, T, T_0\rangle$ and always terminates unless the deterministic partially observable policy only takes IGAs.
 \end{proof}
 
 \begin{algorithm}[t]
@@ -301,7 +301,7 @@ We can thus write an interpretable RL objective as follows:
 \begin{definition}[direct interpretable RL objective]\label{def:irl}
     Given a factored MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$ for which we want an interpretable policy, e.g. a decision tree, a discount factor $\gamma \in (0,1]$, some interpretability penalty $\zeta$, and a set of information gathering actions $A_{info}$, we solve:
 \begin{align*}
-    \pi^\star_{po} &= \underset{\pi_{po}}{\opertarname{argmax}} \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R((\boldsymbol{s}_t, \boldsymbol{o}_t), a_t) \mid \boldsymbol{s}_0 \sim T_0, a_t = \pi_{po}(\boldsymbol{o}_t), \boldsymbol{s}_{t+1} \sim T(\boldsymbol{s}_t, a_t), \boldsymbol{o}_{t+1}\sim T(\boldsymbol{o_t}, a_t)\right]\\
+    \pi^\star_{po} &= \underset{\pi_{po}}{\operatorname{argmax}} \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R((\boldsymbol{s}_t, \boldsymbol{o}_t), a_t) \mid \boldsymbol{s}_0 \sim T_0, a_t = \pi_{po}(\boldsymbol{o}_t), \boldsymbol{s}_{t+1} \sim T(\boldsymbol{s}_t, a_t), \boldsymbol{o}_{t+1}\sim T(\boldsymbol{o_t}, a_t)\right]\\
     &= \underset{\pi_{po}}{\operatorname{argmax}} \mathbb{E}[V^{\pi_{po}}(s_0, o_0)| s_0\sim T_0]
 \end{align*}
 With $V^{\pi_{po}}$ the value function (\ref{def:vs}) of deterministic partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ (\ref{def:po-policy}) in the IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}).

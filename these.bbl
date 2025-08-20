@@ -2467,6 +2467,71 @@
       \field{pages}{1026\bibrangedash 1034}
       \range{pages}{9}
     \endentry
+    \entry{study-7}{article}{}
+      \name{author}{5}{}{%
+        {{hash=b969d561e420c60c2152eabef1c7a013}{%
+           family={Huysmans},
+           familyi={H\bibinitperiod},
+           given={Johan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=e6b7244b0a48c9693692dbe5c3959cfc}{%
+           family={Dejaeger},
+           familyi={D\bibinitperiod},
+           given={Karel},
+           giveni={K\bibinitperiod}}}%
+        {{hash=3bac0e1e8f78c9e5117c9c2a6ea28cc8}{%
+           family={Mues},
+           familyi={M\bibinitperiod},
+           given={Christophe},
+           giveni={C\bibinitperiod}}}%
+        {{hash=7c9b1ecbcfd9821236d98bd2f382aa1e}{%
+           family={Vanthienen},
+           familyi={V\bibinitperiod},
+           given={Jan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=472b50c96c585262831beb84136b4639}{%
+           family={Baesens},
+           familyi={B\bibinitperiod},
+           given={Bart},
+           giveni={B\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {NLD}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier Science Publishers B. V.}%
+      }
+      \strng{namehash}{7377dc9df4a6ab82a6302bcbea9a6050}
+      \strng{fullhash}{5a098327c16e7de4346761b71568c94b}
+      \strng{bibnamehash}{7377dc9df4a6ab82a6302bcbea9a6050}
+      \strng{authorbibnamehash}{7377dc9df4a6ab82a6302bcbea9a6050}
+      \strng{authornamehash}{7377dc9df4a6ab82a6302bcbea9a6050}
+      \strng{authorfullhash}{5a098327c16e7de4346761b71568c94b}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{An important objective of data mining is the development of predictive models. Based on a number of observations, a model is constructed that allows the analysts to provide classifications or predictions for new observations. Currently, most research focuses on improving the accuracy or precision of these models and comparatively little research has been undertaken to increase their comprehensibility to the analyst or end-user. This is mainly due to the subjective nature of 'comprehensibility', which depends on many factors outside the model, such as the user's experience and his/her prior knowledge. Despite this influence of the observer, some representation formats are generally considered to be more easily interpretable than others. In this paper, an empirical study is presented which investigates the suitability of a number of alternative representation formats for classification when interpretability is a key requirement. The formats under consideration are decision tables, (binary) decision trees, propositional rules, and oblique rules. An end-user experiment was designed to test the accuracy, response time, and answer confidence for a set of problem-solving tasks involving the former representations. Analysis of the results reveals that decision tables perform significantly better on all three criteria, while post-test voting also reveals a clear preference of users for decision tables in terms of ease of use.}
+      \field{issn}{0167-9236}
+      \field{journaltitle}{Decis. Support Syst.}
+      \field{month}{4}
+      \field{number}{1}
+      \field{title}{An empirical evaluation of the comprehensibility of decision table, tree and rule based predictive models}
+      \field{volume}{51}
+      \field{year}{2011}
+      \field{pages}{141\bibrangedash 154}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1016/j.dss.2010.12.003
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1016/j.dss.2010.12.003
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1016/j.dss.2010.12.003
+      \endverb
+      \keyw{Classification,Comprehensibility,Data mining,Decision tables,Knowledge representation}
+    \endentry
     \entry{npcomplete}{article}{}
       \name{author}{2}{}{%
         {{hash=e85f8ce0a6b692a613b601d2bbde2925}{%
@@ -3873,6 +3938,62 @@
       \verb https://proceedings.mlr.press/v162/mazumder22a.html
       \endverb
     \endentry
+    \entry{mctavish2022fast}{inproceedings}{}
+      \name{author}{7}{}{%
+        {{hash=b3423d08711606bb6345052f8472143e}{%
+           family={McTavish},
+           familyi={M\bibinitperiod},
+           given={Hayden},
+           giveni={H\bibinitperiod}}}%
+        {{hash=b5ad1859e811962e34120386d67a74da}{%
+           family={Zhong},
+           familyi={Z\bibinitperiod},
+           given={Chudi},
+           giveni={C\bibinitperiod}}}%
+        {{hash=51d3756f85daea9688c8d638258345f9}{%
+           family={Achermann},
+           familyi={A\bibinitperiod},
+           given={Reto},
+           giveni={R\bibinitperiod}}}%
+        {{hash=bfe457076c2d227b1916d23955629790}{%
+           family={Karimalis},
+           familyi={K\bibinitperiod},
+           given={Ilias},
+           giveni={I\bibinitperiod}}}%
+        {{hash=b445cbf051890304543fc1647c002b79}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Jacques},
+           giveni={J\bibinitperiod}}}%
+        {{hash=ed6b4fef67abb4c043b72d1843b36826}{%
+           family={Rudin},
+           familyi={R\bibinitperiod},
+           given={Cynthia},
+           giveni={C\bibinitperiod}}}%
+        {{hash=97ae0012fef2e4f07351b0dbfce000a1}{%
+           family={Seltzer},
+           familyi={S\bibinitperiod},
+           given={Margo},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{61accc8c6349e890c24a1a490ddf7a99}
+      \strng{fullhash}{9329ad41b3c61c1f748b8c8cfd9cf93f}
+      \strng{bibnamehash}{61accc8c6349e890c24a1a490ddf7a99}
+      \strng{authorbibnamehash}{61accc8c6349e890c24a1a490ddf7a99}
+      \strng{authornamehash}{61accc8c6349e890c24a1a490ddf7a99}
+      \strng{authorfullhash}{9329ad41b3c61c1f748b8c8cfd9cf93f}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the AAAI conference on artificial intelligence}
+      \field{number}{9}
+      \field{title}{Fast sparse decision tree optimization via reference ensembles}
+      \field{volume}{36}
+      \field{year}{2022}
+      \field{pages}{9604\bibrangedash 9613}
+      \range{pages}{10}
+    \endentry
     \entry{sl}{book}{}
       \name{author}{1}{}{%
         {{hash=5b4326511533be34e3d6ecac63417d9c}{%
@@ -4142,6 +4263,45 @@
       \field{pages}{1025\bibrangedash 1031}
       \range{pages}{7}
     \endentry
+    \entry{lookahead}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=72cae7a2054ca4135a34bb2664c3cfc2}{%
+           family={Murthy},
+           familyi={M\bibinitperiod},
+           given={Sreerama},
+           giveni={S\bibinitperiod}}}%
+        {{hash=889ed6a07db3e35eb8dc4e046ae9d900}{%
+           family={Salzberg},
+           familyi={S\bibinitperiod},
+           given={Steven},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Montreal, Quebec, Canada}%
+      }
+      \list{publisher}{1}{%
+        {Morgan Kaufmann Publishers Inc.}%
+      }
+      \strng{namehash}{c623900f7d4916f92fee44e352dfa54d}
+      \strng{fullhash}{c623900f7d4916f92fee44e352dfa54d}
+      \strng{bibnamehash}{c623900f7d4916f92fee44e352dfa54d}
+      \strng{authorbibnamehash}{c623900f7d4916f92fee44e352dfa54d}
+      \strng{authornamehash}{c623900f7d4916f92fee44e352dfa54d}
+      \strng{authorfullhash}{c623900f7d4916f92fee44e352dfa54d}
+      \field{extraname}{3}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The standard approach to decision tree induction is a top-down greedy agorithm that makes locally optimal irrevocable decisions at each node of a tree. In this paper we empircally study an alternative approach in which the algorithms use one-level lookahead to decide what test to use at a node. we systematically compare using a very large number of artificial data sets the quality of dimension trees induced by the greedy approach to that of trees induced using lookahead. The main observations from our experiments are (1) the greedy approach consistently produced trees that were just as at accurate as trees produced with the much more expensive lookahead step and (n) we observed many instances of pathology, i.e, lookahead produced trees that were both larger and less accurate than trees produced without it.}
+      \field{booktitle}{Proceedings of the 14th International Joint Conference on Artificial Intelligence - Volume 2}
+      \field{isbn}{1558603638}
+      \field{series}{IJCAI'95}
+      \field{title}{Lookahead and pathology in decision tree induction}
+      \field{year}{1995}
+      \field{pages}{1025\bibrangedash 1031}
+      \range{pages}{7}
+    \endentry
     \entry{murthy1994system}{article}{}
       \name{author}{3}{}{%
         {{hash=a4beb494440853984fa32d36c0403812}{%
@@ -4176,6 +4336,55 @@
       \field{year}{1994}
       \field{pages}{1\bibrangedash 32}
       \range{pages}{32}
+    \endentry
+    \entry{festor}{article}{}
+      \name{author}{5}{}{%
+        {{hash=a8b41d9635a217ee6be0568559df58b7}{%
+           family={Nagendran},
+           familyi={N\bibinitperiod},
+           given={Myura},
+           giveni={M\bibinitperiod}}}%
+        {{hash=bda011aa3fccfa3bb308c241a8136e55}{%
+           family={Festor},
+           familyi={F\bibinitperiod},
+           given={Paul},
+           giveni={P\bibinitperiod}}}%
+        {{hash=cef5f97856a02a62b952884f01f514d7}{%
+           family={Komorowski},
+           familyi={K\bibinitperiod},
+           given={Matthieu},
+           giveni={M\bibinitperiod}}}%
+        {{hash=635fc3a87cedb77e89a7b510d61d0756}{%
+           family={Gordon},
+           familyi={G\bibinitperiod},
+           given={Anthony\bibnamedelima C},
+           giveni={A\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=db98712630ea3fb185fba36a71648105}{%
+           family={Faisal},
+           familyi={F\bibinitperiod},
+           given={Aldo\bibnamedelima A},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group UK London}%
+      }
+      \strng{namehash}{a339dc0aa68cb6258eca5d8fc09a3cc8}
+      \strng{fullhash}{c398426af0a0162889c3a22d6351ee90}
+      \strng{bibnamehash}{a339dc0aa68cb6258eca5d8fc09a3cc8}
+      \strng{authorbibnamehash}{a339dc0aa68cb6258eca5d8fc09a3cc8}
+      \strng{authornamehash}{a339dc0aa68cb6258eca5d8fc09a3cc8}
+      \strng{authorfullhash}{c398426af0a0162889c3a22d6351ee90}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{NPJ Digital Medicine}
+      \field{number}{1}
+      \field{title}{Eye tracking insights into physician behaviour with safe and unsafe explainable AI recommendations}
+      \field{volume}{7}
+      \field{year}{2024}
+      \field{pages}{202}
+      \range{pages}{1}
     \endentry
     \entry{NIPS2015_1579779b}{article}{}
       \name{author}{5}{}{%
@@ -5810,6 +6019,113 @@
       \verb https://doi.org/10.1145/2641190.2641198
       \endverb
     \endentry
+    \entry{all-you-need}{inproceedings}{}
+      \name{author}{8}{}{%
+        {{hash=7f28e84700536646dd6620a0db07ad09}{%
+           family={Vaswani},
+           familyi={V\bibinitperiod},
+           given={Ashish},
+           giveni={A\bibinitperiod}}}%
+        {{hash=62efade83d70f0323fe248755e6c90c5}{%
+           family={Shazeer},
+           familyi={S\bibinitperiod},
+           given={Noam},
+           giveni={N\bibinitperiod}}}%
+        {{hash=06649ebab1ea5cac0250746a19764975}{%
+           family={Parmar},
+           familyi={P\bibinitperiod},
+           given={Niki},
+           giveni={N\bibinitperiod}}}%
+        {{hash=831027ee0ebf22375e2a86afc1881909}{%
+           family={Uszkoreit},
+           familyi={U\bibinitperiod},
+           given={Jakob},
+           giveni={J\bibinitperiod}}}%
+        {{hash=2fd2982e30ebcec93ec1cf76e0d797fd}{%
+           family={Jones},
+           familyi={J\bibinitperiod},
+           given={Llion},
+           giveni={L\bibinitperiod}}}%
+        {{hash=27b07e4eacbf4ef7a1438e3badb7dd8d}{%
+           family={Gomez},
+           familyi={G\bibinitperiod},
+           given={Aidan\bibnamedelima N},
+           giveni={A\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+        {{hash=540fcd72e1fa4bbed46604f4e6cff817}{%
+           family={Kaiser},
+           familyi={K\bibinitperiod},
+           given={\L{}ukasz},
+           giveni={\L{}\bibinitperiod}}}%
+        {{hash=95595a0fefb86187cbc36e551017d332}{%
+           family={Polosukhin},
+           familyi={P\bibinitperiod},
+           given={Illia},
+           giveni={I\bibinitperiod}}}%
+      }
+      \name{editor}{7}{}{%
+        {{hash=e7e74de725116358b68a6e890c026145}{%
+           family={Guyon},
+           familyi={G\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+        {{hash=3b118a9660c18913c6d05d3bcfae41a3}{%
+           family={Luxburg},
+           familyi={L\bibinitperiod},
+           given={U.\bibnamedelimi Von},
+           giveni={U\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{hash=9b411b6c9cefdde16ffea77ecf612142}{%
+           family={Bengio},
+           familyi={B\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=1444141e07dd9549dbb4b8530fe4ec15}{%
+           family={Wallach},
+           familyi={W\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+        {{hash=f3857e15544199442f3d4fb2cf6645b4}{%
+           family={Fergus},
+           familyi={F\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=c73f06e2fc98c9b0bf52eb5fdce61943}{%
+           family={Vishwanathan},
+           familyi={V\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=36b98b7ab533936cf1b5716148de704f}{%
+           family={Garnett},
+           familyi={G\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Curran Associates, Inc.}%
+      }
+      \strng{namehash}{ee273ab30cfb889666f8c4d806eb9ce7}
+      \strng{fullhash}{cb26e47f6b8133865271fc8483132297}
+      \strng{bibnamehash}{ee273ab30cfb889666f8c4d806eb9ce7}
+      \strng{authorbibnamehash}{ee273ab30cfb889666f8c4d806eb9ce7}
+      \strng{authornamehash}{ee273ab30cfb889666f8c4d806eb9ce7}
+      \strng{authorfullhash}{cb26e47f6b8133865271fc8483132297}
+      \strng{editorbibnamehash}{7cffda9a379be8eb9063eee4eb0f58b3}
+      \strng{editornamehash}{7cffda9a379be8eb9063eee4eb0f58b3}
+      \strng{editorfullhash}{1564f811a39f09a7400a11284c987926}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in Neural Information Processing Systems}
+      \field{title}{Attention is All you Need}
+      \field{volume}{30}
+      \field{year}{2017}
+      \verb{urlraw}
+      \verb https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf
+      \endverb
+      \verb{url}
+      \verb https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf
+      \endverb
+    \endentry
     \entry{study-3}{article}{}
       \name{author}{4}{}{%
         {{hash=e320091d7880beb0b3888c27a6ca638a}{%
@@ -6272,16 +6588,6 @@
       \keyw{Training;Neural networks;Forestry;Classification algorithms;Partitioning algorithms;Optimization;Regression tree analysis}
     \endentry
   \enddatalist
-  \missing{BELLMAN1958228}
-  \missing{McTavish_Zhong_Achermann_Karimalis_Chen_Rudin_Seltzer_2022}
-  \missing{behaviour-cloning}
-  \missing{blosson}
-  \missing{breiman1984clasification}
-  \missing{breiman1984classif}
-  \missing{def:mdp}
-  \missing{mythos}
-  \missing{nduge}
-  \missing{norton}
 \endrefsection
 \endinput
 
