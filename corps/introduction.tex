@@ -569,18 +569,18 @@ This something that will be key in our study of decision tree models that we int
 \subsection{How to learn decision trees?}\label{sec:sl}
 Training decision trees to optimize the supervised learning objective~\ref{def:sl} is well studied.
 
-\begin{definition}[Supervised learning]\label{def:sl}
+\begin{definition}[Supervised learning objective]\label{def:sl}
     Assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$.
     For a classification task $\mathcal{Y}=\{1,\ldots,K\}$ and for a regression task $\mathcal{Y}\subseteq \mathbb{R}$.
-    The goal of supervised learning is to find a classifier (or regressor) $f:X \rightarrow  y$ where $f$ is model in $\mathcal{F}$, e.g. neural networks or decision tres.
+    The goal of supervised learning is to find a classifier (or regressor) $f:X \rightarrow  y$ where $f$ is model in $\mathcal{F}$, e.g. neural networks or decision trees that minimizes the following objective:
     \begin{align}
-        f^* &= \underset{f \in \mathcal{F}}{\operatorname{argmin}}\ \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{l}(y_i, f(x_i)) + \alpha C(f),
+        \mathcal{L}_{\alpha}(f) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{l}(y_i, f(x_i)) + \alpha C(f),
         \label{eq:suplearning}
     \end{align}
     where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a regularization penalty.
     \end{definition}
 
-The Classification and Regression Trees (CART) algorithm \cite{breiman1984classification} (algorithm~\ref{alg:cart}), developed by Leo Breiman and colleagues (figure~\ref{fig:leo-breiman}), is one of the most widely used methods for learning decision trees from supervised data.
+The Classification and Regression Trees (CART) algorithm \cite{breiman1984classification} (algorithm~\ref{alg:cart}), developed by Leo Breiman and colleagues, is one of the most widely used methods for learning decision trees from supervised data.
 CART builds binary decision trees through a greedy, top-down approach that recursively partitions the feature space. 
 At each internal node, the algorithm selects the feature and threshold that best splits the data according to a purity criterion such as the Gini impurity for classification or mean squared error for regression.
 CART uses threshold-based test functions of the form $f_v(x) = \mathbb{I}[x[\text{feature}] \leq \text{threshold}]$, where $\mathbb{I}[\cdot]$ is the indicator function. 
@@ -592,12 +592,12 @@ In the first and third parts, we study CART in conjunction with reinforcement le
 
 In the next few sections we present the material related to sequential decision making.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.3\textwidth]{images/images_intro/Leo_Breiman.jpg}
-    \caption{The american statistician Leo Breiman (1928-2005) author of \textit{Classification and Regression Trees} (1984)}
-    \label{fig:leo-breiman}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.3\textwidth]{images/images_intro/Leo_Breiman.jpg}
+%     \caption{The american statistician Leo Breiman (1928-2005) author of \textit{Classification and Regression Trees} (1984)}
+%     \label{fig:leo-breiman}
+% \end{figure}
 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
@@ -713,17 +713,16 @@ Following Martin L. Puterman's book on MDPs\cite{puterman}, we formally define:
 \end{itemize}
 \end{definition}
 
-Informally, the goal of a model output actions given states is to behave so as to obtain as much reward as possible over time.
+Informally, we would like to act in an MDP such that we obtain as much reward as possible over time.
 For example, in cancer treatment, the best outcome is to eliminate the patient's tumor as quickly as possible.
-We can formally this goal as an optimization problem as follows.
+We can formally define this objective, that we call the reinforcement learning objective, as follows:
 
-\begin{definition}[Markov decision problem]\label{def:mdp-obj} Given an MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$ (~\ref{def:mdp}), the objective of a model, aslo known as a policy $\pi: S \rightarrow A$ is to maximize the expected discounted sum of rewards:
+\begin{definition}[Reinforcement learning objective]\label{def:mdp-obj} Given an MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$ (~\ref{def:mdp}), the objective of a model, aslo known as a policy $\pi: S \rightarrow A$ is to maximize the expected discounted sum of rewards:
 $$J(\pi) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
 where $\gamma \in (0,1]$ is the discount factor that controls the trade-off between immediate and future rewards.
 \end{definition}
 
-Hence, algorithms presented in this manuscript aim to find solutions to Markov decision problems, i.e., to model the optimal policy: $\pi^\star =\underset{\pi}{\operatorname{argmax}}J(\pi)$.
-For the rest of this text, by abuse of notation, we denote both a Markov decision process and the associated Markov decision problem by MDP.
+Hence, algorithms presented in this manuscript aim to find solutions policies that maximizes this RL objective, i.e., the optimal policy: $\pi^\star =\underset{\pi}{\operatorname{argmax}}J(\pi)$.
 
 \subsection{Example: a grid world MDP}
 \begin{figure}[h]
@@ -795,6 +794,7 @@ The optimal actions that get to the goal as fast as possible in every state (cel
 Next we present the tools to find solutions to MDPs and retrieve such optimal policies.
 
 \subsection{Exact solutions for Markov decision problems}\label{sec:values}
+We begin with the planning setting in which the model is known. Leveraging the Markov property, dynamic programming computes optimal value functions and extracts an optimal policy; we define $V$ and $Q$ and then present Value Iteration.
 It is possible to compute the exact optimal policy $\pi^\star$ using dynamic programming\cite{Bellman}.
 Indeed, one can leverage the Markov property to find for all states the best action to take based on the reward of upcoming states.
 \begin{definition}[Value of a state]\label{def:vs} 
@@ -804,15 +804,15 @@ Indeed, one can leverage the Markov property to find for all states the best act
     $$V^\pi(s) = R(s,\pi(s)) + \gamma \sum_{s' \in S} T(s,\pi(s),s')\,V^\pi(s')$$
     where $T(s,a,s')$ is the probability of transitioning to state $s'$ when taking action $a$ in state $s$.
 \end{definition}
-\begin{definition}[Optimal value of a state] The optimal value of a state $s\in S$, $V^\star(s)$, is the value of state $s$ when following the optimal policy: $V^{\pi^{\star}}(s)$.
-    $$V^{\star}(s) = V^{\pi^{\star}}(s) = \underset{\pi}{\max}\left[J(\pi)\right]$$
+\begin{definition}[Optimal value of a state] The optimal value of a state $s\in S$, $V^\star(s)$, is the value of state $s$ when following the optimal policy $\pi^{\star}$ (the policy that maximizes the RL objective (\ref{def:mdp-obj})).
+    $$V^{\star}(s) = V^{\pi^{\star}}(s)$$
 \end{definition}
 \begin{definition}[Optimal value of a state–action pair] The optimal value of a state–action pair $(s,a)\in S\times A$, $Q^\star(s,a)$, is the value when taking action $a$ in state $s$ and then following the optimal policy.
     $$Q^{\star}(s,a) = R(s, a) + \gamma\sum_{s'\in S} T(s,a,s')\,V^{\star}(s')$$
 \end{definition}
 
-Hence, objective~\ref{def:mdp-obj}: $\pi^{\star} = \underset{\pi}{\operatorname{argmax}}\mathbb{E}\left[V^{\pi}(s_0)|s_0\sim T_0 \right]$.
-The well-known Value Iteration algorithm~\ref{alg:value_iteration} solves this problem exactly. 
+Hence, we can use the definition of the value function to re-write the RL objective (\ref{def:mdp-obj}): $\pi^{\star} = \underset{\pi}{\operatorname{argmax}}\mathbb{E}\left[V^{\pi}(s_0)|s_0\sim T_0 \right]$.
+The well-known Value Iteration algorithm~\ref{alg:value-teration} solves this problem exactly. 
 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
@@ -829,46 +829,47 @@ The well-known Value Iteration algorithm~\ref{alg:value_iteration} solves this p
         }
     }
     \For{each state $s \in S$}{
-        $\pi^*(s) \leftarrow \arg\max_a \left[ R(s,a) + \gamma \sum_{s' \in S} T(s,a,s') V(s') \right]$ \Comment{// Extract optimal policy}
+        $\pi^*(s) \leftarrow \operatorname{argmax}_a \left[ R(s,a) + \gamma \sum_{s' \in S} T(s,a,s') V(s') \right]$ \Comment{// Extract optimal policy}
     }
-    \caption{Value Iteration}\label{alg:value_iteration}
+    \caption{Value Iteration}\label{alg:value-iteration}
 \end{algorithm}
 
 More realistically, neither the transition kernel $T$ nor the reward function $R$ of the MDP are known; e.g., the doctor cannot \textbf{know} how the tumor and the patient's health will change after a dose of chemotherapy, but can only \textbf{observe} the change.
 This distinction in available information parallels the distinction between dynamic programming and reinforcement learning (RL), described next. 
 
 \subsection{Reinforcement learning of approximate solutions to MDPs}\label{sec:rl}
-\begin{figure}
-    \centering
-    \begin{subfigure}[b]{0.22\textwidth}
-        \centering
-        \includegraphics[width=0.7\textwidth]{images/images_intro/bellman.jpeg}
-        \caption{R. Bellman}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.22\textwidth}
-        \centering
-        \includegraphics[width=0.7\textwidth]{images/images_intro/puterman.jpg}
-        \caption{M.L. Puterman}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.22\textwidth}
-        \centering
-        \includegraphics[width=1.2\textwidth]{images/images_intro/Barto_1982_umass_amherst.jpg}
-        \caption{A. Barto}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.22\textwidth}
-        \centering
-        \includegraphics[width=0.67\textwidth]{images/images_intro/sutton.jpg}
-        \caption{R. Sutton}
-    \end{subfigure}
-       \caption{The godfathers of sequential decision making. Andrew Barto and Richard Sutton are the ACM Turing Prize 2024 laureate and share an advisor advisee relationship.}
-       \label{fig:rl-pioneers}
-\end{figure}
+When the dynamics and rewards are unknown, we turn to model-free RL. 
+% \begin{figure}
+%     \centering
+%     \begin{subfigure}[b]{0.22\textwidth}
+%         \centering
+%         \includegraphics[width=0.7\textwidth]{images/images_intro/bellman.jpeg}
+%         \caption{R. Bellman}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.22\textwidth}
+%         \centering
+%         \includegraphics[width=0.7\textwidth]{images/images_intro/puterman.jpg}
+%         \caption{M.L. Puterman}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.22\textwidth}
+%         \centering
+%         \includegraphics[width=1.2\textwidth]{images/images_intro/Barto_1982_umass_amherst.jpg}
+%         \caption{A. Barto}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.22\textwidth}
+%         \centering
+%         \includegraphics[width=0.67\textwidth]{images/images_intro/sutton.jpg}
+%         \caption{R. Sutton}
+%     \end{subfigure}
+%        \caption{The godfathers of sequential decision making. Andrew Barto and Richard Sutton are the ACM Turing Prize 2024 laureate and share an advisor advisee relationship.}
+%        \label{fig:rl-pioneers}
+% \end{figure}
 
-Reinforcement learning algorithms popularized by Richard Sutton~\cite{sutton}(figure~\ref{fig:rl-pioneers}) don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of observations ${(s_t, a_t, r_t, s_{t+1})}_t$.
-RL algorithms usually fall into two categories: value-based (cite) and policy search~\cite{pg_sutton}.
+Reinforcement learning algorithms popularized by Richard Sutton~\cite{sutton} don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of observations ${(s_t, a_t, r_t, s_{t+1})}_t$.
+RL algorithms usually fall into two categories: value-based and policy search~\cite{pg_sutton}.
 Examples of these approaches are shown in algorithms~\ref{alg:qlearning},~\ref{alg:sarsa} and~\ref{alg:reinforce}.
 Q-learning and Sarsa compute an approximation of $Q^{\star}$ using temporal difference learning. Q-learning is \textit{off policy}, it collects new transisitions with a random policy, e.g. epsilon-greedy, while Sarsa is on policy, it collects new transitions greedily w.r.t. the current q-values estimates.
 Policy gradient algorithms leverages the policy gradient theorem to approximate $\pi^{\star}$.
@@ -886,17 +887,15 @@ However, not many algorithms consider the learning of policies that can be easil
     \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$}
     \KwResult{Policy $\pi$}
     Initialize $Q(s,a) = 0$ for all $s \in S, a \in A$ \\
-    \For{each episode}{
-        Initialize state $s_0 \sim T_0$ \\
-        \For{each step $t$}{
-            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \arg\max_a Q(s_t,a)$ with prob. $1-\epsilon$ \\
-            Take action $a_t$, observe $r_t = R(s_t,a_t)$ and $s_{t+1} \sim T(s_t,a_t)$ \\
-            $Q(s_t,a_t) \leftarrow Q(s_t,a_t) + \alpha[r_t + \gamma \max_{a'} Q(s_{t+1},a') - Q(s_t,a_t)]$ \\
-            $s_t \leftarrow s_{t+1}$ \\
-        }
+    Initialize state $s_0 \sim T_0$ \\
+    \For{each step $t$}{
+        Choose action $a_t$ using $\epsilon$-greedy: $a_t = \operatorname{argmax}_a Q(s_t,a)$ with prob. $1-\epsilon$ \\
+        Take action $a_t$, observe $r_t = R(s_t,a_t)$ and $s_{t+1} \sim T(s_t,a_t)$ \\
+        $Q(s_t,a_t) \leftarrow Q(s_t,a_t) + \alpha[r_t + \gamma \max_{a'} Q(s_{t+1},a') - Q(s_t,a_t)]$ \\
+        $s_t \leftarrow s_{t+1}$ \\
     }
-    $\pi(s) = \arg\max_a Q(s,a)$ \Comment{// Extract greedy policy}
-    \caption{Value-based RL (Q-Learning)}\label{alg:qlearning}
+    $\pi(s) = \operatorname{argmax}_a Q(s,a)$ \Comment{// Extract greedy policy}
+    \caption{Q-Learning}\label{alg:qlearning}
 \end{algorithm}
 
 
@@ -906,19 +905,17 @@ However, not many algorithms consider the learning of policies that can be easil
     \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$}
     \KwResult{Policy $\pi$}
     Initialize $Q(s,a) = 0$ for all $s \in S, a \in A$ \\
-    \For{each episode}{
-        Initialize state $s_0 \sim T_0$ \\
-        Choose action $a_0$ using $\epsilon$-greedy: $a_0 = \arg\max_a Q(s_0,a)$ with prob. $1-\epsilon$ \\
-        \For{each step $t$}{
-            Take action $a_t$, observe $r_t = R(s_t,a_t)$ and $s_{t+1} \sim T(s_t,a_t)$ \\
-            Choose action $a_{t+1}$ using $\epsilon$-greedy: $a_{t+1} = \arg\max_a Q(s_{t+1},a)$ with prob. $1-\epsilon$ \\
-            $Q(s_t,a_t) \leftarrow Q(s_t,a_t) + \alpha[r_t + \gamma Q(s_{t+1},a_{t+1}) - Q(s_t,a_t)]$ \\
-            $s_t \leftarrow s_{t+1}$ \\
-            $a_t \leftarrow a_{t+1}$ \\
-        }
+    Initialize state $s_0 \sim T_0$ \\
+    Choose action $a_0$ using $\epsilon$-greedy: $a_0 = \operatorname{argmax}_a Q(s_0,a)$ with prob. $1-\epsilon$ \\
+    \For{each step $t$}{
+        Take action $a_t$, observe $r_t = R(s_t,a_t)$ and $s_{t+1} \sim T(s_t,a_t)$ \\
+        Choose action $a_{t+1}$ using $\epsilon$-greedy: $a_{t+1} = \operatorname{argmax}_a Q(s_{t+1},a)$ with prob. $1-\epsilon$ \\
+        $Q(s_t,a_t) \leftarrow Q(s_t,a_t) + \alpha[r_t + \gamma Q(s_{t+1},a_{t+1}) - Q(s_t,a_t)]$ \\
+        $s_t \leftarrow s_{t+1}$ \\
+        $a_t \leftarrow a_{t+1}$ \\
     }
-    $\pi(s) = \arg\max_a Q(s,a)$ \Comment{// Extract greedy policy}
-    \caption{Value-based RL (Sarsa)}\label{alg:sarsa}
+    $\pi(s) = \operatorname{argmax}_a Q(s,a)$ \Comment{// Extract greedy policy}
+    \caption{Sarsa}\label{alg:sarsa}
 \end{algorithm}
 
 
@@ -953,7 +950,7 @@ In the rest of this manuscript, unless stated otherwise, we write $\boldsymbol{s
 Note that discrete states MDP can be encoded into factored MDP by one-hot encoding individual states.
 
 Deep Q-Networks (DQN)~\cite{dqn}, described in algorithm~\ref{alg:dqn} was a breakthrough in modern reinforcement learning.
-Authors successfully extended the Q-learning (algorithm~\ref{alg:qlearning}) to the function approximation setting by introduction target networks to mitigate distributional shift in the td error and replay buffer to increase sample efficiency (see figure~\ref{fig:dqn} for the tricks used to adap Q-learning to the function approximation setting).
+Authors successfully extended the Q-learning (algorithm~\ref{alg:qlearning}) to the function approximation setting by introduction target networks to mitigate distributional shift in the td error and replay buffer to increase sample efficiency.
 DQN achieved super-human performance on a set of Atari games.
 
 Proximal Policy Optimization (PPO)~\cite{ppo}, described in algorithm~\ref{alg:ppo}, is an actor-critic algorithm\cite{pg_sutton} optimizing neural network policies. 
@@ -968,7 +965,7 @@ Actor-critic are not as simple efficient as DQN but is known to work well in a v
     \For{each episode}{
         Initialize state $s_0 \sim T_0$ \\
         \For{each step $t$}{
-            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \arg\max_a Q_\theta(\boldsymbol{s}_t,a)$ with prob. $1-\epsilon$ \\
+            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \operatorname{argmax}_a Q_\theta(\boldsymbol{s}_t,a)$ with prob. $1-\epsilon$ \\
             Take action $a_t$, observe $r_t = R(s_t,a_t)$ and $\boldsymbol{s}_{t+1} \sim T(\boldsymbol{s}_t,a_t)$ \\
             Store transition $(\boldsymbol{s}_t, a_t, r_t, \boldsymbol{s}_{t+1})$ in $\mathcal{B}$ \\
             Sample random batch $(\boldsymbol{s}_i, a_i, r_i, \boldsymbol{s}_{i+1}) \sim \mathcal{B}$ \\
@@ -980,15 +977,9 @@ Actor-critic are not as simple efficient as DQN but is known to work well in a v
             $\boldsymbol{s}_t \leftarrow \boldsymbol{s}_{t+1}$ \\
         }
     }
-    $\pi(\boldsymbol{s}) = \arg\max_a Q_\theta(\boldsymbol{s},a)$ \Comment{// Extract greedy policy}
+    $\pi(\boldsymbol{s}) = \operatorname{argmax}_a Q_\theta(\boldsymbol{s},a)$ \Comment{// Extract greedy policy}
     \caption{Deep Q-Network (DQN)}\label{alg:dqn}
 \end{algorithm}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{images/dqn_schema.png}
-    \caption{DQN tricks added to the vanilla Q-learning (algorithm~\ref{alg:qlearning}). Courtesy of Antonin Raffin.}
-\end{figure}
 
 
 \begin{algorithm}
@@ -1019,10 +1010,10 @@ In fact, we will show in the first part of the manuscript that training decision
 Hence, many interpretable reinforcement learning approaches first train a neural network policy with, e.g., DQN or PPO to optimize the RL objective (\ref{def:mdp-obj}), and then fit, e.g., a decision tree using CART (algorithm\ref{alg:cart}) to optimize the supervised learning objective (\ref{def:sl}) with the neural policy's actions as targets.
 This approach is known as imitation learning and is essentially training a policy to optimize the objective:
 
-\begin{definition}[Imitation learning]\label{def:il}
-Given an MDP $\mathcal{M}$ (\ref{def:mdp}) expert policy $\pi^*$ and a policy class $\Pi$, the imitation learning objective is to find a policy $\pi \in \Pi$ that minimizes the expected action disagreement with the expert:
+\begin{definition}[Imitation learning objective]\label{def:il}
+Given an MDP $\mathcal{M}$ (\ref{def:mdp}) expert policy $\pi^*$ and a policy class $\Pi$, the imitation learning objective is to find a policy $\hat{pi} \in \Pi$ that minimizes the expected action disagreement with the expert:
 \begin{equation}
-\min_{\pi \in \Pi} \mathbb{E}_{\boldsymbol{s} \sim \rho(\boldsymbol{s})} \left[ \mathcal{L}(\pi(\boldsymbol{s}), \pi^*(\boldsymbol{s})) \right]
+IL(\pi) &=  \mathbb{E}_{\boldsymbol{s} \sim \rho(\boldsymbol{s})} \left[ \mathcal{L}(\pi(\boldsymbol{s}), \pi^*(\boldsymbol{s})) \right]
 \end{equation}
 where $\rho(\boldsymbol{s})$ is the state distribution in $\mathcal{M}$ induced by the expert policy and $\mathcal{L}$ is a loss function measuring the disagreement between the learned policy's action $\pi(s)$ and the expert's action $\pi^*(s)$.
 \end{definition}
@@ -1038,7 +1029,7 @@ We use the two algorithms extensively throughout the manuscript.
 
 Next we show how to learn a decision tree policy for the Example MDP \ref{example:grid}.
 \begin{algorithm}
-    \caption{Dagger\cite{dagger}}\label{alg:dagger}
+    \caption{Dagger}\label{alg:dagger}
     \KwIn{Expert policy $\pi^*$, MDP $M$, policy class $\Pi$}
     \KwOut{Fitted student policy $\hat{\pi}_i$}
     
@@ -1070,7 +1061,7 @@ Next we show how to learn a decision tree policy for the Example MDP \ref{exampl
 
 
     \begin{algorithm}
-        \caption{VIPER\cite{viper}}\label{alg:viper}
+        \caption{VIPER}\label{alg:viper}
         \KwIn{Expert policy $\pi^*$, Expert Q-function $Q^*$, MDP $M$, policy class $\Pi$}
         \KwOut{Fitted student policy $\hat{\pi}_i$}
         
@@ -1161,7 +1152,7 @@ Importantly, this sheds light on the sub-optimality of indirect imitation w.r.t 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.6\textwidth]{images/images_part1/policy_values_comparison.pdf}
+    \includegraphics[width=0.4\textwidth]{images/images_part1/policy_values_comparison.pdf}
     \caption{The objective (\ref{def:mdp-obj}) values of the optimal policies from figure~\ref{example:grid} and of the decision tree policies from figure~\ref{fig:trees-intro}.}\label{fig:objectives}
 \end{figure}
 
@@ -1183,25 +1174,25 @@ In the second part of the manuscript, we formulate decision tree induction for s
 By formalizing decision tree induction for objective\ref{def:sl} as solving an MDP~\ref{def:mdp}, we design novel algorithms that achieve very good performances.
 
 In the last part of the text, we lift our assumption about decision tree learning guaranteeing interpretability and study other model classes.
-In particular, we leverage the simplicity of \textit{indirect} methods~\ref{fig:direct-vs-indirect} to imitate neural network experts with models from~\ref{fig:interpretability-performance-tradeoff} and and perform a large-scale empirical study of the interpretability-performances trade-offs on various sequential decision making tasks.
-In Table~\ref{tab:summary-parts} we summarize the outline of this manuscript in terms of learning objective (~\ref{def:sl},~\ref{def:mdp-obj}, or~\ref{def:il}) and model class (figure~\ref{fig:interpretability-performance-tradeoff}).
+In particular, we leverage the simplicity of \textit{indirect} methods~\ref{fig:direct-vs-indirect-methods} to imitate neural network experts with models from~\ref{fig:interpretability-performance-tradeoff} and and perform a large-scale empirical study of the interpretability-performances trade-offs on various sequential decision making tasks.
+% In Table~\ref{tab:summary-parts} we summarize the outline of this manuscript in terms of learning objective (~\ref{def:sl},~\ref{def:mdp-obj}, or~\ref{def:il}) and model class (figure~\ref{fig:interpretability-performance-tradeoff}).
 
-\begin{table}[htbp]
-    \centering
-    \begin{tabular}{|l|c|c|c|c|}
-        \hline
-         & \textbf{Decision Trees} & \textbf{Linear} & \textbf{Ensembles} & \textbf{Neural Networks} \\
-        \hline
-        Supervised Learning & Part II &  & Part II & Part II\\
-        \hline
-        Reinforcement Learning & Part I, III & Part III & & Part I, III \\
-        \hline
-        Imitation Learning & Part I, III & Part III & & Part III \\
-        \hline
-    \end{tabular}
-    \caption{Summary of objectives and model classes studied in this manuscript.}
-    \label{tab:summary-parts}
-\end{table}
+% \begin{table}[htbp]
+%     \centering
+%     \begin{tabular}{|l|c|c|c|c|}
+%         \hline
+%          & \textbf{Decision Trees} & \textbf{Linear} & \textbf{Ensembles} & \textbf{Neural Networks} \\
+%         \hline
+%         Supervised Learning & Part II &  & Part II & Part II\\
+%         \hline
+%         Reinforcement Learning & Part I, III & Part III & & Part I, III \\
+%         \hline
+%         Imitation Learning & Part I, III & Part III & & Part III \\
+%         \hline
+%     \end{tabular}
+%     \caption{Summary of objectives and model classes studied in this manuscript.}
+%     \label{tab:summary-parts}
+% \end{table}
 
 We summarize our results as follows:
 

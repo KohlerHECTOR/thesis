@@ -5,54 +5,57 @@ The first part of our experiments focuses on the quality of solutions obtained b
 After showing that DPDT can find optimal trees by considering much less solutions and thus performing orders of magnitude less operations, we will study the generalization capabilities of the latter: do DPDT trees label unseen data accurately?
 
 \section{DPDT optimizing capabilities}
-\begin{table}[ht]
+
+\begin{table}
     \centering
     \tiny
     \caption{Comparison of train accuracies of depth-3 trees and number of operations on classification tasks. For DPDT and Top-B, ``light'' configurations have split function parameters (8, 1, 1) ``full'' have parameters (8, 8, 8). We also include the mean train accuracy over 5 deep RL runs. \textbf{Bold} values are optimal accuracies and {\color{blue} blue} values are the largest non-optimal accuracies.}
     \label{tab:tree_comparison_combined}
-    \begin{tabular}{l|cc||cc|cc|cc|c||cc|cc|cc}
+    \begin{tabular}{l|cc||cc|cc|cc|c}
     \toprule
-    & & & \multicolumn{7}{c||}{\textbf{Accuracy}} & \multicolumn{6}{c}{\textbf{Operations}}\\
+    & & & \multicolumn{7}{c}{\textbf{Accuracy}}\\
     \midrule
-    & & & Opt & Greedy & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c|}{Top-B} & \multicolumn{1}{c||}{Deep RL} & Opt & Greedy & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c}{Top-B}\\
-    \textbf{Dataset} & N & p & Quant-BnB & CART & light & full & light & full & Modified DQN & Quant-BnB & CART & light & full & light & full \\
-    % version précédente rempplacée par les 3 lignes ci-dessus :
-    % & & & \multicolumn{2}{c|}{\textbf{Accuracy}} & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c|}{Top-B} & \multicolumn{1}{c||}{Deep RL} & \multicolumn{2}{c|}{\textbf{Operations}} & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c}{Top-B}\\
-    % \textbf{Dataset} & N & p & Opt & Greedy & light & full & light & full & Custard & Opt & Greedy & light & full & light & full \\
+    & & & Opt & Greedy & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c|}{Top-B} & Deep RL\\
+    \textbf{Dataset} & N & p & Quant-BnB & CART & light & full & light & full & Modified DQN \\
     \midrule
-    room & 8103 & 16 & \textbf{0.992} & 0.968 & \color{blue} 0.991 & \textbf{0.992} & 0.990 & \textbf{0.992} & 0.715 &$10^6$ & 15 & 286 & 16100 & 111 & 16100 \\
-    bean & 10888 & 16  & \textbf{0.871} & 0.777 & 0.812 & \color{blue} 0.853 & 0.804 & 0.841 & 0.182 & 5$\cdot 10^6$ & 15 & 295 & 25900 & 112 & 16800 \\
-    eeg & 11984 & 14  & \textbf{0.708} & 0.666 & 0.689 & \color{blue} 0.706 & 0.684 & 0.699 & 0.549 & 2$\cdot 10^6$ & 13 & 289 & 26000 & 95 & 11000 \\
-    avila & 10430 & 10  & \textbf{0.585} & 0.532 & \color{blue}0.574 & \textbf{0.585} & 0.563 & 0.572 & 0.409 & 3$\cdot 10^7$ & 9 & 268 & 24700 & 60 & 38900 \\
-    magic & 15216 & 10 & \textbf{0.831} & 0.801 & 0.822 & \color{blue} 0.828 & 0.807 & 0.816 & 0.581 &6$\cdot 10^6$ & 15 & 298 & 28000 & 70 & 4190 \\
-    htru & 14318 & 8  & \textbf{0.981} & 0.979 & 0.979 & \color{blue}0.980 & 0.979 & \color{blue}0.980 & 0.860 & 6$\cdot 10^7$ & 15 & 295 & 25300 & 55 & 2180 \\
-    occup. & 8143 & 5 & \textbf{0.994} & 0.989 & 0.991 & \textbf{0.994} & 0.990 & \color{blue}0.992 & 0.647 & 7$\cdot 10^5$ & 13 & 280 & 16300 & 33 & 510 \\
-    skin & 196045 & 3 & \textbf{0.969} & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & 0.612 & 7$\cdot 10^4$ & 15 & 301 & 23300 & 20 & 126 \\
-    fault & 1552 & 27 & \textbf{0.682} & 0.553 & 0.672 & \color{blue}0.674 & 0.672 & 0.673 & 0.303 & 9$\cdot 10^8$ & 13 & 295 & 24200 & 111 & 16800 \\
-    segment & 1848 & 18 & \textbf{0.887} & 0.574 & 0.812 & \color{blue}0.879 & 0.786 & 0.825 & 0.137 & 2$\cdot 10^6$ & 7 & 220 & 16300 & 68 & 11400 \\
-    page & 4378 & 10 &  \textbf{0.971} & 0.964 & \color{blue}0.970 & \color{blue}0.970 & 0.964 & 0.965 & 0.902 &$10^7$ & 15 & 298 & 22400 & 701 & 4050 \\
-    bidding & 5056 & 9  & \textbf{0.993} & 0.981 & \color{blue}0.985 & \textbf{0.993} & 0.985 & \textbf{0.993} & 0.810 & 3$\cdot 10^5$ & 13 & 256 & 9360 & 58 & 2700 \\
-    raisin & 720 & 7 & \textbf{0.894} & 0.869 & 0.879 & \color{blue}0.886 & 0.875 & 0.883 & 0.509 & 4$\cdot 10^6$ & 15 & 295 & 20900 & 48 & 1440 \\
-    rice & 3048 & 7 & \textbf{0.938} & 0.933 & 0.934 & \color{blue}0.937 & 0.933 & 0.936 & 0.519 & 2$\cdot 10^7$ & 15 & 298 & 25500 & 49 & 1470 \\
-    wilt & 4339 & 5 & \textbf{0.996} & 0.993 & 0.994 & \color{blue}0.995 & 0.994 & 0.994 & 0.984 &3$\cdot 10^5$ & 13 & 274 & 11300 & 33 & 465 \\
-    bank & 1097 & 4 & \textbf{0.983} & 0.933 & 0.971 & \color{blue}0.980 & 0.951 & 0.974 & 0.496 & 6$\cdot 10^4$ & 13 & 271 & 7990 & 26 & 256 \\
-% ancienne présentation :
-    %% room & 8103 & 16 & 0.992 & 0.968 & 0.991 & 0.992 & 0.990 & 0.992 & 0.715 & 1.34e+06 & 15 & 286 & 16100 & 111 & 16100 \\
-    %% bean & 10888 & 16  & 0.871 & 0.777 & 0.812 & 0.853 & 0.804 & 0.841 & 0.182 & 4.66e+06 & 15 & 295 & 25900 & 112 & 16800 \\
-    %% eeg & 11984 & 14  & 0.708 & 0.666 & 0.689 & 0.706 & 0.684 & 0.699 & 0.549 & 1.50e+08 & 13 & 289 & 26000 & 95 & 11000 \\
-    %% avila & 10430 & 10  & 0.585 & 0.532 & 0.574 & 0.585 & 0.563 & 0.572 & 0.409 & 2.70e+07 & 9 & 268 & 24700 & 60 & 38900 \\
-    %% magic & 15216 & 10 & 0.831 & 0.801 & 0.822 & 0.828 & 0.807 & 0.816 & 0.581 &5.71e+06 & 15 & 298 & 28000 & 70 & 4190 \\
-    %% htru & 14318 & 8  & 0.981 & 0.979 & 0.979 & 0.980 & 0.979 & 0.980 & 0.860 & 6.22e+07 & 15 & 295 & 25300 & 55 & 2180 \\
-    %% occupancy & 8143 & 5 & 0.994 & 0.989 & 0.991 & 0.994 & 0.990 & 0.992 & 0.647 & 6.81e+05 & 13 & 280 & 16300 & 33 & 510 \\
-    %% skin & 196045 & 3 & 0.969 & 0.966 & 0.966 & 0.966 & 0.966 & 0.966 & 0.612 & 71100 & 15 & 301 & 23300 & 20 & 126 \\
-    %% fault & 1552 & 27 & 0.682 & 0.553 & 0.672 & 0.674 & 0.672 & 0.673 & 0.303 & 9.32e+08 & 13 & 295 & 24200 & 111 & 16800 \\
-    %% segment & 1848 & 18 & 0.887 & 0.574 & 0.812 & 0.879 & 0.786 & 0.825 & 0.137 & 2.13e+06 & 7 & 220 & 16300 & 68 & 11400 \\
-    %% page & 4378 & 10 &  0.971 & 0.964 & 0.970 & 0.970 & 0.964 & 0.965 & 0.902 & 9.62e+06 & 15 & 298 & 22400 & 701 & 4050 \\
-    %% bidding & 5056 & 9  & 0.993 & 0.981 & 0.985 & 0.993 & 0.985 & 0.993 & 0.810 & 2.69e+05 & 13 & 256 & 9360 & 58 & 2700 \\
-    %% raisin & 720 & 7 & 0.894 & 0.869 & 0.879 & 0.886 & 0.875 & 0.883 & 0.509 & 3.98e+06 & 15 & 295 & 20900 & 48 & 1440 \\
-    %% rice & 3048 & 7 & 0.938 & 0.933 & 0.934 & 0.937 & 0.933 & 0.936 & 0.519 & 2.08e+07 & 15 & 298 & 25500 & 49 & 1470 \\
-    %% wilt & 4339 & 5 & 0.996 & 0.993 & 0.994 & 0.995 & 0.994 & 0.994 & 0.984 &3.20e+05 & 13 & 274 & 11300 & 33 & 465 \\
-    %% bank & 1097 & 4 & 0.983 & 0.933 & 0.971 & 0.980 & 0.951 & 0.974 & 0.496 & 62500 & 13 & 271 & 7990 & 26 & 256 \\
+    room & 8103 & 16 & \textbf{0.992} & 0.968 & \color{blue} 0.991 & \textbf{0.992} & 0.990 & \textbf{0.992} & 0.715 \\
+    bean & 10888 & 16  & \textbf{0.871} & 0.777 & 0.812 & \color{blue} 0.853 & 0.804 & 0.841 & 0.182 \\
+    eeg & 11984 & 14  & \textbf{0.708} & 0.666 & 0.689 & \color{blue} 0.706 & 0.684 & 0.699 & 0.549 \\
+    avila & 10430 & 10  & \textbf{0.585} & 0.532 & \color{blue}0.574 & \textbf{0.585} & 0.563 & 0.572 & 0.409 \\
+    magic & 15216 & 10 & \textbf{0.831} & 0.801 & 0.822 & \color{blue} 0.828 & 0.807 & 0.816 & 0.581 \\
+    htru & 14318 & 8  & \textbf{0.981} & 0.979 & 0.979 & \color{blue}0.980 & 0.979 & \color{blue}0.980 & 0.860 \\
+    occup. & 8143 & 5 & \textbf{0.994} & 0.989 & 0.991 & \textbf{0.994} & 0.990 & \color{blue}0.992 & 0.647 \\
+    skin & 196045 & 3 & \textbf{0.969} & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & 0.612 \\
+    fault & 1552 & 27 & \textbf{0.682} & 0.553 & 0.672 & \color{blue}0.674 & 0.672 & 0.673 & 0.303 \\
+    segment & 1848 & 18 & \textbf{0.887} & 0.574 & 0.812 & \color{blue}0.879 & 0.786 & 0.825 & 0.137 \\
+    page & 4378 & 10 &  \textbf{0.971} & 0.964 & \color{blue}0.970 & \color{blue}0.970 & 0.964 & 0.965 & 0.902 \\
+    bidding & 5056 & 9  & \textbf{0.993} & 0.981 & \color{blue}0.985 & \textbf{0.993} & 0.985 & \textbf{0.993} & 0.810 \\
+    raisin & 720 & 7 & \textbf{0.894} & 0.869 & 0.879 & \color{blue}0.886 & 0.875 & 0.883 & 0.509 \\
+    rice & 3048 & 7 & \textbf{0.938} & 0.933 & 0.934 & \color{blue}0.937 & 0.933 & 0.936 & 0.519 \\
+    wilt & 4339 & 5 & \textbf{0.996} & 0.993 & 0.994 & \color{blue}0.995 & 0.994 & 0.994 & 0.984 \\
+    bank & 1097 & 4 & \textbf{0.983} & 0.933 & 0.971 & \color{blue}0.980 & 0.951 & 0.974 & 0.496 \\
+    \midrule
+    & & & \multicolumn{7}{c}{\textbf{Operations}}\\
+    \midrule
+    & & & Opt & Greedy & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c|}{Top-B} & \\
+    \textbf{Dataset} & N & p & Quant-BnB & CART & light & full & light & full & \\
+    \midrule
+    room & 8103 & 16 & $10^6$ & 15 & 286 & 16100 & 111 & 16100 & \\
+    bean & 10888 & 16 & 5$\cdot 10^6$ & 15 & 295 & 25900 & 112 & 16800 & \\
+    eeg & 11984 & 14 & 2$\cdot 10^6$ & 13 & 289 & 26000 & 95 & 11000 & \\
+    avila & 10430 & 10 & 3$\cdot 10^7$ & 9 & 268 & 24700 & 60 & 38900 & \\
+    magic & 15216 & 10 & 6$\cdot 10^6$ & 15 & 298 & 28000 & 70 & 4190 & \\
+    htru & 14318 & 8 & 6$\cdot 10^7$ & 15 & 295 & 25300 & 55 & 2180 & \\
+    occup. & 8143 & 5 & 7$\cdot 10^5$ & 13 & 280 & 16300 & 33 & 510 & \\
+    skin & 196045 & 3 & 7$\cdot 10^4$ & 15 & 301 & 23300 & 20 & 126 & \\
+    fault & 1552 & 27 & 9$\cdot 10^8$ & 13 & 295 & 24200 & 111 & 16800 & \\
+    segment & 1848 & 18 & 2$\cdot 10^6$ & 7 & 220 & 16300 & 68 & 11400 & \\
+    page & 4378 & 10 & $10^7$ & 15 & 298 & 22400 & 701 & 4050 & \\
+    bidding & 5056 & 9 & 3$\cdot 10^5$ & 13 & 256 & 9360 & 58 & 2700 & \\
+    raisin & 720 & 7 & 4$\cdot 10^6$ & 15 & 295 & 20900 & 48 & 1440 & \\
+    rice & 3048 & 7 & 2$\cdot 10^7$ & 15 & 298 & 25500 & 49 & 1470 & \\
+    wilt & 4339 & 5 & 3$\cdot 10^5$ & 13 & 274 & 11300 & 33 & 465 & \\
+    bank & 1097 & 4 & 6$\cdot 10^4$ & 13 & 271 & 7990 & 26 & 256 & \\
     \bottomrule
     \end{tabular}
 \end{table}

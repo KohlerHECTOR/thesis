@@ -218,7 +218,7 @@ Since the probability of being in any base states at initialization given that t
 \end{figure}
 
 We can now plot, in figure~\ref{fig:objectives}, the POIBMDP objective values of the different policies corresponding to trees for the grid world MDP as functions of $\zeta$ when we fix $\gamma=0.99$. 
-When $\gamma=0.99$ on figure~\ref{fig:objectives}, despite objective values being very similar for the depth-1 and unbalanced depth-2 tree, we now know from the green shaded area {\color{blue}a depth-1 tree is the optimal deterministic partially observable POIBMDP policy for $0< \zeta < 1$}.
+When $\gamma=0.99$ on figure~\ref{fig:objectives}, despite objective values being very similar for the depth-1 and unbalanced depth-2 tree, we now know from the green shaded area that a depth-1 tree is the optimal deterministic partially observable POIBMDP policy for $0< \zeta < 1$.
 
 Interestingly, two POMDP challenges described in \cite{learning-pomdp} can already be observed in figure~\ref{fig:objectives}. 
 First, there is a whole range of $\zeta$ values for which the stochastic policy is optimal.
@@ -274,7 +274,7 @@ In the next section, we use (asymmetric) RL to learn decision tree policies for 
         Initialize observation $\boldsymbol{o}_0 \sim \Omega(x_0)$ \\
 
         \For{each step $t$}{
-            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \arg\max_a Q(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$ \\
+            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \operatorname{argmax}_a Q(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$ \\
             Take action $a_t$, observe $r_t = R(x_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $\boldsymbol{o}_{t+1} \sim \Omega(x_{t+1})$ \\
             $y \leftarrow r + \gamma U(x_{t+1}, \operatorname{argmax}_{a'} Q(\boldsymbol{o}_{t+1}, a'))$ \Comment{// TD target} \\
             $U(x_t,a_t) \leftarrow (1 - \alpha_u) U(x_t, a_t) + \alpha_u y $ \\
@@ -283,7 +283,7 @@ In the next section, we use (asymmetric) RL to learn decision tree policies for 
             $\boldsymbol{o}_t \leftarrow \boldsymbol{o}_{t+1}$ \\
         }
     }
-    $\pi(o) = \arg\max_a Q(o,a)$ \Comment{// Extract greedy policy}
+    $\pi(o) = \operatorname{argmax}_a Q(o,a)$ \Comment{// Extract greedy policy}
     \caption{Asymmetric Q-Learning}\label{alg:asymqlearning}
 \end{algorithm}
 
@@ -299,11 +299,11 @@ In the next section, we use (asymmetric) RL to learn decision tree policies for 
     \For{each episode}{
         Initialize state $x_0 \sim T_0$ \\
         Initialize observation $\boldsymbol{o}_0 \sim \Omega(x_0)$ \\
-        Choose action $a_0$ using $\epsilon$-greedy: $a_0 = \arg\max_a Q(\boldsymbol{o}_0,a)$ with prob. $1-\epsilon$ \\
+        Choose action $a_0$ using $\epsilon$-greedy: $a_0 = \operatorname{argmax}_a Q(\boldsymbol{o}_0,a)$ with prob. $1-\epsilon$ \\
 
         \For{each step $t$}{
             Take action $a_t$, observe $r_t = R(x_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $\boldsymbol{o}_{t+1} \sim \Omega(x_{t+1})$ \\
-            Choose action $a_{t+1}$ using $\epsilon$-greedy: $a_{t+1} = \arg\max_a Q(\boldsymbol{o}_{t+1},a)$ with prob. $1-\epsilon$ \\
+            Choose action $a_{t+1}$ using $\epsilon$-greedy: $a_{t+1} = \operatorname{argmax}_a Q(\boldsymbol{o}_{t+1},a)$ with prob. $1-\epsilon$ \\
             $y \leftarrow r + \gamma U(x_{t+1}, a_{t+1})$ \Comment{// TD target using actual next action} \\
             $U(x_t,a_t) \leftarrow (1 - \alpha_u) U(x_t, a_t) + \alpha_u y $ \\
             $Q(\boldsymbol{o}_t,a_t) \leftarrow (1 - \alpha_q) Q(\boldsymbol{o}_t, a_t) + \alpha_q y $ \\
@@ -312,7 +312,7 @@ In the next section, we use (asymmetric) RL to learn decision tree policies for 
             $a_t \leftarrow a_{t+1}$ \\
         }
     }
-    $\pi(o) = \arg\max_a Q(o,a)$ \Comment{// Extract greedy policy}
+    $\pi(o) = \operatorname{argmax}_a Q(o,a)$ \Comment{// Extract greedy policy}
     \caption{Asymmetric Sarsa}\label{alg:asymsarsa}
 \end{algorithm}
 

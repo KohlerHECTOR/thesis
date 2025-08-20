@@ -56,7 +56,7 @@ Next, we present the precise experimental setup we use to reproduce~\cite[Table 
         Initialize state $\boldsymbol{o}_0 = (L_1, U_1, \dots, L_n, U_n)$ \\
 
         \For{each step $t$}{
-            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \arg\max_a Q_\theta(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$ \\
+            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \operatorname{argmax}_a Q_\theta(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$ \\
             Take action $a_t$, observe $r_t$ \\
             Store transition $(\boldsymbol{s}_t, \boldsymbol{o}_t, a_t, r_t, \boldsymbol{s}_{t+1})$ in $\mathcal{B}$ \\
             Sample random batch $(\boldsymbol{s}_i, \boldsymbol{o}_i, a_i, r_i, \boldsymbol{s}_{i+1}) \sim \mathcal{B}$ \\
@@ -72,7 +72,7 @@ Next, we present the precise experimental setup we use to reproduce~\cite[Table 
             $\boldsymbol{o}_t \leftarrow \boldsymbol{o}_{t+1}$ \\
         }
     }
-    $\pi_{po}(\boldsymbol{o}) = \arg\max_a Q_\theta(\boldsymbol{o},a)$ \Comment{// Extract greedy policy}
+    $\pi_{po}(\boldsymbol{o}) = \operatorname{argmax}_a Q_\theta(\boldsymbol{o},a)$ \Comment{// Extract greedy policy}
     \caption{Modified Deep Q-Network (DQN)}\label{alg:mod-dqn}
 \end{algorithm}
 
@@ -138,7 +138,7 @@ We summarize hyperparameters for the IBMDP and for the learning algorithms in Ta
 
 \begin{table}[h]
     \centering
-    \caption{IBMDP hyperparameters. We try 12 different IBMDPs. In \textcolor{green}{green} we highlight the hyperparameters from the original paper and in \textcolor{red}{red} we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-params}
+    \caption{IBMDP hyperparameters. We try 12 different IBMDPs. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-params}
     \begin{tabular}{ll}
     \toprule
     \textbf{Hyperparameter} & \textbf{Values}\\
@@ -153,7 +153,7 @@ We summarize hyperparameters for the IBMDP and for the learning algorithms in Ta
 
 \begin{table}[h]
     \centering
-    \caption{(Modified) DQN trained on $10^6$ timesteps. This gives four different instantiation of (modified) DQN. Hyperparameters not mentioned are stable-baselines3 default. In \textcolor{green}{green} we highlight the hyperparameters from the original paper and in \textcolor{red}{red} we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-rl1}
+    \caption{(Modified) DQN trained on $10^6$ timesteps. This gives four different instantiation of (modified) DQN. Hyperparameters not mentioned are stable-baselines3 default. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-rl1}
     \begin{tabular}{ll}
     \toprule
     \textbf{Hyperparameter} & \textbf{Values}\\
@@ -173,7 +173,7 @@ We summarize hyperparameters for the IBMDP and for the learning algorithms in Ta
 
 \begin{table}[h]
     \centering
-    \caption{(Modified) PPO trained on $4\times10^6$ timesteps. This gives two different instantiation of (modified) PPO. Hyperparameters not mentioned are stable-baselines3 default. In \textcolor{green}{green} we highlight the hyperparameters from the original paper and in \textcolor{red}{red} we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-rl2}
+    \caption{(Modified) PPO trained on $4\times10^6$ timesteps. This gives two different instantiation of (modified) PPO. Hyperparameters not mentioned are stable-baselines3 default. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-rl2}
     \begin{tabular}{ll}
     \toprule
     \textbf{Hyperparameter} & \textbf{Values}\\
@@ -298,10 +298,10 @@ In Tables ~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperpara
         edge_label/.style={font=\footnotesize, midway}
     ]
 
-        \node[leaf] (tree7_root) at (-2,3) {$\rightarrow$};
+        \node[leaf] (tree7_root) at (-3,3) {$\rightarrow$};
         \draw[->] (tree7_root) to[out=45,in=0,looseness=5] (tree7_root);
 
-        \node[decision] (tree7_root) at (4,3) {$\dot{\theta} \leq 0$};
+        \node[decision] (tree7_root) at (6,3) {$\dot{\theta} \leq 0$};
         \draw[->] (tree7_root) to[out=45,in=0,looseness=5] (tree7_root);
         
         % Tree 4: if x <= 0.5 move right else move left
@@ -335,11 +335,11 @@ In Tables ~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperpara
 
 
         % Tree 7: if x <= 0.5 and y <= 0.5 move right else move down (Second row, right)
-        \node[decision] (tree7_root2) at (5,-7) {$\dot{\theta}\leq 0.539$};
-        \node[decision] (tree7_y2) at (3,-9) {$\theta\leq 0$};
-        \node[leaf] (tree7_right2) at (2,-11) {$\leftarrow$};
-        \node[leaf] (tree7_down3) at (4,-11) {$\rightarrow$};
-        \node[leaf] (tree7_down4) at (6,-9) {$\rightarrow$};
+        \node[decision] (tree7_root2) at (6,-7) {$\dot{\theta}\leq 0.539$};
+        \node[decision] (tree7_y2) at (4,-9) {$\theta\leq 0$};
+        \node[leaf] (tree7_right2) at (3,-11) {$\leftarrow$};
+        \node[leaf] (tree7_down3) at (5,-11) {$\rightarrow$};
+        \node[leaf] (tree7_down4) at (7,-9) {$\rightarrow$};
         \draw[->] (tree7_root2) -- (tree7_y2) node[edge_label, above left] {True};
         \draw[->] (tree7_root2) -- (tree7_down4) node[edge_label, above right] {False};
         \draw[->] (tree7_y2) -- (tree7_right2) node[edge_label, above left] {True};
@@ -347,12 +347,12 @@ In Tables ~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperpara
         
 
         % Labels
-        \node[above] at (-2,4) {{\small Most frequent modified PPO tree (12)}};
-        \node[above] at (3,5) {{\small Most frequent modified DQN tree (9.5)}};
+        \node[above] at (-4,4) {{\small Most frequent modified PPO tree (12)}};
+        \node[above] at (5,4) {{\small Most frequent modified DQN tree (9.5)}};
 
-        \node[above] at (-3,1) {{\small Best modified PPO tree (175)}};
+        \node[above] at (-4,1) {{\small Best modified PPO tree (175)}};
         \node[above] at (5,1) {{\small Best modified DQN tree (160)}};
-        \node[above] at (-3,-6) {{\small Typical imitated tree (185)}};
+        \node[above] at (-4,-6) {{\small Typical imitated tree (185)}};
         \node[above] at (5,-6) {{\small Best DQN + VIPER tree (\textbf{200})}};
 
 

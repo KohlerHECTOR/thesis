@@ -60,7 +60,7 @@ The second step solves it to obtain a policy that maximizes (\ref{def:finite-mdp
 An algorithm constructing the MDP of section~\ref{sec:the-mdp} essentially computes the set of all possible decision trees of maximum depth $D$ which decision nodes are in $\mathcal F$. 
 The transition function of this specific MDP is a directed acyclic graph. Each node of this graph corresponds to a state for which one computes the transition and reward functions. 
 %% PP : je comment-out ce qui suit qui est un détail d'implantation qui ne change rien à la complexité de l'algorithme. Il faut le dire plus loin ; d'ailleurs il en est aussi déjà question en 4.3.
-%To limit memory usage of non-terminal nodes, instead of storing all the samples in $(X,d)$, we only store $d$ and the binary vector of size $N$, $x_{bin} = {(\mathds{1}_{\{x_i \in X\}})}_{i\in \{1,\ldots,N\}}$. 
+%To limit memory usage of non-terminal nodes, instead of storing all the samples in $(X,d)$, we only store $d$ and the binary vector of size $N$, $x_{bin} = {(1_{\{x_i \in X\}})}_{i\in \{1,\ldots,N\}}$. 
 %Even then,
 Considering all possible splits in $\mathcal F$ does not scale.
 We thus introduce a state-dependent action space $A_s$, much smaller than $A$ and populated by a splits generating function. In figure \ref{fig:schema-mdp}, we illustrate the MDP constructed for the classification of a toy dataset using some arbitrary splitting function.
