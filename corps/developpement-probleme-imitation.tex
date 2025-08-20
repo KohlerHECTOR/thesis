@@ -29,11 +29,72 @@ relu neural networks & [2$\times$2, 4$\times$4, 8$\times$8, 16$\times$16] weigth
 \end{table}
 
 We consider four policy classes for our baselines.
-We consider linear policies that have been shown to be able to solve Mujoco tasks~\cite{empirical-evidence}.
+We consider linear policies that have been shown to be able to solve MuJoCo tasks~\cite{empirical-evidence}.
 We fit linear policies to expert policies using simple linear (logistic) regressions with scikit-learn~\cite{scikit-learn} default implementation.
 We also consider decision trees~\cite{breiman1984clasification} and oblique decision trees~\cite{murthy1994system}.
 Oblique decision trees are decision trees which does not necessarily partitions the input domain parallel to axes.
-A test node in an oblique decision tree can be the linear combinations of two state features. 
+A test node in an oblique decision tree can be the linear combinations of two state features.
+We give an example of an oblique decision tree unfolded for the Pong game in Figure~\ref{lst:pong}.
+\begin{figure}
+  \centering
+  \begin{minipage}{0.47\textwidth}
+  \begin{lstlisting}[language=Python,style=mystyle]
+  def play(x):
+    if (x[12] - x[15]) <= 8.5:
+        if (x[2] - x[7]) <= 139.5:
+            if (x[12] - x[13]) <= 5.5:
+                if (x[2] - x[7]) <= 130.5:
+                    if (x[3] - x[14]) <= 110.5:
+                        if (x[5] - x[11]) <= 13.5:
+                            return 5
+                        else:
+                            return 4
+                    else:
+                        return 5
+                else:
+                    if (x[3] - x[11]) <= 173.5:
+                        return 4
+                    else:
+                        return 1
+            else:
+                if (x[1] - x[2]) <= -80.5:
+                    if (x[1] - x[3]) <= -28.5:
+                        return 5
+                    else:
+                        return 3
+                else:
+                    if (x[3] - x[9]) <= 73.5:
+                        return 2
+                    else:
+                        if (x[2] - x[17]) <= 100.5:
+                            return 2
+                        else:
+                            return 4
+        else:
+            return 4
+    else:
+        if (x[1] - x[13]) <= 156.5:
+            if (x[3] - x[12]) <= 143.0:
+                if (x[1] - x[14]) <= 114.5:
+                    return 4
+                else:
+                    return 1
+            else:
+                if (x[2] - x[11]) <= 150.5:
+                    return 0
+                else:
+                    return 1
+        else:
+            return 4
+  \end{lstlisting}
+  \caption{Unfolded oblique decision tree policy with 11 nodes for Pong (RL objective value, i.e. episodic rewards of 16).}\label{lst:pong}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.47\textwidth}
+  \includegraphics[width=1\textwidth]{images/images_part3/pong.png}
+  \caption{The Pong game on Atari 2600.}\label{lst:generic-linear}
+  \end{minipage}
+  \end{figure}
 We train trees using the default CART (Algorithm~\ref{alg:cart} ~\cite{breiman1984clasification}) implementation of scikit-learn with varying numbers of parameters (number of nodes in the tree).
 We explain in more details how we adapt CART to return oblique decision trees in Appendix~\ref{chap-app-imit}.
 We also consider neural networks with relu activations~\cite{relunet} with varying number of parameters (total number of weights).
@@ -181,15 +242,14 @@ However, when measuring interpretability with policy size, we observe that neura
 Because there seem to not be a more interpretable policy class across proxy metrics, we will keep studying both metrics at the same time.
 
 \section{Discussion}
-\begin{figure}
-  \center
-  \includegraphics[trim={0 0 22cm 0},clip,width=0.7\textwidth]{images/images_part3/dis_mujoco+f_atari.pdf}
-  \caption{State features importance for MuJoCo environments given by medium-sized oblique decision trees.}\label{fig:mujoco-feat}
-\end{figure}
-To validate the methodology proposed in the previous chapter, we distillated pre-trained experts neural networks into various less complex policies with imitation learning.
-We obtain diverse baselines policies for diverse environment obtained from diverse experts and imitation learning algorithms.
-We open source the best policy of each class on each environment here:~\url{https://github.com/KohlerHECTOR/interpretable-rl-zoo}.
-We hope that those transparent policies can help teaching and research in sequential decision making.
-One direct use of those baselines could be to look, for each environment, what are the important state features to control the MDPs.
-We give an example of the MuJoCo feature importances obtain with a medium-sized oblique decision tree in Figure~\ref{fig:mujoco-feat}
-In the next chapter, we keep only those open source baselines and study how they trade off our metrics of interpretability and the RL objective~\ref{def:mdp-obj}.
+% \begin{figure}
+%   \center
+%   \includegraphics[trim={0 0 21cm 0},clip,width=0.7\textwidth]{images/images_part3/dis_mujoco+f_atari.pdf}
+%   \caption{State features importance for MuJoCo environments given by medium-sized oblique decision trees.}\label{fig:mujoco-feat}
+% \end{figure}
+To validate the methodology proposed in the previous chapter, we imitated pre-trained experts neural network policies with various less complex policies.
+We obtain diverse baselines policies with diverse interpretability measures and performances for a wide range of environments.
+For each environment, we save the best baseline policy of each class in terms of RL objective (\ref{def:mdp-obj}) after unfolding.
+We open source those best in class policies here:~\url{https://github.com/KohlerHECTOR/interpretable-rl-zoo}.
+We hope that those transparent policies can help teaching and research in (interpretable) sequential decision making.
+In the next chapter, we focus on those best in class unfolded policies and study how they trade off our metrics of interpretability and the RL objective~\ref{def:mdp-obj}.
