@@ -1,4 +1,4 @@
-\chapter{appendix III}
+\chapter{Appendix for part III}
 \label{chap-app-imit}
 \begin{figure}[b]
     %\vspace{-0.12cm}
@@ -13,7 +13,7 @@
 We thus modify CART~\cite{breiman1984classification}, an algorithm returning an axes-parallel trees for regression and supervised classification problems, for it to return oblique decision trees. 
 % Essentially, oblique trees trade-off interpretability of axes-parallel trees for better expressivity: each oblique tree node tests a linear combination of features. 
 In addition to single feature tests, our oblique trees consider linear combinations of two features with weights $1$ and $-1$, e.g.\@ for MDP states $s_i \in \mathbb{R}^{p}$, the oblique features values are $s^{oblique}_i = \{s_{i1} - s_{i0}, s_{i2} - s_{i0}, ..., s_{ip} - s_{i0}, ...,s_{ip-1} - s_{ip}\} \in \mathbb{R}^{p^2}$. For example, using an oracle dataset with $n$ state-actions pairs: $(\bar{S}, \Bar{A} = \pi^{*}(\bar{S})) \subsetneq \mathbb{R}^{n\cdot(p+\dim(A))}$, we obtain oblique decision trees by fitting $(\bar{S},\bar{S}^{oblique} , \Bar{A} = \pi^{*}(\bar{S})) \subsetneq \mathbb{R}^{n\cdot(p(p+1)+\dim(A))}$. 
-Given $\bar{S}$, computing $\bar{S}^{oblique}$ can be done efficiently by computing the values of the lower (or upper) triangles in the $\bar{S} \otimes \bar{S} - (\bar{S} \otimes \bar{S})^T$ tensor (excluding the diagonals) (cf. line~\ref{alg:oblique2} of algorithm~\ref{alg:iqdagger}). We further demonstrate the superiority of oblique trees in our experimental evaluation on a diverse set of RL tasks.
+Given $\bar{S}$, computing $\bar{S}^{oblique}$ can be done efficiently by computing the values of the lower (or upper) triangles in the $\bar{S} \otimes \bar{S} - (\bar{S} \otimes \bar{S})^T$ tensor (excluding the diagonals).
 
 
 \section{All interpretability-performance trade-offs}\label{sec:trade-offs-full}

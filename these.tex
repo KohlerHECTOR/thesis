@@ -12,12 +12,22 @@
 \usepackage{booktabs}
 \usepackage{siunitx}
 \usepackage{pgfplots}
-\usepackage{caption}
-\usepackage{subcaption}
-\usepackage{listings}
 \usepackage{xcolor}
 \usepackage{tcolorbox}
 \usepackage{microtype}
+
+% Import custom settings
+\input{configuration/float_settings}
+\input{configuration/figure_settings}
+
+% Import float settings
+\input{configuration/float_settings}
+
+% Optimize figure and table placement
+\usepackage{placeins}
+\usepackage{etoolbox}
+\AtBeginEnvironment{figure}{\FloatBarrier}
+\AtBeginEnvironment{table}{\FloatBarrier}
 
 % Code styling
 \definecolor{codegreen}{rgb}{0,0.6,0}

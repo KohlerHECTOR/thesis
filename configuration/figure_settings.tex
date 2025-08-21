@@ -1,0 +1,36 @@
+% Figure and algorithm spacing settings
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Reduce spacing around figures and algorithms
+\setlength{\textfloatsep}{20pt plus 2pt minus 4pt}     % Space between floats and text
+\setlength{\floatsep}{12pt plus 2pt minus 2pt}         % Space between consecutive floats
+\setlength{\intextsep}{12pt plus 2pt minus 2pt}        % Space around in-text floats
+\setlength{\dbltextfloatsep}{20pt plus 2pt minus 4pt}  % Space around double-column floats
+
+% Caption settings
+\captionsetup{
+    font=small,
+    labelfont=bf,
+    justification=justified,
+    singlelinecheck=false
+}
+
+% Algorithm settings
+\usepackage[ruled,vlined]{algorithm2e}
+\SetAlgoSkip{smallskip}
+\SetAlgoInsideSkip{smallskip}
+
+% Force certain figures to be placed in-text
+\newcommand{\forceherefigure}[1]{%
+    \begin{figure}[H]
+        #1
+    \end{figure}
+}
+
+% Force certain algorithms to be placed in-text
+\newcommand{\forceherealgoritm}[1]{%
+    \begin{algorithm}[H]
+        #1
+    \end{algorithm}
+}

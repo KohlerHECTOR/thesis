@@ -1,7 +1,6 @@
-\chapter{appendix II}
+\chapter{Appendix for dynamic programming decision trees (part II)}
 \label{chap-app-dpdt}
-\section{Additional Experiments and Hyperparameters}
-In this section we provide additional experimental results. In Table \ref{tab:regression}, we compare DPDT trees to CART and STreeD trees using 50 train/test splits of regression datasets from \cite{grinsztajn2022tree}. All algorithms are run with default hyperparameters. 
+In this chapter we provide additional experimental results. In Table \ref{tab:regression}, we compare DPDT trees to CART and STreeD trees using 50 train/test splits of regression datasets from \cite{grinsztajn2022tree}. All algorithms are run with default hyperparameters. 
 
 The configuration of DPDT is (4, 4, 4) or (4,4,4,4,4). STreeD is run with a time limit of 4 hours per tree computation and on binarized versions of the datasets. 
 Both for depth-3 and depth-5 trees, DPDT outperforms other baselines in terms of train and test accuracies. Indeed, because STreeD runs on ``approximated'' datasets, it performs pretty poorly. 
@@ -42,8 +41,8 @@ wilt & 99.47 (862) & 99.31 (36789) \\
 \end{table}
 
 \begin{table}
+\tiny
 \centering
-\footnotesize
 \caption{Mean train and test scores (with standard errors) for regression datasets over 50 cross-validation runs.}\label{tab:regression}
 \begin{tabular}{l|rr|rr|rr||rr|rr|rr|rr}
 \hline
@@ -74,7 +73,7 @@ abalone & 46.3 ± 0.0 & 39.6 ± 1.6 & 42.5 ± 0.0 & 40.4 ± 1.4 & 43.3 ± 0.0 & 
 \end{table}
 \begin{table}
     \centering
-    \footnotesize
+    \tiny
     \caption{Train/test accuracies of different decision tree induction algorithms. All algorithms induce trees of depth at most 5 on 8 classification datasets. A time limit of 10 minutes is set for OCT-type algorithms. The values in this table are averaged over 3 seeds giving 3 different train/test datasets. %More details about OCT-type algorithms and seeding are given at \url{https://github.com/LucasBoTang/Optimal_Classification_Trees}.\PP{voir des temps de calcul nuls me choque profondément. Si le tps minimal que l'on mesure est 1ms, écrire par exemple $< 0.001$}.
     }
     \begin{tabular}{|c|ccc|ccccc|ccccc|}
@@ -96,7 +95,7 @@ abalone & 46.3 ± 0.0 & 39.6 ± 1.6 & 42.5 ± 0.0 & 40.4 ± 1.4 & 43.3 ± 0.0 & 
 
 \begin{table}
 \centering
-\footnotesize
+\tiny
 \caption{Hyperparameter search spaces for tree-based models. More details about the hyperparamters meaning are given in \cite{komer-proc-scipy-2014}.}
 \begin{tabular}{p{2.8cm}p{2.3cm}p{2.3cm}p{2.3cm}p{2.3cm}p{2.3cm}}
 \toprule
