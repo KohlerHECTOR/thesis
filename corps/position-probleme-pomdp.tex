@@ -39,15 +39,16 @@ In the next section we present IBMDPs as introduced in Topin et. al.\cite{topin2
 
 \section{Iterative bounding Markov decision processes}\label{sec:ibmdp}
 
-The key thing to know about IBMDPs is that they are, as their name suggests, MDPs.
-Hence, IBMDPs admits an optimal deterministic Markovian policy for problem (\ref{def:mdp-obj}).
+The key thing to know about IBMDPs is that they are, as their name suggests, MDPs (cf definition~\ref{def:mdp}).
+Hence, IBMDPs admit an optimal deterministic Markovian policy that maximizes the RL objective.
 In this part we will assume that all the MDP we consider are factored MDPs \ref{def:fmdp} with a finite set of actions, so we use bold fonts for states and observations as they are vector-valued.
-However all our results generalize to discrete states (in $\mathbb{Z}^m$) MDP that we can factor using one-hot encodings. 
-Given an MDP for which we want to learn a decision tree policy, that we call the base MDP, the states in an associated IBMDP are concatenations of the base MDP states and some observations. 
-Those observations are information about the base states that are refined--``iteratively bounded''-- at each step and represent a subspace of the base MDP state space.
-Actions available in an IBMDP are the actions of the base MDP, that change the state of the latter, and \textit{information gathering} actions that change the observation part of the IBMDP state.
-Now, taking base actions in an IBMDP is rewarded like in the base MDP, this ensures that the base objective, e.g. balancing the pole or treating cancer, is still encoded in the IBMDP reward.
-When taking an information gathering action, the reward is an arbitrary value such that optimizing (\ref{def:mdp-obj}) in the IBMDP is equivalent to optimizing some trade-off between \ref{def:mdp-obj} in the base MDP and interpretability.
+However all our results generalize to discrete states (in $\mathbb{Z}^m$) MDPs that we can factor using one-hot encodings. 
+Given an MDP for which we want to learn a decision tree policy, the base MDP, IBMDP states are concatenations of the base MDP state features and some observations. 
+Those observations are information about the base state features that are refined--``iteratively bounded''-- at each step.
+Those observations essentially represent some knowledge about where some state features lie in the state space.
+Actions available in an IBMDP are: 1. the actions of the base MDP, that change state features, and 2. \textit{information gathering} actions that change the adorementioned observations.
+Now, base actions in an IBMDP are rewarded like in the base MDP, this ensures that the RL objective w.r.t. the base MDP is encoded in the IBMDP reward.
+When taking an information gathering action, the reward is an arbitrary value such that optimizing the RL objective in the IBMDP is equivalent to optimizing some trade-off between interpretatability and the RL objective in the base MDP.
  
 Before showing how to get decision tree policies from IBMDP policies, we give a formal definition of IBMDPs following Topin et. al.~\cite{topin2021iterative}.
 
