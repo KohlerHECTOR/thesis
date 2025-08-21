@@ -28,7 +28,8 @@ Hence, after sequentializing all operations inside a model and running them on t
 In chapter~\ref{sec:exps2}, we show that there is no model class that obtain better interpretability-performance trade-off across all tasks.
 This results further highlights the need for careful methodology when researching interpretability as it might not be enough to rely on the assumption that neural networks are less interpretable than decision trees.
 
-We already identified precise future research directions in sections~\ref{sec:ccl-pomdp},~\ref{sec:ccl-dpdt} and~\ref{sec:ccl-imit} and rpresent next some global perspectives on reseach in interpretable sequential decision making.
+We already identified precise future research directions in sections~\ref{sec:ccl-pomdp},~\ref{sec:ccl-dpdt} and~\ref{sec:ccl-imit}. 
+In this paragraphs, we present some opinionated perspectives on reseach in interpretable sequential decision making.
 Indeed, in an era where research focuses more and more on larger, completely black-box models~\cite{all-you-need} such as large language models (LLMs), it is important to understand if research in interpretability still makes sense or if it is simply rowing against the current.
 Performance-oriented research, i.e. developing algorithms that perform better than others on some benchmark can now have direct impact on our societies.
 Hence a clear motivation for further researching interpretability could be for ``checking'' that deployed models are somehow safe.
@@ -37,7 +38,7 @@ Research going that direction is doomed either because constraining optimization
 Or it is doomed because interpreting big models a posteriori will only yield approximated interpretations.
 In one case human will be able to interpret models but those will perform poorly. 
 In the other we can somehow interpret good models but the whole motivation of safety in deployment is then rendered null because of the uncertain nature of interpretations.
-The latter is at the core of emerging and trendy research topics such as mechanistic interpretability or chain-of-thoughts interpretability.
+The latter is at the core of emerging and trendy research topics such as mechanistic interpretability or chain-of-thoughts interpretability~\cite{barez-chain-2025}.
 But not all hope is lost for the future of interpretability research.
 On the contrary, we believe this helps restrict the research directions to ones where interpretability can really be useful.
 Indeed, big transformer models are not the only useful machine learning models.

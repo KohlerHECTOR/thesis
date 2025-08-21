@@ -136,7 +136,7 @@ The full observation set is $O = \{(0, 2, 0, 2), (0, 1, 0, 2), (0, 2, 0, 1), (0,
 The transitions and rewards are given by definition (\ref{def:ibmdp}).
 
 In figure (\ref{example:ibmdp}) we show a trajectory in this IBMDP.
-\begin{figure}[h]
+\begin{figure}
 \centering
 \begin{tikzpicture}[scale=0.6]
     % Define styles
@@ -310,7 +310,7 @@ With $V^{\pi_{po}}$ the value function (\ref{def:vs}) of deterministic partially
 After optimizing objective (\ref{def:irl}) with, e.g. reinforcement learning, we thus use algorithm \ref{alg:extract-tree} to obtain a decision tree policy that trades off between interpretability and the RL objectvie (\ref{def:mdp-obj}) for our MDP of intereset.
 This is exactly what we do in the next chapters.
 % In figure (\ref{fig:summary-ibmdp}) we summarize the direct reinforcement learning approach of Topin et. al. that we use in the next chapters. 
-% \begin{figure}[h]
+% \begin{figure}
 %     \centering
 %     \begin{tikzpicture}
 %         \draw[fill=blue!30] (0, 0) rectangle (5.9, 3);

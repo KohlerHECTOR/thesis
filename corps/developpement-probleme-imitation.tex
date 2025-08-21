@@ -3,7 +3,7 @@
 In this chapter, we validate our methodology to evaluate the interpretability.
 In particular we verify that our methodology that relies on policy unfolding can retrieve conclusions from user studies, e.g. we want that our measures of interpretability to change with parameter number inside a given policy class.
 
-Because in this part of the manuscript we do evaluate learning capabilities of interpretable machine learning algorithms but solely their outputs, we use indirect imitation learning (cf. section~\ref{sec:il}) to obtain policies from different classes.
+Because in this part of the manuscript we do evaluate learning capabilities of interpretable machine learning algorithms but solely their outputs, we use indirect imitation learning (cf. section~\ref{sec:imit}) to obtain policies from different classes.
 Imitation learning is a great baseline to obtain policies from different classes.
 Indeed, as long as there exists a supervised learning algorithm for a given model class, this algorithm can be used in e.g. algorithms~\ref{alg:dagger} or~\ref{alg:viper} to distillate the behaviour of any expert policy into the desired policy class. 
 Furthermore, if policies are already available for some MDPs, we can simply re-use them as experts in e.g. algorithms~\ref{alg:dagger} or~\ref{alg:viper}.
@@ -111,7 +111,7 @@ We do not use PPO experts with VIPER either: despite working with discrete actio
 All experts are compatible with Dagger~\cite{dagger}.
 We also consider an additional imitation learning algorithm: behaviour cloning (BC)~\cite{behavior-cloning}.
 BC is essentially just one iteration of Dagger imitation i.e. samples are only collected with the expert policy once before fitting a new poicy class.
-For Dagger and VIPER we use 10 iterations of samples collections with experts and teacher policy (cf. algorithms~\ref{dagger} and~\ref{viper}) with different total samples budget.
+For Dagger and VIPER we use 10 iterations of samples collections with experts and teacher policy (cf. algorithms~\ref{alg:dagger} and~\ref{alg:viper}) with different total samples budget.
 In Table~\ref{tab:repet-distill}, we summarize the different algorithms used to imitate each expert.
 We also specify the total number of samples collected during the imitations as well as the number of times we repet the imitations for statistical significance.
 
@@ -190,7 +190,7 @@ We normalize the baselines cumulative rewards between expert and random agent cu
   \caption{OCAtari, DQN expert}
   \label{fig:dqn_atari}
 \end{subfigure}%
-\caption{Performance of imitation learning variants of algorithm \ref{alg:distill} on different environments. We plot the 95\% stratified bootstrapped confidence intervals around the IQMs.}
+\caption{Performance of different imitation learning algorithms on different environments. We plot the 95\% stratified bootstrapped confidence intervals around the IQMs.}
 \label{fig:performance_comparison}
 \end{figure}
 

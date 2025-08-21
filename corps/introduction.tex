@@ -1,6 +1,6 @@
 \chapter*{Preliminary Concepts}
 \section{What is sequential decision making?}
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \begin{tikzpicture}[
         node distance=2.5cm,
@@ -110,7 +110,7 @@ is unnecessary, in what light are we to contemplate processes which appear to
 be uninterpretable in that sphere of thought which they are designed to aid?
 \end{displaycquote}
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{images/images_intro/gboole.jpg}
     \caption{British logician and philosopher George Boole (1815--1864) next to his book \textit{The Laws of Thought} (1854), the oldest known record of the word ``interpretability''.}
@@ -120,7 +120,7 @@ be uninterpretable in that sphere of thought which they are designed to aid?
 What is remarkable is that the first recorded occurrence of ``interpretability'' was in the context of logic and computation. Boole asked: \textit{when can we meaningfully apply formal mathematical operations beyond the specific conditions under which we understand them?}
 In Boole's era, the concern was whether logical operations like addition could be applied outside their original interpretable contexts—where symbols and their sum represent concepts that humans can understand (e.g., red + apples = red apples). Today, we face an analogous dilemma with machine learning algorithms: black-box programs like neural networks~\cite{perceptron}, which learn complex, unintelligible representations, are often deployed in contexts where computations should be understood by humans (e.g., in medicine~\cite{black-box2}). 
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \begin{subfigure}[b]{0.7\textwidth}
         \centering
@@ -328,7 +328,7 @@ In this section we follow sections 6 and 7 of \cite{glanois-survey} and section 
 Furthermore we now employ the term ``model'' to refer to ``programs'' to be consistent with the machine learning research conventions.
 Models are essentially mappings from inputs to outputs that can be trained with machine learning algorithms while programs might designate other types of computations like sorting.
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \begin{tikzpicture}
         % Define the axes
@@ -387,7 +387,7 @@ Hence, as stated above, LIME needs to learn one local surrogate model per output
 \end{figure}
 
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \begin{tikzpicture}[
         node distance=2cm,
@@ -531,7 +531,7 @@ This something that will be key in our study of decision tree models that we int
     The depth of a tree is the maximum path lentght from root to any leaf.
     \end{definition}
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \begin{tikzpicture}[
         scale=1.0,
@@ -662,7 +662,7 @@ In the next few sections we present the material related to sequential decision 
 \end{algorithm}
 
 \subsection{Markov decision processes and problems}
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \begin{tikzpicture}[
         node distance=2.5cm,
@@ -725,7 +725,7 @@ where $\gamma \in (0,1]$ is the discount factor that controls the trade-off betw
 Hence, algorithms presented in this manuscript aim to find solutions policies that maximizes this RL objective, i.e., the optimal policy: $\pi^\star =\underset{\pi}{\operatorname{argmax}}J(\pi)$.
 
 \subsection{Example: a grid world MDP}
-\begin{figure}[h]
+\begin{figure}
     \centering
     \begin{tikzpicture}
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
@@ -812,7 +812,7 @@ Indeed, one can leverage the Markov property to find for all states the best act
 \end{definition}
 
 Hence, we can use the definition of the value function to re-write the RL objective (\ref{def:mdp-obj}): $\pi^{\star} = \underset{\pi}{\operatorname{argmax}}\mathbb{E}\left[V^{\pi}(s_0)|s_0\sim T_0 \right]$.
-The well-known Value Iteration algorithm~\ref{alg:value-teration} solves this problem exactly. 
+The well-known Value Iteration algorithm~\ref{alg:value-iteration} solves this problem exactly. 
 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
@@ -1122,7 +1122,7 @@ which cannot be perfectly represented by a depth-1 decision tree, because there 
 
 Despite this negative result, we still find that VIPER almost always finds the optimal depth-1 decision tree policy in terms of the RL objective\ref{def:mdp-obj} when ties are broken at random.
 Importantly, this sheds light on the sub-optimality of indirect imitation w.r.t the RL objective (~\ref{def:mdp-obj}) and motivates the study of direct approaches.
-\begin{figure}[h]
+\begin{figure}
     \centering
     \begin{tikzpicture}[
         decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
@@ -1177,7 +1177,7 @@ In the last part of the text, we lift our assumption about decision tree learnin
 In particular, we leverage the simplicity of \textit{indirect} methods~\ref{fig:direct-vs-indirect-methods} to imitate neural network experts with models from~\ref{fig:interpretability-performance-tradeoff} and and perform a large-scale empirical study of the interpretability-performances trade-offs on various sequential decision making tasks.
 % In Table~\ref{tab:summary-parts} we summarize the outline of this manuscript in terms of learning objective (~\ref{def:sl},~\ref{def:mdp-obj}, or~\ref{def:il}) and model class (figure~\ref{fig:interpretability-performance-tradeoff}).
 
-% \begin{table}[htbp]
+% \begin{table}
 %     \centering
 %     \begin{tabular}{|l|c|c|c|c|}
 %         \hline
@@ -1202,7 +1202,7 @@ We summarize our results as follows:
     \item In practice, controlling MDPs with interpretable policies does not necessarily decrease performances.
 \end{enumerate}
 
-% \begin{figure}[htbp]
+% \begin{figure}
 %     \centering
 %     \begin{tikzpicture}[
 %         bubble/.style={rectangle, rounded corners=15pt, draw, thick, fill=blue!20, text width=3.5cm, text centered, minimum height=1.5cm, font=\small},

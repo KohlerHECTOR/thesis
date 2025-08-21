@@ -60,7 +60,7 @@ This revised objective is just a re-writing of (\ref{def:irl}) making explicit t
 In this chapter, we use reinforcement learning to train decision tree policies for MDPs by seeking deterministic partially observable policies for POIBMDPs (\ref{def:poibmdp}), i.e. by solving (\ref{def:revised}).
 We summarized the approach in figure~\ref{fig:summary-rl}  
 
-\begin{figure}[h]
+\begin{figure}
 \centering
 \begin{tikzpicture}
     \draw[fill=blue!40] (0, 0) rectangle (6, 4);
@@ -106,7 +106,7 @@ This depth-1 tree is in turn optimal in the grid world MDP w.r.t. to the base RL
 Next we present some insights about the solution space of (\ref{def:revised}).
 
 \section{Constructing POIBMDPs which optimal solutions are the depth-1 tree}
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \begin{tikzpicture}[
         scale=0.8,
@@ -440,7 +440,7 @@ Each unique hyperparameters combination for a given algorithm on a given problem
 For example, for asymmetric Sarsa, we run a total of $10\times 768= 7680$ experiments for learning deterministic partially observable policies for a POIBMDP (cf. Table~\ref{tab:hp-sarsa}).
 To get a success rate, we can simply divide the number of learned depth 1 tree by 7680 (recall that for $\gamma=0.99$ and $\zeta=0.5$, the optimal policy is a depth-1 tree (e.g. figure~\ref{fig:optimal-policy-trees}) as per figure~\ref{fig:objectives}). 
 
-\begin{table}[h]
+\begin{table}
 \centering
 \small
 \caption{Asymmetric Sarsa Hyperparameter Space (768 combinations each run 10 times)}\label{tab:hp-sarsa}
@@ -460,7 +460,7 @@ Optimistic & True, False & Optimistic initialization \\
 \end{tabular}
 \end{table}
 
-\begin{table}[h]
+\begin{table}
     \centering
     \caption{Summary of RL baselines Hyperparameters}
     \begin{tabular}{llr}

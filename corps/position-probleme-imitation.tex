@@ -1,6 +1,6 @@
 \chapter{Introduction}\label{sec:intro-methodo}\footnote{Parts of this work was presented at the European Workshop in Reinforcement Learning in 2024 and at the Workshop on Programmatic Reinforcement Learning in 2025:\url{https://openreview.net/group?id=EWRL/2024/Workshop#tab-accept}~\url{https://prl-workshop.github.io/}}
 While in Parts~\ref{part1} and~\ref{part2} we quantified the performances of a given interpretable model class, e.g. decision trees of some maximum depth, this time we focus on quantifying the interpretability-performance trade-offs of different model classes.
-Most research interpretable machine learning, including~\cite{topin2021iterative}, relies on beliefs such that ``decision trees are more interpretable than neural networks'' illustrated for example in Figre~\ref{fig:interpretability-performance-trade-off}.
+Most research interpretable machine learning, including~\cite{topin2021iterative}, relies on beliefs such that ``decision trees are more interpretable than neural networks'' illustrated for example in figure~\ref{fig:interpretability-performance-tradeoff}.
 In this part we propose a methodology to empirically compare the interpretability-perofrmance trade-offs of multiple models from potentially different model classes.
 
 In this chapter, we present results from existing empirical evaluations of model interpretability and introduce our methodology
@@ -57,7 +57,7 @@ Most importantly, as these measurements depend on many technical details (progra
 We call this process of standardizing policies language ``unfolding''..
 
 %we ``unfold'' all policies into a common sequential representation without hardware optimizations or vectorized operations, as humans process information sequentially.
-In figure \ref{lst:unfolded-linear}, \ref{lst:generic-linear}, and \ref{lst:policy_ll}, we present some unfolded policy programs.
+In figures \ref{lst:unfolded-linear}, \ref{lst:tiny-relu} and \ref{lst:generic-linear}, we present some unfolded policy programs.
 Other works have distilled neural networks into programs \cite{PIRL} or even directly learn programmatic policies \cite{pirl2} from scratch.
 However, those works directly consider programs as a policy class and could compare a generic program (not unfolded, with, e.g., while loops or array operations) to, e.g, a decision tree \cite{leap}.
 We will discuss later on the limitations of unfolding policies in the overall methodology.
@@ -114,6 +114,6 @@ def play(x):
     y_0 = h_layer_2_0
     return [y_0]
 \end{lstlisting}
-\caption{Tiny rely neural network for Pendulum.}\label{lst:generic-linear}
+\caption{Unfolded tiny rely neural network for Pendulum.}\label{lst:tiny-relu}
 \end{minipage}
 \end{figure}

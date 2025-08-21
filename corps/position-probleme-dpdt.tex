@@ -4,7 +4,7 @@ There already exist works formulating the decision tree induction problem as sol
 In particular, we showed in the previous part how Topin et al.~\cite{topin2021iterative} could be used to do that using classification POIBMDPs (cf. section~\ref{sec:pomdp-classif}).
 We move away from classification POIBMDPs and use a novel MDP formulation that we detail later.
 The key differences compared to, e.g.~\cite{topin2021iterative} is that our MDP states are sets of training data rather than feature bounds (cf. definition~\ref{def:cpoibmdp}) and that we dynamically define the set of information gathering actions (cf. definition~\ref{def:ibmdp}).
-One other novelty, is that unlike existing works that use reinforcement learning (section~\ref{sec:rl}), we use dynamic programming (\ref{sec:mdp}) to solve exactly decision tree induction formulated as an MDP.
+One other novelty, is that unlike existing works that use reinforcement learning (section~\ref{sec:rl}), we use dynamic programming~\cite{Bellman} to solve exactly decision tree induction formulated as an MDP.
 
 This part of the manuscript is organized as follows.
 In this chapter, we motivate the need for new decision tree induction algorithms and present the related works.

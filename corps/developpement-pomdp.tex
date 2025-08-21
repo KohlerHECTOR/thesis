@@ -136,7 +136,7 @@ We match training budgets: we train modified DQN on 1 million timesteps and modi
 
 We summarize hyperparameters for the IBMDP and for the learning algorithms in Tables \ref{tab:ibmdp-params}, \ref{tab:ibmdp-rl1} and \ref{tab:ibmdp-rl2}.
 
-\begin{table}[h]
+\begin{table}
     \centering
     \caption{IBMDP hyperparameters. We try 12 different IBMDPs. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-params}
     \begin{tabular}{ll}
@@ -151,7 +151,7 @@ We summarize hyperparameters for the IBMDP and for the learning algorithms in Ta
     \end{tabular}
     \end{table}
 
-\begin{table}[h]
+\begin{table}
     \centering
     \caption{(Modified) DQN trained on $10^6$ timesteps. This gives four different instantiation of (modified) DQN. Hyperparameters not mentioned are stable-baselines3 default. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-rl1}
     \begin{tabular}{ll}
@@ -171,7 +171,7 @@ We summarize hyperparameters for the IBMDP and for the learning algorithms in Ta
     \end{tabular}
     \end{table}
 
-\begin{table}[h]
+\begin{table}
     \centering
     \caption{(Modified) PPO trained on $4\times10^6$ timesteps. This gives two different instantiation of (modified) PPO. Hyperparameters not mentioned are stable-baselines3 default. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-rl2}
     \begin{tabular}{ll}
@@ -245,7 +245,7 @@ On figures~\ref{fig:res-dqn} and~\ref{fig:res-ppo}, we observe that standard RL 
 On figure~\ref{fig:res-ppo}, it is clear that for the standard PPO baselines, learning is super efficient and algorithms learn optimal policies with reward 200 in few thousands steps.
 
 In Tables ~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperparameters for Modified RL baselines when learning partially observable IBMDP policies in terms of extracted decision tree policies performances in CartPole control.
-\begin{table}[h]
+\begin{table}
     \centering
     \caption{Top 5 Hyperparameter Configurations for modified DQN + IBMDP, bold font represent the original paper hyperparameters.}\label{tab:mod-dqn}
     \label{tab:top5_results}
@@ -262,7 +262,7 @@ In Tables ~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperpara
     \end{tabular}
     \end{table}
 
-    \begin{table}[h]
+    \begin{table}
         \centering
         \caption{Top 5 Hyperparameter Configurations for modified PPO + IBMDP, bold font represent the original paper hyperparameters.}\label{tab:mod-ppo}
         \label{tab:top5_ppo_results}
@@ -289,7 +289,7 @@ In Tables ~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperpara
 \end{figure}
 
 
-\begin{figure}[htbp]
+\begin{figure}
     \centering
     \begin{tikzpicture}[
         scale=0.8,

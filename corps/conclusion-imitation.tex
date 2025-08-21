@@ -2,7 +2,7 @@
 In this chapter, we study the interpretability-performance trade-offs of different policies.
 For each environment considered we experiment with the best in class policies obtained in the previous Chaper.  
 For each environment we hence study five deicision tree policies with varyin number of nodes, five oblique decision tree policies with varying number of nodes, one linear policy, and four relu neural network policies with varying number of hidden units (cf. Table~\ref{tab:policy-classes}).
-To obtain fair interpretability measurements, in our case inference speeds in seconds or sizes in bytes (cf. Sec~\ref{sef:unfold}), we run each unfolded policy \textbf{on the same dedicated CPU} for 100 new environment episodes.
+To obtain fair interpretability measurements, in our case inference speeds in seconds or sizes in bytes (cf. Sec~\ref{sec:unfold}), we run each unfolded policy \textbf{on the same dedicated CPU} for 100 new environment episodes.
 Since all the policies process computations roughly the same way, and since they are exectued on the exact same device in the same conditions we believe the results presented next are a good illustration of our methodology (cf. section~\ref{sec:unfold}) 
 can be used for interpretability research.
 \section{Is it possible to compute interpretable policies for high-dimensional environments?}
@@ -21,7 +21,7 @@ can be used for interpretability research.
 % \end{figure}
 
 In figure~\ref{fig:trade-off-summary}, we present results only for part of the environments that we believe are the most representative.
-This allows us to have a compact comparison of policy trade-offs with either of the metric from section~\ref{sef:unfold}.
+This allows us to have a compact comparison of policy trade-offs with either of the metrisc from section~\ref{sec:unfold}.
 The full trade-offs are presented in appendix~\ref{sec:trade-offs-full}.
 In \cite{glanois-survey}, authors claim that computing an interpretable policy for high-dimensional MDPs, i.e. environments where the number of state features is high, is difficult since it is similar to program synthesis which is known to be NP-hard \cite{program-synth}.
 Using our measures of interpretability, we can corroborate this claim.
@@ -67,7 +67,7 @@ Surprisingly, we can observe that for Pong a minimum level of interpretability i
 Indeed, as stated in \cite{study-0}, optimizing interpretability can also be seen as regularizing the policy which can increase generalization capabilities. 
 The key observation is that the policy class achieving the best interpretability-performance trade-off depends on the problem.
 Indeed, independent of the interpretability metric, we see on figure~\ref{fig:trade-off-summary} that for LunarLander it is a neural network that achieves the best trade-off while for Pong it is a tree.
-This means that, when research interpretability one needs to be extra careful when using model interpretability assumptions presented in e.g. figure~\ref{fig:interpretability-performance-trade-off}.
+This means that, when research interpretability one needs to be extra careful when using model interpretability assumptions presented in e.g. figure~\ref{fig:interpretability-performance-tradeoff}.
 Next, we compare our proxies for interpretability with another one; the verification time of policies used in \cite{viper,lens-complexity}.
 
 
