@@ -1,6 +1,6 @@
 \chapter{Limits of direct reinforcement learning of decision tree policies}\label{sec:pomdp}
 
-From the previous chapter~\ref{sec:topin} we know that to directly learn decision trees that directly optimize the RL objective~\ref{def:mdp-obj} for an MDP, one can learn a deterministic partially observable policy for an IBMDP (definitions~\ref{def:ibmdp} and~\ref{def:irl} and Proposition~\ref{def:po-policy}).
+From the previous chapter~\ref{sec:topin} we know that to directly learn decision tree policies that optimize the RL objective~\ref{def:mdp-obj} for an MDP, one can learn a deterministic partially observable policy for an IBMDP that optimizes (~\ref{def:irl}) (cf. definition~\ref{def:ibmdp} and proposition~\ref{def:po-policy}).
 Such problems are classical instances of partially observable Markov decision processes (POMDPs)~\cite{POMDP,chap2}.
 This connexion with POMDPs brings novel insights to direct reinforcement learning of decision tree policies. 
 In this chapter, all the decision processes presented have a finite number of vector-valued states and observations.
@@ -9,33 +9,33 @@ Hence we will use bold fonts for states and observations but can still use summa
 \section{Partially observable iterative Markov decision processes}\label{sec:poibmdp}
 A POMDP is an MDP where the current state is hidden; only some information about the current state is observable.
 
-\begin{definition}[Partially Observable Markov Decision Processes]\label{def:pomdp}
-A partially observable Markov decision process is a tuple $\langle X, A, O, T, T_0, \Omega, R\rangle$ where:
+\begin{definition}[Partially observable Markov decision process]\label{def:pomdp}
+A partially observable Markov decision process is a tuple $\langle X, A, O, R, T, T_0, \Omega\rangle$ where:
 \begin{itemize}
-    \item $X$ is the state space (like in the definition of MDPs (\ref{def:mdp})).
+    \item $X$ is the hidden state space (like in the definition of MDPs (\ref{def:mdp})).
     \item $A$ is a finite set of actions (like in the definition of MDPs (\ref{def:mdp})).
     \item $O$ is a set of observations.
-    \item $T: X \times A \rightarrow \Delta X$ is the transition kernal, where $T(boldsymbol{x}_t, a, \boldsymbol{x}_{t+1}) = P(\boldsymbol{x}_t|\boldsymbol{x}_{t+1}, a)$ is the probability of transitioning to state $\boldsymbol{x}_{t}$ when taking action $a$ in state $\boldsymbol{x}$
+    \item $T: X \times A \rightarrow \Delta(X)$ is the transition kernal, where $T(\boldsymbol{x}_t, a, \boldsymbol{x}_{t+1}) = P(\boldsymbol{x}_t|\boldsymbol{x}_{t+1}, a)$ is the probability of transitioning to state $\boldsymbol{x}_{t}$ when taking action $a$ in state $\boldsymbol{x}$
     \item $T_0$: is the intial distribution over states. 
-    \item $\Omega: X \rightarrow \Delta O$ is the observation kernel, where $\Omega(\boldsymbol{o}, a, \boldsymbol{x}) = P(\boldsymbol{o}|\boldsymbol{x}, a)$ is the probability of observing $\boldsymbol{o}$ in state $\boldsymbol{x}$
+    \item $\Omega: X \rightarrow \Delta(O)$ is the observation kernel, where $\Omega(\boldsymbol{o}, a, \boldsymbol{x}) = P(\boldsymbol{o}|\boldsymbol{x}, a)$ is the probability of observing $\boldsymbol{o}$ in state $\boldsymbol{x}$
     \item $R: X \times A \rightarrow \mathbb{R}$ is the reward function, where $R(\boldsymbol{x}, a)$ is the immediate reward for taking action $a$ in state $\boldsymbol{x}$
 \end{itemize}
 Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP~\ref{def:mdp}.
 \end{definition}
 
-Let us define explicitely a partially observable iterative bounding Markove decision process (POIBMDP). It is essentially an IBMDP extended with an observation space and an observation kernel:
-\begin{definition}[Partially Observable Iterative Bounding Markov Decision Processes]\label{def:poibmdp} a partially observable iterative bounding Markov decision process $\mathcal{M}_{POIB}$
+Let us define explicitely a partially observable iterative bounding Markove decision process (POIBMDP). It is essentially an IBMDP for which we explicitely define an observation space and an observation kernel:
+\begin{definition}[Partially observable iterative nounding Markov decision process]\label{def:poibmdp} a partially observable iterative bounding Markov decision process $\mathcal{M}_{POIB}$ is a tuple:
     \begin{align*}
         \langle \overbrace{S\times O}^{\text{States}}, \underbrace{A\cup A_{info}}_{Action space},\overbrace{O}_{\text{Observations}} ,\underbrace{(R, \zeta)}^{Rewards}, \overbrace{(T_{info}, T, T_0)}_{Transitions}, \Omega \rangle
     \end{align*}
-    Note that $\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$ is an IBMDP~\ref{def:ibmdp}.
-    The transition kernel $\Omega$ maps state features and observations to observations, $\Omega:S\times O \rightarrow O$, with $P(\boldsymbol{o}|(\boldsymbol{s}, \boldsymbol{o}))=1$ 
+    Where $\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$ is an IBMDP~\ref{def:ibmdp}.
+    The transition kernel $\Omega$ maps concatenation of state features and observations--IBMDP states--to observations, $\Omega:S\times O \rightarrow O$, with $P(\boldsymbol{o}|(\boldsymbol{s}, \boldsymbol{o}))=1$ 
 \end{definition}
 
-One can see POIBMDPs as particular instances of POMDPs where the observation kernel simply applies a mask over some features of the state.
+One can see POIBMDPs as particular instances of POMDPs where the observation kernel simply applies a mask over some features of the hidden state.
 This setting has other names in the litterature.
-For example, POIBMDPs are Mixed Observability MDPs \cite{momdp} with base MDP state features as the \textit{hidden variables} and feature bounds as \textit{visible} variables.
-POIBMDPs can also be seen as non-stationary MDPs (N-MDPS)~\cite{learning-pomdp} in which there is one different transition kernel per base MDP state: these are called Hidden-Mode MDPs~\cite{hmmdp}. 
+For example, POIBMDPs are mixed observability MDPs \cite{momdp} with base MDP state features as the \textit{hidden variables} and feature bounds as \textit{visible} variables.
+POIBMDPs can also be seen as non-stationary MDPs (N-MDPS)~\cite{learning-pomdp} in which there is one different transition kernel per base MDP state: these are called hidden-mode MDPs~\cite{hmmdp}. 
 
 Following~\cite{learning-pomdp} we can write the value of a deterministic partially observable policy $\pi:O\rightarrow A\cup A_{info}$ in observation $\boldsymbol{o}$.
 
@@ -43,66 +43,65 @@ Following~\cite{learning-pomdp} we can write the value of a deterministic partia
     \begin{align*}
         V^{\pi}(\boldsymbol{o}) &= \underset{(s,\boldsymbol{o}')\in S\times O}{\sum}P^{\pi}((\boldsymbol{s}, \boldsymbol{o}')|\boldsymbol{o})V^{\pi}((\boldsymbol{s}, \boldsymbol{o}'))
     \end{align*}
-with $P^{\pi}((\boldsymbol{s}, \boldsymbol{o}')|\boldsymbol{o})$ the asymptotic occupancy distribution (see \cite[section 4]{learning-pomdp} for the full defintion) of the complete POIBMDP state $(\boldsymbol{s},\boldsymbol{o}')$ given the partial observation $o$ and $V^{\pi}((s, o'))$ the classical state-value function~\ref{def:vs}.
+with $P^{\pi}((\boldsymbol{s}, \boldsymbol{o}')|\boldsymbol{o})$ the asymptotic occupancy distribution (see \cite[section 4]{learning-pomdp} for the full defintion) of the hidden POIBMDP state $(\boldsymbol{s},\boldsymbol{o}')$ given the partial observation $o$ and $V^{\pi}((s, o'))$ the classical state-value function~\ref{def:vs}.
 \end{definition}
 
 The asymptotic occupancy distribution is the probability of a policy $\pi$ to arrive in $(s,\boldsymbol{o}')$ while observing $\boldsymbol{o}$ in some trajectory.  
 We can re-write the direct interpretable RL objective (\ref{def:irl}) in terms of POIBMDPs:
 
-\begin{definition}[Revised direct interpretable RL objective]\label{def:revised}
-    Given a (factored) MDP $\mathcal{M}$~\ref{def:fmdp} and an associated POIBMDP $\mathcal{M}_{POIB}$ (\ref{def:poibmdp}), the direct interpretable RL objective becomes:
+\begin{definition}[Revised interpretable RL objective]\label{def:revised}
+    Given a (factored) MDP $\mathcal{M}$~\ref{def:fmdp} and an associated POIBMDP $\mathcal{M}_{POIB}$ (\ref{def:poibmdp}), the revised interpretable RL objective is to find a deterministic partially observable policy $\pi:O\rightarrow A\cup A_{info}$ that maximizes the value:
 \begin{align}
-    \pi^{\star} &= \underset{\pi}{\operatorname{argmax}}J(\pi) = \underset{\pi}{\operatorname{argmax}}V^{\pi}(\boldsymbol{o}_0)
+    V^{\pi}(\boldsymbol{o}_0)
 \end{align}
-With $\pi$ a deterministic partially observable policy $\pi:O\rightarrow A\cup A_{info}$. There is no expectation over possible initial observation in the above objective function as there is only one initial observation in a POIBMDP: $\boldsymbol{o}_0=(L_1, U_1, \dots, L_n, U_n)$ (cf. definition\ref{def:ibmdp}).
+There is no expectation over possible initial observation in the above objective function as there is only one initial observation in a POIBMDP: $\boldsymbol{o}_0=(L_1, U_1, \dots, L_p, U_p)$ (cf. definition\ref{def:ibmdp}).
 \end{definition}
-This revised objective is just a re-writing of (\ref{def:irl}) making explicit the POMDP model.
-In this chapter, we use reinforcement learning to train decision tree policies for MDPs by seeking deterministic partially observable policies for POIBMDPs (\ref{def:poibmdp}), i.e. by solving (\ref{def:revised}).
-We summarized the approach in figure~\ref{fig:summary-rl}  
+This revised objective is just a re-writing of (\ref{def:irl}) making explicit the underlying POMDP model.
+In this chapter, we use reinforcement learning to train decision tree policies for MDPs by seeking deterministic partially observable policies for POIBMDPs (\ref{def:poibmdp}) that optimize the interpretable RL objective (\ref{def:revised}).
+% We summarized the approach in figure~\ref{fig:summary-rl}  
 
-\begin{figure}
-\centering
-\begin{tikzpicture}
-    \draw[fill=blue!40] (0, 0) rectangle (6, 4);
-    \node at (3, 3.5) {POIBMDP $\mathcal{M}_{POIB}\langle\mathcal{M}_{IB}, O, \Omega\rangle$};
-    \draw[fill=blue!30] (0, 0) rectangle (5.9, 3);
-    \node at (3, 2.5) {IBMDP $\mathcal{M}_{IB} \langle \mathcal{M}, A_{info}, \zeta \rangle$};
-    \draw[fill=blue!10] (0, 0) rectangle (5, 2);
-    \node at (3, 1.5) {MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$};
+% \begin{figure}
+% \centering
+% \begin{tikzpicture}
+%     \draw[fill=blue!40] (0, 0) rectangle (6, 4);
+%     \node at (3, 3.5) {POIBMDP $\mathcal{M}_{POIB}\langle\mathcal{M}_{IB}, O, \Omega\rangle$};
+%     \draw[fill=blue!30] (0, 0) rectangle (5.9, 3);
+%     \node at (3, 2.5) {IBMDP $\mathcal{M}_{IB} \langle \mathcal{M}, A_{info}, \zeta \rangle$};
+%     \draw[fill=blue!10] (0, 0) rectangle (5, 2);
+%     \node at (3, 1.5) {MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$};
     
-    \draw[fill=red!10] (10, 0) rectangle (14, 3);
-    \node at (12, 2) {\textbf{Objective~\ref{def:revised}}};
-    \node at (12, 1) {$\pi^{\star} = \underset{\pi}{\operatorname{argmax}} V^{\pi}(\boldsymbol{o}_0)$};
+%     \draw[fill=red!10] (10, 0) rectangle (14, 3);
+%     \node at (12, 2) {\textbf{Objective~\ref{def:revised}}};
+%     \node at (12, 1) {$\pi^{\star} = \underset{\pi}{\operatorname{argmax}} V^{\pi}(\boldsymbol{o}_0)$};
     
-    \draw[fill=red!10] (1, -5) rectangle (5, -2);
-    \node at (3, -3) {\textbf{Decision Tree Policy}};
-    \node at (3, -4) {$\pi_{\mathcal{T}}: S \rightarrow A$};
+%     \draw[fill=red!10] (1, -5) rectangle (5, -2);
+%     \node at (3, -3) {\textbf{Decision Tree Policy}};
+%     \node at (3, -4) {$\pi_{\mathcal{T}}: S \rightarrow A$};
     
-    \draw[fill=red!10] (9.5, -5) rectangle (14.5, -2);
-    \node at (12, -3) {\textbf{Deterministic policy}};
-    \node at (12, -4) {$\pi: O \rightarrow A \cup A_{info}$};
+%     \draw[fill=red!10] (9.5, -5) rectangle (14.5, -2);
+%     \node at (12, -3) {\textbf{Deterministic policy}};
+%     \node at (12, -4) {$\pi: O \rightarrow A \cup A_{info}$};
     
-    \draw[thick, ->] (6, 2) -- (10, 2) node[midway, above] {$\gamma$};
-    \draw[thick, <-] (5, -3.5) -- (9.5, -3.5) node[midway, above] {Extract tree with algorithm\ref{alg:extract-tree}};
-    \draw[thick, ->] (12, 0) -- (12, -2) node[midway, left] {Solve with e.g. RL~\ref{sec:rl}};
-    \draw[thick, <-] (3, 0.5) -- (3, -2) node[midway, left] {Can be interpreted};
+%     \draw[thick, ->] (6, 2) -- (10, 2) node[midway, above] {$\gamma$};
+%     \draw[thick, <-] (5, -3.5) -- (9.5, -3.5) node[midway, above] {Extract tree with algorithm\ref{alg:extract-tree}};
+%     \draw[thick, ->] (12, 0) -- (12, -2) node[midway, left] {Solve with e.g. RL~\ref{sec:rl}};
+%     \draw[thick, <-] (3, 0.5) -- (3, -2) node[midway, left] {Can be interpreted};
 
     
-    % % Final arrow from tree back to base MDP - adjusted position
-    % \draw[thick, ->] (1.75, -2.5) -- (1.75, -0.5) node[midway, right] {Can deploy\\and interpret};
+%     % % Final arrow from tree back to base MDP - adjusted position
+%     % \draw[thick, ->] (1.75, -2.5) -- (1.75, -0.5) node[midway, right] {Can deploy\\and interpret};
     
-\end{tikzpicture}
-\caption{A formal framework to learn decision tree policies for MDPs that directly optimize a trade-off between the RL objective~\ref{def:mdp-obj} and interpretability.
-This framework relies on learning a deterministic partially observable policy in a POIBMDP~\ref{def:poibmdp}.}
-\label{fig:summary-rl}
-\end{figure}
+% \end{tikzpicture}
+% \caption{A formal framework to learn decision tree policies for MDPs that directly optimize a trade-off between the RL objective~\ref{def:mdp-obj} and interpretability.
+% This framework relies on learning a deterministic partially observable policy in a POIBMDP~\ref{def:poibmdp}.}
+% \label{fig:summary-rl}
+% \end{figure}
 
-We will attempt to \textit{learn} an optimal depth-1 tree policy w.r.t. the RL objective (\ref{def:mdp-obj}) for the $2\times 2$ grid world from Example \ref{example:grid}.
-One of those two optimal depth-1 tree is given in figure~\ref{fig:optimal-policy-trees}. The other optimal depth-1 tree is to go right when $y\leq 1$ and down otherwise
-We formulate this as solving the (revised) direct interpretble RL objective~\ref{def:revised} where the base MDP is the grid world and the POIBMDP is obtained from the IBMDP of Example \ref{example:ibmdp}.
+We will attempt to \textit{learn} an optimal depth-1 tree policy w.r.t. the RL objective (\ref{def:mdp-obj}) for the $2\times 2$ grid world from example~\ref{example:grid}.
+One of those two optimal depth-1 tree is given in figures~\ref{fig:optimal-policy-trees} and \ref{fig:trees-intro}. The other optimal depth-1 tree is to go right when $y\leq 1$ and down otherwise.
+We formulate this as optimizing the (revised) interpretble RL objective~\ref{def:revised} where the base MDP is the grid world and the POIBMDP is a re-writing of the IBMDP from example~\ref{example:ibmdp}.
 
-We choose $\gamma$ and $\zeta$ in the POIBMDP such that the \textit{optimal} partially observable deterministic policy, i.e. the solution to (\ref{def:revised}), corresponds exactly to the decision tree of depth 1 from figure~\ref{fig:trees-intro}.
-This depth-1 tree is in turn optimal in the grid world MDP w.r.t. to the base RL objective (\ref{def:mdp-obj}).
+We choose $\gamma$ and $\zeta$ in the POIBMDP such that the \textit{optimal} deterministic partially observable deterministic policy, i.e. the solution to the interpretable RL objective, corresponds exactly to one of the two decision tree policies of depth-1 that are also optimal w.r.t the RL objective in the grid world MDP.
 Next we present some insights about the solution space of (\ref{def:revised}).
 
 \section{Constructing POIBMDPs which optimal solutions are the depth-1 tree}
@@ -160,12 +159,12 @@ Next we present some insights about the solution space of (\ref{def:revised}).
 
 
     \end{tikzpicture}
-    \caption{For each decision tree structure, e.g., depth-1 or unbalanced depth-2, we illustrate a decision tree which maximizes the RL objective (\ref{def:mdp-obj}).}
+    \caption{For each decision tree structure, e.g., depth-1 or unbalanced depth-2, we illustrate a decision tree which maximizes the RL objective (\ref{def:mdp-obj}) in the grid world MDP.}
     \label{fig:optimal-policy-trees}
 \end{figure}
 
-Because we know all the base states, all the observations, all the actions, all the rewards and all the transitions of our POIBMDP, we can compute exactly the values of different deterministic partially observable policies given $\zeta$ the reward for IGAs and $\gamma$ the discount factor.
-Each of those policies can be one of the following trees illustrated in figure~\ref{fig:optimal-policy-trees}: 
+Because we know all the base states, all the observations, all the actions, all the rewards and all the transitions of our POIBMDP, we can compute exactly the values of different deterministic partially observable policies given, $\zeta$ the reward for IGAs, and $\gamma$ the discount factor.
+Each of those policies can be one of the trees illustrated in figure~\ref{fig:optimal-policy-trees}: 
 
 \begin{itemize}
     \item $\pi_{\mathcal{T}_0}$: a depth-0 tree equivalent to always taking the same base action 
@@ -174,16 +173,16 @@ Each of those policies can be one of the following trees illustrated in figure~\
     \item $\pi_{\mathcal{T}_2}$: a depth-2 tree that alternates between taking two IGAs and a base action
     \item an inifinite ``tree'' that only takes IGAs
 \end{itemize}
-Furthermore, because from~\cite{learning-pomdp} we know that for POMDPs, stochastic policies can sometimes get better expected discounted rewards than deterministic policies, we also compute the value of the stochastic policy that alternates between two base actions: $\rightarrow$ and $\downarrow$.
+Furthermore, because from~\cite{learning-pomdp} we know that for POMDPs, stochastic partially observable policies can sometimes get better expected discounted rewards than deterministic partially observable policies, we also compute the value of the stochastic policy that randomly alternates between two base actions: $\rightarrow$ and $\downarrow$.
 Those two base actions always lead to the goal state (cf. figure~\ref{example:grid}) in expectation.
 
-We detail the calculations for the detpth-1 decision tree objective value~\ref{def:revised} and defer the calculations for the other policies to the appendix~\ref{calcs}.
+We detail the calculations for the value w.r.t. the interpretable RL objective (~\ref{def:revised}) of the depth-1 decision tree policies optimal in the grid world MDP (cf.~\ref{figure:optimal-policy-trees}) and defer the calculations for the other policies to the appendix~\ref{calcs}.
 
-\begin{proposition}[Depth-1 decision tree objective value] The objective value of the best depth-1 decision tree from figure~\ref{fig:optimal-policy-trees} is $V^{\pi_{\mathcal{T}_1}}(o_0) = \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma^2)}$.
+\begin{proposition}[Depth-1 decision tree objective value] The interpretable RL objective value (~\ref{def:revised}) of depth-1 decision tree policies optimal in the grid world MDP (cf. figure~\ref{fig:optimal-policy-trees}) is $V^{\pi_{\mathcal{T}_1}}(o_0) = \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma^2)}$.
 \end{proposition}
 
 \begin{proof} $\pi_{\mathcal{T}_1}$ has one root node that tests $x\leq1$ (respectively $y\leq1$) and two leaf nodes $\rightarrow$ and $\downarrow$. 
-To compute $V^\pi_{\mathcal{T}_1}(\boldsymbol{o}_0)$, we compute the values of $\pi_{\mathcal{T}_1}$ in each of the possible startin states $(\boldsymbol{s}_0, \boldsymbol{o}_0), (\boldsymbol{s}_1, \boldsymbol{o}_0), (\boldsymbol{s}_2, \boldsymbol{o}_0), (\boldsymbol{s}_g, \boldsymbol{o}_0)$ and compute the expectation over those. 
+To compute $V^\pi_{\mathcal{T}_1}(\boldsymbol{o}_0)$, we compute the values of $\pi_{\mathcal{T}_1}$ in each of the possible starting states $(\boldsymbol{s}_0, \boldsymbol{o}_0), (\boldsymbol{s}_1, \boldsymbol{o}_0), (\boldsymbol{s}_2, \boldsymbol{o}_0), (\boldsymbol{s}_g, \boldsymbol{o}_0)$ and compute the expectation over those. 
 At inititalization, when the base state is $\boldsymbol{s}_g = (1.5, 0.5)$, the depth-1 decision tree policy cycles between taking an information gathering action $x\leq1$ and moving down to get a positive reward for which it gets the returns:
 \begin{align*}
     V^{\pi_{\mathcal{T}_1}} (\boldsymbol{s}_g, \boldsymbol{o}_0) &= \zeta + \gamma + \gamma^2 \zeta + \gamma^3 \dots \\
@@ -203,7 +202,7 @@ Similarly, the value of the best depth-1 decision tree policy in state $\boldsym
     &= \zeta + \gamma^2 (\zeta + \gamma^2 V^{\pi_{\mathcal{T}_1}} (\boldsymbol{s}_g, o_0)) \\
     &= \zeta + \gamma^2 \zeta + \gamma^4 V^{\pi_{\mathcal{T}_1}} (\boldsymbol{s}_g, o_0)
 \end{align*}
-Since the probability of being in any base states at initialization given that the agent observe $\boldsymbol{o}_0$ is the probability of being in any base states at initialization, we can write:
+Since the probability of being in any base states at initialization given that the observation is $\boldsymbol{o}_0$ is simply the probability of being in any base states at initialization, we can write:
 \begin{align*}
     V^{\pi_{\mathcal{T}_1}} (\boldsymbol{o}_0) &= \frac{1}{4} V^{\pi_{\mathcal{T}_1}} (\boldsymbol{s}_g, \boldsymbol{o}_0) + \frac{2}{4} V^{\pi_{\mathcal{T}_1}} (\boldsymbol{s}_2, \boldsymbol{o}_0) + \frac{1}{4} V^{\pi_{\mathcal{T}_1}} (\boldsymbol{s}_1, \boldsymbol{o}_0) \\
     &= \frac{1}{4} \frac{\zeta + \gamma}{1 - \gamma^2} + \frac{2}{4} (\zeta + \gamma^2 \frac{\zeta + \gamma}{1 - \gamma^2}) + \frac{1}{4} (\zeta + \gamma^2 \zeta + \gamma^4 \frac{\zeta + \gamma}{1 - \gamma^2}) \\
@@ -214,17 +213,17 @@ Since the probability of being in any base states at initialization given that t
 \begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{images/images_part1/objective_values_plot.pdf}
-    \caption{POIBMDP objective values of different policies as functions of $\zeta$. Shaded areas show the optimal policies in different ranges of $\zeta$ values.}\label{fig:objectives}
+    \caption{Interpretable RL objective values (\ref{def:revised}) of different partially observable policies as functions of $\zeta$. Shaded areas show the optimal \textit{deterministic} partially observable policies in different ranges of $\zeta$ values.}\label{fig:objectives}
 \end{figure}
 
-We can now plot, in figure~\ref{fig:objectives}, the POIBMDP objective values of the different policies corresponding to trees for the grid world MDP as functions of $\zeta$ when we fix $\gamma=0.99$. 
-When $\gamma=0.99$ on figure~\ref{fig:objectives}, despite objective values being very similar for the depth-1 and unbalanced depth-2 tree, we now know from the green shaded area that a depth-1 tree is the optimal deterministic partially observable POIBMDP policy for $0< \zeta < 1$.
+We can now plot, in figure~\ref{fig:objectives}, the interpretable RL objective values of the different partially observable policies as functions of $\zeta$ when we fix $\gamma=0.99$. 
+When $\gamma=0.99$ on figure~\ref{fig:objectives}, despite objective values being very similar for the depth-1 and unbalanced depth-2 tree, we now know from the green shaded area that a depth-1 tree is the optimal, w.r.t. the interpretable RL objective, deterministic partially observable POIBMDP policy for $0< \zeta < 1$.
 
-Interestingly, two POMDP challenges described in \cite{learning-pomdp} can already be observed in figure~\ref{fig:objectives}. 
-First, there is a whole range of $\zeta$ values for which the stochastic policy is optimal.
-Second, for e.g. $\zeta=0.5$, while a depth-1 tree is the optimal deterministic partially observable policy, the value of state $(\boldsymbol{s}_2, \boldsymbol{o}_0) = (1.5, 1.5, 0, 2, 0, 2)$ is not maximized by this policy but by the sub-optimal policy that always goes down.
+Interestingly, two challenges of learning in POMDPs described in \cite{learning-pomdp} are visible in figure~\ref{fig:objectives}. 
+First, there is a whole range of $\zeta$ values for which the optimal partially observable policy is stochastic.
+Second, for e.g. $\zeta=0.5$, while a depth-1 tree is the optimal deterministic partially observable policy, the value of state $(\boldsymbol{s}_2, \boldsymbol{o}_0) = (1.5, 1.5, 0, 2, 0, 2)$ is not maximized by this partially observable policy but by the sub-optimal policy that always goes down.
 
-We can now define a POIBMDP with the grid wolrd (\ref{example:grid}) as the base MDP, with IGAs as in the IBMDP from Exapmle~\ref{example:ibmdp}, with $\gamma=0.99$ and $0<\zeta<1$ and verify if RL can retrieve the optimal depth-1 decision tree in this very controlled experiment.
+We can now define a POIBMDP with the grid wolrd (\ref{example:grid}) as the base MDP, with IGAs as in the IBMDP from exapmle~\ref{example:ibmdp}, with $\gamma=0.99$ and $0<\zeta<1$ and verify if RL can retrieve the optimal, w.r.t. the interpretable RL objective, deterministic partially observable policies--equivalent to depth-1 decision tree policies--in this very controlled experiment.
 
 \subsection{Reinforcement learning in PO(IB)MDPs}
 
@@ -266,24 +265,24 @@ In the next section, we use (asymmetric) RL to learn decision tree policies for 
 \begin{algorithm}
     \KwData{POMDP $\mathcal{M}_{po} = \langle X, O, A, R, T, T_0, \Omega \rangle$, learning rates $\alpha_u,\quad \alpha_q$, exploration rate $\epsilon$}
     \KwResult{$\pi:O\rightarrow A$}
-    Initialize $U(x,a) = 0$ for all $x \in X, a \in A$ \\
-    Initialize $Q(o,a) = 0$ for all $o \in O, a \in A$ \\
+    Initialize $U(\boldsymbol{x},a) = 0$ for all $x \in X, a \in A$ \\
+    Initialize $Q(\boldsymbol{o},a) = 0$ for all $o \in O, a \in A$ \\
 
     \For{each episode}{
         Initialize state $x_0 \sim T_0$ \\
-        Initialize observation $\boldsymbol{o}_0 \sim \Omega(x_0)$ \\
+        Initialize observation $\boldsymbol{o}_0 \sim \Omega(\boldsymbol{x}_0)$ \\
 
         \For{each step $t$}{
             Choose action $a_t$ using $\epsilon$-greedy: $a_t = \operatorname{argmax}_a Q(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$ \\
-            Take action $a_t$, observe $r_t = R(x_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $\boldsymbol{o}_{t+1} \sim \Omega(x_{t+1})$ \\
-            $y \leftarrow r + \gamma U(x_{t+1}, \operatorname{argmax}_{a'} Q(\boldsymbol{o}_{t+1}, a'))$ \Comment{// TD target} \\
-            $U(x_t,a_t) \leftarrow (1 - \alpha_u) U(x_t, a_t) + \alpha_u y $ \\
+            Take action $a_t$, observe $r_t = R(\boldsymbol{x}_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $\boldsymbol{o}_{t+1} \sim \Omega(\boldsymbol{x}_{t+1})$ \\
+            $y \leftarrow r + \gamma U(\boldsymbol{x}_{t+1}, \operatorname{argmax}_{a'} Q(\boldsymbol{o}_{t+1}, a'))$ \Comment{// TD target} \\
+            $U(\boldsymbol{x}_t,a_t) \leftarrow (1 - \alpha_u) U(\boldsymbol{x}_t, a_t) + \alpha_u y $ \\
             $Q(\boldsymbol{o}_t,a_t) \leftarrow (1 - \alpha_q) Q(\boldsymbol{o}_t, a_t) + \alpha_q y $ \\
-            $x_t \leftarrow x_{t+1}$ \\
+            $x_t \leftarrow \boldsymbol{x}_{t+1}$ \\
             $\boldsymbol{o}_t \leftarrow \boldsymbol{o}_{t+1}$ \\
         }
     }
-    $\pi(o) = \operatorname{argmax}_a Q(o,a)$ \Comment{// Extract greedy policy}
+    $\pi(o) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$ \Comment{// Extract greedy policy}
     \caption{Asymmetric Q-Learning}\label{alg:asymqlearning}
 \end{algorithm}
 
@@ -418,9 +417,9 @@ Next, we quantify how difficult it is to do RL to learn partially observable pol
 In this section we run the same (asymmetric) reinforcement learning algorithms to optimize either the RL objective (\ref{def:mdp-obj}) in MDPs (\ref{def:mdp}) or IBMDPs (\ref{def:ibmdp}), or the interpretable RL objective in POIBMDPs~\ref{def:revised}.
 This essentially results in three disctint problems:
 \begin{enumerate}
-    \item Learning an optimal deterministic policy in MDPs.
-    \item Learning an optimal deterministic policy in IBMDPs.
-    \item Learning an optimal deterministic partially observable policy in POIBMDPs.
+    \item Learning an optimal standard Markovian policy in an MDP, i.e. optimizing the RL objective in an MDP.
+    \item Learning an optimal standard Markovian policy in an IBMDP, i.e. optimizing the RL objective in an IBMDP.
+    \item Learning an optimal deterministic partially observable policy in a POIBMDP.
 \end{enumerate}
 
 In order to see how difficult each of these three problems is, we can run a \textit{big} number of experiments on each and compare success rates.
