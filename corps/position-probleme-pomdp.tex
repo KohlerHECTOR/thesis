@@ -45,8 +45,8 @@ In this part we will assume that all the MDP we consider are factored MDPs \ref{
 However all our results generalize to discrete states (in $\mathbb{Z}^m$) MDPs that we can factor using one-hot encodings. 
 Given an MDP for which we want to learn a decision tree policy, the base MDP, IBMDP states are concatenations of the base MDP state features and some observations. 
 Those observations are information about the base state features that are refined--``iteratively bounded''-- at each step.
-Those observations essentially represent some knowledge about where some state features lie in the state space.
-Actions available in an IBMDP are: 1. the actions of the base MDP, that change state features, and 2. \textit{information gathering} actions that change the adorementioned observations.
+Those observations essentially represent some knowledge about where some base state features lie in the state space.
+Actions available in an IBMDP are: 1. the actions of the base MDP, that change base state features, and 2. \textit{information gathering} actions that change the aforementioned observations.
 Now, base actions in an IBMDP are rewarded like in the base MDP, this ensures that the RL objective w.r.t. the base MDP is encoded in the IBMDP reward.
 When taking an information gathering action, the reward is an arbitrary value such that optimizing the RL objective in the IBMDP is equivalent to optimizing some trade-off between interpretatability and the RL objective in the base MDP.
  
@@ -59,23 +59,24 @@ Given a \textit{factored} MDP $\mathcal{M}$ $\langle S, A, R, T, T_0 \rangle$ (\
 \end{align*}
 
 \begin{itemize}
-\item $S$ are the base MDP state features (the state space of a factored MDP). Base state features $\boldsymbol{s} = (s_1, \dots, s_n)\in S$ are bounded $s_i \in [L_i, U_i]$ where $\infty < L_i \leq U_i < \infty \forall 1\leq i \leq n$.
-\item $O$ are observations. They represent bounds on the base state features: $O\subsetneq S^2 =  [L_1, U_1]\times \dots \times [L_n, U_n] \times [L_1, U_1]\times \dots \times [L_n, U_n]$. So the complete IBMDP state space is $S \times O$, the concatenations of base state features and observations.
+\item $S$ are the base MDP state features. Base state features $\boldsymbol{s} = (s_1, \dots, s_p)\in S$ are bounded: $s_i \in [L_i, U_i]$ where $\infty < L_i \leq U_i < \infty \forall 1\leq i \leq p$.
+\item $O$ are observations. They represent bounds on the base state features: $O\subsetneq S^2 =  [L_1, U_1]\times \dots \times [L_p, U_p] \times [L_1, U_1]\times \dots \times [L_p, U_p]$. So the complete IBMDP state space is $S \times O$, the concatenations of base state features and observations
+Given some base state features $\boldsymbol{s} = (s_1, \dots, s_p)\in S$ and some observation $\boldsymbol{o} = (L_1, U_1, \dots, L_p, U_p)$, an IBMDP state is $\boldsymbol{s}_{IB} = (\overbrace{s_1, \dots, s_p}^{\text{base state features}}, \underbrace{L_1, U_1, \dots, L_p, U_p}_{\text{observation}})$.
 \item $A$ are the base MDP actions.
-\item $A_{info}$ are \textit{information gathering} actions (IGAs) of the form $\langle i, v \rangle$ where $i$ is a state feature index $1 \leq i \leq n$ and $v$ is a real number. So the complete action space of an IBMDP is the set of base MDP actions and information gathering actions $A \cup A_{info}$.
+\item $A_{info}$ are \textit{information gathering} actions (IGAs) of the form $\langle i, v \rangle$ where $i$ is a state feature index $1 \leq i \leq p$ and $v$ is a real number. So the complete action space of an IBMDP is the set of base MDP actions and information gathering actions $A \cup A_{info}$.
 \item $R: S\times A \rightarrow \mathbb{R}$ is the base MDP reward function.
 \item $\zeta$ is a reward signal for taking an information gathering action.
 So the IBMDP reward function is to get a reward from the base MDP if the action is a base MDP action or to get $\zeta$ if the action is an IGA action.
 \item $T_{info}: S\times O \times( A_{info} \cup A )\rightarrow \Delta (S\times O)$ is the transition kernel of IBMDPs: 
-Given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_n, U'_n) \in O$ and state features $\boldsymbol{s}_t=(s'_1, s'_2, \dots, s'_n)$ if an IGA $\langle i, v \rangle$ is taken, the new observation is:
+Given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_p, U'_p) \in O$ and base state features $\boldsymbol{s}_t=(s'_1, s'_2, \dots, s'_p)$ if an IGA $\langle i, v \rangle$ is taken, the new observation is:
 \begin{align*}
     \boldsymbol{o}_{t+1} &= \begin{cases}
-        (L'_1, U'_1, \dots , L'_i, \min\{v, U'_i\}, \dots , L''_n, U'_n) \text{ if } s_i \leq v\\
-        (L'_1, U'_1, \dots , \max\{v, L'_i\}, U'_i, \dots , L''_n, U'_n) \text{ if } s_i > v
+        (L'_1, U'_1, \dots , L'_i, \min\{v, U'_i\}, \dots , L''_p, U'_p) \text{ if } s_i \leq v\\
+        (L'_1, U'_1, \dots , \max\{v, L'_i\}, U'_i, \dots , L''_p, U'_p) \text{ if } s_i > v
     \end{cases}
 \end{align*}
-If a base action is taken, the observation is reset to the default state bounds $(L_1, U_1,\dots, L_n, U_n)$ and the state features change according to the base MDP transitition kernel: $\boldsymbol{s}_{t+1}\sim T(\boldsymbol{s}_t, a_t)$.
-At initialization, the base state features are drawn from the base MDP initial distribution $T_0$ and the observation is always set to the default state features bounds $\boldsymbol{o}_0=(L_1, U_1,\dots, L_n, U_n)$.
+If a base action is taken, the observation is reset to the default base state feature bounds $(L_1, U_1,\dots, L_p, U_p)$ and the base state features change according to the base MDP transitition kernel: $\boldsymbol{s}_{t+1}\sim T(\boldsymbol{s}_t, a_t)$.
+At initialization, the base state features are drawn from the base MDP initial distribution $T_0$ and the observation is always set to the default base state features bounds $\boldsymbol{o}_0=(L_1, U_1,\dots, L_p, U_p)$.
 \end{itemize}
 \end{definition}
 
@@ -89,9 +90,11 @@ In particular, the IGA rewards $\zeta$ can be seen as a regularization or a pena
 
 Authors from~\cite{topin2021iterative} show that not all IBMDP policies are decision tree policies for the base MDP.
 In particular, they show that only deterministic policies depending solely on the observations of the IBMDP are guaranteed to correspond to decision tree policies for the base MDP.
-The intuition is that if one trains a standard Markovian IBMDP policy $\pi:S\times O\rightarrow A\cup A_{info}$, the policy might learn to rely only on state features of the base MDP $\boldsymbol{s}$ and take only base actions (no IGAs) which would simply be any policy for the base MDP.
+The intuition is that if one trains a standard Markovian IBMDP policy $\pi:S\times O\rightarrow A\cup A_{info}$, the policy might learn to rely only on base state features of the base MDP $\boldsymbol{s}$ and take only base actions (no IGAs) which would simply be any policy for the base MDP.
+Most importantly, standard Markovian IBMDP policies $\pi:S\times O\rightarrow A\cup A_{info}$ that do alternate between taking base and information gathering actions essentially construct one decision tree policy per base MDP state.
+This would amount to local rather than global interpretablity (cf. section~\ref{sec:intro-interp}). While this avenue could be interesting to explore, this is not the focus of this chapter.
 
-\begin{proposition}[Deterministic partially observable IBMDP policies are decision trees]\label{def:po-policy}
+\begin{proposition}[Deterministic partially observable IBMDP policies are decision tree policies]\label{def:po-policy}
     Given a factored MDP $\mathcal{M}$ $\langle S, A, R, T, T_0\rangle$ and an associated IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}), a deterministic partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ is a decision tree policy $\pi_{\mathcal{T}}: S \rightarrow A$ for the base MDP $\mathcal{M}$.
 \end{proposition}
 
@@ -99,7 +102,7 @@ The intuition is that if one trains a standard Markovian IBMDP policy $\pi:S\tim
 \end{proof}
 
 \begin{algorithm}[t]
-    \KwData{Deterministic partially observable policy $\pi_{po}$ for IBMDP $ \langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ and IBMDP observation $\boldsymbol{o}=(L'_1, U'_1, \dots, L'_n, U'_n)$}
+    \KwData{Deterministic partially observable policy $\pi_{po}$ for IBMDP $ \langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ and IBMDP observation $\boldsymbol{o}=(L'_1, U'_1, \dots, L'_p, U'_p)$}
     \KwResult{Decision tree policy $\pi_{\mathcal{T}}$ for MDP $\langle S, A, R, T, T_0\rangle$}
     
     \SetKwProg{Fn}{Function}{:}{}
@@ -113,7 +116,7 @@ The intuition is that if one trains a standard Markovian IBMDP policy $\pi:S\tim
         \Else{
             $\langle i, v\rangle \leftarrow a$ \Comment{// Splitting action is feature and value} \\
             $\boldsymbol{o}_L \leftarrow \boldsymbol{o}; \quad \boldsymbol{o}_R \leftarrow \boldsymbol{o}$ \\
-                         $\boldsymbol{o}_L \leftarrow (L'_1, U'_1, \dots, L'_i, v, \dots, L'_n, U'_n); \quad \boldsymbol{o}_R \leftarrow (L'_1, U'_1, \dots, v, U'_i, \dots, L'_n, U'_n)$ \\
+                         $\boldsymbol{o}_L \leftarrow (L'_1, U'_1, \dots, L'_i, v, \dots, L'_p, U'_p); \quad \boldsymbol{o}_R \leftarrow (L'_1, U'_1, \dots, v, U'_i, \dots, L'_p, U'_p)$ \\
             $child_L \leftarrow$ Subtree\_From\_Policy$(\boldsymbol{o}_L, \pi_{po})$ \\
             $child_R \leftarrow$ Subtree\_From\_Policy$(\boldsymbol{o}_R, \pi_{po})$ \\
             \Return Internal\_Node(feature: $i$, value: $v$, children: $(child_L, child_R)$)
@@ -123,7 +126,7 @@ The intuition is that if one trains a standard Markovian IBMDP policy $\pi:S\tim
 \end{algorithm}
 
 While the connexions with partially observable MDPs~\cite{POMDP,chap2} is obvious, we defer the implications to chapter \ref{sec:pomdp} as this connexion was not make in the original IBMDP paper~\cite{topin2021iterative}.
-Next we present an example of an IBMDP policy that is a decision tree for the base MDP.
+Next we present an example of an IBMDP for the MDP of example~\ref{example:grid}.
 
 \subsection{Example: an IBMDP for a grid world}
 For the sake of example, we formulate the example MDP (example \ref{example:grid}) as a factored MDP with a finite number of vector valued states ($x,y$-coordinates).
@@ -132,16 +135,16 @@ The actions are the cardinal directions $A = \{\rightarrow, \leftarrow, \downarr
 The reward for taking any action is 0 except when in the bottom right state $(1.5, 0.5)$ which is an absorbing state: once in this state, you stay there forever. 
 Standard optimal deterministic Markovian policies were presented for this MDP in example \ref{example:grid}.
 
-Suppose an associated IBMDP (\ref{def:ibmdp}) with two IGAs:
+Suppose an associated IBMDP (definition \ref{def:ibmdp}) with two IGAs:
 \begin{itemize}
     \item $\langle x, 1\rangle$ that tests if $x\leq 1$
     \item $\langle y, 1\rangle$ that tests if $y\leq 1$
 \end{itemize}
-The initial observation is always the grid bounds $\boldsymbol{o}_0=(0, 2, 0, 2)$ because state features in the grid world are always in $[0, 2] \times [0, 2]$.
-There are only finitely many observations since with those two IGAs there are only nine possible observations that can be attained from $\boldsymbol{o}_0$ following the IBMDP transitions (\ref{def:ibmdp}).
-For example when the IBMDP initial state features are $\boldsymbol{s}_0 = (0.5, 1.5)$, and taking first $\langle x, 1\rangle$ then $\langle y, 1\rangle$ the corresponding observations are first $\boldsymbol{o}_{t+1} = (0, 1, 0, 2)$ and then $\boldsymbol{o}_{t+2} = (0, 1, 1, 2)$.
+The initial observation is always the grid bounds $\boldsymbol{o}_0=(0, 2, 0, 2)$ because the base state features in the grid world are always in $[0, 2] \times [0, 2]$.
+There are only finitely many observations since with those two IGAs there are only nine possible observations that can be attained from $\boldsymbol{o}_0$ following the IBMDP transitions (cf. definition \ref{def:ibmdp}).
+For example when the IBMDP initial base state features are $\boldsymbol{s}_0 = (0.5, 1.5)$, and taking first $\langle x, 1\rangle$ then $\langle y, 1\rangle$ the corresponding observations are first $\boldsymbol{o}_{t+1} = (0, 1, 0, 2)$ and then $\boldsymbol{o}_{t+2} = (0, 1, 1, 2)$.
 The full observation set is $O = \{(0, 2, 0, 2), (0, 1, 0, 2), (0, 2, 0, 1), (0, 1, 0, 1), (1, 2, 0, 2), (1, 2, 0, 1), (1, 2, 1, 2), (0, 1, 1, 2), (0, 2, 1, 2)\}$.
-The transitions and rewards are given by definition (\ref{def:ibmdp}).
+The transitions and rewards are given in definition (\ref{def:ibmdp}).
 
 In figure~\ref{example:ibmdp} we illustrate a trajectory in this IBMDP.
 \begin{figure}
@@ -284,18 +287,19 @@ In figure~\ref{example:ibmdp} we illustrate a trajectory in this IBMDP.
 
     
 \end{tikzpicture}
-\caption{An IBMDP trajectory when the base MDP is 2$\times$2 grid world. In the top row, we write the visited state features and observations, in the middle row, we graphically represent those, and in the bottom row present the corresponding decision tree policy traversal.
+\caption{An IBMDP trajectory when the base MDP is 2$\times$2 grid world. In the top row, we write the visited base state features and observations, in the middle row, we graphically represent those, and in the bottom row present the corresponding decision tree policy traversal.
 $\mathcal{A}$ tracks the current state features $\boldsymbol{s}_t$ in the grid.
-The pink obstructions of the grid represent the current observations $\boldsymbol{o}_t$ of the state features.
+The pink obstructions of the grid represent the current observations $\boldsymbol{o}_t$ of the base state features.
 When the pink covers the whole grid, the information contained in the observation could be interpreted as ``the current state features could be anywhere in the grid''.
-The more information gathering actions are taken, the more refined the bounds on the current state features get.
-At $t=0$, the state features are $\boldsymbol{s}_0 = (0.5, 1.5)$. 
-The initial observation is always the base MDP default feature bounds, here $\boldsymbol{o}_0=(0, 2, 0, 2)$ because the state features are in $[0, 2] \times [0, 2]$.
-The first action is an IGA that tests the feature $x$ of the states against the value $1$ and the reward $\zeta$. 
-This transition corresponds to going through an internal node in a decision tree policy as illustrated in the figure. 
-At $t=1$, after gathering the information that the $x$-value of the current base state is below 1, the observation is updated with the refined state feature bounds $\boldsymbol{o}_1=(0, 1, 0, 2)$, i.e. the pink area shrinks, and the state features remain unchanged.
+The more information gathering actions are taken, the more refined the bounds on the current base state features get.
+At $t=0$, the base state features are $\boldsymbol{s}_0 = (0.5, 1.5)$. 
+The initial observation is always the base MDP default state feature bounds, here $\boldsymbol{o}_0=(0, 2, 0, 2)$ because the base state features are in $[0, 2] \times [0, 2]$.
+This means that the IBMDP state is $\boldsymbol{s}_{IB} = (0.5, 1.5, 0, 2, 0, 2)$.
+The first action is an IGA that tests the feature $x$ of the base state against the value $1$ and the reward $\zeta$. 
+This transition corresponds to going through an internal node $ x\leq 1$ in a decision tree policy as illustrated in the figure. 
+At $t=1$, after gathering the information that the $x$-value of the current base state is below 1, the observation is updated with the refined bounds $\boldsymbol{o}_1=(0, 1, 0, 2)$, i.e. the pink area shrinks, and the base state features remain unchanged.
 The agent then takes a base action that is to move right. 
-This gives a reward 0, resets the observation to the original feature bounds, and changes the state features to $\boldsymbol{s}_2=(1.5, 1.5)$. And the trajectory continues like this until the absorbing base state $\boldsymbol{s}_5=(1.5, 0.5)$ is reached.}
+This gives a reward 0, resets the observation to the original base state feature bounds, and changes the features to $\boldsymbol{s}_2=(1.5, 1.5)$. And the trajectory continues like this until the absorbing base state $\boldsymbol{s}_5=(1.5, 0.5)$ is reached.}
 \label{example:ibmdp}
 \end{figure}
 
@@ -310,7 +314,7 @@ We write an interpretable RL objective as follows:
     Given a factored MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$ for which we want an interpretable policy, e.g. a decision tree, a discount factor $\gamma \in (0,1]$, some interpretability penalty $\zeta$, and a set of information gathering actions $A_{info}$, the objective is to find a deterministic partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ (\ref{def:po-policy}) that maximizes:
 \begin{align*}
     \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R((\boldsymbol{s}_t, \boldsymbol{o}_t), a_t) \mid \boldsymbol{s}_0 \sim T_0, a_t = \pi_{po}(\boldsymbol{o}_t), \boldsymbol{s}_{t+1} \sim T(\boldsymbol{s}_t, a_t), \boldsymbol{o}_{t+1}\sim T(\boldsymbol{o_t}, a_t)\right]\\
-    = \underset{\pi_{po}}{\operatorname{argmax}} \mathbb{E}[V^{\pi_{po}}(s_0, o_0)| s_0\sim T_0]
+    = \mathbb{E}[V^{\pi_{po}}(s_0, o_0)| s_0\sim T_0]
 \end{align*}
 With $V^{\pi_{po}}$ the value function (\ref{def:vs}) $\pi_{po}$ in the IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (\ref{def:ibmdp}).
 \end{definition}

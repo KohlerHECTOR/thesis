@@ -322,7 +322,7 @@ In figure~\ref{fig:cancer-treatment-comparison}, we illustrate how machine learn
 
 The key challenge of doing research on interpretability is the lack of formalism; there is no \textit{formal} definition of what constitutes an interpretable computer program. Hence, unlike for performance objectives, which have well-defined optimization targets (e.g., maximizing accuracy in supervised learning or maximizing rewards over time in reinforcement learning), it is not clear how to design machine learning algorithms to maximize interpretability. 
 Despite this lack of formalism, the necessity of deploying interpretable programs has sparked many works, which we present next.
-\section{What are existing approaches for learning interpretable programs?}
+\section{What are existing approaches for learning interpretable programs?}\label{sec:intro-interp}
 
 In this section we follow sections 6 and 7 of \cite{glanois-survey} and section 5 of \cite{milani-survey}. 
 Furthermore we now employ the term ``model'' to refer to ``programs'' to be consistent with the machine learning research conventions.
@@ -705,10 +705,10 @@ Finally, the agent transitions to a new state (e.g., the updated patient state) 
 Following Martin L. Puterman's book on MDPs\cite{puterman}, we formally define:
 \begin{definition}[Markov decision process]\label{def:mdp} An MDP is a tuple $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$ where:
 \begin{itemize}
-\item $S$ is a finite set of states $s \in \mathbb{R}^n$ representing all possible configurations of the environment.
-\item $A$ is a finite set of actions $a \in \mathbb{Z}^m$ available to the agent.
+\item $S$ is a finite set of states representing all possible configurations of the environment.
+\item $A$ is a finite set of actions available to the agent.
 \item $R: S \times A \rightarrow \mathbb{R}$ is the reward function that assigns a real-valued reward to each state-action pair.
-\item $T: S \times A \rightarrow \Delta(S)$ is the transition function that maps state-action pairs to probability distributions over next states, where $\Delta(S)$ denotes the probability simplex over $S$.
+\item $T: S \times A \rightarrow \Delta(S)$ is the transition function that maps state-action pairs to probability distributions over next states, where $\Delta(S)$ denotes the probability over $S$.
 \item $T_0 \in \Delta(S)$ is the initial distribution over states.
 \end{itemize}
 \end{definition}
@@ -938,10 +938,10 @@ However, not many algorithms consider the learning of policies that can be easil
 
 \section{Deep reinforcement learning for large or continuous state spaces}\label{sec:drl}
 
-Reinforcement learning has also been successfully combined with function approximations \cite{td-gammon} to solve MDPs with large discrete state spaces or continuous state spaces ($S \subset \mathbb{R^n}$).
+Reinforcement learning has also been successfully combined with function approximations \cite{td-gammon} to solve MDPs with large discrete state spaces or continuous state spaces ($S \subset \mathbb{R^p}$).
 Such continuous states MDP can be formalized as factored MDPs\cite{fmdp}:
 
-\begin{definition}[Factored Markov decision process]\label{def:fmdp} A factored MDP is an MDP\ref{def:mdp} where the state space is a hyperrectangle: $S\subseteq \mathbb{R}^n$.
+\begin{definition}[Factored Markov decision process]\label{def:fmdp} A factored MDP is an MDP\ref{def:mdp} where the state space is a hyperrectangle: $S\subseteq \mathbb{R}^p$.
 \end{definition}
 
 From now on, all the MDPs we study in the this manuscript are factored unless stated otherwise. 
