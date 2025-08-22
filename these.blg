@@ -1,31 +1,31 @@
 [0] Config.pm:307> INFO - This is Biber 2.17
 [0] Config.pm:310> INFO - Logfile is 'these.blg'
-[66] biber:340> INFO - === ven. août 22, 2025, 10:22:47
+[67] biber:340> INFO - === ven. août 22, 2025, 10:56:03
 [78] Biber.pm:418> INFO - Reading 'these.bcf'
-[192] Biber.pm:972> INFO - Found 141 citekeys in bib section 0
-[203] Biber.pm:4383> INFO - Processing section 0
-[222] Biber.pm:4574> INFO - Looking for bibtex file 'auxiliaires/bibliographie.bib' for section 0
-[231] bibtex.pm:1713> INFO - LaTeX decoding ...
-[400] bibtex.pm:1518> INFO - Found BibTeX data source 'auxiliaires/bibliographie.bib'
-[1364] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1364] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1364] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
-[1364] Biber.pm:4209> INFO - No sort tailoring available for locale 'fr-FR'
-[1506] bbl.pm:654> INFO - Writing 'these.bbl' with encoding 'ascii'
-[1506] bbl.pm:655> INFO - Converting UTF-8 to TeX macros on output to .bbl
-[1676] bbl.pm:757> INFO - Output to these.bbl
-[1676] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'auxiliaires/bibliographie.bib', skipping ...
-[1676] Biber.pm:130> WARN - Duplicate entry key: 'vos2024optimizinginterpretabledecisiontree' in file 'auxiliaires/bibliographie.bib', skipping ...
-[1676] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'parbhoo' is not an integer - this will probably not sort properly.
-[1676] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'madumal' is not an integer - this will probably not sort properly.
-[1676] Biber.pm:130> WARN - legacy month field '26--28 Aug' in entry 'silva' is not an integer - this will probably not sort properly.
-[1677] Biber.pm:130> WARN - legacy month field '01--05 Aug' in entry 'baisero-dqn' is not an integer - this will probably not sort properly.
-[1677] Biber.pm:130> WARN - legacy month field '04--07 Jan' in entry 'hmmdp' is not an integer - this will probably not sort properly.
-[1677] Biber.pm:130> WARN - legacy month field '17--23 Jul' in entry 'quantbnb' is not an integer - this will probably not sort properly.
-[1677] Biber.pm:130> WARN - legacy month field '23--29 Jul' in entry 'blossom' is not an integer - this will probably not sort properly.
-[1677] Biber.pm:130> WARN - ISBN '9798400704901' in entry '10.1145/3637528.3671903' is invalid - run biber with '--validate_datamodel' for details.
-[1677] Biber.pm:130> WARN - legacy month field '17--19 Jun' in entry 'pmlr-v28-bergstra13' is not an integer - this will probably not sort properly.
-[1677] Biber.pm:130> WARN - legacy month field '10--15 Jul' in entry 'deep-rl-relu1' is not an integer - this will probably not sort properly.
-[1677] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_4AfM/fc5b366787d68e4234f7436cbf80900b_12228.utf8, line 656, warning: 1 characters of junk seen at toplevel
-[1677] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_4AfM/fc5b366787d68e4234f7436cbf80900b_12228.utf8, line 1262, warning: 6 characters of junk seen at toplevel
-[1677] Biber.pm:132> INFO - WARNINGS: 14
+[195] Biber.pm:972> INFO - Found 141 citekeys in bib section 0
+[205] Biber.pm:4383> INFO - Processing section 0
+[214] Biber.pm:4574> INFO - Looking for bibtex file 'auxiliaires/bibliographie.bib' for section 0
+[223] bibtex.pm:1713> INFO - LaTeX decoding ...
+[395] bibtex.pm:1518> INFO - Found BibTeX data source 'auxiliaires/bibliographie.bib'
+[1368] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1368] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1368] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
+[1368] Biber.pm:4209> INFO - No sort tailoring available for locale 'fr-FR'
+[1519] bbl.pm:654> INFO - Writing 'these.bbl' with encoding 'ascii'
+[1519] bbl.pm:655> INFO - Converting UTF-8 to TeX macros on output to .bbl
+[1693] bbl.pm:757> INFO - Output to these.bbl
+[1693] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'auxiliaires/bibliographie.bib', skipping ...
+[1693] Biber.pm:130> WARN - Duplicate entry key: 'vos2024optimizinginterpretabledecisiontree' in file 'auxiliaires/bibliographie.bib', skipping ...
+[1693] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'parbhoo' is not an integer - this will probably not sort properly.
+[1693] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'madumal' is not an integer - this will probably not sort properly.
+[1693] Biber.pm:130> WARN - legacy month field '26--28 Aug' in entry 'silva' is not an integer - this will probably not sort properly.
+[1693] Biber.pm:130> WARN - legacy month field '01--05 Aug' in entry 'baisero-dqn' is not an integer - this will probably not sort properly.
+[1693] Biber.pm:130> WARN - legacy month field '04--07 Jan' in entry 'hmmdp' is not an integer - this will probably not sort properly.
+[1693] Biber.pm:130> WARN - legacy month field '17--23 Jul' in entry 'quantbnb' is not an integer - this will probably not sort properly.
+[1693] Biber.pm:130> WARN - legacy month field '23--29 Jul' in entry 'blossom' is not an integer - this will probably not sort properly.
+[1693] Biber.pm:130> WARN - ISBN '9798400704901' in entry '10.1145/3637528.3671903' is invalid - run biber with '--validate_datamodel' for details.
+[1694] Biber.pm:130> WARN - legacy month field '17--19 Jun' in entry 'pmlr-v28-bergstra13' is not an integer - this will probably not sort properly.
+[1694] Biber.pm:130> WARN - legacy month field '10--15 Jul' in entry 'deep-rl-relu1' is not an integer - this will probably not sort properly.
+[1694] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_63Tq/fc5b366787d68e4234f7436cbf80900b_15583.utf8, line 656, warning: 1 characters of junk seen at toplevel
+[1694] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_63Tq/fc5b366787d68e4234f7436cbf80900b_15583.utf8, line 1262, warning: 6 characters of junk seen at toplevel
+[1694] Biber.pm:132> INFO - WARNINGS: 14

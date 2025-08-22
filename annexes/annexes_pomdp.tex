@@ -1,5 +1,56 @@
 \chapter{Appendix for part I}
 \label{chap-app-pomdp}
+\section{Reproducig Topin et. al. 2021}
+
+\begin{table}
+    \centering
+    \caption{IBMDP hyperparameters. We try 12 different IBMDPs. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-params}
+    \begin{tabular}{ll}
+    \toprule
+    \textbf{Hyperparameter} & \textbf{Values}\\
+    \midrule
+    Discount factor $\gamma$ & \textcolor{green}{1} \\
+    Information gathering actions parameter $q$ & 2, \textcolor{green}{3} \\
+    Information gathering actions rewards $\zeta$ & \textcolor{green}{-0.01}, 0.01 \\
+    \textcolor{red}{Depth control} & Done signal, negative reward, none \\ 
+    \bottomrule
+    \end{tabular}
+    \end{table}
+
+\begin{table}
+    \centering
+    \caption{(Modified) DQN trained on $10^6$ timesteps. This gives four different instantiation of (modified) DQN. Hyperparameters not mentioned are stable-baselines3 default. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-rl1}
+    \begin{tabular}{ll}
+    \toprule
+    \textbf{Hyperparameter} & \textbf{Values}\\
+    \midrule
+    Buffer size & \textcolor{green}{$10^6$} \\
+    Random transitions before learning & \textcolor{green}{$10^5$} \\
+    Epsilon stard & 0.9, \textcolor{green}{0.5} \\
+    Epsilon end & \textcolor{green}{0.05} \\
+    Exploration fraction & \textcolor{green}{0.1} \\
+    Optimizer & \textcolor{green}{RMSprop ($\alpha = 0.95$)}\\
+    Learning rate & \textcolor{green}{$2.5\times10^{-4}$}\\
+    Networks architectures & \textcolor{green}{[128, 128]}\\
+    \textcolor{red}{Networks activation} & $\operatorname{tanh()}$, $\operatorname{relu()}$\\
+    \bottomrule
+    \end{tabular}
+    \end{table}
+
+\begin{table}
+    \centering
+    \caption{(Modified) PPO trained on $4\times10^6$ timesteps. This gives two different instantiation of (modified) PPO. Hyperparameters not mentioned are stable-baselines3 default. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-rl2}
+    \begin{tabular}{ll}
+    \toprule
+    \textbf{Hyperparameter} & \textbf{Values}\\
+    \midrule
+    Steps between each policy gradient steps & \textcolor{green}{512} \\
+    Number of minibatch for policy gradient updates & \textcolor{green}{4} \\
+    Networks architectures & \textcolor{green}{[64, 64]}\\
+    \textcolor{red}{Networks activations} & $\operatorname{tanh()}$, $\operatorname{relu()}$\\
+    \bottomrule
+    \end{tabular}
+    \end{table}
 
 \section{Tree value computations}\label{calcs}
 \paragraph{Depth-0 decision tree:} has only one leaf node that takes a single base action indefinitely.
