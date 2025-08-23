@@ -1104,7 +1104,7 @@ Among the optimal policies, the ones that take action to go left or up in the go
 Indeed, we know that for this grid world MDP there exists a decision tree policy that is optimal and very interpretable (depth-1): go right if the $x$-label of the state is greater than 1 and go left otherwise.
 This tree takes exactly the same actions in the same states as some of the optimal policy from figure\ref{example:grid}.
 
-In figure\ref{fig:trees-intro}, we present a depth-1 decision tree policy that is optimal w.r.t. the RL objective and a depth-1 tree that is suboptimal.
+In figure\ref{fig:trees-intro}, we present a depth-1 decision tree policy that is optimal w.r.t. the RL objective and a depth-1 tree that is sub-optimal.
 Indeed, figure\ref{fig:objectives} shows that the optimal depth-1 tree achieves exactly the same RL objective value as the optimal policies from figure\ref{example:grid}, independently of the discount factor $\gamma$.
 
 Now a fair question is: can Dagger or VIPER retrieve such an optimal depth-1 tree given access to an expert optimal policy from figure\ref{example:grid}?
@@ -1147,7 +1147,7 @@ Importantly, this sheds light on the sub-optimality of indirect imitation w.r.t 
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
 
     \end{tikzpicture}
-    \caption{Left, a sub-optimal depth-1 decision tree policy. On the right, an optimal depth-1 decision tree policy.}\label{fig:trees-intro}
+    \caption{Left, an optimal depth-1 decision tree policy. On the right, a sub-optimal depth-1 decision tree policy.}\label{fig:trees-intro}
     \end{figure}
 
 \begin{figure}
