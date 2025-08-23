@@ -67,10 +67,9 @@ Like for the reinforcement learning setting, there exists a line of work on para
 Now we write explicitely the supervised learning objective (\ref{def:sl}) for decision trees:
 
 \begin{definition}[Supervised learning of decision trees (decision tree induction)]\label{eq:suplearning}
-    Assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$.
+    Assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$. The objective of decision tree induction is to find a tree with maximum depth $D$, $T \in \mathcal{T}_D$ that minimizes:
     \begin{align*}
-    T^* &= \underset{T \in \mathcal{T}_D}{\operatorname{argmin}}\ \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{l}(y_i, T(x_i)) + \alpha C(T) \\
-    T^* &= \underset{T \in \mathcal{T}_D}{\operatorname{argmin}}\ {\mathcal L}_\alpha(T)
+        {\mathcal L}_\alpha(T) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{l}(y_i, T(x_i)) + \alpha C(T) \\
 \end{align*}
 where $C: \mathcal{T}_D \rightarrow \mathbb{R}$ is a complexity penalty that helps prevent or reduce overfitting such as the number of nodes~\cite{breiman1984classification,quantbnb}, or the expected number of splits to label a data\cite{how-eff}. The complexity penalty is weighted by $\alpha \in [0, 1]$. %For regression problems where $\mathcal{Y} \subset \mathbb R$, we use the squared error $l(y_i, T(x_i)) = {(y_i - T(x_i))}^2$. 
 \end{definition}
