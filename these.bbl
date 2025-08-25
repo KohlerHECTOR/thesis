@@ -97,6 +97,73 @@
       \verb 2002.09142
       \endverb
     \endentry
+    \entry{reinforce-llm}{misc}{}
+      \name{author}{8}{}{%
+        {{hash=ab9938cd8945db86936ad8dabd4894e2}{%
+           family={Ahmadian},
+           familyi={A\bibinitperiod},
+           given={Arash},
+           giveni={A\bibinitperiod}}}%
+        {{hash=073aa2ef66b66d63590b717dcb6e44f6}{%
+           family={Cremer},
+           familyi={C\bibinitperiod},
+           given={Chris},
+           giveni={C\bibinitperiod}}}%
+        {{hash=15b69d10a4674c92ae5d9daa14dc9e6a}{%
+           family={Gall\'{e}},
+           familyi={G\bibinitperiod},
+           given={Matthias},
+           giveni={M\bibinitperiod}}}%
+        {{hash=732397f77622785eabb7088d1ba0a8c5}{%
+           family={Fadaee},
+           familyi={F\bibinitperiod},
+           given={Marzieh},
+           giveni={M\bibinitperiod}}}%
+        {{hash=935d707b1840d0cf23b9f7a724afd6c5}{%
+           family={Kreutzer},
+           familyi={K\bibinitperiod},
+           given={Julia},
+           giveni={J\bibinitperiod}}}%
+        {{hash=fa8a4817aef70fffae62a48b98481ef7}{%
+           family={Pietquin},
+           familyi={P\bibinitperiod},
+           given={Olivier},
+           giveni={O\bibinitperiod}}}%
+        {{hash=3e716bc74f0484a4dd887c09005bb8cf}{%
+           family={\"{U}st\"{u}n},
+           familyi={\"{U}\bibinitperiod},
+           given={Ahmet},
+           giveni={A\bibinitperiod}}}%
+        {{hash=c26c60500cfffd20972310345c0a7a96}{%
+           family={Hooker},
+           familyi={H\bibinitperiod},
+           given={Sara},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{d9efe4eeb6324b1dab6cc68fa3303f57}
+      \strng{fullhash}{1f292e1c48cc29f66e671db988b37c6b}
+      \strng{bibnamehash}{d9efe4eeb6324b1dab6cc68fa3303f57}
+      \strng{authorbibnamehash}{d9efe4eeb6324b1dab6cc68fa3303f57}
+      \strng{authornamehash}{d9efe4eeb6324b1dab6cc68fa3303f57}
+      \strng{authorfullhash}{1f292e1c48cc29f66e671db988b37c6b}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{Back to Basics: Revisiting REINFORCE Style Optimization for Learning from Human Feedback in LLMs}
+      \field{year}{2024}
+      \verb{eprint}
+      \verb 2402.14740
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2402.14740
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2402.14740
+      \endverb
+    \endentry
     \entry{momdp}{inproceedings}{}
       \name{author}{4}{}{%
         {{hash=02ada44e5f7bb0aa75a393683d62bee0}{%
@@ -1672,45 +1739,6 @@
       \verb{url}
       \verb https://proceedings.mlr.press/v202/demirovic23a.html
       \endverb
-    \endentry
-    \entry{bert}{inproceedings}{}
-      \name{author}{4}{}{%
-        {{hash=13202969e372bc82318f9629cbdd199b}{%
-           family={Devlin},
-           familyi={D\bibinitperiod},
-           given={Jacob},
-           giveni={J\bibinitperiod}}}%
-        {{hash=a45784fe7163b45f11d166564f5d24b6}{%
-           family={Chang},
-           familyi={C\bibinitperiod},
-           given={Ming-Wei},
-           giveni={M\bibinithyphendelim W\bibinitperiod}}}%
-        {{hash=8dde73b4194f5bc4230c4808f3fc1534}{%
-           family={Lee},
-           familyi={L\bibinitperiod},
-           given={Kenton},
-           giveni={K\bibinitperiod}}}%
-        {{hash=b92aa283415413bb8d2a1548716d0c7d}{%
-           family={Toutanova},
-           familyi={T\bibinitperiod},
-           given={Kristina},
-           giveni={K\bibinitperiod}}}%
-      }
-      \strng{namehash}{ad8e2e2a80d28ade21e86852b804fc9b}
-      \strng{fullhash}{e8bccd48302a14eeba57d9dce2f49ef4}
-      \strng{bibnamehash}{ad8e2e2a80d28ade21e86852b804fc9b}
-      \strng{authorbibnamehash}{ad8e2e2a80d28ade21e86852b804fc9b}
-      \strng{authornamehash}{ad8e2e2a80d28ade21e86852b804fc9b}
-      \strng{authorfullhash}{e8bccd48302a14eeba57d9dce2f49ef4}
-      \field{sortinit}{D}
-      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Proceedings of the 2019 conference of the North American chapter of the association for computational linguistics: human language technologies, volume 1 (long and short papers)}
-      \field{title}{Bert: Pre-training of deep bidirectional transformers for language understanding}
-      \field{year}{2019}
-      \field{pages}{4171\bibrangedash 4186}
-      \range{pages}{16}
     \endentry
     \entry{rigourous}{article}{}
       \name{author}{2}{}{%

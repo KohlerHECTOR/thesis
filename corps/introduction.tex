@@ -66,7 +66,7 @@
         } (environment);
         
     \end{tikzpicture}
-    \caption{Sequential decision making in cancer treatment. The AI system reacts to the patient's current state (tumor size, blood counts, etc.) and makes a recommendation to the doctor, who administers chemotherapy to the patient. The patient's state is then updated, and this cycle repeats over time.}
+    \caption{Sequential decision making in cancer treatment. The AI system reacts to the patient's current state (tumor size, blood cells counts, etc.) and makes a recommendation to the doctor, who administers chemotherapy to the patient. The patient's state is then updated, and this cycle repeats over time.}
     \label{fig:cancer-treatment-sdm}
 \end{figure}
 In this manuscript, we study algorithms for sequential decision making. Humans engage in sequential decision making in all aspects of life. In medicine, doctors have to decide how much chemotherapy to administer based on the patient's current health~\cite{cancer}. In agriculture, agronomists have to decide when to fertilize based on the current soil and weather conditions to maximize plant growth~\cite{agriculture}. 
@@ -78,10 +78,18 @@ For example, as depicted in figure~\ref{fig:cancer-treatment-sdm}, a doctor coul
 Machine learning algorithms~\cite{turing} output such helpful programs.
 For non-sequential decision making, when the doctor only takes one decision and does not need to react to the updated patient's health, e.g. making a diagnosis about cancer type, a program can be fitted to example data: given lots of patient records and the associated diagnoses, the program learns to make the same diagnosis a doctor would given the same patient record, this is \textit{supervised} learning~\cite{sl}. 
 In the cancer treatment example, the doctor follows the patient over time and adapts treatment to the patient's changing health. In that case, machine learning—and in particular \textit{reinforcement} learning (RL)~\cite{sutton}—can be used to teach the program how to take decisions that lead to recovery based on how the patient's health changes from one dose to another.  
-Such machine learning algorithms train increasingly performant programs that are deployed to, e.g., identify digits in images~\cite{lenet}, control tokamak fusion~\cite{tokamak}, or write the abstract of a scientific article~\cite{bert}.
+Such machine learning algorithms train increasingly performant programs that are deployed to, e.g., identify digits in images~\cite{lenet}, control tokamak fusion~\cite{tokamak}, or write the abstract of a scientific article~\cite{reinforce-llm}.
 
-However, the key problem behind this manuscript is that the computations performed by these programs cannot be understood and verified by humans: the programs are black-box.
-Next, we describe the notion of interpretability that is key to ensure safe deployment of computer programs trained with machine learning in critical sectors like medicine.
+However, the computations performed by these programs cannot be understood and verified by humans: the programs are black-box.
+This can be problematic in applications where decisions have important consequences. 
+Consider the following extreme scenario in the context of the cancer treatment example: a program recommends to the doctor to amputate a patient's limb.
+While amputating could be the only way to save the patient's life, it is not hard to imagine that such an extreme recommendation would not be followed by the doctor unless it comes with convincing explanations or unless the factors that influenced the program's recommendation can be presented to the doctor. 
+In an other setting where the program directly act in the real-world, i.e. it does not make recommendations to a human but rather acts autonomously, black-box programms are also not desirable.
+Consider the slightly extreme scenario of a combat drone in which a program decides on who to shoot.
+In this context, it is hard to imagine leaders deploying such drones and programs without having strict guarantees that it will, e.g. not shoot civilians.
+Such guarantees can be obtained through formal verifications of programs which in turn can only be obtain for certain programs.
+
+Next, we describe the notion of interpretability that is key to ensure that programs can be verified and their recommendations can be understood.
 
 \section{What is Interpretability?}
 
