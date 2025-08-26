@@ -3612,57 +3612,6 @@
       \field{title}{End-to-End Neuro-Symbolic Reinforcement Learning with Textual Explanations}
       \field{year}{2024}
     \endentry
-    \entry{madumal}{article}{}
-      \name{author}{4}{}{%
-        {{hash=d76c44c9feff91588db53fa620c0934f}{%
-           family={Madumal},
-           familyi={M\bibinitperiod},
-           given={Prashan},
-           giveni={P\bibinitperiod}}}%
-        {{hash=c41411769fd972add78f7652d57a6afc}{%
-           family={Miller},
-           familyi={M\bibinitperiod},
-           given={Tim},
-           giveni={T\bibinitperiod}}}%
-        {{hash=8debdf080e5922de36253d0b2e8bf47d}{%
-           family={Sonenberg},
-           familyi={S\bibinitperiod},
-           given={Liz},
-           giveni={L\bibinitperiod}}}%
-        {{hash=3565c89055aefece6f20084d824e75df}{%
-           family={Vetere},
-           familyi={V\bibinitperiod},
-           given={Frank},
-           giveni={F\bibinitperiod}}}%
-      }
-      \strng{namehash}{aa8ad3ce34a2415b87ebcea7880d935b}
-      \strng{fullhash}{bf80f01c42792c22c2a2c493ef658060}
-      \strng{bibnamehash}{aa8ad3ce34a2415b87ebcea7880d935b}
-      \strng{authorbibnamehash}{aa8ad3ce34a2415b87ebcea7880d935b}
-      \strng{authornamehash}{aa8ad3ce34a2415b87ebcea7880d935b}
-      \strng{authorfullhash}{bf80f01c42792c22c2a2c493ef658060}
-      \field{sortinit}{M}
-      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Proceedings of the AAAI Conference on Artificial Intelligence}
-      \field{month}{4}
-      \field{number}{03}
-      \field{title}{Explainable Reinforcement Learning through a Causal Lens}
-      \field{volume}{34}
-      \field{year}{2020}
-      \field{pages}{2493\bibrangedash 2500}
-      \range{pages}{8}
-      \verb{doi}
-      \verb 10.1609/aaai.v34i03.5631
-      \endverb
-      \verb{urlraw}
-      \verb https://ojs.aaai.org/index.php/AAAI/article/view/5631
-      \endverb
-      \verb{url}
-      \verb https://ojs.aaai.org/index.php/AAAI/article/view/5631
-      \endverb
-    \endentry
     \entry{random-search}{inproceedings}{}
       \name{author}{3}{}{%
         {{hash=c9a92d36b8abe1d608f3669f77008540}{%
@@ -5242,74 +5191,6 @@
       \field{title}{Proximal policy optimization algorithms}
       \field{year}{2017}
     \endentry
-    \entry{black-box2}{article}{}
-      \name{author}{6}{}{%
-        {{hash=dd2cfd94841f001636afb60ba616edb1}{%
-           family={Shao},
-           familyi={S\bibinitperiod},
-           given={Yijun},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=568c91fef7be054e921b14e31ce2732c}{%
-           family={Cheng},
-           familyi={C\bibinitperiod},
-           given={Yan},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=17d4740227cf73005d0668d65ebce058}{%
-           family={Shah},
-           familyi={S\bibinitperiod},
-           given={Rashmee\bibnamedelima U.},
-           giveni={R\bibinitperiod\bibinitdelim U\bibinitperiod}}}%
-        {{hash=fb64b81db4a907b885b00406bf01a144}{%
-           family={Weir},
-           familyi={W\bibinitperiod},
-           given={Charlene\bibnamedelima R.},
-           giveni={C\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
-        {{hash=fd5ac4b109dc86bc697f31f16ed24ea3}{%
-           family={Bray},
-           familyi={B\bibinitperiod},
-           given={Bruce\bibnamedelima E.},
-           giveni={B\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
-        {{hash=8169594f21f8e2cd3ffb141e068154f2}{%
-           family={Zeng-Treitler},
-           familyi={Z\bibinithyphendelim T\bibinitperiod},
-           given={Qing},
-           giveni={Q\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {USA}%
-      }
-      \list{publisher}{1}{%
-        {Plenum Press}%
-      }
-      \strng{namehash}{a7026d7f9e56872a9100633419ccd0c0}
-      \strng{fullhash}{91c0cfab476b9cf89a9b45a11bb8982e}
-      \strng{bibnamehash}{a7026d7f9e56872a9100633419ccd0c0}
-      \strng{authorbibnamehash}{a7026d7f9e56872a9100633419ccd0c0}
-      \strng{authornamehash}{a7026d7f9e56872a9100633419ccd0c0}
-      \strng{authorfullhash}{91c0cfab476b9cf89a9b45a11bb8982e}
-      \field{sortinit}{S}
-      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{abstract}{Deep neural network models are emerging as an important method in healthcare delivery, following the recent success in other domains such as image recognition. Due to the multiple non-linear inner transformations, deep neural networks are viewed by many as black boxes. For practical use, deep learning models require explanations that are intuitive to clinicians. In this study, we developed a deep neural network model to predict outcomes following major cardiovascular procedures, using temporal image representation of past medical history as input. We created a novel explanation for the prediction of the model by defining impact scores that associate clinical observations with the outcome. For comparison, a logistic regression model was fitted to the same dataset. We compared the impact scores and log odds ratios by calculating three types of correlations, which provided a partial validation of the impact scores. The deep neural network model achieved an area under the receiver operating characteristics curve (AUC) of 0.787, compared to 0.746 for the logistic regression model. Moderate correlations were found between the impact scores and the log odds ratios. Impact scores generated by the explanation algorithm has the potential to shed light on the \textquotedblleft{}black box\textquotedblright{} deep neural network model and could facilitate its adoption by clinicians.}
-      \field{issn}{0148-5598}
-      \field{journaltitle}{J. Med. Syst.}
-      \field{month}{1}
-      \field{number}{1}
-      \field{title}{Shedding Light on the Black Box: Explaining Deep Neural Network Prediction of Clinical Outcomes}
-      \field{volume}{45}
-      \field{year}{2021}
-      \verb{doi}
-      \verb 10.1007/s10916-020-01701-8
-      \endverb
-      \verb{urlraw}
-      \verb https://doi.org/10.1007/s10916-020-01701-8
-      \endverb
-      \verb{url}
-      \verb https://doi.org/10.1007/s10916-020-01701-8
-      \endverb
-      \keyw{Machine learning,Clinical outcome,Predictive model,Deep neural network}
-    \endentry
     \entry{attention}{article}{}
       \name{author}{6}{}{%
         {{hash=6dd0c2ded902b0a6ba5e646508f89d6f}{%
@@ -6628,6 +6509,48 @@
       \endverb
       \verb{url}
       \verb https://arxiv.org/abs/2401.14461
+      \endverb
+    \endentry
+    \entry{regression}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=55926e2ed0c54f92266d978954a4cdc3}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Tong},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Banff, Alberta, Canada}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computing Machinery}%
+      }
+      \strng{namehash}{55926e2ed0c54f92266d978954a4cdc3}
+      \strng{fullhash}{55926e2ed0c54f92266d978954a4cdc3}
+      \strng{bibnamehash}{55926e2ed0c54f92266d978954a4cdc3}
+      \strng{authorbibnamehash}{55926e2ed0c54f92266d978954a4cdc3}
+      \strng{authornamehash}{55926e2ed0c54f92266d978954a4cdc3}
+      \strng{authorfullhash}{55926e2ed0c54f92266d978954a4cdc3}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Linear prediction methods, such as least squares for regression, logistic regression and support vector machines for classification, have been extensively used in statistics and machine learning. In this paper, we study stochastic gradient descent (SGD) algorithms on regularized forms of linear prediction methods. This class of methods, related to online algorithms such as perceptron, are both efficient and very simple to implement. We obtain numerical rate of convergence for such algorithms, and discuss its implications. Experiments on text data will be provided to demonstrate numerical and statistical consequences of our theoretical findings.}
+      \field{booktitle}{Proceedings of the Twenty-First International Conference on Machine Learning}
+      \field{isbn}{1581138385}
+      \field{series}{ICML '04}
+      \field{title}{Solving large scale linear prediction problems using stochastic gradient descent algorithms}
+      \field{year}{2004}
+      \field{pages}{116}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1145/1015330.1015332
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/1015330.1015332
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/1015330.1015332
       \endverb
     \endentry
     \entry{9534446}{article}{}

@@ -331,15 +331,15 @@ The global trend in machine learning research answers the latter.
 \end{figure}
 
 In figure~\ref{fig:cancer-treatment-sdm-ml}, we illustrate how existing machine learning algorithms \textit{could} be used in principle to help with cancer treatment. In truth, this should be prohibited without some kind of transparency in the program's recommendation: why did the program recommend such a dosage?
-In figure~\ref{fig:cancer-treatment-comparison}, we illustrate how machine learning \textit{should} be used in practice. We would ideally want doctors to have access to computer programs that can recommend ``good'' treatments and whose recommendations are interpretable. 
+In figure~\ref{fig:cancer-treatment-comparison}, we illustrate how machine learning \textit{should} be used in practice. 
+Ideally, we want doctors to have access to computer programs that can recommend ``good'' treatments and whose recommendations are interpretable. 
+In the next section, present related works that fit this desiderata.
 
-The key challenge of doing research on interpretability is the lack of formalism; there is no \textit{formal} definition of what constitutes an interpretable computer program. Hence, unlike for performance objectives, which have well-defined optimization targets (e.g., maximizing accuracy in supervised learning or maximizing rewards over time in reinforcement learning), it is not clear how to design machine learning algorithms to maximize interpretability. 
-Despite this lack of formalism, the necessity of deploying interpretable programs has sparked many works, which we present next.
 \section{What are existing approaches for learning interpretable programs?}\label{sec:intro-interp}
 
 In this section we follow sections 6 and 7 of \cite{glanois-survey} and section 5 of \cite{milani-survey}. 
 Furthermore we now employ the term ``model'' to refer to ``programs'' to be consistent with the machine learning research conventions.
-Models are essentially mappings from inputs to outputs that can be trained with machine learning algorithms while programs might designate other types of computations like sorting.
+Models are essentially mappings from inputs to outputs that can be trained with machine learning algorithms while programs might designate other types of computations like \texttt{print("Hello World");}.
 
 \begin{figure}
     \centering
@@ -367,7 +367,7 @@ Models are essentially mappings from inputs to outputs that can be trained with 
         
         % Ensemble Methods (medium-high performance, low-medium interpretability)
         \node[circle, fill=orange!60, draw, minimum size=8pt] at (2.5,4) {};
-        \node[below right] at (0.5,4) {Ensembles};
+        \node[below right] at (0.5,4) {Tree ensembles};
         
         % Linear Models (medium performance, high interpretability)
         \node[circle, fill=blue!60, draw, minimum size=8pt] at (5.5,3) {};
@@ -387,12 +387,23 @@ Models are essentially mappings from inputs to outputs that can be trained with 
     \caption{The interpretability–performance trade-off in machine learning. Different model classes are positioned according to their typical interpretability and performance characteristics. The dashed line illustrates the general trade-off between these two properties.}
     \label{fig:interpretability-performance-tradeoff}
 \end{figure}
-Interpretable machine learning provides either local or global explanations \cite{glanois-survey}.
-Global methods output a model whose outputs can be interpreted without additional computations, e.g., a decision tree~\cite{breiman1984classification}. By contrast, local methods require additional computations but are agnostic to the model class: they can give an \textit{approximate} interpretation of, e.g., neural network outputs.
-In figure~\ref{fig:interpretability-performance-tradeoff} we present the popular trade-off between interpretability and performance of different model classes.
+Interpretable machine learning provides either local or global interpretations \cite{glanois-survey}.
+Global methods, like decision tree induction~\cite{breiman1984classification}, return a model whose outputs can be interpreted without having to run an additional algorithm.
+By contrast, local methods require to run an additional algorithm, e.g. linear regression~\cite{regression}, but are agnostic to the model class.
+In figure~\ref{fig:interpretability-performance-tradeoff} we present a popular trade-off between interpretability and performance of different model classes based on various user studies and popular beliefs~\cite{study-0,study-1,study-2,study-3,study-4,study-5,study-6,study-7}.
 
-Given a model, LIME (Local Interpretable Model-agnostic Explanations)~\cite{lime} works by perturbing the input and learning a simple interpretable model locally to explain that particular prediction (see figure~\ref{fig:lime}). For each individual prediction, LIME provides explanations by identifying which features were most important for that specific decision.
-Hence, as stated above, LIME needs to learn one local surrogate model per output to be interpreted; this requires substantial computation.
+Local interpretable model-agnostic explanations (LIME)~\cite{lime} is a popular local interpretablity method.
+Given a model, LIME works by perturbing the input and learning a simple interpretable model locally to explain that particular prediction (see figure~\ref{fig:lime}). 
+For each individual prediction, LIME provides interpretations by identifying which features were most important for that specific decision.
+
+Local interpretability can also be called explainability.
+Global interpretability methods constrain the model class so that the computations are transparent or verifiable by construction. 
+On the other hand, explainability methods--or local interpretability methods--keep black-box models and generates post hoc explanations of their decisions. 
+In additions to linear models, explanations can take various forms: visual explanations with saliency maps \cite{Puri2020Explain}, attribution such as SHAP\cite{shap}, attention-based highlighting \cite{attention}.
+
+While useful for insight, these explanations are often subjective and might not be faithful to the underlying computations~\cite{Atrey2020Exploratory}.
+For safety-critical settings, this motivates our focus on models that are interpretable by design.
+Those interpretable by design models can be obtained by global interpretability methods that we present next.
 
 \begin{figure}
     \includegraphics[width=0.9\textwidth]{images/lime.png}
@@ -498,45 +509,41 @@ To directly learn interpretable models for sequential decision making, one must 
 
 Most existing research has focused on developing indirect methods. 
 Indirect methods for interpretable sequential decision making—sometimes called \textit{post hoc} methods—begin by learning a non-interpretable model (e.g., reinforcement learning of a neural network model), and then use supervised learning to fit an interpretable model that emulates the black-box.
-This approach is called behavior cloning or imitation learning~\cite{behavior-cloning,dagger}, and many works on interpretable sequential decision rely on this indirect approach\cite{viper,PIRL}.
-However we believe this might be problematic.
-
-Indeed, unlike direct methods that return interpretable models optimizing the desired objective, indirect methods learn an interpretable model to match the behavior of a black-box that itself optimizes the objective of interest. 
-Hence, there is no guarantee that optimizing this surrogate objective yields the best interpretability–performance trade-offs. 
-figure~\ref{fig:direct-vs-indirect-methods} illustrates the key difference between these two approaches. 
+Indirect methods rely on behavior cloning or imitation learning~\cite{behavior-cloning,dagger} to emulate the black-box models.
+Most work on interpretable sequential decision focues on the indirect approach\cite{viper,PIRL}.
 
 Verifiable Reinforcement learning via Policy Extraction, or VIPER \cite{viper}, is a strong indirect method to learn decision tree models for sequential decision making. VIPER first trains a neural network model with reinforcement learning and then fit a decision tree to minimize the disagreement between the nerual network and the tree outputs given the same inputs.
 They show that decision tree models, in addition to being transparent, are also fast to verify in the formal sense of the term \cite{maraboupy}.
 Programmatic models are an interpretable class that contains decision trees. 
 Programmatically Interpretable Reinforcement Learning (PIRL) \cite{PIRL} synthesizes programs in a domain-specific language, also by imitating a neural network model. 
 
+However, unlike direct methods that return interpretable models optimizing the desired objective, indirect methods learn an interpretable model to match the behavior of a black-box that itself optimizes the objective of interest. 
+Due to the restricted policy class, the best decision tree model might employ a completely different strategy than the best black-box neural network model to solve the task.
+Furthermore, the decision tree model that best fits the best neural network model might be sub-optimal compared to the decision tree model that best solves the task of interest.
+Hence, there is no guarantee that optimizing this surrogate objective of best emulating a black-box yields the best interpretability–performance trade-offs. 
+Figure~\ref{fig:direct-vs-indirect-methods} illustrates the key difference between these two approaches. 
+
 Beyond direct and indirect learning, a complementary strategy is to train experts that are inherently easier to imitate and understand.
-This is achieved by adding interpretability-oriented regularization during training. In~\cite{parbhoo}, authors regularize the neural netowk model during training such that indirect approaches will be biased towards more interpretable trees.
+This is achieved by adding interpretability-oriented regularization during training. In the context of supervised learning tasks, authors of \cite{parbhoo} regularize the neural netowk model during training such that indirect approaches will be biased towards more interpretable trees.
 
-Beyond transparency and verifiability, interpretability also supports detecting specification or reward misalignment in sequential decision making: by exposing the decision process of a model, one can identify goal misspecification or unintended shortcuts.
+In addition to finding models which compuations can be read by humans or that can be formally verified, interpretable machine learning has also been used to detect reward misalignment in sequential decision making: by exposing the decision process of a model, one can identify goal misspecification or unintended shortcuts.
 Such shortcuts can be, for example, following the shadow of someone instead of actually following someone because for the model they lead to the same reactions.
-The learning of interpretable models for misalignment detection has been heavily studied by Quentin Delfosse contemporarily to this manuscript \cite{scobots}\cite{shindo2024blendrl}\cite{nudge}\cite{ocatari}.
+The learning of interpretable models for misalignment detection has been heavily studied by Quentin Delfosse contemporarily to this manuscript \cite{scobots,shindo2024blendrl,nudge,ocatari}.
 
-\textit{Interpretable} decision making constrains the model class so that the computation is transparent by construction. 
-On the other hand, \textit{explainable} decision making, keeps black-box models and generates post hoc explanations of their decisions. 
-Such explanations can take various forms: visual explanations with saliency maps \cite{Puri2020Explain}, attribution such as SHAP\cite{shap}, attention-based highlighting \cite{attention}.
-Causal approaches learn explicit causal models to support contrastive reasoning \cite{madumal}.
-While useful for insight, these explanations are often subjective and might not be faithful to the underlying computations~\cite{Atrey2020Exploratory}.
-For safety-critical settings, this motivates our focus on models that are interpretable by design.
-Next we describe technical preliminaries useful to understand the content of this manuscript.
+In the next chapter, we describe technical preliminaries useful to understand the content of this manuscript.
 
-\section{Technical preliminaries}
+\chapter*{Technical preliminaries}\label{sec:technicals}
 
-\subsection{What are decision trees?}\label{sec:dt}
+\section{What are decision trees?}\label{sec:dt}
 
-As the reader might have already guessed, we will put great emphasis as decision tree models as a mean to study interpretability.
-While other interpretable models might have other properties that the ones we will highlight through this thesis, one conjecture from \cite{glanois-survey} is that interpretable models are all hard to optimize or learn because they are non-differentiable in nature.
-This something that will be key in our study of decision tree models that we introduce next and that we illustrate in figure~\ref{fig:dt}.
+As the reader might have already guessed, we will put great emphasis on decision tree models as a mean to study interpretability.
+While other interpretable models might have other properties than the ones we will highlight through this thesis, one conjecture from \cite{glanois-survey} is that interpretable models are all hard to optimize or learn because they are non-differentiable in nature.
+This is something that will be key in our study of decision tree models that we introduce next and that we illustrate in figure~\ref{fig:dt}.
 
 \begin{definition}[Decision tree]
     A decision tree is a rooted tree $T = (V, E)$ where:
     \begin{itemize}
-    \item Each internal node $v \in V$ is associated with a test function $f_v: \mathcal{X} \rightarrow \{0, 1\}$ that maps input features $x \in \mathcal{X}$ to a Boolean.
+    \item Each internal node $v \in V$ is associated with a test that maps input features $x \in \mathcal{X}$ to a Boolean.
     \item Each edge $e \in E$ from an internal node corresponds to an outcome of the associated test function.
     \item Each leaf node $l \in V$ is associated with a prediction $y_l \in \mathcal{Y}$, where $\mathcal{Y}$ is the output space.
     \item For any input $x \in \mathcal{X}$, the tree defines a unique path from root to leaf, determining the prediction $T(x) = y_l$ where $l$ is the reached leaf.
@@ -553,10 +560,10 @@ This something that will be key in our study of decision tree models that we int
         edge_label/.style={font=\footnotesize, midway}
     ]
         % Root decision node
-        \node[decision] (root) at (0,0) {$f_1(x)$};
+        \node[decision] (root) at (0,0) {$\text{feature 2}\leq 0.5$};
         
         % Second level nodes
-        \node[decision] (left_decision) at (-3, -2.5) {$f_2(x)$};
+        \node[decision] (left_decision) at (-3, -2.5) {$\text{feature 1}\leq 8$};
         \node[leaf] (right_leaf) at (3, -2.5) {$y_1$};
         
         % Third level nodes (leaves)
@@ -575,30 +582,30 @@ This something that will be key in our study of decision tree models that we int
         \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
         
     \end{tikzpicture}
-    \caption{A generic depth 2 decision tree with 3 nodes and 3 leaves. Internal nodes contain test functions $f_v(x): \mathcal{X} \rightarrow \{0,1\}$ that map input features to boolean values. Edges represent the outcomes of these tests (True/False), and leaf nodes contain predictions $y_l \in \mathcal{Y}$. For any input $x$, the tree defines a unique path from root to leaf.}
+    \caption{A generic depth 2 decision tree with 2 nodes and 3 leaves. Edges represent the outcomes of the tests in each internal nodes(True/False), and leaf nodes contain predictions $y_l \in \mathcal{Y}$. For any input $x_i$, the tree defines a unique path from root to leaf.}
     \label{fig:dt}
 \end{figure}
 
-\subsection{How to learn decision trees?}\label{sec:sl}
+\section{How to learn decision trees?}\label{sec:sl}
 Training decision trees to optimize the supervised learning objective~\ref{def:sl} is well studied.
 
-\begin{definition}[Supervised learning objective]\label{def:sl}
+\begin{definition}[Supervised learning objective for classification or regression]\label{def:sl}
     Assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$.
     For a classification task $\mathcal{Y}=\{1,\ldots,K\}$ and for a regression task $\mathcal{Y}\subseteq \mathbb{R}$.
-    The goal of supervised learning is to find a classifier (or regressor) $f:X \rightarrow  y$ where $f$ is model in $\mathcal{F}$, e.g. neural networks or decision trees that minimizes the following objective:
+    The goal of supervised learning for classification (or regression) tasks is to find a classifier (or regressor) $f:X \rightarrow  y$ that minimizes the following objective:
     \begin{align}
         \mathcal{L}_{\alpha}(f) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{l}(y_i, f(x_i)) + \alpha C(f),
         \label{eq:suplearning}
     \end{align}
-    where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a regularization penalty.
+    where $f$ is a model in a particular model class, e.g. the set of neural networks with relu activations or decision trees with depth at most 4, and where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a regularization penalty.
     \end{definition}
 
-The Classification and Regression Trees (CART) algorithm \cite{breiman1984classification} (algorithm~\ref{alg:cart}), developed by Leo Breiman and colleagues, is one of the most widely used methods for learning decision trees from supervised data.
+The Classification and Regression Trees (CART) algorithm \cite{breiman1984classification} (algorithm~\ref{alg:cart}), developed by Leo Breiman and colleagues, is one of the most widely used method for learning decision trees from supervised data.
 CART builds binary decision trees through a greedy, top-down approach that recursively partitions the feature space. 
-At each internal node, the algorithm selects the feature and threshold that best splits the data according to a purity criterion such as the Gini impurity for classification or mean squared error for regression.
-CART uses threshold-based test functions of the form $f_v(x) = \mathbb{I}[x[\text{feature}] \leq \text{threshold}]$, where $\mathbb{I}[\cdot]$ is the indicator function. 
+At each internal node, the algorithm selects the feature and threshold that best split the data according to a purity criterion such as the Gini impurity for classification or mean squared error for regression.
+CART uses threshold-based tests of the form $\mathbb{I}[x[\text{feature}] \leq \text{threshold}]$, where $\mathbb{I}[\cdot]$ is the indicator function. 
 The key idea is to find splits that maximize the homogeneity of the resulting subsets. 
-We use CART as well as other decision tree algorithms in this manuscript and rely on the scikit-learn implementations \cite{scikit-learn} for our experiments.
+We use CART as well as other decision tree algorithms in this manuscript.
 
 In particular, in the second part we will challenge decision tree algorithms that perform better than CART for the supervised learning objective.
 In the first and third parts, we study CART in conjunction with reinforcement learning as a means to obtain decision trees for sequential decision making.
@@ -615,7 +622,7 @@ In the next few sections we present the material related to sequential decision 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
-    \KwData{Training data $(X, y)$ where $X \in \mathbb{R}^{n \times p}$ and $y \in \{1, 2, \ldots, K\}^n$}
+    \KwData{Training data $\mathcal{E} = \{(x_i, y_i)\}_{i=1}^N$ where $x_i \in \mathcal{X} \subseteq \mathbb{R}^p$ and $y_i \in \mathcal{Y} = \{1, \ldots, K\}$}
     \KwResult{Decision tree $T$}
     
     \SetKwProg{Fn}{Function}{:}{}
@@ -624,37 +631,37 @@ In the next few sections we present the material related to sequential decision 
     \SetKwFunction{Gini}{Gini}
     \SetKwFunction{MajorityClass}{MajorityClass}
     
-    \Fn{\BuildTree{$X, y$}}{
+    \Fn{\BuildTree{$\mathcal{E}$}}{
         \If{stopping criterion met}{
-            \Return leaf node with prediction MajorityClass$(y)$
+            \Return leaf node with prediction $y_l \leftarrow$ MajorityClass$(\{y_i\}_{i=1}^N)$
         }
         
-        $(feature, threshold) \leftarrow$ BestSplit$(X, y)$ \\
+        $(feature, threshold) \leftarrow$ BestSplit$(\mathcal{E})$ \\
         
         \If{no valid split found}{
-            \Return leaf node with prediction MajorityClass$(y)$
+            \Return leaf node with prediction $y_l \leftarrow$ MajorityClass$(\{y_i\}_{i=1}^N)$
         }
         
-        Split data: $X_{left}, y_{left} = \{(x_i, y_i) : x_i[feature] \leq threshold\}$ \\
-        \hspace{2.5cm} $X_{right}, y_{right} = \{(x_i, y_i) : x_i[feature] > threshold\}$ \\
+        Split data: $\mathcal{E}_{left} = \{(x_i, y_i) \in \mathcal{E} : x_i[feature] \leq threshold\}$ \\
+        \hspace{2.5cm} $\mathcal{E}_{right} = \{(x_i, y_i) \in \mathcal{E} : x_i[feature] > threshold\}$ \\
         
-        $left\_child \leftarrow$ BuildTree$(X_{left}, y_{left})$ \\
-        $right\_child \leftarrow$ BuildTree$(X_{right}, y_{right})$ \\
+        $left\_child \leftarrow$ BuildTree$(\mathcal{E}_{left})$ \\
+        $right\_child \leftarrow$ BuildTree$(\mathcal{E}_{right})$ \\
         
         \Return internal node with test function $f_v(x) = \mathbb{I}[x[feature] \leq threshold]$ and children $(left\_child, right\_child)$
     }
     
-    \Fn{\BestSplit{$X, y$}}{
+    \Fn{\BestSplit{$\mathcal{E}$}}{
         $best\_gain \leftarrow 0$ \\
         $best\_feature \leftarrow None$ \\
         $best\_threshold \leftarrow None$ \\
         
-        \For{each feature $f \in \{1, 2, \ldots, p\}$}{
-            \For{each unique value $v$ in $X[:, f]$}{
-                $y_{left} \leftarrow \{y_i : X[i, f] \leq v\}$ \\
-                $y_{right} \leftarrow \{y_i : X[i, f] > v\}$ \\
+        \For{each feature $f \in \{1, \ldots, p\}$}{
+            \For{each unique value $v$ in $\{x_i[f] : (x_i, y_i) \in \mathcal{E}\}$}{
+                $\mathcal{Y}_{left} \leftarrow \{y_i : (x_i, y_i) \in \mathcal{E}, x_i[f] \leq v\}$ \\
+                $\mathcal{Y}_{right} \leftarrow \{y_i : (x_i, y_i) \in \mathcal{E}, x_i[f] > v\}$ \\
                 
-                $gain \leftarrow$ Gini$(y) - \frac{|y_{left}|}{|y|}$Gini$(y_{left}) - \frac{|y_{right}|}{|y|}$Gini$(y_{right})$ \\
+                $gain \leftarrow$ Gini$(\{y_i\}_{i=1}^N) - \frac{|\mathcal{Y}_{left}|}{N}$Gini$(\mathcal{Y}_{left}) - \frac{|\mathcal{Y}_{right}|}{N}$Gini$(\mathcal{Y}_{right})$ \\
                 
                 \If{$gain > best\_gain$}{
                     $best\_gain \leftarrow gain$ \\
@@ -666,15 +673,15 @@ In the next few sections we present the material related to sequential decision 
         \Return $(best\_feature, best\_threshold)$
     }
     
-    \Fn{\Gini{$y$}}{
-        \Return $1 - \sum_{k=1}^K \left(\frac{|\{i : y_i = k\}|}{|y|}\right)^2$ \Comment{// Gini impurity}
+    \Fn{\Gini{$\mathcal{Y}$}}{
+        \Return $1 - \sum_{k=1}^K \left(\frac{|\{y_i \in \mathcal{Y} : y_i = k\}|}{|\mathcal{Y}|}\right)^2$ \Comment{// Gini impurity}
     }
     
-    \Return BuildTree$(X, y)$
+    \Return BuildTree$(\mathcal{E})$
     \caption{CART for decision tree induction to optimize the supervised learning objective~\ref{def:sl}}\label{alg:cart}
 \end{algorithm}
 
-\subsection{Markov decision processes and problems}
+\section{Markov decision processes and problems}
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -721,7 +728,7 @@ Following Martin L. Puterman's book on MDPs\cite{puterman}, we formally define:
 \item $S$ is a finite set of states representing all possible configurations of the environment.
 \item $A$ is a finite set of actions available to the agent.
 \item $R: S \times A \rightarrow \mathbb{R}$ is the reward function that assigns a real-valued reward to each state-action pair.
-\item $T: S \times A \rightarrow \Delta(S)$ is the transition function that maps state-action pairs to probability distributions over next states, where $\Delta(S)$ denotes the probability over $S$.
+\item $T: S \times A \rightarrow \Delta(S)$ is the transition function that maps state-action pairs to probability distributions over next states, where $\Delta(S)$ denotes a probability distribution over $S$.
 \item $T_0 \in \Delta(S)$ is the initial distribution over states.
 \end{itemize}
 \end{definition}
@@ -735,7 +742,7 @@ $$J(\pi) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \si
 where $\gamma \in (0,1]$ is the discount factor that controls the trade-off between immediate and future rewards.
 \end{definition}
 
-Hence, algorithms presented in this manuscript aim to find solutions policies that maximizes this RL objective, i.e., the optimal policy: $\pi^\star =\underset{\pi}{\operatorname{argmax}}J(\pi)$.
+Hence, algorithms presented in this manuscript aim to find policies that maximize this RL objective, i.e., an optimal policy: $\pi^\star \in\underset{\pi}{\operatorname{argmax}}J(\pi)$.
 
 \subsection{Example: a grid world MDP}
 \begin{figure}
@@ -806,7 +813,7 @@ The optimal actions that get to the goal as fast as possible in every state (cel
 
 Next we present the tools to find solutions to MDPs and retrieve such optimal policies.
 
-\subsection{Exact solutions for Markov decision problems}\label{sec:values}
+\section{Exact solutions for Markov decision problems}\label{sec:values}
 We begin with the planning setting in which the model is known. Leveraging the Markov property, dynamic programming computes optimal value functions and extracts an optimal policy; we define $V$ and $Q$ and then present Value Iteration.
 It is possible to compute the exact optimal policy $\pi^\star$ using dynamic programming\cite{Bellman}.
 Indeed, one can leverage the Markov property to find for all states the best action to take based on the reward of upcoming states.
@@ -850,7 +857,7 @@ The well-known Value Iteration algorithm~\ref{alg:value-iteration} solves this p
 More realistically, neither the transition kernel $T$ nor the reward function $R$ of the MDP are known; e.g., the doctor cannot \textbf{know} how the tumor and the patient's health will change after a dose of chemotherapy, but can only \textbf{observe} the change.
 This distinction in available information parallels the distinction between dynamic programming and reinforcement learning (RL), described next. 
 
-\subsection{Reinforcement learning of approximate solutions to MDPs}\label{sec:rl}
+\section{Reinforcement learning of approximate solutions to MDPs}\label{sec:rl}
 When the dynamics and rewards are unknown, we turn to model-free RL. 
 % \begin{figure}
 %     \centering
@@ -1013,9 +1020,9 @@ Actor-critic are not as simple efficient as DQN but is known to work well in a v
     }
     \caption{Proximal Policy Optimization (PPO)}\label{alg:ppo}
 \end{algorithm}
-In this manuscript we study those two deep reinforcement learning algorithms for various problems and use their stable-baselines3 implementations\cite{stable-baselines3}.
+In this manuscript we study those two deep reinforcement learning algorithms for various problems.
 
-\subsection{Imitation learning: a baseline (indirect) interpretable reinforcement learning method}\label{sec:imit}
+\section{Imitation learning: a baseline (indirect) interpretable reinforcement learning method}\label{sec:imit}
 
 Unlike PPO or DQN for neural networks, there does not exist an algorithm that trains decision tree policies to optimize the RL objective (\ref{def:mdp-obj}).
 In fact, we will show in the first part of the manuscript that training decision trees that optimize the RL objective is very difficult.
