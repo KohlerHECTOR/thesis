@@ -1,5 +1,5 @@
 \chapter*{Preliminary Concepts}
-\section{What is sequential decision making?}
+\section{What is sequential decision making?}\label{sec:intro-sdm}
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -116,7 +116,7 @@ was obtained. If such restriction is necessary, it is manifest that no such thin
 as a general method in Logic is possible. On the other hand, if such restriction
 is unnecessary, in what light are we to contemplate processes which appear to
 be uninterpretable in that sphere of thought which they are designed to aid?
-\end{displaycquote}
+\end{displaycquote}\label{quote:boole}
 
 \begin{figure}
     \centering
@@ -125,8 +125,13 @@ be uninterpretable in that sphere of thought which they are designed to aid?
     \label{fig:george-boole}
 \end{figure}
 
-What is remarkable is that the first recorded occurrence of ``interpretability'' was in the context of logic and computation. Boole asked: \textit{when can we meaningfully apply formal mathematical operations beyond the specific conditions under which we understand them?}
-In Boole's era, the concern was whether logical operations like addition could be applied outside their original interpretable contexts—where symbols and their sum represent concepts that humans can understand (e.g., red + apples = red apples). Today, we face an analogous dilemma with machine learning algorithms: black-box programs like neural networks~\cite{perceptron}, which learn complex, unintelligible representations, are often deployed in contexts where computations should be understood by humans (e.g., in medicine~\cite{black-box2}). 
+What is remarkable is that the first recorded occurrence of ``interpretability'' was in the context of logic and computation. 
+In Boole's system, the expression $x+y$ is interpretable only when $x$ and $y$ are disjoint sets, because then ``+'' clearly represents their union. 
+By contrast, in e.g. a neural network program~\cite{perceptron}, an operation like $x+y$ typically means adding two hidden vectors in a high-dimensional space. 
+The result is mathematically well-defined, but its semantic meaning—what concept or feature this new vector corresponds to—is black-box. 
+Just as Boole worried that logic would lose its generality and practical use if restricted only to easily interpretable operations, there exisits similar tension in machine learning today.
+In machine learning, should we limit ourselves to inherently interpretable programs (like decision trees~\cite{breiman1984classification}, where $x+y$ might literally mean combining two feature contributions, like blood cells count and tumor size) or accept uninterpretable computations in black-box programs (like in neural networks) in order to have boradly applicable and highly performant programs?
+The global trend in machine learning research answers the latter.
 
 \begin{figure}
     \centering
@@ -321,7 +326,7 @@ In Boole's era, the concern was whether logical operations like addition could b
         \caption{Interpretable approach using decision trees}
         \label{fig:cancer-treatment-comparison}
     \end{subfigure}
-    \caption{Comparison of sequential decision making approaches in cancer treatment. Top: a black-box neural network approach where the doctor cannot interpret the AI's recommendations. Bottom: an interpretable decision tree approach where the doctor can understand and verify the AI's recommendations. Both systems learn from treatment outcomes to improve their recommendations over time.}
+    \caption{Comparison of sequential decision making approaches in cancer treatment. Top: a black-box neural network approach where the doctor cannot interpret the AI's recommendations because the computations are operations over uninterpretable concepts (cf. end of section~\ref{sec:intro-sdm} and Boole's quote~\ref{quote:boole}). Bottom: an interpretable decision tree approach where the doctor can understand and verify the AI's recommendations because the operations are perfomed over meaningful concepts  (cf. end of section~\ref{sec:intro-sdm} and Boole's quote~\ref{quote:boole}). Both systems learn from treatment outcomes to improve their recommendations over time.}
     \label{fig:cancer-treatment-comparison-combined}
 \end{figure}
 
