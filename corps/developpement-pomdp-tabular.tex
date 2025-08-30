@@ -50,7 +50,7 @@ The asymptotic occupancy distribution is the probability of a policy $\pi$ to ar
 We can re-write the direct interpretable RL objective (\ref{def:irl}) in terms of POIBMDPs:
 
 \begin{definition}[Revised interpretable RL objective]\label{def:revised}
-    Given a (factored) MDP $\mathcal{M}$~\ref{def:fmdp} and an associated POIBMDP $\mathcal{M}_{POIB}$ (\ref{def:poibmdp}), the revised interpretable RL objective is to find a deterministic partially observable policy $\pi:O\rightarrow A\cup A_{info}$ that maximizes the value:
+    Given a base MDP $\mathcal{M}$~\ref{def:mdp} and an associated POIBMDP $\mathcal{M}_{POIB}$ (\ref{def:poibmdp}), the revised interpretable RL objective is to find a deterministic partially observable policy $\pi:O\rightarrow A\cup A_{info}$ that maximizes the value:
 \begin{align}
     V^{\pi}(\boldsymbol{o}_0)
 \end{align}

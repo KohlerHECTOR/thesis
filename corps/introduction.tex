@@ -1013,15 +1013,15 @@ In this manuscript we study those two deep reinforcement learning algorithms for
 Unlike PPO or DQN for neural networks, there does not exist an algorithm that trains decision tree policies to optimize the RL objective (\ref{def:mdp-obj}).
 In fact, we will show in the first part of the manuscript that training decision trees that optimize the RL objective is very difficult.
 
-Hence, many interpretable reinforcement learning approaches first train a neural network policy with, e.g., DQN or PPO to optimize the RL objective (\ref{def:mdp-obj}), and then fit, e.g., a decision tree using CART (algorithm\ref{alg:cart}) to optimize the supervised learning objective (\ref{def:sl}) with the neural policy's actions as targets.
-This approach is known as imitation learning and is essentially training a policy to optimize the objective:
+Hence, many interpretable reinforcement learning approaches first train a neural network policy--also called an expert policy--to optimize the RL objective (\ref{def:mdp-obj}) using e.g. PPO, and then fit a student policy such as a decision tree using CART (algorithm\ref{alg:cart}) to optimize the supervised learning objective (\ref{def:sl}) with the neural policy's actions as targets.
+This approach is known as imitation learning and is essentially training a student policy to optimize the objective:
 
 \begin{definition}[Imitation learning objective]\label{def:il}
-Given an MDP $\mathcal{M}$ (\ref{def:mdp}) expert policy $\pi^*$ and a policy class $\Pi$, the imitation learning objective is to find a policy $\hat{pi} \in \Pi$ that minimizes the expected action disagreement with the expert:
+Given an MDP $\mathcal{M}$ (\ref{def:mdp}) expert policy $\pi^*$ and a policy class $\Pi$, e.g. decision trees of depth at most 3, the imitation learning objective is to find a student policy $\hat{\pi} \in \Pi$ that minimizes the expected action disagreement with the expert:
 \begin{equation}
 IL(\pi) &=  \mathbb{E}_{\boldsymbol{s} \sim \rho(\boldsymbol{s})} \left[ \mathcal{L}(\pi(\boldsymbol{s}), \pi^*(\boldsymbol{s})) \right]
 \end{equation}
-where $\rho(\boldsymbol{s})$ is the state distribution in $\mathcal{M}$ induced by the expert policy and $\mathcal{L}$ is a loss function measuring the disagreement between the learned policy's action $\pi(s)$ and the expert's action $\pi^*(s)$.
+where $\rho(\boldsymbol{s})$ is the state distribution in $\mathcal{M}$ induced by the student policy $\pi$ and $\mathcal{L}$ is a loss function measuring the disagreement between the student policy's action $\pi(s)$ and the expert's action $\pi^*(s)$.
 \end{definition}
 
 There are two main imitation learning methods used for interpretable reinforcement learning.
@@ -1098,36 +1098,37 @@ Next we show how to learn a decision tree policy for the Example MDP \ref{exampl
         \end{algorithm}
 
 \section{Your first decision tree policy}\label{sec:limits-il}
-Now the reader should know how to train decision tree classifiers or regressors for supervised learning using CART\ref{sec:sl}.
-The reader should also know what an MDP is and how to compute or learn policies that optimize the RL objective \ref{def:mdp-obj} with (deep) reinforcement learning\ref{sec:drl}.
-Finally, the reader should now know how to obtain a decision tree policy for an MDP through imitation learning by first using RL to get an expert policy and then fitting decision trees to optimize the supervised learning objective\ref{def:sl}, using the expert's actions as labels.
-Note that, in theory, there is no guarantee that such decision tree policies also maximize the RL objective; they optimize only the imitation learning objective\ref{def:il}.
+Now the reader should know how to train decision tree classifiers or regressors for supervised learning using CART~\ref{sec:sl}.
+The reader should also know what an MDP is and how to compute or learn policies that optimize the RL objective (\ref{def:mdp-obj}) with (deep) reinforcement learning (cf. section~\ref{sec:drl}).
+Finally, the reader should now know how to obtain a decision tree policy for an MDP through imitation learning (\ref{def:il}) by first using RL to get an expert policy and then fitting decision trees to optimize the supervised learning objective, using the expert's actions as labels.
 
-In this section we present the first decision tree policies of this manuscript obtained using Dagger or VIPER after learning an expert policy and expert Q-function for the grid world MDP \ref{example:grid} with Q-learning\ref{alg:qlearning}.
-Recall the optimal policies for the grid world, taking the green actions in each state in figure\ref{example:grid}. 
-Among the optimal policies, the ones that take action to go left or up in the goal state can be problematic for imitation learning algorithms.
+In this section we present the first decision tree policies of this manuscript obtained using Dagger or VIPER after learning an expert policy and expert Q-function for the grid world MDP~\ref{example:grid} with Q-learning (cf. algorithm~\ref{alg:qlearning}).
+Recall the optimal policies for the grid world, taking the green actions in each state in figure~\ref{example:grid}. 
+Among the optimal policies, the ones that go left or up in the goal state can be problematic for imitation learning algorithms.
 
-Indeed, we know that for this grid world MDP there exists a decision tree policy that is optimal and very interpretable (depth-1): go right if the $x$-label of the state is greater than 1 and go left otherwise.
-This tree takes exactly the same actions in the same states as some of the optimal policy from figure\ref{example:grid}.
+Indeed, we know that for this grid world MDP there exists decision tree policies with a very good interpretability-performance trade-off: depth-1 decision trees that are optimal w.r.t. the RL objective.
+One could even say that those trees have the \textit{optimal} interpretability-performance trade-off because they are the shortest trees that are optimal w.r.t. the RL objective.
 
-In figure\ref{fig:trees-intro}, we present a depth-1 decision tree policy that is optimal w.r.t. the RL objective and a depth-1 tree that is sub-optimal.
-Indeed, figure\ref{fig:objectives} shows that the optimal depth-1 tree achieves exactly the same RL objective value as the optimal policies from figure\ref{example:grid}, independently of the discount factor $\gamma$.
+In figure~\ref{fig:trees-intro}, we present a depth-1 decision tree policy that is optimal w.r.t. the RL objective and a depth-1 tree that is sub-optimal.
+Indeed, figure~\ref{fig:objectives} shows that the optimal depth-1 tree achieves exactly the same RL objective value as the optimal policies from figure~\ref{example:grid}, independently of the discount factor $\gamma$.
 
-Now a fair question is: can Dagger or VIPER retrieve such an optimal depth-1 tree given access to an expert optimal policy from figure\ref{example:grid}?
+Now a fair question is: can Dagger or VIPER retrieve such an optimal depth-1 tree given access to an expert optimal policy from figure~\ref{example:grid}?
 
-We start by running the standard Q-learning algorithm as presented in algorithm\ref{alg:qlearning} with $\epsilon=0.3$, $\alpha=0.1$ over 10,000 time steps.
-The careful reader might wonder how ties are broken in the $\operatorname{argmax}$ operation from algorithm\ref{alg:qlearning}.
-While Sutton and Barto break ties by index value in their book\cite{sutton} (the greedy action is the $\operatorname{argmax}$ action with smallest index), we show that the choice of tie-breaking greatly influences the performance of subsequent imitation learning algorithms.
+We start by running the standard Q-learning algorithm as presented in algorithm~\ref{alg:qlearning} with $\epsilon=0.3$, $\alpha=0.1$ over 10,000 time steps.
+The careful reader might wonder how ties are broken in the $\operatorname{argmax}$ operation from algorithm~\ref{alg:qlearning}.
+While Sutton and Barto break ties by index value in their book~\cite{sutton} (the greedy action is the $\operatorname{argmax}$ action with smallest index), we show that the choice of tie-breaking greatly influences the performance of subsequent imitation learning algorithms.
 Indeed, depending on how actions are ordered in practice, Q-learning may be biased toward some optimal policies rather than others.
 While this does not matter for one who just wants to find an optimal policy, in our example of finding the optimal depth-1 decision tree policy, it matters \textit{a lot}.
 
-In the left plot of figure\ref{fig:ql-il}, we see that Q-learning, independently of how ties are broken, consistently converges to an optimal policy over 100 runs (random seeds).
-However, in the right plot of figure\ref{fig:ql-il}, where we plot the proportion over 100 runs of optimal decision trees returned by Dagger or VIPER at different stages of Q-learning, we observe that imitating the optimal policy obtained by breaking ties at random consistently yields more optimal trees than breaking ties by indices.
+In the left plot of figure~\ref{fig:ql-il}, we see that Q-learning, independently of how ties are broken, consistently converges to an optimal policy over 100 runs (random seeds).
+However, in the right plot of figure~\ref{fig:ql-il}, where we plot the proportion over 100 runs of optimal decision trees returned by Dagger or VIPER at different stages of Q-learning, we observe that imitating the optimal policy obtained by breaking ties at random consistently yields more optimal trees than breaking ties by indices.
 What actually happens is that the most likely output of Q-learning when ties are broken by indices is the optimal policy that goes left in the goal state,
 which cannot be perfectly represented by a depth-1 decision tree, because there are three different actions taken and a binary tree of depth $D=1$ can only map to $2^D=2$ labels.
 
-Despite this negative result, we still find that VIPER almost always finds the optimal depth-1 decision tree policy in terms of the RL objective\ref{def:mdp-obj} when ties are broken at random.
-Importantly, this sheds light on the sub-optimality of indirect imitation w.r.t the RL objective (~\ref{def:mdp-obj}) and motivates the study of direct approaches.
+This short experiment shows that imitation learning approaches can sometimes be very bad at retrieving decision tree policies with good interpretability-performance trade-offs for very simple MDPs. 
+Despite VIPER almost always finding the optimal depth-1 decision tree policy in terms of the RL objective\ref{def:mdp-obj} when ties are broken at random, we have shed light on the sub-optimality of indirect approaches such as imitation learning.
+This motivates the study of direct approaches (cf. figure~\ref{fig:direct-vs-indirect}) to obtain policies with good interpretability-performance trade-offs.
+Next, we present the outline of the thesis.
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -1168,8 +1169,6 @@ Importantly, this sheds light on the sub-optimality of indirect imitation w.r.t 
     \caption{Left, sample complexity curve of Q-learning with default hyperparameters on the $2\times 2$ grid world MDP over 100 random seeds. Right, performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
 \end{figure}
 
-Now that the reader has seen how to get an interpretable policy for an MDP, we believe it is ready to dive into the contributions of this thesis.
-
 \section{Outline of the thesis}
 Throughout our thesis, we make the assumption that constraing models (e.g. policies or classifiers) to decision trees is engouh ensuring interpretability.
 In this thesis we study different decision tree learning algorithms in different settings. 
@@ -1180,7 +1179,7 @@ In the second part of the manuscript, we formulate decision tree induction for s
 By formalizing decision tree induction for objective\ref{def:sl} as solving an MDP~\ref{def:mdp}, we design novel algorithms that achieve very good performances.
 
 In the last part of the text, we lift our assumption about decision tree learning guaranteeing interpretability and study other model classes.
-In particular, we leverage the simplicity of \textit{indirect} methods~\ref{fig:direct-vs-indirect-methods} to imitate neural network experts with models from~\ref{fig:interpretability-performance-tradeoff} and and perform a large-scale empirical study of the interpretability-performances trade-offs on various sequential decision making tasks.
+In particular, we leverage the simplicity of \textit{indirect} methods~\ref{fig:direct-vs-indirect-methods} to imitate neural network experts with models from~\ref{fig:interpretability-performance-tradeoff} and perform a large-scale empirical study of the interpretability-performances trade-offs on various sequential decision making tasks.
 % In Table~\ref{tab:summary-parts} we summarize the outline of this manuscript in terms of learning objective (~\ref{def:sl},~\ref{def:mdp-obj}, or~\ref{def:il}) and model class (figure~\ref{fig:interpretability-performance-tradeoff}).
 
 % \begin{table}

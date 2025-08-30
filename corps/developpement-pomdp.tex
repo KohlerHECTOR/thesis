@@ -7,7 +7,7 @@ We find that imitation learning, despite not directly optimizing the RL objectiv
 \section{Reproducing ``Iterative Bounding MDPs: Learning Interpretable Policies via Non-Interpretable Methods''}
 
 \subsection{IBMDP formulation}
-Given a a factored base MDP $\mathcal{M}\langle S, A, R, T, T_0\rangle$ (\ref{def:fmdp}), in order to define an IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$ (\ref{def:ibmdp}), the user needs to provide the set of information gathering actions $A_{info}$ and the reward $\zeta$ for taking those.
+Given a base MDP $\mathcal{M}\langle S, A, R, T, T_0\rangle$ (\ref{def:mdp}), in order to define an IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$ (\ref{def:ibmdp}), the user needs to provide the set of information gathering actions $A_{info}$ and the reward $\zeta$ for taking those.
 Authors of~\cite{topin2021iterative} propose to parametrize the set of IGAs with $i \times p$ actions $\langle v_k, i \rangle$ with $v_k$ depending on the current observation $\boldsymbol{o}_t=(L'_1, U'_1, \dots, L'_i, U'_i, \dots, L'_p, U'_p)$: $v_k = \frac{k(U'_i - L'_i)}{p+1}$.
 This parametric IGAs space keeps the discrete IBMDP action space at a reasonable size while providing a learning algorithm with varied IGAs to try.
 

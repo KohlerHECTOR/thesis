@@ -10,7 +10,7 @@ Let us show that, POIBMDPs~\ref{def:poibmdp} associated with MDPs encoding super
 
 Let us define such supervised learning MDPs in the context of a classification task (this definition extends trivially to regression tasks).
 \begin{definition}[Classification Markov decision process]\label{def:cmdp}
-    Given a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$ where each datum $x_i$ is described by a set of $p$ features and $y_i \in \mathbb{Z}^m$ is the label associated with $x_i$, a classification Markov decision Process is a (factored) MDP $\langle S, A, R, T, T_0 \rangle$~\ref{def:fmdp} where:
+    Given a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$ where each datum $x_i$ is described by a set of $p$ features and $y_i \in \mathbb{Z}^m$ is the label associated with $x_i$, a classification Markov decision Process is an MDP $\langle S, A, R, T, T_0 \rangle$~\ref{def:mdp} where:
     \begin{itemize}
         \item the state space is $S={\{\boldsymbol{x}_i\}}_{i=1}^N$, the set of training data features
         \item the action space is $A=\mathbb{Z}^m$, the set of unique labels
@@ -126,7 +126,7 @@ Hence they are able to retrieve the optimal depth-1 decision tree classifier (fi
 
 
 \section{Conclusion}\label{sec:ccl-pomdp}
-In this part of the manuscript we were interested in algorithms that can learn decision tree policies that optimize some trade-off of interpretability and performance w.r.t. the RL objective~\ref{def:mdp-obj} in (factored) MDPs.
+In this part of the manuscript we were interested in algorithms that can learn decision tree policies that optimize some trade-off of interpretability and performance w.r.t. the RL objective~\ref{def:mdp-obj} in MDPs.
 In particular, using the framework of Topin et. al.~\cite{topin2021iterative}, we were able to explicitly write an interpretable RL objective function~\ref{def:irl}.
 
 In chapter~\ref{sec:topin}, we compared the algorithms proposed in~\cite{topin2021iterative} that directly optimize this objective, to imitation learning algorithms that only solve a proxy problem.
