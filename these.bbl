@@ -257,6 +257,43 @@
       \verb https://openreview.net/forum?id=rkl3m1BFDB
       \endverb
     \endentry
+    \entry{ucbvi}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=c08c463bfe294c33c09d1f2c5a3b1e24}{%
+           family={Azar},
+           familyi={A\bibinitperiod},
+           given={Mohammad\bibnamedelima Gheshlaghi},
+           giveni={M\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=d78832306745d08c2a95154ee3e0a1b7}{%
+           family={Osband},
+           familyi={O\bibinitperiod},
+           given={Ian},
+           giveni={I\bibinitperiod}}}%
+        {{hash=5d8fa91764a27bf97b87fdcac885745d}{%
+           family={Munos},
+           familyi={M\bibinitperiod},
+           given={R\'{e}mi},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PMLR}%
+      }
+      \strng{namehash}{f3c6f12ecd8609b1bf9029bae3be5feb}
+      \strng{fullhash}{f3c6f12ecd8609b1bf9029bae3be5feb}
+      \strng{bibnamehash}{f3c6f12ecd8609b1bf9029bae3be5feb}
+      \strng{authorbibnamehash}{f3c6f12ecd8609b1bf9029bae3be5feb}
+      \strng{authornamehash}{f3c6f12ecd8609b1bf9029bae3be5feb}
+      \strng{authorfullhash}{f3c6f12ecd8609b1bf9029bae3be5feb}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International conference on machine learning}
+      \field{title}{Minimax regret bounds for reinforcement learning}
+      \field{year}{2017}
+      \field{pages}{263\bibrangedash 272}
+      \range{pages}{10}
+    \endentry
     \entry{baisero-ppo}{inproceedings}{}
       \name{author}{2}{}{%
         {{hash=f49a8d34e0eef47ad9020b763e7d9564}{%
@@ -841,49 +878,6 @@
       \field{labeltitlesource}{title}
       \field{title}{The Laws of Thought}
       \field{year}{1854}
-    \endentry
-    \entry{fmdp}{inproceedings}{}
-      \name{author}{3}{}{%
-        {{hash=049505423af7aff38a0e953619ee8317}{%
-           family={Boutilier},
-           familyi={B\bibinitperiod},
-           given={Craig},
-           giveni={C\bibinitperiod}}}%
-        {{hash=5eac58f71e450d96418f25079668603b}{%
-           family={Dearden},
-           familyi={D\bibinitperiod},
-           given={Richard},
-           giveni={R\bibinitperiod}}}%
-        {{hash=6c75df9b672d8e5bb7e99b40aa6501bc}{%
-           family={Goldszmidt},
-           familyi={G\bibinitperiod},
-           given={Moises},
-           giveni={M\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {Montreal, Quebec, Canada}%
-      }
-      \list{publisher}{1}{%
-        {Morgan Kaufmann Publishers Inc.}%
-      }
-      \strng{namehash}{601e6fd38db4db79b2b15fe09836fd8c}
-      \strng{fullhash}{601e6fd38db4db79b2b15fe09836fd8c}
-      \strng{bibnamehash}{601e6fd38db4db79b2b15fe09836fd8c}
-      \strng{authorbibnamehash}{601e6fd38db4db79b2b15fe09836fd8c}
-      \strng{authornamehash}{601e6fd38db4db79b2b15fe09836fd8c}
-      \strng{authorfullhash}{601e6fd38db4db79b2b15fe09836fd8c}
-      \field{sortinit}{B}
-      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{abstract}{Markov decision processes (MDPs) have recently been applied to the problem of modeling decision-theoretic planning. While traditional methods for solving MDPs are often practical for small states spaces, their effectiveness for large AI planning problems is questionable. We present an algorithm, called structured policy Iteration (SPI), that constructs optimal policies without explicit enumeration of the state space. The algorithm retains the fundamental computational steps of the commonly used modified policy iteration algorithm, but exploits the variable and prepositional independencies reflected in a temporal Bayesian network representation of MDPs. The principles behind SPI can be applied to any structured representation of stochastic actions, policies and value functions, and the algorithm itself can be used in conjunction with recent approximation methods.}
-      \field{booktitle}{Proceedings of the 14th International Joint Conference on Artificial Intelligence - Volume 2}
-      \field{isbn}{1558603638}
-      \field{series}{IJCAI'95}
-      \field{title}{Exploiting structure in policy construction}
-      \field{year}{1995}
-      \field{pages}{1104\bibrangedash 1111}
-      \range{pages}{8}
     \endentry
     \entry{breiman1984classification}{book}{}
       \name{author}{4}{}{%
@@ -5607,50 +5601,6 @@
       \verb https://proceedings.neurips.cc/paper_files/paper/1999/file/464d828b85b0bed98e80ade0a5c43b0f-Paper.pdf
       \endverb
     \endentry
-    \entry{dyna}{article}{}
-      \name{author}{1}{}{%
-        {{hash=eb920e5277d3d5fd0903f3cd41e11871}{%
-           family={Sutton},
-           familyi={S\bibinitperiod},
-           given={Richard\bibnamedelima S.},
-           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {New York, NY, USA}%
-      }
-      \list{publisher}{1}{%
-        {Association for Computing Machinery}%
-      }
-      \strng{namehash}{eb920e5277d3d5fd0903f3cd41e11871}
-      \strng{fullhash}{eb920e5277d3d5fd0903f3cd41e11871}
-      \strng{bibnamehash}{eb920e5277d3d5fd0903f3cd41e11871}
-      \strng{authorbibnamehash}{eb920e5277d3d5fd0903f3cd41e11871}
-      \strng{authornamehash}{eb920e5277d3d5fd0903f3cd41e11871}
-      \strng{authorfullhash}{eb920e5277d3d5fd0903f3cd41e11871}
-      \field{sortinit}{S}
-      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{abstract}{Dyna is an AI architecture that integrates learning, planning, and reactive execution. Learning methods are used in Dyna both for compiling planning results and for updating a model of the effects of the agent's actions on the world. Planning is incremental and can use the probabilistic and ofttimes incorrect world models generated by learning processes. Execution is fully reactive in the sense that no planning intervenes between perception and action. Dyna relies on machine learning methods for learning from examples---these are among the basic building blocks making up the architecture---yet is not tied to any particular method. This paper briefly introduces Dyna and discusses its strengths and weaknesses with respect to other architectures.}
-      \field{issn}{0163-5719}
-      \field{journaltitle}{SIGART Bull.}
-      \field{month}{7}
-      \field{number}{4}
-      \field{title}{Dyna, an integrated architecture for learning, planning, and reacting}
-      \field{volume}{2}
-      \field{year}{1991}
-      \field{pages}{160\bibrangedash 163}
-      \range{pages}{4}
-      \verb{doi}
-      \verb 10.1145/122344.122377
-      \endverb
-      \verb{urlraw}
-      \verb https://doi.org/10.1145/122344.122377
-      \endverb
-      \verb{url}
-      \verb https://doi.org/10.1145/122344.122377
-      \endverb
-    \endentry
     \entry{sutton}{book}{}
       \name{author}{2}{}{%
         {{hash=eb920e5277d3d5fd0903f3cd41e11871}{%
@@ -5683,7 +5633,7 @@
       \field{title}{Reinforcement Learning: {A}n Introduction}
       \field{year}{1998}
     \endentry
-    \entry{td-gammon}{article}{}
+    \entry{tdgammon}{article}{}
       \name{author}{1}{}{%
         {{hash=778694b9dda05914a1456df10efb774c}{%
            family={Tesauro},

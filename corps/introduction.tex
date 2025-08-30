@@ -814,51 +814,47 @@ The optimal actions that get to the goal as fast as possible in every state (cel
 Next we present the tools to find solutions to MDPs and retrieve such optimal policies.
 
 \section{Exact solutions for Markov decision problems}\label{sec:values}
-We begin with the planning setting in which the model is known. Leveraging the Markov property, dynamic programming computes optimal value functions and extracts an optimal policy; we define $V$ and $Q$ and then present Value Iteration.
-It is possible to compute the exact optimal policy $\pi^\star$ using dynamic programming\cite{Bellman}.
-Indeed, one can leverage the Markov property to find for all states the best action to take based on the reward of upcoming states.
+We begin with the planning setting in which the MDP transitions and rewards (cf. definition~\ref{def:mdp}) are known. 
+Leveraging the Markov property, one can use dynamic programming~\cite{Bellman} to compute optimal policies with respect to the RL objective (\ref{def:mdp-obj}).
+Algorithms based on dynamic programming use the notion of \textit{value} of states and actions:
 \begin{definition}[Value of a state]\label{def:vs} 
-    The value of a state $s\in S$ under policy $\pi$ is the expected discounted sum of rewards starting from state $s$ and following policy $\pi$:
+    In an MDP $\mathcal{M}$ (cf. definition~\ref{def:mdp}), the value of a state $s\in S$ under policy $\pi$ is the expected discounted sum of rewards starting from state $s$ and following policy $\pi$:
     $$V^\pi(s) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 = s, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
     Applying the Markov property gives a recursive definition of the value of $s$ under policy $\pi$:
-    $$V^\pi(s) = R(s,\pi(s)) + \gamma \sum_{s' \in S} T(s,\pi(s),s')\,V^\pi(s')$$
-    where $T(s,a,s')$ is the probability of transitioning to state $s'$ when taking action $a$ in state $s$.
+    $$V^\pi(s) = R(s,\pi(s)) + \gamma \mathbb{E}\left[V^\pi(s') | s'\sim T(s, \pi(s))\right]$$
 \end{definition}
 \begin{definition}[Optimal value of a state] The optimal value of a state $s\in S$, $V^\star(s)$, is the value of state $s$ when following the optimal policy $\pi^{\star}$ (the policy that maximizes the RL objective (\ref{def:mdp-obj})).
     $$V^{\star}(s) = V^{\pi^{\star}}(s)$$
 \end{definition}
-\begin{definition}[Optimal value of a state–action pair] The optimal value of a state–action pair $(s,a)\in S\times A$, $Q^\star(s,a)$, is the value when taking action $a$ in state $s$ and then following the optimal policy.
-    $$Q^{\star}(s,a) = R(s, a) + \gamma\sum_{s'\in S} T(s,a,s')\,V^{\star}(s')$$
+\begin{definition}[Optimal value of a state–action pair]\label{def:qvalues} The optimal value of a state–action pair $(s,a)\in S\times A$, $Q^\star(s,a)$, is the value when taking action $a$ in state $s$ and then following the optimal policy.
+    $$Q^{\star}(s,a) = R(s, a) + \gamma\mathbb{E}\left[V^{\star}(s') | s'\sim T(s, a)\right]$$
 \end{definition}
 
-Hence, we can use the definition of the value function to re-write the RL objective (\ref{def:mdp-obj}): $\pi^{\star} = \underset{\pi}{\operatorname{argmax}}\mathbb{E}\left[V^{\pi}(s_0)|s_0\sim T_0 \right]$.
-The well-known Value Iteration algorithm~\ref{alg:value-iteration} solves this problem exactly. 
+The well-known value iteration (\cite{sutton}, cf. algorithm~\ref{alg:value-iteration}), computes the values of states $\V^{\star}(s)$ with respect to the policy $\pi^{\star}$ maximizing the RL objective (\ref{def:mdp-obj}). 
 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
-    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, convergence threshold $\theta$}
-    \KwResult{Optimal policy $\pi^*$}
+    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$}
+    \KwResult{Optimal values $V^{\star}$ and optimal policy $\pi^*$}
     Initialize $V(s) = 0$ for all $s \in S$ \\
-    \Repeat{$\Delta < \theta$}{
-        $\Delta \leftarrow 0$ \\
+    \Repeat{Convergence}{
         \For{each state $s \in S$}{
             $v \leftarrow V(s)$ \\
             $V(s) \leftarrow \max_a \left[ R(s,a) + \gamma \sum_{s' \in S} T(s,a,s') V(s') \right]$ \Comment{// Bellman optimality update}
-            $\Delta \leftarrow \max(\Delta, |v - V(s)|)$
         }
     }
     \For{each state $s \in S$}{
-        $\pi^*(s) \leftarrow \operatorname{argmax}_a \left[ R(s,a) + \gamma \sum_{s' \in S} T(s,a,s') V(s') \right]$ \Comment{// Extract optimal policy}
+        $\pi^*(s) \leftarrow \operatorname{argmax}_a \left[ R(s,a) + \gamma \mathbb{E}\left[V(s')|s'\sim T(s, a)\right]\right]$ \Comment{// Extract optimal policy}
     }
-    \caption{Value Iteration}\label{alg:value-iteration}
+    \caption{Value iteration}\label{alg:value-iteration}
 \end{algorithm}
 
-More realistically, neither the transition kernel $T$ nor the reward function $R$ of the MDP are known; e.g., the doctor cannot \textbf{know} how the tumor and the patient's health will change after a dose of chemotherapy, but can only \textbf{observe} the change.
-This distinction in available information parallels the distinction between dynamic programming and reinforcement learning (RL), described next. 
+More realistically, neither the transition kernel $T$ nor the reward function $R$ of the MDP are known, e.g. the doctor cannot \textbf{know} how the tumor and the patient's health will change after a dose of chemotherapy, but can only \textbf{observe} the change.
+This distinction in available information parallels the distinction between dynamic programming and reinforcement learning, described next. 
 
 \section{Reinforcement learning of approximate solutions to MDPs}\label{sec:rl}
-When the dynamics and rewards are unknown, we turn to model-free RL. 
+When the MDP transitions and rewards are unknown, one can use reinforcement learning (RL) algoritms--also known as agents--to learn values or policies maximizing the RL objective (\ref{def:mdp-obj}). 
 % \begin{figure}
 %     \centering
 %     \begin{subfigure}[b]{0.22\textwidth}
@@ -888,19 +884,17 @@ When the dynamics and rewards are unknown, we turn to model-free RL.
 %        \label{fig:rl-pioneers}
 % \end{figure}
 
-Reinforcement learning algorithms popularized by Richard Sutton~\cite{sutton} don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of observations ${(s_t, a_t, r_t, s_{t+1})}_t$.
-RL algorithms usually fall into two categories: value-based and policy search~\cite{pg_sutton}.
+Reinforcement learning algorithms popularized by Richard Sutton~\cite{sutton} don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of transitions $(s_t, a_t, r_t, s_{t+1})_t$.
+RL algorithms usually fall into two categories: value-based~\cite{sutton} and policy search~\cite{pg_sutton}.
 Examples of these approaches are shown in algorithms~\ref{alg:qlearning},~\ref{alg:sarsa} and~\ref{alg:reinforce}.
-Q-learning and Sarsa compute an approximation of $Q^{\star}$ using temporal difference learning. Q-learning is \textit{off policy}, it collects new transisitions with a random policy, e.g. epsilon-greedy, while Sarsa is on policy, it collects new transitions greedily w.r.t. the current q-values estimates.
+Q-learning and Sarsa compute an approximation of $Q^{\star}$ (cf. definition~\ref{def:qvalues}) using temporal difference learning~\cite{sutton}. Q-learning is \textit{off policy}: it collects new transisitions with a random policy, e.g. epsilon-greedy. Sarsa is \textit{on policy}: it collects new transitions greedily w.r.t. the current Q-values estimates.
 Policy gradient algorithms leverages the policy gradient theorem to approximate $\pi^{\star}$.
-The goal of an RL algorithm (also called agent) is to learn a policy that solves a Markov decision problem(~\ref{def:mdp-obj}) without access to transitions and rewards from the MDP.
-From now on, we refer to~\ref{def:mdp-obj} as the RL objective.
 
-Q-learning, Sarsa, and Policy gradients are known to converge to the optimal value or (locally) optimal policy under some conditions.
-The books from Puterman~\cite{puterman}, or Sutton and Barto~\cite{sutton}, offer a great overview of MDPs and algorithms to solve them.
-There are many other ways to learn policies such as simple random search~\cite{random-search} or model-based reinforcement learning~\cite{dyna}. 
-However, not many algorithms consider the learning of policies that can be easily understood by humans which we discuss next and that is the core of this manuscript.
-
+Q-learning, Sarsa, and policy gradients algorithms are known to converge to the optimal value or (locally) optimal policy under some conditions.
+There are many other ways to learn policies such as simple random search~\cite{random-search} or model-based reinforcement learning that estimates MDP transitions and rewards before applying e.g. value iteration~\cite{ucbvi}. 
+Those RL algorithms--also known as tabular RL because they represent policies as tables with $|A|$ entries per state--is limited to small state spaces.
+To scale to large state spaces, it is common to use neural networks to represent policies or values~\cite{tdgammon}.
+In the next section, we present deep reinforcement learning algorithms designed specifically for neural networks.
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
@@ -958,24 +952,16 @@ However, not many algorithms consider the learning of policies that can be easil
 
 \section{Deep reinforcement learning for large or continuous state spaces}\label{sec:drl}
 
-Reinforcement learning has also been successfully combined with function approximations \cite{td-gammon} to solve MDPs with large discrete state spaces or continuous state spaces ($S \subset \mathbb{R^p}$).
-Such continuous states MDP can be formalized as factored MDPs\cite{fmdp}:
-
-\begin{definition}[Factored Markov decision process]\label{def:fmdp} A factored MDP is an MDP\ref{def:mdp} where the state space is a hyperrectangle: $S\subseteq \mathbb{R}^p$.
-\end{definition}
-
-From now on, all the MDPs we study in the this manuscript are factored unless stated otherwise. 
-We also consider that the Example MDP(\ref{example:grid}) is continuous with two state dimensions.
-In the rest of this manuscript, unless stated otherwise, we write $\boldsymbol{s}$ a state vector in a continuous space.
-Note that discrete states MDP can be encoded into factored MDP by one-hot encoding individual states.
+Reinforcement learning has also been successfully combined with function approximations to solve MDPs with large discrete state spaces or continuous state spaces ($S\subset \mathbb{R}^p$ in definition~\ref{def:mdp}).
+In the rest of this manuscript, unless stated otherwise, we write $\boldsymbol{s}$ a state vector in a continuous state space\footnote{Note that discrete states can be one-hot encoded as state vectors in $\{0, 1\}^{|S|}$.}.
 
 Deep Q-Networks (DQN)~\cite{dqn}, described in algorithm~\ref{alg:dqn} was a breakthrough in modern reinforcement learning.
-Authors successfully extended the Q-learning (algorithm~\ref{alg:qlearning}) to the function approximation setting by introduction target networks to mitigate distributional shift in the td error and replay buffer to increase sample efficiency.
+Authors successfully extended the Q-learning (algorithm~\ref{alg:qlearning}) to the function approximation setting by introduction target networks to mitigate distributional shift in the temporal difference error and replay buffer to increase sample efficiency.
 DQN achieved super-human performance on a set of Atari games.
 
 Proximal Policy Optimization (PPO)~\cite{ppo}, described in algorithm~\ref{alg:ppo}, is an actor-critic algorithm\cite{pg_sutton} optimizing neural network policies. 
-Actor-critic algorithms are instances of policy gradient algorithms where the cumulative discounted rewards--the returns--are also estimated with a neural network. 
-Actor-critic are not as simple efficient as DQN but is known to work well in a variety of domains including robot control in simulation among others.
+In actor-critic algorithms, cumulative discounted rewards--the returns--are also estimated with a neural network. 
+PPO is known to work well in a variety of domains including robot control in simulation among others.
 
 \begin{algorithm}
     \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$, Q-network parameters $\theta$, update frequency $C$}
