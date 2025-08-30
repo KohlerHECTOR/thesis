@@ -176,7 +176,7 @@ Each of those policies can be one of the trees illustrated in figure~\ref{fig:op
 Furthermore, because from~\cite{learning-pomdp} we know that for POMDPs, stochastic partially observable policies can sometimes get better expected discounted rewards than deterministic partially observable policies, we also compute the value of the stochastic policy that randomly alternates between two base actions: $\rightarrow$ and $\downarrow$.
 Those two base actions always lead to the goal state (cf. figure~\ref{example:grid}) in expectation.
 
-We detail the calculations for the value w.r.t. the interpretable RL objective (~\ref{def:revised}) of the depth-1 decision tree policies optimal in the grid world MDP (cf.~\ref{figure:optimal-policy-trees}) and defer the calculations for the other policies to the appendix~\ref{calcs}.
+We detail the calculations for the value w.r.t. the interpretable RL objective (~\ref{def:revised}) of the depth-1 decision tree policies that are optimal in the grid world MDP (cf.~\ref{fig:optimal-policy-trees}) and defer the calculations for the other policies to the appendix~\ref{calcs}.
 
 \begin{proposition}[Depth-1 decision tree objective value] The interpretable RL objective value (~\ref{def:revised}) of depth-1 decision tree policies optimal in the grid world MDP (cf. figure~\ref{fig:optimal-policy-trees}) is $V^{\pi_{\mathcal{T}_1}}(o_0) = \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma^2)}$.
 \end{proposition}
