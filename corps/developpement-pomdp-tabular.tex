@@ -170,6 +170,12 @@ Those two base actions always lead to the goal state (cf. figure~\ref{example:gr
 
 We defer the lengthy proofs of this proposition, as well as the interpretable RL objective values of other decision tree policies, to the appendix~\ref{calcs}.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/images_part1/objective_values_plot.pdf}
+    \caption{Interpretable RL objective values (\ref{def:irl}) of different partially observable policies as functions of $\zeta$. Shaded areas show the optimal \textit{deterministic} partially observable policies in different ranges of $\zeta$ values.}\label{fig:objectives}
+\end{figure}
+
 We can now plot, in figure~\ref{fig:objectives}, the interpretable RL objective values of the different partially observable policies as functions of $\zeta$ when we fix $\gamma=0.99$. 
 When $\gamma=0.99$ on figure~\ref{fig:objectives}, despite objective values being very similar for the depth-1 and unbalanced depth-2 tree, we now know from the green shaded area that a depth-1 tree is the optimal, w.r.t. the interpretable RL objective, deterministic partially observable POIBMDP policy for $0< \zeta < 1$.
 

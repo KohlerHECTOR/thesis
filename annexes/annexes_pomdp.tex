@@ -82,11 +82,7 @@
         &= \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma^2)}
     \end{align*}
     \end{proof}
-    \begin{figure}
-        \centering
-        \includegraphics[width=0.6\textwidth]{images/images_part1/objective_values_plot.pdf}
-        \caption{Interpretable RL objective values (\ref{def:irl}) of different partially observable policies as functions of $\zeta$. Shaded areas show the optimal \textit{deterministic} partially observable policies in different ranges of $\zeta$ values.}\label{fig:objectives}
-    \end{figure}
+
 \paragraph{Depth-0 decision tree:} has only one leaf node that takes a single base action indefinitely.
 For this type of tree the best reward achievable is to take actions that maximize the probability of reaching the objective $\rightarrow$ or $\downarrow$. In that case the objective value of such tree is:
 In the goal state $G = (1, 0)$, the value of the depth-0 tree $\mathcal{T}_0$ is:
