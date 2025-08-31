@@ -56,7 +56,7 @@ Furthermore, optimal decision tree induction algorithms are usually constrained 
 \texttt{PySTreeD}, the latest optimal decision tree library~\cite{pystreed}, can compute decision trees with depths larger than three but uses heuristics to binarize a dataset with continuous features during a pre-processing step. % following for example the Minimum Description Length Principle \cite{MDL}. 
 Despite their limitations to binary features and their huge computational complexities, encouraging practical results for optimal trees have been obtained \cite{how-eff,lin2020generalized,costa2023recent,vanderlinden2024optimalgreedydecisiontrees}.
 Among others, they show that optimal methods under the same depth constraint (up to depth four) find
-trees with 1--2\% greater test accuracy than greedy methods.
+trees with 1--2\% greater test accuracy than greedy methods. For the reader curious about optimal decision tree algorithms, we recommend reading Ayman Chaouki's thesis on the topic~\cite[chapter 2]{ayman}.
 
 In this part, we only consider the induction of non-parametric (cf. section~\ref{related-work-pomdp}) binary depth-constrained axis-aligned trees. 
 We write this model class $\mathcal{T}_D$ where $D$ is the maximum tree depth.

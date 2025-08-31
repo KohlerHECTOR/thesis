@@ -1160,6 +1160,43 @@
       \endverb
       \keyw{random forests,ensemble learning,decision tree optimization,bagging}
     \endentry
+    \entry{ayman}{thesis}{}
+      \name{author}{1}{}{%
+        {{hash=9fbffcfd45658fda5a9a1589a7e8e58a}{%
+           family={Chaouki},
+           familyi={C\bibinitperiod},
+           given={Ayman},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Institut Polytechnique de Paris ; Universit\'{e} de Waikato}%
+      }
+      \strng{namehash}{9fbffcfd45658fda5a9a1589a7e8e58a}
+      \strng{fullhash}{9fbffcfd45658fda5a9a1589a7e8e58a}
+      \strng{bibnamehash}{9fbffcfd45658fda5a9a1589a7e8e58a}
+      \strng{authorbibnamehash}{9fbffcfd45658fda5a9a1589a7e8e58a}
+      \strng{authornamehash}{9fbffcfd45658fda5a9a1589a7e8e58a}
+      \strng{authorfullhash}{9fbffcfd45658fda5a9a1589a7e8e58a}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{11}
+      \field{number}{2024IPPAX109}
+      \field{title}{{Optimal Decision Trees via Search : A Reinforcement Learning framework}}
+      \field{type}{Theses}
+      \field{year}{2024}
+      \verb{file}
+      \verb https://theses.hal.science/tel-04970181v1/file/127990_CHAOUKI_2024_archivage.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://theses.hal.science/tel-04970181
+      \endverb
+      \verb{url}
+      \verb https://theses.hal.science/tel-04970181
+      \endverb
+      \keyw{Monte Carlo Tree Search ; Branch and Bound ; Dynamic Programming ; Markov Decision Process ; Optimal Decision Trees ; Arbres de d\'{e}cision ; Monte-Carlo M\'{e}thode de ; Apprentissage par renforcement (intelligence artificielle)}
+    \endentry
     \entry{chaouki2024branchesfastdynamicprogramming}{article}{}
       \name{author}{3}{}{%
         {{hash=9fbffcfd45658fda5a9a1589a7e8e58a}{%
