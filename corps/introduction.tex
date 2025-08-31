@@ -1110,6 +1110,8 @@ Indeed, we know that for this grid world MDP there exists decision tree policies
 One could even say that those trees have the \textit{optimal} interpretability-performance trade-off because they are the shortest trees that are optimal w.r.t. the RL objective.
 
 In figure~\ref{fig:trees-intro}, we present a depth-1 decision tree policy that is optimal w.r.t. the RL objective and a depth-1 tree that is sub-optimal.
+The other optimal depth-1 tree is to go right when $y\leq 1$ and down otherwise.
+
 Indeed, figure~\ref{fig:objectives} shows that the optimal depth-1 tree achieves exactly the same RL objective value as the optimal policies from figure~\ref{example:grid}, independently of the discount factor $\gamma$.
 
 Now a fair question is: can Dagger or VIPER retrieve such an optimal depth-1 tree given access to an expert optimal policy from figure~\ref{example:grid}?
