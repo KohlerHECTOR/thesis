@@ -140,13 +140,13 @@ We demonstrated on figure~\ref{fig:po-vs-ib} that introducing partial observabil
 
 Finally, in this chapter we showed that using RL to optimize the interpretable RL objective in fully observable POIBMDPs, i.e. POIBMDPs that are just MDPs, could retrieve optimal decision tree policies (cf. figures~\ref{fig:rl-classif-poibmdp} and~\ref{fig:tree-distrib-classif-poibmdp}) adding new evidence that direct interpretable RL is difficult because it involves POMDPs.
 
-This class of fully observable POIBMDPs contains the decision tree induction problem for supervised learning tasks~\ref{def:sl} (cf. Defs.~\ref{def:cmdp} and~\ref{def:cpoibmdp}).
+This class of fully observable POIBMDPs contains the decision tree induction problem for supervised learning tasks (\ref{def:sl}) (cf. definitions.~\ref{def:cmdp} and~\ref{def:cpoibmdp}).
 This sparks the question: what kind of decision tree induction algorithm can we get using the MDP formalism?
 This is exactly what we study in the next part of this manuscript.
 
 Those few chapters raise other interesting questions.
 First, while we focused on non-parametric tree learning with the promise that RL algorithms could naturally trade off interpretability and performances, parametric tree learning should be studied since it does not have this partial observability component.
-Since existing RL for parametric decision tree policies \cite{silva,vos2024optimizinginterpretabledecisiontree,sympol} require to re-train a policy entirely for each desired level interpretability, i.e. each unique tree structure, future research in this direction should focus on algorithms for parametric tree policies that can re-use samples from one tree learning to train a different tree structure more efficiently.
+Since existing RL for parametric decision tree policies \cite{silva,vos2024optimizinginterpretabledecisiontree,sympol} require to re-train a policy entirely for each desired level of interpretability, i.e. each unique tree structure, future research in this direction should focus on algorithms for parametric tree policies that can re-use samples from one tree learning to train a different tree structure more efficiently.
 This would reduce the required quantity of a priori knowledge on the decision tree policy structure mentioned in section~\ref{related-work-pomdp}.
 
 Attempting to overcome the partial observability challenges highlighted so far seems like a bad research avenue.

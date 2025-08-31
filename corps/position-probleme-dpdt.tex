@@ -11,7 +11,7 @@ In this chapter, we motivate the need for new decision tree induction algorithms
 In chapter~\ref{sec:dt-mdp}, we introduce a novel MDP formulation of decision tree induction.
 Finally, in chapter~\ref{sec:exps-dt}, we show that our new decision tree induction framework performs very well both in terms of training loss and generalization capabilites.
 
-\subsection{Why do we want new decision tree induction algorithms?}
+\section{Why do we want new decision tree induction algorithms?}
 In supervised learning (~\ref{def:sl}), decision trees (\ref{fig:dt}) are valued for their interpretability and performance. 
 While greedy decision tree algorithms like CART (algorithm~\ref{alg:cart} \cite{breiman1984classification}remain widely used due to their computational efficiency, they often produce sub-optimal solutions with respect to a regularized training loss (\ref{def:sl}). 
 Conversely, optimal decision tree methods can find better solutions but are computationally intensive and typically limited to shallow trees or binary features. We present Dynamic Programming Decision Trees (DPDT), a framework that bridges the gap between greedy and optimal approaches. 
@@ -77,4 +77,5 @@ where $C: \mathcal{T}_D \rightarrow \mathbb{R}$ is a complexity penalty that hel
 In the rest of this part we focus on classification tasks: we use the 0--1 loss $l(y_i, T(x_i)) = 1_{\{y_i\neq T(x_i)\}}$.
 Please note while we focus on classification tasks, our framework extends naturally to regression tasks.
 
-In the supervised learning setting, there exist many other areas of decision tree research \cite{loh2014fifty} such as inducing non-axis parallel decision trees \cite{murthy1994system,10.1145/3637528.3671903}, splitting criteria of greedy trees \cite{vanderlinden2024optimalgreedydecisiontrees}, different optimization of parametric trees \cite{NIPS2015_1579779b,10.5555/3327757.3327770}, or pruning methods \cite{pruning1,pruning2}. 
+In the supervised learning setting, there exist many other areas of decision tree research \cite{loh2014fifty} such as inducing non-axis parallel decision trees \cite{murthy1994system,10.1145/3637528.3671903}, splitting criteria of greedy trees \cite{vanderlinden2024optimalgreedydecisiontrees}, different optimization of parametric trees \cite{NIPS2015_1579779b,10.5555/3327757.3327770}, or pruning methods \cite{pruning1,pruning2}.
+In the next chapter, we define MDPs that encode deicision tree induction tasks (\ref{eq:suplearning}).
