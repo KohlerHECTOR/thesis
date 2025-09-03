@@ -59,20 +59,20 @@ Given an MDP $\mathcal{M}$ $\langle S, A, R, T, T_0 \rangle$ (\ref{def:mdp}), an
 \end{align*}
 
 \begin{itemize}
-\item $S$ are the base MDP state features. Base state features $\boldsymbol{s} = (s_1, \dots, s_p)\in S$ are bounded: $s_i \in [L_i, U_i]$ where $\infty < L_i \leq U_i < \infty \forall 1\leq i \leq p$.
+\item $S$ are the base MDP state features. Base state features $\boldsymbol{s} = (s_1, \dots, s_p)\in S$ are bounded: $s_j \in [L_j, U_j]$ where $\infty < L_j \leq U_j < \infty \forall 1\leq j \leq p$.
 \item $O$ are observations. They represent bounds on the base state features: $O\subsetneq S^2 =  [L_1, U_1]\times \dots \times [L_p, U_p] \times [L_1, U_1]\times \dots \times [L_p, U_p]$. So the complete IBMDP state space is $S \times O$, the concatenations of base state features and observations
 Given some base state features $\boldsymbol{s} = (s_1, \dots, s_p)\in S$ and some observation $\boldsymbol{o} = (L_1, U_1, \dots, L_p, U_p)$, an IBMDP state is $\boldsymbol{s}_{IB} = (\overbrace{s_1, \dots, s_p}^{\text{base state features}}, \underbrace{L_1, U_1, \dots, L_p, U_p}_{\text{observation}})$.
 \item $A$ are the base MDP actions.
-\item $A_{info}$ are \textit{information gathering} actions (IGAs) of the form $\langle i, v \rangle$ where $i$ is a state feature index $1 \leq i \leq p$ and $v$ is a real number between $L_i$ and $U_i$. So the complete action space of an IBMDP is the set of base MDP actions and information gathering actions $A \cup A_{info}$.
+\item $A_{info}$ are \textit{information gathering} actions (IGAs) of the form $\langle j, v \rangle$ where $j$ is a state feature index $1 \leq j \leq p$ and $v$ is a real number between $L_j$ and $U_j$. So the complete action space of an IBMDP is the set of base MDP actions and information gathering actions $A \cup A_{info}$.
 \item $R: S\times A \rightarrow \mathbb{R}$ is the base MDP reward function.
 \item $\zeta$ is a reward signal for taking an information gathering action.
 So the IBMDP reward function is to get a reward from the base MDP if the action is a base MDP action or to get $\zeta$ if the action is an IGA action.
 \item $T_{info}: S\times O \times( A_{info} \cup A )\rightarrow \Delta (S\times O)$ is the transition kernel of IBMDPs: 
-Given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_p, U'_p) \in O$ and base state features $\boldsymbol{s}_t=(s'_1, s'_2, \dots, s'_p)$ if an IGA $\langle i, v \rangle$ is taken, the new observation is:
+Given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_p, U'_p) \in O$ and base state features $\boldsymbol{s}_t=(s'_1, s'_2, \dots, s'_p)$ if an IGA $\langle j, v \rangle$ is taken, the new observation is:
 \begin{align*}
     \boldsymbol{o}_{t+1} &= \begin{cases}
-        (L'_1, U'_1, \dots , L'_i, \min\{v, U'_i\}, \dots , L''_p, U'_p) \text{ if } s_i \leq v\\
-        (L'_1, U'_1, \dots , \max\{v, L'_i\}, U'_i, \dots , L''_p, U'_p) \text{ if } s_i > v
+        (L'_1, U'_1, \dots , L'_j, \min\{v, U'_j\}, \dots , L''_p, U'_p) \text{ if } s_j \leq v\\
+        (L'_1, U'_1, \dots , \max\{v, L'_j\}, U'_j, \dots , L''_p, U'_p) \text{ if } s_j > v
     \end{cases}
 \end{align*}
 If a base action is taken, the observation is reset to the default base state feature bounds $(L_1, U_1,\dots, L_p, U_p)$ and the base state features change according to the base MDP transitition kernel: $\boldsymbol{s}_{t+1}\sim T(\boldsymbol{s}_t, a_t)$.
@@ -84,7 +84,7 @@ Now remains to extract a decision tree policy for MDP $\mathcal{M}$ from a polic
 
 \subsection{From policies to trees}
 
-One can notice that information gathering actions (cf. definition~\ref{def:ibmdp}) resemble the Boolean functions that make up internal decision tree nodes (cf. figure~\ref{fig:dt}).
+One can notice that information gathering actions (cf. definition~\ref{def:ibmdp}) resemble the Boolean functions $1_{\{x_{\_, j} \leq v\}}$ that make up internal decision tree nodes (cf. figure~\ref{fig:dt}).
 Indeed, a policy taking actions in an IBMDP essentially builds a tree by taking sequences of IGAs (internal nodes) and then a base action (leaf node) and repeats this process over time.
 In particular, the IGA rewards $\zeta$ can be seen as a regularization or a penalty for interpretabiliy: if $\zeta$ is very small compared to base rewards, a policy will try to take base actions as often as possible, i.e. build shallow trees with short paths between root and leaves.
 
@@ -113,7 +113,7 @@ In particular, they show that only deterministic policies depending solely on th
         \Else{
             $\langle i, v\rangle \leftarrow a$ \Comment{// Splitting action is feature and value} \\
             $\boldsymbol{o}_L \leftarrow \boldsymbol{o}; \quad \boldsymbol{o}_R \leftarrow \boldsymbol{o}$ \\
-                         $\boldsymbol{o}_L \leftarrow (L'_1, U'_1, \dots, L'_i, v, \dots, L'_p, U'_p); \quad \boldsymbol{o}_R \leftarrow (L'_1, U'_1, \dots, v, U'_i, \dots, L'_p, U'_p)$ \\
+                         $\boldsymbol{o}_L \leftarrow (L'_1, U'_1, \dots, L'_j, v, \dots, L'_p, U'_p); \quad \boldsymbol{o}_R \leftarrow (L'_1, U'_1, \dots, v, U'_j, \dots, L'_p, U'_p)$ \\
             $child_L \leftarrow$ Subtree\_From\_Policy$(\boldsymbol{o}_L, \pi_{po})$ \\
             $child_R \leftarrow$ Subtree\_From\_Policy$(\boldsymbol{o}_R, \pi_{po})$ \\
             \Return Internal\_Node(feature: $i$, value: $v$, children: $(child_L, child_R)$)
@@ -172,7 +172,7 @@ In figure~\ref{example:ibmdp} we illustrate a trajectory in this IBMDP.
     \node at (2.5, 4.5) {$\star$};
     
     % Curved arrow from t=0 to t=1
-    \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {\small $a_t = x \leq 1, r_t = \zeta$} (7,3);
+    \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {\small $a_t = \lange x, 1\rangle, r_t = \zeta$} (7,3);
 
     % % t=1: After AIG x≤0.5
     \node at (7,9.5) {\small $t=1$};
@@ -222,7 +222,7 @@ In figure~\ref{example:ibmdp} we illustrate a trajectory in this IBMDP.
     \node at (12.5, 4.5) {$\star$};
     
     % Curved arrow from t=2 to t=4
-    \draw[thick, ->] (12,3) to[bend right=30] node[midway, below] {\small $a_t = x \leq 1, r_t = \zeta$} (17,3);
+    \draw[thick, ->] (12,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1 \rangle, r_t = \zeta$} (17,3);
 
     \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
     \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
@@ -292,7 +292,7 @@ The more information gathering actions are taken, the more refined the bounds on
 At $t=0$, the base state features are $\boldsymbol{s}_0 = (0.5, 1.5)$. 
 The initial observation is always the base MDP default state feature bounds, here $\boldsymbol{o}_0=(0, 2, 0, 2)$ because the base state features are in $[0, 2] \times [0, 2]$.
 This means that the IBMDP state is $\boldsymbol{s}_{IB} = (0.5, 1.5, 0, 2, 0, 2)$.
-The first action is an IGA that tests the feature $x$ of the base state against the value $1$ and the reward $\zeta$. 
+The first action is an IGA $\langle x, 1\rangle$ that tests the feature $x$ of the base state against the value $1$ and the reward $\zeta$. 
 This transition corresponds to going through an internal node $ x\leq 1$ in a decision tree policy as illustrated in the figure. 
 At $t=1$, after gathering the information that the $x$-value of the current base state is below 1, the observation is updated with the refined bounds $\boldsymbol{o}_1=(0, 1, 0, 2)$, i.e. the pink area shrinks, and the base state features remain unchanged.
 The agent then takes a base action that is to move right. 

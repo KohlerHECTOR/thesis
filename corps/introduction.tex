@@ -541,11 +541,11 @@ While other interpretable models might have other properties than the ones we wi
 This is something that will be key in our study of decision tree models that we introduce next and that we illustrate in figure~\ref{fig:dt}.
 
 \begin{definition}[Decision tree]
-    A decision tree is a rooted tree $T = (V, E)$ where:
+    A decision tree is a rooted tree $T = (\mathcal{N}, E)$ where:
     \begin{itemize}
-    \item Each internal node $v \in V$ is associated with a test that maps input features $x \in \mathcal{X}$ to a Boolean.
+    \item Each internal node $\nu \in \mathcal{N}$ is associated with a test that maps input features $x_{ij} \in \mathcal{X}$ to a Boolean.
     \item Each edge $e \in E$ from an internal node corresponds to an outcome of the associated test function.
-    \item Each leaf node $l \in V$ is associated with a prediction $y_l \in \mathcal{Y}$, where $\mathcal{Y}$ is the output space.
+    \item Each leaf node $l \in \mathcal{N}$ is associated with a prediction $y_l \in \mathcal{Y}$, where $\mathcal{Y}$ is the output space.
     \item For any input $x \in \mathcal{X}$, the tree defines a unique path from root to leaf, determining the prediction $T(x) = y_l$ where $l$ is the reached leaf.
     \end{itemize}
     The depth of a tree is the maximum path lentght from root to any leaf.
@@ -555,15 +555,15 @@ This is something that will be key in our study of decision tree models that we 
     \centering
     \begin{tikzpicture}[
         scale=1.0,
-        decision/.style={circle, draw, thick, fill=blue!20, text width=4.5em, text centered, minimum height=3.5em, font=\small},
+        decision/.style={circle, draw, thick, fill=blue!20, text width=3.5em, text centered, minimum height=3.5em, font=\small},
         leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=3em, font=\small},
         edge_label/.style={font=\footnotesize, midway}
     ]
         % Root decision node
-        \node[decision] (root) at (0,0) {$\text{feature 2}\leq 0.5$};
+        \node[decision] (root) at (0,0) {$x_{\_, 2} \leq \frac{1}{2}$};
         
         % Second level nodes
-        \node[decision] (left_decision) at (-3, -2.5) {$\text{feature 1}\leq 8$};
+        \node[decision] (left_decision) at (-3, -2.5) {$x_{\_, 1}\leq 8$};
         \node[leaf] (right_leaf) at (3, -2.5) {$y_1$};
         
         % Third level nodes (leaves)
@@ -582,7 +582,7 @@ This is something that will be key in our study of decision tree models that we 
         \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
         
     \end{tikzpicture}
-    \caption{A generic depth 2 decision tree with 2 nodes and 3 leaves. Edges represent the outcomes of the tests in each internal nodes(True/False), and leaf nodes contain predictions $y_l \in \mathcal{Y}$. For any input $x_i$, the tree defines a unique path from root to leaf.}
+    \caption{A generic depth 2 decision tree with 2 nodes and 3 leaves. The root nodee applies the test $1_{\{x_{\_,1}\leq \frac{1}{2}\}}$ to check if the first features of data is below $\frac{1}{2}$. Edges represent the outcomes of the tests in each internal nodes(True/False), and leaf nodes contain predictions $y_l \in \mathcal{Y}$. For any input $\boldsymbol{x}_i$, the tree defines a unique path from root to leaf.}
     \label{fig:dt}
 \end{figure}
 
@@ -590,11 +590,11 @@ This is something that will be key in our study of decision tree models that we 
 Training decision trees to optimize the supervised learning objective~\ref{def:sl} is well studied.
 
 \begin{definition}[Supervised learning objective for classification or regression]\label{def:sl}
-    Assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$.
+    Assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(\boldsymbol{x}_i, y_i)\}}_{i=1}^N$. Each datum $\boldsymbol{x}_i$ is described by a set of $p$ features $x_{ij}$ with $1\leq j \leq p $ . $y_i \in {\mathcal Y}$ is the label associated with $\boldsymbol{x}_i$.
     For a classification task $\mathcal{Y}=\{1,\ldots,K\}$ and for a regression task $\mathcal{Y}\subseteq \mathbb{R}$.
     The goal of supervised learning for classification (or regression) tasks is to find a classifier (or regressor) $f:X \rightarrow  y$ that minimizes the following objective:
     \begin{align}
-        \mathcal{L}_{\alpha}(f) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{l}(y_i, f(x_i)) + \alpha C(f),
+        \mathcal{L}_{\alpha}(f) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{l}(y_i, f(\boldsymbol{x}_i)) + \alpha C(f),
         \label{eq:suplearning}
     \end{align}
     where $f$ is a model in a particular model class, e.g. the set of neural networks with relu activations or decision trees with depth at most 4, and where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a regularization penalty.
@@ -603,7 +603,7 @@ Training decision trees to optimize the supervised learning objective~\ref{def:s
 The Classification and Regression Trees (CART) algorithm \cite{breiman1984classification} (algorithm~\ref{alg:cart}), developed by Leo Breiman and colleagues, is one of the most widely used method for learning decision trees from supervised data.
 CART builds binary decision trees through a greedy, top-down approach that recursively partitions the feature space. 
 At each internal node, the algorithm selects the feature and threshold that best split the data according to a purity criterion such as the Gini impurity for classification or mean squared error for regression.
-CART uses threshold-based tests of the form $\mathbb{I}[x[\text{feature}] \leq \text{threshold}]$, where $\mathbb{I}[\cdot]$ is the indicator function. 
+CART uses threshold-based tests of the form $1_{\{x_{\_,j} \leq v\}}$, where $1_{\{\}}$ is the indicator function. 
 The key idea is to find splits that maximize the homogeneity of the resulting subsets. 
 We use CART as well as other decision tree algorithms in this manuscript.
 
@@ -622,7 +622,7 @@ In the next few sections we present the material related to sequential decision 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
-    \KwData{Training data $\mathcal{E} = \{(x_i, y_i)\}_{i=1}^N$ where $x_i \in \mathcal{X} \subseteq \mathbb{R}^p$ and $y_i \in \mathcal{Y} = \{1, \ldots, K\}$}
+    \KwData{Training data $\mathcal{E} = \{(\boldsymbol{x}_i, y_i)\}_{i=1}^N$ where $\boldsymbol{x}_i \in \mathcal{X} \subseteq \mathbb{R}^p$ and $y_i \in \mathcal{Y} = \{1, \ldots, K\}$}
     \KwResult{Decision tree $T$}
     
     \SetKwProg{Fn}{Function}{:}{}
@@ -642,13 +642,13 @@ In the next few sections we present the material related to sequential decision 
             \Return leaf node with prediction $y_l \leftarrow$ MajorityClass$(\{y_i\}_{i=1}^N)$
         }
         
-        Split data: $\mathcal{E}_{left} = \{(x_i, y_i) \in \mathcal{E} : x_i[feature] \leq threshold\}$ \\
-        \hspace{2.5cm} $\mathcal{E}_{right} = \{(x_i, y_i) \in \mathcal{E} : x_i[feature] > threshold\}$ \\
+        Split data: $\mathcal{E}_{left} = \{(\boldsymbol{x}_i, y_i) \in \mathcal{E} : x_{ij} \leq v\}$ \\
+        \hspace{2.5cm} $\mathcal{E}_{right} = \{(\boldsymbol{x}_i, y_i) \in \mathcal{E} : x_{ij} > v\}$ \\
         
         $left\_child \leftarrow$ BuildTree$(\mathcal{E}_{left})$ \\
         $right\_child \leftarrow$ BuildTree$(\mathcal{E}_{right})$ \\
         
-        \Return internal node with test function $f_v(x) = \mathbb{I}[x[feature] \leq threshold]$ and children $(left\_child, right\_child)$
+        \Return internal node with test function $\mathbb{I}[x_{ij} \leq threshold]$ and children $(left\_child, right\_child)$
     }
     
     \Fn{\BestSplit{$\mathcal{E}$}}{
@@ -656,10 +656,10 @@ In the next few sections we present the material related to sequential decision 
         $best\_feature \leftarrow None$ \\
         $best\_threshold \leftarrow None$ \\
         
-        \For{each feature $f \in \{1, \ldots, p\}$}{
-            \For{each unique value $v$ in $\{x_i[f] : (x_i, y_i) \in \mathcal{E}\}$}{
-                $\mathcal{Y}_{left} \leftarrow \{y_i : (x_i, y_i) \in \mathcal{E}, x_i[f] \leq v\}$ \\
-                $\mathcal{Y}_{right} \leftarrow \{y_i : (x_i, y_i) \in \mathcal{E}, x_i[f] > v\}$ \\
+        \For{each feature $j \in \{1, \ldots, p\}$}{
+            \For{each unique value $v$ in $\{x_{ij} : (\boldsymbol{x}_i, y_i) \in \mathcal{E}\}$}{
+                $\mathcal{Y}_{left} \leftarrow \{y_i : (\boldsymbol{x}_i, y_i) \in \mathcal{E}, x_{ij} \leq v\}$ \\
+                $\mathcal{Y}_{right} \leftarrow \{y_i : (\boldsymbol{x}_i, y_i) \in \mathcal{E}, x_{ij} > v\}$ \\
                 
                 $gain \leftarrow$ Gini$(\{y_i\}_{i=1}^N) - \frac{|\mathcal{Y}_{left}|}{N}$Gini$(\mathcal{Y}_{left}) - \frac{|\mathcal{Y}_{right}|}{N}$Gini$(\mathcal{Y}_{right})$ \\
                 

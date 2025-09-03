@@ -16,8 +16,8 @@ Indeed, because we constrain the model class to limited-depth trees, the horizon
 The set of states is $S = \{ (X, d) \in P(\mathcal{E}) \times \{0, \ldots, D\} \}$ where $P(\mathcal{E})$ denotes the power set of $\mathcal{E}$. $d \in \{0,\ldots,D\}$ is the current depth in the tree.
 An action $A$ consists in creating either a split node, or a leaf node (label assignment). We denote the set of candidate split nodes $ {\mathcal F} $. A split node in $\mathcal F$ is a pair made of one feature $i$ and a threshold value $x_{ij}\in \mathcal{E}$.
 So, we can write $A = {\mathcal{F} \cup \{ 1, \ldots, K \}}$ (these are essentially information gathering actions).
-From state $s=(X,d)$ and a splitting action $a \in {\mathcal F}$, the transition function $P$ moves to the next state $s_l = (X_l, d+1)$ with probability $p_l = \frac{|X_l|}{|X|}$ where $X_l = \{(x_i, y_i) \in X: x_i \leq x_{ij}\}$, or to state $s_r = (X \setminus X_l, d+1)$ with probability $1-p_l$. For a class assignment action $a \in \{1,\ldots,K\}$, the chain reaches an absorbing terminal state with probability 1. 
-The reward function $R_{\alpha}: S \times A \rightarrow \mathbb{R}$ returns $-\alpha$ for splitting actions (this is $\zeta$ in a classificaion POIBMDP (\ref{def:cpoibmdp})) and the proportion of misclassified examples of $X$ $-\frac{1}{|X|}\sum_{(x_i,y_i) \in X} l(y_i, a)$ for class assignment actions. $\alpha \in [0,1]$ controls the accuracy-complexity trade-off defined in the regularized training objective \ref{eq:suplearning}. 
+From state $s=(X,d)$ and a splitting action $a \in {\mathcal F}$, the transition function $P$ moves to the next state $s_l = (X_l, d+1)$ with probability $p_l = \frac{|X_l|}{|X|}$ where $X_l = \{(\boldsymbol{x}_i, y_i) \in X: \boldsymbol{x}_i \leq x_{ij}\}$, or to state $s_r = (X \setminus X_l, d+1)$ with probability $1-p_l$. For a class assignment action $a \in \{1,\ldots,K\}$, the chain reaches an absorbing terminal state with probability 1. 
+The reward function $R_{\alpha}: S \times A \rightarrow \mathbb{R}$ returns $-\alpha$ for splitting actions (this is $\zeta$ in a classificaion POIBMDP (\ref{def:cpoibmdp})) and the proportion of misclassified examples of $X$ $-\frac{1}{|X|}\sum_{(\boldsymbol{x}_i,y_i) \in X} l(y_i, a)$ for class assignment actions. $\alpha \in [0,1]$ controls the accuracy-complexity trade-off defined in the regularized training objective \ref{eq:suplearning}. 
 
 The solution to this MDP is a deterministic policy $\pi: S \rightarrow A$ that maximizes {$J_{\alpha}(\pi) ={\mathbb{E}}\left[\sum_{t = 0}^D R_{\alpha}(s_t, \pi(s_t))\right]$\label{def:finite-mdp-obj}}, the expected sum of rewards where the expectation is taken over transitions $s_{t+1}\sim P(s_t, \pi(s_t))$ starting from initial state $s_0 = (\mathcal{E}, 0)$.
 This objective is a re-writing of (\ref{def:mdp-obj}) where the trajectory have finite lengths $D$ rather than being infinite.
@@ -42,9 +42,9 @@ Moreover, from the definition of the policy return we have
 \begin{align*}
    J_\alpha(&\pi, {\mathcal E}, D + 1) = -\alpha + p_l * J_\alpha(\pi, X_l, D) + p_r * J_\alpha(\pi, X_r, D)\\
    &= -\alpha - p_l * {\mathcal L}_\alpha(T_l, X_l) - p_r * {\mathcal L}_\alpha(T_r, D)\\
-   &= -\alpha - p_l * \Bigg(\frac{1}{|X_l|}\sum_{(x_i, y_i)\in X_l}l(y_i, T_l(x_i))  + \alpha C(T_l)\Bigg)\\
-   &\ - p_r * \Bigg(\frac{1}{|X_r|}\sum_{(x_i, y_i)\in X_r}l(y_i, T_r(x_i))  + \alpha C(T_r)\Bigg)\\
-   &= -\frac{1}{N}\sum_{(x_i, y_i)\in X}l(y_i, T(x_i)) - \alpha (1 + p_l C(T_l) + p_r C(T_r))\\
+   &= -\alpha - p_l * \Bigg(\frac{1}{|X_l|}\sum_{(\boldsymbol{x}_i, y_i)\in X_l}l(y_i, T_l(\boldsymbol{x}_i))  + \alpha C(T_l)\Bigg)\\
+   &\ - p_r * \Bigg(\frac{1}{|X_r|}\sum_{(\boldsymbol{x}_i, y_i)\in X_r}l(y_i, T_r(\boldsymbol{x}_i))  + \alpha C(T_r)\Bigg)\\
+   &= -\frac{1}{N}\sum_{(\boldsymbol{x}_i, y_i)\in X}l(y_i, T(\boldsymbol{x}_i)) - \alpha (1 + p_l C(T_l) + p_r C(T_r))\\
    &= -{\mathcal L}(T, {\mathcal E}) 
 \end{align*}
 \end{proof}
@@ -60,7 +60,7 @@ The second step solves it to obtain a policy that maximizes (\ref{def:finite-mdp
 An algorithm constructing the MDP of section~\ref{sec:the-mdp} essentially computes the set of all possible decision trees of maximum depth $D$ which decision nodes are in $\mathcal F$. 
 The transition function of this specific MDP is a directed acyclic graph. Each node of this graph corresponds to a state for which one computes the transition and reward functions. 
 %% PP : je comment-out ce qui suit qui est un détail d'implantation qui ne change rien à la complexité de l'algorithme. Il faut le dire plus loin ; d'ailleurs il en est aussi déjà question en 4.3.
-%To limit memory usage of non-terminal nodes, instead of storing all the samples in $(X,d)$, we only store $d$ and the binary vector of size $N$, $x_{bin} = {(1_{\{x_i \in X\}})}_{i\in \{1,\ldots,N\}}$. 
+%To limit memory usage of non-terminal nodes, instead of storing all the samples in $(X,d)$, we only store $d$ and the binary vector of size $N$, $x_{bin} = {(1_{\{\boldsymbol{x}_i \in X\}})}_{i\in \{1,\ldots,N\}}$. 
 %Even then,
 Considering all possible splits in $\mathcal F$ does not scale.
 We thus introduce a state-dependent action space $A_s$, much smaller than $A$ and populated by a splits generating function. In figure \ref{fig:schema-mdp}, we illustrate the MDP constructed for the classification of a toy dataset using some arbitrary splitting function.
@@ -150,7 +150,7 @@ The proof of this theorem is given in the next section.
 \subsection{Proof of improvement over CART}\label{proof-improve-opt}
 In this section we construct a dataset for which the greedy tree of depth 2 fails to accurately classify data while DPDT with calls to CART as a splits generating function guarantees a strictly better accuracy. The dataset is the XOR pattern like in figure \ref{fig:patho}. We will first show that greedy tree induction like CART chooses the first split at random and the second split in between the two columns or rows. Then we will quantify the misclassification of the depth-2 greedy tree on the XOR gate. Finally we will show that using the second greedy split as the root of a tree and then building the remaining nodes greedily, i.e. running DPDT with the CART heuristic, strictly decreases the misclassification. 
 \begin{definition}[XOR dataset]\label{def:checkerboard}
-     Let us defined the XOR dataset as $\mathcal{E}_{XOR} = \{(X_i, Y_i)\}_{i=1}^N$. $X_i = (x_i, y_i) \sim \mathcal{U}([0,1]^2)$ are i.i.d 2-features samples. $Y_i = f(X_i)$ are alternating classes with $f(x,y) = (\lfloor 2x \rfloor + \lfloor 2y \rfloor) \bmod 2$.
+     Let us defined the XOR dataset as $\mathcal{E}_{XOR} = \{(\boldsymbol{x}_i, Y_i)\}_{i=1}^N$. $\boldsymbol{x}_i = (\boldsymbol{x}_i, y_i) \sim \mathcal{U}([0,1]^2)$ are i.i.d 2-features samples. $Y_i = f(\boldsymbol{x}_i)$ are alternating classes with $f(x,y) = (\lfloor 2x \rfloor + \lfloor 2y \rfloor) \bmod 2$.
 \end{definition}
 
 \begin{lemma} The first greedy split is chosen at random on the XOR dataset from definition \ref{def:checkerboard}.
@@ -186,7 +186,7 @@ We can now formally prove theorem \ref{thm:better_greedy}.
 
 \subsection{Practical implementation}
 
-The key bottlenecks lie in the MDP construction step of DPDT (section \ref{sec:the-mdp}). In nature, all decision tree induction algorithms have time complexity exponential in the number of training subsets per tree depth $D$: $O((2B)^D)$, e.g., CART has $O(2^D)$ time complextiy. We already saw that DPDT saves time by not considering all possible tree splits but only $B$ of them. Using state-dependent split generation also allows to generate more or less candidates at different depths of the tree. Indeed, the MDP state $s = (X,d)$ contains the current depth during the MDP construction process. This means that one can control DPDT's time complexity by giving multiple values of maximum nodes: given $(B_1, B_2, ..., B_D)$, the splits generating function in algorithm~\ref{alg:dpdt} becomes $\phi(s_i) = \phi(X_i, d=1) = nodes(\text{CART}(s, max\_nodes=B_1))$ and  $\phi(s_j) = \phi(X_j, d=2) = nodes(\text{CART}(s, max\_nodes=B_2))$.
+The key bottlenecks lie in the MDP construction step of DPDT (section \ref{sec:the-mdp}). In nature, all decision tree induction algorithms have time complexity exponential in the number of training subsets per tree depth $D$: $O((2B)^D)$, e.g., CART has $O(2^D)$ time complextiy. We already saw that DPDT saves time by not considering all possible tree splits but only $B$ of them. Using state-dependent split generation also allows to generate more or less candidates at different depths of the tree. Indeed, the MDP state $s = (X,d)$ contains the current depth during the MDP construction process. This means that one can control DPDT's time complexity by giving multiple values of maximum nodes: given $(B_1, B_2, ..., B_D)$, the splits generating function in algorithm~\ref{alg:dpdt} becomes $\phi(s_i) = \phi(\boldsymbol{x}_i, d=1) = nodes(\text{CART}(s, max\_nodes=B_1))$ and  $\phi(s_j) = \phi(X_j, d=2) = nodes(\text{CART}(s, max\_nodes=B_2))$.
 
 Similarly, the space complexity of DPDT is exponential in the space required to store training examples $\mathcal E$. Indeed, the MDP states that DPDT builds in algorithm~\ref{alg:dpdt} are training samples $X\subseteq \mathcal E$. Hence, the total space required to run DPDT is $O({Np}(2B)^{D})$ where $Np$ is the size of $\mathcal{E}$. In practice, one should implement DPDT in a depth first search manner to obtain a space complexity linear in the size of training set: $O(DNp)$. In practice DPDT builds the MDP from section~\ref{sec:the-mdp} by starting from the root and recursively splitting the training set while backpropagating the $Q$-values. This is possible because the MDP we solve has a (not necessarily binary) tree structure (see figure~\ref{fig:schema-mdp}) and because the $Q$-values of a state only depend on future states. 
 

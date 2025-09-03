@@ -61,20 +61,20 @@ trees with 1--2\% greater test accuracy than greedy methods. For the reader curi
 In this part, we only consider the induction of non-parametric (cf. section~\ref{related-work-pomdp}) binary depth-constrained axis-aligned trees. 
 We write this model class $\mathcal{T}_D$ where $D$ is the maximum tree depth.
 Axis-aligned tree nodes only test one data feature only against one thresholds only as opposed to e.g. oblique trees~\cite{murthy1994system}.
-In our definition (\ref{sec:dt}), this means that we only consider Boolean functions $(j, \mathbb{R}):\rightarrow \{0, 1\}$ (the careful reader might notice the clear similarity with information gathering actions in IBMDPs (definition~\ref{def:ibmdp},~\cite{topin2021iterative})).
+In our definition (\ref{sec:dt}), this means that we only consider Boolean functions $1_{\{x_{\_, j} \leq v\}}$ (the careful reader might notice the clear similarity with information gathering actions in IBMDPs (definition~\ref{def:ibmdp},~\cite{topin2021iterative})).
 Like for the reinforcement learning setting, there exists a line of work on parametric trees: Tree Alternating Optimization (TAO) algorithm~\cite{NEURIPS2018_185c29dc,9534446,10.1145/3412815.3416882} that only optimizes tree nodes threshold values for fixed nodes features similarly to optimizing neural network weights with gradient-based methods. 
 
 Now we write explicitely the supervised learning objective (\ref{def:sl}) for decision trees:
 
 \begin{definition}[Supervised learning of decision trees (decision tree induction)]\label{eq:suplearning}
-    Assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$. The objective of decision tree induction is to find a tree with maximum depth $D$, $T \in \mathcal{T}_D$ that minimizes:
+    Assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(\boldsymbol{x}_i, y_i)\}}_{i=1}^N$. Each datum $\boldsymbol{x}_i$ is described by a set of $p$ features $x_{ij}$ with $1\leq j \leq p$. $y_i \in {\mathcal Y}$ is the label associated with $\boldsymbol{x}_i$. The objective of decision tree induction is to find a tree with maximum depth $D$, $T \in \mathcal{T}_D$ that minimizes:
     \begin{align*}
-        {\mathcal L}_\alpha(T) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{l}(y_i, T(x_i)) + \alpha C(T) \\
+        {\mathcal L}_\alpha(T) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{l}(y_i, T(\boldsymbol{x}_i)) + \alpha C(T) \\
 \end{align*}
-where $C: \mathcal{T}_D \rightarrow \mathbb{R}$ is a complexity penalty that helps prevent or reduce overfitting such as the number of nodes~\cite{breiman1984classification,quantbnb}, or the expected number of splits to label a data\cite{how-eff}. The complexity penalty is weighted by $\alpha \in [0, 1]$. %For regression problems where $\mathcal{Y} \subset \mathbb R$, we use the squared error $l(y_i, T(x_i)) = {(y_i - T(x_i))}^2$. 
+where $C: \mathcal{T}_D \rightarrow \mathbb{R}$ is a complexity penalty that helps prevent or reduce overfitting such as the number of nodes~\cite{breiman1984classification,quantbnb}, or the expected number of splits to label a data\cite{how-eff}. The complexity penalty is weighted by $\alpha \in [0, 1]$. %For regression problems where $\mathcal{Y} \subset \mathbb R$, we use the squared error $l(y_i, T(\boldsymbol{x}_i)) = {(y_i - T(\boldsymbol{x}_i))}^2$. 
 \end{definition}
 
-In the rest of this part we focus on classification tasks: we use the 0--1 loss $l(y_i, T(x_i)) = 1_{\{y_i\neq T(x_i)\}}$.
+In the rest of this part we focus on classification tasks: we use the 0--1 loss $l(y_i, T(\boldsymbol{x}_i)) = 1_{\{y_i\neq T(\boldsymbol{x}_i)\}}$.
 Please note while we focus on classification tasks, our framework extends naturally to regression tasks.
 
 In the supervised learning setting, there exist many other areas of decision tree research \cite{loh2014fifty} such as inducing non-axis parallel decision trees \cite{murthy1994system,10.1145/3637528.3671903}, splitting criteria of greedy trees \cite{vanderlinden2024optimalgreedydecisiontrees}, different optimization of parametric trees \cite{NIPS2015_1579779b,10.5555/3327757.3327770}, or pruning methods \cite{pruning1,pruning2}.
