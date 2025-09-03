@@ -13,7 +13,7 @@ This parametric IGAs space keeps the discrete IBMDP action space at a reasonable
 
 For example, if we define an IBMDP with $q=3$ for the grid world from Example~\ref{example:grid}, the grid world action space is augmented with six IGAs. 
 At $t=0$, recall that $\boldsymbol{o}_0=(0, 2, 0, 2)$, so if an IGA is taken, e.g. $\langle 2, v_2\rangle$, the effective IGA is $\langle j, v_2=\frac{k(2-0)}{3+1}\rangle = \langle 1, 2 \rangle$ which in turn effectively corresponds to an internal decision tree node $y \leq 1$.
-If the current state $y$-feature value is $0.5$, then the next observation at $t=1$ is $\boldsymbol{o}_1=(0, 2, 0, 1)$. At $t=2$ if $a_t=\langle v_2, 2 \rangle$ again, it would be effectively $\langle j, v_2=\frac{k(1-0)}{3+1}\rangle = \langle 2, 0.5 \rangle$. 
+If the current state $y$-feature value is $0.5$, then the next observation at $t=1$ is $\boldsymbol{o}_1=(0, 2, 0, 1)$. At $t=2$ if $a_t=\langle 2, v_2 \rangle$ again, it would be effectively $\langle j, v_2=\frac{k(1-0)}{3+1}\rangle = \langle 2, 0.5 \rangle$. 
 This would give the next observation at $t=2$ $\boldsymbol{o}_2=(0, 2, 0, 0.5)$ and so on. 
 
 Furthermore, author propose to regularize the learned decision tree policy with a maximum depth parameter $D$.
