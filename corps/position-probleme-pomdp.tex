@@ -1,5 +1,5 @@
 \chapter{Introduction}\label{sec:intro-pomdp}
-In this part of the manuscript, we show that direct reinforcement learning of decision tree policies for MDPs (\ref{def:mdp}), i.e. learning a decision tree that optimizes the RL objectve (\ref{def:mdp-obj}) is often very difficult.
+In this part of the manuscript, we show that direct reinforcement learning of decision tree policies for MDPs (\ref{def:mdp}), i.e. learning a decision tree that optimizes the RL objective (\ref{def:mdp-obj}) is often very difficult.
 In particular, we provide some insights as to why it is so difficult and show that indirect imitation of a neural network policy (cf. section \ref{sec:imit}), while optimizing the imitation learning objective (\ref{def:il}) rather than the RL one, often yields very good tree policies in practice.
 
 This first part of the manuscript is organised as follows.
@@ -14,11 +14,11 @@ This motivates the study and development of \textit{direct} decision tree policy
 There already exist such algorithms that return decision tree policies optimizing the RL objective for a given MDP.
 Those algorithms either learn parametric trees or non-parametric trees.
 
-Parametric trees are not ``grown'' from the root by iteratively adding internal or leaf nodes (cf. figure~\ref{fig:dt}), but are rather ``optimized'': the depth, internal nodes arrengement, and state features to consider in each nodes are fixed \textit{a priori} and only the thresholds of each nodes are learned.
+Parametric trees are not ``grown'' from the root by iteratively adding internal or leaf nodes (cf. figure~\ref{fig:dt}), but are rather ``optimized'': the depth, internal nodes arrangement, and state features to consider in each nodes are fixed \textit{a priori} and only the thresholds of each nodes are learned.
 This is similar to doing gradient descent on neural network weights.
 As the reader might have guessed, those parametric trees are advantageous in that they can be learned with the policy gradient \cite{pg_sutton}.
 In \cite{silva},~\cite{vos2024optimizinginterpretabledecisiontree} and~\cite{sympol}, authors use PPO(cf. algorithm~\ref{alg:ppo},~\cite{ppo}) to learn such differentiable decision trees that optimize directly the RL objective.
-In particular, \cite{sympol} explicitely studies the gap in RL objective values between their direct optimization and the imitation learning algorithm VIPER (algorithm~\ref{alg:viper},~\cite{viper}).
+In particular, \cite{sympol} explicitly studies the gap in RL objective values between their direct optimization and the imitation learning algorithm VIPER (algorithm~\ref{alg:viper},~\cite{viper}).
 While those methods return decision tree policies that optimize the RL objective well, in general a user cannot know \textit{a priori}  what a ``good'' tree policy structure should be for a particular MDP.
 It could be that the specified structure is too deep and pruning will be required after training or it could be that the tree structure is not expressive enough to encode a good policy, i.e. parametric trees cannot trade off interpretability and performances during training.
 Furthermore, authors from~\cite{sympol} show that extra stabilizing tricks, such as adaptive batch sizes, are required during training to outperform indirect imitation in terms of RL objective.
@@ -26,7 +26,7 @@ Furthermore, authors from~\cite{sympol} show that extra stabilizing tricks, such
 Non-parametric trees are the standard model in supervised learning. Greedy algorithms~\cite{breiman1984classification,ID3,c45} are fast and return decision tree classifiers (or regressors) that offer good trade-offs between interpretability (depth, or number of nodes) and the supervised learning objective (\ref{def:sl}).
 On the other hand, to the best of our knowledge, there exists only one work studying non-parametric trees to optimize a trade-off between interpretability and the RL objective: Topin et. al. \cite{topin2021iterative}.
 
-Given an MDP (\ref{def:mdp}) for which one wants to learn a decision tree policy, Topin et. al. introduced iterative bouding Markov decision processes (IBMDPs).
+Given an MDP (\ref{def:mdp}) for which one wants to learn a decision tree policy, Topin et. al. introduced iterative bounding Markov decision processes (IBMDPs).
 From now on we refer to the MDP for which we want a decision tree policy as the ``base'' MDP.
 IBMDPs are an augmented version of this base MDP with more state features, more actions, additional reward signals, and additional transitions.
 Authors showed that certain policies in IBMDPs are equivalent to non-parametric decision tree policies that trade off between interpretability and the RL objective in the base MDP.
@@ -53,7 +53,7 @@ When taking an information gathering action, the reward is an arbitrary value su
 Before showing how to get decision tree policies from IBMDP policies, we give a formal definition of IBMDPs following Topin et. al.~\cite{topin2021iterative}.
 
 \begin{definition}[Iterative Bounding Markov decision process]\label{def:ibmdp}
-Given an MDP $\mathcal{M}$ $\langle S, A, R, T, T_0 \rangle$ (\ref{def:mdp}), an associated iterative bouding Markov decision process $\mathcal{M}_{IB}$ is a tuple:
+Given an MDP $\mathcal{M}$ $\langle S, A, R, T, T_0 \rangle$ (\ref{def:mdp}), an associated iterative bounding Markov decision process $\mathcal{M}_{IB}$ is a tuple:
 \begin{align*}
     \langle \overbrace{S \times O}^{\text{State space}}, \underbrace{A \cup A_{info}}_{\text{Action space}}, \overbrace{(R, \zeta)}^{\text{Reward function}}, \underbrace{(T_{info}, T, T_0)}_{\text{Transitions}}\rangle
 \end{align*}
@@ -75,7 +75,7 @@ Given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_p, U'_p) \in O
         (L'_1, U'_1, \dots , \max\{v, L'_j\}, U'_j, \dots , L''_p, U'_p) \text{ if } s_j > v
     \end{cases}
 \end{align*}
-If a base action is taken, the observation is reset to the default base state feature bounds $(L_1, U_1,\dots, L_p, U_p)$ and the base state features change according to the base MDP transitition kernel: $\boldsymbol{s}_{t+1}\sim T(\boldsymbol{s}_t, a_t)$.
+If a base action is taken, the observation is reset to the default base state feature bounds $(L_1, U_1,\dots, L_p, U_p)$ and the base state features change according to the base MDP transition kernel: $\boldsymbol{s}_{t+1}\sim T(\boldsymbol{s}_t, a_t)$.
 At initialization, the base state features are drawn from the base MDP initial distribution $T_0$ and the observation is always set to the default base state features bounds $\boldsymbol{o}_0=(L_1, U_1,\dots, L_p, U_p)$.
 \end{itemize}
 \end{definition}
@@ -302,9 +302,9 @@ This gives a reward 0, resets the observation to the original base state feature
 
 \section{Summary}
 In this chapter, we presented the approach of Topin et. al.~\cite{topin2021iterative} to find decision tree policies that directly trade off interpretability and the RL objective rather than a surrogate imitation loss.
-In particular, Topin et. al. showed that deterministic partially observable policies for iterative boudning Markov decision processes are decision tree policies for MDPs (cf. definitions~\ref{def:ibmdp} and \ref{def:po-policy}, algorithm~\ref{alg:extract-tree}, and example~\ref{example:ibmdp}).
+In particular, Topin et. al. showed that deterministic partially observable policies for iterative bounding Markov decision processes are decision tree policies for MDPs (cf. definitions~\ref{def:ibmdp} and \ref{def:po-policy}, algorithm~\ref{alg:extract-tree}, and example~\ref{example:ibmdp}).
 
-The great promise of Topin et. al. is that one can use any reinforcement learning algorithm, e.g. PPO or DQN (cf. section~\ref{sec:drl}), to learn deterministic partially observable policies. Indeed, such policies can be encoded as e.g. neural networks as long as they satisfy proposition (\ref{def:po-policy}): this circumverts the non-differentiability limitations in direct learning of non-parametric decision tree policies.
+The great promise of Topin et. al. is that one can use any reinforcement learning algorithm, e.g. PPO or DQN (cf. section~\ref{sec:drl}), to learn deterministic partially observable policies. Indeed, such policies can be encoded as e.g. neural networks as long as they satisfy proposition (\ref{def:po-policy}): this circumvents the non-differentiability limitations in direct learning of non-parametric decision tree policies.
 Once a deterministic partially observable policy is obtained, a decision tree policy that trades off naturally, the RL objective in the base MDP and, interpretability through the additional reward signal $\zeta$ (cf. definition~\ref{def:ibmdp}), can be extracted with algorithm~\ref{alg:extract-tree}.
 
 We write an interpretable RL objective as follows:
