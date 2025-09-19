@@ -67,7 +67,7 @@ Given some base state features $\boldsymbol{s} = (s_1, \dots, s_p)\in S$ and som
 \item $R: S\times A \rightarrow \mathbb{R}$ is the base MDP reward function.
 \item $\zeta$ is a reward signal for taking an information gathering action.
 So the IBMDP reward function is to get a reward from the base MDP if the action is a base MDP action or to get $\zeta$ if the action is an IGA action.
-\item $T_{info}: S\times O \times( A_{info} \cup A )\rightarrow \Delta (S\times O)$ is the transition kernel of IBMDPs: 
+\item $T_{info}: S\times O \times( A_{info} \cup A )\rightarrow \Delta (S\times O)$ is the transition function of IBMDPs: 
 Given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_p, U'_p) \in O$ and base state features $\boldsymbol{s}_t=(s'_1, s'_2, \dots, s'_p)$ if an IGA $\langle j, v \rangle$ is taken, the new observation is:
 \begin{align*}
     \boldsymbol{o}_{t+1} &= \begin{cases}
@@ -75,7 +75,7 @@ Given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_p, U'_p) \in O
         (L'_1, U'_1, \dots , \max\{v, L'_j\}, U'_j, \dots , L''_p, U'_p) \text{ if } s_j > v
     \end{cases}
 \end{align*}
-If a base action is taken, the observation is reset to the default base state feature bounds $(L_1, U_1,\dots, L_p, U_p)$ and the base state features change according to the base MDP transitition kernel: $\boldsymbol{s}_{t+1}\sim T(\boldsymbol{s}_t, a_t)$.
+If a base action is taken, the observation is reset to the default base state feature bounds $(L_1, U_1,\dots, L_p, U_p)$ and the base state features change according to the base MDP transition function: $\boldsymbol{s}_{t+1}\sim T(\boldsymbol{s}_t, a_t)$.
 At initialization, the base state features are drawn from the base MDP initial distribution $T_0$ and the observation is always set to the default base state features bounds $\boldsymbol{o}_0=(L_1, U_1,\dots, L_p, U_p)$.
 \end{itemize}
 \end{definition}

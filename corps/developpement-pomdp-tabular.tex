@@ -17,25 +17,25 @@ A partially observable Markov decision process is a tuple $\langle X, A, O, R, T
     \item $O$ is a set of observations.
     \item $T: X \times A \rightarrow \Delta(X)$ is the transition kernal, where $T(\boldsymbol{x}_t, a, \boldsymbol{x}_{t+1}) = P(\boldsymbol{x}_t|\boldsymbol{x}_{t+1}, a)$ is the probability of transitioning to state $\boldsymbol{x}_{t}$ when taking action $a$ in state $\boldsymbol{x}$
     \item $T_0$: is the intial distribution over states. 
-    \item $\Omega: X \rightarrow \Delta(O)$ is the observation kernel, where $\Omega(\boldsymbol{o}, a, \boldsymbol{x}) = P(\boldsymbol{o}|\boldsymbol{x}, a)$ is the probability of observing $\boldsymbol{o}$ in state $\boldsymbol{x}$
+    \item $\Omega: X \rightarrow \Delta(O)$ is the observation function, where $\Omega(\boldsymbol{o}, a, \boldsymbol{x}) = P(\boldsymbol{o}|\boldsymbol{x}, a)$ is the probability of observing $\boldsymbol{o}$ in state $\boldsymbol{x}$
     \item $R: X \times A \rightarrow \mathbb{R}$ is the reward function, where $R(\boldsymbol{x}, a)$ is the immediate reward for taking action $a$ in state $\boldsymbol{x}$
 \end{itemize}
 Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP~\ref{def:mdp}.
 \end{definition}
 
-Let us define explicitely a partially observable iterative bounding Markov decision process (POIBMDP). It is essentially an IBMDP for which we explicitly define an observation space and an observation kernel:
+Let us define explicitely a partially observable iterative bounding Markov decision process (POIBMDP). It is essentially an IBMDP for which we explicitly define an observation space and an observation function:
 \begin{definition}[Partially observable iterative bounding Markov decision process]\label{def:poibmdp} a partially observable iterative bounding Markov decision process $\mathcal{M}_{POIB}$ is a tuple:
     \begin{align*}
         \langle \overbrace{S\times O}^{\text{States}}, \underbrace{A\cup A_{info}}_{Action space},\overbrace{O}_{\text{Observations}} ,\underbrace{(R, \zeta)}^{Rewards}, \overbrace{(T_{info}, T, T_0)}_{Transitions}, \Omega \rangle
     \end{align*}
     Where $\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$ is an IBMDP~\ref{def:ibmdp}.
-    The transition kernel $\Omega$ maps concatenation of state features and observations--IBMDP states--to observations, $\Omega:S\times O \rightarrow O$, with $P(\boldsymbol{o}|(\boldsymbol{s}, \boldsymbol{o}))=1$ 
+    The transition function $\Omega$ maps concatenation of state features and observations--IBMDP states--to observations, $\Omega:S\times O \rightarrow O$, with $P(\boldsymbol{o}|(\boldsymbol{s}, \boldsymbol{o}))=1$ 
 \end{definition}
 
-One can see POIBMDPs as particular instances of POMDPs where the observation kernel simply applies a mask over some features of the hidden state.
+One can see POIBMDPs as particular instances of POMDPs where the observation function simply applies a mask over some features of the hidden state.
 This setting has other names in the litterature.
 For example, POIBMDPs are mixed observability MDPs \cite{momdp} with base MDP state features as the \textit{hidden variables} and feature bounds as \textit{visible} variables.
-POIBMDPs can also be seen as non-stationary MDPs (N-MDPS)~\cite{learning-pomdp} in which there is one different transition kernel per base MDP state: these are called hidden-mode MDPs~\cite{hmmdp}.
+POIBMDPs can also be seen as non-stationary MDPs (N-MDPS)~\cite{learning-pomdp} in which there is one different transition function per base MDP state: these are called hidden-mode MDPs~\cite{hmmdp}.
 Following~\cite{learning-pomdp} we can write the value of a deterministic partially observable policy $\pi:O\rightarrow A\cup A_{info}$ in observation $\boldsymbol{o}$.
 
 \begin{definition}[Partially observable value function]\label{def:vpo} In a POIBMDP (\ref{def:poibmdp}), the expected cumulative discounted reward of a deterministic partially observable policy $\pi:O\rightarrow A\cup A_{info}$ starting from observation $o$ is $V^{\pi}(\boldsymbol{o})$:
@@ -212,7 +212,7 @@ We write this algorithm that we call JSJ (for the authors names Jaakkola, Singh,
 
 Until recently, the benefits of asymmetric RL over standard RL was only shown empirically and only for history-dependent models.
 The work of Gaspard Lambrechts~\cite{justif-asym} proves that some asymmetric RL algorithms learn better history-dependent \textbf{or} partially observable policies for solving POMDPs.
-This is exactly what we wish for. However, those algorithms are not practical because they require estimation of the asymptotic occupacy distribution $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$ (\ref{def:vpo}) for candidate policies which in turn would require to do gather a lot samples on policy.
+This is exactly what we wish for. However, those algorithms are not practical because they require estimation of the asymptotic occupacy distribution $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$ (\ref{def:vpo}) for candidate policies which in turn would require to gather a lot of on-policy samples.
 We leave it to future work to use those algorithms that combine asymmetric RL and estimation of future visitations since those results are contemporary to the writing of this manuscript.
 
 Note that, in the previous chapter, modified DQN (cf. algorithm~\ref{alg:mod-dqn}) and modified PPO (cf. algorithm~\ref{alg:mod-ppo}) are respectively asymmetric DQN and asymmetric PPO from~\cite{baisero-dqn,baisero-ppo}.
