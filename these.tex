@@ -1,11 +1,11 @@
 % Document de classe yathesis, en 12 points, interligne un et demi, et version finale
-\documentclass[11pt,space=onehalf,version=final]{yathesis}
+\documentclass[11pt,space=onehalf,version=inprogress*]{yathesis}
 %
 % Chargement manuel de packages (pas déjà chargés par la classe yathesis)
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{svg}
-\usepackage{lipsum} % À proscrire dans un vrai mémoire de thèse !\
+% \usepackage{lipsum} % À proscrire dans un vrai mémoire de thèse !\
 \usepackage{amsthm}
 \usepackage{kpfonts}
 \usepackage{algorithm2e}
@@ -18,7 +18,7 @@
 \usepackage{xcolor}
 \usepackage{tcolorbox}
 \usepackage{microtype}
-\usepackage[american]{babel}
+% \usepackage[american]{babel}
 
 % Code styling
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -150,7 +150,7 @@
 % \include{liminaires/avant-propos}
 %
 % Sommaire
-\tableofcontents[depth=chapter,name=Sommaire]
+\tableofcontents
 %
 % (Facultatif) Liste des tableaux
 % \listoftables
@@ -246,7 +246,6 @@
 % \printindex
 %
 % Table des matières
-\tableofcontents
 %
 % (Facultatif) Production de la 4e de couverture :
 % \makebackcover
