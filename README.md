@@ -1,9 +1,1 @@
-- sections Contribs/publis
-- sections Enseignements/Supervisions
-- sections Software
-- sections Responsabilites-Workshops-Reviewing
-- sections Medicine and Agriculture
-- sections Repdoducibili Empirical Science
-- sections Decision Tree def (depth, node , complexity ....)
-- sections Explainable RL
-- sections Why do we need partial observability?
+- Shorten part 1; maybe merge chaps 2 and 3

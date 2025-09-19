@@ -8,16 +8,16 @@ to create a leaf node.
 
 This sequential decision-making process corresponds to an MDP $\mathcal{M} \langle S, A, R_{\alpha}, T, T_0 \rangle$ (\ref{def:mdp}) that we present next.
 %The state space $S$ consists of pairs $(X,d)$ where $X \subseteq \mathcal{E}$, and $d \in \{0,\ldots,D\}$ is the current depth in the tree. Formally $S = \{ (X, d) \in P(\mathcal{E}) \times \{0, \ldots, D\} \}$ where $P(\mathcal{E})$ denotes the power set of $\mathcal{E}$.
-A state is a pair made of a subset of examples $X\subseteq\mathcal E$ and a depth $d$.
+A state is a pair made of a subset of examples $\mathcal{X}\subseteq\mathcal E$ and a depth $d$.
 Like for classification POIBMDPs (cf. definition~\ref{def:ibmdp} and algorithm~\ref{alg:extract-tree}), the depth $d$ is actually not necessary to extract a tree from a policy.
 However, it is necessary in order to solve the MDP.
 Indeed, because we constrain the model class to limited-depth trees, the horizon of our MDP is finite and hence as per~\cite{puterman}, the optimal policy is non-Markovian and depends on the time.
 
-The set of states is $S = \{ (X, d) \in P(\mathcal{E}) \times \{0, \ldots, D\} \}$ where $P(\mathcal{E})$ denotes the power set of $\mathcal{E}$. $d \in \{0,\ldots,D\}$ is the current depth in the tree.
+The set of states is $S = \{ (\mathcal{X}, d) \in P(\mathcal{E}) \times \{0, \ldots, D\} \}$ where $P(\mathcal{E})$ denotes the power set of $\mathcal{E}$. $d \in \{0,\ldots,D\}$ is the current depth in the tree.
 An action $A$ consists in creating either a split node, or a leaf node (label assignment). We denote the set of candidate split nodes $ {\mathcal F} $. A split node in $\mathcal F$ is a pair made of one feature $i$ and a threshold value $x_{ij}\in \mathcal{E}$.
 So, we can write $A = {\mathcal{F} \cup \{ 1, \ldots, K \}}$ (these are essentially information gathering actions).
-From state $s=(X,d)$ and a splitting action $a \in {\mathcal F}$, the transition function $P$ moves to the next state $s_l = (X_l, d+1)$ with probability $p_l = \frac{|X_l|}{|X|}$ where $X_l = \{(\boldsymbol{x}_i, y_i) \in X: \boldsymbol{x}_i \leq x_{ij}\}$, or to state $s_r = (X \setminus X_l, d+1)$ with probability $1-p_l$. For a class assignment action $a \in \{1,\ldots,K\}$, the chain reaches an absorbing terminal state with probability 1. 
-The reward function $R_{\alpha}: S \times A \rightarrow \mathbb{R}$ returns $-\alpha$ for splitting actions (this is $\zeta$ in a classificaion POIBMDP (\ref{def:cpoibmdp})) and the proportion of misclassified examples of $X$ $-\frac{1}{|X|}\sum_{(\boldsymbol{x}_i,y_i) \in X} l(y_i, a)$ for class assignment actions. $\alpha \in [0,1]$ controls the accuracy-complexity trade-off defined in the regularized training objective \ref{eq:suplearning}. 
+From state $s=(X,d)$ and a splitting action $a \in {\mathcal F}$, the transition function $P$ moves to the next state $s_l = (\mathcal{X}_l, d+1)$ with probability $p_l = \frac{|\mathcal{X}_l|}{|\mathcal{X}|}$ where $\mathcal{X}_l = \{(\boldsymbol{x}_i, y_i) \in \mathcal{X}: \boldsymbol{x}_i \leq x_{ij}\}$, or to state $s_r = (\mathcal{X} \setminus \mathcal{X}_l, d+1)$ with probability $1-p_l$. For a class assignment action $a \in \{1,\ldots,K\}$, the chain reaches an absorbing terminal state with probability 1. 
+The reward function $R_{\alpha}: S \times A \rightarrow \mathbb{R}$ returns $-\alpha$ for splitting actions (this is $\zeta$ in a classificaion POIBMDP (\ref{def:cpoibmdp})) and the proportion of misclassified examples of $\mathcal{X}$ $-\frac{1}{|\mathcal{X}|}\sum_{(\boldsymbol{x}_i,y_i) \in \mathcal{X}} l(y_i, a)$ for class assignment actions. $\alpha \in [0,1]$ controls the accuracy-complexity trade-off defined in the regularized training objective \ref{eq:suplearning}. 
 
 The solution to this MDP is a deterministic policy $\pi: S \rightarrow A$ that maximizes {$J_{\alpha}(\pi) ={\mathbb{E}}\left[\sum_{t = 0}^D R_{\alpha}(s_t, \pi(s_t))\right]$\label{def:finite-mdp-obj}}, the expected sum of rewards where the expectation is taken over transitions $s_{t+1}\sim P(s_t, \pi(s_t))$ starting from initial state $s_0 = (\mathcal{E}, 0)$.
 This objective is a re-writing of (\ref{def:mdp-obj}) where the trajectory have finite lengths $D$ rather than being infinite.
@@ -37,14 +37,14 @@ Let us first show that the relation $J_\alpha(\pi, {\mathcal E}, 0) = -{\mathcal
 If the maximum depth is $D = 0$ then $\pi(s_0)$ is necessarily a class assignment, in which case the expected number of splits is zero and the relation is obviously true since the reward is the opposite of the average classification loss. 
 Now assume it is true for any dataset and tree of depth at most $D$ with $D \geq 0$ and let us prove that it holds for all trees of depth $D + 1$. 
 For a tree $T$ of depth $D + 1$ the root is necessarily a split node. Let $T_l = E(\pi, s_l)$ and $T_r = E(\pi, s_r)$ be the left and right sub-trees of the root node of $T$. 
-Since both sub-trees are of depth at most $D$, the relation holds and we have $J_\alpha(\pi, X_l, D) = {\mathcal L}_\alpha(T_l, X_l)$ and $J_\alpha(\pi, X_r, D) = {\mathcal L}_\alpha(T_r, X_r)$, where $X_l$ and $X_r$ are the datasets of the ``right'' and ``left'' states to which the MDP transitions---with probabilities $p_l$ and $p_r$---upon application of $\pi(s_0)$ in $s_0$, as described in the MDP formulation. 
+Since both sub-trees are of depth at most $D$, the relation holds and we have $J_\alpha(\pi, \mathcal{X}_l, D) = {\mathcal L}_\alpha(T_l, \mathcal{X}_l)$ and $J_\alpha(\pi, \mathcal{X}_r, D) = {\mathcal L}_\alpha(T_r, \mathcal{X}_r)$, where $\mathcal{X}_l$ and $\mathcal{X}_r$ are the datasets of the ``right'' and ``left'' states to which the MDP transitions---with probabilities $p_l$ and $p_r$---upon application of $\pi(s_0)$ in $s_0$, as described in the MDP formulation. 
 Moreover, from the definition of the policy return we have 
 \begin{align*}
-   J_\alpha(&\pi, {\mathcal E}, D + 1) = -\alpha + p_l * J_\alpha(\pi, X_l, D) + p_r * J_\alpha(\pi, X_r, D)\\
-   &= -\alpha - p_l * {\mathcal L}_\alpha(T_l, X_l) - p_r * {\mathcal L}_\alpha(T_r, D)\\
-   &= -\alpha - p_l * \Bigg(\frac{1}{|X_l|}\sum_{(\boldsymbol{x}_i, y_i)\in X_l}l(y_i, T_l(\boldsymbol{x}_i))  + \alpha C(T_l)\Bigg)\\
-   &\ - p_r * \Bigg(\frac{1}{|X_r|}\sum_{(\boldsymbol{x}_i, y_i)\in X_r}l(y_i, T_r(\boldsymbol{x}_i))  + \alpha C(T_r)\Bigg)\\
-   &= -\frac{1}{N}\sum_{(\boldsymbol{x}_i, y_i)\in X}l(y_i, T(\boldsymbol{x}_i)) - \alpha (1 + p_l C(T_l) + p_r C(T_r))\\
+   J_\alpha(&\pi, {\mathcal E}, D + 1) = -\alpha + p_l * J_\alpha(\pi, \mathcal{X}_l, D) + p_r * J_\alpha(\pi, \mathcal{X}_r, D)\\
+   &= -\alpha - p_l * {\mathcal L}_\alpha(T_l, \mathcal{X}_l) - p_r * {\mathcal L}_\alpha(T_r, D)\\
+   &= -\alpha - p_l * \Bigg(\frac{1}{|\mathcal{X}_l|}\sum_{(\boldsymbol{x}_i, y_i)\in \mathcal{X}_l}l(y_i, T_l(\boldsymbol{x}_i))  + \alpha C(T_l)\Bigg)\\
+   &\ - p_r * \Bigg(\frac{1}{|\mathcal{X}_r|}\sum_{(\boldsymbol{x}_i, y_i)\in \mathcal{X}_r}l(y_i, T_r(\boldsymbol{x}_i))  + \alpha C(T_r)\Bigg)\\
+   &= -\frac{1}{N}\sum_{(\boldsymbol{x}_i, y_i)\in \mathcal{X}}l(y_i, T(\boldsymbol{x}_i)) - \alpha (1 + p_l C(T_l) + p_r C(T_r))\\
    &= -{\mathcal L}(T, {\mathcal E}) 
 \end{align*}
 \end{proof}
@@ -60,7 +60,7 @@ The second step solves it to obtain a policy that maximizes (\ref{def:finite-mdp
 An algorithm constructing the MDP of section~\ref{sec:the-mdp} essentially computes the set of all possible decision trees of maximum depth $D$ which decision nodes are in $\mathcal F$. 
 The transition function of this specific MDP is a directed acyclic graph. Each node of this graph corresponds to a state for which one computes the transition and reward functions. 
 %% PP : je comment-out ce qui suit qui est un détail d'implantation qui ne change rien à la complexité de l'algorithme. Il faut le dire plus loin ; d'ailleurs il en est aussi déjà question en 4.3.
-%To limit memory usage of non-terminal nodes, instead of storing all the samples in $(X,d)$, we only store $d$ and the binary vector of size $N$, $x_{bin} = {(1_{\{\boldsymbol{x}_i \in X\}})}_{i\in \{1,\ldots,N\}}$. 
+%To limit memory usage of non-terminal nodes, instead of storing all the samples in $(\mathcal{X},d)$, we only store $d$ and the binary vector of size $N$, $x_{bin} = {(1_{\{\boldsymbol{x}_i \in \mathcal{X}\}})}_{i\in \{1,\ldots,N\}}$. 
 %Even then,
 Considering all possible splits in $\mathcal F$ does not scale.
 We thus introduce a state-dependent action space $A_s$, much smaller than $A$ and populated by a splits generating function. In figure \ref{fig:schema-mdp}, we illustrate the MDP constructed for the classification of a toy dataset using some arbitrary splitting function.
@@ -85,12 +85,12 @@ We now define some interesting split generating functions and provide the time c
 \paragraph{Exhaustive function} When $\mathcal{F} \subseteq \phi(s), \forall s \in S$, the MDP contains all possible splits of a certain set of examples. In this case, \textit{the optimal MDP policy is the optimal decision tree of depth at most D},
 and the number of states of the MDP would be $O({(2Np)}^D)$. Solving the MDP for $A_s = \phi(s)$ is equivalent to running one of the optimal tree induction algorithms~\cite{verwer2017learning,oct,pystreed,quantbnb,binoct,murtree,mfoct,blossom,lin2020generalized,chaouki2024branchesfastdynamicprogramming}
 
-\paragraph{Top $B$ most informative splits}\label{topk-heuristic}~\cite{topk} proposed to generate splits with a function that returns, for any state $s=(X,d)$, the $B$ most informative splits over $X$ with respect to some information gain measure such as the entropy or the Gini impurity. 
+\paragraph{Top $B$ most informative splits}\label{topk-heuristic}~\cite{topk} proposed to generate splits with a function that returns, for any state $s=(\mathcal{X},d)$, the $B$ most informative splits over $\mathcal{X}$ with respect to some information gain measure such as the entropy or the Gini impurity. 
 The number of states in the MDP would be $O({(2B)}^D)$. \textit{When $B=1$, the optimal policy of the MDP is the greedy tree.} 
 In practice, we noticed that the returned set of splits lacked diversity and often consists of splits on the same feature with minor changes to the threshold value. 
 
 % PP : don't know why mais ci-dessous, si on met un '.' après {CART}, le pdf en affiche 2. Si on n'en met pas, on en voit un !
-\paragraph{Calls to CART}\label{cart-heuristic} Instead of returning the most informative split at each state $s=(X,d)$, we propose to find the most discriminative split, i.e.\@ the feature splits that best predicts the class of data in $X$.
+\paragraph{Calls to CART}\label{cart-heuristic} Instead of returning the most informative split at each state $s=(\mathcal{X},d)$, we propose to find the most discriminative split, i.e.\@ the feature splits that best predicts the class of data in $\mathcal{X}$.
 We can do this by considering the split nodes of the greedy tree. In practice, we run CART on $s$ and use the returned nodes as $\phi(s)$. We control the number of MDP states by constraining CART trees with a maximum number of nodes $B$: $\phi(s) = nodes(\text{CART}(s, max\_nodes=B))$
 The number of MDP states would be $O({(2B)}^D)$.\textit{When $B=1$, the MDP policy corresponds to the greedy tree.} The process of generating split nodes with calls to CART is illustrated in figure \ref{fig:schema-dpdt}.
 
@@ -186,8 +186,8 @@ We can now formally prove theorem \ref{thm:better_greedy}.
 
 \subsection{Practical implementation}
 
-The key bottlenecks lie in the MDP construction step of DPDT (section \ref{sec:the-mdp}). In nature, all decision tree induction algorithms have time complexity exponential in the number of training subsets per tree depth $D$: $O((2B)^D)$, e.g., CART has $O(2^D)$ time complextiy. We already saw that DPDT saves time by not considering all possible tree splits but only $B$ of them. Using state-dependent split generation also allows to generate more or less candidates at different depths of the tree. Indeed, the MDP state $s = (X,d)$ contains the current depth during the MDP construction process. This means that one can control DPDT's time complexity by giving multiple values of maximum nodes: given $(B_1, B_2, ..., B_D)$, the splits generating function in algorithm~\ref{alg:dpdt} becomes $\phi(s_i) = \phi(\boldsymbol{x}_i, d=1) = nodes(\text{CART}(s, max\_nodes=B_1))$ and  $\phi(s_j) = \phi(X_j, d=2) = nodes(\text{CART}(s, max\_nodes=B_2))$.
+The key bottlenecks lie in the MDP construction step of DPDT (section \ref{sec:the-mdp}). In nature, all decision tree induction algorithms have time complexity exponential in the number of training subsets per tree depth $D$: $O((2B)^D)$, e.g., CART has $O(2^D)$ time complextiy. We already saw that DPDT saves time by not considering all possible tree splits but only $B$ of them. Using state-dependent split generation also allows to generate more or less candidates at different depths of the tree. Indeed, the MDP state $s = (\mathcal{X},d)$ contains the current depth during the MDP construction process. This means that one can control DPDT's time complexity by giving multiple values of maximum nodes: given $(B_1, B_2, ..., B_D)$, the splits generating function in algorithm~\ref{alg:dpdt} becomes $\phi(s_i) = \phi(\boldsymbol{x}_i, d=1) = nodes(\text{CART}(s, max\_nodes=B_1))$ and  $\phi(s_j) = \phi(\mathcal{X}_j, d=2) = nodes(\text{CART}(s, max\_nodes=B_2))$.
 
-Similarly, the space complexity of DPDT is exponential in the space required to store training examples $\mathcal E$. Indeed, the MDP states that DPDT builds in algorithm~\ref{alg:dpdt} are training samples $X\subseteq \mathcal E$. Hence, the total space required to run DPDT is $O({Np}(2B)^{D})$ where $Np$ is the size of $\mathcal{E}$. In practice, one should implement DPDT in a depth first search manner to obtain a space complexity linear in the size of training set: $O(DNp)$. In practice DPDT builds the MDP from section~\ref{sec:the-mdp} by starting from the root and recursively splitting the training set while backpropagating the $Q$-values. This is possible because the MDP we solve has a (not necessarily binary) tree structure (see figure~\ref{fig:schema-mdp}) and because the $Q$-values of a state only depend on future states. 
+Similarly, the space complexity of DPDT is exponential in the space required to store training examples $\mathcal E$. Indeed, the MDP states that DPDT builds in algorithm~\ref{alg:dpdt} are training samples $\mathcal X \subseteq \mathcal E$. Hence, the total space required to run DPDT is $O({Np}(2B)^{D})$ where $Np$ is the size of $\mathcal{E}$. In practice, one should implement DPDT in a depth first search manner to obtain a space complexity linear in the size of training set: $O(DNp)$. In practice DPDT builds the MDP from section~\ref{sec:the-mdp} by starting from the root and recursively splitting the training set while backpropagating the $Q$-values. This is possible because the MDP we solve has a (not necessarily binary) tree structure (see figure~\ref{fig:schema-mdp}) and because the $Q$-values of a state only depend on future states. 
 
 We implemented DPDT\footnote{\url{https://github.com/KohlerHECTOR/DPDTreeEstimator}} following scikit-learn API~\cite{sklearn_api} with depth-first search and state-depth-dependent splits generating. 

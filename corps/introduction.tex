@@ -84,7 +84,7 @@ However, the computations performed by these programs cannot be understood and v
 This can be problematic in applications where decisions have important consequences. 
 Consider the following extreme scenario in the context of the cancer treatment example: a program recommends to the doctor to amputate a patient's limb.
 While amputating could be the only way to save the patient's life, it is not hard to imagine that such an extreme recommendation would not be followed by the doctor unless it comes with convincing explanations or unless the factors that influenced the program's recommendation can be presented to the doctor. 
-In an other setting where the program directly act in the real-world, i.e. it does not make recommendations to a human but rather acts autonomously, black-box programms are also not desirable.
+In an other setting where the program directly act in the real-world, i.e. it does not make recommendations to a human but rather acts autonomously, black-box programs are also not desirable.
 Consider the slightly extreme scenario of a combat drone in which a program decides on who to shoot.
 In this context, it is hard to imagine leaders deploying such drones and programs without having strict guarantees that it will, e.g. not shoot civilians.
 Such guarantees can be obtained through formal verifications of programs which in turn can only be obtain for certain programs.
@@ -129,8 +129,8 @@ What is remarkable is that the first recorded occurrence of ``interpretability''
 In Boole's system, the expression $x+y$ is interpretable only when $x$ and $y$ are disjoint sets, because then ``+'' clearly represents their union. 
 By contrast, in e.g. a neural network program~\cite{perceptron}, an operation like $x+y$ typically means adding two hidden vectors in a high-dimensional space. 
 The result is mathematically well-defined, but its semantic meaning—what concept or feature this new vector corresponds to—is black-box. 
-Just as Boole worried that logic would lose its generality and practical use if restricted only to easily interpretable operations, there exisits similar tension in machine learning today.
-In machine learning, should we limit ourselves to inherently interpretable programs (like decision trees~\cite{breiman1984classification}, where $x+y$ might literally mean combining two feature contributions, like blood cells count and tumor size) or accept uninterpretable computations in black-box programs (like in neural networks) in order to have boradly applicable and highly performant programs?
+Just as Boole worried that logic would lose its generality and practical use if restricted only to easily interpretable operations, there exists similar tension in machine learning today.
+In machine learning, should we limit ourselves to inherently interpretable programs (like decision trees~\cite{breiman1984classification}, where $x+y$ might literally mean combining two feature contributions, like blood cells count and tumor size) or accept uninterpretable computations in black-box programs (like in neural networks) in order to have broadly applicable and highly performant programs?
 The global trend in machine learning research answers the latter.
 
 \begin{figure}
@@ -326,7 +326,7 @@ The global trend in machine learning research answers the latter.
         \caption{Interpretable approach using decision trees}
         \label{fig:cancer-treatment-comparison}
     \end{subfigure}
-    \caption{Comparison of sequential decision making approaches in cancer treatment. Top: a black-box neural network approach where the doctor cannot interpret the AI's recommendations because the computations are operations over uninterpretable concepts (cf. end of section~\ref{sec:intro-sdm} and Boole's quote~\ref{quote:boole}). Bottom: an interpretable decision tree approach where the doctor can understand and verify the AI's recommendations because the operations are perfomed over meaningful concepts  (cf. end of section~\ref{sec:intro-sdm} and Boole's quote~\ref{quote:boole}). Both systems learn from treatment outcomes to improve their recommendations over time.}
+    \caption{Comparison of sequential decision making approaches in cancer treatment. Top: a black-box neural network approach where the doctor cannot interpret the AI's recommendations because the computations are operations over uninterpretable concepts (cf. end of section~\ref{sec:intro-sdm} and Boole's quote~\ref{quote:boole}). Bottom: an interpretable decision tree approach where the doctor can understand and verify the AI's recommendations because the operations are performed over meaningful concepts  (cf. end of section~\ref{sec:intro-sdm} and Boole's quote~\ref{quote:boole}). Both systems learn from treatment outcomes to improve their recommendations over time.}
     \label{fig:cancer-treatment-comparison-combined}
 \end{figure}
 
@@ -392,7 +392,7 @@ Global methods, like decision tree induction~\cite{breiman1984classification}, r
 By contrast, local methods require to run an additional algorithm, e.g. linear regression~\cite{regression}, but are agnostic to the model class.
 In figure~\ref{fig:interpretability-performance-tradeoff} we present a popular trade-off between interpretability and performance of different model classes based on various user studies and popular beliefs~\cite{study-0,study-1,study-2,study-3,study-4,study-5,study-6,study-7}.
 
-Local interpretable model-agnostic explanations (LIME)~\cite{lime} is a popular local interpretablity method.
+Local interpretable model-agnostic explanations (LIME)~\cite{lime} is a popular local interpretability method.
 Given a model, LIME works by perturbing the input and learning a simple interpretable model locally to explain that particular prediction (see figure~\ref{fig:lime}). 
 For each individual prediction, LIME provides interpretations by identifying which features were most important for that specific decision.
 
@@ -498,7 +498,7 @@ Those interpretable by design models can be obtained by global interpretability 
         \draw[arrow] (sl_indirect) -- (dt_indirect) node[label, midway] {\tiny Learns};
         
     \end{tikzpicture}
-    \caption{Comparison of direct and indirect approaches for learning interpretable models in sequential decision making}
+    \caption{Comparison of direct and indirect approaches for learning interpretable models in sequential decision making.}
     \label{fig:direct-vs-indirect-methods}
 \end{figure}
 
@@ -510,9 +510,9 @@ To directly learn interpretable models for sequential decision making, one must 
 Most existing research has focused on developing indirect methods. 
 Indirect methods for interpretable sequential decision making—sometimes called \textit{post hoc} methods—begin by learning a non-interpretable model (e.g., reinforcement learning of a neural network model), and then use supervised learning to fit an interpretable model that emulates the black-box.
 Indirect methods rely on behavior cloning or imitation learning~\cite{behavior-cloning,dagger} to emulate the black-box models.
-Most work on interpretable sequential decision focues on the indirect approach\cite{viper,PIRL}.
+Most work on interpretable sequential decision focuses on the indirect approach\cite{viper,PIRL}.
 
-Verifiable Reinforcement learning via Policy Extraction, or VIPER \cite{viper}, is a strong indirect method to learn decision tree models for sequential decision making. VIPER first trains a neural network model with reinforcement learning and then fit a decision tree to minimize the disagreement between the nerual network and the tree outputs given the same inputs.
+Verifiable Reinforcement learning via Policy Extraction, or VIPER \cite{viper}, is a strong indirect method to learn decision tree models for sequential decision making. VIPER first trains a neural network model with reinforcement learning and then fit a decision tree to minimize the disagreement between the neural network and the tree outputs given the same inputs.
 They show that decision tree models, in addition to being transparent, are also fast to verify in the formal sense of the term \cite{maraboupy}.
 Programmatic models are an interpretable class that contains decision trees. 
 Programmatically Interpretable Reinforcement Learning (PIRL) \cite{PIRL} synthesizes programs in a domain-specific language, also by imitating a neural network model. 
@@ -524,9 +524,9 @@ Hence, there is no guarantee that optimizing this surrogate objective of best em
 Figure~\ref{fig:direct-vs-indirect-methods} illustrates the key difference between these two approaches. 
 
 Beyond direct and indirect learning, a complementary strategy is to train experts that are inherently easier to imitate and understand.
-This is achieved by adding interpretability-oriented regularization during training. In the context of supervised learning tasks, authors of \cite{parbhoo} regularize the neural netowk model during training such that indirect approaches will be biased towards more interpretable trees.
+This is achieved by adding interpretability-oriented regularization during training. In the context of supervised learning tasks, authors of \cite{parbhoo} regularize the neural network model during training such that indirect approaches will be biased towards more interpretable trees.
 
-In addition to finding models which compuations can be read by humans or that can be formally verified, interpretable machine learning has also been used to detect reward misalignment in sequential decision making: by exposing the decision process of a model, one can identify goal misspecification or unintended shortcuts.
+In addition to finding models which computations can be read by humans or that can be formally verified, interpretable machine learning has also been used to detect reward misalignment in sequential decision making: by exposing the decision process of a model, one can identify goal mis-specification or unintended shortcuts.
 Such shortcuts can be, for example, following the shadow of someone instead of actually following someone because for the model they lead to the same reactions.
 The learning of interpretable models for misalignment detection has been heavily studied by Quentin Delfosse contemporarily to this manuscript \cite{scobots,shindo2024blendrl,nudge,ocatari}.
 
@@ -548,7 +548,7 @@ This is something that will be key in our study of decision tree models that we 
     \item Each leaf node $l \in \mathcal{N}$ is associated with a prediction $y_l \in \mathcal{Y}$, where $\mathcal{Y}$ is the output space.
     \item For any input $x \in \mathcal{X}$, the tree defines a unique path from root to leaf, determining the prediction $T(x) = y_l$ where $l$ is the reached leaf.
     \end{itemize}
-    The depth of a tree is the maximum path lentght from root to any leaf.
+    The depth of a tree is the maximum path length from root to any leaf.
     \end{definition}
 
 \begin{figure}
@@ -582,17 +582,17 @@ This is something that will be key in our study of decision tree models that we 
         \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
         
     \end{tikzpicture}
-    \caption{A generic depth 2 decision tree with 2 nodes and 3 leaves. The root nodee applies the test $1_{\{x_{\_,1}\leq \frac{1}{2}\}}$ to check if the first features of data is below $\frac{1}{2}$. Edges represent the outcomes of the tests in each internal nodes(True/False), and leaf nodes contain predictions $y_l \in \mathcal{Y}$. For any input $\boldsymbol{x}_i$, the tree defines a unique path from root to leaf.}
+    \caption{A generic depth 2 decision tree with 2 nodes and 3 leaves. The root node applies the test $1_{\{x_{\_,1}\leq \frac{1}{2}\}}$ to check if the first features of data is below $\frac{1}{2}$. Edges represent the outcomes of the tests in each internal nodes(True/False), and leaf nodes contain predictions $y_l \in \mathcal{Y}$. For any input $\boldsymbol{x}_i$, the tree defines a unique path from root to leaf.}
     \label{fig:dt}
 \end{figure}
 
 \section{How to learn decision trees?}\label{sec:sl}
-Training decision trees to optimize the supervised learning objective~\ref{def:sl} is well studied.
+Training decision trees to optimize the following supervised learning objective is well studied~\cite{breiman1984classification}.
 
 \begin{definition}[Supervised learning objective for classification or regression]\label{def:sl}
-    Assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(\boldsymbol{x}_i, y_i)\}}_{i=1}^N$. Each datum $\boldsymbol{x}_i$ is described by a set of $p$ features $x_{ij}$ with $1\leq j \leq p $ . $y_i \in {\mathcal Y}$ is the label associated with $\boldsymbol{x}_i$.
+    Assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(\boldsymbol{x}_i, y_i)\}}_{i=1}^N$. Each datum $\boldsymbol{x}_i \in \mathcal{X}$ is described by a set of $p$ features $x_{ij}$ with $1\leq j \leq p $ . $y_i \in {\mathcal Y}$ is the label associated with $\boldsymbol{x}_i$.
     For a classification task $\mathcal{Y}=\{1,\ldots,K\}$ and for a regression task $\mathcal{Y}\subseteq \mathbb{R}$.
-    The goal of supervised learning for classification (or regression) tasks is to find a classifier (or regressor) $f:X \rightarrow  y$ that minimizes the following objective:
+    The goal of supervised learning for a classification (or regression) task is to find a classifier (or a regressor) $f:\mathcal{X} \rightarrow  \mathcal{Y}$ that minimizes the following objective:
     \begin{align}
         \mathcal{L}_{\alpha}(f) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{l}(y_i, f(\boldsymbol{x}_i)) + \alpha C(f),
         \label{eq:suplearning}
@@ -600,9 +600,10 @@ Training decision trees to optimize the supervised learning objective~\ref{def:s
     where $f$ is a model in a particular model class, e.g. the set of neural networks with relu activations or decision trees with depth at most 4, and where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a regularization penalty.
     \end{definition}
 
-The Classification and Regression Trees (CART) algorithm \cite{breiman1984classification} (algorithm~\ref{alg:cart}), developed by Leo Breiman and colleagues, is one of the most widely used method for learning decision trees from supervised data.
-CART builds binary decision trees through a greedy, top-down approach that recursively partitions the feature space. 
-At each internal node, the algorithm selects the feature and threshold that best split the data according to a purity criterion such as the Gini impurity for classification or mean squared error for regression.
+The classification and regression trees (CART) algorithm \cite{breiman1984classification} (cf. algorithm~\ref{alg:cart}), developed by Leo Breiman and colleagues in 1984, is one of the most widely used method for learning decision trees from supervised data.
+CART builds binary decision trees through a greedy, top-down approach that recursively partitions the feature space.
+Throughout this manuscript we will focus on numerical features ($\mathcal{X} \subsetneq \mathbb{R}$) and assume that non-numerical features, e.g. nominal features, can always be converted to numerical ones without loss of information.
+At each internal node, the algorithm selects the feature and its threshold that best split the data according to a purity criterion such as the Gini impurity for classification or mean squared error for regression.
 CART uses threshold-based tests of the form $1_{\{x_{\_,j} \leq v\}}$, where $1_{\{\}}$ is the indicator function. 
 The key idea is to find splits that maximize the homogeneity of the resulting subsets. 
 We use CART as well as other decision tree algorithms in this manuscript.
@@ -737,7 +738,7 @@ Informally, we would like to act in an MDP such that we obtain as much reward as
 For example, in cancer treatment, the best outcome is to eliminate the patient's tumor as quickly as possible.
 We can formally define this objective, that we call the reinforcement learning objective, as follows:
 
-\begin{definition}[Reinforcement learning objective]\label{def:mdp-obj} Given an MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$ (~\ref{def:mdp}), the objective of a model, aslo known as a policy $\pi: S \rightarrow A$ is to maximize the expected discounted sum of rewards:
+\begin{definition}[Reinforcement learning objective]\label{def:mdp-obj} Given an MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$ (~\ref{def:mdp}), the objective of a model, also known as a policy $\pi: S \rightarrow A$ is to maximize the expected discounted sum of rewards:
 $$J(\pi) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
 where $\gamma \in (0,1]$ is the discount factor that controls the trade-off between immediate and future rewards.
 \end{definition}
@@ -854,7 +855,7 @@ More realistically, neither the transition kernel $T$ nor the reward function $R
 This distinction in available information parallels the distinction between dynamic programming and reinforcement learning, described next. 
 
 \section{Reinforcement learning of approximate solutions to MDPs}\label{sec:rl}
-When the MDP transitions and rewards are unknown, one can use reinforcement learning (RL) algoritms--also known as agents--to learn values or policies maximizing the RL objective (\ref{def:mdp-obj}). 
+When the MDP transitions and rewards are unknown, one can use reinforcement learning (RL) algorithms--also known as agents--to learn values or policies maximizing the RL objective (\ref{def:mdp-obj}). 
 % \begin{figure}
 %     \centering
 %     \begin{subfigure}[b]{0.22\textwidth}
@@ -887,7 +888,7 @@ When the MDP transitions and rewards are unknown, one can use reinforcement lear
 Reinforcement learning algorithms popularized by Richard Sutton~\cite{sutton} don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of transitions $(s_t, a_t, r_t, s_{t+1})_t$.
 RL algorithms usually fall into two categories: value-based~\cite{sutton} and policy search~\cite{pg_sutton}.
 Examples of these approaches are shown in algorithms~\ref{alg:qlearning},~\ref{alg:sarsa} and~\ref{alg:reinforce}.
-Q-learning and Sarsa compute an approximation of $Q^{\star}$ (cf. definition~\ref{def:qvalues}) using temporal difference learning~\cite{sutton}. Q-learning is \textit{off policy}: it collects new transisitions with a random policy, e.g. epsilon-greedy. Sarsa is \textit{on policy}: it collects new transitions greedily w.r.t. the current Q-values estimates.
+Q-learning and Sarsa compute an approximation of $Q^{\star}$ (cf. definition~\ref{def:qvalues}) using temporal difference learning~\cite{sutton}. Q-learning is \textit{off policy}: it collects new transitions with a random policy, e.g. epsilon-greedy. Sarsa is \textit{on policy}: it collects new transitions greedily w.r.t. the current Q-values estimates.
 Policy gradient algorithms leverages the policy gradient theorem to approximate $\pi^{\star}$.
 
 Q-learning, Sarsa, and policy gradients algorithms are known to converge to the optimal value or (locally) optimal policy under some conditions.
@@ -1027,7 +1028,7 @@ where $\rho(\boldsymbol{s})$ is the state distribution in $\mathcal{M}$ induced 
 There are two main imitation learning methods used for interpretable reinforcement learning.
 Dagger (\cite{PIRL}; algorithm~\ref{alg:dagger}) is a straightforward way to fit a decision tree policy to optimize the imitation learning objective\ref{def:il}.
 VIPER (\cite{viper}; algorithm~\ref{alg:viper}) was designed specifically for interpretable reinforcement learning.
-VIPER reweights the transitions collected by the neural network expert by a function of the state–action value\ref{sec:values}.
+VIPER re-weights the transitions collected by the neural network expert by a function of the state–action value\ref{sec:values}.
 The authors of VIPER showed that decision tree policies fitted with VIPER tend to have the same RL objective value as Dagger trees while being more interpretable (shallower or with fewer nodes) and sometimes outperform Dagger trees.
 Dagger and VIPER are two strong baselines for decision tree learning in MDPs, but they optimize a surrogate objective only, even though in practice the resulting decision tree policies often achieve high RL objective value.
 
@@ -1171,10 +1172,10 @@ Next, we present the outline of the thesis.
 \end{figure}
 
 \section{Outline of the thesis}
-Throughout our thesis, we make the assumption that constraing models (e.g. policies or classifiers) to decision trees is engouh ensuring interpretability.
+Throughout our thesis, we make the assumption that constraining models (e.g. policies or classifiers) to be decision trees is enough for ensuring interpretability.
 In this thesis we study different decision tree learning algorithms in different settings. 
 In the first part of the manuscript, we show that direct decision tree learning methods (cf. figure~\ref{fig:direct-vs-indirect-methods}) struggle to find decision tree policies even for very simple sequential decision making problems.
-For that, we first reproduce the work from~\cite{topin2021iterative} that presents a formalism for learning decision tree policies that optimize~\ref{def:mdp-obj} directly using reinforcement learning, and then make connexions with hardness results from the partially observable MDPs (POMDPs)\cite{POMDP,chap2} litterature.
+For that, we first reproduce the work from~\cite{topin2021iterative} that presents a formalism for learning decision tree policies that optimize~\ref{def:mdp-obj} directly using reinforcement learning, and then make connections with hardness results from the partially observable MDPs (POMDPs)\cite{POMDP,chap2} literature.
 We defer the introduction of POMDPs to later sections.
 In the second part of the manuscript, we formulate decision tree induction for supervised learning as solving a sequential decision making problem.
 By formalizing decision tree induction for the supervised learning objective (\ref{def:sl}) as solving an MDP (cf. definition~\ref{def:mdp}), we design novel algorithms that achieve very good performances.
