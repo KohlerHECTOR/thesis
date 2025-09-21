@@ -25,7 +25,7 @@ Any such policy can be converted into a binary decision tree through a recursive
 
 \begin{proposition}[Objective Equivalence]\label{prop:equiv}
 Let $\pi$ be a deterministic policy of the MDP (\ref{sec:the-mdp}) and $\pi^*$ be an optimal deterministic policy. 
-Then $J_\alpha(\pi) = -{\mathcal L}_\alpha(E(\pi, s_0))$ and $T^* = E(\pi^*, s_0)$ where $T^*$ is a tree that optimizes (~\ref{eq:suplearning}).
+Then $J_\alpha(\pi) = -{\mathcal L}_\alpha(E(\pi, s_0))$ and $T^* = E(\pi^*, s_0)$ where $T^*$ is a tree that optimizes the decision tree induction objective (cf. definition~\ref{eq:suplearning}).
 \end{proposition}
 This proposition is key as it states that the return of any policy of the MDP defined above is equal to the regularized training accuracy of the tree extracted from this policy.
 A consequence of this proposition is that when all possible splits are considered, the optimal policy will generate the optimal tree in the sense defined by (~\eqref{eq:suplearning}).

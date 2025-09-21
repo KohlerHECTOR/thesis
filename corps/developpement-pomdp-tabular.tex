@@ -1,6 +1,6 @@
 \chapter{Limits of direct reinforcement learning of decision tree policies}\label{sec:pomdp}
 
-From the previous chapter, we know that to directly learn decision tree policies that optimize the RL objective (\ref{def:mdp-obj}) for an MDP, one can learn a deterministic partially observable policy that optimizes the interpretable RL objective (~\ref{def:irl}) in an IBMDP (cf. definition~\ref{def:ibmdp} and proposition~\ref{def:po-policy}).
+From the previous chapter, we know that to directly learn decision tree policies that optimize the RL objective (\ref{def:mdp-obj}) for an MDP, one can learn a deterministic partially observable policy that optimizes the interpretable RL objective (cf. definition~\ref{def:irl}) in an IBMDP (cf. definition~\ref{def:ibmdp} and proposition~\ref{def:po-policy}).
 Such problems are classical instances of partially observable Markov decision processes (POMDPs)~\cite{POMDP,chap2}.
 This connexion with POMDPs brings novel insights to direct reinforcement learning of decision tree policies. 
 In this chapter, all the decision processes presented have a finite number of vector-valued states and observations.
@@ -393,7 +393,7 @@ Furhtermore, the careful reader might notice that there is no point running asym
 Hence, we only run asymmetric RL for POIBMDPs and otherwise run all other RL algorithms and all problems.
 
 Each unique hyperparameters combination for a given algorithm on a given problem is run 10 times on 1 million learning steps.
-For example, for asymmetric Sarsa, we run a total of $10\times 768= 7680$ experiments for learning deterministic partially observable policies for a POIBMDP (cf. Table~\ref{tab:hp-sarsa}).
+For example, for asymmetric Sarsa, we run a total of $10\times 768= 7680$ experiments for learning deterministic partially observable policies for a POIBMDP (cf. table~\ref{tab:hp-sarsa}).
 To get a success rate, we can simply divide the number of learned depth 1 tree by 7680 (recall that for $\gamma=0.99$ and $\zeta=0.5$, the optimal policy is a depth-1 tree (e.g. figure~\ref{fig:optimal-policy-trees}) as per figure~\ref{fig:objectives}). 
 
 \begin{table}

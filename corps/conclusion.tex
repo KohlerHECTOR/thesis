@@ -1,13 +1,13 @@
 \chapter*{General conclusion}
-In this manuscript we have tackled the hard problem of interpretable sequential decision making.
-We have studied interpretability through the prism of model classes used as policies for Markov deicison processes or predictors for classification tasks.
-We put great emphasis on decision tree models that are often considered more interpretable than neural networks, now widespread in machine learning applications.
+In this manuscript we have tackled the problem of interpretable sequential decision making.
+We have studied interpretability through the prism of model classes used as policies for Markov decision processes or predictors for classification tasks.
+We put great emphasis on decision tree models that are often considered more interpretable than neural networks, now used in many machine learning applications.
 
 In the first part of this manuscript, we studied algorithms that learn non-parametric decision tree policies for Markov decision processes (cf. chapter~\ref{sec:intro-pomdp}).
 In particular, we studied the reinforcement learning algorithms from~\cite{topin2021iterative} that use the reward signal of some augmented Markov decision process to train decision tree policies that optimize some trade-off of interpretability and performance in a sequential decision task.
 In chapter~\ref{sec:topin}, we performed a reproducibility study of those algorithms and concluded that imitation learning algorithms, despite not optimizing the performances on the downstream tasks, yielded better decision tree policies with similar number of internal nodes.
 To better understand why directly optimizing an interpretability-performance trade-off using reinforcement learning yielded bad decision tree policies, we showed in chapter~\ref{sec:pomdp} that the latter could be re-written as an optimization problem in a partially observable Markov decision processes.
-Through extenisve experimentations with standard and specialized reinforcement learning algorithms in a very controlled environment, we identified partial observability as the main failure mode of direct reinforcement learning for decision tree policies.
+Through extensive experimentation with standard and specialized reinforcement learning algorithms in a very controlled environment, we identified partial observability as the main failure mode of direct reinforcement learning for decision tree policies.
 To further corroborate this conclusion, we showed that for the same class of partially observable Markov decision problems where this time the observations contained all the information about the hidden state, those reinforcement learning algorithms converged to the optimal decision tree policies.
 Surprisingly, this class of easy to solve partially observable Markov decision problems contains supervised learning problems.
 
@@ -17,11 +17,11 @@ In chapter~\ref{sec:dt-mdp}, we showed how to construct a Markov decision proces
 In chapter~\ref{sec:exps-dt}, we showed that adaptively choosing actions based on some greedy heuristics and then solving the Markov decision process with dynamic programming yielded state-of-the-art decision tree classifiers.
 Extensive benchmarking highlights that DPDT computes near-optimal decision trees in a fraction of the time required by existing optimal solvers.
 Most importantly, we showed that DPDT can be competitive in many machine learning applications as its generalization capabilities when generating single or ensemble of trees are also state-of-the-art compared to greedy and optimal algorithms.
-While this part of the manuscript may have seemed orthogonal to the other two as the primary focus of algorithms studied there is downstream task performances rather than interpertability, this justifies studying interpretability for more than just transparency and safety, e.g. for perofrmances.
+While this part of the manuscript may have seemed orthogonal to the other two as the primary focus of algorithms studied there is downstream task performances rather than interpretability, this justifies studying interpretability for more than just transparency and safety, e.g. for performances.
 
-In the last part of this manuscript, we reflect on the notion of intepretability of a model and how to measure it.
-While it seems obvious that interpretability only exists with repsect to a user and a task, the speed at which machine learning is moving as a research field prompts new methodologies that don't require humans.
-In chapter~\ref{sec:intro-methodo}, we proposed to measure the interpretaiblity of a given model with inference speed and size in memory.
+In the last part of this manuscript, we reflect on the notion of interpretability of a model and how to measure it.
+While it seems obvious that interpretability only exists with respect to a user and a task, the speed at which machine learning is moving as a research field prompts new methodologies that don't require humans.
+In chapter~\ref{sec:intro-methodo}, we proposed to measure the interpretability of a given model with inference speed and size in memory.
 Those two metrics echo the notion of simulatability introduced in~\cite{lipton} in which the interpretability of a model is related to the classical notion of complexity in computer science.
 In chapter~\ref{sec:exps1}, we showed that for those measures to be meaningful when comparing models from different classes, one needs to unfold models in a common language such as python.
 Hence, after sequentializing all operations inside a model and running them on the same hardware, we obtain measures for proxies of interpretability that we can meaningfully compare and that aligns with existing results from user studies.
@@ -30,7 +30,7 @@ This results further highlights the need for careful methodology when researchin
 
 We already identified specific future research directions in sections~\ref{sec:ccl-pomdp},~\ref{sec:ccl-dpdt} and~\ref{sec:ccl-imit}. Here, we discuss broader perspectives on interpretable sequential decision making, focusing on two key challenges in the field.
 
-The first challenge concerns the fundamental tension between model interpretability and performance. Modern research increasingly focuses on large black-box models like large language models (LLMs)~\cite{all-you-need}, which achieve unprecedented performance but lack transparency. While interpretability research often aims to ensure model safety, this approach faces two significant obstacles. First, constraining models to be interpretable typically results in lower performance compared to advanced neural architectures. Second, in practice the indirect interpretation of complex models only provides local understanding (cf.~\ref{fig:lime}), undermining the safety guarantees we seek. This limitation is intrinsic to emerging approaches like mechanistic interpretability and chain-of-thoughts analysis~\cite{barez-chain-2025} that exclusively focus on local interpretations of LLMs.
+The first challenge concerns the fundamental tension between model interpretability and performance. Black-box models like large language models (LLMs)~\cite{all-you-need}, which achieve unprecedented performance but lack transparency, are increasingly studied. While interpretability research often aims to ensure model safety, this approach faces two significant obstacles. First, constraining models to be interpretable typically results in lower performance compared to advanced neural architectures. Second, in practice the indirect interpretation of complex models only provides local understanding (cf.~\ref{fig:lime}), undermining the safety guarantees we seek. This limitation is intrinsic to emerging approaches like mechanistic interpretability and chain-of-thoughts analysis~\cite{barez-chain-2025} that exclusively focus on local interpretations of LLMs.
 
 However, this tension also reveals opportunities. Not all effective machine learning requires large, opaque models. Formally verifiable relu networks, small neural networks, and decision trees (as demonstrated in this manuscript) can achieve strong generalization while remaining interpretable. The challenge lies in identifying domains where these models can be most impactful.
 
@@ -38,4 +38,4 @@ The second challenge involves identifying contexts where interpretability is gen
 
 Paradoxically, interpretability might be most crucial in systems where human oversight is minimal or impossible after deployment. Consider two contrasting scenarios. In a military drone system where humans make final decisions, the need for interpretability might seem less critical. However, in an autonomous spacecraft controlled by a neural network, where human intervention is impossible post-deployment, interpretability through verification becomes essential. Yet this raises another question: is developing a comprehensive verification framework (cf. section~\ref{sec:verif}) any more efficient than designing a traditional, interpretable controller?
 
-We conclude that the most challenging aspect of interpretability research lies not in developing new methods, but in rigorously identifying where and why interpretability is truly indispensable.
+We conclude that the most challenging aspect of interpretability research does not lie in developing new methods, but in rigorously identifying where and why interpretability is truly indispensable.

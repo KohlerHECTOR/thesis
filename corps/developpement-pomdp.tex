@@ -1,7 +1,7 @@
 \chapter{Direct reinforcement learning of decision tree policies}\label{sec:topin}
 In this chapter, we compare deep reinforcement learning of decision tree policies (Chaper \ref{sec:intro-pomdp}) to imitation learning of decision tree policies (section \ref{sec:imit}) for the CartPole MDP~\cite{cartpole}.
 
-In particular, we attempt to reproduce the results from~\cite[Table 1]{topin2021iterative} in which authors constraint the solution space of decision tree policies to depth-2 trees.
+In particular, we attempt to reproduce the results from~\cite[table 1]{topin2021iterative} in which authors constraint the solution space of decision tree policies to depth-2 trees.
 In the original results, authors find that deep reinforcement learning to solve the interpretable rl objective (\ref{def:irl}) and Dagger or VIPER (section \ref{sec:imit}) to solve the imitation learning objective (\ref{def:il}) find similar decision trees.
 We find that imitation learning, despite not directly optimizing the RL objective for CartPole, outperforms deep RL that optimizes (\ref{def:irl}) even though the deep RL approach directly optimizes the RL objective for CartPole (up to some trade-off with interpretability).
 \section{Reproducing ``Iterative Bounding MDPs: Learning Interpretable Policies via Non-Interpretable Methods''}
@@ -41,7 +41,7 @@ Those two variants of DQN and PPO have first been introduced in \cite{pinto} for
 Asymmetric RL algorithms that have policy and value estimates using different information from a POMDP~\cite{POMDP,chap2} were later studied theoretically to solve POMDPs in Baisero's work~\cite{baisero-dqn,baisero-ppo}.
 The connexions from Deep RL in IBMDPs for objective \ref{def:irl} is absent from \cite{topin2021iterative} and we defer their connexions to direct interpretable reinforcement learning to the next chapter as our primary goal is to reproduce \cite{topin2021iterative} \textit{as is}.
 
-Next, we present the precise experimental setup we use to reproduce~\cite[Table 1]{topin2021iterative} in order to study direct deep reinforcement learning of decision tree policies for the CartPole MDP.
+Next, we present the precise experimental setup we use to reproduce~\cite[table 1]{topin2021iterative} in order to study direct deep reinforcement learning of decision tree policies for the CartPole MDP.
 
 \begin{algorithm}
     \KwData{IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$, learning rate $\alpha$, exploration rate $\epsilon$, partially observable Q-network parameters $\theta$, Q-network parameters $\phi$, replay buffer $\mathcal{B}$, update frequency $C$}
@@ -155,7 +155,7 @@ We do not report the imitation learning objective values (\ref{def:il}) during V
 Every single combination of IBMDP and Modified RL hyperparameters is run 20 times.
 For standard RL on either an IBMDP or an MDP, we use the paper's original hyperparameters when they were specified, with depth control using negative rewards, $\operatorname{tanh()}$ activations.
 We use 20 individual random seeds for every experiment in this chapter.
-Next, we present our results when reproducing~\cite[Table 1]{topin2021iterative}.
+Next, we present our results when reproducing~\cite[table 1]{topin2021iterative}.
 
 \section{Results}
 
@@ -308,7 +308,7 @@ In tables ~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperpara
 
 
 On figure~\ref{fig:ppo-trees}, we isolate the best performing algorithms instantiations that learn decision tree policies for the CartPole MDP.
-We compare the best modified DQN and modified PPO to imitation learning baselines that use the surrogate imitation objective (~\ref{def:il}) to find CartPole decision tree policies.
+We compare the best modified DQN and modified PPO to imitation learning baselines that use the surrogate imitation objective (cf. definition~\ref{def:il}) to find CartPole decision tree policies.
 We find that despite having poor performances in \textit{average}, the modified deep reinforcement learning baselines can find very good decision tree policies as shown by the min-max shaded areas on the left of figure~\ref{fig:ppo-trees} and the corresponding estimated density of learned trees performances.
 However this is not desirable, a user typically wants an algorithm that can consistently find good decision tree policies.
 As shown by the estimated densities, indirect methods consistently find good decision tree policies (the higher modes of distributions are on the right of the plot).

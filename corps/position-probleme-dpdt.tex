@@ -12,7 +12,7 @@ In chapter~\ref{sec:dt-mdp}, we introduce a novel MDP formulation of decision tr
 Finally, in chapter~\ref{sec:exps-dt}, we show that our new decision tree induction framework performs very well both in terms of training loss and generalization capabilites.
 
 \section{Why do we want new decision tree induction algorithms?}
-In supervised learning (~\ref{def:sl}), decision trees (\ref{fig:dt}) are valued for their interpretability and performance. 
+In supervised learning (cf. definition~\ref{def:sl}), decision trees (\ref{fig:dt}) are valued for their interpretability and performance. 
 While greedy decision tree algorithms like CART (algorithm~\ref{alg:cart} \cite{breiman1984classification}remain widely used due to their computational efficiency, they often produce sub-optimal solutions with respect to a regularized training loss (\ref{def:sl}). 
 Conversely, optimal decision tree methods can find better solutions but are computationally intensive and typically limited to shallow trees or binary features. We present Dynamic Programming Decision Trees (DPDT), a framework that bridges the gap between greedy and optimal approaches. 
 DPDT relies on a Markov decision process (\ref{def:mdp}) formulation combined with heuristic split generation to construct near-optimal decision trees with significantly reduced computational complexity. 

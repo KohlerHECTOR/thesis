@@ -8,13 +8,21 @@
         "hyperparameters",
         "interpretabilis",
         "interpretability",
+        "markovian",
+        "memoryless",
         "PIRL",
+        "POIBMDP",
+        "POIBMDPs",
+        "POMDP",
         "POMDPs",
         "Puterman",
         "Puterman's",
         "relu",
         "Sarsa",
+        "sequentializing",
         "SHAP",
-        "tokamak"
+        "simulatability",
+        "tokamak",
+        "Topin"
     ]
 }

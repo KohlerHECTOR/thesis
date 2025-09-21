@@ -99,7 +99,7 @@ We train trees using the default CART (algorithm~\ref{alg:cart} ~\cite{breiman19
 We explain in more details how we adapt CART to return oblique decision trees in appendix~\ref{chap-app-imit}.
 We also consider neural networks with relu activations~\cite{relunet} with varying number of parameters (total number of weights).
 
-In Table~\ref{tab:policy-classes} we summarize the different policy classes we will consider for our study.
+In table~\ref{tab:policy-classes} we summarize the different policy classes we will consider for our study.
 There is one class of linear policies, five classes of decision trees and oblique decision trees, each defined by the maximum number of nodes in the tree, and four classes or relu networks each defined by the number and sizes of hidden layers.
 
 \subsection{Which expert policies to imitate with what algorithm?}
@@ -112,7 +112,7 @@ All experts are compatible with Dagger~\cite{dagger}.
 We also consider an additional imitation learning algorithm: behaviour cloning (BC)~\cite{behavior-cloning}.
 BC is essentially just one iteration of Dagger imitation i.e. samples are only collected with the expert policy once before fitting a new poicy class.
 For Dagger and VIPER we use 10 iterations of samples collections with experts and teacher policy (cf. algorithms~\ref{alg:dagger} and~\ref{alg:viper}) with different total samples budget.
-In Table~\ref{tab:repet-distill}, we summarize the different algorithms used to imitate each expert.
+In table~\ref{tab:repet-distill}, we summarize the different algorithms used to imitate each expert.
 We also specify the total number of samples collected during the imitations as well as the number of times we repet the imitations for statistical significance.
 
 \begin{table}
@@ -137,7 +137,7 @@ We evaluate the interpretability of policies for common environments in reinforc
 We consider the classic control tasks from gymnasium \cite{gymnasium}, MuJoCo robots from \cite{mujoco}, and Atari games from \cite{atari}.
 For Atari games, since the state space is frame pixels that can't be interpreted, we use the object-centric version of the games from \cite{ocatari} in which states are objects in the frame and their positions.
 
-In Table~\ref{tab:envs}, we summarize which environment we consider with their state-action space sizes and a threshold representing the rewards of a ``good'' policy.
+In table~\ref{tab:envs}, we summarize which environment we consider with their state-action space sizes and a threshold representing the rewards of a ``good'' policy.
 In total, we compute across policy classes, imitation algorithms, experts origins, and environments, roughly 40 000 unique policies.
 
 Using those 40 000 policies as baselines, we describe next the experimental setup used to evaluate their interpretability using our methodology.

@@ -601,7 +601,7 @@ Training decision trees to optimize the following supervised learning objective 
 
 The classification and regression trees (CART) algorithm \cite{breiman1984classification} (cf. algorithm~\ref{alg:cart}), developed by Leo Breiman and colleagues in 1984, is one of the most widely used method for learning decision trees from supervised data.
 CART builds binary decision trees through a greedy, top-down approach that recursively partitions the feature space.
-Throughout this manuscript we will focus on numerical features ($\mathcal{X} \subsetneq \mathbb{R}$) and assume that non-numerical features, e.g. nominal features, can always be converted to numerical ones without loss of information.
+Throughout this manuscript we will focus on numerical features ($\mathcal{X} \subsetneq \mathbb{R}^p$) and assume that non-numerical features, e.g. nominal features, can always be converted to numerical ones without loss of information.
 At each internal node, the algorithm selects the feature and its threshold that best split the data according to a purity criterion such as the Gini impurity for classification or mean squared error for regression.
 CART uses threshold-based tests of the form $1_{\{x_{\_,j} \leq v\}}$, where $1_{\{\}}$ is the indicator function. 
 The key idea is to find splits that maximize the homogeneity of the resulting subsets. 
@@ -1178,7 +1178,7 @@ In the second part of the manuscript, we formulate decision tree induction for s
 By formalizing decision tree induction for the supervised learning objective (cf. definition~\ref{def:sl}) as solving an MDP (cf. definition~\ref{def:mdp}), we design novel algorithms that achieve very good performances.
 In the last part of the text, we lift our assumption about decision trees being intrinsically interpretable and study other model classes.
 In particular, we leverage the simplicity of indirect methods to imitate neural network experts with models from figure~\ref{fig:interpretability-performance-tradeoff} and perform a large-scale empirical study of the interpretability-performances trade-offs on various sequential decision making tasks.
-% In Table~\ref{tab:summary-parts} we summarize the outline of this manuscript in terms of learning objective (~\ref{def:sl},~\ref{def:mdp-obj}, or~\ref{def:il}) and model class (figure~\ref{fig:interpretability-performance-tradeoff}).
+% In table~\ref{tab:summary-parts} we summarize the outline of this manuscript in terms of learning objective (~\ref{def:sl},~\ref{def:mdp-obj}, or~\ref{def:il}) and model class (figure~\ref{fig:interpretability-performance-tradeoff}).
 
 % \begin{table}
 %     \centering

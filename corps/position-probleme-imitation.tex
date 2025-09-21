@@ -5,7 +5,7 @@ In this part we propose a methodology to empirically compare the interpretabilit
 
 In this chapter, we present results from existing empirical evaluations of model interpretability and introduce our methodology.
 In chapter~\ref{sec:exps1}, we validate our methodology against results obtained with user studies.
-In chapter~\ref{sec:exps2},using our methodology, we present a large scale study of interpretability-performance trade-offs of different model classes when optimizing the RL objective (~\ref{def:mdp-obj}).
+In chapter~\ref{sec:exps2},using our methodology, we present a large scale study of interpretability-performance trade-offs of different model classes when optimizing the RL objective (cf. definition~\ref{def:mdp-obj}).
 
 \section{Evaluating interpretability with humans}\label{sec:humans}
 User studies typically evaluate interpretability through tasks such as simulation (whether a person can predict the model’s output for a given input), verification (whether a person can check if the model’s prediction is correct), and “what-if” reasoning (whether a person can predict how the output changes if the input is slightly modified)~\cite{study-6,study-5}.
@@ -40,7 +40,7 @@ If one wants to use the notion of simulatibility and ultimately of time or space
 The key contriubtion of this part is to offer a sound methodology to compare the interpretability-performance trade-offs of models from different model classes without requiring humans.
 
 \section{Methodology overview}\label{sec:unfold}
-While our methodology could be applied to evaluate the interpretability-performance trade-offs of different model classes when optimizing the supervised learning objective (~\ref{def:mdp-obj}), we focus in this part on sequential decision making tasks.
+While our methodology could be applied to evaluate the interpretability-performance trade-offs of different model classes when optimizing the supervised learning objective (cf. definition~\ref{def:mdp-obj}), we focus in this part on sequential decision making tasks.
 
 One might argue that once the policy is trained, one could use directly the actual space or time complexity of the policy as the measure of interpretability.
 However, we argue that for decision tree-like models, the time complexity of a predicition will be different for each input (tree traversal will differ) and computing an expected complexity is difficult as the inputs distribution can only be obtained by running the policy in the MDP it was trained for (e.g. with Monte-Carlo estimates).  
