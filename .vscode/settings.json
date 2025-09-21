@@ -6,6 +6,8 @@
         "explainability",
         "Gini",
         "hyperparameters",
+        "IBMDP",
+        "IBMDPs",
         "interpretabilis",
         "interpretability",
         "markovian",
@@ -22,7 +24,9 @@
         "sequentializing",
         "SHAP",
         "simulatability",
+        "timesteps",
         "tokamak",
-        "Topin"
+        "Topin",
+        "undiscounted"
     ]
 }

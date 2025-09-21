@@ -345,7 +345,7 @@ In that range, no baseline consistently minimizes the sub-optimality gap.
 In figure~\ref{fig:dt-distrib-poibmdp}, we plot the distributions over the final learned trees in function of $\zeta$ from the above runs.
 For example, in figure~\ref{fig:dt-distrib-poibmdp}, in the top left plot, when learning 100 times in a POIBMP with $\zeta=0.5$, Q-learning returned almost 100 times a depth-0 tree.
 Again, on none of those subplots do we see a high rate of learned depth-1 trees for $\zeta\in ]0, 1[$.
-It is alerting that the most frequent learned trees are the depth-0 trees for $\zeta\in ]0, 1[$ because such trees are way more sub-optimal w.r.t. to the interpretable RL objective (\ref{def:irl}) than e.g. the depth-2 unbalanced trees (cf. figure~\ref{fig:objectives}).  
+It is alerting that the most frequent learned trees are the depth-0 trees for $\zeta\in ]0, 1[$ because such trees are way more sub-optimal w.r.t. the interpretable RL objective (\ref{def:irl}) than e.g. the depth-2 unbalanced trees (cf. figure~\ref{fig:objectives}).  
 One interpretation of this phenomenon is that the learning in POIBMDPs is very difficult and so agents tend to converge to trivial policies, e.g., repeating the same base action.
 
 However, on the positive side, we observe that asymmetric versions of Q-learning and Sarsa have found the optimal deterministic partially observable policy--the depth-1 decision tree--more frequently throughout the optimality range $]0,1[$, than their symmetric counter-parts for $\zeta\in ]0, 1[$.
