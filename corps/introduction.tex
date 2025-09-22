@@ -95,7 +95,7 @@ Next, we describe the notion of interpretability that is key to ensure that prog
 
 
 Originally, the etymology of ``interpretability'' is the Latin ``interpretabilis'', meaning ``that can be understood and explained''.
-According to the Oxford English Dictionary, the first recorded use of the English word ``interpretability'' dates back to 1854, when the British logician George Boole (figure~\ref{fig:george-boole}) described the addition of concepts:
+According to the Oxford English Dictionary, the first recorded use of the English word ``interpretability'' dates back to 1854, when the British logician George Boole (cf. figure~\ref{fig:george-boole}) described the addition of concepts:
 
 \begin{displaycquote}[p.~48]{boole}
 I would remark in the first place that the generality of a method in Logic
@@ -326,7 +326,7 @@ The global trend in machine learning research answers the latter.
         \caption{Interpretable approach using decision trees}
         \label{fig:cancer-treatment-comparison}
     \end{subfigure}
-    \caption{Comparison of sequential decision making approaches in cancer treatment. Top: a black-box neural network approach where the doctor cannot interpret the AI's recommendations because the computations are operations over uninterpretable concepts (cf. end of section~\ref{sec:intro-sdm} and Boole's quote~\ref{quote:boole}). Bottom: an interpretable decision tree approach where the doctor can understand and verify the AI's recommendations because the operations are performed over meaningful concepts  (cf. end of section~\ref{sec:intro-sdm} and Boole's quote~\ref{quote:boole}). Both systems learn from treatment outcomes to improve their recommendations over time.}
+    \caption{Comparison of sequential decision making approaches in cancer treatment. Top: a black-box neural network approach where the doctor cannot interpret the AI's recommendations because the computations are operations over uninterpretable concepts (cf. end of section~\ref{sec:intro-sdm} and Boole's quote (\ref{quote:boole})). Bottom: an interpretable decision tree approach where the doctor can understand and verify the AI's recommendations because the operations are performed over meaningful concepts  (cf. end of section~\ref{sec:intro-sdm} and Boole's quote (\ref{quote:boole})). Both systems learn from treatment outcomes to improve their recommendations over time.}
     \label{fig:cancer-treatment-comparison-combined}
 \end{figure}
 
@@ -393,7 +393,7 @@ By contrast, local methods require to run an additional algorithm, e.g. linear r
 In figure~\ref{fig:interpretability-performance-tradeoff} we present a popular trade-off between interpretability and performance of different model classes based on various user studies and popular beliefs~\cite{study-0,study-1,study-2,study-3,study-4,study-5,study-6,study-7}.
 
 Local interpretable model-agnostic explanations (LIME)~\cite{lime} is a popular local interpretability method.
-Given a model, LIME works by perturbing the input and learning a simple interpretable model locally to explain that particular prediction (see figure~\ref{fig:lime}). 
+Given a model, LIME works by perturbing the input and learning a simple interpretable model locally to explain that particular prediction (cf. figure~\ref{fig:lime}). 
 For each individual prediction, LIME provides interpretations by identifying which features were most important for that specific decision.
 
 Local interpretability can also be called explainability.
@@ -503,7 +503,7 @@ Those interpretable by design models can be obtained by global interpretability 
 \end{figure}
 
 Global approaches are either direct or indirect~\cite{milani-survey}. 
-Direct algorithms, such as decision tree induction~\cite{breiman1984classification}, \textit{directly} learn an interpretable model optimizing some objective (see figure~\ref{fig:interpretability-performance-tradeoff}).
+Direct algorithms, such as decision tree induction~\cite{breiman1984classification}, \textit{directly} learn an interpretable model optimizing some objective (cf. figure~\ref{fig:interpretability-performance-tradeoff}).
 One key challenge motivating this thesis is that decision tree induction is well-developed for supervised learning but not for reinforcement learning.
 To directly learn interpretable models for sequential decision making, one must design new algorithms which will be the core of the first part of this thesis. 
 
@@ -678,7 +678,7 @@ In the next few sections we present the material related to sequential decision 
     }
     
     \Return BuildTree$(\mathcal{E})$
-    \caption{CART for decision tree induction to optimize the supervised learning objective~\ref{def:sl}}\label{alg:cart}
+    \caption{CART~\cite{breiman1984classification}}\label{alg:cart}
 \end{algorithm}
 
 \section{Markov decision processes and problems}
@@ -801,7 +801,7 @@ Algorithms presented in this manuscript aim to find an optimal policy $\pi^\star
         \node at (4.2,1.3) {{\color{green} $\downarrow$}};
         \node at (4.5,1.5) {{\color{green} $\rightarrow$}};
     \end{tikzpicture}
-    \caption{A grid world MDP (left) and optimal actions w.r.t. the objective~\ref{def:mdp-obj} (right).}\label{example:grid}
+    \caption{A grid world MDP (left) and optimal actions w.r.t. the objective (cf. definition~\ref{def:mdp-obj}) (right).}\label{example:grid}
     \end{figure}
 
 In figure~\ref{example:grid}, we present a very simple MDP (cf. definition~\ref{def:mdp}).
@@ -824,14 +824,14 @@ Algorithms based on dynamic programming use the notion of \textit{value} of stat
     Applying the Markov property gives a recursive definition of the value of $s$ under policy $\pi$:
     $$V^\pi(s) = R(s,\pi(s)) + \gamma \mathbb{E}\left[V^\pi(s') | s'\sim T(s, \pi(s))\right]$$
 \end{definition}
-\begin{definition}[Optimal value of a state] The optimal value of a state $s\in S$, $V^\star(s)$, is the value of state $s$ when following the optimal policy $\pi^{\star}$ (the policy that maximizes the RL objective (\ref{def:mdp-obj})).
+\begin{definition}[Optimal value of a state] The optimal value of a state $s\in S$, $V^\star(s)$, is the value of state $s$ when following the optimal policy $\pi^{\star}$ (the policy that maximizes the RL objective (cf. definition~\ref{def:mdp-obj})).
     $$V^{\star}(s) = V^{\pi^{\star}}(s)$$
 \end{definition}
 \begin{definition}[Optimal value of a state–action pair]\label{def:qvalues} The optimal value of a state–action pair $(s,a)\in S\times A$, $Q^\star(s,a)$, is the value when taking action $a$ in state $s$ and then following the optimal policy.
     $$Q^{\star}(s,a) = R(s, a) + \gamma\mathbb{E}\left[V^{\star}(s') | s'\sim T(s, a)\right]$$
 \end{definition}
 
-The well-known value iteration (\cite{sutton}, cf. algorithm~\ref{alg:value-iteration}), computes the values of states $\V^{\star}(s)$ with respect to the policy $\pi^{\star}$ maximizing the RL objective (\ref{def:mdp-obj}). 
+The well-known value iteration (cf. algorithm~\ref{alg:value-iteration}), computes the values of states $\V^{\star}(s)$ with respect to the policy $\pi^{\star}$ maximizing the RL objective. 
 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
@@ -848,14 +848,14 @@ The well-known value iteration (\cite{sutton}, cf. algorithm~\ref{alg:value-iter
     \For{each state $s \in S$}{
         $\pi^*(s) \leftarrow \operatorname{argmax}_a \left[ R(s,a) + \gamma \mathbb{E}\left[V(s')|s'\sim T(s, a)\right]\right]$ \Comment{// Extract optimal policy}
     }
-    \caption{Value iteration}\label{alg:value-iteration}
+    \caption{Value iteration~\cite{sutton}}\label{alg:value-iteration}
 \end{algorithm}
 
 More realistically, neither the transition function $T$ nor the reward function $R$ of the MDP are known, e.g. the doctor cannot \textbf{know} how the tumor and the patient's health will change after a dose of chemotherapy, but can only \textbf{observe} the change.
 This distinction in available information parallels the distinction between dynamic programming and reinforcement learning, described next. 
 
 \section{Reinforcement learning of approximate solutions to MDPs}\label{sec:rl}
-When the MDP transition function and reward function are unknown, one can use reinforcement learning algorithms--also known as agents--to learn values or policies maximizing the RL objective (cf. definition~\ref{def:mdp-obj}). 
+When the MDP transition function and reward function are unknown, one can use reinforcement learning algorithms--also known as agents--to learn values or policies maximizing the RL objective. 
 % \begin{figure}
 %     \centering
 %     \begin{subfigure}[b]{0.22\textwidth}
@@ -910,7 +910,7 @@ In the next section, we present deep reinforcement learning algorithms designed 
         $s_t \leftarrow s_{t+1}$ \\
     }
     $\pi(s) = \operatorname{argmax}_a Q(s,a)$ \Comment{// Extract greedy policy}
-    \caption{Q-Learning}\label{alg:qlearning}
+    \caption{Q-Learning~\cite{watkins1992q}}\label{alg:qlearning}
 \end{algorithm}
 
 
@@ -930,7 +930,7 @@ In the next section, we present deep reinforcement learning algorithms designed 
         $a_t \leftarrow a_{t+1}$ \\
     }
     $\pi(s) = \operatorname{argmax}_a Q(s,a)$ \Comment{// Extract greedy policy}
-    \caption{Sarsa}\label{alg:sarsa}
+    \caption{Sarsa~\cite{sutton}}\label{alg:sarsa}
 \end{algorithm}
 
 
@@ -947,7 +947,7 @@ In the next section, we present deep reinforcement learning algorithms designed 
             $\theta \leftarrow \theta + \alpha G_t \nabla_\theta \log \pi_\theta(a_t|s_t)$ \Comment{// Policy gradient update}
         }
     }
-    \caption{Policy Gradient RL (REINFORCE)}\label{alg:reinforce}
+    \caption{Policy Gradient (REINFORCE algorithm)~\cite{pg_sutton,reinforce}}\label{alg:reinforce}
 \end{algorithm}
 
 
@@ -957,7 +957,7 @@ Reinforcement learning has also been successfully combined with function approxi
 In the rest of this manuscript, unless stated otherwise, we write $\boldsymbol{s}$ a state vector in a continuous state space\footnote{Note that discrete states can be one-hot encoded as state vectors in $\{0, 1\}^{|S|}$.}.
 
 Deep Q-Networks (DQN)~\cite{dqn}, described in algorithm~\ref{alg:dqn} achieved super-human performance on a set of Atari games.
-Authors successfully extended the Q-learning (algorithm~\ref{alg:qlearning}) to the function approximation setting by introducing target networks to mitigate distributional shift in the temporal difference error and replay buffer to increase sample efficiency.
+Authors successfully extended the Q-learning (cf. algorithm~\ref{alg:qlearning}) to the function approximation setting by introducing target networks to mitigate distributional shift in the temporal difference error and replay buffer to increase sample efficiency.
 
 Proximal Policy Optimization (PPO)~\cite{ppo}, described in algorithm~\ref{alg:ppo}, is an actor-critic algorithm~\cite{sutton} optimizing a neural network policy. 
 In actor-critic algorithms, cumulative discounted rewards starting from a particular state, also known as \textit{the returns}, are also estimated with a neural network. 
@@ -984,7 +984,7 @@ PPO is known to work well in a variety of domains including robot control in sim
         }
     }
     $\pi(\boldsymbol{s}) = \operatorname{argmax}_a Q_\theta(\boldsymbol{s},a)$ \Comment{// Extract greedy policy}
-    \caption{Deep Q-Network (DQN)}\label{alg:dqn}
+    \caption{Deep Q-Network (DQN)~\cite{dqn}}\label{alg:dqn}
 \end{algorithm}
 
 
@@ -1004,7 +1004,7 @@ PPO is known to work well in a variety of domains including robot control in sim
         }
         $\theta_{old} \leftarrow \theta$ \Comment{// Update old policy}
     }
-    \caption{Proximal Policy Optimization (PPO)}\label{alg:ppo}
+    \caption{Proximal Policy Optimization (PPO)~\cite{ppo}}\label{alg:ppo}
 \end{algorithm}
 In this manuscript we study those two deep reinforcement learning algorithms for various problems.
 
@@ -1017,7 +1017,7 @@ Hence, many interpretable reinforcement learning approaches first train a neural
 This approach is known as imitation learning and is essentially training a student policy to optimize the objective:
 
 \begin{definition}[Imitation learning objective]\label{def:il}
-Given an MDP $\mathcal{M}$ (cf. definition~\ref{def:mdp}) expert policy $\pi^*$ and a policy class $\Pi$, e.g. decision trees of depth at most 3, the imitation learning objective is to find a student policy $\hat{\pi} \in \Pi$ that minimizes the expected action disagreement with the expert:
+Given an MDP $\mathcal{M}$ (cf. definition~\ref{def:mdp}), an expert policy $\pi^*$ and a policy class $\Pi$, e.g. decision trees of depth at most 3, the imitation learning objective is to find a student policy $\hat{\pi} \in \Pi$ that minimizes the expected action disagreement with the expert:
 \begin{equation}
 IL(\pi) &=  \mathbb{E}_{\boldsymbol{s} \sim \rho(\boldsymbol{s})} \left[ \mathcal{L}(\pi(\boldsymbol{s}), \pi^*(\boldsymbol{s})) \right]
 \end{equation}
@@ -1025,8 +1025,8 @@ where $\rho(\boldsymbol{s})$ is the state distribution in $\mathcal{M}$ induced 
 \end{definition}
 
 There are two main imitation learning methods used for interpretable reinforcement learning.
-Dagger (\cite{PIRL}; algorithm~\ref{alg:dagger}) is a straightforward way to fit a decision tree policy to optimize the imitation learning objective\ref{def:il}.
-VIPER (\cite{viper}; algorithm~\ref{alg:viper}) was designed specifically for interpretable reinforcement learning.
+Dagger (cf. algorithm~\ref{alg:dagger}) is a straightforward way to fit a decision tree policy to optimize the imitation learning objective (cf. definition~\ref{def:il}).
+VIPER (cf. algorithm~\ref{alg:viper}) was designed specifically for interpretable reinforcement learning.
 VIPER re-weights the transitions collected by the neural network expert by a function of the state-action value (cf. definition~\ref{sec:values}).
 The authors of VIPER showed that decision tree policies fitted with VIPER tend to have the same RL objective value as Dagger trees while being more interpretable (shallower or with fewer nodes) and sometimes outperform Dagger trees.
 Dagger and VIPER are two strong baselines for decision tree learning in MDPs, but they optimize a surrogate objective only, even though in practice the resulting decision tree policies often achieve high RL objective value.
@@ -1034,7 +1034,7 @@ We use these two algorithms extensively throughout the manuscript.
 Next we show how to learn a decision tree policy for the example MDP (cf. figure~\ref{example:grid}).
 
 \begin{algorithm}
-    \caption{Dagger}\label{alg:dagger}
+    \caption{Dagger~\cite{dagger}}\label{alg:dagger}
     \KwIn{Expert policy $\pi^*$, MDP $M$, policy class $\Pi$}
     \KwOut{Fitted student policy $\hat{\pi}_i$}
     
@@ -1066,7 +1066,7 @@ Next we show how to learn a decision tree policy for the example MDP (cf. figure
 
 
     \begin{algorithm}
-        \caption{VIPER}\label{alg:viper}
+        \caption{VIPER~\cite{viper}}\label{alg:viper}
         \KwIn{Expert policy $\pi^*$, Expert Q-function $Q^*$, MDP $M$, policy class $\Pi$}
         \KwOut{Fitted student policy $\hat{\pi}_i$}
         
@@ -1101,7 +1101,7 @@ Now the reader should know how to train decision tree classifiers or regressors 
 The reader should also know what an MDP is and how to compute or learn policies that optimize the RL objective (cf. definition~\ref{def:mdp-obj}) with (deep) reinforcement learning (cf. section~\ref{sec:drl}).
 Finally, the reader should now know how to obtain a decision tree policy for an MDP through imitation learning (cf. definition~\ref{def:il}) by first using RL to get an expert policy and then fitting a decision tree to optimize the supervised learning objective, using the expert actions as labels.
 
-In this section we present the first decision tree policies of this manuscript obtained using Dagger or VIPER after learning an expert Q-function for the grid world MDP of example (\ref{example:grid}) using Q-learning (cf. algorithm~\ref{alg:qlearning}).
+In this section we present the first decision tree policies of this manuscript obtained using Dagger or VIPER after learning an expert Q-function for the grid world MDP from figure~\ref{example:grid} using Q-learning (cf. algorithm~\ref{alg:qlearning}).
 Recall the optimal policies for the grid world, taking the green actions in each state in figure~\ref{example:grid}. 
 Among the optimal policies, the ones that go left or up in the goal state can be problematic for imitation learning algorithms.
 Indeed, we know that for this grid world MDP there exists decision tree policies with a very good interpretability-performance trade-off: depth-1 decision trees that are optimal w.r.t. the RL objective.
@@ -1160,7 +1160,7 @@ Next, we present the outline of the thesis.
 \begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{images/images_part1/policy_values_comparison.pdf}
-    \caption{The RL objective (\ref{def:mdp-obj}) values of the optimal policies from figure~\ref{example:grid} and of the decision tree policies from figure~\ref{fig:trees-intro}.}\label{fig:objectives}
+    \caption{The RL objective values of the optimal policies from figure~\ref{example:grid} and of the decision tree policies from figure~\ref{fig:trees-intro}.}\label{fig:objectives}
 \end{figure}
 
 \begin{figure}
