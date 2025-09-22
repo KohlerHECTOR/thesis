@@ -1,5 +1,5 @@
 \chapter{Direct reinforcement learning of decision tree policies for classification tasks}\label{sec:pomdp-classif}
-In this section, we show that for a special class of POIBMDPs(cf. definition~\ref{def:poibmdp}), reinforcement learning (cf. section~\ref{sec:rl}) can retrieve optimal deterministic partially observable policies w.r.t to the interpretable RL objective (cf. definition~\ref{def:irl}), i.e. we can do direct decision tree policy learning for MDPs.
+In this section, we show that for a special class of POIBMDPs(cf. definition~\ref{def:poibmdp}), reinforcement learning (cf. section~\ref{sec:rl}) can learn optimal deterministic partially observable policies w.r.t to the interpretable RL objective (cf. definition~\ref{def:irl}), i.e. we can do direct decision tree policy learning for MDPs.
 This class of POIBMDPs are those for which base MDPs have uniform transitions, i.e. $T(\boldsymbol{s}, a, \boldsymbol{s}') = \frac{1}{|S|}$ (cf. definitions~\ref{def:mdp} and~\ref{def:ibmdp}).
 The supervised learning objective (cf. definition~\ref{def:sl}) can be re-formulated in terms of the RL objective (cf. definition~\ref{def:mdp-obj}) and MDPs with such uniform transitions.
 Indeed a supervised learning task can be formulated as maximizing the RL objective in an MDP where, actions are class (or target) labels, states are training data, the reward at every step is 1 if the correct label was predicted and 0 otherwise, and the transitions are uniform: the next state is given by uniformly sampling a new training datum. 
@@ -93,7 +93,7 @@ Now let us show that associated POIBMDPs are in fact MDPs. We show this by const
 Those classification POIBMDPs are essentially MDPs with stochastic transitions.
 It means that deterministic partially observable policies (cf. definition~\ref{def:po-policy}) $O:\rightarrow A\cup A_{info}$ are in fact markovian policy for those classification POIBMDPs.
 More importantly, it means that, for a given $\gamma$ and $\zeta$, if we were to know the whole POIBMDP model, we could use planning, e.g. value iteration (cf. definition~\ref{alg:value-iteration}), to compute \textit{optimal} decision tree policies.
-Similarly, standard RL algorithms like Q-learning (cf. definition~\ref{sec:rl}) should work as well as for any MDP to retrieve optimal decision tree policies.
+Similarly, standard RL algorithms like Q-learning (cf. definition~\ref{sec:rl}) should work as well as for any MDP to learn optimal decision tree policies.
 
 This is exactly what we check next.
 We use the same direct approach to learn decision tree policies as in previous chapters, except that now the base MDP is a classification task and not a sequential decision making task.
@@ -117,10 +117,10 @@ Since classification POIBMDPs are MDPs, we do not need to analyze asymmetric RL 
     \caption{We reproduce the same plot as in figure~\ref{fig:dt-distrib-poibmdp} for classification POIBMDPs. Each colored dot is the number of final learned trees with a specific structure for a given $\zeta$.}\label{fig:tree-distrib-classif-poibmdp}
 \end{figure}
 
-Fortunately this time, compared to general POIBMDPs, RL can be used to retrieve optimal deterministic partially observable policies $O:\rightarrow A\cup A_{info}$ w.r.t. the interpretable RL objective (cf. definition~\ref{def:irl}) in classification POIBMDPs.
+Fortunately this time, compared to general POIBMDPs, RL can be used to learn optimal deterministic partially observable policies $O:\rightarrow A\cup A_{info}$ w.r.t. the interpretable RL objective (cf. definition~\ref{def:irl}) in classification POIBMDPs.
 Such policies are equivalent to decision tree classifiers.
 We observe on figure~\ref{fig:rl-classif-poibmdp} that both Q-learning and Sarsa consistently minimize the sub-optimality gap independently of the interpretability-performance trade-off $\zeta$. 
-Hence they are able to retrieve the optimal depth-1 decision tree classifier (figure~\ref{example:cmdp}) most of the time in the optimality range $\zeta\in ]0, 1[$ (cf. figure~\ref{fig:tree-distrib-classif-poibmdp}).
+Hence they are able to learn the optimal depth-1 decision tree classifier (figure~\ref{example:cmdp}) most of the time in the optimality range $\zeta\in ]0, 1[$ (cf. figure~\ref{fig:tree-distrib-classif-poibmdp}).
 
 
 \section{Conclusion}\label{sec:ccl-pomdp}
@@ -132,11 +132,11 @@ While those direct RL algorithms are able to \textit{learn}, i.e. find better an
 
 We further analyzed the failure mode of direct learning of decision tree policies by making connections with POMDPs~\cite{POMDP,chap2}.
 In chapter~\ref{sec:pomdp}, we showed that learning decision tree policies for MDPs could be explicitly formulated as learning a deterministic partially observable (also known as memoryless or reactive) policy in a specific POMDP that we called POIBMDP~\ref{def:poibmdp}.
-We showed that both RL and asymmetric RL, a class of algorithms specifically designed for POMDPs~\cite{baisero-ppo,baisero-dqn}, were unable to consistently retrieve an optimal depth-1 decision tree policies for a very small grid world MDP when using the POIBMDP framework.
+We showed that both RL and asymmetric RL, a class of algorithms specifically designed for POMDPs~\cite{baisero-ppo,baisero-dqn}, were unable to consistently learn an optimal depth-1 decision tree policies for a very small grid world MDP when using the POIBMDP framework.
 In particular, we compared, in a very controlled experiment, the success rates of the same learning algorithms when seeking standard Markovian policies versus partially observable policies in decision processes that shared the same transitions and rewards (cf. section~\ref{sec:how-diff}).
 We demonstrated on figure~\ref{fig:po-vs-ib} that introducing partial observability greatly reduced the success rates (we also observed this implicitly on figures~\ref{fig:res-dqn} and~\ref{fig:res-ppo}).  
 
-Finally, in this chapter we showed that using RL to optimize the interpretable RL objective in fully observable POIBMDPs, i.e. POIBMDPs that are just MDPs, could retrieve optimal decision tree policies (cf. figures~\ref{fig:rl-classif-poibmdp} and~\ref{fig:tree-distrib-classif-poibmdp}) adding new evidence that direct interpretable RL is difficult because it involves POMDPs.
+Finally, in this chapter we showed that using RL to optimize the interpretable RL objective in fully observable POIBMDPs, i.e. POIBMDPs that are just MDPs, could learn optimal decision tree policies (cf. figures~\ref{fig:rl-classif-poibmdp} and~\ref{fig:tree-distrib-classif-poibmdp}) adding new evidence that direct interpretable RL is difficult because it involves POMDPs.
 
 This class of fully observable POIBMDPs (cf. definition~\ref{def:cpoibmdp}) contains the decision tree induction problem for supervised learning tasks (cf. definition~\ref{def:sl}).
 This sparks the question: what kind of decision tree induction algorithm can we get using the MDP formalism?

@@ -1,10 +1,10 @@
 \chapter{Limits of direct reinforcement learning of decision tree policies}\label{sec:pomdp}
 
-From the previous chapter, we know that to directly learn decision tree policies that optimize the RL objective (\ref{def:mdp-obj}) for an MDP, one can learn a deterministic partially observable policy that optimizes the interpretable RL objective (cf. definition~\ref{def:irl}) in an IBMDP (cf. definition~\ref{def:ibmdp} and proposition~\ref{def:po-policy}).
+From the previous chapter, we know that to directly learn decision tree policies that optimize the RL objective (cf. definition~\ref{def:mdp-obj}) for an MDP (cf. definition~\ref{def:mdp}), one can learn a deterministic partially observable policy that optimizes the interpretable RL objective (cf. definition~\ref{def:irl}) in an IBMDP (cf. definition~\ref{def:ibmdp} and proposition~\ref{def:po-policy}).
 Such problems are classical instances of partially observable Markov decision processes (POMDPs)~\cite{POMDP,chap2}.
 This connexion with POMDPs brings novel insights to direct reinforcement learning of decision tree policies. 
-In this chapter, all the decision processes presented have a finite number of vector-valued states and observations.
-Hence we will use bold fonts for states and observations but can still use summations rather than integrals when required.
+In this chapter, all the decision processes have a finite number of vector-valued states and observations.
+Hence we will use bold fonts for states and observations but we can still use summations rather than integrals when required.
 
 \section{Partially observable iterative Markov decision processes}\label{sec:poibmdp}
 A POMDP is an MDP where the current state is hidden; only some information about the current state is observable.
@@ -12,15 +12,15 @@ A POMDP is an MDP where the current state is hidden; only some information about
 \begin{definition}[Partially observable Markov decision process]\label{def:pomdp}
 A partially observable Markov decision process is a tuple $\langle X, A, O, R, T, T_0, \Omega\rangle$ where:
 \begin{itemize}
-    \item $X$ is the hidden state space (like in the definition of MDPs (\ref{def:mdp})).
-    \item $A$ is a finite set of actions (like in the definition of MDPs (\ref{def:mdp})).
+    \item $X$ is the hidden state space.
+    \item $A$ is a finite set of actions.
     \item $O$ is a set of observations.
-    \item $T: X \times A \rightarrow \Delta(X)$ is the transition kernal, where $T(\boldsymbol{x}_t, a, \boldsymbol{x}_{t+1}) = P(\boldsymbol{x}_t|\boldsymbol{x}_{t+1}, a)$ is the probability of transitioning to state $\boldsymbol{x}_{t}$ when taking action $a$ in state $\boldsymbol{x}$
-    \item $T_0$: is the intial distribution over states. 
+    \item $T: X \times A \rightarrow \Delta(X)$ is the transition function, where $T(\boldsymbol{x}_t, a, \boldsymbol{x}_{t+1}) = P(\boldsymbol{x}_t|\boldsymbol{x}_{t+1}, a)$ is the probability of transitioning to state $\boldsymbol{x}_{t}$ when taking action $a$ in state $\boldsymbol{x}$
+    \item $T_0$: is the initial distribution over states. 
     \item $\Omega: X \rightarrow \Delta(O)$ is the observation function, where $\Omega(\boldsymbol{o}, a, \boldsymbol{x}) = P(\boldsymbol{o}|\boldsymbol{x}, a)$ is the probability of observing $\boldsymbol{o}$ in state $\boldsymbol{x}$
     \item $R: X \times A \rightarrow \mathbb{R}$ is the reward function, where $R(\boldsymbol{x}, a)$ is the immediate reward for taking action $a$ in state $\boldsymbol{x}$
 \end{itemize}
-Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP~\ref{def:mdp}.
+Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP.
 \end{definition}
 
 Let us define explicitely a partially observable iterative bounding Markov decision process (POIBMDP). It is essentially an IBMDP for which we explicitly define an observation space and an observation function:
@@ -87,7 +87,7 @@ In this chapter, we use reinforcement learning to train decision tree policies f
 % \label{fig:summary-rl}
 % \end{figure}
 
-The goal of the following sections is to see if, unlike indirect approaches tested in section~\ref{sec:limits-il}, direct approaches can consistently retrieve the depth-1 decision tree policies that have good interpretability-performance trade-offs for the $2\times 2$ grid world from example~\ref{example:grid} (cf. figures~\ref{fig:trees-intro} and~\ref{fig:optimal-policy-trees}).
+The goal of the following sections is to see if, unlike indirect approaches tested in section~\ref{sec:limits-il} (cf. figures~\ref{fig:objectives} and~\ref{fig:ql-il}), direct approaches can consistently learn the depth-1 decision tree policies that have good interpretability-performance trade-offs for the $2\times 2$ grid world from example~\ref{example:grid} (cf. figures~\ref{fig:trees-intro} and~\ref{fig:optimal-policy-trees}).
 The direct approach we use is to optimize the interpretable RL objective~\ref{def:irl} in POIBMDPs (cf. definition~\ref{def:poibmdp}).
 We will use reinforcement learning to learn deterministic partially observable policies for the IBMDP from example~\ref{example:ibmdp} re-written as a POIBMDP.
 Next we show how to choose $\gamma$ and $\zeta$ in the POIBMDP such that the optimal deterministic partially observable policies w.r.t. the interpretable RL objective correspond exactly to the depth-1 decision tree policies with good interpretability-performance trade-offs.
@@ -179,7 +179,7 @@ We defer the lengthy proofs of this proposition, as well as the interpretable RL
 We can now plot, in figure~\ref{fig:objectives}, the interpretable RL objective values of the different partially observable policies as functions of $\zeta$ when we fix $\gamma=0.99$. 
 When $\gamma=0.99$ on figure~\ref{fig:objectives}, despite objective values being very similar for the depth-1 and unbalanced depth-2 tree, we now know from the green shaded area that a depth-1 tree is the optimal, w.r.t. the interpretable RL objective, deterministic partially observable POIBMDP policy for $0< \zeta < 1$.
 
-Let us now define a POIBMDP with the grid wolrd (\ref{example:grid}) as the base MDP, with IGAs as in the IBMDP from exapmle~\ref{example:ibmdp}, with $\gamma=0.99$ and $0<\zeta<1$ and verify if RL can retrieve the optimal deterministic partially observable policies w.r.t. the interpretable RL objective, which are equivalent to depth-1 decision tree policies, in this very controlled experiment.
+Let us now define a POIBMDP with the grid wolrd (\ref{example:grid}) as the base MDP, with IGAs as in the IBMDP from exapmle~\ref{example:ibmdp}, with $\gamma=0.99$ and $0<\zeta<1$ and verify if RL can learn the optimal deterministic partially observable policies w.r.t. the interpretable RL objective, which are equivalent to depth-1 decision tree policies, in this very controlled experiment.
 
 \subsection{Reinforcement learning in PO(IB)MDPs}
 
@@ -324,7 +324,7 @@ Second, we consider the distribution of the learned trees over the 100 training 
 Indeed, since for every POIBMDP we run each algorihtm 100 times, at the end of training we get 100 deterministic partially observable policies (we compute the greedy policy for stochastic policies returned by JSJ and Policy Gradient), from which we can extract the equivalent 100 decision tree policies using algorithm~\ref{alg:extract-tree} and we can count which one are of e.g. depth-1.
 This helps understand which trees RL algorithms tend to learn.
 
-\subsection{Can (asymmetric) RL retrieve optimal deterministic partially observable POIBMDP policies?}
+\subsection{Can (asymmetric) RL learn optimal deterministic partially observable POIBMDP policies?}
 
 In figure~\ref{fig:rl-poibmdp}, we plot the sub-optimality gaps--averaged over 100 seeds--of learned policies during training.
 We do so for 200 different POIBMDPs where we change the reward for information gathering actions: we sample 200 $\zeta$ values uniformily in $[-1, 2]$.

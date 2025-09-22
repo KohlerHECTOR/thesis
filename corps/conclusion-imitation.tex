@@ -28,7 +28,7 @@ Using our measures of interpretability, we can corroborate this claim.
 On figure \ref{fig:trade-off-summary}, we can indeed observe that some relatively interpretable policies can solve object-centric Pong (20 state features) or HalfCheetah (17 state features). 
 For example, the oblique tree policy from figure~\ref{lst:pong}, represented by the second right most green dot on figure~\ref{fig:trade-off-summary}, is among the most interpretable policies for Pong w.r.t to both policy size and policy inference time, and has RL objective value (cf. definition~\ref{def:mdp-obj}) above the solving threshold.  
 However, for very high-dimensional environments like Seaquest (180 state features), none of our policies, even the less interpretable ones (relu networks with two hidden layer units of size sixteen), can solve the game.
-This observation resonates with the first part of the manuscript where we showed that even in controlled experiments where an interpretable policy is optimal, no RL algorithm to retrieve it.
+This observation resonates with the first part of the manuscript where we showed that even in controlled experiments where an interpretable policy is optimal, no RL algorithm can learn it.
 This yields the following question.
 
 \section{For what environment are there good interpretable policies?}
