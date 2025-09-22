@@ -2,12 +2,9 @@
 
 \section{The Markov decision process}\label{sec:the-mdp}
 We now formulate the decision tree induction problem (cf. definition~\ref{eq:suplearning}) as finding the optimal policy in an MDP (cf. definition~\ref{def:mdp-obj}).
-
 Given a set of examples $\mathcal{E}$, the induction of a decision tree is made of a sequence of decisions: at each node, we must decide whether it is better to split (a subset of) $\mathcal{E}$, or %assign a class label and 
 to create a leaf node.
-
 This sequential decision-making process corresponds to an MDP $\mathcal{M} \langle S, A, R_{\alpha}, T, T_0 \rangle$ (cf. definition~\ref{def:mdp}) that we present next.
-%The state space $S$ consists of pairs $(X,d)$ where $X \subseteq \mathcal{E}$, and $d \in \{0,\ldots,D\}$ is the current depth in the tree. Formally $S = \{ (X, d) \in P(\mathcal{E}) \times \{0, \ldots, D\} \}$ where $P(\mathcal{E})$ denotes the power set of $\mathcal{E}$.
 A state is a pair made of a subset of examples $\mathcal{X}\subseteq\mathcal E$ and a depth $d$.
 Like for classification POIBMDPs (cf. definition~\ref{def:ibmdp} and algorithm~\ref{alg:extract-tree}), the depth $d$ is actually not necessary to extract a tree from a policy.
 However, it is necessary in order to solve the MDP.

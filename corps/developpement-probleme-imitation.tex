@@ -102,7 +102,7 @@ We also consider neural networks with relu activations~\cite{relunet} with varyi
 In table~\ref{tab:policy-classes} we summarize the different policy classes we will consider for our study.
 There is one class of linear policies, five classes of decision trees and oblique decision trees, each defined by the maximum number of nodes in the tree, and four classes or relu networks each defined by the number and sizes of hidden layers.
 
-\subsection{Which expert policies to imitate with what algorithm?}
+\subsection{Which expert policies to imitate with which algorithm?}
 We do not have to re-run deep reinforcement learning algorithms \cite{dqn,ppo,deep-rl-relu1}, we can simply use the pre-trained policies from the stables-baselines3 zoo \cite{zoo} and try our methodology to evaluate their interpretability.
 Depending on the MDPs, also called environments, we choose neural network policies trained with different deep reinforcement learning algorithms.
 It is important to note that not all experts are compatible with all the variants of imitation learning algorithms.
@@ -226,7 +226,7 @@ Now we move on to the interpretability evaluation.
 \end{figure}
 
 In this section, we compute the step inference times, as well as the policy size for both the folded and unfolded variant of each policy (cf. section~\ref{sec:unfold}) obtained for classic control environments with Dagger-100K.
-To unfold policies, we convert them into Python programs formatted with PEP 8 (comparing other unfolding formats such as ONNX \url{https://github.com/onnx/onnx} is left to future work).
+To unfold policies, we convert them into Python programs formatted with PEP 8 (comparing other unfolding formats such as ONNX\footnote{\url{https://github.com/onnx/onnx}} is left to future work).
 We ensure that all policies operations are performed sequentially, similarly to how a human would operate, and compute the metrics for each policy on 100 episodes using the same CPUs.
 
 \subsection{Is it necessary to unfold policies to compute interpretability metrics?}
