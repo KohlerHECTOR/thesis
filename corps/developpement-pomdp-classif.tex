@@ -91,7 +91,7 @@ Now let us show that associated POIBMDPs are in fact MDPs. We show this by const
 \end{definition}
 
 Those classification POIBMDPs are essentially MDPs with stochastic transitions.
-It means that deterministic partially observable policies (cf. definition~\ref{def:po-policy}) $O:\rightarrow A\cup A_{info}$ are in fact markovian policy for those classification POIBMDPs.
+It means that deterministic partially observable policies (cf. definition~\ref{def:po-policy}) $O:\rightarrow A\cup A_{info}$ are in fact Markovian policy for those classification POIBMDPs.
 More importantly, it means that, for a given $\gamma$ and $\zeta$, if we were to know the whole POIBMDP model, we could use planning, e.g. value iteration (cf. definition~\ref{alg:value-iteration}), to compute \textit{optimal} decision tree policies.
 Similarly, standard RL algorithms like Q-learning (cf. definition~\ref{sec:rl}) should work as well as for any MDP to learn optimal decision tree policies.
 
