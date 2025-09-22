@@ -1,11 +1,11 @@
-\chapter{Introduction}\label{sec:intro-methodo}\footnote{Parts of this work was presented at the European Workshop in Reinforcement Learning in 2024 and at the Workshop on Programmatic Reinforcement Learning in 2025:\url{https://openreview.net/group?id=EWRL/2024/Workshop#tab-accept}~\url{https://prl-workshop.github.io/}}
-While in Parts~\ref{part1} and~\ref{part2} we quantified the performances of a given interpretable model class, e.g. decision trees of some maximum depth, this time we focus on quantifying the interpretability-performance trade-offs of different model classes.
+\chapter{Introduction}\label{sec:intro-methodo}\footnote{Parts of this work was presented at the European Workshop in Reinforcement Learning in 2024 and at the Workshop on Programmatic Reinforcement Learning in 2025:\url{https://openreview.net/group?id=EWRL/2024/Workshop#tab-accept},~\url{https://prl-workshop.github.io/}}
+While in parts~\ref{part1} and~\ref{part2} we quantified the performances of a given interpretable model class, e.g. decision trees of some maximum depth, this time we focus on quantifying the interpretability-performance trade-offs of different model classes.
 Most research in interpretable machine learning, including~\cite{topin2021iterative}, relies on beliefs such as ``decision trees are more interpretable than neural networks'' illustrated for example in figure~\ref{fig:interpretability-performance-tradeoff}.
 In this part we propose a methodology to empirically compare the interpretability-performance trade-offs of multiple models from potentially different model classes.
 
 In this chapter, we present results from existing empirical evaluations of model interpretability and introduce our methodology.
 In chapter~\ref{sec:exps1}, we validate our methodology against results obtained with user studies.
-In chapter~\ref{sec:exps2},using our methodology, we present a large scale study of interpretability-performance trade-offs of different model classes when optimizing the RL objective (cf. definition~\ref{def:mdp-obj}).
+In chapter~\ref{sec:exps2}, using our methodology, we present a large scale study of interpretability-performance trade-offs of different model classes when optimizing the RL objective (cf. definition~\ref{def:mdp-obj}).
 
 \section{Evaluating interpretability with humans}\label{sec:humans}
 User studies typically evaluate interpretability through tasks such as simulation (whether a person can predict the model’s output for a given input), verification (whether a person can check if the model’s prediction is correct), and “what-if” reasoning (whether a person can predict how the output changes if the input is slightly modified)~\cite{study-6,study-5}.
@@ -22,11 +22,11 @@ This prompts a methodology that could give good measures of interpretability wit
 However, measuring model interpretability without humans is still an open problem~\cite{glanois-survey} and there probably do not exist a decisive solution.
 
 \section{The mythos of interpretability}\label{res:lipton}
-When comparing interpretability of models inside the same class~\cite{murtree,blossom,pystreed,vanderlinden2024optimalgreedydecisiontrees,sympol,viper,topin2021iterative} one does not need to worry about their methodology since the number of model parameters is enough as a measure~\cite{study-4}.
+Work comparing interpretability of models inside the same class~\cite{murtree,blossom,pystreed,vanderlinden2024optimalgreedydecisiontrees,sympol,viper,topin2021iterative} do not have to worry about their methodology since the number of model parameters is enough as a measure~\cite{study-4}.
 However comparing the interpretability of models from different classes, without user studies, requires caution: which is more interpretable, a depth-50 decision tree or a neural network with two layers of 16 neurons (figure)?
 
 Work that compare model interpretability across different model classes without humans, rely on the notion of \textit{simulatibility} introduced in~\cite{lipton}.
-Inspired, by results from user studies, Z. Lipton postulates that interpretabiliy of a model should relate to two things.
+Inspired, by results from user studies, Zachary Lipton postulates that interpretability of a model should relate to two things.
 First, it should relate to how a user simulates the prediction of the model given an input~\cite{study-6,study-5}.
 Second, it should relate to how a user gets a global idea of the model's internals, i.e. without any inputs, what does the user understands from reading the model.
 
@@ -37,24 +37,24 @@ Similarly, in~\cite{insight} authors compare the inference speed of neural netwo
 
 If one wants to use the notion of simulatibility and ultimately of time or space complexity of programs as a proxy for interpretability, one has to implement and compare policies from different classes similarly.
 
-The key contriubtion of this part is to offer a sound methodology to compare the interpretability-performance trade-offs of models from different model classes without requiring humans.
+The key contribution of this part is to offer a sound methodology to compare the interpretability-performance trade-offs of models from different model classes without requiring humans.
 
 \section{Methodology overview}\label{sec:unfold}
 While our methodology could be applied to evaluate the interpretability-performance trade-offs of different model classes when optimizing the supervised learning objective (cf. definition~\ref{def:mdp-obj}), we focus in this part on sequential decision making tasks.
 
 One might argue that once the policy is trained, one could use directly the actual space or time complexity of the policy as the measure of interpretability.
-However, we argue that for decision tree-like models, the time complexity of a predicition will be different for each input (tree traversal will differ) and computing an expected complexity is difficult as the inputs distribution can only be obtained by running the policy in the MDP it was trained for (e.g. with Monte-Carlo estimates).  
+However, we argue that for decision tree-like models, the time complexity of a prediction will be different for each input (tree traversal will differ) and computing an expected complexity is difficult as the inputs distribution can only be obtained by running the policy in the MDP it was trained for (e.g. with Monte-Carlo estimates).  
 Hence, we use the two metrics presented next in order to evaluate policy interpretability without requiring human intervention:
 
 \textit{1. Policy Inference Time:} we measure policy inference time in seconds given states averaged over many trajectories.
 \textit{2. Policy Size:} we measure the policy size in bytes. While this correlates with inference time for MLPs and linear models, tree-based policies may have large sizes but quick inference because they do not traverse all decision paths at each step.
 
 Those two metrics are proxies for the notion of simulatability~\cite{lipton} that gives insights on how a human being would read a policy to understand how actions are inferred.
-Measure the average inference time over entire trajectories rathen than over different states could also make sense.
-However it would also be difficulut to make sense of the results as different policies can have different trajectory lengths.
+Measure the average inference time over entire trajectories rather than over different states could also make sense.
+However it would also be difficult to make sense of the results as different policies can have different trajectory lengths.
 
 Most importantly, as these measurements depend on many technical details (programming language, the compiler if any, the operating system, versions of libraries, the hardware it is executed on, etc), to ensure fair comparisons, we translate all policies into a simple representation that mimics how a human being "reads" a policy.
-We call this process of standardizing policies language ``unfolding''..
+We call this process of standardizing policies language ``unfolding''.
 
 %we ``unfold'' all policies into a common sequential representation without hardware optimizations or vectorized operations, as humans process information sequentially.
 In figures \ref{lst:unfolded-linear}, \ref{lst:tiny-relu} and \ref{lst:generic-linear}, we present some unfolded policy programs.
