@@ -1,5 +1,5 @@
-\chapter*{Preliminary Concepts}
-\section{What is sequential decision making?}\label{sec:intro-sdm}
+\chapter*{Introduction}
+In this manuscript, we study algorithms for interpretable sequential decision making. 
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -69,7 +69,7 @@
     \caption{Sequential decision making in cancer treatment. The AI system reacts to the patient's current state (tumor size, blood cells counts, etc.) and makes a recommendation to the doctor, who administers chemotherapy to the patient. The patient's state is then updated, and this cycle repeats over time.}
     \label{fig:cancer-treatment-sdm}
 \end{figure}
-In this manuscript, we study algorithms for sequential decision making. Humans engage in sequential decision making in all aspects of life. In medicine, doctors have to decide how much chemotherapy to administer based on the patient's current health~\cite{cancer}. In agriculture, agronomists have to decide when to fertilize based on the current soil and weather conditions to maximize plant growth~\cite{agriculture}. 
+Humans engage in sequential decision making in all aspects of life. In medicine, doctors have to decide how much chemotherapy to administer based on the patient's current health~\cite{cancer}. In agriculture, agronomists have to decide when to fertilize based on the current soil and weather conditions to maximize plant growth~\cite{agriculture}. 
 In automotive settings, the autopilot system has to decide how to steer based on lidar and other sensors to maintain a safe trajectory~\cite{driving}. 
 These sequential decision making processes exhibit key similarities: an agent takes actions based on current information to achieve a goal.
 
@@ -90,9 +90,6 @@ In this context, it is hard to imagine leaders deploying such drones and program
 Such guarantees can be obtained through formal verifications of programs which in turn can only be obtain for certain programs.
 
 Next, we describe the notion of interpretability that is key to ensure that programs can be verified and their recommendations can be understood.
-
-\section{What is Interpretability?}
-
 
 Originally, the etymology of ``interpretability'' is the Latin ``interpretabilis'', meaning ``that can be understood and explained''.
 According to the Oxford English Dictionary, the first recorded use of the English word ``interpretability'' dates back to 1854, when the British logician George Boole (cf. figure~\ref{fig:george-boole}) described the addition of concepts:
@@ -326,7 +323,7 @@ The global trend in machine learning research answers the latter.
         \caption{Interpretable approach using decision trees}
         \label{fig:cancer-treatment-comparison}
     \end{subfigure}
-    \caption{Comparison of sequential decision making approaches in cancer treatment. Top: a black-box neural network approach where the doctor cannot interpret the AI's recommendations because the computations are operations over uninterpretable concepts (cf. end of section~\ref{sec:intro-sdm} and Boole's quote (\ref{quote:boole})). Bottom: an interpretable decision tree approach where the doctor can understand and verify the AI's recommendations because the operations are performed over meaningful concepts  (cf. end of section~\ref{sec:intro-sdm} and Boole's quote (\ref{quote:boole})). Both systems learn from treatment outcomes to improve their recommendations over time.}
+    \caption{Comparison of sequential decision making approaches in cancer treatment. Top: a black-box neural network approach where the doctor cannot interpret the AI's recommendations because the computations are operations over uninterpretable concepts (cf. Boole's quote (\ref{quote:boole})). Bottom: an interpretable decision tree approach where the doctor can understand and verify the AI's recommendations because the operations are performed over meaningful concepts  (cf. Boole's quote (\ref{quote:boole})). Both systems learn from treatment outcomes to improve their recommendations over time.}
     \label{fig:cancer-treatment-comparison-combined}
 \end{figure}
 
@@ -335,9 +332,9 @@ In figure~\ref{fig:cancer-treatment-comparison}, we illustrate how machine learn
 Ideally, we want doctors to have access to computer programs that can recommend ``good'' treatments and whose recommendations are interpretable. 
 In the next section, present related works that fit this desiderata.
 
-\section{What are existing approaches for learning interpretable programs?}\label{sec:intro-interp}
+\chapter*{Related work}\label{sec:intro-interp}
 
-In this section we follow sections 6 and 7 of \cite{glanois-survey} and section 5 of \cite{milani-survey}. 
+In this chapter we follow sections 6 and 7 of \cite{glanois-survey} and section 5 of \cite{milani-survey}. 
 Furthermore we now employ the term ``model'' to refer to ``programs'' to be consistent with the machine learning research conventions.
 Models are essentially mappings from inputs to outputs that can be trained with machine learning algorithms while programs might designate other types of computations like \texttt{print("Hello World");}.
 
