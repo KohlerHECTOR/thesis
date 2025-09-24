@@ -1,8 +1,9 @@
 \chapter{Direct reinforcement learning of decision tree policies}\label{sec:topin}
-In this chapter, we compare deep reinforcement learning of decision tree policies (cf. chapter~\ref{sec:intro-pomdp}) to imitation learning of decision tree policies (cf. section~\ref{sec:imit}) for the CartPole MDP~\cite{cartpole}.
-In particular, we attempt to reproduce the results from~\cite[table 1]{topin2021iterative} in which authors constraint the solution space of decision tree policies to depth-2 trees.
-In the original results, authors find that deep reinforcement learning to solve the interpretable RL objective (cf. definition~\ref{def:irl}) and Dagger or VIPER (cf. section~\ref{sec:imit}) to solve the imitation learning objective (cf. definition~\ref{def:il}) find similar decision trees.
-We find that imitation learning, despite not directly optimizing the RL objective for CartPole, outperforms deep RL that optimizes the interpretable RL objective even though the deep RL approach directly optimizes the RL objective for CartPole (up to some trade-off with interpretability).
+In this chapter, we compare deep reinforcement learning--direct learning--of decision tree policies (cf. chapter~\ref{sec:intro-pomdp}) to imitation learning--indirect learning--of decision tree policies (cf. section~\ref{sec:imit}).
+In particular, we attempt to reproduce the results from~\cite[table 1]{topin2021iterative} in which authors compare direct and indirect learning of decision tree policies of depth at most 2 for the CartPole MDP~\cite{cartpole}.
+In the original paper, authors find that both direct and indirect learning yields decision tree policies with similar RL objective values (cf. definition~\ref{def:mdp-obj}) for the CartPole.
+On the other hand, we find that, imitation learning, despite not directly optimizing the RL objective for CartPole, outperforms deep RL that optimizes the interpretable RL objective (cf. definition~\ref{def:irl} in which the objective trades off the standard RL objective and interpretability).
+
 \section{Reproducing ``Iterative Bounding MDPs: Learning Interpretable Policies via Non-Interpretable Methods''}
 
 Authors of \cite{topin2021iterative} use two deep reinforcement learning baselines (cf. section~\ref{sec:drl}) to which they apply some modifications in order to learn partially observable policies as required by proposition \ref{def:po-policy} and by the interpretable RL objective (cf. definition~\ref{def:irl}).
