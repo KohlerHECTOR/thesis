@@ -1,6 +1,6 @@
 \chapter{Appendix for part \ref{part2}}
 \label{chap-app-dpdt}
-In this chapter we provide additional experimental results. In table \ref{tab:regression}, we compare DPDT trees to CART and STreeD trees using 50 train/test splits of regression datasets from \cite{grinsztajn2022tree}. All algorithms are run with default hyperparameters. 
+In this chapter we provide additional experimental results for part~\ref{part2} of the manuscript. In table \ref{tab:regression}, we compare DPDT trees to CART and STreeD trees using 50 train/test splits of regression datasets from \cite{grinsztajn2022tree}. All algorithms are run with default hyperparameters. 
 
 The configuration of DPDT is (4, 4, 4) or (4,4,4,4,4). STreeD is run with a time limit of 4 hours per tree computation and on binarized versions of the datasets. 
 Both for depth-3 and depth-5 trees, DPDT outperforms other baselines in terms of train and test accuracies. Indeed, because STreeD runs on ``approximated'' datasets, it performs pretty poorly. 

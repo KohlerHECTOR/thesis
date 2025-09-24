@@ -1,23 +1,29 @@
 \chapter{Appendix for part \ref{part3}}
 \label{chap-app-imit}
+
+In this chapter we provide insights on the utility of oblique decision tree policies to control certain MDPs (cf. definition~\ref{def:mdp}).
+We also provide the full experimental results obtained with the methodology developed in part~\ref{part3}.
+
+\section{Oblique decision trees}
 \begin{figure}[b]
     %\vspace{-0.12cm}
     \centering
     \includegraphics[width=1.\textwidth]{images/images_part3/pong_state_space.pdf}
     %\vspace{3mm}
-    \caption{\textbf{Oracle decision rules are oblique} illustrated on PPO for different state space partitions of the Pong environment. Decisions boundaries are both oblique and parallel.}
+    \caption{An oblique decision tree policy trained with PPO actions for different state space partitions of the Pong environment.}
     \label{fig:pong_states}
 \end{figure}
 
-\textbf{Oblique decision trees.} One can imitate oracles with programs that make tests of linear combinations of features. Many oracles learn oblique or more complex decision rules over an MDP state space. This is illustrated in figure~\ref{fig:pong_states} where a PPO neural oracle creates oblique partitions of the state-space for the Pong environments. Programs that test only individual features would fail to fit this partition (cf. figure~\ref{fig:pong_states}). 
+One can imitate expert neural policies with programs that test linear combinations of features. Many experts learn oblique or more complex decision rules over an MDP state space.
+This is illustrated in figure~\ref{fig:pong_states} where a PPO neural expert creates oblique partitions of the state-space for the Pong environments. Programs that test only individual features would fail to fit this partition (cf. figure~\ref{fig:pong_states}). 
 We thus modify CART~\cite{breiman1984classification}, an algorithm returning an axes-parallel trees for regression and supervised classification problems, for it to return oblique decision trees. 
 % Essentially, oblique trees trade-off interpretability of axes-parallel trees for better expressivity: each oblique tree node tests a linear combination of features. 
-In addition to single feature tests, our oblique trees consider linear combinations of two features with weights $1$ and $-1$, e.g.\@ for MDP states $s_i \in \mathbb{R}^{p}$, the oblique features values are $s^{oblique}_i = \{s_{i1} - s_{i0}, s_{i2} - s_{i0}, ..., s_{ip} - s_{i0}, ...,s_{ip-1} - s_{ip}\} \in \mathbb{R}^{p^2}$. For example, using an oracle dataset with $n$ state-actions pairs: $(\bar{S}, \Bar{A} = \pi^{*}(\bar{S})) \subsetneq \mathbb{R}^{n\cdot(p+\dim(A))}$, we obtain oblique decision trees by fitting $(\bar{S},\bar{S}^{oblique} , \Bar{A} = \pi^{*}(\bar{S})) \subsetneq \mathbb{R}^{n\cdot(p(p+1)+\dim(A))}$. 
+In addition to single feature tests, our oblique trees consider linear combinations of two features with weights $1$ and $-1$, e.g.\@ for MDP states $s_i \in \mathbb{R}^{p}$, the oblique features values are $s^{oblique}_i = \{s_{i1} - s_{i0}, s_{i2} - s_{i0}, ..., s_{ip} - s_{i0}, ...,s_{ip-1} - s_{ip}\} \in \mathbb{R}^{p^2}$. For example, using an expert dataset with $n$ state-actions pairs: $(\bar{S}, \Bar{A} = \pi^{*}(\bar{S})) \subsetneq \mathbb{R}^{n\cdot(p+\dim(A))}$, we obtain oblique decision trees by fitting $(\bar{S},\bar{S}^{oblique} , \Bar{A} = \pi^{*}(\bar{S})) \subsetneq \mathbb{R}^{n\cdot(p(p+1)+\dim(A))}$. 
 Given $\bar{S}$, computing $\bar{S}^{oblique}$ can be done efficiently by computing the values of the lower (or upper) triangles in the $\bar{S} \otimes \bar{S} - (\bar{S} \otimes \bar{S})^T$ tensor (excluding the diagonals).
 
 
 \section{All interpretability-performance trade-offs}\label{sec:trade-offs-full}
-In this appendix we provide the interpretability-performance trade-offs of all the tested environments.
+We provide the interpretability-performance trade-offs of all the tested environments using the methodology from part~\ref{part3}.
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{images/images_part3/trade_off_step_times.pdf}

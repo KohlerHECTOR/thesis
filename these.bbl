@@ -2879,31 +2879,33 @@
       \field{pages}{3146\bibrangedash 3154}
       \range{pages}{9}
     \endentry
-    \entry{knuth63}{thesis}{}
+    \entry{knuth63}{book}{}
       \name{author}{1}{}{%
-        {{hash=16ba958eaf56fad580491eef4f771cee}{%
+        {{hash=ec08e6f01da5f3814f28a70c89c64656}{%
            family={Knuth},
            familyi={K\bibinitperiod},
-           given={Donald\bibnamedelima Ervin},
+           given={Donald\bibnamedelima E.},
            giveni={D\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
       }
-      \list{institution}{1}{%
-        {California Institute of Technology}%
+      \list{location}{1}{%
+        {USA}%
       }
-      \strng{namehash}{16ba958eaf56fad580491eef4f771cee}
-      \strng{fullhash}{16ba958eaf56fad580491eef4f771cee}
-      \strng{bibnamehash}{16ba958eaf56fad580491eef4f771cee}
-      \strng{authorbibnamehash}{16ba958eaf56fad580491eef4f771cee}
-      \strng{authornamehash}{16ba958eaf56fad580491eef4f771cee}
-      \strng{authorfullhash}{16ba958eaf56fad580491eef4f771cee}
+      \list{publisher}{1}{%
+        {Addison Wesley Longman Publishing Co., Inc.}%
+      }
+      \strng{namehash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{fullhash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{bibnamehash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{authorbibnamehash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{authornamehash}{ec08e6f01da5f3814f28a70c89c64656}
+      \strng{authorfullhash}{ec08e6f01da5f3814f28a70c89c64656}
       \field{sortinit}{K}
       \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{Finite semifields and projective planes}
-      \field{type}{phdthesis}
-      \field{year}{1963}
-      \field{dateera}{ce}
+      \field{isbn}{0201896834}
+      \field{title}{The art of computer programming, volume 1 (3rd ed.): fundamental algorithms}
+      \field{year}{1997}
     \endentry
     \entry{komer-proc-scipy-2014}{article}{}
       \name{author}{3}{}{%
@@ -3673,7 +3675,6 @@
       \strng{authorbibnamehash}{4671a6a5c43e8f8468962c189b1745f5}
       \strng{authornamehash}{4671a6a5c43e8f8468962c189b1745f5}
       \strng{authorfullhash}{4671a6a5c43e8f8468962c189b1745f5}
-      \field{extraname}{1}
       \field{sortinit}{M}
       \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
       \field{labelnamesource}{author}
@@ -3685,127 +3686,6 @@
       \field{year}{2018}
       \field{pages}{1805\bibrangedash 1814}
       \range{pages}{10}
-    \endentry
-    \entry{empirical-evidence}{article}{}
-      \name{author}{3}{}{%
-        {{hash=c9a92d36b8abe1d608f3669f77008540}{%
-           family={Mania},
-           familyi={M\bibinitperiod},
-           given={Horia},
-           giveni={H\bibinitperiod}}}%
-        {{hash=8bc2c63cf1c4c6e9e4d317839dda4de2}{%
-           family={Guy},
-           familyi={G\bibinitperiod},
-           given={Aurelia},
-           giveni={A\bibinitperiod}}}%
-        {{hash=3503059e1c0c778913607c87d8c5173a}{%
-           family={Recht},
-           familyi={R\bibinitperiod},
-           given={Benjamin},
-           giveni={B\bibinitperiod}}}%
-      }
-      \name{editor}{6}{}{%
-        {{hash=9b411b6c9cefdde16ffea77ecf612142}{%
-           family={Bengio},
-           familyi={B\bibinitperiod},
-           given={S.},
-           giveni={S\bibinitperiod}}}%
-        {{hash=1444141e07dd9549dbb4b8530fe4ec15}{%
-           family={Wallach},
-           familyi={W\bibinitperiod},
-           given={H.},
-           giveni={H\bibinitperiod}}}%
-        {{hash=6c15b92d4ebdbfae091f6548dc7543ae}{%
-           family={Larochelle},
-           familyi={L\bibinitperiod},
-           given={H.},
-           giveni={H\bibinitperiod}}}%
-        {{hash=4f2317ca7fb46f798c6c220e39e332a0}{%
-           family={Grauman},
-           familyi={G\bibinitperiod},
-           given={K.},
-           giveni={K\bibinitperiod}}}%
-        {{hash=9bc86e7523b9aaf7183c5f7e7634048f}{%
-           family={Cesa-Bianchi},
-           familyi={C\bibinithyphendelim B\bibinitperiod},
-           given={N.},
-           giveni={N\bibinitperiod}}}%
-        {{hash=36b98b7ab533936cf1b5716148de704f}{%
-           family={Garnett},
-           familyi={G\bibinitperiod},
-           given={R.},
-           giveni={R\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {Curran Associates, Inc.}%
-      }
-      \strng{namehash}{4671a6a5c43e8f8468962c189b1745f5}
-      \strng{fullhash}{4671a6a5c43e8f8468962c189b1745f5}
-      \strng{bibnamehash}{4671a6a5c43e8f8468962c189b1745f5}
-      \strng{authorbibnamehash}{4671a6a5c43e8f8468962c189b1745f5}
-      \strng{authornamehash}{4671a6a5c43e8f8468962c189b1745f5}
-      \strng{authorfullhash}{4671a6a5c43e8f8468962c189b1745f5}
-      \strng{editorbibnamehash}{233f4c9ba2f85af3db1eed171136508c}
-      \strng{editornamehash}{233f4c9ba2f85af3db1eed171136508c}
-      \strng{editorfullhash}{f08403ac24c2e0a0ae72822c0c0afda6}
-      \field{extraname}{2}
-      \field{sortinit}{M}
-      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Advances in Neural Information Processing Systems}
-      \field{title}{Simple random search of static linear policies is competitive for reinforcement learning}
-      \field{volume}{31}
-      \field{year}{2018}
-      \verb{urlraw}
-      \verb https://proceedings.neurips.cc/paper_files/paper/2018/file/7634ea65a4e6d9041cfd3f7de18e334a-Paper.pdf
-      \endverb
-      \verb{url}
-      \verb https://proceedings.neurips.cc/paper_files/paper/2018/file/7634ea65a4e6d9041cfd3f7de18e334a-Paper.pdf
-      \endverb
-    \endentry
-    \entry{dt-maze}{misc}{}
-      \name{author}{3}{}{%
-        {{hash=ad31daafb6eb6186dd51ffeae5196ec0}{%
-           family={Mansour},
-           familyi={M\bibinitperiod},
-           given={Yishay},
-           giveni={Y\bibinitperiod}}}%
-        {{hash=03c51a4fc581f84cab4267f4f15e9ba5}{%
-           family={Moshkovitz},
-           familyi={M\bibinitperiod},
-           given={Michal},
-           giveni={M\bibinitperiod}}}%
-        {{hash=ed6b4fef67abb4c043b72d1843b36826}{%
-           family={Rudin},
-           familyi={R\bibinitperiod},
-           given={Cynthia},
-           giveni={C\bibinitperiod}}}%
-      }
-      \strng{namehash}{68cfe95f2befd0bdd48be7da4df0de90}
-      \strng{fullhash}{68cfe95f2befd0bdd48be7da4df0de90}
-      \strng{bibnamehash}{68cfe95f2befd0bdd48be7da4df0de90}
-      \strng{authorbibnamehash}{68cfe95f2befd0bdd48be7da4df0de90}
-      \strng{authornamehash}{68cfe95f2befd0bdd48be7da4df0de90}
-      \strng{authorfullhash}{68cfe95f2befd0bdd48be7da4df0de90}
-      \field{extraname}{1}
-      \field{sortinit}{M}
-      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{cs.LG}
-      \field{eprinttype}{arXiv}
-      \field{title}{There is no Accuracy-Interpretability Tradeoff in Reinforcement Learning for Mazes}
-      \field{year}{2022}
-      \verb{eprint}
-      \verb 2206.04266
-      \endverb
-      \verb{urlraw}
-      \verb https://arxiv.org/abs/2206.04266
-      \endverb
-      \verb{url}
-      \verb https://arxiv.org/abs/2206.04266
-      \endverb
     \endentry
     \entry{theory1}{misc}{}
       \name{author}{3}{}{%
@@ -3831,7 +3711,6 @@
       \strng{authorbibnamehash}{68cfe95f2befd0bdd48be7da4df0de90}
       \strng{authornamehash}{68cfe95f2befd0bdd48be7da4df0de90}
       \strng{authorfullhash}{68cfe95f2befd0bdd48be7da4df0de90}
-      \field{extraname}{2}
       \field{sortinit}{M}
       \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
       \field{labelnamesource}{author}
@@ -4328,45 +4207,6 @@
       \field{pages}{222\bibrangedash 227}
       \range{pages}{6}
     \endentry
-    \entry{Murthy}{article}{}
-      \name{author}{2}{}{%
-        {{hash=72cae7a2054ca4135a34bb2664c3cfc2}{%
-           family={Murthy},
-           familyi={M\bibinitperiod},
-           given={Sreerama},
-           giveni={S\bibinitperiod}}}%
-        {{hash=889ed6a07db3e35eb8dc4e046ae9d900}{%
-           family={Salzberg},
-           familyi={S\bibinitperiod},
-           given={Steven},
-           giveni={S\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {Montreal, Quebec, Canada}%
-      }
-      \list{publisher}{1}{%
-        {Morgan Kaufmann Publishers Inc.}%
-      }
-      \strng{namehash}{c623900f7d4916f92fee44e352dfa54d}
-      \strng{fullhash}{c623900f7d4916f92fee44e352dfa54d}
-      \strng{bibnamehash}{c623900f7d4916f92fee44e352dfa54d}
-      \strng{authorbibnamehash}{c623900f7d4916f92fee44e352dfa54d}
-      \strng{authornamehash}{c623900f7d4916f92fee44e352dfa54d}
-      \strng{authorfullhash}{c623900f7d4916f92fee44e352dfa54d}
-      \field{extraname}{2}
-      \field{sortinit}{M}
-      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{abstract}{The standard approach to decision tree induction is a top-down greedy agorithm that makes locally optimal irrevocable decisions at each node of a tree. In this paper we empircally study an alternative approach in which the algorithms use one-level lookahead to decide what test to use at a node. we systematically compare using a very large number of artificial data sets the quality of dimension trees induced by the greedy approach to that of trees induced using lookahead. The main observations from our experiments are (1) the greedy approach consistently produced trees that were just as at accurate as trees produced with the much more expensive lookahead step and (n) we observed many instances of pathology, i.e, lookahead produced trees that were both larger and less accurate than trees produced without it.}
-      \field{isbn}{1558603638}
-      \field{journaltitle}{Proceedings of the 14th International Joint Conference on Artificial Intelligence - Volume 2}
-      \field{series}{IJCAI'95}
-      \field{title}{Lookahead and Pathology in Decision Tree Induction}
-      \field{year}{1995}
-      \field{pages}{1025\bibrangedash 1031}
-      \range{pages}{7}
-    \endentry
     \entry{lookahead}{inproceedings}{}
       \name{author}{2}{}{%
         {{hash=72cae7a2054ca4135a34bb2664c3cfc2}{%
@@ -4392,7 +4232,7 @@
       \strng{authorbibnamehash}{c623900f7d4916f92fee44e352dfa54d}
       \strng{authornamehash}{c623900f7d4916f92fee44e352dfa54d}
       \strng{authorfullhash}{c623900f7d4916f92fee44e352dfa54d}
-      \field{extraname}{3}
+      \field{extraname}{2}
       \field{sortinit}{M}
       \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
       \field{labelnamesource}{author}
@@ -6701,6 +6541,8 @@
       \keyw{Training;Neural networks;Forestry;Classification algorithms;Partitioning algorithms;Optimization;Regression tree analysis}
     \endentry
   \enddatalist
+  \missing{Murthy}
+  \missing{empirical-evidence}
 \endrefsection
 \endinput
 
