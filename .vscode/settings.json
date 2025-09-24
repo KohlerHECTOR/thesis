@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "Asym",
         "Barto",
         "Breiman",
         "Delfosse",
@@ -15,6 +16,7 @@
         "interquantile",
         "markovian",
         "memoryless",
+        "minibatch",
         "occup",
         "PIRL",
         "POIBMDP",
@@ -30,6 +32,7 @@
         "simulatability",
         "simulatibility",
         "softmax",
+        "stoch",
         "timesteps",
         "tokamak",
         "Topin",

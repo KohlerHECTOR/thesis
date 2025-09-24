@@ -1,7 +1,9 @@
-\chapter{Appendix for part I}
+\chapter{Appendix for part \ref{part1}}
 \label{chap-app-pomdp}
-
-
+In this appendix, we detail the experimental setup used to reproduce~\cite[table 2]{topin2021iterative} in chapter~\ref{sec:topin}.
+We also provide details of the calculation of the optimization objective values used in figure~\ref{fig:irl-objectives}.
+Finally, we provide additional experimental details for chapter~\ref{sec:pomdp}.
+\section{Details of the reproducibility study}
 \begin{table}
     \centering
     \caption{IBMDP hyperparameters. We try 12 different IBMDPs. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-params}
@@ -26,7 +28,7 @@
     \midrule
     Buffer size & \textcolor{green}{$10^6$} \\
     Random transitions before learning & \textcolor{green}{$10^5$} \\
-    Epsilon stard & 0.9, \textcolor{green}{0.5} \\
+    Epsilon start & 0.9, \textcolor{green}{0.5} \\
     Epsilon end & \textcolor{green}{0.05} \\
     Exploration fraction & \textcolor{green}{0.1} \\
     Optimizer & \textcolor{green}{RMSprop ($\alpha = 0.95$)}\\
@@ -52,16 +54,16 @@
     \end{tabular}
     \end{table}
 
-\section{Tree value computations}\label{calcs}
-\begin{proof} $\pi_{\mathcal{T}_1}$ has one root node that tests $x\leq1$ (respectively $y\leq1$) and two leaf nodes $\rightarrow$ and $\downarrow$. 
+\section{Interpretable RL objective values}\label{calcs}
+\paragraph{Optimal depth-1 decision tree policy} $\pi_{\mathcal{T}_1}$ has one root node that tests $x\leq1$ (respectively $y\leq1$) and two leaf nodes $\rightarrow$ and $\downarrow$. 
     To compute $V^\pi_{\mathcal{T}_1}(\boldsymbol{o}_0)$, we compute the values of $\pi_{\mathcal{T}_1}$ in each of the possible starting states $(\boldsymbol{s}_0, \boldsymbol{o}_0), (\boldsymbol{s}_1, \boldsymbol{o}_0), (\boldsymbol{s}_2, \boldsymbol{o}_0), (\boldsymbol{s}_g, \boldsymbol{o}_0)$ and compute the expectation over those. 
-    At inititalization, when the base state is $\boldsymbol{s}_g = (1.5, 0.5)$, the depth-1 decision tree policy cycles between taking an information gathering action $x\leq1$ and moving down to get a positive reward for which it gets the returns:
+    At initialization, when the base state is $\boldsymbol{s}_g = (1.5, 0.5)$, the depth-1 decision tree policy cycles between taking an information gathering action $x\leq1$ and moving down to get a positive reward for which it gets the returns:
     \begin{align*}
         V^{\pi_{\mathcal{T}_1}} (\boldsymbol{s}_g, \boldsymbol{o}_0) &= \zeta + \gamma + \gamma^2 \zeta + \gamma^3 \dots \\
         &= \overset{\infty}{\underset{t=0}\sum} \gamma^{2t} \zeta + \overset{\infty}{\underset{t=0}\sum} \gamma^{2t+1} \\
         &= \frac{\zeta + \gamma}{1 - \gamma^2}
     \end{align*}
-    At inititialization, in either of the base states $\boldsymbol{s}_0=(0.5,0.5)$ and $\boldsymbol{s}_2=(1.5, 1.5)$, the value of the depth-1 decision tree policy is the return when taking one information gathering action $x\leq1$, then moving right or down, then following the policy from the goal state $\boldsymbol{s}_g$:
+    At initialization, in either of the base states $\boldsymbol{s}_0=(0.5,0.5)$ and $\boldsymbol{s}_2=(1.5, 1.5)$, the value of the depth-1 decision tree policy is the return when taking one information gathering action $x\leq1$, then moving right or down, then following the policy from the goal state $\boldsymbol{s}_g$:
     \begin{align*}
         V^{\pi_{\mathcal{T}_1}} (\boldsymbol{s}_0, o_0) &= \zeta + \gamma 0 + \gamma^2 V^{\pi_{\mathcal{T}_1}} (\boldsymbol{s}_g, o_0) \\
         &= \zeta + \gamma^2 V^{\pi_{\mathcal{T}_1}} (\boldsymbol{s}_g, o_0) \\
@@ -81,7 +83,6 @@
         &= \frac{1}{4} \frac{\zeta + \gamma}{1 - \gamma^2} + \frac{2}{4} (\frac{\zeta + \gamma ^ 3}{1-\gamma^2}) + \frac{1}{4}(\frac{\zeta+\gamma^5}{1-\gamma^2}) \\
         &= \frac{4\zeta + \gamma + 2\gamma^3 + \gamma^5}{4(1-\gamma^2)}
     \end{align*}
-    \end{proof}
 
 \paragraph{Depth-0 decision tree:} has only one leaf node that takes a single base action indefinitely.
 For this type of tree the best reward achievable is to take actions that maximize the probability of reaching the objective $\rightarrow$ or $\downarrow$. In that case the objective value of such tree is:
