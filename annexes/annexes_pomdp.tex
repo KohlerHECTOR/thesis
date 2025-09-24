@@ -1,10 +1,48 @@
 \chapter{Appendix for part \ref{part1}}
 \label{chap-app-pomdp}
-In this appendix, we detail the experimental setup used to reproduce~\cite[table 2]{topin2021iterative} in chapter~\ref{sec:topin}.
+In this appendix, we detail the experimental setup used to reproduce~\cite[table 1]{topin2021iterative} in chapter~\ref{sec:topin}.
 We also provide details of the calculation of the optimization objective values used in figure~\ref{fig:irl-objectives}.
 Finally, we provide additional experimental details for chapter~\ref{sec:pomdp}.
 \section{Details of the reproducibility study}
 
+\subsection{IBMDP formulation}\label{sec:ibmdp-paper}
+Given a base MDP $\mathcal{M}\langle S, A, R, T, T_0\rangle$ (cf. definition~\ref{def:mdp}), in order to define an IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$ (cf. definition~\ref{def:ibmdp}), the user needs to provide the set of information gathering actions $A_{info}$ and the reward $\zeta$ for taking those.
+Authors of~\cite{topin2021iterative} propose to parametrize the set of IGAs with $j \times q$ actions $\langle j, v_k \rangle$ with $v_k$ depending on the current observation $\boldsymbol{o}_t=(L'_1, U'_1, \dots, L'_j, U'_j, \dots, L'_p, U'_p)$: $v_k = \frac{k(U'_j - L'_j)}{q+1}$.
+This parametric IGAs space keeps the discrete IBMDP action space at a reasonable size while providing a learning algorithm with varied IGAs to try.
+
+For example, if we define an IBMDP with $q=3$ for the grid world from Example~\ref{example:grid}, the grid world action space is augmented with six IGAs. 
+At $t=0$, recall that $\boldsymbol{o}_0=(0, 2, 0, 2)$, so if an IGA is taken, e.g. $\langle 2, v_2\rangle$, the effective IGA is $\langle j, v_2=\frac{k(2-0)}{3+1}\rangle = \langle 1, 2 \rangle$ which in turn effectively corresponds to an internal decision tree node $y \leq 1$.
+If the current state $y$-feature value is $0.5$, then the next observation at $t=1$ is $\boldsymbol{o}_1=(0, 2, 0, 1)$. At $t=2$ if $a_t=\langle 2, v_2 \rangle$ again, it would be effectively $\langle j, v_2=\frac{k(1-0)}{3+1}\rangle = \langle 2, 0.5 \rangle$. 
+This would give the next observation at $t=2$ $\boldsymbol{o}_2=(0, 2, 0, 0.5)$ and so on. 
+
+Furthermore, author propose to regularize the learned decision tree policy with a maximum depth parameter $D$.
+Unfortunately, authors did not describe how they implemented the depth control in their work, hence we have to try different approaches to reproduce their results.
+
+To control the tree depth during learning in the IBMDP, we can either give negative reward for taking $D$ IGAs in a row, or terminate the trajectory.
+In practice, we could also have a state-dependent action space such that taking an IGA is not allowed after taking $D$ IGAs in a row.
+This later approach--sometimes called action masking--is not compatible with the definition of an MDP (cf. definition~ref{def:mdp}) in which all actions are available in all states. 
+To apply the penalization approaches, one can extend the MDP states to keep track of the current tree depth.
+Similarly, the termination approach requires a transition function that depends on the current tree depth.
+
+We actually find that when $q+1$, the parameter that defines threshold values in decision tree policy nodes (cf. definition~\ref{def:ibmdp}), is a prime number, then as a direct consequence of the \textit{Chinese Remainder Theorem}\footnote{\url{https://en.wikipedia.org/wiki/Chinese_remainder_theorem}}, the current tree depth is directly encoded in the current observation $\boldsymbol{o}_t$. 
+Hence, when $q+1$ is prime, we can control the depth through either transitions or rewards without tracking the tree depth.
+
+\begin{table}[H]
+    \centering
+    \caption{IBMDP hyperparameters. We try 12 different IBMDPs. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-params}
+    \begin{tabular}{ll}
+    \toprule
+    \textbf{Hyperparameter} & \textbf{Values}\\
+    \midrule
+    Discount factor $\gamma$ & \textcolor{green}{1} \\
+    Information gathering actions parameter $q$ & 2, \textcolor{green}{3} \\
+    Information gathering actions rewards $\zeta$ & \textcolor{green}{-0.01}, 0.01 \\
+    \textcolor{red}{Depth control} & Done signal, negative reward, none \\ 
+    \bottomrule
+    \end{tabular}
+    \end{table}
+
+\subsection{Modified RL algorithmic details}
 \begin{algorithm}
     \KwData{IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$, learning rate $\alpha$, policy parameters $\theta$, clipping parameter $\epsilon$, value function parameters $\phi$}
     \KwResult{Partially observable stochastic policy $\pi_{po_\theta}$}
@@ -23,21 +61,6 @@ Finally, we provide additional experimental details for chapter~\ref{sec:pomdp}.
     }
     \caption{Modified Proximal Policy Optimization}\label{alg:mod-ppo}
 \end{algorithm}
-
-\begin{table}[H]
-    \centering
-    \caption{IBMDP hyperparameters. We try 12 different IBMDPs. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-params}
-    \begin{tabular}{ll}
-    \toprule
-    \textbf{Hyperparameter} & \textbf{Values}\\
-    \midrule
-    Discount factor $\gamma$ & \textcolor{green}{1} \\
-    Information gathering actions parameter $q$ & 2, \textcolor{green}{3} \\
-    Information gathering actions rewards $\zeta$ & \textcolor{green}{-0.01}, 0.01 \\
-    \textcolor{red}{Depth control} & Done signal, negative reward, none \\ 
-    \bottomrule
-    \end{tabular}
-    \end{table}
 
 \begin{table}[H]
     \centering
@@ -73,6 +96,44 @@ Finally, we provide additional experimental details for chapter~\ref{sec:pomdp}.
     \bottomrule
     \end{tabular}
     \end{table}
+
+
+In tables~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperparameters for Modified RL baselines when learning partially observable IBMDP policies in terms of extracted decision tree policies performances in the CartPole MDP.
+\begin{table}
+    \centering
+    \caption{Top 5 hyperparameter configurations for modified DQN + IBMDP, bold font represent the original paper hyperparameters.}\label{tab:mod-dqn}
+    \label{tab:top5_results}
+    \begin{tabular}{ccccccS}
+    \toprule
+    Rank & $q$ & Depth control & Activation & Exploration & $\zeta$ & {Mean Final Performance} \\
+    \midrule
+    1 & 3 & termination & $\operatorname{tanh}$ & 0.9 & 0.01 & 53 \\
+    2 & 2 & termination & $\operatorname{tanh}$ & 0.5 & -0.01 & 24 \\
+    \textbf{3} & \textbf{3} & \textbf{termination} & $\operatorname{tanh}$ & \textbf{0.5} & \textbf{-0.01} & \textbf{24} \\
+    4 & 2 & termination & $\operatorname{tanh}$ & 0.5 & 0.01 & 23 \\
+    5 & 2 & termination & $\operatorname{tanh}$ & 0.9 & -0.01 & 22 \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
+
+    \begin{table}
+        \centering
+        \caption{Top 5 hyperparameter configurations for modified PPO + IBMDP, bold font represent the original paper hyperparameters.}\label{tab:mod-ppo}
+        \label{tab:top5_ppo_results}
+        \begin{tabular}{cccccS}
+        \toprule
+        Rank & $q$ & Depth Control & Activation & $\zeta$ & {Mean Final Performance} \\
+        \midrule
+        1 & 3 & reward & $\operatorname{relu}$ & 0.01 & 139 \\
+        2 & 3 & termination & $\operatorname{relu}$ & 0.01 & 132 \\
+        \textbf{3} & \textbf{3} & \textbf{reward} & $\operatorname{tanh}$ & \textbf{-0.01} & \textbf{119} \\
+        4 & 3 & reward & $\operatorname{relu}$ & -0.01 & 117 \\
+        5 & 3 & reward & $\operatorname{tanh}$ & 0.01 & 116 \\
+        \bottomrule
+        \end{tabular}
+        \end{table}
+
+    
 
 \section{Interpretable RL objective values}\label{calcs}
 \paragraph{Optimal depth-1 decision tree policy} $\pi_{\mathcal{T}_1}$ has one root node that tests $x\leq1$ (respectively $y\leq1$) and two leaf nodes $\rightarrow$ and $\downarrow$. 

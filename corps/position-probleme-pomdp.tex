@@ -46,13 +46,13 @@ However all our results generalize to discrete states (in $\mathbb{Z}^m$) MDPs t
 Given an MDP for which we want to learn a decision tree policy, the base MDP, IBMDP states are concatenations of the base MDP state features and some observations. 
 Those observations are information about the base state features that are refined--``iteratively bounded''-- at each step.
 Those observations essentially represent some knowledge about where some base state features lie in the state space.
-Actions available in an IBMDP are: 1. the actions of the base MDP, that change base state features, and 2. \textit{information gathering} actions that change the aforementioned observations.
+Actions available in an IBMDP are: 1) the actions of the base MDP, that change base state features, and 2) \textit{information gathering} actions that change the aforementioned observations.
 Now, base actions in an IBMDP are rewarded like in the base MDP, this ensures that the RL objective w.r.t. the base MDP is encoded in the IBMDP reward.
 When taking an information gathering action, the reward is an arbitrary value such that optimizing the RL objective in the IBMDP is equivalent to optimizing some trade-off between interpretability and the RL objective in the base MDP.
  
 Before showing how to get decision tree policies from IBMDP policies, we give a formal definition of IBMDPs following Topin et. al.~\cite{topin2021iterative}.
 
-\begin{definition}[Iterative Bounding Markov decision process]\label{def:ibmdp}
+\begin{definition}[Iterative bounding Markov decision process]\label{def:ibmdp}
 Given an MDP $\mathcal{M}$ $\langle S, A, R, T, T_0 \rangle$ (cf. definition~\ref{def:mdp}), an associated iterative bounding Markov decision process $\mathcal{M}_{IB}$ is a tuple:
 \begin{align*}
     \langle \overbrace{S \times O}^{\text{State space}}, \underbrace{A \cup A_{info}}_{\text{Action space}}, \overbrace{(R, \zeta)}^{\text{Reward function}}, \underbrace{(T_{info}, T, T_0)}_{\text{Transitions}}\rangle
