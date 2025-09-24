@@ -4,6 +4,26 @@ In this appendix, we detail the experimental setup used to reproduce~\cite[table
 We also provide details of the calculation of the optimization objective values used in figure~\ref{fig:irl-objectives}.
 Finally, we provide additional experimental details for chapter~\ref{sec:pomdp}.
 \section{Details of the reproducibility study}
+
+\begin{algorithm}
+    \KwData{IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$, learning rate $\alpha$, policy parameters $\theta$, clipping parameter $\epsilon$, value function parameters $\phi$}
+    \KwResult{Partially observable stochastic policy $\pi_{po_\theta}$}
+    Initialize policy parameters $\theta$ and value function parameters $\phi$ \\
+    \For{each episode}{
+        Generate trajectory $\tau = (\boldsymbol{s}_0, \boldsymbol{o}_0, a_0, r_0, \boldsymbol{s}_1, \boldsymbol{o}_1, a_1, r_1, \ldots)$ following $\pi_\theta$ \\
+        \For{each timestep $t$ in trajectory}{
+            $G_t \leftarrow \sum_{k=t}^{T} \gamma^{k-t} r_k$ \Comment{// Compute return}
+            $A_t \leftarrow G_t - V_\phi(\boldsymbol{s}_t)$ \Comment{// Compute advantage}
+            $r_t(\theta) \leftarrow \frac{\pi_{po_\theta}(a_t|\boldsymbol{o}_t)}{\pi_{po_\theta}_{old}(a_t|\boldsymbol{o}_t)}$ \Comment{// Compute probability ratio}
+            $L^{CLIP}_t \leftarrow \min(r_t(\theta) A_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t)$ \Comment{// Clipped objective}
+            $\theta \leftarrow \theta + \alpha \nabla_\theta L^{CLIP}_t$ \Comment{// Policy update}
+            $\phi \leftarrow \phi + \alpha \nabla_\phi (G_t - V_\phi(\boldsymbol{s}_t))^2$ \Comment{// Value function update}
+        }
+        $\theta_{old} \leftarrow \theta$ \Comment{// Update old policy}
+    }
+    \caption{Modified Proximal Policy Optimization}\label{alg:mod-ppo}
+\end{algorithm}
+
 \begin{table}[H]
     \centering
     \caption{IBMDP hyperparameters. We try 12 different IBMDPs. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-params}

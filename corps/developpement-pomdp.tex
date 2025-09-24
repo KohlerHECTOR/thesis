@@ -32,9 +32,10 @@ We will try various $\zeta$, various $q$, and various depth control in our exper
 
 \subsection{Modified deep reinforcement learning algorithms}
 Authors of \cite{topin2021iterative} use two deep reinforcement learning baselines (cf. section~\ref{sec:drl}) to which they apply some modifications in order to learn partially observable policies as required by proposition \ref{def:po-policy} and by the interpretable RL objective (cf. definition~\ref{def:irl}).
-Authors modify the standard PPO (cf. algorithm \ref{alg:mod-ppo}) and train a neural network policy $O\rightarrow A\cup A_{info}$ while the neural network value function is $S\times O\rightarrow A\cup A_{info}$.
-A similar modification is done to DQN to return a partially observable policy (cf. algorithm \ref{alg:mod-dqn}). The trained $Q$-function is approximated with a neural network $O\rightarrow \mathbb{R}^{|A\cup A_{info}|}$ rather than $S\times O\rightarrow \mathbb{R}^{|A\cup A_{info}|}$.
+Authors modify the standard DQN (cf. algorithm~\ref{alg:dqn}) to return a partially observable policy. The trained $Q$-function is approximated with a neural network $O\rightarrow \mathbb{R}^{|A\cup A_{info}|}$ rather than $S\times O\rightarrow \mathbb{R}^{|A\cup A_{info}|}$.
 In this modified DQN, the temporal difference error target for the $Q$-function $O\rightarrow A\cup A_{info}$ is approximated by a neural network $S\times O\rightarrow A\cup A_{info}$ that is in turn trained by bootstrapping the temporal difference error with itself.
+We present the modifications in algorithm~\ref{alg:mod-dqn}.
+Similar modifications are applied to the standard PPO (cf. algorithm~\ref{alg:ppo}) that we present in the appendix (cf. algorithm \ref{alg:mod-ppo}). In the modified PPO, neural network policy $O\rightarrow A\cup A_{info}$ is trained using a neural network value function $S\times O\rightarrow A\cup A_{info}$ as a critic.
 
 Those two variants of DQN and PPO have first been introduced in \cite{pinto} for robotic tasks with partially observable components, under the name ``asymmetric'' actor-critic. 
 Asymmetric RL algorithms that have policy and value estimates using different information from a POMDP~\cite{POMDP,chap2} were later studied theoretically to solve POMDPs in Baisero's work~\cite{baisero-dqn,baisero-ppo}.
@@ -46,7 +47,7 @@ Next, we present the precise experimental setup we use to reproduce~\cite[table 
     \KwData{IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$, learning rate $\alpha$, exploration rate $\epsilon$, partially observable Q-network parameters $\theta$, Q-network parameters $\phi$, replay buffer $\mathcal{B}$, update frequency $C$}
     \KwResult{Partially observable deterministic policy $\pi_{po}$}
     Initialize partially observable Q-network parameters $\theta$\\
-    Initialize Q-network parameters $\phi$ and target network parameters $\phi^- = \phi$ \\
+    \textcolor{green}{Initialize Q-network parameters $\phi$ and target network parameters $\phi^- = \phi$} \\
 
     Initialize replay buffer $\mathcal{B} = \emptyset$ \\
     \For{each episode}{
@@ -59,9 +60,9 @@ Next, we present the precise experimental setup we use to reproduce~\cite[table 
             Store transition $(\boldsymbol{s}_t, \boldsymbol{o}_t, a_t, r_t, \boldsymbol{s}_{t+1})$ in $\mathcal{B}$ \\
             Sample random batch $(\boldsymbol{s}_i, \boldsymbol{o}_i, a_i, r_i, \boldsymbol{s}_{i+1}) \sim \mathcal{B}$ \\
             $a' = \underset{a}{\operatorname{argmax}} Q_{\theta}(\boldsymbol{o}_i, a)$ \\
-            $y_i = r_i + \gamma Q_{\phi^-}(\boldsymbol{s}_{i+1}, a')$ \Comment{// Compute target}
+            \textcolor{green}{$y_i = r_i + \gamma Q_{\phi^-}(\boldsymbol{s}_{i+1}, a')$} \Comment{// Compute target}
             $\phi \leftarrow \phi - \alpha \nabla_\phi (Q_\phi(\boldsymbol{s}_i, a_i) - y_i)^2$ \Comment{// Update Q-network}
-            $\theta \leftarrow \theta - \alpha \nabla_\theta (Q_\theta(\boldsymbol{o}_i, a_i) - y_i)^2$ \Comment{// Update partially observable Q-network}
+            \textcolor{green}{$\theta \leftarrow \theta - \alpha \nabla_\theta (Q_\theta(\boldsymbol{o}_i, a_i) - y_i)^2$} \Comment{// Update partially observable Q-network}
 
             \If{$t \bmod C = 0$}{
                 $\theta^- \leftarrow \theta$ \Comment{// Update target network}
@@ -71,27 +72,7 @@ Next, we present the precise experimental setup we use to reproduce~\cite[table 
         }
     }
     $\pi_{po}(\boldsymbol{o}) = \operatorname{argmax}_a Q_\theta(\boldsymbol{o},a)$ \Comment{// Extract greedy policy}
-    \caption{Modified Deep Q-Network}\label{alg:mod-dqn}
-\end{algorithm}
-
-
-\begin{algorithm}
-    \KwData{IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$, learning rate $\alpha$, policy parameters $\theta$, clipping parameter $\epsilon$, value function parameters $\phi$}
-    \KwResult{Partially observable stochastic policy $\pi_{po_\theta}$}
-    Initialize policy parameters $\theta$ and value function parameters $\phi$ \\
-    \For{each episode}{
-        Generate trajectory $\tau = (\boldsymbol{s}_0, \boldsymbol{o}_0, a_0, r_0, \boldsymbol{s}_1, \boldsymbol{o}_1, a_1, r_1, \ldots)$ following $\pi_\theta$ \\
-        \For{each timestep $t$ in trajectory}{
-            $G_t \leftarrow \sum_{k=t}^{T} \gamma^{k-t} r_k$ \Comment{// Compute return}
-            $A_t \leftarrow G_t - V_\phi(\boldsymbol{s}_t)$ \Comment{// Compute advantage}
-            $r_t(\theta) \leftarrow \frac{\pi_{po_\theta}(a_t|\boldsymbol{o}_t)}{\pi_{po_\theta}_{old}(a_t|\boldsymbol{o}_t)}$ \Comment{// Compute probability ratio}
-            $L^{CLIP}_t \leftarrow \min(r_t(\theta) A_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t)$ \Comment{// Clipped objective}
-            $\theta \leftarrow \theta + \alpha \nabla_\theta L^{CLIP}_t$ \Comment{// Policy update}
-            $\phi \leftarrow \phi + \alpha \nabla_\phi (G_t - V_\phi(\boldsymbol{s}_t))^2$ \Comment{// Value function update}
-        }
-        $\theta_{old} \leftarrow \theta$ \Comment{// Update old policy}
-    }
-    \caption{Modified Proximal Policy Optimization}\label{alg:mod-ppo}
+    \caption{Modified Deep Q-Network. We highlight in green the changes to the standard DQN (cf. algorithm~\ref{alg:dqn}).}\label{alg:mod-dqn}
 \end{algorithm}
 
 \section{Experimental setup}
