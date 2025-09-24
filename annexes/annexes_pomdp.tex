@@ -20,7 +20,7 @@ Unfortunately, authors did not describe how they implemented the depth control i
 
 To control the tree depth during learning in the IBMDP, we can either give negative reward for taking $D$ IGAs in a row, or terminate the trajectory.
 In practice, we could also have a state-dependent action space such that taking an IGA is not allowed after taking $D$ IGAs in a row.
-This later approach--sometimes called action masking--is not compatible with the definition of an MDP (cf. definition~ref{def:mdp}) in which all actions are available in all states. 
+The latter approach--sometimes called action masking--is not compatible with the definition of an MDP (cf. definition~\ref{def:mdp}) in which all actions are available in all states. 
 To apply the penalization approaches, one can extend the MDP states to keep track of the current tree depth.
 Similarly, the termination approach requires a transition function that depends on the current tree depth.
 
