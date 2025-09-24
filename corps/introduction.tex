@@ -1167,9 +1167,8 @@ Next, we present the outline of the thesis.
 \end{figure}
 
 \section{Outline of the thesis}
-Throughout our thesis, we make the assumption that constraining models (e.g. policies or classifiers) to be decision trees is enough for ensuring interpretability.
-In this thesis we study different decision tree learning algorithms in different settings. 
-In the first part of the manuscript, we show that direct decision tree learning methods (cf. figure~\ref{fig:direct-vs-indirect-methods}) struggle to find decision tree policies even for very simple sequential decision making problems.
+Throughout our thesis, we make the assumption that constraining models--policies and classifiers--to be decision trees, is enough to ensure interpretability.
+In the first part of the manuscript, we show that direct decision tree learning methods (cf. figure~\ref{fig:direct-vs-indirect-methods}) struggle to find good decision tree policies even for very simple sequential decision making problems.
 For that, we first reproduce the work from~\cite{topin2021iterative} that presents a formalism for learning decision tree policies that optimize the RL objective (cf. definition~\ref{def:mdp-obj}) directly using reinforcement learning, and then make connections with hardness results from the partially observable MDPs (POMDPs) literature~\cite{POMDP,chap2}.
 In the second part of the manuscript, we formulate decision tree induction for supervised learning as solving a sequential decision making problem.
 By formalizing decision tree induction for the supervised learning objective (cf. definition~\ref{def:sl}) as solving an MDP (cf. definition~\ref{def:mdp}), we design novel algorithms that achieve very good performances.
