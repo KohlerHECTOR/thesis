@@ -199,7 +199,65 @@ Solving these equations:
     &= \frac{1 + \frac{3}{2}\gamma + \frac{1}{2}\gamma^2}{4(1 - \frac{1}{4}\gamma^2)(1-\gamma)}
 \end{align*}
 
-\section{Hyperparameters}\label{sec:hp-pomdp}
+\section{Tabular RL algorithmic details for POIBMDPs}\label{sec:hp-pomdp}
+
+\RestyleAlgo{ruled}
+\SetKwComment{Comment}{}{}
+\begin{algorithm}
+    \KwData{POMDP $\mathcal{M}_{po} = \langle X, O, A, R, T, T_0, \Omega \rangle$, learning rates $\alpha_u,\quad \alpha_q$, exploration rate $\epsilon$}
+    \KwResult{$\pi:O\rightarrow A$}
+    Initialize $U(x,a) = 0$ for all $x \in X, a \in A$ \\
+    Initialize $Q(o,a) = 0$ for all $o \in O, a \in A$ \\
+
+    \For{each episode}{
+        Initialize state $x_0 \sim T_0$ \\
+        Initialize observation $\boldsymbol{o}_0 \sim \Omega(x_0)$ \\
+        Choose action $a_0$ using $\epsilon$-greedy: $a_0 = \operatorname{argmax}_a Q(\boldsymbol{o}_0,a)$ with prob. $1-\epsilon$ \\
+
+        \For{each step $t$}{
+            Take action $a_t$, observe $r_t = R(x_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $\boldsymbol{o}_{t+1} \sim \Omega(x_{t+1})$ \\
+            Choose action $a_{t+1}$ using $\epsilon$-greedy: $a_{t+1} = \operatorname{argmax}_a Q(\boldsymbol{o}_{t+1},a)$ with prob. $1-\epsilon$ \\
+            $y \leftarrow r + \gamma U(x_{t+1}, a_{t+1})$ \Comment{// TD target using actual next action} \\
+            $U(x_t,a_t) \leftarrow (1 - \alpha_u) U(x_t, a_t) + \alpha_u y $ \\
+            $Q(\boldsymbol{o}_t,a_t) \leftarrow (1 - \alpha_q) Q(\boldsymbol{o}_t, a_t) + \alpha_q y $ \\
+            $x_t \leftarrow x_{t+1}$ \\
+            $\boldsymbol{o}_t \leftarrow \boldsymbol{o}_{t+1}$ \\
+            $a_t \leftarrow a_{t+1}$ \\
+        }
+    }
+    $\pi(b\oldsymbol{o}) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$ \Comment{// Extract greedy policy}
+    \caption{Asymmetric Sarsa}\label{alg:asymsarsa}
+\end{algorithm}
+
+\RestyleAlgo{ruled}
+\SetKwComment{Comment}{}{}
+\begin{algorithm}
+    \KwData{POMDP $\mathcal{M}_{po} = \langle X, O, A, R, T, T_0, \Omega \rangle$, learning rate $\alpha$, policy parameters $\theta$, number of trajectories $N$}
+    \KwResult{Stochastic partially observable policy $\pi_\theta: O\rightarrow \Delta(A)$}
+    Initialize policy parameters $\theta$ \\
+    Initialize $Q(\boldsymbol{o}, a) = 0$ for all observations $o$ and actions $a$ \\
+    \For{each episode}{
+        \For{$i = 1$ to $N$}{
+            Generate trajectory $\tau_i = (\boldsymbol{s}_0, a_0, r_0, \boldsymbol{s}_1, a_1, r_1, \ldots, \boldsymbol{s}_T)$ following $\pi_\theta$ \\
+            \For{each timestep $t$ in trajectory $\tau_i$}{
+                $G_t \leftarrow \sum_{k=t}^{T} \gamma^{k-t} r_k$ \Comment{// Compute return}
+                Store $(\boldsymbol{o}_t, a_t, G_t)$ for later averaging
+            }
+        }
+        \For{each unique observation-action pair $(o, a)$}{
+            $Q(o, a) \leftarrow \frac{1}{|\{(\boldsymbol{o}, a)\}|} \sum_{(\boldsymbol{o}, a, G)} G$ \Comment{// Monte Carlo estimate}
+        }
+        \For{each observation $o$}{
+            \For{each action $a$}{
+                $\pi_1(a|\boldsymbol{o}) \leftarrow 1.0$ if $a = \operatorname{argmax}_{a'} Q(\boldsymbol{o}, a')$, $0.0$ otherwise \Comment{// Deterministic policy from Q-values}
+                $\pi(a|\boldsymbol{o}) \leftarrow (1 - \alpha) \pi(a|\boldsymbol{o}) + \alpha \pi_1(a|\boldsymbol{o}o)$ \Comment{// Policy improvement step}
+            }
+        }
+        Reset $Q(\boldsymbol{o}, a) = 0$ for all observations $\boldsymbol{o}$ and actions $a$ \Comment{// Reset for next episode}
+    }
+    \caption{JSJ algorithm. Uses Monte Carlo estimates of the average reward value functions to perform policy improvements}\label{alg:jsj}
+\end{algorithm}
+
 \begin{table}
 \small
 \centering

@@ -203,17 +203,19 @@ More recently, the framework of Baisero et. al. called asymmetric RL~\cite{baise
 Asymmetric RL algorithms train a model--a policy or a value function--depending on hidden state (only available at train time) and a history dependent (or observation dependent) model.
 The history or observation dependent model serves as target or critic to train the hidden state dependent model.
 The history dependent (or observation dependent) model can thus be deployed in the POMDP after training since it does not require access to the hidden state to output actions.
-In algorithms~\ref{alg:asymqlearning} and~\ref{alg:asymsarsa} we present asymmetric Q-learning and asymmetric Sarsa: given a POMDP, both train a partially observable Q-function $Q:O\times A\rightarrow\mathbb{R}$ and a Q-function $U:X\times A\rightarrow\mathbb{R}$.
-
+In algorithm~\ref{alg:asymqlearning} we present asymmetric Q-learning. It is a variant of Q-learning (cf. algorithm~\ref{alg:qlearning}) that returns a deterministic partially observable policy like modified DQN~\ref{alg:mod-dqn}.
+Given a POMDP, asymmetric Q-learning trains a partially observable Q-function $Q:O\times A\rightarrow\mathbb{R}$ and a Q-function $U:X\times A\rightarrow\mathbb{R}$. The hidden state dependent Q-function $U$ serves as a target in the temporal difference learning update. 
+We also consider an asymmetric version of Sarsa that applies similar modifications to the standard Sarsa (cf. algorithm~\ref{alg:sarsa}). We present asymmetric Sarsa in the appendix (cf. algorithm~\ref{alg:asymsarsa}).
 In~\cite{jsj}, authors introduce a policy search algorithm~\ref{sec:rl} that learns a (stochastic) policy $\pi:O\rightarrow\Delta(A)$ and a critic $V:X\rightarrow \mathbb{R}$ using Monte Carlo estimates to guide policy improvement.
-We write this algorithm that we call JSJ (for the authors names Jaakkola, Singh, Jordan) in algorithm~\ref{alg:jsj}. JSJ is equivalent to a tabular asymmetric policy gradient algorithm (cf. algorithm~\ref{alg:reinforce}). 
+We also consider this algorithm in our experiments that we call JSJ (for the authors names Jaakkola, Singh, Jordan). We present the JSJ algorithm in the appendix (cf. algorithm~\ref{alg:jsj}).
+JSJ is equivalent to a tabular asymmetric policy gradient algorithm (cf. algorithm~\ref{alg:reinforce}). 
 
 Until recently, the benefits of asymmetric RL over standard RL was only shown empirically and only for history-dependent models.
 The work of Gaspard Lambrechts~\cite{justif-asym} proves that some asymmetric RL algorithms learn better history-dependent \textbf{or} partially observable policies for solving POMDPs.
 This is exactly what we wish for. However, those algorithms are not practical because they require estimation of the asymptotic occupancy distribution $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$ (cf. definition~\ref{def:vpo}) for candidate policies which in turn would require to gather a lot of on-policy samples.
 We leave it to future work to use those algorithms that combine asymmetric RL and estimation of future visitations since those results are contemporary to the writing of this manuscript.
 
-Note that, in the previous chapter, modified DQN (cf. algorithm~\ref{alg:mod-dqn}) and modified PPO (cf. algorithm~\ref{alg:mod-ppo}) are respectively asymmetric DQN and asymmetric PPO from~\cite{baisero-dqn,baisero-ppo}.
+Note that, in the previous chapter and in the original work of N. Topin~\cite{topin2021iterative}, modified DQN (cf. algorithm~\ref{alg:mod-dqn}) and modified PPO (cf. algorithm~\ref{alg:mod-ppo}) are respectively asymmetric DQN and asymmetric PPO from~\cite{baisero-dqn,baisero-ppo}.
 In the next section, we use (asymmetric) RL to optimize the interpretable RL objective in POIBMDPs.
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
@@ -239,64 +241,6 @@ In the next section, we use (asymmetric) RL to optimize the interpretable RL obj
     }
     $\pi(o) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$ \Comment{// Extract greedy policy}
     \caption{Asymmetric Q-Learning. We highlight in green the differences with the standard Q-learning (cf. algorithm~\ref{alg:qlearning})}\label{alg:asymqlearning}
-\end{algorithm}
-
-
-\RestyleAlgo{ruled}
-\SetKwComment{Comment}{}{}
-\begin{algorithm}
-    \KwData{POMDP $\mathcal{M}_{po} = \langle X, O, A, R, T, T_0, \Omega \rangle$, learning rates $\alpha_u,\quad \alpha_q$, exploration rate $\epsilon$}
-    \KwResult{$\pi:O\rightarrow A$}
-    Initialize $U(x,a) = 0$ for all $x \in X, a \in A$ \\
-    Initialize $Q(o,a) = 0$ for all $o \in O, a \in A$ \\
-
-    \For{each episode}{
-        Initialize state $x_0 \sim T_0$ \\
-        Initialize observation $\boldsymbol{o}_0 \sim \Omega(x_0)$ \\
-        Choose action $a_0$ using $\epsilon$-greedy: $a_0 = \operatorname{argmax}_a Q(\boldsymbol{o}_0,a)$ with prob. $1-\epsilon$ \\
-
-        \For{each step $t$}{
-            Take action $a_t$, observe $r_t = R(x_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $\boldsymbol{o}_{t+1} \sim \Omega(x_{t+1})$ \\
-            Choose action $a_{t+1}$ using $\epsilon$-greedy: $a_{t+1} = \operatorname{argmax}_a Q(\boldsymbol{o}_{t+1},a)$ with prob. $1-\epsilon$ \\
-            $y \leftarrow r + \gamma U(x_{t+1}, a_{t+1})$ \Comment{// TD target using actual next action} \\
-            $U(x_t,a_t) \leftarrow (1 - \alpha_u) U(x_t, a_t) + \alpha_u y $ \\
-            $Q(\boldsymbol{o}_t,a_t) \leftarrow (1 - \alpha_q) Q(\boldsymbol{o}_t, a_t) + \alpha_q y $ \\
-            $x_t \leftarrow x_{t+1}$ \\
-            $\boldsymbol{o}_t \leftarrow \boldsymbol{o}_{t+1}$ \\
-            $a_t \leftarrow a_{t+1}$ \\
-        }
-    }
-    $\pi(b\oldsymbol{o}) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$ \Comment{// Extract greedy policy}
-    \caption{Asymmetric Sarsa}\label{alg:asymsarsa}
-\end{algorithm}
-
-\RestyleAlgo{ruled}
-\SetKwComment{Comment}{}{}
-\begin{algorithm}
-    \KwData{POMDP $\mathcal{M}_{po} = \langle X, O, A, R, T, T_0, \Omega \rangle$, learning rate $\alpha$, policy parameters $\theta$, number of trajectories $N$}
-    \KwResult{Stochastic partially observable policy $\pi_\theta: O\rightarrow \Delta(A)$}
-    Initialize policy parameters $\theta$ \\
-    Initialize $Q(\boldsymbol{o}, a) = 0$ for all observations $o$ and actions $a$ \\
-    \For{each episode}{
-        \For{$i = 1$ to $N$}{
-            Generate trajectory $\tau_i = (\boldsymbol{s}_0, a_0, r_0, \boldsymbol{s}_1, a_1, r_1, \ldots, \boldsymbol{s}_T)$ following $\pi_\theta$ \\
-            \For{each timestep $t$ in trajectory $\tau_i$}{
-                $G_t \leftarrow \sum_{k=t}^{T} \gamma^{k-t} r_k$ \Comment{// Compute return}
-                Store $(\boldsymbol{o}_t, a_t, G_t)$ for later averaging
-            }
-        }
-        \For{each unique observation-action pair $(o, a)$}{
-            $Q(o, a) \leftarrow \frac{1}{|\{(\boldsymbol{o}, a)\}|} \sum_{(\boldsymbol{o}, a, G)} G$ \Comment{// Monte Carlo estimate}
-        }
-        \For{each observation $o$}{
-            \For{each action $a$}{
-                $\pi_1(a|\boldsymbol{o}) \leftarrow 1.0$ if $a = \operatorname{argmax}_{a'} Q(\boldsymbol{o}, a')$, $0.0$ otherwise \Comment{// Deterministic policy from Q-values}
-                $\pi(a|\boldsymbol{o}) \leftarrow (1 - \alpha) \pi(a|\boldsymbol{o}) + \alpha \pi_1(a|\boldsymbol{o}o)$ \Comment{// Policy improvement step}
-            }
-        }
-        Reset $Q(\boldsymbol{o}, a) = 0$ for all observations $\boldsymbol{o}$ and actions $a$ \Comment{// Reset for next episode}
-    }
-    \caption{JSJ algorithm. Uses Monte Carlo estimates of the average reward value functions to perform policy improvements}\label{alg:jsj}
 \end{algorithm}
 
 In the next section, we apply asymmetric and standard RL algorithms to the problem of learning the optimal depth-1 tree for the grid world MDP (cf. section~\ref{sec:opt-depth1}) by optimizing the interpretable RL objective in POIBMDPs.
