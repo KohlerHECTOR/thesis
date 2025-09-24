@@ -87,7 +87,7 @@ We summarize hyperparameters for the IBMDP and for the learning algorithms in ap
 
 \paragraph{Indirect methods} We also compare modified RL algorithm to imitation learning (cf. section \ref{sec:imit}).
 To do so, we use VIPER or Dagger (cf. algorithms~\ref{alg:dagger} and~\ref{alg:viper}) to imitate greedy neural network policies obtained with standard DQN learning directly on CartPole.
-And we use Dagger to imitate neural network policies obtained with the standard PPO learning directly on CartPole. 
+We use Dagger to imitate neural network policies obtained with the standard PPO learning directly on CartPole. 
 For each indirect method, we imitate the neural network experts by fitting decision trees on 10000 expert transitions using the CART (cf. algorithm~\ref{alg:cart}) implementation from scikit-learn~\cite{scikit-learn} with default hyperparameters and maximum depth of 2 like in ~\cite{topin2021iterative}.
     
 \subsection{Metrics}
