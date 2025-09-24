@@ -146,16 +146,16 @@ Next, we present our results when reproducing~\cite[table 1]{topin2021iterative}
     \includegraphics[width=0.7\textwidth]{images/images_part1/dqn.pdf}
     \caption{Variations of modified DQN and DQN (cf. table~\ref{tab:ibmdp-rl1}), on different CartPole IBMDPs (cf. table~\ref{tab:ibmdp-params}). We give different line-styles for the learning curves of DQN applied directly on the CartPole MDP and DQN applied on the IBMDP to learn standard Markovian policies.
     Since there are multiple possible candidates for the original paper hyperparameters, we choose to color the (modified DQN variant, IBMDP variant) pair that resulted in the best decision tree policy on the CartPole MDP among the instances that could match the original paper.
-    Shaded areas represent the confidence interval at 95\% at each measure on the y-axis.}
-\end{figure}\label{fig:res-dqn}
+    Shaded areas represent the confidence interval at 95\% at each measure on the y-axis.}\label{fig:res-dqn}
+\end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.7\textwidth]{images/images_part1/ppo.pdf}
     \caption{Variations of modified PPO and PPO (cf. table~\ref{tab:ibmdp-rl2}), on different CartPole IBMDPs (cf. table~\ref{tab:ibmdp-params}). We give different line-styles for the learning curves of PPO applied directly on the CartPole MDP and PPO applied on the IBMDP to learn standard Markovian policies.
     Since there are multiple possible candidates for the original paper hyperparameters, we choose to color the (modified PPO variant, IBMDP variant) pair that resulted in the best decision tree policy on the CartPole MDP among the instances that could match the original paper.
-    Shaded areas represent the confidence interval at 95\% at each measure on the y-axis.}
-\end{figure}\label{fig:res-ppo}
+    Shaded areas represent the confidence interval at 95\% at each measure on the y-axis.}\label{fig:res-ppo}
+\end{figure}
 
 On figure~\ref{fig:res-dqn}, we observe that modified DQN can learn in IBMDPs--the curves have an increasing trend--but we also observe that modified DQN finds poor decision tree policies for the CartPole MDP in average--the curves flatten at the end of the x-axis and have low y-values.
 In particular, the highest final y-value, among all the learning curves that could possibly correspond to the original paper modified DQN, correspond to poor performances on the CartPole MDP.
