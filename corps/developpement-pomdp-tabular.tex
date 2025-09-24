@@ -220,7 +220,7 @@ In the next section, we use (asymmetric) RL to optimize the interpretable RL obj
 \begin{algorithm}
     \KwData{POMDP $\mathcal{M}_{po} = \langle X, O, A, R, T, T_0, \Omega \rangle$, learning rates $\alpha_u,\quad \alpha_q$, exploration rate $\epsilon$}
     \KwResult{$\pi:O\rightarrow A$}
-    Initialize $U(\boldsymbol{x},a) = 0$ for all $x \in X, a \in A$ \\
+    \textcolor{green}{Initialize $U(\boldsymbol{x},a) = 0$ for all $x \in X, a \in A$ \\}
     Initialize $Q(\boldsymbol{o},a) = 0$ for all $o \in O, a \in A$ \\
 
     \For{each episode}{
@@ -230,15 +230,15 @@ In the next section, we use (asymmetric) RL to optimize the interpretable RL obj
         \For{each step $t$}{
             Choose action $a_t$ using $\epsilon$-greedy: $a_t = \operatorname{argmax}_a Q(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$ \\
             Take action $a_t$, observe $r_t = R(\boldsymbol{x}_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $\boldsymbol{o}_{t+1} \sim \Omega(\boldsymbol{x}_{t+1})$ \\
-            $y \leftarrow r + \gamma U(\boldsymbol{x}_{t+1}, \operatorname{argmax}_{a'} Q(\boldsymbol{o}_{t+1}, a'))$ \Comment{// TD target} \\
+            \textcolor{green}{$y \leftarrow r + \gamma U(\boldsymbol{x}_{t+1}, \operatorname{argmax}_{a'} Q(\boldsymbol{o}_{t+1}, a'))$} \Comment{// TD target} \\
             $U(\boldsymbol{x}_t,a_t) \leftarrow (1 - \alpha_u) U(\boldsymbol{x}_t, a_t) + \alpha_u y $ \\
-            $Q(\boldsymbol{o}_t,a_t) \leftarrow (1 - \alpha_q) Q(\boldsymbol{o}_t, a_t) + \alpha_q y $ \\
+            \textcolor{green}{$Q(\boldsymbol{o}_t,a_t) \leftarrow (1 - \alpha_q) Q(\boldsymbol{o}_t, a_t) + \alpha_q y $} \\
             $x_t \leftarrow \boldsymbol{x}_{t+1}$ \\
             $\boldsymbol{o}_t \leftarrow \boldsymbol{o}_{t+1}$ \\
         }
     }
     $\pi(o) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$ \Comment{// Extract greedy policy}
-    \caption{Asymmetric Q-Learning}\label{alg:asymqlearning}
+    \caption{Asymmetric Q-Learning. We highlight in green the differences with the standard Q-learning (cf. algorithm~\ref{alg:qlearning})}\label{alg:asymqlearning}
 \end{algorithm}
 
 
