@@ -1,35 +1,35 @@
 [0] Config.pm:307> INFO - This is Biber 2.17
 [0] Config.pm:310> INFO - Logfile is 'these.blg'
-[58] biber:340> INFO - === jeu. sept. 25, 2025, 11:54:28
-[70] Biber.pm:418> INFO - Reading 'these.bcf'
-[183] Biber.pm:972> INFO - Found 141 citekeys in bib section 0
-[193] Biber.pm:4383> INFO - Processing section 0
-[201] Biber.pm:4574> INFO - Looking for bibtex file 'auxiliaires/bibliographie.bib' for section 0
-[210] bibtex.pm:1713> INFO - LaTeX decoding ...
-[379] bibtex.pm:1518> INFO - Found BibTeX data source 'auxiliaires/bibliographie.bib'
-[1112] Biber.pm:4574> INFO - Looking for bibtex file 'biblatex-examples.bib' for section 0
-[1211] bibtex.pm:1713> INFO - LaTeX decoding ...
-[1339] bibtex.pm:1518> INFO - Found BibTeX data source '/usr/share/texlive/texmf-dist/bibtex/bib/biblatex/biblatex/biblatex-examples.bib'
-[1501] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1502] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1502] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
-[1502] Biber.pm:4209> INFO - No sort tailoring available for locale 'fr-FR'
-[1604] bbl.pm:654> INFO - Writing 'these.bbl' with encoding 'ascii'
-[1604] bbl.pm:655> INFO - Converting UTF-8 to TeX macros on output to .bbl
-[1766] bbl.pm:757> INFO - Output to these.bbl
-[1766] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'auxiliaires/bibliographie.bib', skipping ...
-[1766] Biber.pm:130> WARN - Duplicate entry key: 'vos2024optimizinginterpretabledecisiontree' in file 'auxiliaires/bibliographie.bib', skipping ...
-[1766] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'parbhoo' is not an integer - this will probably not sort properly.
-[1766] Biber.pm:130> WARN - legacy month field '26--28 Aug' in entry 'silva' is not an integer - this will probably not sort properly.
-[1766] Biber.pm:130> WARN - legacy month field '01--05 Aug' in entry 'baisero-dqn' is not an integer - this will probably not sort properly.
-[1766] Biber.pm:130> WARN - legacy month field '04--07 Jan' in entry 'hmmdp' is not an integer - this will probably not sort properly.
-[1766] Biber.pm:130> WARN - legacy month field '17--23 Jul' in entry 'quantbnb' is not an integer - this will probably not sort properly.
-[1766] Biber.pm:130> WARN - legacy month field '23--29 Jul' in entry 'blossom' is not an integer - this will probably not sort properly.
-[1766] Biber.pm:130> WARN - ISBN '9798400704901' in entry '10.1145/3637528.3671903' is invalid - run biber with '--validate_datamodel' for details.
-[1766] Biber.pm:130> WARN - legacy month field '17--19 Jun' in entry 'pmlr-v28-bergstra13' is not an integer - this will probably not sort properly.
-[1766] Biber.pm:130> WARN - legacy month field '10--15 Jul' in entry 'deep-rl-relu1' is not an integer - this will probably not sort properly.
-[1767] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_dYw2/fc5b366787d68e4234f7436cbf80900b_39609.utf8, line 720, warning: 1 characters of junk seen at toplevel
-[1767] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_dYw2/fc5b366787d68e4234f7436cbf80900b_39609.utf8, line 1325, warning: 6 characters of junk seen at toplevel
-[1767] Biber.pm:130> WARN - I didn't find a database entry for 'Murthy' (section 0)
-[1767] Biber.pm:130> WARN - I didn't find a database entry for 'empirical-evidence' (section 0)
-[1767] Biber.pm:132> INFO - WARNINGS: 15
+[77] biber:340> INFO - === jeu. sept. 25, 2025, 12:07:36
+[93] Biber.pm:418> INFO - Reading 'these.bcf'
+[239] Biber.pm:972> INFO - Found 141 citekeys in bib section 0
+[253] Biber.pm:4383> INFO - Processing section 0
+[266] Biber.pm:4574> INFO - Looking for bibtex file 'auxiliaires/bibliographie.bib' for section 0
+[280] bibtex.pm:1713> INFO - LaTeX decoding ...
+[471] bibtex.pm:1518> INFO - Found BibTeX data source 'auxiliaires/bibliographie.bib'
+[1264] Biber.pm:4574> INFO - Looking for bibtex file 'biblatex-examples.bib' for section 0
+[1383] bibtex.pm:1713> INFO - LaTeX decoding ...
+[1534] bibtex.pm:1518> INFO - Found BibTeX data source '/usr/share/texlive/texmf-dist/bibtex/bib/biblatex/biblatex/biblatex-examples.bib'
+[1814] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1814] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1814] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
+[1815] Biber.pm:4209> INFO - No sort tailoring available for locale 'fr-FR'
+[1946] bbl.pm:654> INFO - Writing 'these.bbl' with encoding 'ascii'
+[1946] bbl.pm:655> INFO - Converting UTF-8 to TeX macros on output to .bbl
+[2199] bbl.pm:757> INFO - Output to these.bbl
+[2200] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'auxiliaires/bibliographie.bib', skipping ...
+[2200] Biber.pm:130> WARN - Duplicate entry key: 'vos2024optimizinginterpretabledecisiontree' in file 'auxiliaires/bibliographie.bib', skipping ...
+[2200] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'parbhoo' is not an integer - this will probably not sort properly.
+[2200] Biber.pm:130> WARN - legacy month field '26--28 Aug' in entry 'silva' is not an integer - this will probably not sort properly.
+[2200] Biber.pm:130> WARN - legacy month field '01--05 Aug' in entry 'baisero-dqn' is not an integer - this will probably not sort properly.
+[2200] Biber.pm:130> WARN - legacy month field '04--07 Jan' in entry 'hmmdp' is not an integer - this will probably not sort properly.
+[2200] Biber.pm:130> WARN - legacy month field '17--23 Jul' in entry 'quantbnb' is not an integer - this will probably not sort properly.
+[2200] Biber.pm:130> WARN - legacy month field '23--29 Jul' in entry 'blossom' is not an integer - this will probably not sort properly.
+[2200] Biber.pm:130> WARN - ISBN '9798400704901' in entry '10.1145/3637528.3671903' is invalid - run biber with '--validate_datamodel' for details.
+[2200] Biber.pm:130> WARN - legacy month field '17--19 Jun' in entry 'pmlr-v28-bergstra13' is not an integer - this will probably not sort properly.
+[2201] Biber.pm:130> WARN - legacy month field '10--15 Jul' in entry 'deep-rl-relu1' is not an integer - this will probably not sort properly.
+[2201] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_FjmB/fc5b366787d68e4234f7436cbf80900b_41453.utf8, line 720, warning: 1 characters of junk seen at toplevel
+[2201] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_FjmB/fc5b366787d68e4234f7436cbf80900b_41453.utf8, line 1325, warning: 6 characters of junk seen at toplevel
+[2201] Biber.pm:130> WARN - I didn't find a database entry for 'Murthy' (section 0)
+[2201] Biber.pm:130> WARN - I didn't find a database entry for 'empirical-evidence' (section 0)
+[2201] Biber.pm:132> INFO - WARNINGS: 15

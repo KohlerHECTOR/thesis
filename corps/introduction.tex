@@ -111,8 +111,8 @@ by the same conditions of interpretability under which the knowledge of them
 was obtained. If such restriction is necessary, it is manifest that no such thing
 as a general method in Logic is possible. On the other hand, if such restriction
 is unnecessary, in what light are we to contemplate processes which appear to
-be uninterpretable in that sphere of thought which they are designed to aid?
-\end{displaycquote}\label{quote:boole}
+be uninterpretable in that sphere of thought which they are designed to aid?\label{quote:boole}
+\end{displaycquote}
 
 \begin{figure}
     \centering
@@ -535,7 +535,7 @@ As the reader might have already guessed, we will put great emphasis on decision
 While other interpretable models might have other properties than the ones we will highlight through this thesis, one conjecture from \cite{glanois-survey} is that interpretable models are all hard to optimize or learn because they are non-differentiable in nature.
 This is something that will be key in our study of decision tree models that we introduce next and that we illustrate in figure~\ref{fig:dt}.
 
-\begin{definition}[Decision tree]
+\begin{definition}[Decision tree]\label{def:dt}
     A decision tree is a rooted tree $T = (\mathcal{N}, E)$ where:
     \begin{itemize}
     \item Each internal node $\nu \in \mathcal{N}$ is associated with a test that maps input features $x_{ij} \in \mathcal{X}$ to a Boolean.
@@ -544,7 +544,7 @@ This is something that will be key in our study of decision tree models that we 
     \item For any input $x \in \mathcal{X}$, the tree defines a unique path from root to leaf, determining the prediction $T(x) = y_l$ where $l$ is the reached leaf.
     \end{itemize}
     The depth of a tree is the maximum path length from root to any leaf.
-    \end{definition}\label{def:dt}
+    \end{definition}
 
 \begin{figure}
     \centering
@@ -590,7 +590,6 @@ Training decision trees to optimize the following supervised learning objective 
     The goal of supervised learning for a classification (or regression) task is to find a classifier (or a regressor) $f:\mathcal{X} \rightarrow  \mathcal{Y}$ that minimizes the following objective:
     \begin{align}
         \mathcal{L}_{\alpha}(f) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{l}(y_i, f(\boldsymbol{x}_i)) + \alpha C(f),
-        \label{eq:suplearning}
     \end{align}
     where $f$ is a model in a particular model class, e.g. the set of neural networks with relu activations or decision trees with depth at most 4, and where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a regularization penalty.
     \end{definition}
