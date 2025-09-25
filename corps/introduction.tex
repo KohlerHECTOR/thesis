@@ -1,5 +1,9 @@
-\chapter*{Introduction}
+\chapter{Introduction}
 In this manuscript, we study algorithms for interpretable sequential decision making. 
+Humans engage in sequential decision making in all aspects of life. In medicine, doctors have to decide how much chemotherapy to administer based on the patient's current health~\cite{cancer}. In agriculture, agronomists have to decide when to fertilize based on the current soil and weather conditions to maximize plant growth~\cite{agriculture}. 
+In automotive settings, the autopilot system has to decide how to steer based on lidar and other sensors to maintain a safe trajectory~\cite{driving}. 
+These sequential decision making processes exhibit key similarities: an agent takes actions based on current information to achieve a goal.
+
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -69,9 +73,6 @@ In this manuscript, we study algorithms for interpretable sequential decision ma
     \caption{Sequential decision making in cancer treatment. The trained program reacts to the patient's current state (tumor size, blood cells counts, etc.) and makes a recommendation to the doctor, who administers chemotherapy to the patient. The patient's state is then updated, and this cycle repeats over time.}
     \label{fig:cancer-treatment-sdm}
 \end{figure}
-Humans engage in sequential decision making in all aspects of life. In medicine, doctors have to decide how much chemotherapy to administer based on the patient's current health~\cite{cancer}. In agriculture, agronomists have to decide when to fertilize based on the current soil and weather conditions to maximize plant growth~\cite{agriculture}. 
-In automotive settings, the autopilot system has to decide how to steer based on lidar and other sensors to maintain a safe trajectory~\cite{driving}. 
-These sequential decision making processes exhibit key similarities: an agent takes actions based on current information to achieve a goal.
 
 As computer scientists, we ought to design computer programs~\cite{knuth63} that can help humans during these sequential decision making processes. 
 For example, as depicted in figure~\ref{fig:cancer-treatment-sdm}, a doctor could benefit from a program that would recommend the ``best'' treatment given the patient's state. 
@@ -111,7 +112,7 @@ by the same conditions of interpretability under which the knowledge of them
 was obtained. If such restriction is necessary, it is manifest that no such thing
 as a general method in Logic is possible. On the other hand, if such restriction
 is unnecessary, in what light are we to contemplate processes which appear to
-be uninterpretable in that sphere of thought which they are designed to aid?\label{quote:boole}
+be uninterpretable in that sphere of thought which they are designed to aid?
 \end{displaycquote}
 
 \begin{figure}
@@ -322,7 +323,7 @@ The global trend in machine learning research answers the latter.
         \caption{Interpretable approach using decision trees}
         \label{fig:cancer-treatment-comparison}
     \end{subfigure}
-    \caption{Comparison of sequential decision making approaches in cancer treatment. Top: a black-box neural network approach where the doctor cannot interpret the program recommendations because the computations are operations over uninterpretable concepts (cf. Boole's quote (\ref{quote:boole})). Bottom: an interpretable decision tree approach where the doctor can understand and verify the program recommendations because the operations are performed over meaningful concepts  (cf. Boole's quote (\ref{quote:boole})). Both systems learn from treatment outcomes to improve their recommendations over time.}
+    \caption{Comparison of sequential decision making approaches in cancer treatment. Top: a black-box neural network approach where the doctor cannot interpret the program recommendations because the computations are operations over uninterpretable concepts (cf. Boole's quote). Bottom: an interpretable decision tree approach where the doctor can understand and verify the program recommendations because the operations are performed over meaningful concepts  (cf. Boole's quote). Both systems learn from treatment outcomes to improve their recommendations over time.}
     \label{fig:cancer-treatment-comparison-combined}
 \end{figure}
 
@@ -331,7 +332,7 @@ In figure~\ref{fig:cancer-treatment-comparison}, we illustrate how machine learn
 Ideally, we want doctors to have access to computer programs that can recommend ``good'' treatments and whose recommendations are interpretable. 
 In the next section, present related works that fit this desiderata.
 
-\chapter*{Related work}\label{sec:intro-interp}
+\chapter{Related work}\label{sec:intro-interp}
 
 In this chapter we follow sections 6 and 7 of \cite{glanois-survey} and section 5 of \cite{milani-survey}. 
 Furthermore we now employ the term ``model'' to refer to ``programs'' to be consistent with the machine learning research conventions.
@@ -527,7 +528,7 @@ Such shortcuts can be, for example, following the shadow of someone instead of a
 The learning of interpretable models for misalignment detection has been heavily studied by Quentin Delfosse contemporarily to this manuscript \cite{scobots,shindo2024blendrl,nudge,ocatari}.
 In the next chapter, we describe technical preliminaries useful to understand the content of this manuscript.
 
-\chapter*{Technical preliminaries}\label{sec:technicals}
+\chapter{Technical preliminaries}\label{sec:technicals}
 
 \section{What are decision trees?}\label{sec:dt}
 
