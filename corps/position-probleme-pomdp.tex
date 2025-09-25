@@ -1,6 +1,6 @@
 \chapter{Introduction}\label{sec:intro-pomdp}
 In this part of the manuscript, we show that direct reinforcement learning of decision tree policies for MDPs (cf. definition~\ref{def:mdp}), i.e. learning a decision tree that optimizes the RL objective (cf. definition~\ref{def:mdp-obj}) is often very difficult.
-In particular, we provide some insights as to why it is so difficult and show that indirect imitation of a neural network policy (cf. section \ref{sec:imit}), while optimizing the imitation learning objective (cf. definition~\ref{def:il}) rather than the RL one, often yields very good tree policies in practice.
+In particular, we provide some insights as to why it is so difficult and show that indirect imitation of a neural network policy (cf. section \ref{sec:imit}), despite optimizing the imitation learning objective (cf. definition~\ref{def:il}) rather than the RL one, often yields very good tree policies in practice.
 
 This first part of the manuscript is organized as follows.
 In this chapter, we present Nicholay Topin and colleagues' framework for direct reinforcement learning of decision tree policies~\cite{topin2021iterative}.
@@ -9,7 +9,7 @@ In chapter \ref{sec:pomdp}, we show that this direct approach is equivalent to l
 In chapter \ref{sec:pomdp-classif}, we further support this claim by constructing special instances of such POMDPs where the observations contain all the information about hidden states, and show that in those cases, direct reinforcement learning of decision trees works well.  
 
 \section{Learning decision tree policies for MDPs}\label{related-work-pomdp}
-In the introductory example (cf. section~\ref{sec:limits-il}), we have shown that imitation learning algorithms that optimize the objective rather than the RL objective, are, unsurprisingly, prone to sub-optimality w.r.t. the latter objective.
+In the introductory example (cf. section~\ref{sec:limits-il}), we have shown that imitation learning algorithms that optimize the imitation learning objective (cf. definition~\ref{def:il}) rather than the RL objective, are, unsurprisingly, prone to sub-optimality w.r.t. the latter objective.
 This motivates the study and development of \textit{direct} decision tree policy learning algorithms.
 There already exists such algorithms that return decision tree policies optimizing the RL objective for a given MDP.
 Those algorithms either learn parametric trees or non-parametric trees.
@@ -17,8 +17,8 @@ Those algorithms either learn parametric trees or non-parametric trees.
 Parametric trees are not ``grown'' from the root by iteratively adding internal or leaf nodes (cf. figure~\ref{fig:dt}), but are rather ``optimized'': the depth, internal nodes arrangement, and state features to consider in each node are fixed \textit{a priori} and only the thresholds of each node are learned.
 This is similar to doing gradient descent on neural network weights.
 As the reader might have guessed, those parametric trees are advantageous in that they can be learned with the policy gradient \cite{pg_sutton}.
-In \cite{silva},~\cite{vos2024optimizinginterpretabledecisiontree} and~\cite{sympol}, authors use PPO(cf. algorithm~\ref{alg:ppo},~\cite{ppo}) to learn such differentiable decision trees that optimize directly the RL objective.
-In particular, \cite{sympol} explicitly studies the gap in RL objective values between their direct optimization and the imitation learning algorithm VIPER (algorithm~\ref{alg:viper},~\cite{viper}).
+In \cite{silva},~\cite{vos2024optimizinginterpretabledecisiontree} and~\cite{sympol}, authors use PPO (cf. algorithm~\ref{alg:ppo}) to learn such differentiable decision trees that optimize directly the RL objective.
+In particular, \cite{sympol} explicitly studies the gap in RL objective values between their direct optimization and the imitation learning algorithm VIPER (cf. algorithm~\ref{alg:viper}).
 While those methods return decision tree policies that optimize the RL objective well, in general a user cannot know \textit{a priori}  what a ``good'' tree policy structure should be for a particular MDP.
 It could be that the specified structure is too deep and pruning will be required after training or it could be that the tree structure is not expressive enough to encode a good policy, i.e. parametric trees cannot trade off interpretability and performances during training.
 Furthermore, authors from~\cite{sympol} show that extra stabilizing tricks, such as adaptive batch sizes, are required during training to outperform indirect imitation in terms of RL objective.
@@ -33,17 +33,17 @@ Authors showed that certain policies in IBMDPs are equivalent to non-parametric 
 Hence, the great promise Topin et. al. work is that doing e.g. RL to learn such IBMDPs policies is a way to directly optimize a trade-off between interpretability and the RL objective.
 
 There also exists more specialized approaches that can return decision tree policies only for very specific problem classes.
-In \cite{theory1}, authors prove that for maze-like MDPs, there always exists an optimal decision tree policy w.r.t.~\ref{def:mdp-obj} and provide an algorithm to find it. 
+In \cite{theory1}, authors prove that for maze-like MDPs, there always exists an optimal decision tree policy w.r.t. the RL objective and provide an algorithm to find it. 
 Finally, in \cite{dt-opt-mdp}, authors study decision tree policies for planning in MDPs (cf. algorithm~\ref{alg:value-iteration}), i.e. when the transitions and rewards are known.
-In the next section we present IBMDPs as introduced in Topin et. al.\cite{topin2021iterative}.
+In the next section we present IBMDPs as introduced in~\cite{topin2021iterative}.
 
 \section{Iterative bounding Markov decision processes}\label{sec:ibmdp}
 
 The key thing to know about IBMDPs is that they are, as their name suggests, MDPs (cf definition~\ref{def:mdp}).
 Hence, IBMDPs admit an optimal deterministic Markovian policy that maximizes the RL objective.
-In this part we will assume that all the MDP we consider are MDPs with continuous state spaces (cf. section~\ref{sec:drl}) with a finite set of actions, so we use bold fonts for states and observations as they are vector-valued.
+In this part we will assume that all the MDPs we consider are MDPs with continuous state spaces (cf. section~\ref{sec:drl}) with a finite set of actions, so we use bold fonts for states and observations as they are vector-valued.
 However all our results generalize to discrete states (in $\mathbb{Z}^m$) MDPs that we can factor using one-hot encodings. 
-Given an MDP for which we want to learn a decision tree policy, the base MDP, IBMDP states are concatenations of the base MDP state features and some observations. 
+Given an MDP for which we want to learn a decision tree policy--the base MDP--IBMDP states are concatenations of the base MDP state features and some observations. 
 Those observations are information about the base state features that are refined--``iteratively bounded''-- at each step.
 Those observations essentially represent some knowledge about where some base state features lie in the state space.
 Actions available in an IBMDP are: 1) the actions of the base MDP, that change base state features, and 2) \textit{information gathering} actions that change the aforementioned observations.
