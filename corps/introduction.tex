@@ -638,8 +638,8 @@ In the next few sections we present the material related to sequential decision 
             \Return leaf node with prediction $y_l \leftarrow$ MajorityClass$(\{y_i\}_{i=1}^N)$
         }
         
-        Split data: $\mathcal{E}_{left} = \{(\boldsymbol{x}_i, y_i) \in \mathcal{E} : x_{ij} \leq v\}$ \\
-        \hspace{2.5cm} $\mathcal{E}_{right} = \{(\boldsymbol{x}_i, y_i) \in \mathcal{E} : x_{ij} > v\}$ \\
+        Split data: $\mathcal{E}_{left} = \{(\boldsymbol{x}_i, y_i) \in \mathcal{E}: x_{ij} \leq v\}$ \\
+        \hspace{2.5cm} $\mathcal{E}_{right} = \{(\boldsymbol{x}_i, y_i) \in \mathcal{E}: x_{ij} > v\}$ \\
         
         $left\_child \leftarrow$ BuildTree$(\mathcal{E}_{left})$ \\
         $right\_child \leftarrow$ BuildTree$(\mathcal{E}_{right})$ \\
@@ -653,9 +653,9 @@ In the next few sections we present the material related to sequential decision 
         $best\_threshold \leftarrow None$ \\
         
         \For{each feature $j \in \{1, \ldots, p\}$}{
-            \For{each unique value $v$ in $\{x_{ij} : (\boldsymbol{x}_i, y_i) \in \mathcal{E}\}$}{
-                $\mathcal{Y}_{left} \leftarrow \{y_i : (\boldsymbol{x}_i, y_i) \in \mathcal{E}, x_{ij} \leq v\}$ \\
-                $\mathcal{Y}_{right} \leftarrow \{y_i : (\boldsymbol{x}_i, y_i) \in \mathcal{E}, x_{ij} > v\}$ \\
+            \For{each unique value $v$ in $\{x_{ij}: (\boldsymbol{x}_i, y_i) \in \mathcal{E}\}$}{
+                $\mathcal{Y}_{left} \leftarrow \{y_i: (\boldsymbol{x}_i, y_i) \in \mathcal{E}, x_{ij} \leq v\}$ \\
+                $\mathcal{Y}_{right} \leftarrow \{y_i: (\boldsymbol{x}_i, y_i) \in \mathcal{E}, x_{ij} > v\}$ \\
                 
                 $gain \leftarrow$ Gini$(\{y_i\}_{i=1}^N) - \frac{|\mathcal{Y}_{left}|}{N}$Gini$(\mathcal{Y}_{left}) - \frac{|\mathcal{Y}_{right}|}{N}$Gini$(\mathcal{Y}_{right})$ \\
                 
@@ -670,7 +670,7 @@ In the next few sections we present the material related to sequential decision 
     }
     
     \Fn{\Gini{$\mathcal{Y}$}}{
-        \Return $1 - \sum_{k=1}^K \left(\frac{|\{y_i \in \mathcal{Y} : y_i = k\}|}{|\mathcal{Y}|}\right)^2$ \Comment{// Gini impurity}
+        \Return $1 - \sum_{k=1}^K \left(\frac{|\{y_i \in \mathcal{Y}: y_i = k\}|}{|\mathcal{Y}|}\right)^2$ \Comment{// Gini impurity}
     }
     
     \Return BuildTree$(\mathcal{E})$
