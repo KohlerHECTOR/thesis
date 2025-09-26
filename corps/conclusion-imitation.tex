@@ -58,7 +58,7 @@ Expert reward - Solve reward & 1.15 & 17.37 \\
 \end{table}
 
 \section{How does interpretability influence performance?}
-In \cite{empirical-evidence,theory1}, authors show the existence of linear and tree policies respectively that solve MuJoCo and continuous maze environments respectively.
+In \cite{random-search,theory1}, authors show the existence of linear and tree policies respectively that solve MuJoCo and continuous maze environments respectively.
 This means that there exist environments for which policies more interpretable than deep neural networks can still compete performance-wise.
 Our evaluation indeed shows the existence of such environments.
 On figure~\ref{fig:trade-off-summary} we observe that on, e.g., LunarLander, increasing policy interpretability up to a certain point does not decrease reward.
@@ -104,7 +104,7 @@ Using the proposed methodology, we were able to illustrate the trade-offs betwee
 We showed the crucial need of careful methodology as different different policy classes yield different trade-offs on different environment: decision trees are not always more interpretable than neural networks. 
 
 A nice property of our methodology is that it is independent of the learning algorithm of the interpretable policy.
-We chose imitation learning but it could have been a random search in the policies parameters space \cite{empirical-evidence}.
+We chose imitation learning but it could have been a random search in the policies parameters space~\cite{random-search}.
 
 Furthermore, there should be no limitation to use our methodology to evaluate the interpretability of arbitrary compositions of linear policies, trees and oblique trees, and neural networks, such as the hybrid policies from \cite{shindo2024blendrl}.
 

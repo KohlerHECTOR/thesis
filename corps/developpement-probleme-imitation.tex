@@ -29,7 +29,7 @@ Relu neural networks & \{(2 ,2), (4, 4), (8, 8), (16, 16)\} weights & SGD \\
 \end{table}
 
 We consider four policy classes for our baselines.
-We consider linear policies that have been shown to be able to solve MuJoCo tasks~\cite{empirical-evidence}.
+We consider linear policies that have been shown to be able to solve MuJoCo tasks~\cite{random-search}.
 We fit linear policies to expert policies using simple linear (logistic) regressions with scikit-learn~\cite{scikit-learn} default implementation.
 We also consider decision trees~\cite{breiman1984classification} and oblique decision trees~\cite{murthy1994system}.
 Oblique decision trees are decision trees which does not necessarily partitions the input domain parallel to axes.

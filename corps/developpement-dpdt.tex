@@ -137,7 +137,7 @@ Here $T$ is deduced from policy $\pi$, i.e. $T=E(\pi, s_0)$. $C(T)$ can be defin
 In words, when the root of $T$ is a split node, the expected number of splits is one plus the expected number of splits of the left and right sub-trees of the root node.
 \end{proof}
 
-It is known that the greedy tree of depth 2 fails to perfectly classify the XOR problem as shown in figure \ref{fig:patho} and in \cite{Murthy,how-eff}. We aim to show that DPDT is a cheap way to alleviate the weaknesses of greedy trees in this type of problems. The following theorem states that there exist classification problems such that DPDT optimizes the regularized training loss strictly better than greedy algorithms such as CART, ID3 or C4.5.
+It is known that the greedy tree of depth 2 fails to perfectly classify the XOR problem as shown in figure \ref{fig:patho} and in \cite{lookahead,how-eff}. We aim to show that DPDT is a cheap way to alleviate the weaknesses of greedy trees in this type of problems. The following theorem states that there exist classification problems such that DPDT optimizes the regularized training loss strictly better than greedy algorithms such as CART, ID3 or C4.5.
 \begin{theorem}[DPDT can be strictly better than greedy]\label{thm:better_greedy}
 There exists a dataset and a depth $D$ such that the DPDT tree $T^{DPDT}_D$ is strictly better than the greedy tree $T^{greedy}_{D}$ , i.e, $\mathcal{L}_{\alpha=0}(T^{greedy}_{D}) > \mathcal{L}_{\alpha=0}(T^{DPDT}_{D})$.
 \end{theorem}
