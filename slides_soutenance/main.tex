@@ -43,51 +43,24 @@
 %Title page
 \bibliography{../auxiliares/bibliography}
 \title %optional
-[Interpretable RL]{Interpretable Sequential Decision Making}
+[Interpretable RL]{Interpretability, Decision Trees, and Sequential Decision Making}
 
 \author[Hector Kohler] % (optional)
 {Hector Kohler}
 
-\institute[Inria] % (optional)
+\institute[Univ. Lille] % (optional)
 {
   Universit\'e de Lille, CNRS, Inria, UMR CRIStAL 9189, France
 }
 
-%End of title page configuration block
-%------------------------------------------------------------
-
-
-
-%------------------------------------------------------------
-%The next block of commands puts the table of contents at the 
-%beginning of each section and highlights the current section:
-
 \begin{document}
 
-%The next statement creates the title page.
 \frame{\titlepage}
 
 
-%---------------------------------------------------------
-%This block of code is for the table of contents after
-%the title page
-%---------------------------------------------------------
-
-
-%---------------------------------------------------------
-%Changing visivility of the text
-
-\begin{frame}{About me}
-\begin{itemize}
-    \item \textcolor{green}{PhD student} \textit{Interpretability, Decision Trees, and Sequential Decision Making} at Inria in Lille (2022-Decembre 2025).
-    \item \textcolor{orange}{Looking for a postdoc.}
-    \item \textcolor{red}{Want to become prof./researcher.}
-\end{itemize}
-\end{frame}
-
-
+%% -----------------------INTRO-----------------------
 \begin{frame}{Sequential decision making}
-    \begin{figure}
+\begin{figure}
     \centering
     \begin{tikzpicture}[
         node distance=2.5cm,
@@ -111,7 +84,7 @@
             \begin{minipage}{1.5cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/robot-svgrepo-com.svg}\\
-                \small{Computer program}
+                \small{Policy}
             \end{minipage}
         };
         
@@ -154,12 +127,10 @@
         
     \end{tikzpicture}
     \caption{Sequential decision making in cancer treatment.}
-    \label{fig:cancer-treatment-sdm}
 \end{figure}
 \end{frame}
 
-
-\begin{frame}{Machine learning (ML) to learn policies for sequential decision making}
+\begin{frame}{Machine learning of policies for sequential decision making}
 \begin{figure}
 \hspace{-1.3cm}
         \begin{tikzpicture}[
@@ -253,24 +224,13 @@
             
         \end{tikzpicture}
         \caption{Machine learning of neural networks has many recent successes but neural networks are black-box.}
-        \label{fig:cancer-treatment-sdm-ml}
     \end{figure}
 \end{frame}
-% \begin{frame}{Desiderata of autonomous programs for sensitive real-world applications}
-% \begin{itemize}
-%     \item Verifiability~\cite{kohler2025evaluating}
-%     \item Interpretability~\cite{kohler2024interpretable,kohler2025evaluating}
-%     \item Performance~\cite{KOHLER20227,10.1145/3711896.3736868}
-%     \item Reproducibility~\cite{mathieu2024adastop}
-%     \item Fairness $\dots$
-% \end{itemize}
-% \AtNextBibliography{\tiny}
-% \printbibliography
-% \end{frame}
-\begin{frame}{Interpretable ML for sequential decision making}
+
+\begin{frame}{Interpretable machine learning for sequential decision making}
 \begin{figure}
 \hspace{-1.3cm}
-        \begin{tikzpicture}[
+    \begin{tikzpicture}[
             node distance=2.5cm,
             auto,
             thick,
@@ -308,11 +268,12 @@
             };
             
             % Machine Learning component
+            % Machine Learning component
             \node[ml] (ml) at (-6,3) {
-                \begin{minipage}{1.6cm}
+                \begin{minipage}{1cm}
                     \centering
                     \includesvg[width=0.4cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
-                    \small{Interpretable ML}
+                    \small{ML}
                 \end{minipage}
             };
             
@@ -365,8 +326,11 @@
     \end{figure}
 \end{frame}
 
-
-\begin{frame}{How to measure policy interpretability?}
+\begin{frame}{Research direction}
+    \textbf{\large How to learn interpretable policies for sequential decision making?}
+\end{frame}
+%% ------------- FORMALISM ------------------------------
+\begin{frame}{Interpretable policies}
 \begin{figure}
     \centering
     \begin{tikzpicture}[scale=0.7]
@@ -400,22 +364,181 @@
         
         % Linear Models (medium performance, high interpretability)
         \node[circle, fill=blue!60, draw, minimum size=8pt] at (5.5,3) {};
-        \node[below right] at (5.5,3) {Linear models};
+        \node[below right] at (5.5,3) {Linear policies};
         
         % Decision Trees (medium-low performance, high interpretability)
         \node[circle, fill=green!60, draw, minimum size=8pt] at (6.5,2) {};
         \node[below right] at (6.5,2) {Decision trees};
         
     \end{tikzpicture}
-    \caption{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes (what-if neural network is very sparsed?). Interpretability is often presented in opposition to performances.}
-    \label{fig:interpretability-performance-tradeoff}
+    \caption{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes. Interpretability is often presented in opposition to performances.}
 \end{figure}
 \end{frame}
 
+\begin{frame}{Decision trees}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[
+        scale=1.0,
+        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
+        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
+        edge_label/.style={font=\footnotesize, midway}
+    ]
+        % Root decision node
+        \node[decision] (root) at (0,0) {$t_1(x_i)$};
+        
+        % Second level nodes
+        \node[decision] (left_decision) at (-3, -2.5) {$t_2(x_i)$};
+        \node[leaf] (right_leaf) at (3, -2.5) {$y_1$};
+        
+        % Third level nodes (leaves)
+        \node[leaf] (left_left) at (-4.5, -5) {$y_2$};
+        \node[leaf] (left_right) at (-1.5, -5) {$y_3$};
+        
+        % Connections with labels
+        \draw[->] (root) -- (left_decision) node[edge_label, above left] {True};
+        \draw[->] (root) -- (right_leaf) node[edge_label, above right] {False};
+        \draw[->] (left_decision) -- (left_left) node[edge_label, above left] {True};
+        \draw[->] (left_decision) -- (left_right) node[edge_label, above right] {False};
+        
+        % Add labels for components
+        \node[font=\footnotesize, text=gray] at (0, 0.8) {Root node with test $t_1(x_i)$};
+        \node[font=\footnotesize, text=gray] at (-6, -2.5) {Internal node with test $t_2(x_i)$};
+        \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
+        
+    \end{tikzpicture}
+    \caption{A generic decision tree of depth $D=2$.}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Markov decision processes}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[
+        node distance=2.5cm,
+        auto,
+        thick,
+        state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
+        environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
+        agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+        robot/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+        decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7.5cm, minimum height=3cm, text centered},
+        arrow/.style={->, thick, bend left=15},
+        arrow_decision/.style={->, dashed, bend left=15}
+    ]
+        
+        % Decision Making Box
+        \node[decision_box] (decision_box) at (0.3,3.4) {};
+        \node at (0.3,4.5) {\small{Decision Making}};
+        
+        % Robot (AI)
+        \node[robot] (robot) at (0,3.2) {\small{Policy $\pi$}};
+        
+        
+        % Environment (Patient)
+        \node[environment] (environment) at (0,-0.5) {\small{Transition and reward functions $T, R$}};
+        
+        % Arrows
+        \draw[arrow] (environment) to[bend left=30] node[left] {\small{State $s$ and reward $r$}} (robot);
+        \draw[arrow] (robot) to[bend left=30] node[right] {\small{Action $a$}} (environment);
+        
+    \end{tikzpicture}
+    \caption{Markov decision process}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Reinforcement learning objective}
+    \begin{itemize}
+    \item Given an MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$ (cf. definition~\ref{def:mdp}), the goal of reinforcement learning for sequential decision making is to find a model, also known as a policy, $\pi: S \rightarrow A$ that maximizes the expected discounted sum of rewards:
+$$J(\pi) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
+where $0< \gamma\leq 1$ is the discount factor that controls the trade-off between immediate and future rewards.
+    \item Value iteration, Q-learning, Sarsa, Deep Q Networks, PPO, ...
+    \end{itemize}
+\end{frame}
+
+% ------------ Example -------------------------
+\begin{frame}{Grid world MDP}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+        
+        % Draw grid
+        \draw[grid] (0,0) grid (2,2);
+        
+        % Add axes
+        \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
+        \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
+        
+        % Add tick marks and labels
+        \foreach \x in {0,1,2} {
+            \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
+        }
+        \foreach \y in {0,1,2} {
+            \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
+        }
+        
+        % Add state labels clockwise from bottom left
+        \node at (0.5,0.5) {$s_0$};
+        \node at (1.5,0.5) {$\star$};
+        \node at (1.5,0.3) {$s_g$};
+        \node at (1.5,1.5) {$s_2$};
+        \node at (0.5,1.5) {$s_1$};
+
+
+        % Draw grid
+        \draw[grid] (4,0) grid (6,2);
+        
+        % Add axes
+        \draw[thick, ->] (4,0) -- (6.5,0) node[right] {$x$};
+        \draw[thick, ->] (4,0) -- (4,2.5) node[above] {$y$};
+        
+        % Add tick marks and labels
+        \draw[thick] (4,0) -- (4,-0.1) node[below] {$0$};
+        \draw[thick] (5,0) -- (5,-0.1) node[below] {$1$};
+        \draw[thick] (6,0) -- (6,-0.1) node[below] {$2$};
+        
+
+        \foreach \y in {0,1,2} {
+            \draw[thick] (4,\y) -- (3.9,\y) node[left] {$\y$};
+        }
+        
+        % Add state labels clockwise from bottom left
+        \node at (4.5,0.5) {{\color{green} $\rightarrow$}};
+        \node at (5.5,0.5) {$\star$};
+        \node at (5.5,0.7) {{\color{green} $\uparrow$}};
+        \node at (5.5,0.3) {{\color{green} $\downarrow$}};
+        \node at (5.7,0.5) {{\color{green} $\rightarrow$}};
+        \node at (5.3,0.5) {{\color{green} $\leftarrow$}};
+        \node at (5.5,1.5) {{\color{green} $\downarrow$}};
+        \node at (4.2,1.3) {{\color{green} $\downarrow$}};
+        \node at (4.5,1.5) {{\color{green} $\rightarrow$}};
+    \end{tikzpicture}
+    \caption{A grid world MDP (left) and optimal actions w.r.t. the objective (cf. definition~\ref{def:mdp-obj}) (right).}\label{example:grid}
+    \end{figure}
+\end{frame}
+
+% -------------- Existing works --------------
+\begin{frame}{Machine learning of interpretable models for supervised learning}
+    \begin{itemize}
+        \item We assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$.
+
+\begin{align}
+    f^* &= \underset{f \in \mathcal{F}}{\operatorname{argmin}}\ \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, f(x_i)) + \alpha C(f),
+    \label{eq:suplearning}
+\end{align}
+where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a penalty for regularization
+        \item Classification And Regression Trees (CART, 1984), Optimal Classification Trees (2015)
+        \item What about the RL objective for sequential decision making?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Two ways to get interpretable policies for sequential decision making}
 \begin{figure}
     \centering
     \begin{tikzpicture}[
         node distance=2cm,
+        scale=0.8,
         auto,
         thick,
         rl/.style={circle, draw, fill=purple!20, minimum width=1.5cm, minimum height=0.8cm, text centered},
@@ -499,147 +622,19 @@
         \draw[arrow] (sl_indirect) -- (dt_indirect) node[label, midway] {\tiny Learns};
         
     \end{tikzpicture}
-    \caption{Comparison of direct and indirect approaches for learning interpretable models in sequential decision making.}
-    \label{fig:direct-vs-indirect-methods}
-\end{figure}
-
-\begin{frame}{Decision trees}
-
-\begin{figure}[htbp]
-    \centering
-    \begin{tikzpicture}[
-        scale=1.0,
-        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
-        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
-        edge_label/.style={font=\footnotesize, midway}
-    ]
-        % Root decision node
-        \node[decision] (root) at (0,0) {$t_1(x_i)$};
-        
-        % Second level nodes
-        \node[decision] (left_decision) at (-3, -2.5) {$t_2(x_i)$};
-        \node[leaf] (right_leaf) at (3, -2.5) {$y_1$};
-        
-        % Third level nodes (leaves)
-        \node[leaf] (left_left) at (-4.5, -5) {$y_2$};
-        \node[leaf] (left_right) at (-1.5, -5) {$y_3$};
-        
-        % Connections with labels
-        \draw[->] (root) -- (left_decision) node[edge_label, above left] {True};
-        \draw[->] (root) -- (right_leaf) node[edge_label, above right] {False};
-        \draw[->] (left_decision) -- (left_left) node[edge_label, above left] {True};
-        \draw[->] (left_decision) -- (left_right) node[edge_label, above right] {False};
-        
-        % Add labels for components
-        \node[font=\footnotesize, text=gray] at (0, 0.8) {Root node with test $t_1(x_i)$};
-        \node[font=\footnotesize, text=gray] at (-6, -2.5) {Internal node with test $t_2(x_i)$};
-        \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
-        
-    \end{tikzpicture}
-    \caption{A generic decision tree of depth $D=2$.}
-    \label{fig:decision-tree-structure}
+    \caption{Comparison of direct and indirect approaches for learning interpretable policies in sequential decision making.}
 \end{figure}
 \end{frame}
 
-\begin{frame}{Decision trees for MDPs}
+\begin{frame}{Indirect approach: imitation learning}
 \begin{figure}
     \centering
-    \begin{tikzpicture}[
-        node distance=2.5cm,
-        auto,
-        thick,
-        state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
-        environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
-        agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
-        robot/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
-        decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7.5cm, minimum height=3cm, text centered},
-        arrow/.style={->, thick, bend left=15},
-        arrow_decision/.style={->, dashed, bend left=15}
-    ]
-        
-        % Decision Making Box
-        \node[decision_box] (decision_box) at (0.3,3.4) {};
-        \node at (0.3,4.5) {\small{Decision Making}};
-        
-        % Robot (AI)
-        \node[robot] (robot) at (0,3.2) {\small{Policy $\pi$}};
-        
-        
-        % Environment (Patient)
-        \node[environment] (environment) at (0,-0.5) {\small{Transition and reward functions $T, R$}};
-        
-        % Arrows
-        \draw[arrow] (environment) to[bend left=30] node[left] {\small{State $s$ and reward $r$}} (robot);
-        \draw[arrow] (robot) to[bend left=30] node[right] {\small{Action $a$}} (environment);
-        
-    \end{tikzpicture}
-    \caption{Markov decision process}
-    \label{fig:MDP}
+    \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
+    \caption{Imitation learning to get interpretable policies (DAgger, VIPER)~\cite{viper,dagger}.}
 \end{figure}
 \end{frame}
 
-\begin{frame}
-\begin{figure}
-    \centering
-    \begin{tikzpicture}
-        \tikzstyle{grid}=[draw, thick, fill=gray!10]
-        
-        % Draw grid
-        \draw[grid] (0,0) grid (2,2);
-        
-        % Add axes
-        \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
-        \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
-        
-        % Add tick marks and labels
-        \foreach \x in {0,1,2} {
-            \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
-        }
-        \foreach \y in {0,1,2} {
-            \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
-        }
-        
-        % Add state labels clockwise from bottom left
-        \node at (0.5,0.5) {$s_0$};
-        \node at (1.5,0.5) {$\star$};
-        \node at (1.5,0.3) {$s_g$};
-        \node at (1.5,1.5) {$s_2$};
-        \node at (0.5,1.5) {$s_1$};
-
-
-        % Draw grid
-        \draw[grid] (4,0) grid (6,2);
-        
-        % Add axes
-        \draw[thick, ->] (4,0) -- (6.5,0) node[right] {$x$};
-        \draw[thick, ->] (4,0) -- (4,2.5) node[above] {$y$};
-        
-        % Add tick marks and labels
-        \draw[thick] (4,0) -- (4,-0.1) node[below] {$0$};
-        \draw[thick] (5,0) -- (5,-0.1) node[below] {$1$};
-        \draw[thick] (6,0) -- (6,-0.1) node[below] {$2$};
-        
-
-        \foreach \y in {0,1,2} {
-            \draw[thick] (4,\y) -- (3.9,\y) node[left] {$\y$};
-        }
-        
-        % Add state labels clockwise from bottom left
-        \node at (4.5,0.5) {{\color{green} $\rightarrow$}};
-        \node at (5.5,0.5) {$\star$};
-        \node at (5.5,0.7) {{\color{green} $\uparrow$}};
-        \node at (5.5,0.3) {{\color{green} $\downarrow$}};
-        \node at (5.7,0.5) {{\color{green} $\rightarrow$}};
-        \node at (5.3,0.5) {{\color{green} $\leftarrow$}};
-        \node at (5.5,1.5) {{\color{green} $\downarrow$}};
-        \node at (4.2,1.3) {{\color{green} $\downarrow$}};
-        \node at (4.5,1.5) {{\color{green} $\rightarrow$}};
-    \end{tikzpicture}
-    \caption{A grid world MDP (left) and optimal actions w.r.t. the objective (cf. definition~\ref{def:mdp-obj}) (right).}\label{example:grid}
-    \end{figure}
-\end{frame}
-
-\begin{frame}
+\begin{frame}{Example: a decision tree policy for the grid world MDP}
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -669,8 +664,7 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}
-
+\begin{frame}{Example: a decision tree policy for the grid world MDP}
 \begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{../images/images_part1/policy_values_comparison.pdf}
@@ -678,8 +672,8 @@
 \end{figure}
 \end{frame}
 
-\begin{frame}
-    \begin{figure}
+\begin{frame}{Example: a decision tree policy for the grid world MDP}
+\begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{../images/images_part1/base_mdp.pdf}
     \caption{Left, sample complexity curve of Q-learning with default hyperparameters on the $2\times 2$ grid world MDP over 100 random seeds. Right, performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
@@ -689,19 +683,20 @@
 \begin{frame}{Interpretability, decision trees, and sequential decision making}
 \begin{itemize}
     \item How to learn optimal interpretable policies for sequential decision making?
-    \item \textbf{How to leverage sequential decision making to learn interpretable \textit{classifiers for supervised learning}?}
+    \item How to leverage sequential decision making to learn interpretable \textit{classifiers for supervised learning}?
     \item How to measure policy interpretability in sequential decision making?
 \end{itemize}
 \end{frame}
 
-\begin{frame}
-    \begin{enumerate}
+\begin{frame}{Thesis results}
+\begin{enumerate}
     \item Direct reinforcement learning of decision tree policies is hard because it involves POMDPs.
     \item One can use dynamic programming in MDPs to induce highly performing decision tree classifiers and regressors.
     \item In practice, controlling MDPs with interpretable policies does not necessarily decrease performances.
 \end{enumerate}
 \end{frame}
 
+% ------------ Part I ------------------
 \begin{frame}
 \begin{figure}
 \centering
@@ -843,24 +838,12 @@
 
     
 \end{tikzpicture}
-\caption{An IBMDP trajectory when the base MDP is 2$\times$2 grid world. In the top row, we write the visited base state features and observations, in the middle row, we graphically represent those, and in the bottom row, we present the corresponding decision tree policy traversal.
-$\mathcal{A}$ tracks the current state features $\boldsymbol{s}_t$ in the grid.
-The pink obstructions of the grid represent the current observations $\boldsymbol{o}_t$ of the base state features.
-When the pink covers the whole grid, the information contained in the observation could be interpreted as ``the current state features could be anywhere in the grid''.
-The more information gathering actions are taken, the more refined the bounds on the current base state features get.
-At $t=0$, the base state features are $\boldsymbol{s}_0 = (0.5, 1.5)$. 
-The initial observation is always the base MDP default state feature bounds, here $\boldsymbol{o}_0=(0, 2, 0, 2)$ because the base state features are in $[0, 2] \times [0, 2]$.
-This means that the IBMDP state is $\boldsymbol{s}_{IB} = (0.5, 1.5, 0, 2, 0, 2)$.
-The first action is an IGA $\langle x, 1\rangle$ that tests the feature $x$ of the base state against the value $1$ and the reward $\zeta$. 
-This transition corresponds to going through an internal node $ x\leq 1$ in a decision tree policy as illustrated in the figure. 
-At $t=1$, after gathering the information that the $x$-value of the current base state is below 1, the observation is updated with the refined bounds $\boldsymbol{o}_1=(0, 1, 0, 2)$, i.e. the pink area shrinks, and the base state features remain unchanged.
-The agent then takes a base action that is to move right. 
-This gives a reward 0, resets the observation to the original base state feature bounds, and changes the features to $\boldsymbol{s}_2=(1.5, 1.5)$. And the trajectory continues like this until the absorbing base state $\boldsymbol{s}_5=(1.5, 0.5)$ is reached.}
-\label{example:ibmdp}
+\caption{An IBMDP trajectory when the base MDP is 2$\times$2 grid world.}
 \end{figure}
 \end{frame}
+
 \begin{frame}
-    \begin{figure}
+\begin{figure}
     \centering
     \begin{tikzpicture}[
         scale=0.8,
@@ -920,7 +903,6 @@ This gives a reward 0, resets the observation to the original base state feature
 \end{frame}
 
 \begin{frame}
-
 \begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{../images/images_part1/objective_values_plot.pdf}
@@ -929,7 +911,7 @@ This gives a reward 0, resets the observation to the original base state feature
 \end{frame}
 
 \begin{frame}
-    \begin{figure}
+\begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{../images/images_part1/learning_curves.pdf}
     \caption{(Asymmetric) reinforcement learning in POIBMDPs. 
@@ -937,8 +919,7 @@ This gives a reward 0, resets the observation to the original base state feature
     Each single learning curve represent the sub-optimality gap averaged over 100 seeds.
     }\label{fig:rl-poibmdp}
 \end{figure}
-
-    \begin{figure}
+\begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions.pdf}
     \caption{Distributions of final tree policies learned across the 100 seeds.
@@ -948,7 +929,7 @@ This gives a reward 0, resets the observation to the original base state feature
 \end{frame}
 
 \begin{frame}
-    \begin{figure}
+\begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
     \caption{Success rates of different (asymmetric) RL algorithms over thousands of runs when applied to learning deterministic partially observable policies in a POIBMDP or learning deterministic policies in associated MDP and IBMDP.}\label{fig:po-vs-ib}
@@ -1008,7 +989,6 @@ This gives a reward 0, resets the observation to the original base state feature
 \end{figure}
 \end{frame}
 
-\end{frame}
 \begin{frame}{Supervised learning}
 We assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$.
 
@@ -1185,7 +1165,7 @@ where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a penalty for regularization
         
         % Linear Models (medium performance, high interpretability)
         \node[circle, fill=blue!60, draw, minimum size=8pt] at (5.5,3) {};
-        \node[below right] at (5.5,3) {Linear models};
+        \node[below right] at (5.5,3) {Linear policies};
         
         % Decision Trees (medium-low performance, high interpretability)
         \node[circle, fill=green!60, draw, minimum size=8pt] at (6.5,2) {};
@@ -1306,14 +1286,6 @@ def play(x):
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Empirical validation: obtaining $\sim40000$ policies from different classes}
-    \begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
-    \caption{Imitation Learning to get policies from different classes (behaviour cloning, DAgger, VIPER)~\cite{viper,dagger,behavior-cloning}. The experts (a.k.a. oracles or teachers) neural network policies are obtained from the \texttt{stable-baselines3 zoo}~\cite{zoo}.}
-    \label{fig:imit}
-\end{figure}
-\end{frame}
 
 \begin{frame}{Empirical validation: obtaining $\sim40000$ policies from different classes}
 \begin{table}[ht]
