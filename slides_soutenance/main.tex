@@ -12,7 +12,7 @@
 \usepackage{tcolorbox}
 \usepackage{svg}
 \usepackage{xcolor}
-
+\usepackage{algorithm2e}
 % Code styling
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -59,7 +59,7 @@
 
 
 %% -----------------------INTRO-----------------------
-\begin{frame}{Sequential decision making}
+\begin{frame}{Sequential decision making (SDM)}
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -130,7 +130,7 @@
 \end{figure}
 \end{frame}
 
-\begin{frame}{Machine learning of policies for sequential decision making}
+\begin{frame}{Machine learning (ML) of policies for SDM}
 \begin{figure}
 \hspace{-1.3cm}
         \begin{tikzpicture}[
@@ -227,107 +227,107 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Interpretable machine learning for sequential decision making}
-\begin{figure}
-\hspace{-1.3cm}
-    \begin{tikzpicture}[
-            node distance=2.5cm,
-            auto,
-            thick,
-            state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
-            environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
-            agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
-            robot/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
-            ml/.style={circle, draw, fill=purple!20, minimum width=1cm, minimum height=1cm, text centered},
-            decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7.5cm, minimum height=3cm, text centered},
-            arrow/.style={->, thick, bend left=15},
-            arrow_decision/.style={->, dashed, bend left=15},
-            scale=0.98
-        ]
+% \begin{frame}{Interpretable machine learning for sequential decision making}
+% \begin{figure}
+% \hspace{-1.3cm}
+%     \begin{tikzpicture}[
+%             node distance=2.5cm,
+%             auto,
+%             thick,
+%             state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
+%             environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
+%             agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+%             robot/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+%             ml/.style={circle, draw, fill=purple!20, minimum width=1cm, minimum height=1cm, text centered},
+%             decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7.5cm, minimum height=3cm, text centered},
+%             arrow/.style={->, thick, bend left=15},
+%             arrow_decision/.style={->, dashed, bend left=15},
+%             scale=0.98
+%         ]
             
-            % Decision Making Box
-            \node[decision_box] (decision_box) at (0.3,3.4) {};
-            \node at (0.3,4.5) {\small{Decision Making}};
+%             % Decision Making Box
+%             \node[decision_box] (decision_box) at (0.3,3.4) {};
+%             \node at (0.3,4.5) {\small{Decision Making}};
             
-            % Robot (AI)
-            \node[robot] (robot) at (-2.1,3.2) {
-                \begin{minipage}{1.5cm}
-                    \centering
-                    \includesvg[width=0.4cm]{../images/images_intro/decision-tree-svgrepo-com.svg}\\
-                    \small{Decision tree}
-                \end{minipage}
-            };
+%             % Robot (AI)
+%             \node[robot] (robot) at (-2.1,3.2) {
+%                 \begin{minipage}{1.5cm}
+%                     \centering
+%                     \includesvg[width=0.4cm]{../images/images_intro/decision-tree-svgrepo-com.svg}\\
+%                     \small{Decision tree}
+%                 \end{minipage}
+%             };
             
-            % Doctor
-            \node[agent] (doctor) at (2.5,3.2) {
-                \begin{minipage}{1.5cm}
-                    \centering
-                    \includesvg[width=0.4cm]{../images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
-                    \small{Doctor}
-                \end{minipage}
-            };
+%             % Doctor
+%             \node[agent] (doctor) at (2.5,3.2) {
+%                 \begin{minipage}{1.5cm}
+%                     \centering
+%                     \includesvg[width=0.4cm]{../images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
+%                     \small{Doctor}
+%                 \end{minipage}
+%             };
             
-            % Machine Learning component
-            % Machine Learning component
-            \node[ml] (ml) at (-6,3) {
-                \begin{minipage}{1cm}
-                    \centering
-                    \includesvg[width=0.4cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
-                    \small{ML}
-                \end{minipage}
-            };
+%             % Machine Learning component
+%             % Machine Learning component
+%             \node[ml] (ml) at (-6,3) {
+%                 \begin{minipage}{1cm}
+%                     \centering
+%                     \includesvg[width=0.4cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
+%                     \small{ML}
+%                 \end{minipage}
+%             };
             
-            % Environment (Patient)
-            \node[environment] (environment) at (0,-0.5) {
-                \begin{minipage}{2cm}
-                    \centering
-                    \includesvg[width=0.8cm]{../images/images_intro/patient-4.svg}\\
-                    \small{Cancer patient}
-                \end{minipage}
-            };
+%             % Environment (Patient)
+%             \node[environment] (environment) at (0,-0.5) {
+%                 \begin{minipage}{2cm}
+%                     \centering
+%                     \includesvg[width=0.8cm]{../images/images_intro/patient-4.svg}\\
+%                     \small{Cancer patient}
+%                 \end{minipage}
+%             };
             
-            % Arrows
-            \draw[arrow] (environment) to[bend left=30] node[left] {
-                \begin{minipage}{2cm}
-                    \centering
-                    \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
-                    \small{Updated health status}
-                \end{minipage}
-            } (robot);
-            \draw[arrow_decision] (robot) to node[above] {\small{Recommends}} (doctor);
-            \draw[arrow_decision, green] (doctor) to node[below] {\small{Can interpret}} (robot);
+%             % Arrows
+%             \draw[arrow] (environment) to[bend left=30] node[left] {
+%                 \begin{minipage}{2cm}
+%                     \centering
+%                     \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+%                     \small{Updated health status}
+%                 \end{minipage}
+%             } (robot);
+%             \draw[arrow_decision] (robot) to node[above] {\small{Recommends}} (doctor);
+%             \draw[arrow_decision, green] (doctor) to node[below] {\small{Can interpret}} (robot);
             
-        \draw[arrow] (doctor) to[bend left=30] node[right] {
-                \begin{minipage}{1.5cm}
-                    \centering
-                    \includesvg[width=0.5cm]{../images/images_intro/syringe-svgrepo-com.svg}\\
-                \small{Administer chemotherapy}
-                \end{minipage}
-            } (environment);
+%         \draw[arrow] (doctor) to[bend left=30] node[right] {
+%                 \begin{minipage}{1.5cm}
+%                     \centering
+%                     \includesvg[width=0.5cm]{../images/images_intro/syringe-svgrepo-com.svg}\\
+%                 \small{Administer chemotherapy}
+%                 \end{minipage}
+%             } (environment);
             
-            % ML learning arrows
-            \draw[arrow] (environment) to[bend left=40] node[left] {
-                \begin{minipage}{2cm}
-                    \centering
-                    \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
-                    \small{Treatment outcomes}
-                \end{minipage}
-            } (ml);
-            \draw[arrow] (ml) to[bend left=20] node[above] {
-                \begin{minipage}{1.5cm}
-                    \centering
-                    \small{Updates policy}
-                \end{minipage}
-            } (robot);
+%             % ML learning arrows
+%             \draw[arrow] (environment) to[bend left=40] node[left] {
+%                 \begin{minipage}{2cm}
+%                     \centering
+%                     \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+%                     \small{Treatment outcomes}
+%                 \end{minipage}
+%             } (ml);
+%             \draw[arrow] (ml) to[bend left=20] node[above] {
+%                 \begin{minipage}{1.5cm}
+%                     \centering
+%                     \small{Updates policy}
+%                 \end{minipage}
+%             } (robot);
             
-        \end{tikzpicture}
-        \caption{Some machine learning algorithms can learn interpretable policies, e.g. decision trees.}
-        \label{fig:cancer-treatment-comparison}
-    \end{figure}
-\end{frame}
+%         \end{tikzpicture}
+%         \caption{Some machine learning algorithms can learn interpretable policies, e.g. decision trees.}
+%         \label{fig:cancer-treatment-comparison}
+%     \end{figure}
+% \end{frame}
 
 \begin{frame}{Research direction}
-    \textbf{\large How to learn interpretable policies for sequential decision making?}
+    \textbf{\large How to \textcolor{blue}{learn} \textcolor{green}{interpretable} policies for \textcolor{orange}{sequential decision making}?}
 \end{frame}
 %% ------------- FORMALISM ------------------------------
 \begin{frame}{Interpretable policies}
@@ -381,19 +381,19 @@
     \begin{tikzpicture}[
         scale=1.0,
         decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
-        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
+        leaf/.style={rectangle, draw, thick, fill=green!20, text width=4em, text centered, rounded corners, minimum height=4em, font=\small},
         edge_label/.style={font=\footnotesize, midway}
     ]
         % Root decision node
-        \node[decision] (root) at (0,0) {$t_1(x_i)$};
+        \node[decision] (root) at (0,0) {Patient old?};
         
         % Second level nodes
-        \node[decision] (left_decision) at (-3, -2.5) {$t_2(x_i)$};
-        \node[leaf] (right_leaf) at (3, -2.5) {$y_1$};
+        \node[decision] (left_decision) at (-3, -2.5) {Patient smoking?};
+        \node[leaf] (right_leaf) at (3, -2.5) {Decrease dosage};
         
         % Third level nodes (leaves)
-        \node[leaf] (left_left) at (-4.5, -5) {$y_2$};
-        \node[leaf] (left_right) at (-1.5, -5) {$y_3$};
+        \node[leaf] (left_left) at (-4.5, -5) {Increase dosage};
+        \node[leaf] (left_right) at (-1.5, -5) {Maintain dosage};
         
         % Connections with labels
         \draw[->] (root) -- (left_decision) node[edge_label, above left] {True};
@@ -402,12 +402,12 @@
         \draw[->] (left_decision) -- (left_right) node[edge_label, above right] {False};
         
         % Add labels for components
-        \node[font=\footnotesize, text=gray] at (0, 0.8) {Root node with test $t_1(x_i)$};
-        \node[font=\footnotesize, text=gray] at (-6, -2.5) {Internal node with test $t_2(x_i)$};
-        \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
+        % \node[font=\footnotesize, text=gray] at (0, 0.8) {Root node with test $t_1(x_i)$};
+        % \node[font=\footnotesize, text=gray] at (-6, -2.5) {Internal node with test $t_2(x_i)$};
+        % \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
         
     \end{tikzpicture}
-    \caption{A generic decision tree of depth $D=2$.}
+    \caption{A generic decision tree of depth $D=2$. Classification And Regression Trees (CART, 1984), Optimal Classification Trees (2015). What about sequential decision making?}
 \end{figure}
 \end{frame}
 
@@ -439,7 +439,7 @@
         \node[environment] (environment) at (0,-0.5) {\small{Transition and reward functions $T, R$}};
         
         % Arrows
-        \draw[arrow] (environment) to[bend left=30] node[left] {\small{State $s$ and reward $r$}} (robot);
+        \draw[arrow] (environment) to[bend left=30] node[left] {\small{State $\boldsymbol{s}$ and reward $r$}} (robot);
         \draw[arrow] (robot) to[bend left=30] node[right] {\small{Action $a$}} (environment);
         
     \end{tikzpicture}
@@ -447,13 +447,13 @@
 \end{figure}
 \end{frame}
 
-\begin{frame}{Reinforcement learning objective}
-    \begin{itemize}
-    \item Given an MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$ (cf. definition~\ref{def:mdp}), the goal of reinforcement learning for sequential decision making is to find a model, also known as a policy, $\pi: S \rightarrow A$ that maximizes the expected discounted sum of rewards:
-$$J(\pi) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
-where $0< \gamma\leq 1$ is the discount factor that controls the trade-off between immediate and future rewards.
-    \item Value iteration, Q-learning, Sarsa, Deep Q Networks, PPO, ...
-    \end{itemize}
+\begin{frame}{Reinforcement learning (RL) objective}
+\begin{itemize}
+    \item Given an MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$, the goal of reinforcement learning for sequential decision making is to find a model, also known as a policy, $\pi: S \rightarrow A$ that maximizes the expected discounted sum of rewards:
+    $$J(\pi) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
+    where $0< \gamma\leq 1$ is the discount factor that controls the trade-off between immediate and future rewards.
+    \item Value iteration, Q-learning, Sarsa, Deep Q Networks, PPO, \cdot
+\end{itemize}
 \end{frame}
 
 % ------------ Example -------------------------
@@ -514,31 +514,47 @@ where $0< \gamma\leq 1$ is the discount factor that controls the trade-off betwe
         \node at (4.2,1.3) {{\color{green} $\downarrow$}};
         \node at (4.5,1.5) {{\color{green} $\rightarrow$}};
     \end{tikzpicture}
-    \caption{A grid world MDP (left) and optimal actions w.r.t. the objective (cf. definition~\ref{def:mdp-obj}) (right).}\label{example:grid}
+    \caption{A grid world MDP and optimal actions w.r.t. the RL objective.}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Example: a decision tree policy for the grid world MDP}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[
+        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
+        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
+        edge_label/.style={font=\footnotesize, midway}
+    ]
+        % Tree 4: if x <= 0.5 move right else move left
+        \node[decision] (tree4_root) at (10,2) {$x \leq 1$};
+        \node[leaf] (tree4_right) at (9,0) {$\rightarrow$};
+        \node[leaf] (tree4_left) at (11,0) {$\leftarrow$};
+        \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
+        \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+
+
+        % Tree 4: if x <= 0.5 move right else move left
+        \node[decision] (tree5_root) at (5,2) {$x \leq 1$};
+        \node[leaf] (tree5_right) at (4,0) {$\rightarrow$};
+        \node[leaf] (tree5_left) at (6,0) {$\downarrow$};
+        \draw[->] (tree5_root) -- (tree5_right) node[edge_label, above left] {True};
+        \draw[->] (tree5_root) -- (tree5_left) node[edge_label, above right] {False};
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+
+    \end{tikzpicture}
+    \caption{Left, an optimal depth-1 decision tree policy. On the right, a sub-optimal depth-1 decision tree policy.}
     \end{figure}
 \end{frame}
 
 % -------------- Existing works --------------
-\begin{frame}{Machine learning of interpretable models for supervised learning}
-    \begin{itemize}
-        \item We assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$.
-
-\begin{align}
-    f^* &= \underset{f \in \mathcal{F}}{\operatorname{argmin}}\ \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, f(x_i)) + \alpha C(f),
-    \label{eq:suplearning}
-\end{align}
-where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a penalty for regularization
-        \item Classification And Regression Trees (CART, 1984), Optimal Classification Trees (2015)
-        \item What about the RL objective for sequential decision making?
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Two ways to get interpretable policies for sequential decision making}
+\begin{frame}{Two ways to get interpretable policies for SDM}
 \begin{figure}
     \centering
-    \begin{tikzpicture}[
+    \scalebox{0.82}{\begin{tikzpicture}[
         node distance=2cm,
-        scale=0.8,
+        scale=1,
         auto,
         thick,
         rl/.style={circle, draw, fill=purple!20, minimum width=1.5cm, minimum height=0.8cm, text centered},
@@ -621,7 +637,7 @@ where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a penalty for regularization
         \draw[arrow] (nn_indirect) -- (sl_indirect) node[label, midway] {\tiny Generates data};
         \draw[arrow] (sl_indirect) -- (dt_indirect) node[label, midway] {\tiny Learns};
         
-    \end{tikzpicture}
+    \end{tikzpicture}}
     \caption{Comparison of direct and indirect approaches for learning interpretable policies in sequential decision making.}
 \end{figure}
 \end{frame}
@@ -630,47 +646,10 @@ where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a penalty for regularization
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
-    \caption{Imitation learning to get interpretable policies (DAgger, VIPER)~\cite{viper,dagger}.}
+    \caption{Imitation learning to get interpretable policies (DAgger, VIPER)~\cite{viper,dagger} works well in practice but no optimality guarantees.}
 \end{figure}
 \end{frame}
 
-\begin{frame}{Example: a decision tree policy for the grid world MDP}
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[
-        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
-        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
-        edge_label/.style={font=\footnotesize, midway}
-    ]
-        % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree4_root) at (10,2) {$x \leq 1$};
-        \node[leaf] (tree4_right) at (9,0) {$\rightarrow$};
-        \node[leaf] (tree4_left) at (11,0) {$\leftarrow$};
-        \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
-        \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
-        \tikzstyle{grid}=[draw, thick, fill=gray!10]
-
-
-        % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree5_root) at (5,2) {$x \leq 1$};
-        \node[leaf] (tree5_right) at (4,0) {$\rightarrow$};
-        \node[leaf] (tree5_left) at (6,0) {$\downarrow$};
-        \draw[->] (tree5_root) -- (tree5_right) node[edge_label, above left] {True};
-        \draw[->] (tree5_root) -- (tree5_left) node[edge_label, above right] {False};
-        \tikzstyle{grid}=[draw, thick, fill=gray!10]
-
-    \end{tikzpicture}
-    \caption{Left, an optimal depth-1 decision tree policy. On the right, a sub-optimal depth-1 decision tree policy.}\label{fig:trees-intro}
-    \end{figure}
-\end{frame}
-
-\begin{frame}{Example: a decision tree policy for the grid world MDP}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{../images/images_part1/policy_values_comparison.pdf}
-    \caption{The RL objective values of the optimal policies from figure~\ref{example:grid} and of the decision tree policies from figure~\ref{fig:trees-intro}.}\label{fig:objectives}
-\end{figure}
-\end{frame}
 
 \begin{frame}{Example: a decision tree policy for the grid world MDP}
 \begin{figure}
@@ -680,26 +659,28 @@ where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a penalty for regularization
 \end{figure}
 \end{frame}
 
-\begin{frame}{Interpretability, decision trees, and sequential decision making}
-\begin{itemize}
-    \item How to learn optimal interpretable policies for sequential decision making?
-    \item How to leverage sequential decision making to learn interpretable \textit{classifiers for supervised learning}?
-    \item How to measure policy interpretability in sequential decision making?
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Thesis results}
-\begin{enumerate}
-    \item Direct reinforcement learning of decision tree policies is hard because it involves POMDPs.
-    \item One can use dynamic programming in MDPs to induce highly performing decision tree classifiers and regressors.
-    \item In practice, controlling MDPs with interpretable policies does not necessarily decrease performances.
-\end{enumerate}
-\end{frame}
+% \begin{frame}{Thesis results}
+% \begin{enumerate}
+%     \item Direct reinforcement learning of decision tree policies is hard because it involves POMDPs.
+%     \item One can use dynamic programming in MDPs to induce highly performing decision tree classifiers and regressors.
+%     \item In practice, controlling MDPs with interpretable policies does not necessarily decrease performances.
+% \end{enumerate}
+% \end{frame}
 
 % ------------ Part I ------------------
-\begin{frame}
+\begin{frame}{Direct approach to interpretable SDM}
+    \begin{itemize}
+        \item Policy class: non-parametric trees\cite{topin2021iterative}.
+        \item Optimize a trade-off of policy perofrmances $J(\pi)$ and interpretability.
+    \end{itemize}
+    \textit{Q: Can we use reinforcement learning to directly optimize trade-offs of performance and interpretability in SDM?}\\
+    \textbf{A: direct reinforcement leargning is hard because it involves partial observability.}
+\end{frame}
+
+\begin{frame}{Iterative bounding Markov decision processes (IBMDP)}
 \begin{figure}
 \centering
+\scalebox{0.7}{
 \begin{tikzpicture}[scale=0.6]
     % Define styles
     \tikzstyle{grid}=[draw, thick, fill=gray!10]
@@ -837,106 +818,51 @@ where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a penalty for regularization
     \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
 
     
-\end{tikzpicture}
-\caption{An IBMDP trajectory when the base MDP is 2$\times$2 grid world.}
+\end{tikzpicture}}
+\caption{Topin et. al. propose iterative bounding Markov decision processes (IBMDP). Trajectories in IBMDPs corresponding to decision tree policy building. Not all IBMDP policies are equivalent to decision tree policies}
 \end{figure}
 \end{frame}
 
-\begin{frame}
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[
-        scale=0.8,
-        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
-        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
-        edge_label/.style={font=\footnotesize, midway}
-    ]
-        
-        \node[leaf] at (-3, 0) {$\rightarrow$};
-        % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree4_root) at (0,0) {$x \leq 1$};
-        \node[leaf] (tree4_right) at (-1,-2) {$\rightarrow$};
-        \node[leaf] (tree4_left) at (1,-2) {$\downarrow$};
-        \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
-        \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
-        
-        % Draw a square around the tree
-        \draw[thick, red] (-2, 1.8) rectangle (2, -2.5);
-
-        % Tree 7: if x <= 0.5 and y <= 0.5 move right else move down
-        \node[decision] (tree7_root) at (5,0) {$x \leq 1$};
-        \node[decision] (tree7_y) at (3,-2) {$y \leq 1$};
-        \node[leaf] (tree7_right) at (2,-4) {$\rightarrow$};
-        \node[leaf] (tree7_down) at (4,-4) {$\downarrow$};
-        \node[leaf] (tree7_down2) at (6,-2) {$\downarrow$};
-        \draw[->] (tree7_root) -- (tree7_y) node[edge_label, above left] {True};
-        \draw[->] (tree7_root) -- (tree7_down2) node[edge_label, above right] {False};
-        \draw[->] (tree7_y) -- (tree7_right) node[edge_label, above left] {True};
-        \draw[->] (tree7_y) -- (tree7_down) node[edge_label, above right] {False};
-
-
-        \node[decision] (tree7_root) at (11,0) {$x \leq 1$};
-        \node[decision] (tree7_y) at (9,-2) {$y \leq 1$};
-        \node[decision] (tree7_y2) at (13,-2) {$y \leq 1$};
-        \node[leaf] (tree7_right) at (8,-4) {$\rightarrow$};
-        \node[leaf] (tree7_down) at (10,-4) {$\downarrow$};
-        \node[leaf] (tree7_right2) at (12,-4) {$\uparrow$};
-        \node[leaf] (tree7_down2) at (14,-4) {$\downarrow$};
-        \draw[->] (tree7_root) -- (tree7_y) node[edge_label, above left] {True};
-        \draw[->] (tree7_root) -- (tree7_y2) node[edge_label, above right] {False};
-        \draw[->] (tree7_y) -- (tree7_right) node[edge_label, above left] {True};
-        \draw[->] (tree7_y) -- (tree7_down) node[edge_label, above right] {False};
-        \draw[->] (tree7_y2) -- (tree7_right2) node[edge_label, above left] {True};
-        \draw[->] (tree7_y2) -- (tree7_down2) node[edge_label, above right] {False};
-
-        % Labels
-        \node[above] at (-3,1) {$\pi_{\mathcal{T}_0}$};
-        \node[above] at (0,1) {$\pi_{\mathcal{T}_1}$};
-        \node[above] at (5,1) {$\pi_{\mathcal{T}_u}$};
-        \node[above] at (11,1) {$\pi_{\mathcal{T}_2}$};
-
-
-    \end{tikzpicture}
-    \caption{For each decision tree structure, e.g., depth-1 or unbalanced depth-2, we illustrate a decision tree which maximizes the RL objective (cf. definition~\ref{def:mdp-obj}) in the grid world MDP.}
-    \label{fig:optimal-policy-trees}
-\end{figure}
+\begin{frame}{Pros and cons of IBMDPs}
+\begin{exampleblock}{Pros}
+    \begin{itemize}
+        \item No need to design new algorithm: we can use deep RL.
+        \item IBMDP rewards trade-off naturally interpretability and performances.
+    \end{itemize}
+\end{exampleblock}
+\begin{alertblock}{Cons}
+    \begin{itemize}
+        \item Only \textbf{determinstic} and \textbf{partially observable} (a.k.a. memoryless or reactive) policies are equivalent to decision tree policies.
+        \item Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard \cite{littman}!!
+    \end{itemize}
+\end{alertblock}
 \end{frame}
 
-\begin{frame}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.6\textwidth]{../images/images_part1/objective_values_plot.pdf}
-    \caption{Interpretable RL objective values (cf. definition~\ref{def:irl}) of different partially observable policies as functions of $\zeta$. Shaded areas show the optimal \textit{deterministic} partially observable policies in different ranges of $\zeta$ values.}\label{fig:irl-objectives}
-\end{figure}
+\begin{frame}{Re-formulation}
+    \textit{Q: Can we use reinforcement learning to directly optimize trade-offs of performance and interpretability in SDM?} $\equiv$ \\
+    \textit{Q: How does RL perform for optimizing \textbf{deterministic} and \textbf{partially observable} policies in IBMDPs?
+}
 \end{frame}
 
-\begin{frame}
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{../images/images_part1/learning_curves.pdf}
-    \caption{(Asymmetric) reinforcement learning in POIBMDPs. 
-    In each subplot, each single line is colored by the value of $\zeta$ in the corresponding POIBMDP in which learning occurs. 
-    Each single learning curve represent the sub-optimality gap averaged over 100 seeds.
-    }\label{fig:rl-poibmdp}
-\end{figure}
+\begin{frame}{Experimental result: RL cannot retrieve optimal depth-1 trees for the grid world MDP}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions.pdf}
     \caption{Distributions of final tree policies learned across the 100 seeds.
     For each $\zeta$ value, there are four colored points. Each point represent the share of depth-0 trees (red), depth-1 trees (green), unbalanced depth-2 trees (orange) and depth-2 trees (blue).
-    }\label{fig:dt-distrib-poibmdp}
+    }
 \end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Experimental result: for similar problems, RL succeeds more often in retrieving optimal Markovian policies than partially observable policies}
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
-    \caption{Success rates of different (asymmetric) RL algorithms over thousands of runs when applied to learning deterministic partially observable policies in a POIBMDP or learning deterministic policies in associated MDP and IBMDP.}\label{fig:po-vs-ib}
+    \includegraphics[width=0.65\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
+    \caption{Success rates of different (asymmetric) RL algorithms over thousands of runs when applied to learning deterministic partially observable policies in an IBMDP for the grid world or learning deterministic Markovian policies in the same IBMDP.}
 \end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Interesting sub-class of MDPs: classification MDPs}
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -976,17 +902,32 @@ where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a penalty for regularization
         \node at (0.5,1.5) {$\boldsymbol{s}_1$};
 
     \end{tikzpicture}
-    \caption{Classification MDP optimal actions. In this classification MDP, there are four data to which to assign either a green or red label.
+    \caption{In this classification MDP, there are four data to which to assign either a green or red label.
     On the right, there is the unique optimal depth-1 tree for this particular classification MDP. This depth-1 tree also maximizes the accuracy on the corresponding classification task.}\label{example:cmdp}
-    \end{figure}
+    \textbf{We show that in theory, deterministic partially observable policies for classification IBMDPs ($\equiv$ decision tree policies) are in fact Markovian.}    
+\end{figure}
 \end{frame}
 
-\begin{frame}
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions_classif.pdf}
-    \caption{We reproduce the same plot as in figure~\ref{fig:dt-distrib-poibmdp} for classification POIBMDPs. Each colored dot is the number of final learned trees with a specific structure for a given $\zeta$.}\label{fig:tree-distrib-classif-poibmdp}
-\end{figure}
+% \begin{frame}{Experimental result: for SDM problems $\equiv$ classification problems, RL can consistently retrieve optimal depth-1 decision tree policies}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions_classif.pdf}
+%     \caption{Each colored dot is the number of final learned trees with a specific structure for a given $\zeta$. Those results makes sense because we can show that IBMDPs for classification tasks don't have a partial observability component.}\label{fig:tree-distrib-classif-poibmdp}
+% \end{figure}
+% \end{frame}
+
+\begin{frame}{Perspectives for direct RL of decision tree policies.}
+    \begin{itemize}
+        \item Learning decision tree policies that trade-off performances and interpretability for SDM problems is difficult because for most problems there is \textcolor{red}{partial observability}.
+        \item Still a lot of open questions:
+        \begin{enumerate}
+            \item What are the pros and cons of fixing the policy tree structure a priori (paramteric trees, \cite{sympol})?
+            \item Can we specifically design algorithms that learn deterministic partially observable policies\cite{Lambrechts}?
+        \end{enumerate}
+    \end{itemize}
+    \textit{Q: Can we leverage SDM in classification MDPs to design new decision tree induction algorithms for the supervised learning (no sequentiality) setting?}
+    \textbf{A: Yes!}
+    
 \end{frame}
 
 \begin{frame}{Supervised learning}
@@ -999,11 +940,12 @@ We assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\
 where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a penalty for regularization
 \end{frame}
 
-\begin{frame}{Why decision trees ?}
+
+\begin{frame}{Decision trees in supervised learning}
 \begin{enumerate}
     \item Decision trees are \textbf{interpretable}.
     \item Tree-based models perform really well on \textbf{tabular} data, often \textbf{better than deep neural nets} (L. Grinsztajn et. al. 2022).
-\end{enumerate}   
+\end{enumerate}
 \end{frame}
 
 \begin{frame}{Optimal decision tree induction is NP-hard}
@@ -1116,65 +1058,13 @@ where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a penalty for regularization
      \end{subfigure}
 \end{figure}
 \end{frame}
-\begin{frame}{DPDT generalization}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.7\linewidth]{../images/figures/tab_bench/random_search_classif_numerical_depth5.pdf}
-\end{figure}
-\end{frame}
-\begin{frame}{Boosting DPDT}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.7\linewidth]{../images/figures/tab_bench/random_search_classif_numerical_boosting_all_notgb.pdf}
-\end{figure}
-\end{frame}
 
-
-
-\begin{frame}{How to measure policy interpretability?}
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[scale=0.7]
-        % Define the axes
-        \draw[->] (0,0) -- (8,0) node[right] {Policy interpretability};
-        \draw[->] (0,0) -- (0,6) node[above] {Policy performance};
-        
-        % Add axis labels at the ends
-        \node[below] at (0.5,-0.3) {Low};
-        \node[below] at (7.5,-0.3) {High};
-        \node[left] at (-0.3,0.5) {Low};
-        \node[left] at (-0.3,5.5) {High};
-        
-        % Add grid lines (optional, subtle)
-        \foreach \x in {1,2,...,7}
-            \draw[gray!20] (\x,0) -- (\x,5.5);
-        \foreach \y in {1,2,...,5}
-            \draw[gray!20] (0,\y) -- (7.5,\y);
-        
-        % Add a general trend line (optional)
-        \draw[dashed, thick, gray] (1,4.8) .. controls (3,3.5) and (5,2.5) .. (7,1.2);
-        
-        % Position different model types
-        % Deep Neural Networks (high performance, low interpretability)
-        \node[circle, fill=black!20, draw, minimum size=8pt] at (1,5) {};
-        \node[below right] at (1.2,5.1) {Neural networks};
-        
-        % Ensemble Methods (medium-high performance, low-medium interpretability)
-        \node[circle, fill=orange!60, draw, minimum size=8pt] at (2.5,4) {};
-        \node[below right] at (0.5,4) {Tree ensembles};
-        
-        % Linear Models (medium performance, high interpretability)
-        \node[circle, fill=blue!60, draw, minimum size=8pt] at (5.5,3) {};
-        \node[below right] at (5.5,3) {Linear policies};
-        
-        % Decision Trees (medium-low performance, high interpretability)
-        \node[circle, fill=green!60, draw, minimum size=8pt] at (6.5,2) {};
-        \node[below right] at (6.5,2) {Decision trees};
-        
-    \end{tikzpicture}
-    \caption{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes (what-if neural network is very sparsed?). Interpretability is often presented in opposition to performances.}
-    \label{fig:interpretability-performance-tradeoff}
-\end{figure}
+\begin{frame}{Perspectives}
+    \begin{itemize}
+        \item Great we did a new SOTA decision tree induction.
+    \end{itemize}
+    \textit{Q: Are decision trees really the most interpretable model?}
+    \textbf{A: It depends.}
 \end{frame}
 
 \begin{frame}{How to measure policy interpretability?}
@@ -1333,39 +1223,6 @@ Relu neural networks & \{(2 ,2), (4, 4), (8, 8), (16, 16)\} weights & SGD \\
 
 \end{frame}
 
-% \begin{frame}{Empirical validation: obtaining $\sim40000$ policies from different classes}
-% \begin{table}
-%   \centering
-%   \footnotesize
-%   \scalebox{0.76}{
-%   \begin{tabular}{c|cccccc}
-%   \toprule
-%   Envs & Behav. Clon. & Behav. Clon. & Dagger & Dagger & VIPER & VIPER\\
-%    & 50K & 100K & 50K & 100K & 50K & 100K\\
-%   \midrule
-%   Classic& 50 (PPO, DQN)& 50 (PPO, DQN)& 50 (PPO, DQN)& 50 (PPO, DQN)&  50 (DQN) & 50 (DQN)\\
-%   OCAtari& 0 & 0 & 0 & 5 (DQN)&  0 & 5 (DQN)\\
-%   Mujoco& 10 (SAC)& 10 (SAC)& 10 (SAC)& 10 (SAC)&  0 & 0\\
-%   \bottomrule
-%   \end{tabular}}
-%   \caption{Repetitions of each imitation learning algorithm on each environment. We specify from which deep RL algorithms expert policies from the zoo~\cite{zoo} come from in parentheses.}
-%   \label{tab:repet-distill}
-% \end{table}
-% \end{frame}
-
-\begin{frame}{Metrics}
-\begin{enumerate}
-    \item For each policy class and each environment, we keep only the best policy in terms of performance for the task.
-    \item We measure the interpretability of each best-in-class policy on dedicated CPUs.
-    \item To measure interpretability, we track two metrics:
-    \begin{enumerate}
-        \item Average inference time in seconds to predict actions given states.
-        \item Space in memory in bytes.
-    \end{enumerate}
-\end{enumerate}
-\end{frame}
-
-
 \begin{frame}{Result 1: unfolding policies is necessary to respect consensus}
 \begin{figure}
     \centering
@@ -1403,7 +1260,7 @@ Relu neural networks & \{(2 ,2), (4, 4), (8, 8), (16, 16)\} weights & SGD \\
     \end{enumerate}
 \end{frame}
 
-\begin{frame}{Future work}
+\begin{frame}{Perspective}
 \begin{itemize}
     \item Can a human study confirm our results?
     \item Can our methodology be used for evaluating the interpretability of (very) big models?
@@ -1412,4 +1269,7 @@ Relu neural networks & \{(2 ,2), (4, 4), (8, 8), (16, 16)\} weights & SGD \\
 All the policy programs are available on github \url{https://github.com/KohlerHECTOR/interpretable-rl-zoo}
 \end{frame}
 
+
+\begin{frame}{Conclusion}
+\end{frame}
 \end{document}
