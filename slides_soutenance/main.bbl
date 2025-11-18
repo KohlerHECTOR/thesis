@@ -19,27 +19,6 @@
 
 \refsection{0}
   \datalist[entry]{anyt/global//global/global}
-    \entry{parbhoo}{article}{}
-      \field{labelalpha}{20}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
-      \field{labeltitlesource}{title}
-      \field{month}{4}
-      \field{title}{Regional Tree Regularization for Interpretability in Deep Neural Networks}
-      \field{volume}{34}
-      \field{year}{2020}
-      \field{pages}{6413\bibrangedash 6421}
-      \range{pages}{9}
-      \verb{doi}
-      \verb 10.1609/aaai.v34i04.6112
-      \endverb
-      \verb{urlraw}
-      \verb https://ojs.aaai.org/index.php/AAAI/article/view/6112
-      \endverb
-      \verb{url}
-      \verb https://ojs.aaai.org/index.php/AAAI/article/view/6112
-      \endverb
-    \endentry
     \entry{baisero-ppo}{inproceedings}{}
       \name{author}{2}{}{%
         {{hash=f49a8d34e0eef47ad9020b763e7d9564}{%

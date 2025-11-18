@@ -1,22 +1,25 @@
 [0] Config.pm:307> INFO - This is Biber 2.17
 [0] Config.pm:310> INFO - Logfile is 'main.blg'
-[72] biber:340> INFO - === mar. nov. 18, 2025, 12:07:54
+[72] biber:340> INFO - === mar. nov. 18, 2025, 12:17:08
 [85] Biber.pm:418> INFO - Reading 'main.bcf'
-[153] Biber.pm:972> INFO - Found 36 citekeys in bib section 0
-[164] Biber.pm:4383> INFO - Processing section 0
-[171] Biber.pm:4574> INFO - Looking for bibtex file 'bibliographie.bib' for section 0
-[180] bibtex.pm:1713> INFO - LaTeX decoding ...
-[371] bibtex.pm:1518> INFO - Found BibTeX data source 'bibliographie.bib'
-[654] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[654] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[654] Biber.pm:4203> INFO - Sorting list 'anyt/global//global/global' of type 'entry' with template 'anyt' and locale 'en-US'
-[654] Biber.pm:4209> INFO - No sort tailoring available for locale 'en-US'
-[689] bbl.pm:654> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[717] bbl.pm:757> INFO - Output to main.bbl
-[717] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'bibliographie.bib', skipping ...
-[717] Biber.pm:130> WARN - Duplicate entry key: 'vos2024optimizinginterpretabledecisiontree' in file 'bibliographie.bib', skipping ...
-[718] Biber.pm:130> WARN - legacy month field '01--05 Aug' in entry 'baisero-dqn' is not an integer - this will probably not sort properly.
-[718] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'parbhoo' is not an integer - this will probably not sort properly.
-[718] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_6vQk/fc5b366787d68e4234f7436cbf80900b_11920.utf8, line 720, warning: 1 characters of junk seen at toplevel
-[718] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_6vQk/fc5b366787d68e4234f7436cbf80900b_11920.utf8, line 1325, warning: 6 characters of junk seen at toplevel
-[718] Biber.pm:132> INFO - WARNINGS: 6
+[149] Biber.pm:972> INFO - Found 36 citekeys in bib section 0
+[160] Biber.pm:4383> INFO - Processing section 0
+[168] Biber.pm:4574> INFO - Looking for bibtex file 'bibliographie.bib' for section 0
+[179] bibtex.pm:1713> INFO - LaTeX decoding ...
+[375] bibtex.pm:1518> INFO - Found BibTeX data source 'bibliographie.bib'
+[482] Utils.pm:398> ERROR - Name "Wu, M., Parbhoo, S., Hughes, M., Kindle, R., Celi, L., Zazzi, M., Roth, V.," has too many commas, skipping entry 'parbhoo'
+[666] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[666] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[667] Biber.pm:4203> INFO - Sorting list 'anyt/global//global/global' of type 'entry' with template 'anyt' and locale 'en-US'
+[667] Biber.pm:4209> INFO - No sort tailoring available for locale 'en-US'
+[707] bbl.pm:654> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[734] bbl.pm:757> INFO - Output to main.bbl
+[734] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'bibliographie.bib', skipping ...
+[734] Biber.pm:130> WARN - Duplicate entry key: 'vos2024optimizinginterpretabledecisiontree' in file 'bibliographie.bib', skipping ...
+[734] Biber.pm:130> WARN - legacy month field '01--05 Aug' in entry 'baisero-dqn' is not an integer - this will probably not sort properly.
+[734] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'parbhoo' is not an integer - this will probably not sort properly.
+[734] Biber.pm:130> WARN - Entry with key 'parbhoo' in section '0' is cited and found but not created (likely due to sourcemap)
+[735] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_fxFb/fc5b366787d68e4234f7436cbf80900b_12800.utf8, line 720, warning: 1 characters of junk seen at toplevel
+[735] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_fxFb/fc5b366787d68e4234f7436cbf80900b_12800.utf8, line 1325, warning: 6 characters of junk seen at toplevel
+[735] Biber.pm:132> INFO - WARNINGS: 7
+[735] Biber.pm:135> INFO - ERRORS: 1
