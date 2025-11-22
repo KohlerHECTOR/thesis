@@ -410,9 +410,9 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 \begin{frame}{Reinforcement learning (RL) objective}
 \begin{itemize}
     \item The goal of RL (\cite{sutton}) for SDM is to find a policy, $\pi: S \rightarrow A$ that maximizes:
-    \begin{align}
+    \begin{align*}
         J(\pi) &= \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]
-    \end{align}
+    \end{align*}
 
     \item Value iteration, Q-learning, Sarsa, Deep Q Networks, Proximal Policy Optimization, \dots (\cite{Bellman,sutton,dqn,ppo})
 \end{itemize}
@@ -888,9 +888,9 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 \begin{frame}{Decision trees in supervised learning}
 \begin{itemize}
     \item $N$ data points. Each $x_i$ is described by $p$ features and has a label $y_i \in {\mathcal Y}$.
-    \begin{align}
+    \begin{align*}
         \mathcal{L}(T) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, f(x_i)) + \alpha C(T)
-    \end{align}
+    \end{align*}
     \item Tree-based models are \textbf{interpretable} and perform really well on \textbf{tabular} data, often \textbf{better than deep neural nets} (\cite{grinsztajn2022tree}).
 \end{itemize}
 \end{frame}
@@ -898,7 +898,7 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 \begin{frame}{Optimal decision tree induction is NP-hard}
 \begin{itemize}
     \item Greedy algorithms (\cite{breiman1984classification,ID3,c45}) \textcolor{red}{\textbf{sub-optimal accuracy}}, but time complexity in \textcolor{green}{$\boldsymbol{O(2^D)}$}.
-    \item Optimal algorithms (\cite{oct,murtree,pystreed,chaouki2024branchesfastdynamicprogramming} \dots) \textcolor{green}{\textbf{optimal accuracy}}, but time complexity in \textcolor{red}{$\boldsymbol{O((2Np)^D)}$}.
+    \item Optimal algorithms (\cite{oct,murtree,pystreed,chaouki2024branchesfastdynamicprogramming} \dots) \textcolor{green}{\textbf{optimal accuracy}}, but time complexity in \textcolor{red}{$\boldsymbol{O((2Np)^D)}$} (NP-hard \cite{npcomplete}).
 \end{itemize}
 \end{frame}
 
@@ -1073,17 +1073,17 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 \begin{frame}{How to measure policy interpretability?}
 \begin{alertblock}{Challenges (\cite{glanois-survey,lipton,rigourous})}
 \begin{itemize}
-    \item There is no clear definition of interpretability.
-    \item Measuring interpretability might require humans.
+    \item No definition of interpretability.
+    \item Measuring might require humans.
 \end{itemize}
 \end{alertblock}
 
 \begin{exampleblock}{The notion of \textit{simulatability} (\cite{lipton})}
 \begin{itemize}
-    \item Interpretability $\simeq$ how long it takes for human to make the same computations given an input.
-    \item Interpretability $\simeq$ how much effort it would take a human to read through the entire policy once.
-    \item Inside a given policy class, less parameters should mean more interpretability (\cite{study-0,study-4,study-5,study-6,study-7}).
-    \item The time required to formally verify a policy should decrease with interpretability (\cite{viper,lens-complexity}).
+    \item Interpretability $\simeq$ how long for human to make the same computations.
+    \item Interpretability $\simeq$ how much effort for a human to read through the entire policy.
+    \item Less parameters mean more interpretability (\cite{study-0,study-4,study-5,study-6,study-7}).
+    \item Time to formally verify a policy decreases with interpretability (\cite{viper,lens-complexity}).
 \end{itemize}
 \end{exampleblock}
 \end{frame}
@@ -1097,8 +1097,8 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 \end{block}
 \begin{alertblock}{Not that simple in practice (\cite{insight})}
 \begin{itemize}
-    \item Different hardwares (tree policies are run on CPUs while neural policies are run on GPUs).
-    \item Different implementations (neural policies compute outputs using matrix operations while tree operate fully sequentially) $\dots$
+    \item Different hardwares (CPUs vs GPUs).
+    \item Different implementations (matrix operations vs fully sequentially) $\dots$
 \end{itemize}
 \end{alertblock}
 \end{frame}
@@ -1169,7 +1169,7 @@ def play(x):
 \begin{frame}{Empirical validation}
 \begin{enumerate}
     \item Does our methodology respect consensus on policy interpretability?
-    \item Is policy unfolding necessary to respect the consensus?
+    \item Is policy unfolding necessary?
     \item What kind of results we can obtain using our proposed methodology?
 \end{enumerate}
 \\
@@ -1251,10 +1251,10 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 
 \begin{frame}{Perspectives}
 \begin{itemize}
-    \item Because there is no dominating class for all problems in terms of interpretability-performance trade-offs, beliefs such as "trees are more interpretable than neural networks" should be used with caution.
-    \item Tree-like policy classes can have good inductive bias for game-like envrionments.
+    \item Beliefs such as "trees are more interpretable than neural networks" should be used with caution.
+    \item Tree-like policy classes can have good inductive bias (e.g. Atari).
     \item Can a human study confirm our results?
-    \item Can our methodology be used for evaluating the interpretability of (very) big models?
+    \item What about (very) big models?
     \item Can we use our policy programs as low level skills (hierarchical RL)? 
 \end{itemize}
 \end{frame}

@@ -634,6 +634,48 @@
       \endverb
       \keyw{Classification,Comprehensibility,Data mining,Decision tables,Knowledge representation}
     \endentry
+    \entry{npcomplete}{article}{}
+      \name{author}{2}{}{%
+        {{hash=e85f8ce0a6b692a613b601d2bbde2925}{%
+           family={Hyafil},
+           familyi={H\bibinitperiod},
+           given={Laurent},
+           giveni={L\bibinitperiod}}}%
+        {{hash=3a964821f97ee17f8bb285bc61c52899}{%
+           family={Rivest},
+           familyi={R\bibinitperiod},
+           given={Ronald\bibnamedelima L.},
+           giveni={R\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{1a04d65da4612bd2ae56c7c8de842519}
+      \strng{fullhash}{1a04d65da4612bd2ae56c7c8de842519}
+      \strng{bibnamehash}{1a04d65da4612bd2ae56c7c8de842519}
+      \strng{authorbibnamehash}{1a04d65da4612bd2ae56c7c8de842519}
+      \strng{authornamehash}{1a04d65da4612bd2ae56c7c8de842519}
+      \strng{authorfullhash}{1a04d65da4612bd2ae56c7c8de842519}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0020-0190}
+      \field{journaltitle}{Information Processing Letters}
+      \field{number}{1}
+      \field{title}{Constructing optimal binary decision trees is NP-complete}
+      \field{volume}{5}
+      \field{year}{1976}
+      \field{pages}{15\bibrangedash 17}
+      \range{pages}{3}
+      \verb{doi}
+      \verb https://doi.org/10.1016/0020-0190(76)90095-8
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/0020019076900958
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/0020019076900958
+      \endverb
+      \keyw{Binary decision trees,computational complexity,NP-complete}
+    \endentry
     \entry{study-5}{misc}{}
       \name{author}{7}{}{%
         {{hash=390b7656679e580c973d9eabbe22ed35}{%

@@ -1,23 +1,23 @@
 [0] Config.pm:307> INFO - This is Biber 2.17
 [0] Config.pm:310> INFO - Logfile is 'main.blg'
-[80] biber:340> INFO - === sam. nov. 22, 2025, 11:21:40
-[93] Biber.pm:418> INFO - Reading 'main.bcf'
-[157] Biber.pm:972> INFO - Found 39 citekeys in bib section 0
-[174] Biber.pm:4383> INFO - Processing section 0
-[186] Biber.pm:4574> INFO - Looking for bibtex file 'bibliographie.bib' for section 0
-[201] bibtex.pm:1713> INFO - LaTeX decoding ...
-[454] bibtex.pm:1518> INFO - Found BibTeX data source 'bibliographie.bib'
-[860] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[860] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[860] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[861] Biber.pm:4209> INFO - No sort tailoring available for locale 'en-US'
-[915] bbl.pm:654> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[950] bbl.pm:757> INFO - Output to main.bbl
-[951] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'bibliographie.bib', skipping ...
-[951] Biber.pm:130> WARN - Duplicate entry key: 'vos2024optimizinginterpretabledecisiontree' in file 'bibliographie.bib', skipping ...
-[951] Biber.pm:130> WARN - legacy month field '17--23 Jul' in entry 'quantbnb' is not an integer - this will probably not sort properly.
-[951] Biber.pm:130> WARN - legacy month field '01--05 Aug' in entry 'baisero-dqn' is not an integer - this will probably not sort properly.
-[951] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'parbhoo' is not an integer - this will probably not sort properly.
-[951] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_DI55/fc5b366787d68e4234f7436cbf80900b_12638.utf8, line 720, warning: 1 characters of junk seen at toplevel
-[951] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_DI55/fc5b366787d68e4234f7436cbf80900b_12638.utf8, line 1325, warning: 6 characters of junk seen at toplevel
-[951] Biber.pm:132> INFO - WARNINGS: 7
+[81] biber:340> INFO - === sam. nov. 22, 2025, 11:39:33
+[94] Biber.pm:418> INFO - Reading 'main.bcf'
+[165] Biber.pm:972> INFO - Found 40 citekeys in bib section 0
+[184] Biber.pm:4383> INFO - Processing section 0
+[195] Biber.pm:4574> INFO - Looking for bibtex file 'bibliographie.bib' for section 0
+[212] bibtex.pm:1713> INFO - LaTeX decoding ...
+[415] bibtex.pm:1518> INFO - Found BibTeX data source 'bibliographie.bib'
+[733] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[733] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[734] Biber.pm:4203> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[734] Biber.pm:4209> INFO - No sort tailoring available for locale 'en-US'
+[787] bbl.pm:654> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[822] bbl.pm:757> INFO - Output to main.bbl
+[822] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'bibliographie.bib', skipping ...
+[822] Biber.pm:130> WARN - Duplicate entry key: 'vos2024optimizinginterpretabledecisiontree' in file 'bibliographie.bib', skipping ...
+[823] Biber.pm:130> WARN - legacy month field '17--23 Jul' in entry 'quantbnb' is not an integer - this will probably not sort properly.
+[823] Biber.pm:130> WARN - legacy month field '01--05 Aug' in entry 'baisero-dqn' is not an integer - this will probably not sort properly.
+[823] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'parbhoo' is not an integer - this will probably not sort properly.
+[823] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_rU2O/fc5b366787d68e4234f7436cbf80900b_14140.utf8, line 720, warning: 1 characters of junk seen at toplevel
+[823] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_rU2O/fc5b366787d68e4234f7436cbf80900b_14140.utf8, line 1325, warning: 6 characters of junk seen at toplevel
+[823] Biber.pm:132> INFO - WARNINGS: 7
