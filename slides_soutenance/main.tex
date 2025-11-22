@@ -5,7 +5,7 @@
 \usetheme{Madrid}
 \usepackage{listings}
 \usepackage{booktabs}
-\usepackage[backend=biber]{biblatex}
+\usepackage[backend=biber,style=authoryear-comp]{biblatex}
 \usecolortheme{default}
 \usepackage{caption}
 \usepackage{subcaption}
@@ -127,7 +127,7 @@
         } (environment);
         
     \end{tikzpicture}
-    \caption{Sequential decision making in cancer treatment.}
+    \caption*{Sequential decision making in cancer treatment.}
 \end{figure}
 \end{frame}
 
@@ -224,7 +224,7 @@
             } (robot);
             
         \end{tikzpicture}
-        \caption{Machine learning of neural networks has many recent successes but neural networks are black-box.}
+        \caption*{Machine learning of neural networks has many recent successes but neural networks are black-box.}
     \end{figure}
 \end{frame}
 
@@ -322,7 +322,7 @@
 %             } (robot);
             
 %         \end{tikzpicture}
-%         \caption{Some machine learning algorithms can learn interpretable policies, e.g. decision trees.}
+%         \caption*{Some machine learning algorithms can learn interpretable policies, e.g. decision trees.}
 %         \label{fig:cancer-treatment-comparison}
 %     \end{figure}
 % \end{frame}
@@ -330,9 +330,9 @@
 %% ------------- FORMALISM ------------------------------
 
 
-\begin{frame}{Research direction}
-    \textbf{\large How to \textcolor{blue}{learn} \textcolor{green}{interpretable} policies for \textcolor{orange}{sequential decision making}?}
-\end{frame}
+% \begin{frame}{Research direction}
+%     \textbf{\large How to \textcolor{blue}{learn} \textcolor{green}{interpretable} policies for \textcolor{orange}{sequential decision making}?}
+% \end{frame}
 
 \begin{frame}{Decision trees}
 \begin{figure}
@@ -366,56 +366,58 @@
         % \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
         
     \end{tikzpicture}}
-    \caption{A generic decision tree of depth $D=2$.}
+    \caption*{A generic decision tree of depth $D=2$.}
 \end{figure}
-Algorithms are well understood for non-sequential learning: CART, OCT \cite{breiman1984classification,oct,murtree,binoct,quantbnb} \dots. What about SDM?
+Successful algorithms for non-sequential learning: {\tiny \textcolor{purple}{\parencite{breiman1984classification,oct,murtree,binoct,quantbnb}}} \dots What about SDM?
 \end{frame}
 
-\begin{frame}{Markov decision processes}
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[
-        node distance=2.5cm,
-        auto,
-        thick,
-        state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
-        environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
-        agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
-        robot/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
-        decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7.5cm, minimum height=3cm, text centered},
-        arrow/.style={->, thick, bend left=15},
-        arrow_decision/.style={->, dashed, bend left=15}
-    ]
-        
-        % Decision Making Box
-        \node[decision_box] (decision_box) at (0.3,3.4) {};
-        \node at (0.3,4.5) {\small{Decision Making}};
-        
-        % Robot (AI)
-        \node[robot] (robot) at (0,3.2) {\small{Policy $\pi$}};
-        
-        
-        % Environment (Patient)
-        \node[environment] (environment) at (0,-0.5) {\small{Transition and reward functions $T, R$}};
-        
-        % Arrows
-        \draw[arrow] (environment) to[bend left=30] node[left] {\small{State $\boldsymbol{s}$ and reward $r$}} (robot);
-        \draw[arrow] (robot) to[bend left=30] node[right] {\small{Action $a$}} (environment);
-        
-    \end{tikzpicture}
-    \caption{Markov decision process (\cite{puterman}).}
-\end{figure}
-\end{frame}
+\begin{frame}{Markov decision processes (MDPs) and reinforcement learning (RL)}
+\begin{minipage}{0.59\textwidth}
+    \begin{figure}
+        \centering
+        \scalebox{0.85}{\begin{tikzpicture}[
+            node distance=2.5cm,
+            auto,
+            thick,
+            state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
+            environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
+            agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+            robot/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+            decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=5.5cm, minimum height=3cm, text centered},
+            arrow/.style={->, thick, bend left=15},
+            arrow_decision/.style={->, dashed, bend left=15}
+        ]
+            
+            % Decision Making Box
+            \node[decision_box] (decision_box) at (0,3.4) {};
+            \node at (0.3,4.5) {\small{Decision Making}};
+            
+            % Robot (AI)
+            \node[robot] (robot) at (0,3.2) {\small{Policy $\pi$}};
+            
+            
+            % Environment (Patient)
+            \node[environment] (environment) at (0,-0.5) {\small{Transition and reward functions $T, R$}};
+            
+            % Arrows
+            \draw[arrow] (environment) to[bend left=30] node[left] {\small{State $\boldsymbol{s}$ and reward $r$}} (robot);
+            \draw[arrow] (robot) to[bend left=30] node[right] {\small{Action $a$}} (environment);
+            
+        \end{tikzpicture}}
+        \caption*{Markov decision processes {\tiny \textcolor{purple}{\parencite{puterman}}}.}
+    \end{figure}
+\end{minipage}%
+\begin{minipage}{0.4\textwidth}
+    \begin{itemize}
+        \item RL {\tiny \textcolor{purple}{\parencite{sutton}}} aims to find a policy, $\pi: S \rightarrow A$ that maximizes:
+        \begin{align*}
+            \underset{\boldsymbol{s}_{t}\sim T}{\mathbb{E}}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, \pi(s_t))\right]
+        \end{align*}
 
-\begin{frame}{Reinforcement learning (RL) objective}
-\begin{itemize}
-    \item The goal of RL (\cite{sutton}) for SDM is to find a policy, $\pi: S \rightarrow A$ that maximizes:
-    \begin{align*}
-        J(\pi) &= \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]
-    \end{align*}
-
-    \item Value iteration, Q-learning, Sarsa, Deep Q Networks, Proximal Policy Optimization, \dots (\cite{Bellman,sutton,dqn,ppo})
-\end{itemize}
+        \item Lots of succesful RL algorithms {\tiny \textcolor{purple}{\parencite{sutton,dqn,ppo}}}.
+        \item No interpretability concerns.
+    \end{itemize}
+\end{minipage}
 \end{frame}
 
 % ------------ Example -------------------------
@@ -450,34 +452,34 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 
 
         % Draw grid
-        \draw[grid] (4,0) grid (6,2);
+        \draw[grid] (7,0) grid (9,2);
         
         % Add axes
-        \draw[thick, ->] (4,0) -- (6.5,0) node[right] {$x$};
-        \draw[thick, ->] (4,0) -- (4,2.5) node[above] {$y$};
+        \draw[thick, ->] (7,0) -- (9.5,0) node[right] {$x$};
+        \draw[thick, ->] (7,0) -- (7,2.5) node[above] {$y$};
         
         % Add tick marks and labels
-        \draw[thick] (4,0) -- (4,-0.1) node[below] {$0$};
-        \draw[thick] (5,0) -- (5,-0.1) node[below] {$1$};
-        \draw[thick] (6,0) -- (6,-0.1) node[below] {$2$};
+        \draw[thick] (7,0) -- (7,-0.1) node[below] {$0$};
+        \draw[thick] (8,0) -- (8,-0.1) node[below] {$1$};
+        \draw[thick] (9,0) -- (9,-0.1) node[below] {$2$};
         
 
         \foreach \y in {0,1,2} {
-            \draw[thick] (4,\y) -- (3.9,\y) node[left] {$\y$};
+            \draw[thick] (7,\y) -- (6.9,\y) node[left] {$\y$};
         }
         
         % Add state labels clockwise from bottom left
-        \node at (4.5,0.5) {{\color{green} $\rightarrow$}};
-        \node at (5.5,0.5) {$\star$};
-        \node at (5.5,0.7) {{\color{green} $\uparrow$}};
-        \node at (5.5,0.3) {{\color{green} $\downarrow$}};
-        \node at (5.7,0.5) {{\color{green} $\rightarrow$}};
-        \node at (5.3,0.5) {{\color{green} $\leftarrow$}};
-        \node at (5.5,1.5) {{\color{green} $\downarrow$}};
-        \node at (4.2,1.3) {{\color{green} $\downarrow$}};
-        \node at (4.5,1.5) {{\color{green} $\rightarrow$}};
+        \node at (7.5,0.5) {{\color{green} $\rightarrow$}};
+        \node at (8.5,0.5) {$\star$};
+        \node at (8.5,0.7) {{\color{green} $\uparrow$}};
+        \node at (8.5,0.3) {{\color{green} $\downarrow$}};
+        \node at (8.7,0.5) {{\color{green} $\rightarrow$}};
+        \node at (8.3,0.5) {{\color{green} $\leftarrow$}};
+        \node at (8.5,1.5) {{\color{green} $\downarrow$}};
+        \node at (7.2,1.3) {{\color{green} $\downarrow$}};
+        \node at (7.5,1.5) {{\color{green} $\rightarrow$}};
     \end{tikzpicture}}
-    \caption{A grid world MDP and optimal actions.}
+    \caption*{A grid world MDP and optimal actions.}
     \end{figure}
     \begin{figure}
     \centering
@@ -487,9 +489,9 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
         edge_label/.style={font=\footnotesize, midway}
     ]
         % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree4_root) at (10,2) {$x \leq 1$};
-        \node[leaf] (tree4_right) at (9,0) {$\rightarrow$};
-        \node[leaf] (tree4_left) at (11,0) {$\leftarrow$};
+        \node[decision] (tree4_root) at (11.5,2) {$x \leq 1$};
+        \node[leaf] (tree4_right) at (10.5,0) {$\rightarrow$};
+        \node[leaf] (tree4_left) at (12.5,0) {$\leftarrow$};
         \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
         \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
@@ -504,7 +506,7 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
 
     \end{tikzpicture}}
-    \caption{An optimal depth-1 decision tree policy and a sub-optimal depth-1 decision tree policy.}
+    \caption*{An optimal depth-1 decision tree policy and a sub-optimal depth-1 decision tree policy.}
     \end{figure}
 \end{frame}
 
@@ -598,7 +600,7 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 %         \draw[arrow] (sl_indirect) -- (dt_indirect) node[label, midway] {\tiny Learns};
         
 %     \end{tikzpicture}}
-%     \caption{Direct and indirect approaches for learning interpretable policies in sequential decision making.}
+%     \caption*{Direct and indirect approaches for learning interpretable policies in sequential decision making.}
 % \end{figure}
 % \end{frame}
 
@@ -606,18 +608,18 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
-    \caption{Imitation learning works well in practice to get interpretable policies (\cite{milani-survey,viper,dagger}) but no optimality guarantees.}
+    \caption*{Imitation learning works well in practice to get interpretable policies {\tiny \textcolor{purple}{\parencite{milani-survey,viper,dagger}}} but no optimality guarantees.}
 \end{figure}
 \end{frame}
 
 
-\begin{frame}{Example: a decision tree policy for the grid world MDP}
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{../images/images_part1/base_mdp.pdf}
-    \caption{Sample complexity curve of Q-learning over 100 random seeds and performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
-\end{figure}
-\end{frame}
+% \begin{frame}{Example: a decision tree policy for the grid world MDP}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=1\textwidth]{../images/images_part1/base_mdp.pdf}
+%     \caption*{Sample complexity curve of Q-learning over 100 random seeds and performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
+% \end{figure}
+% \end{frame}
 
 % \begin{frame}{Thesis results}
 % \begin{enumerate}
@@ -628,10 +630,19 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 % \end{frame}
 
 % ------------ Part I ------------------
-\begin{frame}{Direct approach to interpretable SDM}
-    \textit{Q: Can we use reinforcement learning to directly optimize trade-offs of performance and interpretability in SDM?}\\
-    \textbf{A: direct reinforcement leargning is hard because it involves partial observability.}
+\begin{frame}{Contributions}
+    \begin{enumerate}
+        \item Why is learning optimal interpretable policies for sequential decision making difficult?
+        \item How to leverage sequential decision making to learn interpretable classifiers for supervised learning?
+        \item How to measure policy interpretability in sequential decision making?
+    \end{enumerate}
 \end{frame}
+
+% \begin{frame}{Direct approach to interpretable SDM}
+%     \textit{Q: Can we use reinforcement learning to directly optimize trade-offs of performance and interpretability in SDM?}\\
+%     \vspace{1cm}
+%     \textbf{A: direct reinforcement leargning is hard because it involves partial observability.}
+% \end{frame}
 
 \begin{frame}{Iterative bounding Markov decision processes (IBMDP)}
 \begin{figure}
@@ -775,7 +786,7 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 
     
 \end{tikzpicture}}
-\caption{Trajectory in an IBMDP of the grid world MDP (\cite{topin2021iterative}). Actions build a decision tree policy and rewards control the interpretability-performance trade-off.}
+\caption*{Trajectory in an IBMDP of the grid world MDP {\tiny \textcolor{purple}{\parencite{topin2021iterative}}}. Actions build a decision tree policy and rewards control the interpretability-performance trade-off.}
 \end{figure}
 \end{frame}
 
@@ -789,13 +800,16 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 \begin{alertblock}{Cons}
     \begin{itemize}
         \item Only \textbf{determinstic} and \textbf{partially observable} (a.k.a. memoryless or reactive) policies are equivalent to decision tree policies.
-        \item Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard (\cite{littman1})!
+        \item Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard {\tiny \textcolor{purple}{\parencite{littman1}}}!
     \end{itemize}
 \end{alertblock}
 \end{frame}
 
 \begin{frame}{Re-formulation}
-    \textit{Q: Can we use reinforcement learning to directly optimize trade-offs of performance and interpretability in SDM?} $\Leftrightarrow$ \\
+    \textit{Q: Can we use reinforcement learning to directly optimize trade-offs of performance and interpretability in SDM?} \\ 
+    \vspace{0.5cm}
+    \hspace{5cm}{\huge $\Leftrightarrow$} \\
+    \vspace{0.5cm}
     \textit{Q: How does RL perform for optimizing \textbf{deterministic} and \textbf{partially observable} policies in IBMDPs?
 }
 \end{frame}
@@ -804,7 +818,7 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions.pdf}
-    \caption{Distributions of final tree policies learned with various (asymmetric) RL algorithms (\cite{sutton,learning-pomdp,sarsa-pomdp,baisero-ppo,baisero-dqn}) across 100 seeds.
+    \caption*{Distributions of final tree policies learned with various (asymmetric) RL algorithms {\tiny \textcolor{purple}{\parencite{sutton,learning-pomdp,sarsa-pomdp,baisero-ppo,baisero-dqn}}} across 100 seeds.
     For each different performance-interpretability trade-off value $\zeta$, each point represent the share of different trees.
     }
 \end{figure}
@@ -814,7 +828,7 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 \begin{figure}
     \centering
     \includegraphics[width=0.65\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
-    \caption{Success rates of different (asymmetric) RL algorithms over thousands of runs when applied to learning either deterministic partially observable policies in an IBMDP deterministic Markovian policies in the same IBMDP.}
+    \caption*{Success rates of different (asymmetric) RL algorithms over thousands of runs when applied to learning either deterministic partially observable policies in an IBMDP deterministic Markovian policies in the same IBMDP.}
 \end{figure}
 \end{frame}
 
@@ -858,29 +872,39 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
         \node at (0.5,1.5) {$\boldsymbol{s}_1$};
 
     \end{tikzpicture}
-    \caption{In this classification MDP, there are four data to which to assign either a green or red label.
-    On the right, there is the unique optimal depth-1 tree for this particular classification MDP.}
-    \textbf{We show that in theory, deterministic partially observable policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}    
+    \caption*{Classification MDP and the unique optimal depth-1 tree.}
+    \textbf{We show that deterministic partially observable policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}
 \end{figure}
 \end{frame}
+
+\begin{frame}{Result: RL can retrieve optimal depth-1 trees for the toy classification MDPs}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions_classif.pdf}
+    \caption*{Distributions of final tree policies learned with various RL algorithms across 100 seeds.
+    For each different performance-interpretability trade-off value $\zeta$, each point represent the share of different trees.
+    }
+\end{figure}
+\end{frame}
+
 
 % \begin{frame}{Experimental result: for SDM problems $\Leftrightarrow$ classification problems, RL can consistently retrieve optimal depth-1 decision tree policies}
 % \begin{figure}
 %     \centering
 %     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions_classif.pdf}
-%     \caption{Each colored dot is the number of final learned trees with a specific structure for a given $\zeta$. Those results makes sense because we can show that IBMDPs for classification tasks don't have a partial observability component.}\label{fig:tree-distrib-classif-poibmdp}
+%     \caption*{Each colored dot is the number of final learned trees with a specific structure for a given $\zeta$. Those results makes sense because we can show that IBMDPs for classification tasks don't have a partial observability component.}\label{fig:tree-distrib-classif-poibmdp}
 % \end{figure}
 % \end{frame}
 
 \begin{frame}{Perspectives for direct RL of decision tree policies.}
     \begin{itemize}
-        \item Interpretability for SDM problems is difficult because for most problems there is \textcolor{red}{\textbf{partial observability}}.
-        \item Should we focus on indirect approach? Hybrid approaches (\cite{parbhoo})?
-        \item Fixing the policy tree structure a priori (paramteric trees, \cite{sympol})?
-        \item Design algorithms that learn deterministic partially observable policies (\cite{lambrechts2025informed,justif-asym})?
+        \item Interpretability for SDM problems can be difficult because of \textcolor{red}{\textbf{partial observability}}.
+        \item Should we focus on indirect approaches? Hybrid approaches {\tiny \textcolor{purple}{\parencite{parbhoo}}}?
+        \item Fixing the policy tree structure a priori (paramteric trees, {\tiny \textcolor{purple}{\cite{sympol}}})?
+        \item Design algorithms that learn deterministic partially observable policies {\tiny \textcolor{purple}{\parencite{lambrechts2025informed,justif-asym}}}?
     \end{itemize}
     \begin{exampleblock}{RL works in classification MDPs}
-    \textit{Q: Can we leverage SDM in classification MDPs to design new decision tree induction algorithms for the supervised learning (no sequentiality) setting?}
+    \textit{Q: Can we leverage SDM design new decision tree induction algorithms for the supervised learning setting?}
     \textbf{A: Yes!}
     \end{exampleblock}
 \end{frame}
@@ -891,14 +915,9 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
     \begin{align*}
         \mathcal{L}(T) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, f(x_i)) + \alpha C(T)
     \end{align*}
-    \item Tree-based models are \textbf{interpretable} and perform really well on \textbf{tabular} data, often \textbf{better than deep neural nets} (\cite{grinsztajn2022tree}).
-\end{itemize}
-\end{frame}
-
-\begin{frame}{Optimal decision tree induction is NP-hard}
-\begin{itemize}
-    \item Greedy algorithms (\cite{breiman1984classification,ID3,c45}) \textcolor{red}{\textbf{sub-optimal accuracy}}, but time complexity in \textcolor{green}{$\boldsymbol{O(2^D)}$}.
-    \item Optimal algorithms (\cite{oct,murtree,pystreed,chaouki2024branchesfastdynamicprogramming} \dots) \textcolor{green}{\textbf{optimal accuracy}}, but time complexity in \textcolor{red}{$\boldsymbol{O((2Np)^D)}$} (NP-hard \cite{npcomplete}).
+    \item Trees \textbf{interpretable} and \textbf{competitive with neural nets} {\tiny \textcolor{purple}{\parencite{grinsztajn2022tree}}}.
+    \item Greedy algorithms \textcolor{red}{\textbf{sub-optimal accuracy}}, but \textcolor{green}{$\boldsymbol{O(2^D)}$} operations {\tiny \textcolor{purple}{\parencite{breiman1984classification,ID3,c45}}} .
+    \item Optimal algorithms, \textcolor{green}{\textbf{optimal accuracy}}, but \textcolor{red}{$\boldsymbol{O((2Np)^D)}$} operations (NP-hard) {\tiny \textcolor{purple}{\parencite{oct,murtree,pystreed,chaouki2024branchesfastdynamicprogramming,npcomplete}}}.
 \end{itemize}
 \end{frame}
 
@@ -906,7 +925,7 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
     \begin{figure}
         \centering
         \includegraphics[width=1\linewidth]{../images/figures/patho_bounds_comparison_checkers.pdf}
-        \caption{A checkers board data set highlights the limitations of existing works.}
+        \caption*{A checkers board data set highlights the limitations of existing works.}
     \end{figure}
 \end{frame}
 
@@ -928,7 +947,7 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{../images/figures/schema_mdp.pdf}
-    \caption{MDP formulation of a generic decision tree induction for a supervised learning task.}
+    \caption*{MDP formulation of a generic decision tree induction for a supervised learning task.}
 \end{figure}
 \end{frame}
 
@@ -954,13 +973,13 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
 \begin{figure}
     \centering
     \includegraphics[width=0.7\linewidth]{../images/figures/schematic_cart_node_select.pdf}
-    \caption{Overview of our algorithm DPDT presented at the 31st ACM SIGKDD conference.}
+    \caption*{Overview of our algorithm DPDT presented at the 31st ACM SIGKDD conference.}
 \end{figure}
 \end{frame}
 
 \begin{frame}{Comparing tree accuracy to complexity}
 \begin{table}
-    \caption{Train accuracy and operation count when learning depth-3 decision trees.}
+    \caption*{Train accuracy and operation count when learning depth-3 decision trees.}
     \tiny
     \begin{tabular}{l|cc||cc|cc|c||cc|cc}
     \toprule
@@ -996,19 +1015,19 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
      \begin{subfigure}[b]{0.32\textwidth}
          \centering
          \includegraphics[width=\textwidth]{../images/figures/tab_bench/random_search_classif_numerical_depth5.pdf}
-         \caption{DPDT depth-5 trees vs. other detph-5 trees}
+         \caption*{DPDT depth-5 trees vs. other detph-5 trees}
      \end{subfigure}
      \hfill
      \begin{subfigure}[b]{0.32\textwidth}
          \centering
          \includegraphics[width=\textwidth]{../images/figures/tab_bench/random_search_classif_categorical_boosting_w_weak.pdf}
-         \caption{Boosted DPDT vs. Boosted CART}
+         \caption*{Boosted DPDT vs. Boosted CART}
      \end{subfigure}
      \hfill
      \begin{subfigure}[b]{0.32\textwidth}
          \centering
          \includegraphics[width=\textwidth]{../images/figures/tab_bench/random_search_classif_numerical_boosting_all_notgb.pdf}
-         \caption{Boosted DPDT vs. other classifiers}
+         \caption*{Boosted DPDT vs. other classifiers}
      \end{subfigure}
 \end{figure}
 \end{frame}
@@ -1066,36 +1085,36 @@ Algorithms are well understood for non-sequential learning: CART, OCT \cite{brei
         \node[below right] at (6.5,2) {Decision trees};
         
     \end{tikzpicture}
-    \caption{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes. Interpretability is often presented in opposition to performances.}
+    \caption*{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes. Interpretability is often presented in opposition to performances.}
 \end{figure}
 \end{frame}
 
 \begin{frame}{How to measure policy interpretability?}
-\begin{alertblock}{Challenges (\cite{glanois-survey,lipton,rigourous})}
+\begin{alertblock}{Challenges {\tiny \parencite{glanois-survey,lipton,rigourous}}}
 \begin{itemize}
     \item No definition of interpretability.
     \item Measuring might require humans.
 \end{itemize}
 \end{alertblock}
 
-\begin{exampleblock}{The notion of \textit{simulatability} (\cite{lipton})}
+\begin{exampleblock}{The notion of \textit{simulatability} {\tiny \parencite{lipton}}}
 \begin{itemize}
     \item Interpretability $\simeq$ how long for human to make the same computations.
     \item Interpretability $\simeq$ how much effort for a human to read through the entire policy.
-    \item Less parameters mean more interpretability (\cite{study-0,study-4,study-5,study-6,study-7}).
-    \item Time to formally verify a policy decreases with interpretability (\cite{viper,lens-complexity}).
+    \item Less parameters mean more interpretability {\tiny \textcolor{purple}{\parencite{study-0,study-4}}}.
+    \item Time to formally verify a policy decreases with interpretability {\tiny \textcolor{purple}{\parencite{lens-complexity}}}.
 \end{itemize}
 \end{exampleblock}
 \end{frame}
 
 \begin{frame}{A methodology to measure policy interpretability without humans}
-\begin{block}{Simulatability (\cite{lipton})}
+\begin{block}{Simulatability {\tiny \parencite{lipton}}}
 \begin{enumerate}
     \item How long it takes for human to make the same computations given an input $\simeq$ policy inference time.
     \item How much effort it would take a human to read through the entire policy once $\simeq$ policy size in memory.
 \end{enumerate}
 \end{block}
-\begin{alertblock}{Not that simple in practice (\cite{insight})}
+\begin{alertblock}{Not that simple in practice {\tiny \textcolor{purple}{\parencite{insight}}}}
 \begin{itemize}
     \item Different hardwares (CPUs vs GPUs).
     \item Different implementations (matrix operations vs fully sequentially) $\dots$
@@ -1172,8 +1191,9 @@ def play(x):
     \item Is policy unfolding necessary?
     \item What kind of results we can obtain using our proposed methodology?
 \end{enumerate}
-\\
+\begin{block}
 We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using various policy classes/nb parameters on various environments.
+\end{block}
 \end{frame}
 
 
@@ -1192,7 +1212,7 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 % Relu neural networks & \{(2 ,2), (4, 4), (8, 8), (16, 16)\} weights & SGD \\
 % \hline
 % \end{tabular}
-% \caption{Summary of policy classes parameters and supervised learning algorithms to fit experts.}
+% \caption*{Summary of policy classes parameters and supervised learning algorithms to fit experts.}
 % \end{table}
 % \end{frame}
 
@@ -1216,7 +1236,7 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 %   Pendulum (3, 1, \textbf{-400}) & \\
 %   \hline
 %   \end{tabular}
-%   \caption{Summary of considered environments (dimensions of states and number or dimensions of actions, \textbf{performance thresholds to solve}). OCAtari is an object-centric version of Atari.}
+%   \caption*{Summary of considered environments (dimensions of states and number or dimensions of actions, \textbf{performance thresholds to solve}). OCAtari is an object-centric version of Atari.}
 %   \end{table}
 
 % \end{frame}
@@ -1225,7 +1245,7 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{../images/images_part3/tree_sizes_memory_ppo_ci_ablation.pdf}
-    \caption{Policies interpretability on classic control environments. We plot 95\% stratified bootstrapped confidence intervals around means in both axes. In each sub-plot, interpretability is measured with either bytes or inference speed.}
+    \caption*{Aggregated policies interpretability on classic control environments}
     \label{fig:abl-proxies}
 \end{figure}
 \end{frame}
@@ -1235,7 +1255,7 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 %     \begin{figure}[ht]
 %     \centering
 %     \includegraphics[width=1\linewidth]{../images/images_part3/verification_tradeoff.pdf}
-%     \caption{Verification time as a function of policy interpretability. Top row, interpretability is measured with step inference times. Bottom row, the interpretability is measured with policy size.}
+%     \caption*{Verification time as a function of policy interpretability. Top row, interpretability is measured with step inference times. Bottom row, the interpretability is measured with policy size.}
 %     \label{fig:trade-off-verif}
 % \end{figure}
 % \end{frame}
@@ -1244,7 +1264,7 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 \begin{figure}
     \centering
     \includegraphics[trim={1.4cm 0 0 0},clip,width=1\textwidth]{../images/images_part3/trade_off_select_combine_one_plot.pdf}
-    \caption{Interpretability-Performance trade-offs for representative environments. Top row, interpretability is measured with step inference times. Bottom row, the interpretability is measured with policy size.}
+    \caption*{Interpretability-Performance trade-offs. Top row, interpretability is measured with step inference times. Bottom row, the interpretability is measured with policy size.}
     \label{fig:trade-off-summary}
 \end{figure}
 \end{frame}
@@ -1261,12 +1281,12 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 
 \begin{frame}{Conclusion: interpretable machine learning is a difficult research topic}
     \begin{itemize}
-        \item Technical challenges: \textcolor{red}{\textbf{partial observability} in SDM, NP-hardness}.\\ $\rightarrow$ Focus on indirect approaches and/or on POMDP research first.
+        \item Technical challenges: \textcolor{red}{\textbf{partial observability in SDM, NP-hardness}}.\\ $\rightarrow$ Focus on indirect approaches and/or on POMDP research first.
         \item Fundamental challenges: \textcolor{red}{\textbf{no definition}}. \\ $\rightarrow$ Discuss with the community (InterpPol workshop).
         \item \textcolor{green}{\textbf{Decision trees offer good inductive bias for SDM in games or tabular data}}.
     \end{itemize}
     \begin{block}{My hope}
-        Motivate interpretability by finding a real-world problem where interpretability is \textit{really} necessary (\cite{festor}).
+        Motivate interpretability by finding a real-world problem where interpretability is \textit{really} necessary {\tiny \textcolor{purple}{\parencite{festor}}}.
     \end{block}
 \end{frame}
 
