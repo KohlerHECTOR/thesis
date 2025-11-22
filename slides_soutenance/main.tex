@@ -5,8 +5,7 @@
 \usetheme{Madrid}
 \usepackage{listings}
 \usepackage{booktabs}
-\usepackage[backend=biber,
-style=alphabetic-verb]{biblatex}
+\usepackage[backend=biber]{biblatex}
 \usecolortheme{default}
 \usepackage{caption}
 \usepackage{subcaption}
@@ -328,53 +327,11 @@ style=alphabetic-verb]{biblatex}
 %     \end{figure}
 % \end{frame}
 
+%% ------------- FORMALISM ------------------------------
+
+
 \begin{frame}{Research direction}
     \textbf{\large How to \textcolor{blue}{learn} \textcolor{green}{interpretable} policies for \textcolor{orange}{sequential decision making}?}
-\end{frame}
-%% ------------- FORMALISM ------------------------------
-\begin{frame}{Policy interpretability}
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[scale=0.7]
-        % Define the axes
-        \draw[->] (0,0) -- (8,0) node[right] {Policy interpretability};
-        \draw[->] (0,0) -- (0,6) node[above] {Policy performance};
-        
-        % Add axis labels at the ends
-        \node[below] at (0.5,-0.3) {Low};
-        \node[below] at (7.5,-0.3) {High};
-        \node[left] at (-0.3,0.5) {Low};
-        \node[left] at (-0.3,5.5) {High};
-        
-        % Add grid lines (optional, subtle)
-        \foreach \x in {1,2,...,7}
-            \draw[gray!20] (\x,0) -- (\x,5.5);
-        \foreach \y in {1,2,...,5}
-            \draw[gray!20] (0,\y) -- (7.5,\y);
-        
-        % Add a general trend line (optional)
-        \draw[dashed, thick, gray] (1,4.8) .. controls (3,3.5) and (5,2.5) .. (7,1.2);
-        
-        % Position different model types
-        % Deep Neural Networks (high performance, low interpretability)
-        \node[circle, fill=black!20, draw, minimum size=8pt] at (1,5) {};
-        \node[below right] at (1.2,5.1) {Neural networks};
-        
-        % Ensemble Methods (medium-high performance, low-medium interpretability)
-        \node[circle, fill=orange!60, draw, minimum size=8pt] at (2.5,4) {};
-        \node[below right] at (0.5,4) {Tree ensembles};
-        
-        % Linear Models (medium performance, high interpretability)
-        \node[circle, fill=blue!60, draw, minimum size=8pt] at (5.5,3) {};
-        \node[below right] at (5.5,3) {Linear policies};
-        
-        % Decision Trees (medium-low performance, high interpretability)
-        \node[circle, fill=green!60, draw, minimum size=8pt] at (6.5,2) {};
-        \node[below right] at (6.5,2) {Decision trees};
-        
-    \end{tikzpicture}
-    \caption{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes. Interpretability is often presented in opposition to performances.}
-\end{figure}
 \end{frame}
 
 \begin{frame}{Decision trees}
@@ -409,8 +366,9 @@ style=alphabetic-verb]{biblatex}
         % \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
         
     \end{tikzpicture}}
-    \caption{A generic decision tree of depth $D=2$. Easy to learn in the supervised learning setting: Classification And Regression Trees (CART, \cite{breiman1984classification}), Optimal Classification Trees (OCT, \cite{oct}). What about sequential decision making?}
+    \caption{A generic decision tree of depth $D=2$.}
 \end{figure}
+Algorithms are well understood for non-sequential learning: CART, OCT \cite{breiman1984classification,oct,murtree,binoct,quantbnb} \dots. What about SDM?
 \end{frame}
 
 \begin{frame}{Markov decision processes}
@@ -451,11 +409,11 @@ style=alphabetic-verb]{biblatex}
 
 \begin{frame}{Reinforcement learning (RL) objective}
 \begin{itemize}
-    \item Given an MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$, the goal of RL (\cite{sutton}) for SDM is to find a policy, $\pi: S \rightarrow A$ that maximizes the expected discounted sum of rewards:
+    \item The goal of RL (\cite{sutton}) for SDM is to find a policy, $\pi: S \rightarrow A$ that maximizes:
     \begin{align}
         J(\pi) &= \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]
     \end{align}
-    where $0< \gamma\leq 1$ is the discount factor that controls the trade-off between immediate and future rewards.
+
     \item Value iteration, Q-learning, Sarsa, Deep Q Networks, Proximal Policy Optimization, \dots (\cite{Bellman,sutton,dqn,ppo})
 \end{itemize}
 \end{frame}
@@ -464,6 +422,7 @@ style=alphabetic-verb]{biblatex}
 \begin{frame}{Grid world MDP}
 \begin{figure}
     \centering
+    \scalebox{0.85}{
     \begin{tikzpicture}
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
         
@@ -517,15 +476,12 @@ style=alphabetic-verb]{biblatex}
         \node at (5.5,1.5) {{\color{green} $\downarrow$}};
         \node at (4.2,1.3) {{\color{green} $\downarrow$}};
         \node at (4.5,1.5) {{\color{green} $\rightarrow$}};
-    \end{tikzpicture}
-    \caption{A grid world MDP and optimal actions w.r.t. the RL objective.}
+    \end{tikzpicture}}
+    \caption{A grid world MDP and optimal actions.}
     \end{figure}
-\end{frame}
-
-\begin{frame}{Example: a decision tree policy for the grid world MDP}
-\begin{figure}
+    \begin{figure}
     \centering
-    \begin{tikzpicture}[
+    \scalebox{0.85}{\begin{tikzpicture}[
         decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
         leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
         edge_label/.style={font=\footnotesize, midway}
@@ -547,8 +503,8 @@ style=alphabetic-verb]{biblatex}
         \draw[->] (tree5_root) -- (tree5_left) node[edge_label, above right] {False};
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
 
-    \end{tikzpicture}
-    \caption{Left, an optimal depth-1 decision tree policy. On the right, a sub-optimal depth-1 decision tree policy.}
+    \end{tikzpicture}}
+    \caption{An optimal depth-1 decision tree policy and a sub-optimal depth-1 decision tree policy.}
     \end{figure}
 \end{frame}
 
@@ -650,7 +606,7 @@ style=alphabetic-verb]{biblatex}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
-    \caption{Imitation learning to get interpretable policies (DAgger, VIPER \cite{viper,dagger}) works well in practice but no optimality guarantees.}
+    \caption{Imitation learning works well in practice to get interpretable policies (\cite{milani-survey,viper,dagger}) but no optimality guarantees.}
 \end{figure}
 \end{frame}
 
@@ -659,7 +615,7 @@ style=alphabetic-verb]{biblatex}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{../images/images_part1/base_mdp.pdf}
-    \caption{Left, sample complexity curve of Q-learning with default hyperparameters on the $2\times 2$ grid world MDP over 100 random seeds. Right, performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
+    \caption{Sample complexity curve of Q-learning over 100 random seeds and performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
 \end{figure}
 \end{frame}
 
@@ -918,10 +874,10 @@ style=alphabetic-verb]{biblatex}
 
 \begin{frame}{Perspectives for direct RL of decision tree policies.}
     \begin{itemize}
-        \item Learning decision tree policies that trade-off performances and interpretability for SDM problems is difficult because for most problems there is \textcolor{red}{partial observability}.
-        \item Should we focus on indirect approach? There is a potential for hybrid approaches (\cite{parbhoo})
-        \item What are the pros and cons of fixing the policy tree structure a priori (paramteric trees, \cite{sympol})?
-        \item Can we specifically design algorithms that learn deterministic partially observable policies (\cite{lambrechts2025informed,justif-asym})?
+        \item Interpretability for SDM problems is difficult because for most problems there is \textcolor{red}{\textbf{partial observability}}.
+        \item Should we focus on indirect approach? Hybrid approaches (\cite{parbhoo})?
+        \item Fixing the policy tree structure a priori (paramteric trees, \cite{sympol})?
+        \item Design algorithms that learn deterministic partially observable policies (\cite{lambrechts2025informed,justif-asym})?
     \end{itemize}
     \begin{exampleblock}{RL works in classification MDPs}
     \textit{Q: Can we leverage SDM in classification MDPs to design new decision tree induction algorithms for the supervised learning (no sequentiality) setting?}
@@ -931,19 +887,18 @@ style=alphabetic-verb]{biblatex}
 
 \begin{frame}{Decision trees in supervised learning}
 \begin{itemize}
-    \item We assume that we have access to a set of $N$ examples denoted $\mathcal{E} = {\{(x_i, y_i)\}}_{i=1}^N$. Each datum $x_i$ is described by a set of $p$ features. $y_i \in {\mathcal Y}$ is the label associated with $x_i$.
+    \item $N$ data points. Each $x_i$ is described by $p$ features and has a label $y_i \in {\mathcal Y}$.
     \begin{align}
         \mathcal{L}(T) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, f(x_i)) + \alpha C(T)
     \end{align}
-    where $C: \mathcal{\mathcal{T}} \rightarrow \mathbb{R}$ is a penalty for tree interpretability/regularization.
-    \item Tree-based models perform really well on \textbf{tabular} data, often \textbf{better than deep neural nets} (\cite{grinsztajn2022tree}).
+    \item Tree-based models are \textbf{interpretable} and perform really well on \textbf{tabular} data, often \textbf{better than deep neural nets} (\cite{grinsztajn2022tree}).
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Optimal decision tree induction is NP-hard}
 \begin{itemize}
-    \item Greedy algorithms (\cite{breiman1984classification,ID3,c45}) \textcolor{red}{sub-optimal accuracy}, but time complexity in \textcolor{green}{$O(2^D)$}.
-    \item Optimal algorithms (\cite{oct,murtree,pystreed,chaouki2024branchesfastdynamicprogramming}), \dots) \textcolor{green}{optimal accuracy}, but time complexity in \textcolor{red}{$O((2Np)^D)$}.
+    \item Greedy algorithms (\cite{breiman1984classification,ID3,c45}) \textcolor{red}{\textbf{sub-optimal accuracy}}, but time complexity in \textcolor{green}{$\boldsymbol{O(2^D)}$}.
+    \item Optimal algorithms (\cite{oct,murtree,pystreed,chaouki2024branchesfastdynamicprogramming} \dots) \textcolor{green}{\textbf{optimal accuracy}}, but time complexity in \textcolor{red}{$\boldsymbol{O((2Np)^D)}$}.
 \end{itemize}
 \end{frame}
 
@@ -958,7 +913,7 @@ style=alphabetic-verb]{biblatex}
 \begin{frame}{Decision tree induction as solving MDPs}
 
 \begin{block}{Intuition}
-    Given a set of examples $\mathcal{E}$, the induction of a decision tree is made of a sequence of decisions: at each node, we must decide whether it is better to split (a subset of) $\mathcal{E}$, or %assign a class label and 
+    The induction of a decision tree is made of a sequence of decisions: at each node, we must decide whether it is better to split (a subset of) $\mathcal{E}$, or %assign a class label and 
     to create a leaf node.
 \end{block}
 \begin{itemize}
@@ -989,9 +944,9 @@ style=alphabetic-verb]{biblatex}
 \begin{frame}{Controlling the time complexity of decision tree induction}
 
 \begin{itemize}
-    \item Greedy algorithms consider only one candidate action in each state which is the test that minimizes some impurity criterion $\rightarrow$ \textcolor{green}{MDP state space size is $O(2^D)$}.
-    \item Optimal algorithms consider all possible actions in each state $\rightarrow$ \textcolor{red}{MDP state space size is $O((2Np)^D)$}.
-    \item Let's choose candidate actions adaptively $\rightarrow$ for each MDP state consider $B$ actions: \textcolor{blue}{state space size is $O((2B)^D)$}.
+    \item Greedy algorithms consider only one candidate action in each state which is the test that minimizes some impurity criterion $\rightarrow$ \textcolor{green}{\textbf{MDP state space size is} $\boldsymbol{O(2^D)}$}.
+    \item Optimal algorithms consider all possible actions in each state $\rightarrow$ \textcolor{red}{\textbf{MDP state space size is} $\boldsymbol{O((2Np)^D)}$}.
+    \item Let's choose candidate actions adaptively $\rightarrow$ for each MDP state consider $B$ actions: \textcolor{blue}{\textbf{state space size is} $\boldsymbol{O((2B)^D)}$}.
 \end{itemize}
 \end{frame}
 
@@ -1070,6 +1025,50 @@ style=alphabetic-verb]{biblatex}
     \end{exampleblock}
 \end{frame}
 
+\begin{frame}{Policy interpretability}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=0.7]
+        % Define the axes
+        \draw[->] (0,0) -- (8,0) node[right] {Policy interpretability};
+        \draw[->] (0,0) -- (0,6) node[above] {Policy performance};
+        
+        % Add axis labels at the ends
+        \node[below] at (0.5,-0.3) {Low};
+        \node[below] at (7.5,-0.3) {High};
+        \node[left] at (-0.3,0.5) {Low};
+        \node[left] at (-0.3,5.5) {High};
+        
+        % Add grid lines (optional, subtle)
+        \foreach \x in {1,2,...,7}
+            \draw[gray!20] (\x,0) -- (\x,5.5);
+        \foreach \y in {1,2,...,5}
+            \draw[gray!20] (0,\y) -- (7.5,\y);
+        
+        % Add a general trend line (optional)
+        \draw[dashed, thick, gray] (1,4.8) .. controls (3,3.5) and (5,2.5) .. (7,1.2);
+        
+        % Position different model types
+        % Deep Neural Networks (high performance, low interpretability)
+        \node[circle, fill=black!20, draw, minimum size=8pt] at (1,5) {};
+        \node[below right] at (1.2,5.1) {Neural networks};
+        
+        % Ensemble Methods (medium-high performance, low-medium interpretability)
+        \node[circle, fill=orange!60, draw, minimum size=8pt] at (2.5,4) {};
+        \node[below right] at (0.5,4) {Tree ensembles};
+        
+        % Linear Models (medium performance, high interpretability)
+        \node[circle, fill=blue!60, draw, minimum size=8pt] at (5.5,3) {};
+        \node[below right] at (5.5,3) {Linear policies};
+        
+        % Decision Trees (medium-low performance, high interpretability)
+        \node[circle, fill=green!60, draw, minimum size=8pt] at (6.5,2) {};
+        \node[below right] at (6.5,2) {Decision trees};
+        
+    \end{tikzpicture}
+    \caption{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes. Interpretability is often presented in opposition to performances.}
+\end{figure}
+\end{frame}
 
 \begin{frame}{How to measure policy interpretability?}
 \begin{alertblock}{Challenges (\cite{glanois-survey,lipton,rigourous})}
@@ -1262,9 +1261,9 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 
 \begin{frame}{Conclusion: interpretable machine learning is a difficult research topic}
     \begin{itemize}
-        \item Technical challenges: \textcolor{red}{partial observability in SDM, NP-hardness}.\\ $\rightarrow$ Focus on indirect approaches and/or on POMDP research first.
-        \item Fundamental challenges: \textcolor{red}{no definition}. \\ $\rightarrow$ Discuss with the community (\underline{InterpPol workshop}).
-        \item \textcolor{green}{Decision trees offer good inductive bias for SDM in games or tabular data}.
+        \item Technical challenges: \textcolor{red}{\textbf{partial observability} in SDM, NP-hardness}.\\ $\rightarrow$ Focus on indirect approaches and/or on POMDP research first.
+        \item Fundamental challenges: \textcolor{red}{\textbf{no definition}}. \\ $\rightarrow$ Discuss with the community (InterpPol workshop).
+        \item \textcolor{green}{\textbf{Decision trees offer good inductive bias for SDM in games or tabular data}}.
     \end{itemize}
     \begin{block}{My hope}
         Motivate interpretability by finding a real-world problem where interpretability is \textit{really} necessary (\cite{festor}).
