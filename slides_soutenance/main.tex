@@ -245,6 +245,7 @@
     \end{tikzpicture}}
     \caption*{A generic decision tree of depth $D=2$.}
 \end{figure}
+\pause
 Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\parencite{breiman1984classification,oct,murtree,binoct,quantbnb}}} \dots What about SDM?
 \end{frame}
 
@@ -286,13 +287,13 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
 \end{minipage}%
 \begin{minipage}{0.4\textwidth}
     \begin{itemize}
-        \item RL {\small \textcolor{purple}{\parencite{sutton}}} aims to find a policy, $\pi: S \rightarrow A$ that maximizes:
+        \item<2-> RL {\small \textcolor{purple}{\parencite{sutton}}} aims to find a policy, $\pi: S \rightarrow A$ that maximizes:
         \begin{align*}
             \underset{\boldsymbol{s}_{t}\sim T}{\mathbb{E}}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, \pi(s_t))\right]
         \end{align*}
 
-        \item Lots of succesful RL algorithms {\small \textcolor{purple}{\parencite{sutton,dqn,ppo}}}.
-        \item No interpretability concerns.
+        \item<3-> Lots of succesful RL algorithms {\small \textcolor{purple}{\parencite{sutton,dqn,ppo}}}.
+        \item<4-> No interpretability concerns.
     \end{itemize}
 \end{minipage}
 \end{frame}
@@ -329,34 +330,34 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
 
 
         % Draw grid
-        \draw[grid] (7,0) grid (9,2);
+        \draw<2->[grid] (7,0) grid (9,2);
         
         % Add axes
-        \draw[thick, ->] (7,0) -- (9.5,0) node[right] {$x$};
-        \draw[thick, ->] (7,0) -- (7,2.5) node[above] {$y$};
+        \draw<2->[thick, ->] (7,0) -- (9.5,0) node[right] {$x$};
+        \draw<2->[thick, ->] (7,0) -- (7,2.5) node[above] {$y$};
         
         % Add tick marks and labels
-        \draw[thick] (7,0) -- (7,-0.1) node[below] {$0$};
-        \draw[thick] (8,0) -- (8,-0.1) node[below] {$1$};
-        \draw[thick] (9,0) -- (9,-0.1) node[below] {$2$};
+        \draw<2->[thick] (7,0) -- (7,-0.1) node[below] {$0$};
+        \draw<2->[thick] (8,0) -- (8,-0.1) node[below] {$1$};
+        \draw<2->[thick] (9,0) -- (9,-0.1) node[below] {$2$};
         
 
         \foreach \y in {0,1,2} {
-            \draw[thick] (7,\y) -- (6.9,\y) node[left] {$\y$};
+            \draw<2->[thick] (7,\y) -- (6.9,\y) node[left] {$\y$};
         }
         
         % Add state labels clockwise from bottom left
-        \node at (7.5,0.5) {{\color{green} $\rightarrow$}};
-        \node at (8.5,0.5) {$\star$};
-        \node at (8.5,0.7) {{\color{green} $\uparrow$}};
-        \node at (8.5,0.3) {{\color{green} $\downarrow$}};
-        \node at (8.7,0.5) {{\color{green} $\rightarrow$}};
-        \node at (8.3,0.5) {{\color{green} $\leftarrow$}};
-        \node at (8.5,1.5) {{\color{green} $\downarrow$}};
-        \node at (7.2,1.3) {{\color{green} $\downarrow$}};
-        \node at (7.5,1.5) {{\color{green} $\rightarrow$}};
+        \node<2-> at (7.5,0.5) {{\color{green} $\rightarrow$}};
+        \node<2-> at (8.5,0.5) {$\star$};
+        \node<2-> at (8.5,0.7) {{\color{green} $\uparrow$}};
+        \node<2-> at (8.5,0.3) {{\color{green} $\downarrow$}};
+        \node<2-> at (8.7,0.5) {{\color{green} $\rightarrow$}};
+        \node<2-> at (8.3,0.5) {{\color{green} $\leftarrow$}};
+        \node<2-> at (8.5,1.5) {{\color{green} $\downarrow$}};
+        \node<2-> at (7.2,1.3) {{\color{green} $\downarrow$}};
+        \node<2-> at (7.5,1.5) {{\color{green} $\rightarrow$}};
     \end{tikzpicture}}
-    \caption*{A grid world MDP and optimal actions.}
+    \caption*{\onslide<3->{Grid world MDP and optimal actions.}}
     \end{figure}
     \begin{figure}
     \centering
@@ -366,24 +367,24 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
         edge_label/.style={font=\footnotesize, midway}
     ]
         % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree4_root) at (11.5,2) {$x \leq 1$};
-        \node[leaf] (tree4_right) at (10.5,0) {$\rightarrow$};
-        \node[leaf] (tree4_left) at (12.5,0) {$\leftarrow$};
-        \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
-        \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
+        \node<4->[decision] (tree4_root) at (11.5,2) {$x \leq 1$};
+        \node<4->[leaf] (tree4_right) at (10.5,0) {$\rightarrow$};
+        \node<4->[leaf] (tree4_left) at (12.5,0) {$\leftarrow$};
+        \draw<4->[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
+        \draw<4->[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
 
 
         % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree5_root) at (5,2) {$x \leq 1$};
-        \node[leaf] (tree5_right) at (4,0) {$\rightarrow$};
-        \node[leaf] (tree5_left) at (6,0) {$\downarrow$};
-        \draw[->] (tree5_root) -- (tree5_right) node[edge_label, above left] {True};
-        \draw[->] (tree5_root) -- (tree5_left) node[edge_label, above right] {False};
+        \node<5->[decision] (tree5_root) at (5,2) {$x \leq 1$};
+        \node<5->[leaf] (tree5_right) at (4,0) {$\rightarrow$};
+        \node<5->[leaf] (tree5_left) at (6,0) {$\downarrow$};
+        \draw<5->[->] (tree5_root) -- (tree5_right) node[edge_label, above left] {True};
+        \draw<5->[->] (tree5_root) -- (tree5_left) node[edge_label, above right] {False};
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
 
     \end{tikzpicture}}
-    \caption*{An optimal depth-1 decision tree policy and a sub-optimal depth-1 decision tree policy.}
+    \caption*{\onslide<6->{An optimal depth-1 decision tree policy and a sub-optimal depth-1 decision tree policy.}}
     \end{figure}
 \end{frame}
 
@@ -485,7 +486,7 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
-    \caption*{Imitation learning works well in practice to get interpretable policies {\small \textcolor{purple}{\parencite{milani-survey,viper,dagger}}} but no optimality guarantees.}
+    \caption*{\onslide<2->{Imitation learning works well in practice to get interpretable policies {\small \textcolor{purple}{\parencite{milani-survey,viper,dagger}}} but no optimality guarantees.}}
 \end{figure}
 \end{frame}
 
@@ -507,13 +508,18 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
 % \end{frame}
 
 % ------------ Part I ------------------
+\setbeamercovered{transparent}
 \begin{frame}{Contributions}
     \begin{enumerate}
+        \pause
         \item Why is learning optimal interpretable policies for sequential decision making difficult?
+        \pause
         \item How to leverage sequential decision making to learn interpretable classifiers for supervised learning?
+        \pause
         \item How to measure policy interpretability in sequential decision making?
     \end{enumerate}
 \end{frame}
+\setbeamercovered{invisible}
 
 % \begin{frame}{Direct approach to interpretable SDM}
 %     \textit{Q: Can we use reinforcement learning to directly optimize trade-offs of performance and interpretability in SDM?}\\
