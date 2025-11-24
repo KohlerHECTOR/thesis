@@ -5,7 +5,7 @@
 \usetheme{Madrid}
 \usepackage{listings}
 \usepackage{booktabs}
-\usepackage[backend=biber,style=authoryear-comp]{biblatex}
+\usepackage[backend=biber,style=alphabetic]{biblatex}
 \usecolortheme{default}
 \usepackage{caption}
 \usepackage{subcaption}
@@ -13,6 +13,7 @@
 \usepackage{svg}
 \usepackage{xcolor}
 \usepackage{algorithm2e}
+
 % Code styling
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -368,7 +369,7 @@
     \end{tikzpicture}}
     \caption*{A generic decision tree of depth $D=2$.}
 \end{figure}
-Successful algorithms for non-sequential learning: {\tiny \textcolor{purple}{\parencite{breiman1984classification,oct,murtree,binoct,quantbnb}}} \dots What about SDM?
+Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\parencite{breiman1984classification,oct,murtree,binoct,quantbnb}}} \dots What about SDM?
 \end{frame}
 
 \begin{frame}{Markov decision processes (MDPs) and reinforcement learning (RL)}
@@ -404,17 +405,17 @@ Successful algorithms for non-sequential learning: {\tiny \textcolor{purple}{\pa
             \draw[arrow] (robot) to[bend left=30] node[right] {\small{Action $a$}} (environment);
             
         \end{tikzpicture}}
-        \caption*{Markov decision processes {\tiny \textcolor{purple}{\parencite{puterman}}}.}
+        \caption*{Markov decision processes {\small \textcolor{purple}{\parencite{puterman}}}.}
     \end{figure}
 \end{minipage}%
 \begin{minipage}{0.4\textwidth}
     \begin{itemize}
-        \item RL {\tiny \textcolor{purple}{\parencite{sutton}}} aims to find a policy, $\pi: S \rightarrow A$ that maximizes:
+        \item RL {\small \textcolor{purple}{\parencite{sutton}}} aims to find a policy, $\pi: S \rightarrow A$ that maximizes:
         \begin{align*}
             \underset{\boldsymbol{s}_{t}\sim T}{\mathbb{E}}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, \pi(s_t))\right]
         \end{align*}
 
-        \item Lots of succesful RL algorithms {\tiny \textcolor{purple}{\parencite{sutton,dqn,ppo}}}.
+        \item Lots of succesful RL algorithms {\small \textcolor{purple}{\parencite{sutton,dqn,ppo}}}.
         \item No interpretability concerns.
     \end{itemize}
 \end{minipage}
@@ -608,7 +609,7 @@ Successful algorithms for non-sequential learning: {\tiny \textcolor{purple}{\pa
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
-    \caption*{Imitation learning works well in practice to get interpretable policies {\tiny \textcolor{purple}{\parencite{milani-survey,viper,dagger}}} but no optimality guarantees.}
+    \caption*{Imitation learning works well in practice to get interpretable policies {\small \textcolor{purple}{\parencite{milani-survey,viper,dagger}}} but no optimality guarantees.}
 \end{figure}
 \end{frame}
 
@@ -786,7 +787,7 @@ Successful algorithms for non-sequential learning: {\tiny \textcolor{purple}{\pa
 
     
 \end{tikzpicture}}
-\caption*{Trajectory in an IBMDP of the grid world MDP {\tiny \textcolor{purple}{\parencite{topin2021iterative}}}. Actions build a decision tree policy and rewards control the interpretability-performance trade-off.}
+\caption*{Trajectory in an IBMDP of the grid world MDP {\small \textcolor{purple}{\parencite{topin2021iterative}}}. Actions build a decision tree policy and rewards control the interpretability-performance trade-off.}
 \end{figure}
 \end{frame}
 
@@ -800,7 +801,7 @@ Successful algorithms for non-sequential learning: {\tiny \textcolor{purple}{\pa
 \begin{alertblock}{Cons}
     \begin{itemize}
         \item Only \textbf{determinstic} and \textbf{partially observable} (a.k.a. memoryless or reactive) policies are equivalent to decision tree policies.
-        \item Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard {\tiny \textcolor{purple}{\parencite{littman1}}}!
+        \item Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard {\small \textcolor{purple}{\parencite{littman1}}}!
     \end{itemize}
 \end{alertblock}
 \end{frame}
@@ -818,19 +819,19 @@ Successful algorithms for non-sequential learning: {\tiny \textcolor{purple}{\pa
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions.pdf}
-    \caption*{Distributions of final tree policies learned with various (asymmetric) RL algorithms {\tiny \textcolor{purple}{\parencite{sutton,learning-pomdp,sarsa-pomdp,baisero-ppo,baisero-dqn}}} across 100 seeds.
+    \caption*{Distributions of final tree policies learned with various (asymmetric) RL algorithms {\small \textcolor{purple}{\parencite{sutton,learning-pomdp,sarsa-pomdp,baisero-ppo,baisero-dqn}}} across 100 seeds.
     For each different performance-interpretability trade-off value $\zeta$, each point represent the share of different trees.
     }
 \end{figure}
 \end{frame}
 
-\begin{frame}{Result: for similar problems, RL struggles when there is partial observability (not surprising)}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.65\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
-    \caption*{Success rates of different (asymmetric) RL algorithms over thousands of runs when applied to learning either deterministic partially observable policies in an IBMDP deterministic Markovian policies in the same IBMDP.}
-\end{figure}
-\end{frame}
+% \begin{frame}{Result: for similar problems, RL struggles when there is partial observability (not surprising)}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.65\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
+%     \caption*{Success rates of different (asymmetric) RL algorithms over thousands of runs when applied to learning either deterministic partially observable policies in an IBMDP deterministic Markovian policies in the same IBMDP.}
+% \end{figure}
+% \end{frame}
 
 \begin{frame}{Interesting sub-class of MDPs: classification MDPs}
 \begin{figure}
@@ -899,9 +900,9 @@ Successful algorithms for non-sequential learning: {\tiny \textcolor{purple}{\pa
 \begin{frame}{Perspectives for direct RL of decision tree policies.}
     \begin{itemize}
         \item Interpretability for SDM problems can be difficult because of \textcolor{red}{\textbf{partial observability}}.
-        \item Should we focus on indirect approaches? Hybrid approaches {\tiny \textcolor{purple}{\parencite{parbhoo}}}?
-        \item Fixing the policy tree structure a priori (paramteric trees, {\tiny \textcolor{purple}{\cite{sympol}}})?
-        \item Design algorithms that learn deterministic partially observable policies {\tiny \textcolor{purple}{\parencite{lambrechts2025informed,justif-asym}}}?
+        \item Should we focus on indirect approaches? Hybrid approaches {\small \textcolor{purple}{\parencite{parbhoo}}}?
+        \item Fixing the policy tree structure a priori (paramteric trees, {\small \textcolor{purple}{\cite{sympol}}})?
+        \item Design algorithms that learn deterministic partially observable policies {\small \textcolor{purple}{\parencite{lambrechts2025informed,justif-asym}}}?
     \end{itemize}
     \begin{exampleblock}{RL works in classification MDPs}
     \textit{Q: Can we leverage SDM design new decision tree induction algorithms for the supervised learning setting?}
@@ -915,18 +916,11 @@ Successful algorithms for non-sequential learning: {\tiny \textcolor{purple}{\pa
     \begin{align*}
         \mathcal{L}(T) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, f(x_i)) + \alpha C(T)
     \end{align*}
-    \item Trees \textbf{interpretable} and \textbf{competitive with neural nets} {\tiny \textcolor{purple}{\parencite{grinsztajn2022tree}}}.
-    \item Greedy algorithms \textcolor{red}{\textbf{sub-optimal accuracy}}, but \textcolor{green}{$\boldsymbol{O(2^D)}$} operations {\tiny \textcolor{purple}{\parencite{breiman1984classification,ID3,c45}}} .
-    \item Optimal algorithms, \textcolor{green}{\textbf{optimal accuracy}}, but \textcolor{red}{$\boldsymbol{O((2Np)^D)}$} operations (NP-hard) {\tiny \textcolor{purple}{\parencite{oct,murtree,pystreed,chaouki2024branchesfastdynamicprogramming,npcomplete}}}.
+    \item Trees \textbf{interpretable} and \textbf{competitive with neural nets} {\small \textcolor{purple}{\parencite{grinsztajn2022tree}}}.
+    \item Greedy algorithms \textcolor{red}{\textbf{sub-optimal accuracy}}, but \textcolor{green}{$\boldsymbol{O(2^D)}$} operations {\small \textcolor{purple}{\parencite{breiman1984classification,ID3,c45}}} .
+    \item Optimal algorithms, \textcolor{green}{\textbf{optimal accuracy}}, but \textcolor{red}{$\boldsymbol{O((2Np)^D)}$} operations (NP-hard) {\small \textcolor{purple}{\parencite{oct,murtree,pystreed,chaouki2024branchesfastdynamicprogramming,npcomplete}}}.
+    \item In between optimal and greedy?
 \end{itemize}
-\end{frame}
-
-\begin{frame}{In between?}
-    \begin{figure}
-        \centering
-        \includegraphics[width=1\linewidth]{../images/figures/patho_bounds_comparison_checkers.pdf}
-        \caption*{A checkers board data set highlights the limitations of existing works.}
-    \end{figure}
 \end{frame}
 
 \begin{frame}{Decision tree induction as solving MDPs}
@@ -972,9 +966,115 @@ Successful algorithms for non-sequential learning: {\tiny \textcolor{purple}{\pa
 \begin{frame}{Dynamic Programming Decision Trees (DPDT)\footnote{Because states are entire datasets, we implement DPDT with a depth-first search to limit the space complexity.}}
 \begin{figure}
     \centering
-    \includegraphics[width=0.7\linewidth]{../images/figures/schematic_cart_node_select.pdf}
+    \includegraphics[width=0.8\linewidth]{../images/figures/schematic_cart_node_select.pdf}
     \caption*{Overview of our algorithm DPDT presented at the 31st ACM SIGKDD conference.}
 \end{figure}
+\end{frame}
+
+\begin{frame}{Theoretical motivation}
+    \begin{theorem}[DPDT trees are not worse than greedy trees] The greedy tree is always a solution of the MDPs we solve. Because we solve the MDPs exactly with DP, if the greedy tree is the best solution, DPDT will find it.
+    \end{theorem}
+    \begin{theorem}[DPDT trees can be strictly better than greedy trees] There exist a depth budget $D$ and a dataset for which DPDT trees are strictly better than greedy trees.
+    \end{theorem}
+\end{frame}
+%-------------LONNNNNNNNNNNNNNG
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre.png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (1).png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (2).png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (3).png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (4).png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (5).png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (6).png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (7).png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (8).png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (13).png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (14).png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (15).png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (16).png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (17).png}
+    \end{figure}
+\end{frame}
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (18).png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Fast like greedy trees, accurate like optimal trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\linewidth]{../images/figures/patho_bounds_comparison_checkers.pdf}
+        \caption*{A checkers board data set highlights the limitations of existing works.}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Comparing tree accuracy to complexity}
@@ -1090,31 +1190,31 @@ Successful algorithms for non-sequential learning: {\tiny \textcolor{purple}{\pa
 \end{frame}
 
 \begin{frame}{How to measure policy interpretability?}
-\begin{alertblock}{Challenges {\tiny \parencite{glanois-survey,lipton,rigourous}}}
+\begin{alertblock}{Challenges {\small \parencite{glanois-survey,lipton,rigourous}}}
 \begin{itemize}
     \item No definition of interpretability.
     \item Measuring might require humans.
 \end{itemize}
 \end{alertblock}
 
-\begin{exampleblock}{The notion of \textit{simulatability} {\tiny \parencite{lipton}}}
+\begin{exampleblock}{The notion of \textit{simulatability} {\small \parencite{lipton}}}
 \begin{itemize}
     \item Interpretability $\simeq$ how long for human to make the same computations.
     \item Interpretability $\simeq$ how much effort for a human to read through the entire policy.
-    \item Less parameters mean more interpretability {\tiny \textcolor{purple}{\parencite{study-0,study-4}}}.
-    \item Time to formally verify a policy decreases with interpretability {\tiny \textcolor{purple}{\parencite{lens-complexity}}}.
+    \item Less parameters mean more interpretability {\small \textcolor{purple}{\parencite{study-0,study-4}}}.
+    \item Time to formally verify a policy decreases with interpretability {\small \textcolor{purple}{\parencite{lens-complexity}}}.
 \end{itemize}
 \end{exampleblock}
 \end{frame}
 
 \begin{frame}{A methodology to measure policy interpretability without humans}
-\begin{block}{Simulatability {\tiny \parencite{lipton}}}
+\begin{block}{Simulatability {\small \parencite{lipton}}}
 \begin{enumerate}
     \item How long it takes for human to make the same computations given an input $\simeq$ policy inference time.
     \item How much effort it would take a human to read through the entire policy once $\simeq$ policy size in memory.
 \end{enumerate}
 \end{block}
-\begin{alertblock}{Not that simple in practice {\tiny \textcolor{purple}{\parencite{insight}}}}
+\begin{alertblock}{Not that simple in practice {\small \textcolor{purple}{\parencite{insight}}}}
 \begin{itemize}
     \item Different hardwares (CPUs vs GPUs).
     \item Different implementations (matrix operations vs fully sequentially) $\dots$
@@ -1286,7 +1386,7 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
         \item \textcolor{green}{\textbf{Decision trees offer good inductive bias for SDM in games or tabular data}}.
     \end{itemize}
     \begin{block}{My hope}
-        Motivate interpretability by finding a real-world problem where interpretability is \textit{really} necessary {\tiny \textcolor{purple}{\parencite{festor}}}.
+        Motivate interpretability by finding a real-world problem where interpretability is \textit{really} necessary {\small \textcolor{purple}{\parencite{festor}}}.
     \end{block}
 \end{frame}
 
