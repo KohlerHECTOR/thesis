@@ -1547,6 +1547,54 @@
       \field{pages}{9923\bibrangedash 9931}
       \range{pages}{9}
     \endentry
+    \entry{PIRL}{article}{}
+      \name{author}{5}{}{%
+        {{hash=f0e266bdd976adbb5396b4b6569fb8d5}{%
+           family={Verma},
+           familyi={V\bibinitperiod},
+           given={Abhinav},
+           giveni={A\bibinitperiod}}}%
+        {{hash=20bb1ceb95c8bb5e69de8f92c14f7071}{%
+           family={Murali},
+           familyi={M\bibinitperiod},
+           given={Vijayaraghavan},
+           giveni={V\bibinitperiod}}}%
+        {{hash=975baf0ae00cfc98fb6c09483005986b}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Rishabh},
+           giveni={R\bibinitperiod}}}%
+        {{hash=d0d21ff02dda6c0a7d09ef7436bd329b}{%
+           family={Kohli},
+           familyi={K\bibinitperiod},
+           given={Pushmeet},
+           giveni={P\bibinitperiod}}}%
+        {{hash=13f22fd06d523348c1ccd34faee67c9e}{%
+           family={Chaudhuri},
+           familyi={C\bibinitperiod},
+           given={Swarat},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PMLR}%
+      }
+      \strng{namehash}{76e621d9ef7fb1e250e55883d95e70ae}
+      \strng{fullhash}{60d5a470978955889a0dbf6d00cb47ac}
+      \strng{bibnamehash}{76e621d9ef7fb1e250e55883d95e70ae}
+      \strng{authorbibnamehash}{76e621d9ef7fb1e250e55883d95e70ae}
+      \strng{authornamehash}{76e621d9ef7fb1e250e55883d95e70ae}
+      \strng{authorfullhash}{60d5a470978955889a0dbf6d00cb47ac}
+      \field{labelalpha}{Ver+18}
+      \field{sortinit}{V}
+      \field{sortinithash}{afb52128e5b4dc4b843768c0113d673b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{International conference on machine learning}
+      \field{title}{Programmatically interpretable reinforcement learning}
+      \field{year}{2018}
+      \field{pages}{5045\bibrangedash 5054}
+      \range{pages}{10}
+    \endentry
     \entry{binoct}{article}{}
       \name{author}{2}{}{%
         {{hash=ea9decd5528aef262468b61eaf0ceb3c}{%

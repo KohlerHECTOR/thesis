@@ -13,6 +13,7 @@
 \usepackage{svg}
 \usepackage{xcolor}
 \usepackage{algorithm2e}
+\usepackage{fourier}
 
 % Code styling
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -211,6 +212,51 @@
 \end{figure}
 \end{frame}
 
+\begin{frame}{Policy interpretability}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=0.7]
+        % Define the axes
+        \draw[->] (0,0) -- (8,0) node[right] {Policy interpretability};
+        \draw[->] (0,0) -- (0,6) node[above] {Policy performance};
+        
+        % Add axis labels at the ends
+        \node[below] at (0.5,-0.3) {Low};
+        \node[below] at (7.5,-0.3) {High};
+        \node[left] at (-0.3,0.5) {Low};
+        \node[left] at (-0.3,5.5) {High};
+        
+        % Add grid lines (optional, subtle)
+        \foreach \x in {1,2,...,7}
+            \draw[gray!20] (\x,0) -- (\x,5.5);
+        \foreach \y in {1,2,...,5}
+            \draw[gray!20] (0,\y) -- (7.5,\y);
+        
+        % Add a general trend line (optional)
+        \draw[dashed, thick, gray] (1,4.8) .. controls (3,3.5) and (5,2.5) .. (7,1.2);
+        
+        % Position different model types
+        % Deep Neural Networks (high performance, low interpretability)
+        \node[circle, fill=black!20, draw, minimum size=8pt] at (1,5) {};
+        \node[below right] at (1.2,5.1) {Neural networks};
+        
+        % Ensemble Methods (medium-high performance, low-medium interpretability)
+        \node[circle, fill=orange!60, draw, minimum size=8pt] at (2.5,4) {};
+        \node[below right] at (0.5,4) {Tree ensembles};
+        
+        % Linear Models (medium performance, high interpretability)
+        \node[circle, fill=blue!60, draw, minimum size=8pt] at (5.5,3) {};
+        \node[below right] at (5.5,3) {Linear policies};
+        
+        % Decision Trees (medium-low performance, high interpretability)
+        \node[circle, fill=green!60, draw, minimum size=8pt] at (6.5,2) {};
+        \node[below right] at (6.5,2) {Decision trees};
+        
+    \end{tikzpicture}
+    \caption*{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes. Interpretability is often presented in opposition to performances.}
+\end{figure}
+\end{frame}
+
 \begin{frame}{Decision trees}
 \begin{figure}
     \centering
@@ -298,95 +344,6 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
 \end{minipage}
 \end{frame}
 
-% ------------ Example -------------------------
-\begin{frame}{Grid world MDP}
-\begin{figure}
-    \centering
-    \scalebox{0.85}{
-    \begin{tikzpicture}
-        \tikzstyle{grid}=[draw, thick, fill=gray!10]
-        
-        % Draw grid
-        \draw[grid] (0,0) grid (2,2);
-        
-        % Add axes
-        \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
-        \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
-        
-        % Add tick marks and labels
-        \foreach \x in {0,1,2} {
-            \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
-        }
-        \foreach \y in {0,1,2} {
-            \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
-        }
-        
-        % Add state labels clockwise from bottom left
-        \node at (0.5,0.5) {$s_0$};
-        \node at (1.5,0.5) {$\star$};
-        \node at (1.5,0.3) {$s_g$};
-        \node at (1.5,1.5) {$s_2$};
-        \node at (0.5,1.5) {$s_1$};
-
-
-        % Draw grid
-        \draw<2->[grid] (7,0) grid (9,2);
-        
-        % Add axes
-        \draw<2->[thick, ->] (7,0) -- (9.5,0) node[right] {$x$};
-        \draw<2->[thick, ->] (7,0) -- (7,2.5) node[above] {$y$};
-        
-        % Add tick marks and labels
-        \draw<2->[thick] (7,0) -- (7,-0.1) node[below] {$0$};
-        \draw<2->[thick] (8,0) -- (8,-0.1) node[below] {$1$};
-        \draw<2->[thick] (9,0) -- (9,-0.1) node[below] {$2$};
-        
-
-        \foreach \y in {0,1,2} {
-            \draw<2->[thick] (7,\y) -- (6.9,\y) node[left] {$\y$};
-        }
-        
-        % Add state labels clockwise from bottom left
-        \node<2-> at (7.5,0.5) {{\color{green} $\rightarrow$}};
-        \node<2-> at (8.5,0.5) {$\star$};
-        \node<2-> at (8.5,0.7) {{\color{green} $\uparrow$}};
-        \node<2-> at (8.5,0.3) {{\color{green} $\downarrow$}};
-        \node<2-> at (8.7,0.5) {{\color{green} $\rightarrow$}};
-        \node<2-> at (8.3,0.5) {{\color{green} $\leftarrow$}};
-        \node<2-> at (8.5,1.5) {{\color{green} $\downarrow$}};
-        \node<2-> at (7.2,1.3) {{\color{green} $\downarrow$}};
-        \node<2-> at (7.5,1.5) {{\color{green} $\rightarrow$}};
-    \end{tikzpicture}}
-    \caption*{\onslide<3->{Grid world MDP and optimal actions.}}
-    \end{figure}
-    \begin{figure}
-    \centering
-    \scalebox{0.85}{\begin{tikzpicture}[
-        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
-        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
-        edge_label/.style={font=\footnotesize, midway}
-    ]
-        % Tree 4: if x <= 0.5 move right else move left
-        \node<4->[decision] (tree4_root) at (11.5,2) {$x \leq 1$};
-        \node<4->[leaf] (tree4_right) at (10.5,0) {$\rightarrow$};
-        \node<4->[leaf] (tree4_left) at (12.5,0) {$\leftarrow$};
-        \draw<4->[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
-        \draw<4->[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
-        \tikzstyle{grid}=[draw, thick, fill=gray!10]
-
-
-        % Tree 4: if x <= 0.5 move right else move left
-        \node<5->[decision] (tree5_root) at (5,2) {$x \leq 1$};
-        \node<5->[leaf] (tree5_right) at (4,0) {$\rightarrow$};
-        \node<5->[leaf] (tree5_left) at (6,0) {$\downarrow$};
-        \draw<5->[->] (tree5_root) -- (tree5_right) node[edge_label, above left] {True};
-        \draw<5->[->] (tree5_root) -- (tree5_left) node[edge_label, above right] {False};
-        \tikzstyle{grid}=[draw, thick, fill=gray!10]
-
-    \end{tikzpicture}}
-    \caption*{\onslide<6->{An optimal depth-1 decision tree policy and a sub-optimal depth-1 decision tree policy.}}
-    \end{figure}
-\end{frame}
 
 % -------------- Existing works --------------
 % \begin{frame}{Two ways to get interpretable policies for SDM}
@@ -486,8 +443,11 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
-    \caption*{\onslide<2->{Imitation learning works well in practice to get interpretable policies {\small \textcolor{purple}{\parencite{milani-survey,viper,dagger}}} but no optimality guarantees.}}
 \end{figure}
+\begin{itemize}
+\item<2->{Most research focused on indirect learning of interpretable policies {\small \textcolor{purple}{\parencite{dagger,viper,PIRL,milani-survey,}}}.}\\
+\item<3->{\warning Imitated policies optimize a surrogate objective rather than a trade-off between interpretability and cumulative rewards.}
+\end{itemize}
 \end{frame}
 
 
@@ -512,7 +472,7 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
 \begin{frame}{Contributions}
     \begin{enumerate}
         \pause
-        \item Why is learning optimal interpretable policies for sequential decision making difficult?
+        \item How difficult is it to directly optimize a trade-off of interpretability and performance in SDM?
         \pause
         \item How to leverage sequential decision making to learn interpretable classifiers for supervised learning?
         \pause
@@ -521,13 +481,146 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
 \end{frame}
 \setbeamercovered{invisible}
 
+% ------------ Example -------------------------
+\begin{frame}{Grid world MDP and decision tree policies}
+\begin{figure}
+    \centering
+    \scalebox{0.85}{
+    \begin{tikzpicture}
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+        
+        % Draw grid
+        \draw[grid] (0,0) grid (2,2);
+        
+        % Add axes
+        \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
+        \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
+        
+        % Add tick marks and labels
+        \foreach \x in {0,1,2} {
+            \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
+        }
+        \foreach \y in {0,1,2} {
+            \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
+        }
+        
+        % Add state labels clockwise from bottom left
+        \node at (0.5,0.5) {$s_0$};
+        \node at (1.5,0.5) {$\star$};
+        \node at (1.5,0.3) {$s_g$};
+        \node at (1.5,1.5) {$s_2$};
+        \node at (0.5,1.5) {$s_1$};
+
+
+        % Draw grid
+        \draw<2->[grid] (7,0) grid (9,2);
+        
+        % Add axes
+        \draw<2->[thick, ->] (7,0) -- (9.5,0) node[right] {$x$};
+        \draw<2->[thick, ->] (7,0) -- (7,2.5) node[above] {$y$};
+        
+        % Add tick marks and labels
+        \draw<2->[thick] (7,0) -- (7,-0.1) node[below] {$0$};
+        \draw<2->[thick] (8,0) -- (8,-0.1) node[below] {$1$};
+        \draw<2->[thick] (9,0) -- (9,-0.1) node[below] {$2$};
+        
+
+        \foreach \y in {0,1,2} {
+            \draw<2->[thick] (7,\y) -- (6.9,\y) node[left] {$\y$};
+        }
+        
+        % Add state labels clockwise from bottom left
+        \node<2-> at (7.5,0.5) {{\color{green} $\rightarrow$}};
+        \node<2-> at (8.5,0.5) {$\star$};
+        \node<2-> at (8.5,0.7) {{\color{green} $\uparrow$}};
+        \node<2-> at (8.5,0.3) {{\color{green} $\downarrow$}};
+        \node<2-> at (8.7,0.5) {{\color{green} $\rightarrow$}};
+        \node<2-> at (8.3,0.5) {{\color{green} $\leftarrow$}};
+        \node<2-> at (8.5,1.5) {{\color{green} $\downarrow$}};
+        \node<2-> at (7.2,1.3) {{\color{green} $\downarrow$}};
+        \node<2-> at (7.5,1.5) {{\color{green} $\rightarrow$}};
+    \end{tikzpicture}}
+    \caption*{\onslide<3->{Grid world MDP and optimal actions.}}
+    \end{figure}
+    \vspace{-0.6cm}
+    \begin{figure}
+    \centering
+    \scalebox{0.85}{\begin{tikzpicture}[
+        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
+        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
+        edge_label/.style={font=\footnotesize, midway}
+    ]
+        % Tree 4: if x <= 0.5 move right else move left
+        \node<5->[decision] (tree4_root) at (8.5,2) {$x \leq 1$};
+        \node<5->[leaf] (tree4_right) at (7.5,0) {$\rightarrow$};
+        \node<5->[leaf] (tree4_left) at (9.5,0) {$\leftarrow$};
+        \draw<5->[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
+        \draw<5->[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+
+        \node<6->[decision] (tree6_root) at (13.5,2.5) {$x \leq 1$};
+        \node<6->[decision] (tree6_l) at (12.5,1.) {$y\leq 1$};
+        \node<6->[leaf] (tree6_ll) at (11.5,-0.5) {$\rightarrow$};
+        \node<6->[leaf] (tree6_lr) at (13.5,-0.5) {$\downarrow$};
+        \node<6->[leaf] (tree6_r) at (14.5,1) {$\downarrow$};
+        \draw<6->[->] (tree6_root) -- (tree6_l) node[edge_label, above left] {True};
+        \draw<6->[->] (tree6_l) -- (tree6_ll) node[edge_label, above left] {True};
+        \draw<6->[->] (tree6_l) -- (tree6_lr) node[edge_label, above right] {False};
+        \draw<6->[->] (tree6_root) -- (tree6_r) node[edge_label, above right] {False};
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+
+
+        % Tree 4: if x <= 0.5 move right else move left
+        \node<4->[decision] (tree5_root) at (3.5,2) {$x \leq 1$};
+        \node<4->[leaf] (tree5_right) at (2.5,0) {$\rightarrow$};
+        \node<4->[leaf] (tree5_left) at (4.5,0) {$\downarrow$};
+        \draw<4->[->] (tree5_root) -- (tree5_right) node[edge_label, above left] {True};
+        \draw<4->[->] (tree5_root) -- (tree5_left) node[edge_label, above right] {False};
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+
+    \end{tikzpicture}}
+    \caption*{\onslide<7->{Decision tree policies with different interpretability-performance trade-offs.}}
+    \end{figure}
+\end{frame}
 % \begin{frame}{Direct approach to interpretable SDM}
 %     \textit{Q: Can we use reinforcement learning to directly optimize trade-offs of performance and interpretability in SDM?}\\
 %     \vspace{1cm}
 %     \textbf{A: direct reinforcement leargning is hard because it involves partial observability.}
 % \end{frame}
 
-\begin{frame}{Iterative bounding Markov decision processes (IBMDP)}
+\begin{frame}{Direct RL of decision tree policies with iterative boundoing Markov decision processes}
+
+Given an MDP $\mathcal{M}$ $\langle S, A, R, T \rangle$, an associated iterative bounding Markov decision process (IBMDP, {\small \cite{topin2021iterative}}) $\mathcal{M}_{IB}$ is a tuple:
+$\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \cup A_{info}}_{\text{Augmented action space}}, \overbrace{(R, \zeta)}^{\text{Augmented rewards}}, \underbrace{(T_{info}, T, T_0)}_{\text{Augmented transitions}}\rangle$
+
+% \small
+% \begin{itemize}
+% \item<2-> $O\subsetneq S^2 =  [L_1, U_1]\times \dots \times [L_p, U_p] \times [L_1, U_1]\times \dots \times [L_p, U_p]$. 
+% An IBMDP state is $\boldsymbol{s}_{IB} = (\overbrace{s_1, \dots, s_p}^{\boldsymbol{s}\in S}, \underbrace{L_1, U_1, \dots, L_p, U_p}_{\boldsymbol{o}\in O})$.
+% \item<3-> $A_{info}$ are \textit{information gathering} actions: $\langle j, v \rangle$ where $j$ is a state feature index $1 \leq j \leq p$ and $v$ is a real number between $L_j$ and $U_j$. 
+% \item<4-> $\zeta$ is a reward signal for taking an information gathering action.
+% \item<5-> $T_{info}: S\times O \times( A_{info} \cup A )\rightarrow \Delta (S\times O)$ is the transition function of IBMDPs: 
+% Given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_p, U'_p) \in O$ and base state features $\boldsymbol{s}_t=(s'_1, s'_2, \dots, s'_p)$ if an IGA $\langle j, v \rangle$ is taken, the new observation is:
+% \begin{align*}
+%     \boldsymbol{o}_{t+1} &= \begin{cases}
+%         (L'_1, U'_1, \dots , L'_j, \min\{v, U'_j\}, \dots , L''_p, U'_p) \text{ if } s_j \leq v\\
+%         (L'_1, U'_1, \dots , \max\{v, L'_j\}, U'_j, \dots , L''_p, U'_p) \text{ if } s_j > v
+%     \end{cases}
+% \end{align*}
+% If a base action is taken, the observation is reset to the default base state feature bounds $(L_1, U_1,\dots, L_p, U_p)$ and the base state features change according to the base MDP transition function: $\boldsymbol{s}_{t+1}\sim T(\boldsymbol{s}_t, a_t)$.
+% \end{itemize}
+\pause
+\begin{exampleblock}{IBMDPs promises}
+    \begin{itemize}
+        \pause
+        \item No need to design new algorithm: we can use deep RL.
+        \pause
+        \item IBMDP rewards trade-off naturally interpretability and performances.
+    \end{itemize}
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Grid world IBMDP example}
 \begin{figure}
 \centering
 \scalebox{0.7}{
@@ -538,23 +631,23 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
     
     % Row 1: IBMDP States (s, o)
     % t=0: Initial state
-    \node at (2,9.5) {\small $t=0$};
-    \node at (2,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
-    \node at (2,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
+    \node<1-> at (2,9.5) {\small $t=0$};
+    \node<1-> at (2,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
+    \node<2-> at (2,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
 
-    \draw[rectangle] (1,4) rectangle (3,6);
-    \draw[grid] (1,4) grid (3,6);
+    \draw<2->[rectangle] (1,4) rectangle (3,6);
+    \draw<1->[grid] (1,4) grid (3,6);
     % Add axes
-    \draw[thick, ->] (1,4) -- (3.2,4) node[right] {$x$};
-    \draw[thick, ->] (1,4) -- (1,6.2) node[above] {$y$};
+    \draw<1->[thick, ->] (1,4) -- (3.2,4) node[right] {$x$};
+    \draw<1->[thick, ->] (1,4) -- (1,6.2) node[above] {$y$};
     \foreach \x in {0,1,2} {
-        \draw[thick] (\x+1,4) -- (\x+1,3.9) node[below] {$\x$};
+        \draw<1->[thick] (\x+1,4) -- (\x+1,3.9) node[below] {$\x$};
     }
     \foreach \y in {0,1,2} {
-        \draw[thick] (1,\y+4) -- (0.9,\y+4) node[left] {$\y$};
+        \draw<1->[thick] (1,\y+4) -- (0.9,\y+4) node[left] {$\y$};
     }
-    \node at (1.5, 5.5) {$\mathcal{A}$};
-    \node at (2.5, 4.5) {$\star$};
+    \node<1-> at (1.5, 5.5) {$\mathcal{A}$};
+    \node<1-> at (2.5, 4.5) {$\star$};
     
     % Curved arrow from t=0 to t=1
     \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1\rangle, r_t = \zeta$} (7,3);
@@ -669,23 +762,11 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
 
     
 \end{tikzpicture}}
-\caption*{Trajectory in an IBMDP of the grid world MDP {\small \textcolor{purple}{\parencite{topin2021iterative}}}. Actions build a decision tree policy and rewards control the interpretability-performance trade-off.}
 \end{figure}
-\end{frame}
-
-\begin{frame}{Pros and cons of IBMDPs}
-\begin{exampleblock}{Pros}
-    \begin{itemize}
-        \item No need to design new algorithm: we can use deep RL.
-        \item IBMDP rewards trade-off naturally interpretability and performances.
-    \end{itemize}
-\end{exampleblock}
-\begin{alertblock}{Cons}
-    \begin{itemize}
-        \item Only \textbf{determinstic} and \textbf{partially observable} (a.k.a. memoryless or reactive) policies are equivalent to decision tree policies.
-        \item Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard {\small \textcolor{purple}{\parencite{littman1}}}!
-    \end{itemize}
-\end{alertblock}
+\begin{itemize}
+    \item<2->{\small \textbf{Determinstic} and \textbf{partially observable} policies$\leftrightarrow$ decision trees.}
+    \item<3->{\small \warning Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard \textcolor{purple}{\parencite{littman1}}!}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Re-formulation}
@@ -1026,51 +1107,6 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
     \end{exampleblock}
 \end{frame}
 
-\begin{frame}{Policy interpretability}
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[scale=0.7]
-        % Define the axes
-        \draw[->] (0,0) -- (8,0) node[right] {Policy interpretability};
-        \draw[->] (0,0) -- (0,6) node[above] {Policy performance};
-        
-        % Add axis labels at the ends
-        \node[below] at (0.5,-0.3) {Low};
-        \node[below] at (7.5,-0.3) {High};
-        \node[left] at (-0.3,0.5) {Low};
-        \node[left] at (-0.3,5.5) {High};
-        
-        % Add grid lines (optional, subtle)
-        \foreach \x in {1,2,...,7}
-            \draw[gray!20] (\x,0) -- (\x,5.5);
-        \foreach \y in {1,2,...,5}
-            \draw[gray!20] (0,\y) -- (7.5,\y);
-        
-        % Add a general trend line (optional)
-        \draw[dashed, thick, gray] (1,4.8) .. controls (3,3.5) and (5,2.5) .. (7,1.2);
-        
-        % Position different model types
-        % Deep Neural Networks (high performance, low interpretability)
-        \node[circle, fill=black!20, draw, minimum size=8pt] at (1,5) {};
-        \node[below right] at (1.2,5.1) {Neural networks};
-        
-        % Ensemble Methods (medium-high performance, low-medium interpretability)
-        \node[circle, fill=orange!60, draw, minimum size=8pt] at (2.5,4) {};
-        \node[below right] at (0.5,4) {Tree ensembles};
-        
-        % Linear Models (medium performance, high interpretability)
-        \node[circle, fill=blue!60, draw, minimum size=8pt] at (5.5,3) {};
-        \node[below right] at (5.5,3) {Linear policies};
-        
-        % Decision Trees (medium-low performance, high interpretability)
-        \node[circle, fill=green!60, draw, minimum size=8pt] at (6.5,2) {};
-        \node[below right] at (6.5,2) {Decision trees};
-        
-    \end{tikzpicture}
-    \caption*{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes. Interpretability is often presented in opposition to performances.}
-\end{figure}
-\end{frame}
-
 \begin{frame}{How to measure policy interpretability?}
 \begin{alertblock}{Challenges {\small \parencite{glanois-survey,lipton,rigourous}}}
 \begin{itemize}
@@ -1173,7 +1209,7 @@ def play(x):
     \item Is policy unfolding necessary?
     \item What kind of results we can obtain using our proposed methodology?
 \end{enumerate}
-\begin{block}
+\begin{block}{Setup}
 We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using various policy classes/nb parameters on various environments.
 \end{block}
 \end{frame}
