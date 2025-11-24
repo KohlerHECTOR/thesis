@@ -61,7 +61,7 @@
 
 
 %% -----------------------INTRO-----------------------
-\begin{frame}{Sequential decision making (SDM)}
+\begin{frame}{Sequential decision making (SDM) and machine learning (ML)}
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -70,19 +70,38 @@
         thick,
         state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
         environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
+        ml/.style={circle, draw, fill=purple!20, minimum width=1cm, minimum height=1cm, text centered},
         agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+        nn/.style={rectangle, draw, fill=black!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
         robot/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
-        decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7.5cm, minimum height=3cm, text centered},
+        decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=5cm, minimum height=2.7cm, text centered},
+        big_decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7cm, minimum height=2.7cm, text centered},
         arrow/.style={->, thick, bend left=15},
-        arrow_decision/.style={->, dashed, bend left=15}
+        arrow_decision/.style={->, dashed, bend left=15},
+        ml/.style={circle, draw, fill=purple!20, minimum width=1cm, minimum height=1cm, text centered},
     ]
         
         % Decision Making Box
-        \node[decision_box] (decision_box) at (0.3,3.4) {};
-        \node at (0.3,4.5) {\small{Decision Making}};
+        \node<1-2>[decision_box] (decision_box) at (0,3.8) {};
+        \node<3->[big_decision_box] (big_decision_box) at (0,3.8) {};
+        \node at (0,4.7) {\textbf{Decision Making}};
         
-        % Robot (AI)
-        \node[robot] (robot) at (-2.1,3.2) {
+        %Robot (AI)
+        \node<2>[robot] (robot) at (-4.1,3.4) {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.4cm]{../images/images_intro/robot-svgrepo-com.svg}\\
+                \small{Policy}
+            \end{minipage}
+        };
+        \node<5->[ml] (ml) at (-6,3) {
+            \begin{minipage}{1cm}
+                \centering
+                \includesvg[width=0.4cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
+                \small{ML}
+            \end{minipage}
+        };
+        \node<3-7>[robot] (robot_) at (-2.1,3.4) {
             \begin{minipage}{1.5cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/robot-svgrepo-com.svg}\\
@@ -91,11 +110,27 @@
         };
         
         % Doctor
-        \node[agent] (doctor) at (2.5,3.2) {
+        \node<1-2>[agent] (doctor) at (0,3.4) {
             \begin{minipage}{1.5cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
                 \small{Doctor}
+            \end{minipage}
+        };
+
+        \node<3->[agent] (doctor_) at (2.1,3.4) {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.4cm]{../images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
+                \small{Doctor}
+            \end{minipage}
+        };
+
+        \node<8->[nn] (nn_) at (-2.1,3.4) {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.4cm]{../images/images_intro/network-mapping-svgrepo-com.svg}\\
+                \small{Neural network}
             \end{minipage}
         };
         
@@ -109,231 +144,72 @@
         };
         
         % Arrows
-        \draw[arrow] (environment) to[bend left=30] node[left] {
+        \draw<1-2>[arrow] (environment) to[bend left=30] node[left] {
             \begin{minipage}{2cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
                 \small{Updated health status}
             \end{minipage}
-        } (robot);
-        \draw[arrow_decision] (robot) to node[above] {\small{Recommends}} (doctor);
-        \draw[arrow_decision] (doctor) to node[below] {\small{Interprets}} (robot);
+        } (doctor);
+        \draw<3-7>[arrow] (environment) to[bend left=30] node[left] {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+                \small{Updated health status}
+            \end{minipage}
+        } (robot_);
+        \draw<8->[arrow] (environment) to[bend left=30] node[left] {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+                \small{Updated health status}
+            \end{minipage}
+        } (nn_);
+        \draw<3-7>[arrow_decision] (robot_) to node[above] {\small{Recommends}} (doctor_);
+        \draw<8->[arrow_decision] (nn_) to node[above] {\small{Recommends}} (doctor_);
+        \draw<4-7>[arrow_decision] (doctor_) to node[below] {\small{Interprets}} (robot_);
+        \draw<8->[arrow_decision, red] (doctor_) to node[below] {\small{Cannot interpret}} (nn_);
 
-        \draw[arrow] (doctor) to[bend left=30] node[right] {
-            \begin{minipage}{1.5cm}
+        \draw<1-2>[arrow] (doctor) to[bend left=30] node[right] {
+            \begin{minipage}{3cm}
                 \centering
                 \includesvg[width=0.5cm]{../images/images_intro/syringe-svgrepo-com.svg}\\
-                \small{Administer chemotherapy}
+                \small{Administers chemotherapy}
             \end{minipage}
         } (environment);
+        \draw<3->[arrow] (doctor_) to[bend left=30] node[right] {
+            \begin{minipage}{3cm}
+                \centering
+                \includesvg[width=0.5cm]{../images/images_intro/syringe-svgrepo-com.svg}\\
+                \small{Administers chemotherapy}
+            \end{minipage}
+        } (environment);
+        % ML learning arrows
+        \draw<6->[arrow] (environment) to[bend left=40] node[left] {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+                \small{Treatment outcomes}
+            \end{minipage}
+        } (ml);
+        \draw<7>[arrow] (ml) to[bend left=20] node[above] {
+            \begin{minipage}{1.5cm}
+                \centering
+                \small{Updates}
+            \end{minipage}
+        } (robot_);
+        \draw<8->[arrow] (ml) to[bend left=20] node[above] {
+            \begin{minipage}{1.5cm}
+                \centering
+                \small{Updates}
+            \end{minipage}
+        } (nn_);
+
+        
         
     \end{tikzpicture}
-    \caption*{Sequential decision making in cancer treatment.}
 \end{figure}
 \end{frame}
-
-\begin{frame}{Machine learning (ML) of policies for SDM}
-\begin{figure}
-\hspace{-1.3cm}
-        \begin{tikzpicture}[
-            node distance=2.5cm,
-            auto,
-            thick,
-            state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
-            environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
-            agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
-            robot/.style={rectangle, draw, fill=black!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
-            ml/.style={circle, draw, fill=purple!20, minimum width=1cm, minimum height=1cm, text centered},
-            decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7.5cm, minimum height=3cm, text centered},
-            arrow/.style={->, thick, bend left=15},
-            arrow_decision/.style={->, dashed, bend left=15},
-            scale=0.98
-        ]
-            
-            % Decision Making Box
-            \node[decision_box] (decision_box) at (0.3,3.4) {};
-            \node at (0.3,4.5) {\small{Decision Making}};
-            
-            % Robot (AI)
-            \node[robot] (robot) at (-2.1,3.2) {
-                \begin{minipage}{1.5cm}
-                    \centering
-                    \includesvg[width=0.4cm]{../images/images_intro/network-mapping-svgrepo-com.svg}\\
-                    \small{Neural network}
-                \end{minipage}
-            };
-            
-            % Doctor
-            \node[agent] (doctor) at (2.5,3.2) {
-                \begin{minipage}{1.5cm}
-                    \centering
-                    \includesvg[width=0.4cm]{../images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
-                    \small{Doctor}
-                \end{minipage}
-            };
-            
-            % Machine Learning component
-            \node[ml] (ml) at (-6,3) {
-                \begin{minipage}{1cm}
-                    \centering
-                    \includesvg[width=0.4cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
-                    \small{ML}
-                \end{minipage}
-            };
-            
-            % Environment (Patient)
-            \node[environment] (environment) at (0,-0.5) {
-                \begin{minipage}{2cm}
-                    \centering
-                    \includesvg[width=0.8cm]{../images/images_intro/patient-4.svg}\\
-                    \small{Cancer patient}
-                \end{minipage}
-            };
-            
-            % Arrows
-            \draw[arrow] (environment) to[bend left=30] node[left] {
-                \begin{minipage}{2cm}
-                    \centering
-                    \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
-                    \small{Updated health status}
-                \end{minipage}
-            } (robot);
-            \draw[arrow_decision] (robot) to node[above] {\small{Recommends}} (doctor);
-            \draw[arrow_decision, red] (doctor) to node[below] {\small{Cannot interpret}} (robot);
-            
-        \draw[arrow] (doctor) to[bend left=30] node[right] {
-                \begin{minipage}{1.5cm}
-                    \centering
-                    \includesvg[width=0.5cm]{../images/images_intro/syringe-svgrepo-com.svg}\\
-                \small{Administer chemotherapy}
-                \end{minipage}
-            } (environment);
-            
-            % ML learning arrows
-            \draw[arrow] (environment) to[bend left=40] node[left] {
-                \begin{minipage}{2cm}
-                    \centering
-                    \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
-                    \small{Treatment outcomes}
-                \end{minipage}
-            } (ml);
-            \draw[arrow] (ml) to[bend left=20] node[above] {
-                \begin{minipage}{1.5cm}
-                    \centering
-                    \small{Updates policy}
-                \end{minipage}
-            } (robot);
-            
-        \end{tikzpicture}
-        \caption*{Machine learning of neural networks has many recent successes but neural networks are black-box.}
-    \end{figure}
-\end{frame}
-
-% \begin{frame}{Interpretable machine learning for sequential decision making}
-% \begin{figure}
-% \hspace{-1.3cm}
-%     \begin{tikzpicture}[
-%             node distance=2.5cm,
-%             auto,
-%             thick,
-%             state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
-%             environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
-%             agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
-%             robot/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
-%             ml/.style={circle, draw, fill=purple!20, minimum width=1cm, minimum height=1cm, text centered},
-%             decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7.5cm, minimum height=3cm, text centered},
-%             arrow/.style={->, thick, bend left=15},
-%             arrow_decision/.style={->, dashed, bend left=15},
-%             scale=0.98
-%         ]
-            
-%             % Decision Making Box
-%             \node[decision_box] (decision_box) at (0.3,3.4) {};
-%             \node at (0.3,4.5) {\small{Decision Making}};
-            
-%             % Robot (AI)
-%             \node[robot] (robot) at (-2.1,3.2) {
-%                 \begin{minipage}{1.5cm}
-%                     \centering
-%                     \includesvg[width=0.4cm]{../images/images_intro/decision-tree-svgrepo-com.svg}\\
-%                     \small{Decision tree}
-%                 \end{minipage}
-%             };
-            
-%             % Doctor
-%             \node[agent] (doctor) at (2.5,3.2) {
-%                 \begin{minipage}{1.5cm}
-%                     \centering
-%                     \includesvg[width=0.4cm]{../images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
-%                     \small{Doctor}
-%                 \end{minipage}
-%             };
-            
-%             % Machine Learning component
-%             % Machine Learning component
-%             \node[ml] (ml) at (-6,3) {
-%                 \begin{minipage}{1cm}
-%                     \centering
-%                     \includesvg[width=0.4cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
-%                     \small{ML}
-%                 \end{minipage}
-%             };
-            
-%             % Environment (Patient)
-%             \node[environment] (environment) at (0,-0.5) {
-%                 \begin{minipage}{2cm}
-%                     \centering
-%                     \includesvg[width=0.8cm]{../images/images_intro/patient-4.svg}\\
-%                     \small{Cancer patient}
-%                 \end{minipage}
-%             };
-            
-%             % Arrows
-%             \draw[arrow] (environment) to[bend left=30] node[left] {
-%                 \begin{minipage}{2cm}
-%                     \centering
-%                     \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
-%                     \small{Updated health status}
-%                 \end{minipage}
-%             } (robot);
-%             \draw[arrow_decision] (robot) to node[above] {\small{Recommends}} (doctor);
-%             \draw[arrow_decision, green] (doctor) to node[below] {\small{Can interpret}} (robot);
-            
-%         \draw[arrow] (doctor) to[bend left=30] node[right] {
-%                 \begin{minipage}{1.5cm}
-%                     \centering
-%                     \includesvg[width=0.5cm]{../images/images_intro/syringe-svgrepo-com.svg}\\
-%                 \small{Administer chemotherapy}
-%                 \end{minipage}
-%             } (environment);
-            
-%             % ML learning arrows
-%             \draw[arrow] (environment) to[bend left=40] node[left] {
-%                 \begin{minipage}{2cm}
-%                     \centering
-%                     \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
-%                     \small{Treatment outcomes}
-%                 \end{minipage}
-%             } (ml);
-%             \draw[arrow] (ml) to[bend left=20] node[above] {
-%                 \begin{minipage}{1.5cm}
-%                     \centering
-%                     \small{Updates policy}
-%                 \end{minipage}
-%             } (robot);
-            
-%         \end{tikzpicture}
-%         \caption*{Some machine learning algorithms can learn interpretable policies, e.g. decision trees.}
-%         \label{fig:cancer-treatment-comparison}
-%     \end{figure}
-% \end{frame}
-
-%% ------------- FORMALISM ------------------------------
-
-
-% \begin{frame}{Research direction}
-%     \textbf{\large How to \textcolor{blue}{learn} \textcolor{green}{interpretable} policies for \textcolor{orange}{sequential decision making}?}
-% \end{frame}
 
 \begin{frame}{Decision trees}
 \begin{figure}
@@ -391,7 +267,7 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
             
             % Decision Making Box
             \node[decision_box] (decision_box) at (0,3.4) {};
-            \node at (0.3,4.5) {\small{Decision Making}};
+            \node at (0,4.5) {\textbf{Decision Making}};
             
             % Robot (AI)
             \node[robot] (robot) at (0,3.2) {\small{Policy $\pi$}};
