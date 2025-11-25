@@ -253,7 +253,7 @@
         \node[below right] at (6.5,2) {Decision trees};
         
     \end{tikzpicture}
-    \caption*{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes. Interpretability is often presented in opposition to performances.}
+    \caption*{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes. \warning No definition of interpretability in machine learning models!}
 \end{figure}
 \end{frame}
 
@@ -800,16 +800,21 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions.pdf}
 \end{figure}
 \pause
-Distributions of tree policies learned with (asymmetric) RL algorithms {\small \textcolor{purple}{\parencite{sutton,learning-pomdp,sarsa-pomdp,baisero-ppo,baisero-dqn}}} across 100 seeds as a function of the interpretability reward $\zeta$.
+Distributions of tree policies learned with (asymmetric) RL algorithms {\small \textcolor{purple}{\parencite{sutton,learning-pomdp,sarsa-pomdp,baisero-ppo,baisero-dqn}}} as a function of the interpretability reward $\zeta$.
+\pause
+\\
+\textcolor{blue}{\textbf{Are the poor performances due to partial observability?}}
 \end{frame}
 
-% \begin{frame}{Result: for similar problems, RL struggles when there is partial observability (not surprising)}
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=0.65\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
-%     \caption*{Success rates of different (asymmetric) RL algorithms over thousands of runs when applied to learning either deterministic partially observable policies in an IBMDP deterministic Markovian policies in the same IBMDP.}
-% \end{figure}
-% \end{frame}
+\begin{frame}{Result: for similar problems, RL struggles more when there is partial observability}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
+\end{figure}
+Success rates when learning deterministic partially observable or Markovian policies in the same IBMDP.
+\pause
+\textcolor{blue}{\textbf{Is it all for nothing?}}
+\end{frame}
 
 \begin{frame}{Interesting sub-class of MDPs: classification MDPs}
 \begin{figure}
@@ -852,14 +857,14 @@ Distributions of tree policies learned with (asymmetric) RL algorithms {\small \
     \end{tikzpicture}
 \end{figure}
 \onslide<4->{Classification MDP and the unique optimal depth-1 tree.}\\
-\onslide<5->{\textbf{We show that deterministic partially observable policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
+\onslide<5->{\textbf{\warning Deterministic partially observable policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
 \end{frame}
 
 \begin{frame}{Result: RL can retrieve optimal depth-1 trees for the toy classification MDPs}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions_classif.pdf}
-    \caption*{Distributions oftree policies learned with various RL algorithms across 100 seeds.
+    \caption*{Distributions of tree policies learned with various RL algorithms.
     }
 \end{figure}
 \end{frame}
@@ -875,11 +880,13 @@ Distributions of tree policies learned with (asymmetric) RL algorithms {\small \
 \begin{frame}{Perspectives for direct RL of decision tree policies.}
     \begin{itemize}
         \pause
-        \item Interpretability for SDM problems can be difficult because of \textcolor{red}{\textbf{partial observability}}.
+        \item It seems that interpretability for SDM problems can be difficult to achieve because of \textcolor{red}{\textbf{partial observability}}.
         \pause
         \item Should we focus on indirect approaches? Hybrid approaches {\small \textcolor{purple}{\parencite{parbhoo}}}?
         \pause
         \item Fixing the policy tree structure a priori (paramteric trees, {\small \textcolor{purple}{\cite{sympol}}})?
+        \pause
+        \item Can other policies (programs, oblique trees, algebraic expressions\dots) be directly optimized with RL in IBMDPs?
         \pause
         \item Design algorithms that learn deterministic partially observable policies {\small \textcolor{purple}{\parencite{lambrechts2025informed,justif-asym}}}?
     \end{itemize}
@@ -932,7 +939,40 @@ Distributions of tree policies learned with (asymmetric) RL algorithms {\small \
 \begin{frame}{Decision tree induction as solving MDPs}
 \begin{figure}
     \centering
-    \includegraphics[width=1\linewidth]{../images/figures/schema_mdp.pdf}
+    \includegraphics[width=1\linewidth]{schema AAAI.png}
+    \caption*{Example of decision tree induction as an MDP.}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Decision tree induction as solving MDPs}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{schema AAAI (1).png}
+    \caption*{Example of decision tree induction as an MDP.}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Decision tree induction as solving MDPs}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{schema AAAI (2).png}
+    \caption*{Example of decision tree induction as an MDP.}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Decision tree induction as solving MDPs}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{schema AAAI (3).png}
+    \caption*{Example of decision tree induction as an MDP.}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Decision tree induction as solving MDPs}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{schema AAAI (4).png}
+    \caption*{Example of decision tree induction as an MDP.}
 \end{figure}
 \end{frame}
 
@@ -1083,6 +1123,7 @@ Distributions of tree policies learned with (asymmetric) RL algorithms {\small \
     \begin{figure}
         \centering
         \includegraphics[width=1\linewidth]{../images/figures/patho_bounds_comparison_checkers.pdf}
+        \caption*{Comparison of greedy, optimal, and DPDT  depth-2 trees on the checkersboard dataset.}
     \end{figure}
 \end{frame}
 
@@ -1362,15 +1403,13 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
     \pause
     \item Tree-like policy classes can have good inductive bias (e.g. Atari).
     \pause
-    \item Can a human study confirm our results?
-    \pause
     \item What about (very) big models?
     \pause
     \item Can we use our policy programs as low level skills (hierarchical RL)? 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Conclusion: interpretable machine learning is a difficult research topic}
+\begin{frame}{Conclusion: interpretable SDM is a difficult research topic}
     \begin{itemize}
         \pause
         \item Technical challenges: \textcolor{red}{\textbf{partial observability in SDM, NP-hardness}}.
@@ -1389,6 +1428,17 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
     \begin{block}{My hope}
         Motivate interpretability by finding a real-world problem where interpretability is \textit{really} necessary {\small \textcolor{purple}{\parencite{festor}}}.
     \end{block}
+\end{frame}
+
+\begin{frame}{Broader perspectives}
+    \begin{itemize}
+        \pause
+        \item \textbf{\textcolor{purple}{Deep learning:}} Can we design deep learning layers that take datasets and output candidate splits?
+        \pause
+        \item \textbf{\textcolor{blue}{Combinatorial optimization:}} Can we formulate other combinatorial/NP-hard problems as MDPs and design other DPDT-like algorithms?
+        \pause
+        \item \textbf{\textcolor{orange}{Human-computer interaction:}} Can we do large scale human study of the $\sim$40K programs interpertability?
+    \end{itemize}
 \end{frame}
 
 \printbibliography
