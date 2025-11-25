@@ -339,147 +339,114 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
         \end{align*}
 
         \item<3-> Lots of succesful RL algorithms {\small \textcolor{purple}{\parencite{sutton,dqn,ppo}}}.
-        \item<4-> No interpretability concerns.
+        \item<4-> Few interpretability concerns.
     \end{itemize}
 \end{minipage}
 \end{frame}
 
 
-% -------------- Existing works --------------
-% \begin{frame}{Two ways to get interpretable policies for SDM}
-% \begin{figure}
-%     \centering
-%     \scalebox{0.82}{\begin{tikzpicture}[
-%         node distance=2cm,
-%         scale=1,
-%         auto,
-%         thick,
-%         rl/.style={circle, draw, fill=purple!20, minimum width=1.5cm, minimum height=0.8cm, text centered},
-%         nn/.style={rectangle, draw, fill=black!20, rounded corners, minimum width=1.5cm, minimum height=1cm, text centered},
-%         sl/.style={circle, draw, fill=blue!20, minimum width=1.5cm, minimum height=0.8cm, text centered},
-%         dt/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=1.5cm, minimum height=1cm, text centered},
-%         arrow/.style={->, thick},
-%         label/.style={font=\tiny, above},
-%         method_box/.style={rectangle, draw, dashed, minimum width=5cm, minimum height=3cm, text centered},
-%         method_box_indirect/.style={rectangle, draw, dashed, minimum width=9.5cm, minimum height=3cm, text centered}
-%     ]
+\begin{frame}{Two ways to get interpretable policies for SDM}
+\begin{figure}
+    \centering
+    \scalebox{0.82}{
+    \begin{tikzpicture}[
+        node distance=2cm,
+        scale=1,
+        auto,
+        thick,
+        rl/.style={circle, draw, fill=purple!20, minimum width=1.5cm, minimum height=0.8cm, text centered},
+        nn/.style={rectangle, draw, fill=black!20, rounded corners, minimum width=1.5cm, minimum height=1cm, text centered},
+        sl/.style={circle, draw, fill=blue!20, minimum width=1.5cm, minimum height=0.8cm, text centered},
+        dt/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=1.5cm, minimum height=1cm, text centered},
+        arrow/.style={->, thick},
+        label/.style={font=\tiny, above},
+        method_box/.style={rectangle, draw, dashed, minimum width=5cm, minimum height=3cm, text centered},
+        method_box_indirect/.style={rectangle, draw, dashed, minimum width=9.5cm, minimum height=3cm, text centered}
+    ]
         
-%         % Direct method box
-%         \node[method_box] (direct_box) at (-0.5,0) {};
-%         \node at (-0.5,1.7) {\small{Direct}};
+        % Direct method box
+        \node<4->[method_box] (direct_box) at (-0.5,0) {};
+        \node<4-> at (-0.5,1.7) {\small{Direct}};
         
-%         % Direct method - RL process
-%         \node[rl] (rl_direct) at (-2,0) {
-%             \begin{minipage}{1.2cm}
-%                 \centering
-%                 \includesvg[width=0.3cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
-%                 \tiny{Reinforcement learning}
-%             \end{minipage}
-%         };
+        % Direct method - RL process
+        \node<1->[rl] (rl_direct) at (-2,0) {
+            \begin{minipage}{1.2cm}
+                \centering
+                \includesvg[width=0.3cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
+                \tiny{Reinforcement learning}
+            \end{minipage}
+        };
         
-%         % Direct method - Decision Tree
-%         \node[dt] (dt_direct) at (1,0) {
-%             \begin{minipage}{1.2cm}
-%                 \centering
-%                 \includesvg[width=0.3cm]{../images/images_intro/decision-tree-svgrepo-com.svg}\\
-%                 \tiny{Decision tree}
-%             \end{minipage}
-%         };
+        % Direct method - Decision Tree
+        \node<2->[dt] (dt_direct) at (1,0) {
+            \begin{minipage}{1.2cm}
+                \centering
+                \includesvg[width=0.3cm]{../images/images_intro/decision-tree-svgrepo-com.svg}\\
+                \tiny{Decision tree}
+            \end{minipage}
+        };
         
-%         % Direct method arrow
-%         \draw[arrow] (rl_direct) -- (dt_direct) node[label, midway] {\tiny Learns};
+        % Direct method arrow
+        \draw<2->[arrow] (rl_direct) -- (dt_direct) node[label, midway] {\tiny Learns};
         
-%         % Indirect method box
-%         \node[method_box_indirect] (indirect_box) at (7.1,0) {};
-%         \node at (6.8,1.7) {\small{Indirect}};
+        % Indirect method box
+        \node<4->[method_box_indirect] (indirect_box) at (7.1,0) {};
+        \node<4-> at (6.8,1.7) {\small{Indirect}};
         
-%         % Indirect method - RL process
-%         \node[rl] (rl_indirect) at (3.5,0) {
-%             \begin{minipage}{1.2cm}
-%                 \centering
-%                 \includesvg[width=0.3cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
-%                 \tiny{Reinforcement learning}
-%             \end{minipage}
-%         };
+        % Indirect method - RL process
+        \node<1->[rl] (rl_indirect) at (3.5,0) {
+            \begin{minipage}{1.2cm}
+                \centering
+                \includesvg[width=0.3cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
+                \tiny{Reinforcement learning}
+            \end{minipage}
+        };
         
-%         % Indirect method - Neural Network
-%         \node[nn] (nn_indirect) at (6,0) {
-%             \begin{minipage}{1.2cm}
-%                 \centering
-%                 \includesvg[width=0.3cm]{../images/images_intro/network-mapping-svgrepo-com.svg}\\
-%                 \tiny{Neural network}
-%             \end{minipage}
-%         };
+        % Indirect method - Neural Network
+        \node<2->[nn] (nn_indirect) at (6,0) {
+            \begin{minipage}{1.2cm}
+                \centering
+                \includesvg[width=0.3cm]{../images/images_intro/network-mapping-svgrepo-com.svg}\\
+                \tiny{Neural network}
+            \end{minipage}
+        };
         
-%         % Indirect method - Supervised Learning
-%         \node[sl] (sl_indirect) at (8.5,0) {
-%             \begin{minipage}{1.2cm}
-%                 \centering
-%                 \includesvg[width=0.3cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
-%                 \tiny{Supervised learning}
-%             \end{minipage}
-%         };
+        % Indirect method - Supervised Learning
+        \node<3->[sl] (sl_indirect) at (8.5,0) {
+            \begin{minipage}{1.2cm}
+                \centering
+                \includesvg[width=0.3cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
+                \tiny{Supervised learning}
+            \end{minipage}
+        };
         
-%         % Indirect method - Decision Tree
-%         \node[dt] (dt_indirect) at (11,0) {
-%             \begin{minipage}{1.2cm}
-%                 \centering
-%                 \includesvg[width=0.3cm]{../images/images_intro/decision-tree-svgrepo-com.svg}\\
-%                 \tiny{Decision Tree}
-%             \end{minipage}
-%         };
+        % Indirect method - Decision Tree
+        \node<3->[dt] (dt_indirect) at (11,0) {
+            \begin{minipage}{1.2cm}
+                \centering
+                \includesvg[width=0.3cm]{../images/images_intro/decision-tree-svgrepo-com.svg}\\
+                \tiny{Decision Tree}
+            \end{minipage}
+        };
         
-%         % Indirect method arrows
-%         \draw[arrow] (rl_indirect) -- (nn_indirect) node[label, midway] {\tiny Learns};
-%         \draw[arrow] (nn_indirect) -- (sl_indirect) node[label, midway] {\tiny Generates data};
-%         \draw[arrow] (sl_indirect) -- (dt_indirect) node[label, midway] {\tiny Learns};
+        % Indirect method arrows
+        \draw<2->[arrow] (rl_indirect) -- (nn_indirect) node[label, midway] {\tiny Learns};
+        \draw<3->[arrow] (nn_indirect) -- (sl_indirect) node[label, midway] {\tiny Generates data};
+        \draw<3->[arrow] (sl_indirect) -- (dt_indirect) node[label, midway] {\tiny Learns};
         
-%     \end{tikzpicture}}
-%     \caption*{Direct and indirect approaches for learning interpretable policies in sequential decision making.}
-% \end{figure}
-% \end{frame}
+    \end{tikzpicture}}
+\end{figure}
+\onslide<5->{\warning Policies obtained indirectly optimize a surrogate objective rather than a trade-off between interpretability and cumulative rewards.}
+\end{frame}
 
 \begin{frame}{Indirect approach: imitation learning}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
 \end{figure}
-\begin{itemize}
-\item<2->{Most research focused on indirect learning of interpretable policies {\small \textcolor{purple}{\parencite{dagger,viper,PIRL,milani-survey,}}}.}\\
-\item<3->{\warning Imitated policies optimize a surrogate objective rather than a trade-off between interpretability and cumulative rewards.}
-\end{itemize}
+\onslide<2->{Most research focused on indirect learning of interpretable policies {\small \textcolor{purple}{\parencite{dagger,viper,PIRL,milani-survey,}}}.}\\
 \end{frame}
 
-
-% \begin{frame}{Example: a decision tree policy for the grid world MDP}
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=1\textwidth]{../images/images_part1/base_mdp.pdf}
-%     \caption*{Sample complexity curve of Q-learning over 100 random seeds and performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
-% \end{figure}
-% \end{frame}
-
-% \begin{frame}{Thesis results}
-% \begin{enumerate}
-%     \item Direct reinforcement learning of decision tree policies is hard because it involves POMDPs.
-%     \item One can use dynamic programming in MDPs to induce highly performing decision tree classifiers and regressors.
-%     \item In practice, controlling MDPs with interpretable policies does not necessarily decrease performances.
-% \end{enumerate}
-% \end{frame}
-
-% ------------ Part I ------------------
-\setbeamercovered{transparent}
-\begin{frame}{Contributions}
-    \begin{enumerate}
-        \pause
-        \item How difficult is it to directly optimize a trade-off of interpretability and performance in SDM?
-        \pause
-        \item How to leverage sequential decision making to learn interpretable classifiers for supervised learning?
-        \pause
-        \item How to measure policy interpretability in sequential decision making?
-    \end{enumerate}
-\end{frame}
-\setbeamercovered{invisible}
 
 % ------------ Example -------------------------
 \begin{frame}{Grid world MDP and decision tree policies}
@@ -578,10 +545,53 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
         \draw<4->[->] (tree5_root) -- (tree5_left) node[edge_label, above right] {False};
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
 
+        \draw<7->[thick, red] (2, -0.5) rectangle (5, 2.5);
+
+
     \end{tikzpicture}}
     \caption*{\onslide<7->{Decision tree policies with different interpretability-performance trade-offs.}}
     \end{figure}
 \end{frame}
+
+
+\begin{frame}{Grid world MDP and decision tree policies}
+\begin{figure}
+    \centering
+    \includegraphics[trim={0 0 15.5cm 0},clip,width=0.6\textwidth]{../images/images_part1/base_mdp.pdf}
+    \caption*{Sample complexity curve of Q-learning over 100 random seeds.}\label{fig:ql-il}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Grid world MDP and decision tree policies}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{../images/images_part1/base_mdp.pdf}
+    \caption*{Sample complexity curve of Q-learning over 100 random seeds and performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
+\end{figure}
+\end{frame}
+
+% \begin{frame}{Thesis results}
+% \begin{enumerate}
+%     \item Direct reinforcement learning of decision tree policies is hard because it involves POMDPs.
+%     \item One can use dynamic programming in MDPs to induce highly performing decision tree classifiers and regressors.
+%     \item In practice, controlling MDPs with interpretable policies does not necessarily decrease performances.
+% \end{enumerate}
+% \end{frame}
+
+% ------------ Part I ------------------
+\setbeamercovered{transparent}
+\begin{frame}{Contributions}
+    \begin{enumerate}
+        \pause
+        \item How difficult is it to directly optimize a trade-off of interpretability and performance in SDM?
+        \pause
+        \item How to leverage sequential decision making to learn interpretable classifiers for supervised learning?
+        \pause
+        \item How to measure policy interpretability in sequential decision making?
+    \end{enumerate}
+\end{frame}
+\setbeamercovered{invisible}
+
 % \begin{frame}{Direct approach to interpretable SDM}
 %     \textit{Q: Can we use reinforcement learning to directly optimize trade-offs of performance and interpretability in SDM?}\\
 %     \vspace{1cm}
@@ -650,129 +660,135 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
     \node<1-> at (2.5, 4.5) {$\star$};
     
     % Curved arrow from t=0 to t=1
-    \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1\rangle, r_t = \zeta$} (7,3);
+    \draw<3->[thick, ->] (2,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1\rangle, r_t = \zeta$} (7,3);
 
     % % t=1: After AIG x≤0.5
-    \node at (7,9.5) {\small $t=1$};
-    \node at (7,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
-    \node at (7,7.5) {\small $\boldsymbol{o}_t=(0, 1, 0, 2)$};
+    \node<6-> at (7,9.5) {\small $t=1$};
+    \node<6-> at (7,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
+    \node<7-> at (7,7.5) {\small $\boldsymbol{o}_t=(0, 1, 0, 2)$};
 
-    \draw[rectangle] (6,4) rectangle (7,6);
-    \draw[grid] (6,4) grid (8,6);
+    \draw<7->[rectangle] (6,4) rectangle (7,6);
+    \draw<6->[grid] (6,4) grid (8,6);
     % Add axes
-    \draw[thick, ->] (6,4) -- (8.2,4) node[right] {$x$};
-    \draw[thick, ->] (6,4) -- (6,6.2) node[above] {$y$};
+    \draw<6->[thick, ->] (6,4) -- (8.2,4) node[right] {$x$};
+    \draw<6->[thick, ->] (6,4) -- (6,6.2) node[above] {$y$};
     \foreach \x in {0,1,2} {
-        \draw[thick] (\x+6,4) -- (\x+6,3.9) node[below] {$\x$};
+        \draw<6->[thick] (\x+6,4) -- (\x+6,3.9) node[below] {$\x$};
     }
     \foreach \y in {0,1,2} {
-        \draw[thick] (6,\y+4) -- (5.9,\y+4) node[left] {$\y$};
+        \draw<6->[thick] (6,\y+4) -- (5.9,\y+4) node[left] {$\y$};
     }
-    \node at (6.5, 5.5) {$\mathcal{A}$};
-    \node at (7.5, 4.5) {$\star$};
+    \node<6-> at (6.5, 5.5) {$\mathcal{A}$};
+    \node<6-> at (7.5, 4.5) {$\star$};
 
 
     % Curved arrow from t=1 to t=2
-    \draw[thick, ->] (7,3) to[bend right=30] node[midway, below] {\small $a_t = \rightarrow, r_t  = 0$}(12,3);
+    \draw<8->[thick, ->] (7,3) to[bend right=30] node[midway, below] {\small $a_t = \rightarrow, r_t  = 0$}(12,3);
 
-    \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-3) {$\rightarrow$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
-    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+    \node<4->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
+    \node<9-12>[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-3) {$\rightarrow$};
+    \node<16->[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
+    \draw<9-12>[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw<16->[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+    % % \node<13>[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
+    \node<13-17>[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right_new) at (3,-3) {$\rightarrow$};
+    \draw<13-17>[->] (tree4_root) -- (tree4_right_new) node[font=\footnotesize, midway, above left] {True};
+    \node<18->[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right_new_new) at (3,-3) {$\rightarrow$};
+    \draw<18->[->] (tree4_root) -- (tree4_right_new_new) node[font=\footnotesize, midway, above left] {True};
 
-    \node at (12,9.5) {\small $t=2$};
-    \node at (12,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
-    \node at (12,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
+    \node<10-> at (12,9.5) {\small $t=2$};
+    \node<10-> at (12,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
+    \node<11-> at (12,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
     
-    \draw[rectangle] (11,4) rectangle (13,6);
-    \draw[grid] (11,4) grid (13,6);
+    \draw<11->[rectangle] (11,4) rectangle (13,6);
+    \draw<10->[grid] (11,4) grid (13,6);
     % Add axes
-    \draw[thick, ->] (11,4) -- (13.2,4) node[right] {$x$};
-    \draw[thick, ->] (11,4) -- (11,6.2) node[above] {$y$};
+    \draw<10->[thick, ->] (11,4) -- (13.2,4) node[right] {$x$};
+    \draw<10->[thick, ->] (11,4) -- (11,6.2) node[above] {$y$};
     \foreach \x in {0,1,2} {
-        \draw[thick] (\x+11,4) -- (\x+11,3.9) node[below] {$\x$};
+        \draw<10->[thick] (\x+11,4) -- (\x+11,3.9) node[below] {$\x$};
     }
     \foreach \y in {0,1,2} {
-        \draw[thick] (11,\y+4) -- (10.9,\y+4) node[left] {$\y$};
+        \draw<10->[thick] (11,\y+4) -- (10.9,\y+4) node[left] {$\y$};
     }
-    \node at (12.5, 5.5) {$\mathcal{A}$};
-    \node at (12.5, 4.5) {$\star$};
+    \node<10-> at (12.5, 5.5) {$\mathcal{A}$};
+    \node<10-> at (12.5, 4.5) {$\star$};
     
     % Curved arrow from t=2 to t=4
-    \draw[thick, ->] (12,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1 \rangle, r_t = \zeta$} (17,3);
+    \draw<12->[thick, ->] (12,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1 \rangle, r_t = \zeta$} (17,3);
 
-    \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
-    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-3) {$\downarrow$};
-    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+    % \node<13->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
+    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-3) {$\downarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
 
     
-    \node at (17,9.5) {\small $t=4$};
-    \node at (17,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
-    \node at (17,7.5) {\small $\boldsymbol{o}_t=(1, 2, 0, 2)$};
+    \node<14-> at (17,9.5) {\small $t=4$};
+    \node<14-> at (17,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
+    \node<14-> at (17,7.5) {\small $\boldsymbol{o}_t=(1, 2, 0, 2)$};
 
-    \draw[rectangle] (17,4) rectangle (18,6);
-    \draw[grid] (16,4) grid (18,6);
+    \draw<14->[rectangle] (17,4) rectangle (18,6);
+    \draw<14->[grid] (16,4) grid (18,6);
     % Add axes
-    \draw[thick, ->] (16,4) -- (18.2,4) node[right] {$x$};
-    \draw[thick, ->] (16,4) -- (16,6.2) node[above] {$y$};
+    \draw<14->[thick, ->] (16,4) -- (18.2,4) node[right] {$x$};
+    \draw<14->[thick, ->] (16,4) -- (16,6.2) node[above] {$y$};
     \foreach \x in {0,1,2} {
-        \draw[thick] (\x+16,4) -- (\x+16,3.9) node[below] {$\x$};
+        \draw<14->[thick] (\x+16,4) -- (\x+16,3.9) node[below] {$\x$};
     }
     \foreach \y in {0,1,2} {
-        \draw[thick] (16,\y+4) -- (15.9,\y+4) node[left] {$\y$};
+        \draw<14->[thick] (16,\y+4) -- (15.9,\y+4) node[left] {$\y$};
     }
-    \node at (17.5, 5.5) {$\mathcal{A}$};
-    \node at (17.5, 4.5) {$\star$};
+    \node<14-> at (17.5, 5.5) {$\mathcal{A}$};
+    \node<14-> at (17.5, 4.5) {$\star$};
     
-    \draw[thick, ->] (17,3) to[bend right=30] node[midway, below] {\small $a_t = \downarrow, r_t = 0$} (22,3);
+    \draw<15->[thick, ->] (17,3) to[bend right=30] node[midway, below] {\small $a_t = \downarrow, r_t = 0$} (22,3);
     
-    \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
-    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+    % % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
+    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
+    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
+    % % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
 
 
-    \node at (22,9.5) {\small $t=5$};
-    \node at (22,8.5) {\small $\boldsymbol{s}_t=(1.5, 0.5)$};
-    \node at (22,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
+    \node<17-> at (22,9.5) {\small $t=5$};
+    \node<17-> at (22,8.5) {\small $\boldsymbol{s}_t=(1.5, 0.5)$};
+    \node<17-> at (22,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
  
-    \draw[rectangle] (21,4) rectangle (23,6);
-    \draw[grid] (21,4) grid (23,6);
-    % Add axes
-    \draw[thick, ->] (21,4) -- (23.2,4) node[right] {$x$};
-    \draw[thick, ->] (21,4) -- (21,6.2) node[above] {$y$};
+    \draw<17->[rectangle] (21,4) rectangle (23,6);
+    \draw<17->[grid] (21,4) grid (23,6);
+    % % Add axes
+    \draw<17->[thick, ->] (21,4) -- (23.2,4) node[right] {$x$};
+    \draw<17->[thick, ->] (21,4) -- (21,6.2) node[above] {$y$};
     \foreach \x in {0,1,2} {
-        \draw[thick] (\x+21,4) -- (\x+21,3.9) node[below] {$\x$};
+        \draw<17->[thick] (\x+21,4) -- (\x+21,3.9) node[below] {$\x$};
     }
     \foreach \y in {0,1,2} {
-        \draw[thick] (21,\y+4) -- (20.9,\y+4) node[left] {$\y$};
+        \draw<17->[thick] (21,\y+4) -- (20.9,\y+4) node[left] {$\y$};
     }
-    \node at (22.5, 4.5) {$\mathcal{A}$};
-    \node at (22.5, 4.5) {$\star$};
+    \node<17-> at (22.5, 4.5) {$\mathcal{A}$};
+    \node<17-> at (22.5, 4.5) {$\star$};
 
-    \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
-    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
-    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+    % \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
 
     
 \end{tikzpicture}}
 \end{figure}
 \begin{itemize}
-    \item<2->{\small \textbf{Determinstic} and \textbf{partially observable} policies$\leftrightarrow$ decision trees.}
-    \item<3->{\small \warning Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard \textcolor{purple}{\parencite{littman1}}!}
+    \item<19->{\small \textbf{Determinstic} and \textbf{partially observable} policies$\implies$ decision trees.}
+    \item<20->{\small \warning Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard \textcolor{purple}{\parencite{littman1}}!}
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Re-formulation}
     \textit{Q: Can we use reinforcement learning to directly optimize trade-offs of performance and interpretability in SDM?} \\ 
     \vspace{0.5cm}
-    \hspace{5cm}{\huge $\Leftrightarrow$} \\
+    \pause
+    \hspace{5cm}{\huge $\approx$} \\
     \vspace{0.5cm}
     \textit{Q: How does RL perform for optimizing \textbf{deterministic} and \textbf{partially observable} policies in IBMDPs?
 }
@@ -782,10 +798,9 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions.pdf}
-    \caption*{Distributions of final tree policies learned with various (asymmetric) RL algorithms {\small \textcolor{purple}{\parencite{sutton,learning-pomdp,sarsa-pomdp,baisero-ppo,baisero-dqn}}} across 100 seeds.
-    For each different performance-interpretability trade-off value $\zeta$, each point represent the share of different trees.
-    }
 \end{figure}
+\pause
+Distributions of tree policies learned with (asymmetric) RL algorithms {\small \textcolor{purple}{\parencite{sutton,learning-pomdp,sarsa-pomdp,baisero-ppo,baisero-dqn}}} across 100 seeds as a function of the interpretability reward $\zeta$.
 \end{frame}
 
 % \begin{frame}{Result: for similar problems, RL struggles when there is partial observability (not surprising)}
@@ -805,16 +820,16 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
         edge_label/.style={font=\footnotesize, midway}
     ]
         % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree4_root) at (8,2) {$x \leq 1$};
-        \node[rectangle, draw, thick, fill=green!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_right) at (7,0) {};
-        \node[rectangle, draw, thick, fill=red!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_left) at (9,0);
-        \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
-        \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
+        \node<3->[decision] (tree4_root) at (8,2) {$x \leq 1$};
+        \node<3->[rectangle, draw, thick, fill=green!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_right) at (7,0) {};
+        \node<3->[rectangle, draw, thick, fill=red!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_left) at (9,0);
+        \draw<3->[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
+        \draw<3->[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
         
         % Draw grid
-        \draw[fill=green!40] (0, 0) rectangle (1,2);
-        \draw[fill=red!40] (1, 0) rectangle (2,2);
+        \draw<2->[fill=green!40] (0, 0) rectangle (1,2);
+        \draw<2->[fill=red!40] (1, 0) rectangle (2,2);
 
         \draw[grid] (0,0) grid (2,2);
         
@@ -834,19 +849,17 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
         \node at (1.5,0.5) {$\boldsymbol{s}_g$};
         \node at (1.5,1.5) {$\boldsymbol{s}_2$};
         \node at (0.5,1.5) {$\boldsymbol{s}_1$};
-
     \end{tikzpicture}
-    \caption*{Classification MDP and the unique optimal depth-1 tree.}
-    \textbf{We show that deterministic partially observable policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}
 \end{figure}
+\onslide<4->{Classification MDP and the unique optimal depth-1 tree.}\\
+\onslide<5->{\textbf{We show that deterministic partially observable policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
 \end{frame}
 
 \begin{frame}{Result: RL can retrieve optimal depth-1 trees for the toy classification MDPs}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions_classif.pdf}
-    \caption*{Distributions of final tree policies learned with various RL algorithms across 100 seeds.
-    For each different performance-interpretability trade-off value $\zeta$, each point represent the share of different trees.
+    \caption*{Distributions oftree policies learned with various RL algorithms across 100 seeds.
     }
 \end{figure}
 \end{frame}
@@ -859,43 +872,59 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
 %     \caption*{Each colored dot is the number of final learned trees with a specific structure for a given $\zeta$. Those results makes sense because we can show that IBMDPs for classification tasks don't have a partial observability component.}\label{fig:tree-distrib-classif-poibmdp}
 % \end{figure}
 % \end{frame}
-
 \begin{frame}{Perspectives for direct RL of decision tree policies.}
     \begin{itemize}
+        \pause
         \item Interpretability for SDM problems can be difficult because of \textcolor{red}{\textbf{partial observability}}.
+        \pause
         \item Should we focus on indirect approaches? Hybrid approaches {\small \textcolor{purple}{\parencite{parbhoo}}}?
+        \pause
         \item Fixing the policy tree structure a priori (paramteric trees, {\small \textcolor{purple}{\cite{sympol}}})?
+        \pause
         \item Design algorithms that learn deterministic partially observable policies {\small \textcolor{purple}{\parencite{lambrechts2025informed,justif-asym}}}?
     \end{itemize}
+    \pause
     \begin{exampleblock}{RL works in classification MDPs}
-    \textit{Q: Can we leverage SDM design new decision tree induction algorithms for the supervised learning setting?}
+    \pause
+    \textit{Q: Can we leverage SDM to design new decision tree induction algorithms for the supervised learning setting?}
+    \pause
     \textbf{A: Yes!}
     \end{exampleblock}
 \end{frame}
 
+
 \begin{frame}{Decision trees in supervised learning}
 \begin{itemize}
+    \pause
     \item $N$ data points. Each $x_i$ is described by $p$ features and has a label $y_i \in {\mathcal Y}$.
     \begin{align*}
         \mathcal{L}(T) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, f(x_i)) + \alpha C(T)
     \end{align*}
+    \pause
     \item Trees \textbf{interpretable} and \textbf{competitive with neural nets} {\small \textcolor{purple}{\parencite{grinsztajn2022tree}}}.
+    \pause
     \item Greedy algorithms \textcolor{red}{\textbf{sub-optimal accuracy}}, but \textcolor{green}{$\boldsymbol{O(2^D)}$} operations {\small \textcolor{purple}{\parencite{breiman1984classification,ID3,c45}}} .
+    \pause
     \item Optimal algorithms, \textcolor{green}{\textbf{optimal accuracy}}, but \textcolor{red}{$\boldsymbol{O((2Np)^D)}$} operations (NP-hard) {\small \textcolor{purple}{\parencite{oct,murtree,pystreed,chaouki2024branchesfastdynamicprogramming,npcomplete}}}.
+    \pause
     \item In between optimal and greedy?
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Decision tree induction as solving MDPs}
-
+\pause
 \begin{block}{Intuition}
     The induction of a decision tree is made of a sequence of decisions: at each node, we must decide whether it is better to split (a subset of) $\mathcal{E}$, or %assign a class label and 
     to create a leaf node.
 \end{block}
 \begin{itemize}
+    \pause
     \item S: data subsets.
+    \pause
     \item A: test or leaf nodes that can be added to the tree.
+    \pause
     \item R: penalty or accuracies.
+    \pause
     \item T: node traversals.
 \end{itemize}
 \end{frame}
@@ -904,7 +933,6 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{../images/figures/schema_mdp.pdf}
-    \caption*{MDP formulation of a generic decision tree induction for a supervised learning task.}
 \end{figure}
 \end{frame}
 
@@ -920,24 +948,43 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
 \begin{frame}{Controlling the time complexity of decision tree induction}
 
 \begin{itemize}
-    \item Greedy algorithms consider only one candidate action in each state which is the test that minimizes some impurity criterion $\rightarrow$ \textcolor{green}{\textbf{MDP state space size is} $\boldsymbol{O(2^D)}$}.
-    \item Optimal algorithms consider all possible actions in each state $\rightarrow$ \textcolor{red}{\textbf{MDP state space size is} $\boldsymbol{O((2Np)^D)}$}.
-    \item Let's choose candidate actions adaptively $\rightarrow$ for each MDP state consider $B$ actions: \textcolor{blue}{\textbf{state space size is} $\boldsymbol{O((2B)^D)}$}.
+    \pause
+    \item Greedy algorithms consider only one candidate action in each state which is the test that minimizes some impurity criterion \\
+    \pause
+    $\rightarrow$ \textcolor{green}{\textbf{MDP state space size is} $\boldsymbol{O(2^D)}$}.
+    \pause
+    \item Optimal algorithms consider all possible actions in each state \\
+    \pause
+    $\rightarrow$ \textcolor{red}{\textbf{MDP state space size is} $\boldsymbol{O((2Np)^D)}$}.
+    \pause
+    \item Let's choose candidate actions adaptively \\
+    \pause
+    $\rightarrow$ for each MDP state consider $B$ actions: \textcolor{blue}{\textbf{state space size is} $\boldsymbol{O((2B)^D)}$}.
 \end{itemize}
+\pause
+\vspace{0.4cm}
+{\Large \textbf{\textcolor{blue}{How to choose the $B$ candidate actions/splits?}}}
 \end{frame}
 
 \begin{frame}{Dynamic Programming Decision Trees (DPDT)\footnote{Because states are entire datasets, we implement DPDT with a depth-first search to limit the space complexity.}}
 \begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{../images/figures/schematic_cart_node_select.pdf}
-    \caption*{Overview of our algorithm DPDT presented at the 31st ACM SIGKDD conference.}
+    \pause
+    \caption*{DPDT was presented at the 31st ACM SIGKDD conference.}
 \end{figure}
 \end{frame}
 
-\begin{frame}{Theoretical motivation}
-    \begin{theorem}[DPDT trees are not worse than greedy trees] The greedy tree is always a solution of the MDPs we solve. Because we solve the MDPs exactly with DP, if the greedy tree is the best solution, DPDT will find it.
+\begin{frame}{Theory of generating candidate splits with CART}
+    \pause
+    \begin{theorem}[DPDT trees are not worse than greedy trees]
+    \pause
+    The greedy tree is always a solution of the MDPs we solve. Because we solve the MDPs exactly with DP, if the greedy tree is the best solution, DPDT will find it.
     \end{theorem}
-    \begin{theorem}[DPDT trees can be strictly better than greedy trees] There exist a depth budget $D$ and a dataset for which DPDT trees are strictly better than greedy trees.
+    \pause
+    \begin{theorem}[DPDT trees can be strictly better than greedy trees]
+    \pause
+    There exist a depth budget $D$ and a dataset for which DPDT trees are strictly better than greedy trees.
     \end{theorem}
 \end{frame}
 %-------------LONNNNNNNNNNNNNNG
@@ -1036,7 +1083,6 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
     \begin{figure}
         \centering
         \includegraphics[width=1\linewidth]{../images/figures/patho_bounds_comparison_checkers.pdf}
-        \caption*{A checkers board data set highlights the limitations of existing works.}
     \end{figure}
 \end{frame}
 
@@ -1044,11 +1090,11 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
 \begin{table}
     \caption*{Train accuracy and operation count when learning depth-3 decision trees.}
     \tiny
-    \begin{tabular}{l|cc||cc|cc|c||cc|cc}
+    \scalebox{0.93}{\begin{tabular}{l|cc||cc|cc|c||cc|cc}
     \toprule
     & & & \multicolumn{5}{c||}{\textbf{Accuracy}} & \multicolumn{4}{c}{\textbf{Operations}}\\
     \midrule
-    & & & Opt & Greedy & \multicolumn{2}{c|}{DPDT} & \multicolumn{1}{c||}{} & Opt & Greedy & \multicolumn{2}{c|}{DPDT}\\
+    & & & Opt & Greedy & \multicolumn{2}{c|}{DPDT} & \multicolumn{1}{c||}{} & Opt & Greedy & \multicolumn{2}{c}{DPDT}\\
     \textbf{Dataset} & N & p & Quant-BnB & CART & light & full & & Quant-BnB & CART & light & full \\
     \midrule
     room & 8103 & 16 & \textbf{0.992} & 0.968 & \color{blue} 0.991 & \textbf{0.992} & &$10^6$ & 15 & 286 & 16100 \\
@@ -1068,7 +1114,7 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
     wilt & 4339 & 5 & \textbf{0.996} & 0.993 & 0.994 & \color{blue}0.995 & &3$\cdot 10^5$ & 13 & 274 & 11300 \\
     bank & 1097 & 4 & \textbf{0.983} & 0.933 & 0.971 & \color{blue}0.980 & & 6$\cdot 10^4$ & 13 & 271 & 7990 \\
     \bottomrule
-    \end{tabular}
+    \end{tabular}}
 \end{table}
 \end{frame}
 
@@ -1080,12 +1126,14 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
          \includegraphics[width=\textwidth]{../images/figures/tab_bench/random_search_classif_numerical_depth5.pdf}
          \caption*{DPDT depth-5 trees vs. other detph-5 trees}
      \end{subfigure}
+     \pause
      \hfill
      \begin{subfigure}[b]{0.32\textwidth}
          \centering
          \includegraphics[width=\textwidth]{../images/figures/tab_bench/random_search_classif_categorical_boosting_w_weak.pdf}
          \caption*{Boosted DPDT vs. Boosted CART}
      \end{subfigure}
+     \pause
      \hfill
      \begin{subfigure}[b]{0.32\textwidth}
          \centering
@@ -1097,50 +1145,69 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
 
 \begin{frame}{Perspectives}
     \begin{itemize}
+        \pause
         \item New SOTA decision tree induction with dynamic programming in MDPs.
+        \pause
         \item What about using DPDT for indirect decision tree policy learning for SDM?
+        \pause
         \item What performances could we reach with an industry-grade implementation of XGboost+DPDT?
     \end{itemize}
+    \pause
     \begin{exampleblock}{Let us take a step back}
         \textit{Q: Are decision trees really the most interpretable model?}\\
+        \pause
         \textbf{A: It depends.}
     \end{exampleblock}
 \end{frame}
 
 \begin{frame}{How to measure policy interpretability?}
+\pause
 \begin{alertblock}{Challenges {\small \parencite{glanois-survey,lipton,rigourous}}}
 \begin{itemize}
+    \pause
     \item No definition of interpretability.
+    \pause
     \item Measuring might require humans.
 \end{itemize}
 \end{alertblock}
-
+\pause
 \begin{exampleblock}{The notion of \textit{simulatability} {\small \parencite{lipton}}}
 \begin{itemize}
+    \pause
     \item Interpretability $\simeq$ how long for human to make the same computations.
+    \pause
     \item Interpretability $\simeq$ how much effort for a human to read through the entire policy.
+    \pause
     \item Less parameters mean more interpretability {\small \textcolor{purple}{\parencite{study-0,study-4}}}.
+    \pause
     \item Time to formally verify a policy decreases with interpretability {\small \textcolor{purple}{\parencite{lens-complexity}}}.
 \end{itemize}
 \end{exampleblock}
 \end{frame}
 
 \begin{frame}{A methodology to measure policy interpretability without humans}
+\pause
 \begin{block}{Simulatability {\small \parencite{lipton}}}
 \begin{enumerate}
+    \pause
     \item How long it takes for human to make the same computations given an input $\simeq$ policy inference time.
+    \pause
     \item How much effort it would take a human to read through the entire policy once $\simeq$ policy size in memory.
 \end{enumerate}
 \end{block}
+\pause
 \begin{alertblock}{Not that simple in practice {\small \textcolor{purple}{\parencite{insight}}}}
 \begin{itemize}
+    \pause
     \item Different hardwares (CPUs vs GPUs).
+    \pause
     \item Different implementations (matrix operations vs fully sequentially) $\dots$
 \end{itemize}
 \end{alertblock}
 \end{frame}
 
 \begin{frame}[fragile]{We propose policy unfolding}
+\pause
 \begin{minipage}{0.48\textwidth}
 \begin{tcolorbox}
 \begin{lstlisting}[language=Python]
@@ -1171,6 +1238,7 @@ def play(x):
 \end{lstlisting}
 \end{tcolorbox}
 \end{minipage}
+\pause
 \hfill
 \begin{minipage}{0.5\textwidth}
 \begin{tcolorbox}
@@ -1205,10 +1273,12 @@ def play(x):
 
 \begin{frame}{Empirical validation}
 \begin{enumerate}
-    \item Does our methodology respect consensus on policy interpretability?
+    \pause
     \item Is policy unfolding necessary?
+    \pause
     \item What kind of results we can obtain using our proposed methodology?
 \end{enumerate}
+\pause
 \begin{block}{Setup}
 We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using various policy classes/nb parameters on various environments.
 \end{block}
@@ -1264,7 +1334,6 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
     \centering
     \includegraphics[width=1\linewidth]{../images/images_part3/tree_sizes_memory_ppo_ci_ablation.pdf}
     \caption*{Aggregated policies interpretability on classic control environments}
-    \label{fig:abl-proxies}
 \end{figure}
 \end{frame}
 
@@ -1283,26 +1352,40 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
     \centering
     \includegraphics[trim={1.4cm 0 0 0},clip,width=1\textwidth]{../images/images_part3/trade_off_select_combine_one_plot.pdf}
     \caption*{Interpretability-Performance trade-offs. Top row, interpretability is measured with step inference times. Bottom row, the interpretability is measured with policy size.}
-    \label{fig:trade-off-summary}
 \end{figure}
 \end{frame}
 
 \begin{frame}{Perspectives}
 \begin{itemize}
+    \pause
     \item Beliefs such as "trees are more interpretable than neural networks" should be used with caution.
+    \pause
     \item Tree-like policy classes can have good inductive bias (e.g. Atari).
+    \pause
     \item Can a human study confirm our results?
+    \pause
     \item What about (very) big models?
+    \pause
     \item Can we use our policy programs as low level skills (hierarchical RL)? 
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Conclusion: interpretable machine learning is a difficult research topic}
     \begin{itemize}
-        \item Technical challenges: \textcolor{red}{\textbf{partial observability in SDM, NP-hardness}}.\\ $\rightarrow$ Focus on indirect approaches and/or on POMDP research first.
-        \item Fundamental challenges: \textcolor{red}{\textbf{no definition}}. \\ $\rightarrow$ Discuss with the community (InterpPol workshop).
+        \pause
+        \item Technical challenges: \textcolor{red}{\textbf{partial observability in SDM, NP-hardness}}.
+        \\ 
+        \pause
+        $\rightarrow$ Focus on indirect approaches and/or on POMDP research first.
+        \pause
+        \item Fundamental challenges: \textcolor{red}{\textbf{no definition}}. 
+        \\
+        \pause
+        $\rightarrow$ Discuss with the community (InterpPol workshop).
+        \pause
         \item \textcolor{green}{\textbf{Decision trees offer good inductive bias for SDM in games or tabular data}}.
     \end{itemize}
+    \pause
     \begin{block}{My hope}
         Motivate interpretability by finding a real-world problem where interpretability is \textit{really} necessary {\small \textcolor{purple}{\parencite{festor}}}.
     \end{block}
