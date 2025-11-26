@@ -212,89 +212,6 @@
 \end{figure}
 \end{frame}
 
-\begin{frame}{Policy interpretability}
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[scale=0.7]
-        % Define the axes
-        \draw[->] (0,0) -- (8,0) node[right] {Policy interpretability};
-        \draw[->] (0,0) -- (0,6) node[above] {Policy performance};
-        
-        % Add axis labels at the ends
-        \node[below] at (0.5,-0.3) {Low};
-        \node[below] at (7.5,-0.3) {High};
-        \node[left] at (-0.3,0.5) {Low};
-        \node[left] at (-0.3,5.5) {High};
-        
-        % Add grid lines (optional, subtle)
-        \foreach \x in {1,2,...,7}
-            \draw[gray!20] (\x,0) -- (\x,5.5);
-        \foreach \y in {1,2,...,5}
-            \draw[gray!20] (0,\y) -- (7.5,\y);
-        
-        % Add a general trend line (optional)
-        \draw[dashed, thick, gray] (1,4.8) .. controls (3,3.5) and (5,2.5) .. (7,1.2);
-        
-        % Position different model types
-        % Deep Neural Networks (high performance, low interpretability)
-        \node[circle, fill=black!20, draw, minimum size=8pt] at (1,5) {};
-        \node[below right] at (1.2,5.1) {Neural networks};
-        
-        % Ensemble Methods (medium-high performance, low-medium interpretability)
-        \node[circle, fill=orange!60, draw, minimum size=8pt] at (2.5,4) {};
-        \node[below right] at (0.5,4) {Tree ensembles};
-        
-        % Linear Models (medium performance, high interpretability)
-        \node[circle, fill=blue!60, draw, minimum size=8pt] at (5.5,3) {};
-        \node[below right] at (5.5,3) {Linear policies};
-        
-        % Decision Trees (medium-low performance, high interpretability)
-        \node[circle, fill=green!60, draw, minimum size=8pt] at (6.5,2) {};
-        \node[below right] at (6.5,2) {Decision trees};
-        
-    \end{tikzpicture}
-    \caption*{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes.}
-\end{figure}
-\pause\textbf{\warning No definition of interpretability in machine learning models!}
-\end{frame}
-
-\begin{frame}{Decision trees}
-\begin{figure}
-    \centering
-    \scalebox{0.8}{\begin{tikzpicture}[
-        scale=1.0,
-        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
-        leaf/.style={rectangle, draw, thick, fill=green!20, text width=4em, text centered, rounded corners, minimum height=4em, font=\small},
-        edge_label/.style={font=\footnotesize, midway}
-    ]
-        % Root decision node
-        \node[decision] (root) at (0,0) {Patient old?};
-        
-        % Second level nodes
-        \node[decision] (left_decision) at (-3, -2.5) {Patient smoking?};
-        \node[leaf] (right_leaf) at (3, -2.5) {Decrease dosage};
-        
-        % Third level nodes (leaves)
-        \node[leaf] (left_left) at (-4.5, -5) {Increase dosage};
-        \node[leaf] (left_right) at (-1.5, -5) {Maintain dosage};
-        
-        % Connections with labels
-        \draw[->] (root) -- (left_decision) node[edge_label, above left] {True};
-        \draw[->] (root) -- (right_leaf) node[edge_label, above right] {False};
-        \draw[->] (left_decision) -- (left_left) node[edge_label, above left] {True};
-        \draw[->] (left_decision) -- (left_right) node[edge_label, above right] {False};
-        
-        % Add labels for components
-        % \node[font=\footnotesize, text=gray] at (0, 0.8) {Root node with test $t_1(x_i)$};
-        % \node[font=\footnotesize, text=gray] at (-6, -2.5) {Internal node with test $t_2(x_i)$};
-        % \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
-        
-    \end{tikzpicture}}
-    \caption*{A generic decision tree of depth $D=2$.}
-\end{figure}
-\pause
-Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\parencite{breiman1984classification,oct,murtree,binoct,quantbnb}}} \dots What about SDM?
-\end{frame}
 
 \begin{frame}{Markov decision processes (MDPs) and reinforcement learning (RL)}
 \begin{minipage}{0.59\textwidth}
@@ -345,6 +262,100 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
 \end{minipage}
 \end{frame}
 
+\begin{frame}{Policy interpretability}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[scale=0.7]
+        % Define the axes
+        \draw[->] (0,0) -- (8,0) node[right] {Policy interpretability};
+        \draw[->] (0,0) -- (0,6) node[above] {Policy performance};
+        
+        % Add axis labels at the ends
+        \node[below] at (0.5,-0.3) {Low};
+        \node[below] at (7.5,-0.3) {High};
+        \node[left] at (-0.3,0.5) {Low};
+        \node[left] at (-0.3,5.5) {High};
+        
+        % Add grid lines (optional, subtle)
+        \foreach \x in {1,2,...,7}
+            \draw[gray!20] (\x,0) -- (\x,5.5);
+        \foreach \y in {1,2,...,5}
+            \draw[gray!20] (0,\y) -- (7.5,\y);
+        
+        % Add a general trend line (optional)
+        \draw[dashed, thick, gray] (1,4.8) .. controls (3,3.5) and (5,2.5) .. (7,1.2);
+        
+        % Position different model types
+        % Deep Neural Networks (high performance, low interpretability)
+        \node[circle, fill=black!20, draw, minimum size=8pt] at (1,5) {};
+        \node[below right] at (1.2,5.1) {Neural networks};
+        
+        % Ensemble Methods (medium-high performance, low-medium interpretability)
+        \node[circle, fill=orange!60, draw, minimum size=8pt] at (2.5,4) {};
+        \node[below right] at (0.5,4) {Tree ensembles};
+        
+        % Linear Models (medium performance, high interpretability)
+        \node[circle, fill=blue!60, draw, minimum size=8pt] at (5.5,3) {};
+        \node[below right] at (5.5,3) {Linear policies};
+        
+        % Decision Trees (medium-low performance, high interpretability)
+        \node[circle, fill=green!60, draw, minimum size=8pt] at (6.5,2) {};
+        \node[below right] at (6.5,2) {Decision trees};
+        
+    \end{tikzpicture}
+    \caption*{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes.}
+\end{figure}
+\pause\textbf{\warning No definition of interpretability for machine learning models!}
+\end{frame}
+
+\begin{frame}{Decision trees}
+\begin{figure}
+    \centering
+    \scalebox{0.8}{\begin{tikzpicture}[
+        scale=1.0,
+        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
+        leaf/.style={rectangle, draw, thick, fill=green!20, text width=4em, text centered, rounded corners, minimum height=4em, font=\small},
+        edge_label/.style={font=\footnotesize, midway}
+    ]
+        % Root decision node
+        \node[decision] (root) at (0,0) {Patient old?};
+        
+        % Second level nodes
+        \node[decision] (left_decision) at (-3, -2.5) {Patient smoking?};
+        \node[leaf] (right_leaf) at (3, -2.5) {Decrease dosage};
+        
+        % Third level nodes (leaves)
+        \node[leaf] (left_left) at (-4.5, -5) {Increase dosage};
+        \node[leaf] (left_right) at (-1.5, -5) {Maintain dosage};
+        
+        % Connections with labels
+        \draw[->] (root) -- (left_decision) node[edge_label, above left] {True};
+        \draw[->] (root) -- (right_leaf) node[edge_label, above right] {False};
+        \draw[->] (left_decision) -- (left_left) node[edge_label, above left] {True};
+        \draw[->] (left_decision) -- (left_right) node[edge_label, above right] {False};
+        
+        % Add labels for components
+        % \node[font=\footnotesize, text=gray] at (0, 0.8) {Root node with test $t_1(x_i)$};
+        % \node[font=\footnotesize, text=gray] at (-6, -2.5) {Internal node with test $t_2(x_i)$};
+        % \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
+        
+    \end{tikzpicture}}
+    \caption*{A generic decision tree of depth $D=2$.}
+\end{figure}
+\pause
+Successful algorithms for classification/regression: {\small \textcolor{purple}{\parencite{breiman1984classification,oct,murtree,binoct,quantbnb}}} \dots
+\\
+\pause
+\textbf{\textcolor{blue}{What about SDM?}}
+\end{frame}
+
+\begin{frame}{Indirect approach: imitation learning}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
+\end{figure}
+\onslide<2->{Most research focused on indirect learning of interpretable policies {\small \textcolor{purple}{\parencite{dagger,viper,PIRL,milani-survey,}}}.}\\
+\end{frame}
 
 \begin{frame}{Two ways to get interpretable policies for SDM}
 \begin{figure}
@@ -366,11 +377,11 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
     ]
         
         % Direct method box
-        \node<4->[method_box] (direct_box) at (-0.5,0) {};
-        \node<4-> at (-0.5,1.7) {\small{Direct}};
+        \node<5->[method_box] (direct_box) at (-0.5,0) {};
+        \node<5-> at (-0.5,1.7) {\small{Direct ?}};
         
         % Direct method - RL process
-        \node<1->[rl] (rl_direct) at (-2,0) {
+        \node<6->[rl] (rl_direct) at (-2,0) {
             \begin{minipage}{1.2cm}
                 \centering
                 \includesvg[width=0.3cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
@@ -379,7 +390,7 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
         };
         
         % Direct method - Decision Tree
-        \node<2->[dt] (dt_direct) at (1,0) {
+        \node<6->[dt] (dt_direct) at (1,0) {
             \begin{minipage}{1.2cm}
                 \centering
                 \includesvg[width=0.3cm]{../images/images_intro/decision-tree-svgrepo-com.svg}\\
@@ -388,11 +399,11 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
         };
         
         % Direct method arrow
-        \draw<2->[arrow] (rl_direct) -- (dt_direct) node[label, midway] {\tiny Learns};
+        \draw<6->[arrow] (rl_direct) -- (dt_direct) node[label, midway] {\tiny Learns};
         
         % Indirect method box
-        \node<4->[method_box_indirect] (indirect_box) at (7.1,0) {};
-        \node<4-> at (6.8,1.7) {\small{Indirect}};
+        \node<1->[method_box_indirect] (indirect_box) at (7.1,0) {};
+        \node<1-> at (6.8,1.7) {\small{Indirect}};
         
         % Indirect method - RL process
         \node<1->[rl] (rl_indirect) at (3.5,0) {
@@ -437,16 +448,47 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
         
     \end{tikzpicture}}
 \end{figure}
-\onslide<5->{\warning Policies obtained indirectly optimize a surrogate objective rather than a trade-off between interpretability and cumulative rewards.}
+\onslide<4->{\textbf{\warning Policies obtained indirectly optimize a surrogate objective rather than a trade-off between interpretability and cumulative rewards.}}
 \end{frame}
 
-\begin{frame}{Indirect approach: imitation learning}
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
-\end{figure}
-\onslide<2->{Most research focused on indirect learning of interpretable policies {\small \textcolor{purple}{\parencite{dagger,viper,PIRL,milani-survey,}}}.}\\
+% \begin{frame}{Grid world MDP and decision tree policies}
+% \begin{figure}
+%     \centering
+%     \includegraphics[trim={0 0 15.5cm 0},clip,width=0.6\textwidth]{../images/images_part1/base_mdp.pdf}
+%     \caption*{Sample complexity curve of Q-learning over 100 random seeds.}\label{fig:ql-il}
+% \end{figure}
+% \end{frame}
+
+% \begin{frame}{Grid world MDP and decision tree policies}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=1\textwidth]{../images/images_part1/base_mdp.pdf}
+%     \caption*{Sample complexity curve of Q-learning over 100 random seeds and performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
+% \end{figure}
+% \end{frame}
+
+% \begin{frame}{Thesis results}
+% \begin{enumerate}
+%     \item Direct reinforcement learning of decision tree policies is hard because it involves POMDPs.
+%     \item One can use dynamic programming in MDPs to induce highly performing decision tree classifiers and regressors.
+%     \item In practice, controlling MDPs with interpretable policies does not necessarily decrease performances.
+% \end{enumerate}
+% \end{frame}
+
+% ------------ Part I ------------------
+\setbeamercovered{transparent}
+\begin{frame}{Contributions}
+    \begin{enumerate}
+        \pause
+        \item How difficult is it to directly optimize a trade-off of interpretability and performance in SDM?
+        \pause
+        \item How to leverage DM to learn interpretable classifiers for supervised learning?
+        \pause
+        \item How to measure policy interpretability in SDM?
+    \end{enumerate}
 \end{frame}
+\setbeamercovered{invisible}
+
 
 
 % ------------ Example -------------------------
@@ -498,15 +540,15 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
         }
         
         % Add state labels clockwise from bottom left
-        \node<2-> at (7.5,0.5) {{\color{teal} $\rightarrow$}};
+        \node<2-> at (7.5,0.5) {{\color{teal} $\boldsymbol{\rightarrow}$}};
         \node<2-> at (8.5,0.5) {$\star$};
-        \node<2-> at (8.5,0.7) {{\color{teal} $\uparrow$}};
-        \node<2-> at (8.5,0.3) {{\color{teal} $\downarrow$}};
-        \node<2-> at (8.7,0.5) {{\color{teal} $\rightarrow$}};
-        \node<2-> at (8.3,0.5) {{\color{teal} $\leftarrow$}};
-        \node<2-> at (8.5,1.5) {{\color{teal} $\downarrow$}};
-        \node<2-> at (7.2,1.3) {{\color{teal} $\downarrow$}};
-        \node<2-> at (7.5,1.5) {{\color{teal} $\rightarrow$}};
+        \node<2-> at (8.5,0.7) {{\color{teal} $\boldsymbol{\uparrow}$}};
+        \node<2-> at (8.5,0.3) {{\color{teal} $\boldsymbol{\downarrow}$}};
+        \node<2-> at (8.7,0.5) {{\color{teal} $\boldsymbol{\rightarrow}$}};
+        \node<2-> at (8.3,0.5) {{\color{teal} $\boldsymbol{\leftarrow}$}};
+        \node<2-> at (8.5,1.5) {{\color{teal} $\boldsymbol{\downarrow}$}};
+        \node<2-> at (7.2,1.3) {{\color{teal} $\boldsymbol{\downarrow}$}};
+        \node<2-> at (7.5,1.5) {{\color{teal} $\boldsymbol{\rightarrow}$}};
     \end{tikzpicture}}
     \caption*{\onslide<3->{Grid world MDP and optimal actions.}}
     \end{figure}
@@ -554,56 +596,28 @@ Successful algorithms for non-sequential learning: {\small \textcolor{purple}{\p
     \end{figure}
 \end{frame}
 
-
-\begin{frame}{Grid world MDP and decision tree policies}
-\begin{figure}
-    \centering
-    \includegraphics[trim={0 0 15.5cm 0},clip,width=0.6\textwidth]{../images/images_part1/base_mdp.pdf}
-    \caption*{Sample complexity curve of Q-learning over 100 random seeds.}\label{fig:ql-il}
-\end{figure}
-\end{frame}
-
-\begin{frame}{Grid world MDP and decision tree policies}
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{../images/images_part1/base_mdp.pdf}
-    \caption*{Sample complexity curve of Q-learning over 100 random seeds and performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
-\end{figure}
-\end{frame}
-
-% \begin{frame}{Thesis results}
-% \begin{enumerate}
-%     \item Direct reinforcement learning of decision tree policies is hard because it involves POMDPs.
-%     \item One can use dynamic programming in MDPs to induce highly performing decision tree classifiers and regressors.
-%     \item In practice, controlling MDPs with interpretable policies does not necessarily decrease performances.
-% \end{enumerate}
-% \end{frame}
-
-% ------------ Part I ------------------
-\setbeamercovered{transparent}
-\begin{frame}{Contributions}
-    \begin{enumerate}
-        \pause
-        \item How difficult is it to directly optimize a trade-off of interpretability and performance in SDM?
-        \pause
-        \item How to leverage sequential decision making to learn interpretable classifiers for supervised learning?
-        \pause
-        \item How to measure policy interpretability in sequential decision making?
-    \end{enumerate}
-\end{frame}
-\setbeamercovered{invisible}
-
 % \begin{frame}{Direct approach to interpretable SDM}
 %     \textit{Q: Can we use reinforcement learning to directly optimize trade-offs of performance and interpretability in SDM?}\\
 %     \vspace{1cm}
 %     \textbf{A: direct reinforcement leargning is hard because it involves partial observability.}
 % \end{frame}
 
-\begin{frame}{Direct RL of decision tree policies with iterative boundoing Markov decision processes}
-
-Given an MDP $\mathcal{M}$ $\langle S, A, R, T \rangle$, an associated iterative bounding Markov decision process (IBMDP, {\small \cite{topin2021iterative}}) $\mathcal{M}_{IB}$ is a tuple:
-$\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \cup A_{info}}_{\text{Augmented action space}}, \overbrace{(R, \zeta)}^{\text{Augmented rewards}}, \underbrace{(T_{info}, T, T_0)}_{\text{Augmented transitions}}\rangle$
-
+\begin{frame}{Direct RL of decision tree policies with iterative bounding Markov decision processes}
+\pause
+{\small 
+Given an MDP $\mathcal{M}$ $\langle S, A, R, T \rangle$, an associated iterative bounding Markov decision process (IBMDP, {\small \cite{topin2021iterative}}) $\mathcal{M}_{IB}$ is an MDP:
+$\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \cup A_{info}}_{\text{Augmented action space}}, \overbrace{(R, \zeta)}^{\text{Augmented rewards}}, \underbrace{(T_{info}, T)}_{\text{Augmented transitions}}\rangle$}
+\pause
+\begin{itemize}
+    \pause
+    \item $O$: observations of some state features bounds.
+    \pause
+    \item $A_{info}$: actions that gather informations about some state features.
+    \pause
+    \item $\zeta$: reward for taking $a\in A_{info}$.
+    \pause
+    \item $T_{info}$: transitions following $a\in A_{info}$ that update the feature bounds with gathered info.
+\end{itemize}
 % \small
 % \begin{itemize}
 % \item<2-> $O\subsetneq S^2 =  [L_1, U_1]\times \dots \times [L_p, U_p] \times [L_1, U_1]\times \dots \times [L_p, U_p]$. 
@@ -624,7 +638,7 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
 \begin{exampleblock}{IBMDPs promises}
     \begin{itemize}
         \pause
-        \item No need to design new algorithm: we can use deep RL.
+        \item No need to design new algorithm: we can use RL.
         \pause
         \item IBMDP rewards trade-off naturally interpretability and performances.
     \end{itemize}
@@ -643,7 +657,7 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
     % Row 1: IBMDP States (s, o)
     % t=0: Initial state
     \node<1-> at (2,9.5) {\small $t=0$};
-    \node<1-> at (2,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
+    \node<1-19> at (2,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
     \node<2-> at (2,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
 
     \draw<2->[rectangle] (1,4) rectangle (3,6);
@@ -657,7 +671,7 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
     \foreach \y in {0,1,2} {
         \draw<1->[thick] (1,\y+4) -- (0.9,\y+4) node[left] {$\y$};
     }
-    \node<1-> at (1.5, 5.5) {$\mathcal{A}$};
+    \node<1-19> at (1.5, 5.5) {$\mathcal{A}$};
     \node<1-> at (2.5, 4.5) {$\star$};
     
     % Curved arrow from t=0 to t=1
@@ -665,7 +679,7 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
 
     % % t=1: After AIG x≤0.5
     \node<6-> at (7,9.5) {\small $t=1$};
-    \node<6-> at (7,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
+    \node<6-19> at (7,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
     \node<7-> at (7,7.5) {\small $\boldsymbol{o}_t=(0, 1, 0, 2)$};
 
     \draw<7->[rectangle] (6,4) rectangle (7,6);
@@ -679,7 +693,7 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
     \foreach \y in {0,1,2} {
         \draw<6->[thick] (6,\y+4) -- (5.9,\y+4) node[left] {$\y$};
     }
-    \node<6-> at (6.5, 5.5) {$\mathcal{A}$};
+    \node<6-19> at (6.5, 5.5) {$\mathcal{A}$};
     \node<6-> at (7.5, 4.5) {$\star$};
 
 
@@ -698,7 +712,7 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
     \draw<18->[->] (tree4_root) -- (tree4_right_new_new) node[font=\footnotesize, midway, above left] {True};
 
     \node<10-> at (12,9.5) {\small $t=2$};
-    \node<10-> at (12,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
+    \node<10-19> at (12,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
     \node<11-> at (12,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
     
     \draw<11->[rectangle] (11,4) rectangle (13,6);
@@ -712,7 +726,7 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
     \foreach \y in {0,1,2} {
         \draw<10->[thick] (11,\y+4) -- (10.9,\y+4) node[left] {$\y$};
     }
-    \node<10-> at (12.5, 5.5) {$\mathcal{A}$};
+    \node<10-19> at (12.5, 5.5) {$\mathcal{A}$};
     \node<10-> at (12.5, 4.5) {$\star$};
     
     % Curved arrow from t=2 to t=4
@@ -726,7 +740,7 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
 
     
     \node<14-> at (17,9.5) {\small $t=4$};
-    \node<14-> at (17,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
+    \node<14-19> at (17,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
     \node<14-> at (17,7.5) {\small $\boldsymbol{o}_t=(1, 2, 0, 2)$};
 
     \draw<14->[rectangle] (17,4) rectangle (18,6);
@@ -740,7 +754,7 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
     \foreach \y in {0,1,2} {
         \draw<14->[thick] (16,\y+4) -- (15.9,\y+4) node[left] {$\y$};
     }
-    \node<14-> at (17.5, 5.5) {$\mathcal{A}$};
+    \node<14-19> at (17.5, 5.5) {$\mathcal{A}$};
     \node<14-> at (17.5, 4.5) {$\star$};
     
     \draw<15->[thick, ->] (17,3) to[bend right=30] node[midway, below] {\small $a_t = \downarrow, r_t = 0$} (22,3);
@@ -753,7 +767,7 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
 
 
     \node<17-> at (22,9.5) {\small $t=5$};
-    \node<17-> at (22,8.5) {\small $\boldsymbol{s}_t=(1.5, 0.5)$};
+    \node<17-19> at (22,8.5) {\small $\boldsymbol{s}_t=(1.5, 0.5)$};
     \node<17-> at (22,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
  
     \draw<17->[rectangle] (21,4) rectangle (23,6);
@@ -767,7 +781,7 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
     \foreach \y in {0,1,2} {
         \draw<17->[thick] (21,\y+4) -- (20.9,\y+4) node[left] {$\y$};
     }
-    \node<17-> at (22.5, 4.5) {$\mathcal{A}$};
+    \node<17-19> at (22.5, 4.5) {$\mathcal{A}$};
     \node<17-> at (22.5, 4.5) {$\star$};
 
     % \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
@@ -780,8 +794,7 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
 \end{tikzpicture}}
 \end{figure}
 \begin{itemize}
-    \item<19->{\small \textbf{Determinstic} and \textbf{partially observable} policies$\implies$ decision trees.}
-    \item<20->{\small \warning Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard \textcolor{purple}{\parencite{littman1}}!}
+    \item<19-20>{Topin et. al. show that only certain policies correspond to decision trees.}
 \end{itemize}
 \end{frame}
 
@@ -791,8 +804,11 @@ $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \c
     \pause
     \hspace{5cm}{\huge $\approx$} \\
     \vspace{0.5cm}
-    \textit{Q: How does RL perform for optimizing \textbf{deterministic} and \textbf{partially observable} policies in IBMDPs?
-}
+    \textit{Q: How does RL perform for optimizing \textbf{deterministic} and \textbf{partially observable} policies in IBMDPs?}
+    \pause
+    \begin{alertblock}{Hard problem}
+        Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard \textcolor{purple}{\parencite{littman1}}!
+    \end{alertblock}
 \end{frame}
 
 \begin{frame}{Result: RL cannot retrieve optimal depth-1 trees for the grid world MDP}
@@ -807,17 +823,17 @@ Distributions of tree policies learned with (asymmetric) RL algorithms {\small \
 \textcolor{blue}{\textbf{Are the poor performances due to partial observability?}}
 \end{frame}
 
-\begin{frame}{Result: for similar problems, RL struggles more when there is partial observability}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.75\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
-\end{figure}
-Success rates when learning deterministic partially observable or Markovian policies in the same IBMDP.
-\pause
-\textcolor{blue}{\textbf{Is it all for nothing?}}
-\end{frame}
+% \begin{frame}{Result: for similar problems, RL struggles more when there is partial observability}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.75\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
+% \end{figure}
+% Success rates when learning deterministic partially observable or Markovian policies in the same IBMDP.
+% \pause
+% \textcolor{blue}{\textbf{Is it all for nothing?}}
+% \end{frame}
 
-\begin{frame}{Interesting sub-class of MDPs: classification MDPs}
+\begin{frame}{Result: decision tree policies for classification MDPs are standard Markovian policies in IBMDPs}
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -857,11 +873,14 @@ Success rates when learning deterministic partially observable or Markovian poli
         \node at (0.5,1.5) {$\boldsymbol{s}_1$};
     \end{tikzpicture}
 \end{figure}
-\onslide<4->{Classification MDP and the unique optimal depth-1 tree.}\\
-\onslide<5->{\textbf{\warning Deterministic partially observable policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
+\pause
+Classification MDP and the unique optimal depth-1 tree.
+\pause
+\\
+\textbf{\textcolor{teal}{Deterministic partially observable policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
 \end{frame}
 
-\begin{frame}{Result: RL can retrieve optimal depth-1 trees for the toy classification MDPs}
+\begin{frame}{Result: RL can retrieve optimal depth-1 trees for the toy classification MDP}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions_classif.pdf}
