@@ -823,15 +823,15 @@ Distributions of tree policies learned with (asymmetric) RL algorithms {\small \
 \textcolor{blue}{\textbf{Are the poor performances due to partial observability?}}
 \end{frame}
 
-% \begin{frame}{Result: for similar problems, RL struggles more when there is partial observability}
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=0.75\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
-% \end{figure}
-% Success rates when learning deterministic partially observable or Markovian policies in the same IBMDP.
-% \pause
-% \textcolor{blue}{\textbf{Is it all for nothing?}}
-% \end{frame}
+\begin{frame}{Result: for similar problems, RL struggles more when there is partial observability}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
+\end{figure}
+Success rates when learning deterministic partially observable or Markovian policies in the same IBMDP.
+\pause
+\textcolor{blue}{\textbf{Is it all for nothing?}}
+\end{frame}
 
 \begin{frame}{Result: decision tree policies for classification MDPs are standard Markovian policies in IBMDPs}
 \begin{figure}
@@ -942,7 +942,7 @@ Classification MDP and the unique optimal depth-1 tree.
 \begin{frame}{Decision tree induction as solving MDPs}
 \pause
 \begin{block}{Intuition}
-    The induction of a decision tree is made of a sequence of decisions: at each node, we must decide whether it is better to split (a subset of) $\mathcal{E}$, or %assign a class label and 
+    The induction of a decision tree is made of a sequence of decisions: at each node, we must decide whether it is better to split (a subset of) the training data, or %assign a class label and 
     to create a leaf node.
 \end{block}
 \begin{itemize}
