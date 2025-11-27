@@ -19,47 +19,6 @@
 
 \refsection{0}
   \datalist[entry]{anyt/global//global/global}
-    \entry{baisero-ppo}{inproceedings}{}
-      \name{author}{2}{}{%
-        {{hash=f49a8d34e0eef47ad9020b763e7d9564}{%
-           family={Baisero},
-           familyi={B\bibinitperiod},
-           given={Andrea},
-           giveni={A\bibinitperiod}}}%
-        {{hash=fa9a6826b3f1170680cb17b160340e97}{%
-           family={Amato},
-           familyi={A\bibinitperiod},
-           given={Christopher},
-           giveni={C\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {Virtual Event, New Zealand}%
-      }
-      \list{publisher}{2}{%
-        {International Foundation for Autonomous Agents}%
-        {Multiagent Systems}%
-      }
-      \strng{namehash}{694344f74b170905908c6ba1ebb14e00}
-      \strng{fullhash}{694344f74b170905908c6ba1ebb14e00}
-      \strng{bibnamehash}{694344f74b170905908c6ba1ebb14e00}
-      \strng{authorbibnamehash}{694344f74b170905908c6ba1ebb14e00}
-      \strng{authornamehash}{694344f74b170905908c6ba1ebb14e00}
-      \strng{authorfullhash}{694344f74b170905908c6ba1ebb14e00}
-      \field{labelalpha}{BA22}
-      \field{sortinit}{B}
-      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{abstract}{In partially observable reinforcement learning, offline training gives access to latent information which is not available during online training and/or execution, such as the system state. Asymmetric actor-critic methods exploit such information by training a history-based policy via a state-based critic. However, many asymmetric methods lack theoretical foundation, and are only evaluated on limited domains. We examine the theory of asymmetric actor-critic methods which use state-based critics, and expose fundamental issues which undermine the validity of a common variant, and limit its ability to address partial observability. We propose an unbiased asymmetric actor-critic variant which is able to exploit state information while remaining theoretically sound, maintaining the validity of the policy gradient theorem, and introducing no bias and relatively low variance into the training process. An empirical evaluation performed on domains which exhibit significant partial observability confirms our analysis, demonstrating that unbiased asymmetric actor-critic converges to better policies and/or faster than symmetric and biased asymmetric baselines.}
-      \field{booktitle}{Proceedings of the 21st International Conference on Autonomous Agents and Multiagent Systems}
-      \field{isbn}{9781450392136}
-      \field{series}{AAMAS '22}
-      \field{title}{Unbiased Asymmetric Reinforcement Learning under Partial Observability}
-      \field{year}{2022}
-      \field{pages}{44\bibrangedash 52}
-      \range{pages}{9}
-      \keyw{actor-critic,partial observability,reinforcement learning}
-    \endentry
     \entry{lens-complexity}{article}{}
       \name{author}{4}{}{%
         {{hash=1b311c76b1d53d7a7ea31d940e188e80}{%
@@ -132,71 +91,59 @@
       \field{pages}{1039\bibrangedash 1082}
       \range{pages}{44}
     \endentry
-    \entry{baisero-dqn}{inproceedings}{}
-      \name{author}{3}{}{%
-        {{hash=f49a8d34e0eef47ad9020b763e7d9564}{%
-           family={Baisero},
+    \entry{topk}{article}{}
+      \name{author}{6}{}{%
+        {{hash=535fa103dbd11d16575fb895e2838f6f}{%
+           family={Blanc},
            familyi={B\bibinitperiod},
-           given={Andrea},
-           giveni={A\bibinitperiod}}}%
-        {{hash=3dee193211f8d0965c856cb59320e13c}{%
-           family={Daley},
-           familyi={D\bibinitperiod},
-           given={Brett},
-           giveni={B\bibinitperiod}}}%
-        {{hash=fa9a6826b3f1170680cb17b160340e97}{%
-           family={Amato},
-           familyi={A\bibinitperiod},
-           given={Christopher},
-           giveni={C\bibinitperiod}}}%
-      }
-      \name{editor}{2}{}{%
-        {{hash=7971c2473560d8ed681f91ee565ec39f}{%
-           family={Cussens},
-           familyi={C\bibinitperiod},
-           given={James},
+           given={Guy},
+           giveni={G\bibinitperiod}}}%
+        {{hash=3c3d6bca31a38369b938b834ca7da809}{%
+           family={Lange},
+           familyi={L\bibinitperiod},
+           given={Jane},
            giveni={J\bibinitperiod}}}%
-        {{hash=62735e1af0391d63c09ff9fbcd3d4d54}{%
-           family={Zhang},
-           familyi={Z\bibinitperiod},
-           given={Kun},
-           giveni={K\bibinitperiod}}}%
+        {{hash=cdf860fb5fc49b9d47be74e13a7fd229}{%
+           family={Pabbaraju},
+           familyi={P\bibinitperiod},
+           given={Chirag},
+           giveni={C\bibinitperiod}}}%
+        {{hash=5fb2dadf35940d19a3409076dbfa9089}{%
+           family={Sullivan},
+           familyi={S\bibinitperiod},
+           given={Colin},
+           giveni={C\bibinitperiod}}}%
+        {{hash=8b1508f407066efd7c040decaec324c9}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Li-Yang},
+           giveni={L\bibinithyphendelim Y\bibinitperiod}}}%
+        {{hash=059033df809a2cb14afa9cf461886527}{%
+           family={Tiwari},
+           familyi={T\bibinitperiod},
+           given={Mo},
+           giveni={M\bibinitperiod}}}%
       }
       \list{publisher}{1}{%
-        {PMLR}%
+        {Curran Associates, Inc.}%
       }
-      \strng{namehash}{16f993e59c769913580a291b60e1b18b}
-      \strng{fullhash}{16f993e59c769913580a291b60e1b18b}
-      \strng{bibnamehash}{16f993e59c769913580a291b60e1b18b}
-      \strng{authorbibnamehash}{16f993e59c769913580a291b60e1b18b}
-      \strng{authornamehash}{16f993e59c769913580a291b60e1b18b}
-      \strng{authorfullhash}{16f993e59c769913580a291b60e1b18b}
-      \strng{editorbibnamehash}{6d40d4e240cafd38666c10c613351f33}
-      \strng{editornamehash}{6d40d4e240cafd38666c10c613351f33}
-      \strng{editorfullhash}{6d40d4e240cafd38666c10c613351f33}
-      \field{labelalpha}{BDA22}
+      \strng{namehash}{a888117199951e75e6894018f4db90b8}
+      \strng{fullhash}{549377caa89c36bacf0fd5f3f08ad065}
+      \strng{bibnamehash}{a888117199951e75e6894018f4db90b8}
+      \strng{authorbibnamehash}{a888117199951e75e6894018f4db90b8}
+      \strng{authornamehash}{a888117199951e75e6894018f4db90b8}
+      \strng{authorfullhash}{549377caa89c36bacf0fd5f3f08ad065}
+      \field{labelalpha}{Bla+23}
       \field{sortinit}{B}
       \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Offline training in simulated partially observable environments allows reinforcement learning methods to exploit privileged state information through a mechanism known as asymmetry. Such privileged information has the potential to greatly improve the optimal convergence properties, if used appropriately. However, current research in asymmetric reinforcement learning is often heuristic in nature, with few connections to underlying theory or theoretical guarantees, and is primarily tested through empirical evaluation. In this work, we develop the theory of Asymmetric Policy Iteration, an exact model-based dynamic programming solution method, and then apply relaxations which eventually result in Asymmetric DQN, a model-free deep reinforcement learning algorithm. Our theoretical findings are complemented and validated by empirical experimentation performed in environments which exhibit significant amounts of partial observability, and require both information gathering strategies and memorization.}
-      \field{booktitle}{Proceedings of the Thirty-Eighth Conference on Uncertainty in Artificial Intelligence}
-      \field{month}{01--05 Aug}
-      \field{series}{Proceedings of Machine Learning Research}
-      \field{title}{Asymmetric {DQN} for partially observable reinforcement learning}
-      \field{volume}{180}
-      \field{year}{2022}
-      \field{pages}{107\bibrangedash 117}
-      \range{pages}{11}
-      \verb{file}
-      \verb https://proceedings.mlr.press/v180/baisero22a/baisero22a.pdf
-      \endverb
-      \verb{urlraw}
-      \verb https://proceedings.mlr.press/v180/baisero22a.html
-      \endverb
-      \verb{url}
-      \verb https://proceedings.mlr.press/v180/baisero22a.html
-      \endverb
+      \field{journaltitle}{Advances in Neural Information Processing Systems}
+      \field{title}{Harnessing the power of choices in decision tree learning}
+      \field{volume}{36}
+      \field{year}{2023}
+      \field{pages}{80220\bibrangedash 80232}
+      \range{pages}{13}
     \endentry
     \entry{viper}{article}{}
       \name{author}{3}{}{%
@@ -780,44 +727,6 @@
       \field{year}{1994}
       \field{pages}{238\bibrangedash 245}
       \range{pages}{8}
-    \endentry
-    \entry{sarsa-pomdp}{inproceedings}{}
-      \name{author}{2}{}{%
-        {{hash=c145897148f15de828ff544e596162c9}{%
-           family={Loch},
-           familyi={L\bibinitperiod},
-           given={John},
-           giveni={J\bibinitperiod}}}%
-        {{hash=0778520109d58859c98d71f3b7e75837}{%
-           family={Singh},
-           familyi={S\bibinitperiod},
-           given={Satinder\bibnamedelima P.},
-           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {San Francisco, CA, USA}%
-      }
-      \list{publisher}{1}{%
-        {Morgan Kaufmann Publishers Inc.}%
-      }
-      \strng{namehash}{76d3be2c9b755dea83b3c11a089caf39}
-      \strng{fullhash}{76d3be2c9b755dea83b3c11a089caf39}
-      \strng{bibnamehash}{76d3be2c9b755dea83b3c11a089caf39}
-      \strng{authorbibnamehash}{76d3be2c9b755dea83b3c11a089caf39}
-      \strng{authornamehash}{76d3be2c9b755dea83b3c11a089caf39}
-      \strng{authorfullhash}{76d3be2c9b755dea83b3c11a089caf39}
-      \field{labelalpha}{LS98}
-      \field{sortinit}{L}
-      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Proceedings of the Fifteenth International Conference on Machine Learning}
-      \field{isbn}{1558605568}
-      \field{series}{ICML '98}
-      \field{title}{Using Eligibility Traces to Find the Best Memoryless Policy in Partially Observable Markov Decision Processes}
-      \field{year}{1998}
-      \field{pages}{323\bibrangedash 331}
-      \range{pages}{9}
     \endentry
     \entry{insight}{article}{}
       \name{author}{6}{}{%
@@ -1462,90 +1371,6 @@
       \field{journaltitle}{arXiv preprint arXiv:1707.06347}
       \field{title}{Proximal policy optimization algorithms}
       \field{year}{2017}
-    \endentry
-    \entry{learning-pomdp}{inproceedings}{}
-      \name{author}{3}{}{%
-        {{hash=0778520109d58859c98d71f3b7e75837}{%
-           family={Singh},
-           familyi={S\bibinitperiod},
-           given={Satinder\bibnamedelima P.},
-           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
-        {{hash=1ebba49b22f851536356de9d887f66dc}{%
-           family={Jaakkola},
-           familyi={J\bibinitperiod},
-           given={Tommi\bibnamedelima S.},
-           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
-        {{hash=8a36116840c7ee55901618c95fd08a58}{%
-           family={Jordan},
-           familyi={J\bibinitperiod},
-           given={Michael\bibnamedelima I.},
-           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {New Brunswick, NJ, USA}%
-      }
-      \list{publisher}{1}{%
-        {Morgan Kaufmann Publishers Inc.}%
-      }
-      \strng{namehash}{b9d7379e811c09673c647f0437cbfddd}
-      \strng{fullhash}{b9d7379e811c09673c647f0437cbfddd}
-      \strng{bibnamehash}{b9d7379e811c09673c647f0437cbfddd}
-      \strng{authorbibnamehash}{b9d7379e811c09673c647f0437cbfddd}
-      \strng{authornamehash}{b9d7379e811c09673c647f0437cbfddd}
-      \strng{authorfullhash}{b9d7379e811c09673c647f0437cbfddd}
-      \field{labelalpha}{SJJ94}
-      \field{sortinit}{S}
-      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Proceedings of the Eleventh International Conference on International Conference on Machine Learning}
-      \field{isbn}{1558603352}
-      \field{series}{ICML'94}
-      \field{title}{Learning without state-estimation in partially observable Markovian decision processes}
-      \field{year}{1994}
-      \field{pages}{284\bibrangedash 292}
-      \range{pages}{9}
-    \endentry
-    \entry{topin2021iterative}{article}{}
-      \name{author}{4}{}{%
-        {{hash=e97056737afe2e204855790a8ab62d82}{%
-           family={Topin},
-           familyi={T\bibinitperiod},
-           given={Nicholay},
-           giveni={N\bibinitperiod}}}%
-        {{hash=1c69057c7c6f38d39a099175a70a7882}{%
-           family={Milani},
-           familyi={M\bibinitperiod},
-           given={Stephanie},
-           giveni={S\bibinitperiod}}}%
-        {{hash=50229c3fdb5e7f30b2bd918528bdc0df}{%
-           family={Fang},
-           familyi={F\bibinitperiod},
-           given={Fei},
-           giveni={F\bibinitperiod}}}%
-        {{hash=108bc6e5f71a32699fcf07b7e8957310}{%
-           family={Veloso},
-           familyi={V\bibinitperiod},
-           given={Manuela},
-           giveni={M\bibinitperiod}}}%
-      }
-      \strng{namehash}{cf1ff1df22fffd345f7443c726ccb82d}
-      \strng{fullhash}{2dd51328b60fac39aed9edd1107672d8}
-      \strng{bibnamehash}{cf1ff1df22fffd345f7443c726ccb82d}
-      \strng{authorbibnamehash}{cf1ff1df22fffd345f7443c726ccb82d}
-      \strng{authornamehash}{cf1ff1df22fffd345f7443c726ccb82d}
-      \strng{authorfullhash}{2dd51328b60fac39aed9edd1107672d8}
-      \field{labelalpha}{Top+21}
-      \field{sortinit}{T}
-      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Proceedings of the AAAI Conference on Artificial Intelligence}
-      \field{title}{Iterative bounding mdps: Learning interpretable policies via non-interpretable methods}
-      \field{volume}{35}
-      \field{year}{2021}
-      \field{pages}{9923\bibrangedash 9931}
-      \range{pages}{9}
     \endentry
     \entry{PIRL}{article}{}
       \name{author}{5}{}{%

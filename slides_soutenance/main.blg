@@ -1,23 +1,22 @@
 [0] Config.pm:307> INFO - This is Biber 2.17
 [0] Config.pm:310> INFO - Logfile is 'main.blg'
-[77] biber:340> INFO - === lun. nov. 24, 2025, 19:00:23
-[91] Biber.pm:418> INFO - Reading 'main.bcf'
-[165] Biber.pm:972> INFO - Found 37 citekeys in bib section 0
-[185] Biber.pm:4383> INFO - Processing section 0
-[196] Biber.pm:4574> INFO - Looking for bibtex file 'bibliographie.bib' for section 0
-[212] bibtex.pm:1713> INFO - LaTeX decoding ...
-[429] bibtex.pm:1518> INFO - Found BibTeX data source 'bibliographie.bib'
-[763] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[763] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[763] Biber.pm:4203> INFO - Sorting list 'anyt/global//global/global' of type 'entry' with template 'anyt' and locale 'en-US'
-[763] Biber.pm:4209> INFO - No sort tailoring available for locale 'en-US'
-[820] bbl.pm:654> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[857] bbl.pm:757> INFO - Output to main.bbl
-[858] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'bibliographie.bib', skipping ...
-[858] Biber.pm:130> WARN - Duplicate entry key: 'vos2024optimizinginterpretabledecisiontree' in file 'bibliographie.bib', skipping ...
-[858] Biber.pm:130> WARN - legacy month field '17--23 Jul' in entry 'quantbnb' is not an integer - this will probably not sort properly.
-[858] Biber.pm:130> WARN - legacy month field '01--05 Aug' in entry 'baisero-dqn' is not an integer - this will probably not sort properly.
-[858] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'parbhoo' is not an integer - this will probably not sort properly.
-[858] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_x9yl/fc5b366787d68e4234f7436cbf80900b_32317.utf8, line 720, warning: 1 characters of junk seen at toplevel
-[858] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_x9yl/fc5b366787d68e4234f7436cbf80900b_32317.utf8, line 1325, warning: 6 characters of junk seen at toplevel
-[858] Biber.pm:132> INFO - WARNINGS: 7
+[64] biber:340> INFO - === jeu. nov. 27, 2025, 17:01:37
+[75] Biber.pm:418> INFO - Reading 'main.bcf'
+[147] Biber.pm:972> INFO - Found 33 citekeys in bib section 0
+[157] Biber.pm:4383> INFO - Processing section 0
+[167] Biber.pm:4574> INFO - Looking for bibtex file 'bibliographie.bib' for section 0
+[178] bibtex.pm:1713> INFO - LaTeX decoding ...
+[354] bibtex.pm:1518> INFO - Found BibTeX data source 'bibliographie.bib'
+[605] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[605] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[605] Biber.pm:4203> INFO - Sorting list 'anyt/global//global/global' of type 'entry' with template 'anyt' and locale 'en-US'
+[605] Biber.pm:4209> INFO - No sort tailoring available for locale 'en-US'
+[653] bbl.pm:654> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[675] bbl.pm:757> INFO - Output to main.bbl
+[675] Biber.pm:130> WARN - Duplicate entry key: 'viper' in file 'bibliographie.bib', skipping ...
+[676] Biber.pm:130> WARN - Duplicate entry key: 'vos2024optimizinginterpretabledecisiontree' in file 'bibliographie.bib', skipping ...
+[676] Biber.pm:130> WARN - legacy month field '17--23 Jul' in entry 'quantbnb' is not an integer - this will probably not sort properly.
+[676] Biber.pm:130> WARN - legacy month field 'Apr.' in entry 'parbhoo' is not an integer - this will probably not sort properly.
+[676] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_VO3j/fc5b366787d68e4234f7436cbf80900b_18498.utf8, line 720, warning: 1 characters of junk seen at toplevel
+[676] Biber.pm:130> WARN - BibTeX subsystem: /tmp/biber_tmp_VO3j/fc5b366787d68e4234f7436cbf80900b_18498.utf8, line 1325, warning: 6 characters of junk seen at toplevel
+[676] Biber.pm:132> INFO - WARNINGS: 6
