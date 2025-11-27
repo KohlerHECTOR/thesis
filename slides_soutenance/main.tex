@@ -378,7 +378,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         
         % Direct method box
         \node<5->[method_box] (direct_box) at (-0.5,0) {};
-        \node<5-> at (-0.5,1.7) {\small{Direct ?}};
+        \node<5-> at (-0.5,1.7) {\small{\textcolor{blue}{\textbf{Direct ?}}}};
         
         % Direct method - RL process
         \node<6->[rl] (rl_direct) at (-2,0) {
@@ -923,9 +923,10 @@ Classification MDP and the unique optimal depth-1 tree.
 \begin{frame}{Decision trees in supervised learning}
 \begin{itemize}
     \pause
-    \item $N$ data points. Each $x_i$ is described by $p$ features and has a label $y_i \in {\mathcal Y}$.
+    \item $N$ data points $\{\boldsymbol{x}_i,y_i\}$. Each $\boldsymbol{x}_i$ is described by $p$ features and has a label $y_i \in {\mathcal Y}$. 
+    We want to find a tree of depth at most $D$ $T\in\mathcal{T}_D$ that minimizes:
     \begin{align*}
-        \mathcal{L}(T) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, f(x_i)) + \alpha C(T)
+        \mathcal{L}_{\alpha}(T) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, T(x_i)) + \alpha C(T)
     \end{align*}
     \pause
     \item Trees \textbf{interpretable} and \textbf{competitive with neural nets} {\small \textcolor{purple}{\parencite{grinsztajn2022tree}}}.
@@ -957,43 +958,34 @@ Classification MDP and the unique optimal depth-1 tree.
 \end{frame}
 
 \begin{frame}{Decision tree induction as solving MDPs}
-\begin{figure}
+\only<1>{\begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{schema AAAI.png}
     \caption*{Example of decision tree induction as an MDP.}
-\end{figure}
-\end{frame}
-
-\begin{frame}{Decision tree induction as solving MDPs}
-\begin{figure}
+\end{figure}}
+\only<2>{\begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{schema AAAI (1).png}
     \caption*{Example of decision tree induction as an MDP.}
-\end{figure}
-\end{frame}
-
-\begin{frame}{Decision tree induction as solving MDPs}
-\begin{figure}
+\end{figure}}
+\only<3>{\begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{schema AAAI (2).png}
     \caption*{Example of decision tree induction as an MDP.}
 \end{figure}
-\end{frame}
-
-\begin{frame}{Decision tree induction as solving MDPs}
-\begin{figure}
+}
+\only<4>{\begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{schema AAAI (3).png}
     \caption*{Example of decision tree induction as an MDP.}
 \end{figure}
-\end{frame}
-
-\begin{frame}{Decision tree induction as solving MDPs}
-\begin{figure}
+}
+\only<5>{\begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{schema AAAI (4).png}
     \caption*{Example of decision tree induction as an MDP.}
 \end{figure}
+}
 \end{frame}
 
 % \begin{frame}{Objective Leftrightarrowalence}
@@ -1049,76 +1041,54 @@ Classification MDP and the unique optimal depth-1 tree.
 \end{frame}
 %-------------LONNNNNNNNNNNNNNG
 \begin{frame}{DPDT trees can be strictly better than greedy trees}
-    \begin{figure}
+    \only<1>{\begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{Présentation sans titre.png}
-    \end{figure}
-\end{frame}
-\begin{frame}{DPDT trees can be strictly better than greedy trees}
-    \begin{figure}
+    \end{figure}}
+    \only<2>{\begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{Présentation sans titre (1).png}
-    \end{figure}
-\end{frame}
-\begin{frame}{DPDT trees can be strictly better than greedy trees}
-    \begin{figure}
+    \end{figure}}
+    \only<3>{\begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{Présentation sans titre (2).png}
-    \end{figure}
-\end{frame}
-\begin{frame}{DPDT trees can be strictly better than greedy trees}
-    \begin{figure}
+    \end{figure}}
+    \only<4>{\begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{Présentation sans titre (3).png}
-    \end{figure}
-\end{frame}
-\begin{frame}{DPDT trees can be strictly better than greedy trees}
-    \begin{figure}
+    \end{figure}}
+    \only<5>{\begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{Présentation sans titre (4).png}
-    \end{figure}
-\end{frame}
-\begin{frame}{DPDT trees can be strictly better than greedy trees}
-    \begin{figure}
+    \end{figure}}
+    \only<6>{\begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{Présentation sans titre (5).png}
-    \end{figure}
-\end{frame}
-\begin{frame}{DPDT trees can be strictly better than greedy trees}
-    \begin{figure}
+    \end{figure}}
+    \only<7>{\begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{Présentation sans titre (6).png}
-    \end{figure}
-\end{frame}
-\begin{frame}{DPDT trees can be strictly better than greedy trees}
-    \begin{figure}
+    \end{figure}}
+    \only<8>{\begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{Présentation sans titre (7).png}
-    \end{figure}
-\end{frame}
-\begin{frame}{DPDT trees can be strictly better than greedy trees}
-    \begin{figure}
+    \end{figure}}
+    \only<9>{\begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{Présentation sans titre (8).png}
-    \end{figure}
-\end{frame}
-\begin{frame}{DPDT trees can be strictly better than greedy trees}
-    \begin{figure}
+    \end{figure}}
+    \only<10>{\begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{Présentation sans titre (9).png}
-    \end{figure}
-\end{frame}
-\begin{frame}{DPDT trees can be strictly better than greedy trees}
-    \begin{figure}
+    \end{figure}}
+    \only<11>{\begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{Présentation sans titre (10).png}
-    \end{figure}
-\end{frame}
-\begin{frame}{DPDT trees can be strictly better than greedy trees}
-    \begin{figure}
+    \end{figure}}
+    \only<12>{\begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{Présentation sans titre (13).png}
-    \end{figure}
+    \end{figure}}
 \end{frame}
 % \begin{frame}{DPDT trees can be strictly better than greedy trees}
 %     \begin{figure}
@@ -1222,50 +1192,51 @@ Classification MDP and the unique optimal depth-1 tree.
 \end{frame}
 
 \begin{frame}{How to measure policy interpretability?}
-\pause
-\begin{alertblock}{Challenges {\small \parencite{glanois-survey,lipton,rigourous}}}
+\onslide<1->{\begin{alertblock}{Challenges {\small \parencite{glanois-survey,lipton,rigourous}}}
 \begin{itemize}
-    \pause
-    \item No definition of interpretability.
-    \pause
-    \item Measuring might require humans.
+    \item<2-> No definition of interpretability.
+    \item<3-> Measuring might require humans.
+    \item<11-> Different hardwares (CPUs vs GPUs).
+    \item<12-> Different implementations (matrix operations vs fully sequentially) {\small \textcolor{purple}{\parencite{insight}}}
 \end{itemize}
-\end{alertblock}
-\pause
-\begin{exampleblock}{The notion of \textit{simulatability} {\small \parencite{lipton}}}
+\end{alertblock}}
+
+\onslide<4->{\begin{exampleblock}{The notion of \textit{simulatability} {\small \parencite{lipton}}}
 \begin{itemize}
-    \pause
-    \item Interpretability $\simeq$ how long for human to make the same computations.
-    \pause
-    \item Interpretability $\simeq$ how much effort for a human to read through the entire policy.
-    \pause
-    \item Less parameters mean more interpretability {\small \textcolor{purple}{\parencite{study-0,study-4}}}.
-    \pause
-    \item Time to formally verify a policy decreases with interpretability {\small \textcolor{purple}{\parencite{lens-complexity}}}.
+    \item<5-> {
+    \only<5-8>{Interpretability $\simeq$ time for a human to compute the same.}
+    \only<9->{Interpretability $\simeq$ \textbf{\textcolor{blue}{runtime in seconds?}}}
+    }
+    \item<6-> {
+        \only<6-9>{Interpretability $\simeq$ how much effort for a human to read through the entire policy.}
+        \only<10->{Interpretability $\simeq$ \textbf{\textcolor{blue}{size in bytes?}}}
+    }
+    \item<7-> Less parameters mean more interpretability {\small \textcolor{purple}{\parencite{study-0,study-4}}}.
+    \item<8-> Time to formally verify a policy decreases with interpretability {\small \textcolor{purple}{\parencite{lens-complexity}}}.
 \end{itemize}
-\end{exampleblock}
+\end{exampleblock}}
 \end{frame}
 
-\begin{frame}{A methodology to measure policy interpretability without humans}
-\pause
-\begin{block}{Simulatability {\small \parencite{lipton}}}
-\begin{enumerate}
-    \pause
-    \item How long it takes for human to make the same computations given an input $\simeq$ policy inference time.
-    \pause
-    \item How much effort it would take a human to read through the entire policy once $\simeq$ policy size in memory.
-\end{enumerate}
-\end{block}
-\pause
-\begin{alertblock}{Not that simple in practice {\small \textcolor{purple}{\parencite{insight}}}}
-\begin{itemize}
-    \pause
-    \item Different hardwares (CPUs vs GPUs).
-    \pause
-    \item Different implementations (matrix operations vs fully sequentially) $\dots$
-\end{itemize}
-\end{alertblock}
-\end{frame}
+% \begin{frame}{A methodology to measure policy interpretability without humans}
+% \pause
+% \begin{block}{Simulatability {\small \parencite{lipton}}}
+% \begin{enumerate}
+%     \pause
+%     \item How long it takes for human to make the same computations given an input $\simeq$ policy inference time.
+%     \pause
+%     \item How much effort it would take a human to read through the entire policy once $\simeq$ policy size in memory.
+% \end{enumerate}
+% \end{block}
+% \pause
+% \begin{alertblock}{Not that simple in practice {\small \textcolor{purple}{\parencite{insight}}}}
+% \begin{itemize}
+%     \pause
+%     \item Different hardwares (CPUs vs GPUs).
+%     \pause
+%     \item Different implementations (matrix operations vs fully sequentially) $\dots$
+% \end{itemize}
+% \end{alertblock}
+% \end{frame}
 
 \begin{frame}[fragile]{We propose policy unfolding}
 \pause
@@ -1458,6 +1429,8 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
         \item \textbf{\textcolor{blue}{Combinatorial optimization:}} Can we formulate other combinatorial/NP-hard problems as MDPs and design other DPDT-like algorithms?
         \pause
         \item \textbf{\textcolor{orange}{Human-computer interaction:}} Can we do large scale human study of the $\sim$40K programs interpertability?
+        \pause
+        \item \textbf{\textcolor{teal}{Teaching:}} Can we use unfolded policies (and interpretability) for teaching?
     \end{itemize}
 \end{frame}
 
