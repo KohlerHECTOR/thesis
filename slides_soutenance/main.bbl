@@ -19,6 +19,47 @@
 
 \refsection{0}
   \datalist[entry]{anyt/global//global/global}
+    \entry{baisero-ppo}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=f49a8d34e0eef47ad9020b763e7d9564}{%
+           family={Baisero},
+           familyi={B\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod}}}%
+        {{hash=fa9a6826b3f1170680cb17b160340e97}{%
+           family={Amato},
+           familyi={A\bibinitperiod},
+           given={Christopher},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Virtual Event, New Zealand}%
+      }
+      \list{publisher}{2}{%
+        {International Foundation for Autonomous Agents}%
+        {Multiagent Systems}%
+      }
+      \strng{namehash}{694344f74b170905908c6ba1ebb14e00}
+      \strng{fullhash}{694344f74b170905908c6ba1ebb14e00}
+      \strng{bibnamehash}{694344f74b170905908c6ba1ebb14e00}
+      \strng{authorbibnamehash}{694344f74b170905908c6ba1ebb14e00}
+      \strng{authornamehash}{694344f74b170905908c6ba1ebb14e00}
+      \strng{authorfullhash}{694344f74b170905908c6ba1ebb14e00}
+      \field{labelalpha}{BA22}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{In partially observable reinforcement learning, offline training gives access to latent information which is not available during online training and/or execution, such as the system state. Asymmetric actor-critic methods exploit such information by training a history-based policy via a state-based critic. However, many asymmetric methods lack theoretical foundation, and are only evaluated on limited domains. We examine the theory of asymmetric actor-critic methods which use state-based critics, and expose fundamental issues which undermine the validity of a common variant, and limit its ability to address partial observability. We propose an unbiased asymmetric actor-critic variant which is able to exploit state information while remaining theoretically sound, maintaining the validity of the policy gradient theorem, and introducing no bias and relatively low variance into the training process. An empirical evaluation performed on domains which exhibit significant partial observability confirms our analysis, demonstrating that unbiased asymmetric actor-critic converges to better policies and/or faster than symmetric and biased asymmetric baselines.}
+      \field{booktitle}{Proceedings of the 21st International Conference on Autonomous Agents and Multiagent Systems}
+      \field{isbn}{9781450392136}
+      \field{series}{AAMAS '22}
+      \field{title}{Unbiased Asymmetric Reinforcement Learning under Partial Observability}
+      \field{year}{2022}
+      \field{pages}{44\bibrangedash 52}
+      \range{pages}{9}
+      \keyw{actor-critic,partial observability,reinforcement learning}
+    \endentry
     \entry{lens-complexity}{article}{}
       \name{author}{4}{}{%
         {{hash=1b311c76b1d53d7a7ea31d940e188e80}{%
@@ -90,6 +131,72 @@
       \field{year}{2017}
       \field{pages}{1039\bibrangedash 1082}
       \range{pages}{44}
+    \endentry
+    \entry{baisero-dqn}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=f49a8d34e0eef47ad9020b763e7d9564}{%
+           family={Baisero},
+           familyi={B\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod}}}%
+        {{hash=3dee193211f8d0965c856cb59320e13c}{%
+           family={Daley},
+           familyi={D\bibinitperiod},
+           given={Brett},
+           giveni={B\bibinitperiod}}}%
+        {{hash=fa9a6826b3f1170680cb17b160340e97}{%
+           family={Amato},
+           familyi={A\bibinitperiod},
+           given={Christopher},
+           giveni={C\bibinitperiod}}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=7971c2473560d8ed681f91ee565ec39f}{%
+           family={Cussens},
+           familyi={C\bibinitperiod},
+           given={James},
+           giveni={J\bibinitperiod}}}%
+        {{hash=62735e1af0391d63c09ff9fbcd3d4d54}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Kun},
+           giveni={K\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {PMLR}%
+      }
+      \strng{namehash}{16f993e59c769913580a291b60e1b18b}
+      \strng{fullhash}{16f993e59c769913580a291b60e1b18b}
+      \strng{bibnamehash}{16f993e59c769913580a291b60e1b18b}
+      \strng{authorbibnamehash}{16f993e59c769913580a291b60e1b18b}
+      \strng{authornamehash}{16f993e59c769913580a291b60e1b18b}
+      \strng{authorfullhash}{16f993e59c769913580a291b60e1b18b}
+      \strng{editorbibnamehash}{6d40d4e240cafd38666c10c613351f33}
+      \strng{editornamehash}{6d40d4e240cafd38666c10c613351f33}
+      \strng{editorfullhash}{6d40d4e240cafd38666c10c613351f33}
+      \field{labelalpha}{BDA22}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Offline training in simulated partially observable environments allows reinforcement learning methods to exploit privileged state information through a mechanism known as asymmetry. Such privileged information has the potential to greatly improve the optimal convergence properties, if used appropriately. However, current research in asymmetric reinforcement learning is often heuristic in nature, with few connections to underlying theory or theoretical guarantees, and is primarily tested through empirical evaluation. In this work, we develop the theory of Asymmetric Policy Iteration, an exact model-based dynamic programming solution method, and then apply relaxations which eventually result in Asymmetric DQN, a model-free deep reinforcement learning algorithm. Our theoretical findings are complemented and validated by empirical experimentation performed in environments which exhibit significant amounts of partial observability, and require both information gathering strategies and memorization.}
+      \field{booktitle}{Proceedings of the Thirty-Eighth Conference on Uncertainty in Artificial Intelligence}
+      \field{month}{01--05 Aug}
+      \field{series}{Proceedings of Machine Learning Research}
+      \field{title}{Asymmetric {DQN} for partially observable reinforcement learning}
+      \field{volume}{180}
+      \field{year}{2022}
+      \field{pages}{107\bibrangedash 117}
+      \range{pages}{11}
+      \verb{file}
+      \verb https://proceedings.mlr.press/v180/baisero22a/baisero22a.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://proceedings.mlr.press/v180/baisero22a.html
+      \endverb
+      \verb{url}
+      \verb https://proceedings.mlr.press/v180/baisero22a.html
+      \endverb
     \endentry
     \entry{topk}{article}{}
       \name{author}{6}{}{%
@@ -1180,6 +1287,59 @@
       \field{pages}{202}
       \range{pages}{1}
     \endentry
+    \entry{pinto}{misc}{}
+      \name{author}{5}{}{%
+        {{hash=9d4b78f1220fe5cab8395d811fc9c5b2}{%
+           family={Pinto},
+           familyi={P\bibinitperiod},
+           given={Lerrel},
+           giveni={L\bibinitperiod}}}%
+        {{hash=0d8b72cabbd1b548097b4a7b81a0f335}{%
+           family={Andrychowicz},
+           familyi={A\bibinitperiod},
+           given={Marcin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=462853f8544f0acfb7014fe747f84922}{%
+           family={Welinder},
+           familyi={W\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=e9fec85bbce1b087a6ebefe26e73f7bf}{%
+           family={Zaremba},
+           familyi={Z\bibinitperiod},
+           given={Wojciech},
+           giveni={W\bibinitperiod}}}%
+        {{hash=e28d4ee199593959d8c29980a64f1974}{%
+           family={Abbeel},
+           familyi={A\bibinitperiod},
+           given={Pieter},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{009a5c68c897047df971c989b06bc577}
+      \strng{fullhash}{d012a902a710a88caa929eec5b3f11c1}
+      \strng{bibnamehash}{009a5c68c897047df971c989b06bc577}
+      \strng{authorbibnamehash}{009a5c68c897047df971c989b06bc577}
+      \strng{authornamehash}{009a5c68c897047df971c989b06bc577}
+      \strng{authorfullhash}{d012a902a710a88caa929eec5b3f11c1}
+      \field{labelalpha}{Pin+17}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.RO}
+      \field{eprinttype}{arXiv}
+      \field{title}{Asymmetric Actor Critic for Image-Based Robot Learning}
+      \field{year}{2017}
+      \verb{eprint}
+      \verb 1710.06542
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1710.06542
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1710.06542
+      \endverb
+    \endentry
     \entry{puterman}{book}{}
       \name{author}{1}{}{%
         {{hash=b4258b9291d903d97b69d703eebf790a}{%
@@ -1371,6 +1531,90 @@
       \field{journaltitle}{arXiv preprint arXiv:1707.06347}
       \field{title}{Proximal policy optimization algorithms}
       \field{year}{2017}
+    \endentry
+    \entry{learning-pomdp}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=0778520109d58859c98d71f3b7e75837}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Satinder\bibnamedelima P.},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=1ebba49b22f851536356de9d887f66dc}{%
+           family={Jaakkola},
+           familyi={J\bibinitperiod},
+           given={Tommi\bibnamedelima S.},
+           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=8a36116840c7ee55901618c95fd08a58}{%
+           family={Jordan},
+           familyi={J\bibinitperiod},
+           given={Michael\bibnamedelima I.},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New Brunswick, NJ, USA}%
+      }
+      \list{publisher}{1}{%
+        {Morgan Kaufmann Publishers Inc.}%
+      }
+      \strng{namehash}{b9d7379e811c09673c647f0437cbfddd}
+      \strng{fullhash}{b9d7379e811c09673c647f0437cbfddd}
+      \strng{bibnamehash}{b9d7379e811c09673c647f0437cbfddd}
+      \strng{authorbibnamehash}{b9d7379e811c09673c647f0437cbfddd}
+      \strng{authornamehash}{b9d7379e811c09673c647f0437cbfddd}
+      \strng{authorfullhash}{b9d7379e811c09673c647f0437cbfddd}
+      \field{labelalpha}{SJJ94}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Eleventh International Conference on International Conference on Machine Learning}
+      \field{isbn}{1558603352}
+      \field{series}{ICML'94}
+      \field{title}{Learning without state-estimation in partially observable Markovian decision processes}
+      \field{year}{1994}
+      \field{pages}{284\bibrangedash 292}
+      \range{pages}{9}
+    \endentry
+    \entry{topin2021iterative}{article}{}
+      \name{author}{4}{}{%
+        {{hash=e97056737afe2e204855790a8ab62d82}{%
+           family={Topin},
+           familyi={T\bibinitperiod},
+           given={Nicholay},
+           giveni={N\bibinitperiod}}}%
+        {{hash=1c69057c7c6f38d39a099175a70a7882}{%
+           family={Milani},
+           familyi={M\bibinitperiod},
+           given={Stephanie},
+           giveni={S\bibinitperiod}}}%
+        {{hash=50229c3fdb5e7f30b2bd918528bdc0df}{%
+           family={Fang},
+           familyi={F\bibinitperiod},
+           given={Fei},
+           giveni={F\bibinitperiod}}}%
+        {{hash=108bc6e5f71a32699fcf07b7e8957310}{%
+           family={Veloso},
+           familyi={V\bibinitperiod},
+           given={Manuela},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{cf1ff1df22fffd345f7443c726ccb82d}
+      \strng{fullhash}{2dd51328b60fac39aed9edd1107672d8}
+      \strng{bibnamehash}{cf1ff1df22fffd345f7443c726ccb82d}
+      \strng{authorbibnamehash}{cf1ff1df22fffd345f7443c726ccb82d}
+      \strng{authornamehash}{cf1ff1df22fffd345f7443c726ccb82d}
+      \strng{authorfullhash}{2dd51328b60fac39aed9edd1107672d8}
+      \field{labelalpha}{Top+21}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the AAAI Conference on Artificial Intelligence}
+      \field{title}{Iterative bounding mdps: Learning interpretable policies via non-interpretable methods}
+      \field{volume}{35}
+      \field{year}{2021}
+      \field{pages}{9923\bibrangedash 9931}
+      \range{pages}{9}
     \endentry
     \entry{PIRL}{article}{}
       \name{author}{5}{}{%

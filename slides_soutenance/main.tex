@@ -637,47 +637,447 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
 %     \textbf{A: direct reinforcement leargning is hard because it involves partial observability.}
 % \end{frame}
 
-\begin{frame}{Direct RL of decision tree policies with iterative bounding Markov decision processes}
-% \pause
-% {\small 
-% Given an MDP $\mathcal{M}$ $\langle S, A, R, T \rangle$, an associated iterative bounding Markov decision process (IBMDP, {\small \cite{topin2021iterative}}) $\mathcal{M}_{IB}$ is an MDP:
-% $\langle \overbrace{S \times O}^{\text{Augmented state space}}, \underbrace{A \cup A_{info}}_{\text{Augmented action space}}, \overbrace{(R, \zeta)}^{\text{Augmented rewards}}, \underbrace{(T_{info}, T)}_{\text{Augmented transitions}}\rangle$}
-% \pause
-% \begin{itemize}
-%     \pause
-%     \item $O$: observations of some state features bounds.
-%     \pause
-%     \item $A_{info}$: actions that gather informations about some state features.
-%     \pause
-%     \item $\zeta$: reward for taking $a\in A_{info}$.
-%     \pause
-%     \item $T_{info}$: transitions following $a\in A_{info}$ that update the feature bounds with gathered info.
-% \end{itemize}
-% \small
-% \begin{itemize}
-% \item<2-> $O\subsetneq S^2 =  [L_1, U_1]\times \dots \times [L_p, U_p] \times [L_1, U_1]\times \dots \times [L_p, U_p]$. 
-% An IBMDP state is $\boldsymbol{s}_{IB} = (\overbrace{s_1, \dots, s_p}^{\boldsymbol{s}\in S}, \underbrace{L_1, U_1, \dots, L_p, U_p}_{\boldsymbol{o}\in O})$.
-% \item<3-> $A_{info}$ are \textit{information gathering} actions: $\langle j, v \rangle$ where $j$ is a state feature index $1 \leq j \leq p$ and $v$ is a real number between $L_j$ and $U_j$. 
-% \item<4-> $\zeta$ is a reward signal for taking an information gathering action.
-% \item<5-> $T_{info}: S\times O \times( A_{info} \cup A )\rightarrow \Delta (S\times O)$ is the transition function of IBMDPs: 
-% Given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_p, U'_p) \in O$ and base state features $\boldsymbol{s}_t=(s'_1, s'_2, \dots, s'_p)$ if an IGA $\langle j, v \rangle$ is taken, the new observation is:
-% \begin{align*}
-%     \boldsymbol{o}_{t+1} &= \begin{cases}
-%         (L'_1, U'_1, \dots , L'_j, \min\{v, U'_j\}, \dots , L''_p, U'_p) \text{ if } s_j \leq v\\
-%         (L'_1, U'_1, \dots , \max\{v, L'_j\}, U'_j, \dots , L''_p, U'_p) \text{ if } s_j > v
-%     \end{cases}
-% \end{align*}
-% If a base action is taken, the observation is reset to the default base state feature bounds $(L_1, U_1,\dots, L_p, U_p)$ and the base state features change according to the base MDP transition function: $\boldsymbol{s}_{t+1}\sim T(\boldsymbol{s}_t, a_t)$.
-% \end{itemize}
-\pause
-\begin{exampleblock}{IBMDPs promises}
-    \begin{itemize}
-        \pause
-        \item No need to design new algorithm: we can use RL.
-        \pause
-        \item IBMDP rewards trade-off naturally interpretability and performances.
-    \end{itemize}
-    \end{exampleblock}
+\begin{frame}{Iterative bounding Markov decision processes~\cite{topin2021iterative}}
+\begin{figure}
+\centering
+\only<1>{\scalebox{0.7}{
+\begin{tikzpicture}[scale=0.6]
+    % Define styles
+    \tikzstyle{grid}=[draw, thick, fill=gray!10]
+    \tikzstyle{rectangle}=[draw, thick, fill=red!20]
+    
+    % Row 1: IBMDP States (s, o)
+    % t=0: Initial state
+    \node at (2,7.5) {\small $t=0$};
+    % \node at (2,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
+    % \draw[rectangle] (1,4) rectangle (3,6);
+    \draw[grid] (1,4) grid (3,6);
+    % Adds
+    \draw[thick, ->] (1,4) -- (3.2,4) node[right] {$x$};
+    \draw[thick, ->] (1,4) -- (1,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+1,4) -- (\x+1,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (1,\y+4) -- (0.9,\y+4) node[left] {$\y$};
+    }
+    \node at (1.5, 5.5) {$\mathcal{A}$};
+    \node at (2.5, 4.5) {$\star$};
+    
+    % % Curved arrow from t=0 to t=1
+    % \draw<3->[thick, ->] (2,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1\rangle, r_t = \zeta$} (7,3);
+
+    % % % t=1: After AIG x≤0.5
+    % \node<6-> at (7,9.5) {\small $t=1$};
+    % \node<6-19> at (7,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
+    % \node<7-> at (7,7.5) {\small $\boldsymbol{o}_t=(0, 1, 0, 2)$};
+
+    % \draw<7->[rectangle] (6,4) rectangle (7,6);
+    % \draw<6->[grid] (6,4) grid (8,6);
+    % % Add axes
+    % \draw<6->[thick, ->] (6,4) -- (8.2,4) node[right] {$x$};
+    % \draw<6->[thick, ->] (6,4) -- (6,6.2) node[above] {$y$};
+    % \foreach \x in {0,1,2} {
+    %     \draw<6->[thick] (\x+6,4) -- (\x+6,3.9) node[below] {$\x$};
+    % }
+    % \foreach \y in {0,1,2} {
+    %     \draw<6->[thick] (6,\y+4) -- (5.9,\y+4) node[left] {$\y$};
+    % }
+    % \node<6-19> at (6.5, 5.5) {$\mathcal{A}$};
+    % \node<6-> at (7.5, 4.5) {$\star$};
+
+
+    % % Curved arrow from t=1 to t=2
+    \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {}(12,3);
+    % \draw[thick, ->] (7,3) to[bend right=30] node[midway, below] {\small $a_t = \rightarrow, r_t  = 0$}(12,3);
+
+
+    % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-3) {$\rightarrow$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+    % % % \node<13>[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right_new) at (3,-3) {$\rightarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right_new) node[font=\footnotesize, midway, above left] {True};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right_new_new) at (3,-3) {$\rightarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right_new_new) node[font=\footnotesize, midway, above left] {True};
+
+    \node at (12,7.5) {\small $t=1$};
+    % \node at (12,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
+    
+    % \draw[rectangle] (11,4) rectangle (13,6);
+    \draw[grid] (11,4) grid (13,6);
+    % Add axes
+    \draw[thick, ->] (11,4) -- (13.2,4) node[right] {$x$};
+    \draw[thick, ->] (11,4) -- (11,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+11,4) -- (\x+11,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (11,\y+4) -- (10.9,\y+4) node[left] {$\y$};
+    }
+    \node at (12.5, 5.5) {$\mathcal{A}$};
+    \node at (12.5, 4.5) {$\star$};
+    
+    % Curved arrow from t=2 to t=4
+    % \draw<12->[thick, ->] (12,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1 \rangle, r_t = \zeta$} (17,3);
+
+    % % \node<13->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
+    % % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
+    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-3) {$\downarrow$};
+    % % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    
+    % \node<14-> at (17,9.5) {\small $t=4$};
+    % \node<14-19> at (17,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
+    % \node<14-> at (17,7.5) {\small $\boldsymbol{o}_t=(1, 2, 0, 2)$};
+
+    % \draw<14->[rectangle] (17,4) rectangle (18,6);
+    % \draw<14->[grid] (16,4) grid (18,6);
+    % % Add axes
+    % \draw<14->[thick, ->] (16,4) -- (18.2,4) node[right] {$x$};
+    % \draw<14->[thick, ->] (16,4) -- (16,6.2) node[above] {$y$};
+    % \foreach \x in {0,1,2} {
+    %     \draw<14->[thick] (\x+16,4) -- (\x+16,3.9) node[below] {$\x$};
+    % }
+    % \foreach \y in {0,1,2} {
+    %     \draw<14->[thick] (16,\y+4) -- (15.9,\y+4) node[left] {$\y$};
+    % }
+    % \node<14-19> at (17.5, 5.5) {$\mathcal{A}$};
+    % \node<14-> at (17.5, 4.5) {$\star$};
+    
+    \draw[thick, ->] (12,3) to[bend right=30] node[midway, below] {} (22,3);
+    % \draw<15->[thick, ->] (17,3) to[bend right=30] node[midway, below] {\small $a_t = \downarrow, r_t = 0$} (22,3);
+    
+    % % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
+    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
+    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
+    % % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+
+    \node at (22,7.5) {\small $t=2$};
+    % \node at (22,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
+ 
+    % \draw[rectangle] (21,4) rectangle (23,6);
+    \draw[grid] (21,4) grid (23,6);
+    % % Add axes
+    \draw[thick, ->] (21,4) -- (23.2,4) node[right] {$x$};
+    \draw[thick, ->] (21,4) -- (21,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+21,4) -- (\x+21,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (21,\y+4) -- (20.9,\y+4) node[left] {$\y$};
+    }
+    \node at (22.5, 4.5) {$\mathcal{A}$};
+    \node at (22.5, 4.5) {$\star$};
+
+    % \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    
+\end{tikzpicture}}}
+\only<2>{\scalebox{0.7}{
+\begin{tikzpicture}[scale=0.6]
+    % Define styles
+    \tikzstyle{grid}=[draw, thick, fill=gray!10]
+    \tikzstyle{rectangle}=[draw, thick, fill=red!20]
+    
+    % Row 1: IBMDP States (s, o)
+    % t=0: Initial state
+    \node at (2,7.5) {\small $t=0$};
+    % \node at (2,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
+    \draw[rectangle] (1,4) rectangle (3,6);
+    \draw[grid] (1,4) grid (3,6);
+    % Adds
+    \draw[thick, ->] (1,4) -- (3.2,4) node[right] {$x$};
+    \draw[thick, ->] (1,4) -- (1,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+1,4) -- (\x+1,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (1,\y+4) -- (0.9,\y+4) node[left] {$\y$};
+    }
+    % \node at (1.5, 5.5) {$\mathcal{A}$};
+    \node at (2.5, 4.5) {$\star$};
+    
+    % % Curved arrow from t=0 to t=1
+    % \draw<3->[thick, ->] (2,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1\rangle, r_t = \zeta$} (7,3);
+
+    % % % t=1: After AIG x≤0.5
+    % \node<6-> at (7,9.5) {\small $t=1$};
+    % \node<6-19> at (7,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
+    % \node<7-> at (7,7.5) {\small $\boldsymbol{o}_t=(0, 1, 0, 2)$};
+
+    % \draw<7->[rectangle] (6,4) rectangle (7,6);
+    % \draw<6->[grid] (6,4) grid (8,6);
+    % % Add axes
+    % \draw<6->[thick, ->] (6,4) -- (8.2,4) node[right] {$x$};
+    % \draw<6->[thick, ->] (6,4) -- (6,6.2) node[above] {$y$};
+    % \foreach \x in {0,1,2} {
+    %     \draw<6->[thick] (\x+6,4) -- (\x+6,3.9) node[below] {$\x$};
+    % }
+    % \foreach \y in {0,1,2} {
+    %     \draw<6->[thick] (6,\y+4) -- (5.9,\y+4) node[left] {$\y$};
+    % }
+    % \node<6-19> at (6.5, 5.5) {$\mathcal{A}$};
+    % \node<6-> at (7.5, 4.5) {$\star$};
+
+
+    % % Curved arrow from t=1 to t=2
+    \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {}(12,3);
+    % \draw[thick, ->] (7,3) to[bend right=30] node[midway, below] {\small $a_t = \rightarrow, r_t  = 0$}(12,3);
+
+
+    % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-3) {$\rightarrow$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+    % % % \node<13>[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right_new) at (3,-3) {$\rightarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right_new) node[font=\footnotesize, midway, above left] {True};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right_new_new) at (3,-3) {$\rightarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right_new_new) node[font=\footnotesize, midway, above left] {True};
+
+    \node at (12,7.5) {\small $t=1$};
+    % \node at (12,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
+    
+    \draw[rectangle] (11,4) rectangle (13,6);
+    \draw[grid] (11,4) grid (13,6);
+    % Add axes
+    \draw[thick, ->] (11,4) -- (13.2,4) node[right] {$x$};
+    \draw[thick, ->] (11,4) -- (11,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+11,4) -- (\x+11,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (11,\y+4) -- (10.9,\y+4) node[left] {$\y$};
+    }
+    % \node at (12.5, 5.5) {$\mathcal{A}$};
+    \node at (12.5, 4.5) {$\star$};
+    
+    % Curved arrow from t=2 to t=4
+    % \draw<12->[thick, ->] (12,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1 \rangle, r_t = \zeta$} (17,3);
+
+    % % \node<13->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
+    % % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
+    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-3) {$\downarrow$};
+    % % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    
+    % \node<14-> at (17,9.5) {\small $t=4$};
+    % \node<14-19> at (17,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
+    % \node<14-> at (17,7.5) {\small $\boldsymbol{o}_t=(1, 2, 0, 2)$};
+
+    % \draw<14->[rectangle] (17,4) rectangle (18,6);
+    % \draw<14->[grid] (16,4) grid (18,6);
+    % % Add axes
+    % \draw<14->[thick, ->] (16,4) -- (18.2,4) node[right] {$x$};
+    % \draw<14->[thick, ->] (16,4) -- (16,6.2) node[above] {$y$};
+    % \foreach \x in {0,1,2} {
+    %     \draw<14->[thick] (\x+16,4) -- (\x+16,3.9) node[below] {$\x$};
+    % }
+    % \foreach \y in {0,1,2} {
+    %     \draw<14->[thick] (16,\y+4) -- (15.9,\y+4) node[left] {$\y$};
+    % }
+    % \node<14-19> at (17.5, 5.5) {$\mathcal{A}$};
+    % \node<14-> at (17.5, 4.5) {$\star$};
+    
+    \draw[thick, ->] (12,3) to[bend right=30] node[midway, below] {} (22,3);
+    % \draw<15->[thick, ->] (17,3) to[bend right=30] node[midway, below] {\small $a_t = \downarrow, r_t = 0$} (22,3);
+    
+    % % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
+    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
+    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
+    % % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+
+    \node at (22,7.5) {\small $t=2$};
+    % \node at (22,8.5) {\small $\boldsymbol{s}_t=(1.5, 0.5)$};
+ 
+    \draw[rectangle] (21,4) rectangle (23,6);
+    \draw[grid] (21,4) grid (23,6);
+    % % Add axes
+    \draw[thick, ->] (21,4) -- (23.2,4) node[right] {$x$};
+    \draw[thick, ->] (21,4) -- (21,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+21,4) -- (\x+21,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (21,\y+4) -- (20.9,\y+4) node[left] {$\y$};
+    }
+    % \node at (22.5, 4.5) {$\mathcal{A}$};
+    \node at (22.5, 4.5) {$\star$};
+
+    % \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    
+\end{tikzpicture}}}
+\only<3->{
+    \scalebox{0.7}{
+\begin{tikzpicture}[scale=0.6]
+    % Define styles
+    \tikzstyle{grid}=[draw, thick, fill=gray!10]
+    \tikzstyle{rectangle}=[draw, thick, fill=red!20]
+    
+    % Row 1: IBMDP States (s, o)
+    % t=0: Initial state
+    \node at (2,7.5) {\small $t=0$};
+
+    \draw[rectangle] (1,4) rectangle (3,6);
+    \draw[grid] (1,4) grid (3,6);
+    % Add axes
+    \draw[thick, ->] (1,4) -- (3.2,4) node[right] {$x$};
+    \draw[thick, ->] (1,4) -- (1,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+1,4) -- (\x+1,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (1,\y+4) -- (0.9,\y+4) node[left] {$\y$};
+    }
+    \node at (2.5, 4.5) {$\star$};
+    
+    % Curved arrow from t=0 to t=1
+    \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {} (7,3);
+
+    % % t=1: After AIG x≤0.5
+    \node at (7,7.5) {\small $t=1$};
+
+    \draw[rectangle] (6,4) rectangle (7,6);
+    \draw[grid] (6,4) grid (8,6);
+    % Add axes
+    \draw[thick, ->] (6,4) -- (8.2,4) node[right] {$x$};
+    \draw[thick, ->] (6,4) -- (6,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+6,4) -- (\x+6,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (6,\y+4) -- (5.9,\y+4) node[left] {$\y$};
+    }
+    \node at (7.5, 4.5) {$\star$};
+
+
+    % Curved arrow from t=1 to t=2
+    \draw[thick, ->] (7,3) to[bend right=30] node[midway, below] {}(12,3);
+
+    % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
+    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+    % % % \node<13>[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right_new_new) at (3,-3) {$\rightarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right_new_new) node[font=\footnotesize, midway, above left] {True};
+
+    \node at (12,7.5) {\small $t=2$};
+    
+    \draw[rectangle] (11,4) rectangle (13,6);
+    \draw[grid] (11,4) grid (13,6);
+    % Add axes
+    \draw[thick, ->] (11,4) -- (13.2,4) node[right] {$x$};
+    \draw[thick, ->] (11,4) -- (11,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+11,4) -- (\x+11,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (11,\y+4) -- (10.9,\y+4) node[left] {$\y$};
+    }
+    \node at (12.5, 4.5) {$\star$};
+    
+    % Curved arrow from t=2 to t=4
+    \draw[thick, ->] (12,3) to[bend right=30] node[midway, below] {} (17,3);
+
+    % \node<13->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
+    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-3) {$\downarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    
+    \node at (17,7.5) {\small $t=4$};
+
+    \draw[rectangle] (17,4) rectangle (18,6);
+    \draw[grid] (16,4) grid (18,6);
+    % Add axes
+    \draw[thick, ->] (16,4) -- (18.2,4) node[right] {$x$};
+    \draw[thick, ->] (16,4) -- (16,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+16,4) -- (\x+16,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (16,\y+4) -- (15.9,\y+4) node[left] {$\y$};
+    }
+    \node at (17.5, 4.5) {$\star$};
+    
+    \draw[thick, ->] (17,3) to[bend right=30] node[midway, below] {} (22,3);
+    
+    % % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
+    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
+    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
+    % % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+
+    \node at (22,7.5) {\small $t=5$};
+ 
+    \draw[rectangle] (21,4) rectangle (23,6);
+    \draw[grid] (21,4) grid (23,6);
+    % % Add axes
+    \draw[thick, ->] (21,4) -- (23.2,4) node[right] {$x$};
+    \draw[thick, ->] (21,4) -- (21,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+21,4) -- (\x+21,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (21,\y+4) -- (20.9,\y+4) node[left] {$\y$};
+    }
+    \node at (22.5, 4.5) {$\star$};
+
+    % \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+    \node<7->[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
+    \node<7->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
+    \node<7->[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
+    \draw<7->[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw<7->[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    \node<6->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
+    \node<6->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
+    \node<6->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
+    \draw<6->[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw<6->[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    \node<5->[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
+    \node<5->[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
+    \node<5->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-3) {$\downarrow$};
+    \draw<5->[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw<5->[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    \node<4->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
+    \node<4->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-3) {$\rightarrow$};
+    \node<4->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
+    \draw<4->[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw<4->[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    
+\end{tikzpicture}}
+}
+\end{figure}
+\only<8>{\textbf{\warning To learn decision tree policies for an MDP we need to hide and allow agents to query information about state features.}}
 \end{frame}
 
 % \begin{frame}{Grid world IBMDP example}
@@ -832,27 +1232,29 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
 %     \item<19-20>{Topin et. al. show that only certain policies correspond to decision trees.}
 % \end{itemize}
 % \end{frame}
-
+\setbeamercovered{transparent}
 \begin{frame}{Deterministic partially observable policies in IBMDPs}
-    \begin{block}{Deterministic}
-        Otherwise 
-    \end{block}
-    \begin{block}{Partially observable}
-        Otherwise
-    \end{block}
-    \begin{alertblock}{RL for POMDPs}
-        Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard \textcolor{purple}{\parencite{littman1}}!
-        
-    \end{alertblock}
-\end{frame}
-
-\begin{frame}{Asymmetric RL for POMDPs}
-    \begin{exampleblock}{Access the hidden state during training}
+    \only<1-3>{\begin{exampleblock}{IBMDPs promises}
         \begin{itemize}
-            \item Value based $\rightarrow$
-            \item Actor-critic $\rightarrow$\footnote{Although those return stochastic policies, we can be greedy.}
+            \item<2-> No need to design new algorithm: we can use RL.
+            \item<3-> IBMDP rewards trade-off naturally interpretability and performances.
         \end{itemize}
-    \end{exampleblock}
+        \end{exampleblock}}
+    \onslide<4->{\begin{alertblock}{RL for partially observable policies}
+        \begin{itemize}
+        \item<5-> Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard \textcolor{purple}{\small \parencite{littman1}}!
+        \item<6-> The best partially observable policy can be stochastic \textcolor{purple}{\small \cite{learning-pomdp}}.
+        \item<7-> Value-based RL converges to sub-optimal solutions \textcolor{purple}{\small \cite{learning-pomdp}}.
+    \end{itemize}}
+    \end{alertblock}
+    \onslide<8->{\begin{block}{Asymmetric RL}
+        \begin{itemize}
+            \item<9-> Access to hidden states during training but not at execution \textcolor{purple}{\small \cite{pinto}}.
+            \item<10-> Value-based $\rightarrow$ learns $Q(o, a)$ with TD targets $Q(s, a)$  \textcolor{purple}{\small \cite{baisero-dqn}}.
+            \item<11-> Actor-critic\footnote{Although those return stochastic policies, we can be greedy.} $\rightarrow$ policy gradient on $\pi(o, a)$ using a critic $V(s)$ \textcolor{purple}{\small \cite{baisero-ppo}}.
+            \item<12-> Supposed to work better for our problem \textcolor{purple}{\small \cite{justif-asym}}.
+        \end{itemize}
+    \end{block}}
 \end{frame}
 
 % \begin{frame}{Result: RL cannot retrieve optimal depth-1 trees for the grid world MDP}
@@ -877,52 +1279,52 @@ Success rates over thousands of RL runs with varying hyperparameters when learni
 \textcolor{blue}{\textbf{Is it all for nothing?}}
 \end{frame}
 
-\begin{frame}{Result: decision tree policies for classification MDPs are standard Markovian policies in IBMDPs}
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[
-        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
-        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
-        edge_label/.style={font=\footnotesize, midway}
-    ]
-        % Tree 4: if x <= 0.5 move right else move left
-        \node<3->[decision] (tree4_root) at (8,2) {$x \leq 1$};
-        \node<3->[rectangle, draw, thick, fill=green!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_right) at (7,0) {};
-        \node<3->[rectangle, draw, thick, fill=red!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_left) at (9,0);
-        \draw<3->[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
-        \draw<3->[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
-        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+% \begin{frame}{Result: decision tree policies for classification MDPs are standard Markovian policies in IBMDPs}
+% \begin{figure}
+%     \centering
+%     \begin{tikzpicture}[
+%         decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
+%         leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
+%         edge_label/.style={font=\footnotesize, midway}
+%     ]
+%         % Tree 4: if x <= 0.5 move right else move left
+%         \node<3->[decision] (tree4_root) at (8,2) {$x \leq 1$};
+%         \node<3->[rectangle, draw, thick, fill=green!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_right) at (7,0) {};
+%         \node<3->[rectangle, draw, thick, fill=red!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_left) at (9,0);
+%         \draw<3->[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
+%         \draw<3->[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
+%         \tikzstyle{grid}=[draw, thick, fill=gray!10]
         
-        % Draw grid
-        \draw<2->[fill=green!40] (0, 0) rectangle (1,2);
-        \draw<2->[fill=red!40] (1, 0) rectangle (2,2);
+%         % Draw grid
+%         \draw<2->[fill=green!40] (0, 0) rectangle (1,2);
+%         \draw<2->[fill=red!40] (1, 0) rectangle (2,2);
 
-        \draw[grid] (0,0) grid (2,2);
+%         \draw[grid] (0,0) grid (2,2);
         
-        % Add axes
-        \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
-        \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
+%         % Add axes
+%         \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
+%         \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
         
-        % Add tick marks and labels
-        \foreach \x in {0,1,2} {
-            \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
-        }
-        \foreach \y in {0,1,2} {
-            \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
-        }
+%         % Add tick marks and labels
+%         \foreach \x in {0,1,2} {
+%             \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
+%         }
+%         \foreach \y in {0,1,2} {
+%             \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
+%         }
 
-        \node at (0.5,0.5) {$\boldsymbol{s}_0$};
-        \node at (1.5,0.5) {$\boldsymbol{s}_g$};
-        \node at (1.5,1.5) {$\boldsymbol{s}_2$};
-        \node at (0.5,1.5) {$\boldsymbol{s}_1$};
-    \end{tikzpicture}
-\end{figure}
-\pause
-Classification MDP and the unique optimal depth-1 tree.
-\pause
-\\
-\textbf{\textcolor{teal}{Deterministic partially observable policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
-\end{frame}
+%         \node at (0.5,0.5) {$\boldsymbol{s}_0$};
+%         \node at (1.5,0.5) {$\boldsymbol{s}_g$};
+%         \node at (1.5,1.5) {$\boldsymbol{s}_2$};
+%         \node at (0.5,1.5) {$\boldsymbol{s}_1$};
+%     \end{tikzpicture}
+% \end{figure}
+% \pause
+% Classification MDP and the unique optimal depth-1 tree.
+% \pause
+% \\
+% \textbf{\textcolor{teal}{Deterministic partially observable policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
+% \end{frame}
 
 % \begin{frame}{Result: RL can retrieve optimal depth-1 trees for the toy classification MDP}
 % \begin{figure}
@@ -956,7 +1358,7 @@ Classification MDP and the unique optimal depth-1 tree.
         \item Design algorithms that learn deterministic partially observable policies {\small \textcolor{purple}{\parencite{lambrechts2025informed,justif-asym}}}?
     \end{itemize}
     \pause
-    \begin{exampleblock}{RL works in classification MDPs}
+    \begin{exampleblock}{We show that decision tree policies for supervised learning tasks are fully observable IBMDP policies.}
     \pause
     \textit{Q: Can we leverage SDM to design new decision tree induction algorithms for the supervised learning setting?}
     \pause
