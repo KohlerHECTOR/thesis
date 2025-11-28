@@ -349,7 +349,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
 \textbf{\textcolor{blue}{What about SDM?}}
 \end{frame}
 
-\begin{frame}{Indirect approach: imitation learning}
+\begin{frame}{Imitation learning}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
@@ -377,11 +377,11 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
     ]
         
         % Direct method box
-        \node<5->[method_box] (direct_box) at (-0.5,0) {};
-        \node<5-> at (-0.5,1.7) {\small{\textcolor{blue}{\textbf{Direct ?}}}};
+        \node<4->[method_box] (direct_box) at (-0.5,0) {};
+        \node<4-> at (-0.5,1.7) {\small{\textcolor{blue}{\textbf{Direct ?}}}};
         
         % Direct method - RL process
-        \node<6->[rl] (rl_direct) at (-2,0) {
+        \node<5->[rl] (rl_direct) at (-2,0) {
             \begin{minipage}{1.2cm}
                 \centering
                 \includesvg[width=0.3cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
@@ -390,7 +390,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         };
         
         % Direct method - Decision Tree
-        \node<6->[dt] (dt_direct) at (1,0) {
+        \node<5->[dt] (dt_direct) at (1,0) {
             \begin{minipage}{1.2cm}
                 \centering
                 \includesvg[width=0.3cm]{../images/images_intro/decision-tree-svgrepo-com.svg}\\
@@ -406,7 +406,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         \node<1-> at (6.8,1.7) {\small{Indirect}};
         
         % Indirect method - RL process
-        \node<1->[rl] (rl_indirect) at (3.5,0) {
+        \node<2->[rl] (rl_indirect) at (3.5,0) {
             \begin{minipage}{1.2cm}
                 \centering
                 \includesvg[width=0.3cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
@@ -424,7 +424,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         };
         
         % Indirect method - Supervised Learning
-        \node<3->[sl] (sl_indirect) at (8.5,0) {
+        \node<2->[sl] (sl_indirect) at (8.5,0) {
             \begin{minipage}{1.2cm}
                 \centering
                 \includesvg[width=0.3cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
@@ -433,7 +433,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         };
         
         % Indirect method - Decision Tree
-        \node<3->[dt] (dt_indirect) at (11,0) {
+        \node<2->[dt] (dt_indirect) at (11,0) {
             \begin{minipage}{1.2cm}
                 \centering
                 \includesvg[width=0.3cm]{../images/images_intro/decision-tree-svgrepo-com.svg}\\
@@ -443,12 +443,12 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         
         % Indirect method arrows
         \draw<2->[arrow] (rl_indirect) -- (nn_indirect) node[label, midway] {\tiny Learns};
-        \draw<3->[arrow] (nn_indirect) -- (sl_indirect) node[label, midway] {\tiny Generates data};
-        \draw<3->[arrow] (sl_indirect) -- (dt_indirect) node[label, midway] {\tiny Learns};
+        \draw<2->[arrow] (nn_indirect) -- (sl_indirect) node[label, midway] {\tiny Generates data};
+        \draw<2->[arrow] (sl_indirect) -- (dt_indirect) node[label, midway] {\tiny Learns};
         
     \end{tikzpicture}}
 \end{figure}
-\onslide<4->{\textbf{\warning Policies obtained indirectly optimize a surrogate objective rather than an MDP cumulative rewards.}}
+\onslide<3->{\textbf{\warning Policies obtained indirectly optimize a surrogate objective rather than an MDP cumulative rewards.}}
 \end{frame}
 
 
@@ -466,9 +466,9 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
 \begin{frame}{Contributions}
     \begin{enumerate}
         \pause
-        \item Can we directly optimize a trade-off of interpretability and performance in SDM?
+        \item Can we directly optimize a trade-off of interpretability and performance in SDM with RL?
         \pause
-        \item Can we leverage SDM to learn interpretable classifiers for supervised learning?
+        \item Can we leverage SDM to learn decision trees for classification/regression?
         \pause
         \item How to measure policy interpretability in SDM?
     \end{enumerate}
@@ -1257,83 +1257,13 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
     \end{block}}
 \end{frame}
 
-% \begin{frame}{Result: RL cannot retrieve optimal depth-1 trees for the grid world MDP}
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions.pdf}
-% \end{figure}
-% \pause
-% Distributions of tree policies learned with (asymmetric) RL algorithms {\small \textcolor{purple}{\parencite{sutton,learning-pomdp,sarsa-pomdp,baisero-ppo,baisero-dqn}}} as a function of the interpretability reward $\zeta$.
-% \pause
-% \\
-% \textcolor{blue}{\textbf{Are the poor performances due to partial observability?}}
-% \end{frame}
-
 \begin{frame}{Result: for similar problems, RL struggles more when there is partial observability}
 \begin{figure}
     \centering
     \includegraphics[width=0.65\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
 \end{figure}
 Success rates over thousands of RL runs with varying hyperparameters when learning different policies in the same IBMDP\footnote{\tiny We also observed similar results on classic controls and variants of the grid world MDP.}.
-\pause
-\textcolor{blue}{\textbf{Is it all for nothing?}}
 \end{frame}
-
-% \begin{frame}{Result: decision tree policies for classification MDPs are standard Markovian policies in IBMDPs}
-% \begin{figure}
-%     \centering
-%     \begin{tikzpicture}[
-%         decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
-%         leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
-%         edge_label/.style={font=\footnotesize, midway}
-%     ]
-%         % Tree 4: if x <= 0.5 move right else move left
-%         \node<3->[decision] (tree4_root) at (8,2) {$x \leq 1$};
-%         \node<3->[rectangle, draw, thick, fill=green!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_right) at (7,0) {};
-%         \node<3->[rectangle, draw, thick, fill=red!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_left) at (9,0);
-%         \draw<3->[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
-%         \draw<3->[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
-%         \tikzstyle{grid}=[draw, thick, fill=gray!10]
-        
-%         % Draw grid
-%         \draw<2->[fill=green!40] (0, 0) rectangle (1,2);
-%         \draw<2->[fill=red!40] (1, 0) rectangle (2,2);
-
-%         \draw[grid] (0,0) grid (2,2);
-        
-%         % Add axes
-%         \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
-%         \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
-        
-%         % Add tick marks and labels
-%         \foreach \x in {0,1,2} {
-%             \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
-%         }
-%         \foreach \y in {0,1,2} {
-%             \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
-%         }
-
-%         \node at (0.5,0.5) {$\boldsymbol{s}_0$};
-%         \node at (1.5,0.5) {$\boldsymbol{s}_g$};
-%         \node at (1.5,1.5) {$\boldsymbol{s}_2$};
-%         \node at (0.5,1.5) {$\boldsymbol{s}_1$};
-%     \end{tikzpicture}
-% \end{figure}
-% \pause
-% Classification MDP and the unique optimal depth-1 tree.
-% \pause
-% \\
-% \textbf{\textcolor{teal}{Deterministic partially observable policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
-% \end{frame}
-
-% \begin{frame}{Result: RL can retrieve optimal depth-1 trees for the toy classification MDP}
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions_classif.pdf}
-%     \caption*{Distributions of tree policies learned with various RL algorithms.
-%     }
-% \end{figure}
-% \end{frame}
 
 
 % \begin{frame}{Experimental result: for SDM problems $\Leftrightarrow$ classification problems, RL can consistently retrieve optimal depth-1 decision tree policies}
@@ -1347,7 +1277,7 @@ Success rates over thousands of RL runs with varying hyperparameters when learni
 \begin{frame}{Perspectives for direct RL of decision tree policies.}
     \begin{itemize}
         \pause
-        \item It seems that interpretability for SDM problems can be difficult to achieve because of \textcolor{red}{\textbf{partial observability}}.
+        \item It seems that directly learning decision tree trading off interpretability and performances in MDPs can be difficult to achieve because of \textcolor{red}{\textbf{partial observability}}.
         \pause
         \item Should we focus on indirect approaches? Hybrid approaches {\small \textcolor{purple}{\parencite{parbhoo}}}?
         \pause
@@ -1358,11 +1288,9 @@ Success rates over thousands of RL runs with varying hyperparameters when learni
         \item Design algorithms that learn deterministic partially observable policies {\small \textcolor{purple}{\parencite{lambrechts2025informed,justif-asym}}}?
     \end{itemize}
     \pause
-    \begin{exampleblock}{We show that decision tree policies for supervised learning tasks are fully observable IBMDP policies.}
+    \begin{exampleblock}{For classification MDPs, decision tree policies are fully Markovian in associated IBMDPs}
     \pause
-    \textit{Q: Can we leverage SDM to design new decision tree induction algorithms for the supervised learning setting?}
-    \pause
-    \textbf{A: Yes!}
+    \textit{Q: Can we leverage SDM to design new decision tree induction algorithms for classification/regression?}
     \end{exampleblock}
 \end{frame}
 
@@ -1580,62 +1508,13 @@ Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
     \pause
     \begin{theorem}[DPDT trees can be strictly better than greedy trees]
     \pause
-    There exist a depth budget $D$ and a dataset for which DPDT trees are strictly better than greedy trees.
+    There exist a depth budget $D$ and a dataset for which DPDT trees are strictly better than greedy trees.\footnote{cf. checkersboard dataset.}
     \end{theorem}
 \end{frame}
 \setbeamercovered{invisible}
 
 %-------------LONNNNNNNNNNNNNNG
-\begin{frame}{DPDT trees can be strictly better than greedy trees}
-    \only<1>{\begin{figure}
-        \centering
-        \includegraphics[width=1\textwidth]{Présentation sans titre.png}
-    \end{figure}}
-    \only<2>{\begin{figure}
-        \centering
-        \includegraphics[width=1\textwidth]{Présentation sans titre (1).png}
-    \end{figure}}
-    \only<3>{\begin{figure}
-        \centering
-        \includegraphics[width=1\textwidth]{Présentation sans titre (2).png}
-    \end{figure}}
-    \only<4>{\begin{figure}
-        \centering
-        \includegraphics[width=1\textwidth]{Présentation sans titre (3).png}
-    \end{figure}}
-    \only<5>{\begin{figure}
-        \centering
-        \includegraphics[width=1\textwidth]{Présentation sans titre (4).png}
-    \end{figure}}
-    \only<6>{\begin{figure}
-        \centering
-        \includegraphics[width=1\textwidth]{Présentation sans titre (5).png}
-    \end{figure}}
-    \only<7>{\begin{figure}
-        \centering
-        \includegraphics[width=1\textwidth]{Présentation sans titre (6).png}
-    \end{figure}}
-    \only<8>{\begin{figure}
-        \centering
-        \includegraphics[width=1\textwidth]{Présentation sans titre (7).png}
-    \end{figure}}
-    \only<9>{\begin{figure}
-        \centering
-        \includegraphics[width=1\textwidth]{Présentation sans titre (8).png}
-    \end{figure}}
-    \only<10>{\begin{figure}
-        \centering
-        \includegraphics[width=1\textwidth]{Présentation sans titre (9).png}
-    \end{figure}}
-    \only<11>{\begin{figure}
-        \centering
-        \includegraphics[width=1\textwidth]{Présentation sans titre (10).png}
-    \end{figure}}
-    \only<12>{\begin{figure}
-        \centering
-        \includegraphics[width=1\textwidth]{Présentation sans titre (13).png}
-    \end{figure}}
-\end{frame}
+
 
 \setbeamercovered{transparent}
 \begin{frame}{Perspectives}
@@ -1767,18 +1646,18 @@ def play(x):
 \end{minipage}
 \end{frame}
 
-\begin{frame}{Empirical validation}
-\begin{enumerate}
-    \pause
-    \item Is policy unfolding necessary?
-    \pause
-    \item What kind of results we can obtain using our proposed methodology?
-\end{enumerate}
-\pause
-\begin{block}{Setup}
-We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using various policy classes/nb parameters on various environments.
-\end{block}
-\end{frame}
+% \begin{frame}{Empirical validation}
+% \begin{enumerate}
+%     \pause
+%     \item Is policy unfolding necessary?
+%     \pause
+%     \item What kind of results we can obtain using our proposed methodology?
+% \end{enumerate}
+% \pause
+% \begin{block}{Setup}
+% We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using various policy classes/nb parameters on various environments.
+% \end{block}
+% \end{frame}
 
 
 % \begin{frame}{Empirical validation: obtaining $\sim40000$ policies from different classes}
@@ -1825,38 +1704,26 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 
 % \end{frame}
 
-\begin{frame}{Result: unfolding policies is necessary to respect consensus}
-\begin{figure}
+\begin{frame}{Is policy unfolding really necessary?}
+\begin{block}{Setup}
+We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using various policy classes/nb parameters on various environments.
+\end{block}
+\onslide<2->{\begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{../images/images_part3/tree_sizes_memory_ppo_ci_ablation.pdf}
     \caption*{Aggregated policies interpretability on classic control environments}
-\end{figure}
+\end{figure}}
 \end{frame}
 
 
-% \begin{frame}{Result: verification time does scale with step inference time}
-%     \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=1\linewidth]{../images/images_part3/verification_tradeoff.pdf}
-%     \caption*{Verification time as a function of policy interpretability. Top row, interpretability is measured with step inference times. Bottom row, the interpretability is measured with policy size.}
-%     \label{fig:trade-off-verif}
-% \end{figure}
-% \end{frame}
 
-\begin{frame}{Result: there is no dominating policy class for all environments}
-\begin{figure}
-    \centering
-    \includegraphics[trim={1.4cm 0 0 0},clip,width=1\textwidth]{../images/images_part3/trade_off_select_combine_one_plot.pdf}
-    \caption*{Interpretability-Performance trade-offs. Top row, interpretability is measured with step inference times. Bottom row, the interpretability is measured with policy size.}
-\end{figure}
-\end{frame}
 
 \begin{frame}{Perspectives}
 \begin{itemize}
     \pause
     \item Beliefs such as "trees are more interpretable than neural networks" should be used with caution.
-    \pause
-    \item Tree-like policy classes can have good inductive bias (e.g. Atari).
+    % \pause
+    % \item Tree-like policy classes can have good inductive bias (e.g. Atari).
     \pause
     \item What about (very) big models?
     \pause
@@ -1867,17 +1734,17 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 \begin{frame}{Conclusion: interpretable SDM is a difficult research topic}
     \begin{itemize}
         \pause
-        \item Technical challenges: \textcolor{red}{\textbf{partial observability in SDM, NP-hardness}}.
-        \\ 
+        \item \textbf{Technical challenges:} \textcolor{red}{\textbf{Learning interpretable policies for SDM involves partial observability.}}
+        \\
         \pause
-        $\rightarrow$ Focus on indirect approaches and/or on POMDP research first.
+        $\rightarrow$ Focus on indirect approaches and/or on POMDP research first?
+        \\
         \pause
-        \item Fundamental challenges: \textcolor{red}{\textbf{no definition}}. 
+        $\rightarrow$ \textbf{\textcolor{teal}{Created opportunities for new decision tree algos for classif/regression}}
+        \item \textbf{Fundamental challenges:} \textcolor{red}{\textbf{no definition}}. 
         \\
         \pause
         $\rightarrow$ Discuss with the community (InterpPol workshop).
-        \pause
-        \item \textcolor{teal}{\textbf{Decision trees offer good inductive bias for SDM in games or tabular data}}.
     \end{itemize}
     \pause
     \begin{block}{My hope}
@@ -1893,10 +1760,148 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
         \item \textbf{\textcolor{blue}{Combinatorial optimization:}} Can we formulate other combinatorial/NP-hard problems as MDPs and design other DPDT-like algorithms?
         \pause
         \item \textbf{\textcolor{orange}{Human-computer interaction:}} Can we do large scale human study of the $\sim$40K programs interpertability?
-        \pause
-        \item \textbf{\textcolor{teal}{Teaching:}} Can we use unfolded policies (and interpretability) for teaching?
     \end{itemize}
 \end{frame}
 
 \printbibliography
+\appendix
+
+
+\begin{frame}{Result: RL cannot retrieve optimal depth-1 trees for the grid world MDP}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions.pdf}
+\end{figure}
+\pause
+Distributions of tree policies learned with (asymmetric) RL algorithms {\small \textcolor{purple}{\parencite{sutton,learning-pomdp,sarsa-pomdp,baisero-ppo,baisero-dqn}}} as a function of the interpretability reward $\zeta$.
+\pause
+\\
+\textcolor{blue}{\textbf{Are the poor performances due to partial observability?}}
+\end{frame}
+
+
+\begin{frame}{Result: decision tree policies for classification MDPs are standard Markovian policies in IBMDPs}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[
+        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
+        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
+        edge_label/.style={font=\footnotesize, midway}
+    ]
+        % Tree 4: if x <= 0.5 move right else move left
+        \node<3->[decision] (tree4_root) at (8,2) {$x \leq 1$};
+        \node<3->[rectangle, draw, thick, fill=green!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_right) at (7,0) {};
+        \node<3->[rectangle, draw, thick, fill=red!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_left) at (9,0);
+        \draw<3->[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
+        \draw<3->[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+        
+        % Draw grid
+        \draw<2->[fill=green!40] (0, 0) rectangle (1,2);
+        \draw<2->[fill=red!40] (1, 0) rectangle (2,2);
+
+        \draw[grid] (0,0) grid (2,2);
+        
+        % Add axes
+        \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
+        \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
+        
+        % Add tick marks and labels
+        \foreach \x in {0,1,2} {
+            \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
+        }
+        \foreach \y in {0,1,2} {
+            \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
+        }
+
+        \node at (0.5,0.5) {$\boldsymbol{s}_0$};
+        \node at (1.5,0.5) {$\boldsymbol{s}_g$};
+        \node at (1.5,1.5) {$\boldsymbol{s}_2$};
+        \node at (0.5,1.5) {$\boldsymbol{s}_1$};
+    \end{tikzpicture}
+\end{figure}
+\pause
+Classification MDP and the unique optimal depth-1 tree.
+\pause
+\\
+\textbf{\textcolor{teal}{Deterministic partially observable policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
+\end{frame}
+
+\begin{frame}{Result: RL can retrieve optimal depth-1 trees for the toy classification MDP}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions_classif.pdf}
+    \caption*{Distributions of tree policies learned with various RL algorithms.
+    }
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{DPDT trees can be strictly better than greedy trees}
+    \only<1>{\begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre.png}
+    \end{figure}}
+    \only<2>{\begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (1).png}
+    \end{figure}}
+    \only<3>{\begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (2).png}
+    \end{figure}}
+    \only<4>{\begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (3).png}
+    \end{figure}}
+    \only<5>{\begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (4).png}
+    \end{figure}}
+    \only<6>{\begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (5).png}
+    \end{figure}}
+    \only<7>{\begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (6).png}
+    \end{figure}}
+    \only<8>{\begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (7).png}
+    \end{figure}}
+    \only<9>{\begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (8).png}
+    \end{figure}}
+    \only<10>{\begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (9).png}
+    \end{figure}}
+    \only<11>{\begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (10).png}
+    \end{figure}}
+    \only<12>{\begin{figure}
+        \centering
+        \includegraphics[width=1\textwidth]{Présentation sans titre (13).png}
+    \end{figure}}
+\end{frame}
+
+\begin{frame}{Result: verification time does scale with step inference time}
+    \begin{figure}[ht]
+    \centering
+    \includegraphics[width=1\linewidth]{../images/images_part3/verification_tradeoff.pdf}
+    \caption*{Verification time as a function of policy interpretability. Top row, interpretability is measured with step inference times. Bottom row, the interpretability is measured with policy size.}
+    \label{fig:trade-off-verif}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Result: there is no dominating policy class for all environments}
+\begin{figure}
+    \centering
+    \includegraphics[trim={1.4cm 0 0 0},clip,width=1\textwidth]{../images/images_part3/trade_off_select_combine_one_plot.pdf}
+    \caption*{Interpretability-Performance trade-offs. Top row, interpretability is measured with step inference times. Bottom row, the interpretability is measured with policy size.}
+\end{figure}
+\end{frame}
 \end{document}
