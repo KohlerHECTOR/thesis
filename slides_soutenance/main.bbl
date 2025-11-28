@@ -835,6 +835,44 @@
       \field{pages}{238\bibrangedash 245}
       \range{pages}{8}
     \endentry
+    \entry{sarsa-pomdp}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=c145897148f15de828ff544e596162c9}{%
+           family={Loch},
+           familyi={L\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+        {{hash=0778520109d58859c98d71f3b7e75837}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Satinder\bibnamedelima P.},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {San Francisco, CA, USA}%
+      }
+      \list{publisher}{1}{%
+        {Morgan Kaufmann Publishers Inc.}%
+      }
+      \strng{namehash}{76d3be2c9b755dea83b3c11a089caf39}
+      \strng{fullhash}{76d3be2c9b755dea83b3c11a089caf39}
+      \strng{bibnamehash}{76d3be2c9b755dea83b3c11a089caf39}
+      \strng{authorbibnamehash}{76d3be2c9b755dea83b3c11a089caf39}
+      \strng{authornamehash}{76d3be2c9b755dea83b3c11a089caf39}
+      \strng{authorfullhash}{76d3be2c9b755dea83b3c11a089caf39}
+      \field{labelalpha}{LS98}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Fifteenth International Conference on Machine Learning}
+      \field{isbn}{1558605568}
+      \field{series}{ICML '98}
+      \field{title}{Using Eligibility Traces to Find the Best Memoryless Policy in Partially Observable Markov Decision Processes}
+      \field{year}{1998}
+      \field{pages}{323\bibrangedash 331}
+      \range{pages}{9}
+    \endentry
     \entry{insight}{article}{}
       \name{author}{6}{}{%
         {{hash=092f8b2a14430d8706ed07d15f786d57}{%

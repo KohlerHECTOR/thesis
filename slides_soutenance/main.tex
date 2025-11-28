@@ -1244,7 +1244,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         \begin{itemize}
         \item<5-> Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard \textcolor{purple}{\small \parencite{littman1}}!
         \item<6-> The best partially observable policy can be stochastic \textcolor{purple}{\small \cite{learning-pomdp}}.
-        \item<7-> Value-based RL converges to sub-optimal solutions \textcolor{purple}{\small \cite{learning-pomdp}}.
+        \item<7-> Value-based RL converges to sub-optimal solutions \textcolor{purple}{\small \cite{learning-pomdp,sarsa-pomdp}}.
     \end{itemize}}
     \end{alertblock}
     \onslide<8->{\begin{block}{Asymmetric RL}
@@ -1258,11 +1258,18 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
 \end{frame}
 
 \begin{frame}{Result: for similar problems, RL struggles more when there is partial observability}
-\begin{figure}
+\only<1>{\begin{figure}
     \centering
-    \includegraphics[width=0.65\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
-\end{figure}
-Success rates over thousands of RL runs with varying hyperparameters when learning different policies in the same IBMDP\footnote{\tiny We also observed similar results on classic controls and variants of the grid world MDP.}.
+    \includegraphics[trim={3cm 15.5cm 20.4cm 1cm},clip,width=0.3\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
+\end{figure}}
+\only<2->{\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
+\end{figure}}
+\pause
+\vspace{-0.4cm}
+{\small Success rates over thousands of RL runs with varying hyperparameters when learning different policies in the same IBMDP\footnote{\tiny We also observed similar results on classic controls and variants of the grid world MDP.}.
+}
 \end{frame}
 
 
@@ -1513,6 +1520,17 @@ Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
 \end{frame}
 \setbeamercovered{invisible}
 
+\begin{frame}{CART generates more diverse splits than Top B}
+    \only<1>{\begin{figure}
+        \centering
+        \includegraphics[width=0.95\textwidth]{../images/figures/splits_tsne_topknaive.pdf}
+    \end{figure}}
+    \only<2>{\begin{figure}
+        \centering
+        \includegraphics[width=0.95\textwidth]{../images/figures/splits_tsne_dpdt.pdf}
+    \end{figure}}
+\end{frame}
+
 %-------------LONNNNNNNNNNNNNNG
 
 
@@ -1703,11 +1721,11 @@ def play(x):
 %   \end{table}
 
 % \end{frame}
-
+\setbeamercovered{invisible}
 \begin{frame}{Is policy unfolding really necessary?}
-\begin{block}{Setup}
+\onslide<1->{\begin{block}{Setup}
 We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using various policy classes/nb parameters on various environments.
-\end{block}
+\end{block}}
 \onslide<2->{\begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{../images/images_part3/tree_sizes_memory_ppo_ci_ablation.pdf}
@@ -1717,7 +1735,7 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 
 
 
-
+\setbeamercovered{transparent}
 \begin{frame}{Perspectives}
 \begin{itemize}
     \pause
@@ -1762,7 +1780,7 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
         \item \textbf{\textcolor{orange}{Human-computer interaction:}} Can we do large scale human study of the $\sim$40K programs interpertability?
     \end{itemize}
 \end{frame}
-
+\setbeamercovered{invisible}
 \printbibliography
 \appendix
 
