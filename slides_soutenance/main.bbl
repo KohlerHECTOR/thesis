@@ -614,6 +614,44 @@
       \field{pages}{507\bibrangedash 520}
       \range{pages}{14}
     \endentry
+    \entry{saliency}{misc}{}
+      \name{author}{4}{}{%
+        {{hash=fe9ce1bef3d1676b744e04c0a24a08b9}{%
+           family={Greydanus},
+           familyi={G\bibinitperiod},
+           given={Sam},
+           giveni={S\bibinitperiod}}}%
+        {{hash=989db01bb8f72d74658f84139b2a3a55}{%
+           family={Koul},
+           familyi={K\bibinitperiod},
+           given={Anurag},
+           giveni={A\bibinitperiod}}}%
+        {{hash=f0ce18132ecac4e27ae94457bdf4abb6}{%
+           family={Dodge},
+           familyi={D\bibinitperiod},
+           given={Jonathan},
+           giveni={J\bibinitperiod}}}%
+        {{hash=b95adb6034de42a9e024e9e4dab80197}{%
+           family={Fern},
+           familyi={F\bibinitperiod},
+           given={Alan},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{d6bb6f50d590a21c099e5d7b5c85b98a}
+      \strng{fullhash}{fa51fd77879362ca67078661f3680369}
+      \strng{bibnamehash}{d6bb6f50d590a21c099e5d7b5c85b98a}
+      \strng{authorbibnamehash}{d6bb6f50d590a21c099e5d7b5c85b98a}
+      \strng{authornamehash}{d6bb6f50d590a21c099e5d7b5c85b98a}
+      \strng{authorfullhash}{fa51fd77879362ca67078661f3680369}
+      \field{labelalpha}{Gre+18}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv}
+      \field{title}{Visualizing and Understanding Atari Agents}
+      \field{year}{2018}
+    \endentry
     \entry{npcomplete}{article}{}
       \name{author}{2}{}{%
         {{hash=e85f8ce0a6b692a613b601d2bbde2925}{%
@@ -696,42 +734,6 @@
       \verb https://www.sciencedirect.com/science/article/pii/S0933365798000621
       \endverb
       \keyw{Data mining,Machine learning,Medical applications}
-    \endentry
-    \entry{lambrechts2025informed}{article}{}
-      \name{author}{3}{}{%
-        {{hash=c619f73c7a1ab4105515f41ff91f3c07}{%
-           family={Lambrechts},
-           familyi={L\bibinitperiod},
-           given={Gaspard},
-           giveni={G\bibinitperiod}}}%
-        {{hash=bbe39ad0bb1c5904579755d81259deb2}{%
-           family={Bolland},
-           familyi={B\bibinitperiod},
-           given={Adrien},
-           giveni={A\bibinitperiod}}}%
-        {{hash=6fbe33fd3b6a25f54629f311cb113551}{%
-           family={Ernst},
-           familyi={E\bibinitperiod},
-           given={Damien},
-           giveni={D\bibinitperiod}}}%
-      }
-      \strng{namehash}{bb8fdebed402b005a615cc63a2d02a69}
-      \strng{fullhash}{bb8fdebed402b005a615cc63a2d02a69}
-      \strng{bibnamehash}{bb8fdebed402b005a615cc63a2d02a69}
-      \strng{authorbibnamehash}{bb8fdebed402b005a615cc63a2d02a69}
-      \strng{authornamehash}{bb8fdebed402b005a615cc63a2d02a69}
-      \strng{authorfullhash}{bb8fdebed402b005a615cc63a2d02a69}
-      \field{labelalpha}{LBE25}
-      \field{sortinit}{L}
-      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Reinforcement Learning Journal}
-      \field{title}{Informed {POMDP}: {L}everaging Additional Information in Model-Based {RL}}
-      \field{volume}{2}
-      \field{year}{2025}
-      \field{pages}{763\bibrangedash 784}
-      \range{pages}{22}
     \endentry
     \entry{justif-asym}{inproceedings}{}
       \name{author}{3}{}{%
@@ -1493,6 +1495,60 @@
       \field{booktitle}{International Conference on Artificial Intelligence and Statistics}
       \field{title}{A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning}
       \field{year}{2010}
+    \endentry
+    \entry{lime}{article}{}
+      \name{author}{3}{}{%
+        {{hash=9203dc724f298030e81ba470feb309af}{%
+           family={Ribeiro},
+           familyi={R\bibinitperiod},
+           given={Marco\bibnamedelima Tulio},
+           giveni={M\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=0b9694812f0dc77974d99bb875a76d48}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Sameer},
+           giveni={S\bibinitperiod}}}%
+        {{hash=c9ab8ac486d7f85ac914b1a8e51e512b}{%
+           family={Guestrin},
+           familyi={G\bibinitperiod},
+           given={Carlos},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {San Francisco, California, USA}%
+      }
+      \list{publisher}{1}{%
+        {Association for Computing Machinery}%
+      }
+      \strng{namehash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{fullhash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{bibnamehash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{authorbibnamehash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{authornamehash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{authorfullhash}{70906198418f30a779bc9bda0f6ae1f1}
+      \field{labelalpha}{RSG16}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Despite widespread adoption, machine learning models remain mostly black boxes. Understanding the reasons behind predictions is, however, quite important in assessing trust, which is fundamental if one plans to take action based on a prediction, or when choosing whether to deploy a new model. Such understanding also provides insights into the model, which can be used to transform an untrustworthy model or prediction into a trustworthy one.In this work, we propose LIME, a novel explanation technique that explains the predictions of any classifier in an interpretable and faithful manner, by learning an interpretable model locally varound the prediction. We also propose a method to explain models by presenting representative individual predictions and their explanations in a non-redundant way, framing the task as a submodular optimization problem. We demonstrate the flexibility of these methods by explaining different models for text (e.g. random forests) and image classification (e.g. neural networks). We show the utility of explanations via novel experiments, both simulated and with human subjects, on various scenarios that require trust: deciding if one should trust a prediction, choosing between models, improving an untrustworthy classifier, and identifying why a classifier should not be trusted.}
+      \field{booktitle}{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}
+      \field{isbn}{9781450342322}
+      \field{series}{KDD '16}
+      \field{title}{"Why Should I Trust You?": Explaining the Predictions of Any Classifier}
+      \field{year}{2016}
+      \field{pages}{1135\bibrangedash 1144}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1145/2939672.2939778
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/2939672.2939778
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/2939672.2939778
+      \endverb
+      \keyw{interpretable machine learning,interpretability,explaining machine learning,black box classifier}
     \endentry
     \entry{sutton}{book}{}
       \name{author}{2}{}{%

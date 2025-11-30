@@ -14,6 +14,7 @@
 \usepackage{xcolor}
 \usepackage{algorithm2e}
 \usepackage{fourier}
+\newtheorem{proposition}{Proposition}
 
 % Code styling
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -62,7 +63,7 @@
 
 
 %% -----------------------INTRO-----------------------
-\begin{frame}{Sequential decision making (SDM) and machine learning (ML)}
+\begin{frame}{Sequential decision making (SDM)}
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -95,14 +96,14 @@
                 \small{Policy}
             \end{minipage}
         };
-        \node<5->[ml] (ml) at (-6,3) {
-            \begin{minipage}{1cm}
-                \centering
-                \includesvg[width=0.4cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
-                \small{ML}
-            \end{minipage}
-        };
-        \node<3-7>[robot] (robot_) at (-2.1,3.4) {
+        % \node<5->[ml] (ml) at (-6,3) {
+        %     \begin{minipage}{1cm}
+        %         \centering
+        %         \includesvg[width=0.4cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
+        %         \small{ML}
+        %     \end{minipage}
+        % };
+        \node<3->[robot] (robot_) at (-2.1,3.4) {
             \begin{minipage}{1.5cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/robot-svgrepo-com.svg}\\
@@ -127,13 +128,13 @@
             \end{minipage}
         };
 
-        \node<8->[nn] (nn_) at (-2.1,3.4) {
-            \begin{minipage}{1.5cm}
-                \centering
-                \includesvg[width=0.4cm]{../images/images_intro/network-mapping-svgrepo-com.svg}\\
-                \small{Neural network}
-            \end{minipage}
-        };
+        % \node<8->[nn] (nn_) at (-2.1,3.4) {
+        %     \begin{minipage}{1.5cm}
+        %         \centering
+        %         \includesvg[width=0.4cm]{../images/images_intro/network-mapping-svgrepo-com.svg}\\
+        %         \small{Neural network}
+        %     \end{minipage}
+        % };
         
         % Environment (Patient)
         \node[environment] (environment) at (0,-0.5) {
@@ -152,24 +153,24 @@
                 \small{Updated health status}
             \end{minipage}
         } (doctor);
-        \draw<3-7>[arrow] (environment) to[bend left=30] node[left] {
+        \draw<3->[arrow] (environment) to[bend left=30] node[left] {
             \begin{minipage}{2cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
                 \small{Updated health status}
             \end{minipage}
         } (robot_);
-        \draw<8->[arrow] (environment) to[bend left=30] node[left] {
-            \begin{minipage}{2cm}
-                \centering
-                \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
-                \small{Updated health status}
-            \end{minipage}
-        } (nn_);
-        \draw<3-7>[arrow_decision] (robot_) to node[above] {\small{Recommends}} (doctor_);
-        \draw<8->[arrow_decision] (nn_) to node[above] {\small{Recommends}} (doctor_);
-        \draw<4-7>[arrow_decision] (doctor_) to node[below] {\small{Interprets}} (robot_);
-        \draw<8->[arrow_decision, red] (doctor_) to node[below] {\small{Cannot interpret}} (nn_);
+        % \draw<8->[arrow] (environment) to[bend left=30] node[left] {
+        %     \begin{minipage}{2cm}
+        %         \centering
+        %         \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+        %         \small{Updated health status}
+        %     \end{minipage}
+        % } (nn_);
+        \draw<3->[arrow_decision] (robot_) to node[above] {\small{Recommends}} (doctor_);
+        % \draw<8->[arrow_decision] (nn_) to node[above] {\small{Recommends}} (doctor_);
+        % \draw<4-7>[arrow_decision] (doctor_) to node[below] {\small{Interprets}} (robot_);
+        % \draw<8->[arrow_decision, red] (doctor_) to node[below] {\small{Cannot interpret}} (nn_);
 
         \draw<1-2>[arrow] (doctor) to[bend left=30] node[right] {
             \begin{minipage}{3cm}
@@ -186,25 +187,25 @@
             \end{minipage}
         } (environment);
         % ML learning arrows
-        \draw<6->[arrow] (environment) to[bend left=40] node[left] {
-            \begin{minipage}{2cm}
-                \centering
-                \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
-                \small{Treatment outcomes}
-            \end{minipage}
-        } (ml);
-        \draw<7>[arrow] (ml) to[bend left=20] node[above] {
-            \begin{minipage}{1.5cm}
-                \centering
-                \small{Updates}
-            \end{minipage}
-        } (robot_);
-        \draw<8->[arrow] (ml) to[bend left=20] node[above] {
-            \begin{minipage}{1.5cm}
-                \centering
-                \small{Updates}
-            \end{minipage}
-        } (nn_);
+        % \draw<6->[arrow] (environment) to[bend left=40] node[left] {
+        %     \begin{minipage}{2cm}
+        %         \centering
+        %         \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+        %         \small{Treatment outcomes}
+        %     \end{minipage}
+        % } (ml);
+        % \draw<7>[arrow] (ml) to[bend left=20] node[above] {
+        %     \begin{minipage}{1.5cm}
+        %         \centering
+        %         \small{Updates}
+        %     \end{minipage}
+        % } (robot_);
+        % \draw<8->[arrow] (ml) to[bend left=20] node[above] {
+        %     \begin{minipage}{1.5cm}
+        %         \centering
+        %         \small{Updates}
+        %     \end{minipage}
+        % } (nn_);
 
         
         
@@ -253,17 +254,182 @@
     \begin{itemize}
         \item<2-> RL {\small \textcolor{purple}{\parencite{sutton}}} aims to find a policy, $\pi: S \rightarrow A$ that maximizes:
         \begin{align*}
-            \underset{\boldsymbol{s}_{t}\sim T}{\mathbb{E}}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, \pi(s_t))\right]
+            J(\pi) &= \underset{\boldsymbol{s}_{t}\sim T}{\mathbb{E}}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, \pi(s_t))\right]
         \end{align*}
 
         \item<3-> Lots of succesful RL algorithms {\small \textcolor{purple}{\parencite{sutton,dqn,ppo}}}.
-        \item<4-> Few interpretability concerns.
+        % \item<4-> Few interpretability concerns.
     \end{itemize}
 \end{minipage}
 \end{frame}
 
-\begin{frame}{Policy interpretability}
+\begin{frame}{Sequential decision making (SDM) and machine learning (ML)}
 \begin{figure}
+    \centering
+    \begin{tikzpicture}[
+        node distance=2.5cm,
+        auto,
+        thick,
+        state/.style={circle, draw, fill=blue!20, minimum size=1.5cm, text centered},
+        environment/.style={rectangle, draw, dashed, fill=blue!10, rounded corners, minimum width=4cm, minimum height=2cm, text centered},
+        ml/.style={circle, draw, fill=purple!20, minimum width=1cm, minimum height=1cm, text centered},
+        agent/.style={rectangle, draw, fill=orange!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+        nn/.style={rectangle, draw, fill=black!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+        robot/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=2cm, minimum height=1.5cm, text centered},
+        decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=5cm, minimum height=2.7cm, text centered},
+        big_decision_box/.style={rectangle, draw, dashed, fill=gray!10, minimum width=7cm, minimum height=2.7cm, text centered},
+        arrow/.style={->, thick, bend left=15},
+        arrow_decision/.style={->, dashed, bend left=15},
+        ml/.style={circle, draw, fill=purple!20, minimum width=1cm, minimum height=1cm, text centered},
+    ]
+        
+        % Decision Making Box
+        \node[decision_box] (decision_box) at (0,3.8) {};
+        \node[big_decision_box] (big_decision_box) at (0,3.8) {};
+        \node at (0,4.7) {\textbf{Decision Making}};
+        
+        % %Robot (AI)
+        % \node[robot] (robot) at (-4.1,3.4) {
+        %     \begin{minipage}{1.5cm}
+        %         \centering
+        %         \includesvg[width=0.4cm]{../images/images_intro/robot-svgrepo-com.svg}\\
+        %         \small{Policy}
+        %     \end{minipage}
+        % };
+        \node<2->[ml] (ml) at (-6,3) {
+            \begin{minipage}{1cm}
+                \centering
+                \includesvg[width=0.4cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
+                \small{RL}
+            \end{minipage}
+        };
+        \node<1-3>[robot] (robot_) at (-2.1,3.4) {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.4cm]{../images/images_intro/robot-svgrepo-com.svg}\\
+                \small{Policy}
+            \end{minipage}
+        };
+        
+        % Doctor
+        % \node<1-2>[agent] (doctor) at (0,3.4) {
+        %     \begin{minipage}{1.5cm}
+        %         \centering
+        %         \includesvg[width=0.4cm]{../images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
+        %         \small{Doctor}
+        %     \end{minipage}
+        % };
+
+        \node[agent] (doctor_) at (2.1,3.4) {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.4cm]{../images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
+                \small{Doctor}
+            \end{minipage}
+        };
+
+        \node<4->[nn] (nn_) at (-2.1,3.4) {
+            \begin{minipage}{1.5cm}
+                \centering
+                \includesvg[width=0.4cm]{../images/images_intro/network-mapping-svgrepo-com.svg}\\
+                \small{Neural network}
+            \end{minipage}
+        };
+        
+        % Environment (Patient)
+        \node[environment] (environment) at (0,-0.5) {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.8cm]{../images/images_intro/patient-4.svg}\\
+                \small{Cancer patient}
+            \end{minipage}
+        };
+        
+        % Arrows
+        
+        \draw<1-3>[arrow] (environment) to[bend left=30] node[left] {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+                \small{Updated health status}
+            \end{minipage}
+        } (robot_);
+        \draw<4->[arrow] (environment) to[bend left=30] node[left] {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+                \small{Updated health status}
+            \end{minipage}
+        } (nn_);
+        \draw<1-3>[arrow_decision] (robot_) to node[above] {\small{Recommends}} (doctor_);
+        \draw<4->[arrow_decision] (nn_) to node[above] {\small{Recommends}} (doctor_);
+        % \draw<1-3>[arrow_decision] (doctor_) to node[below] {\small{Interprets}} (robot_);
+        \draw<5->[arrow_decision, red] (doctor_) to node[below] {\small{Cannot interpret}} (nn_);
+
+        % \draw<1-2>[arrow] (doctor) to[bend left=30] node[right] {
+        %     \begin{minipage}{3cm}
+        %         \centering
+        %         \includesvg[width=0.5cm]{../images/images_intro/syringe-svgrepo-com.svg}\\
+        %         \small{Administers chemotherapy}
+        %     \end{minipage}
+        % } (environment);
+        \draw<1->[arrow] (doctor_) to[bend left=30] node[right] {
+            \begin{minipage}{3cm}
+                \centering
+                \includesvg[width=0.5cm]{../images/images_intro/syringe-svgrepo-com.svg}\\
+                \small{Administers chemotherapy}
+            \end{minipage}
+        } (environment);
+        % ML learning arrows
+        \draw<3->[arrow] (environment) to[bend left=40] node[left] {
+            \begin{minipage}{2cm}
+                \centering
+                \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
+                \small{Treatment outcomes}
+            \end{minipage}
+        } (ml);
+        \draw<3>[arrow] (ml) to[bend left=20] node[above] {
+            \begin{minipage}{1.5cm}
+                \centering
+                \small{Updates}
+            \end{minipage}
+        } (robot_);
+        \draw<4->[arrow] (ml) to[bend left=20] node[above] {
+            \begin{minipage}{1.5cm}
+                \centering
+                \small{Updates}
+            \end{minipage}
+        } (nn_);
+
+        
+        
+    \end{tikzpicture}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Interpretability?}
+    \only<2>{Local vs. global interpretability \textcolor{purple}{\small \cite{milani-survey,glanois-survey}}.}
+    \only<3>{\begin{figure}
+        \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.95\textwidth]{../images/images_intro/breakout_reflect_bp.png}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.95\textwidth]{../images/images_intro/breakout_reflect.png}
+        \end{subfigure}
+        \caption*{Saliency maps \textcolor{purple}{\small \cite{saliency}}.}
+    \end{figure}}
+    \only<4>{
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.9\textwidth]{../images/lime.png}
+            \caption*{Local interpretable model-agnostic explanations (LIME) \textcolor{purple}{\small \cite{lime}}.}
+        \end{figure}
+    }
+    \only<5->{
+        \begin{figure}
     \centering
     \begin{tikzpicture}[scale=0.7]
         % Define the axes
@@ -303,9 +469,10 @@
         \node[below right] at (6.5,2) {Decision trees};
         
     \end{tikzpicture}
-    \caption*{\textbf{Heuristic} interpretability-performance trade-offs of different policy classes.}
+    \only<6>{\caption*{Global interpretability $\rightarrow$ works for all states.}}
+    \only<7>{\caption*{\textbf{\warning Multiple definitions \textcolor{purple}{\small \cite{lipton,rigourous,lens-complexity}}}.}}
 \end{figure}
-\pause\textbf{\warning No definition of interpretability for machine learning models!}
+    }
 \end{frame}
 
 \begin{frame}{Decision trees}
@@ -378,7 +545,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         
         % Direct method box
         \node<4->[method_box] (direct_box) at (-0.5,0) {};
-        \node<4-> at (-0.5,1.7) {\small{\textcolor{blue}{\textbf{Direct ?}}}};
+        \node<4-> at (-0.5,1.7) {\small{\textcolor{blue}{\textbf{Direct?}}}};
         
         % Direct method - RL process
         \node<5->[rl] (rl_direct) at (-2,0) {
@@ -399,7 +566,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         };
         
         % Direct method arrow
-        \draw<6->[arrow] (rl_direct) -- (dt_direct) node[label, midway] {\tiny Learns};
+        \draw<5->[arrow] (rl_direct) -- (dt_direct) node[label, midway] {\tiny Learns};
         
         % Indirect method box
         \node<1->[method_box_indirect] (indirect_box) at (7.1,0) {};
@@ -583,53 +750,53 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
 \end{frame}
 
 
-\begin{frame}{Grid world MDP and decision tree policies: indirect approach}
-\only<2-3>{\begin{figure}
-    \only<2-3>{\begin{subfigure}{0.65\textwidth}
-    \centering
-    \includegraphics[trim={0 0 15.5cm 0},clip,width=0.9\textwidth]{../images/images_part1/base_mdp.pdf}
-    \caption*{Sample complexity curve of Q-learning over 100 random seeds.}\label{fig:ql-il}
-    \end{subfigure}}
-    \only<3>{\begin{subfigure}{0.24\textwidth}
-    \begin{tikzpicture}
-        \tikzstyle{grid}=[draw, thick, fill=gray!10]
-        % Draw grid
-        \draw[grid] (7,0) grid (9,2);
+% \begin{frame}{Grid world MDP and decision tree policies: indirect approach}
+% \only<2-3>{\begin{figure}
+%     \only<2-3>{\begin{subfigure}{0.65\textwidth}
+%     \centering
+%     \includegraphics[trim={0 0 15.5cm 0},clip,width=0.9\textwidth]{../images/images_part1/base_mdp.pdf}
+%     \caption*{Sample complexity curve of Q-learning over 100 random seeds.}\label{fig:ql-il}
+%     \end{subfigure}}
+%     \only<3>{\begin{subfigure}{0.24\textwidth}
+%     \begin{tikzpicture}
+%         \tikzstyle{grid}=[draw, thick, fill=gray!10]
+%         % Draw grid
+%         \draw[grid] (7,0) grid (9,2);
     
-        % Adds
-        \draw[thick, ->] (7,0) -- (9.5,0) node[right] {$x$};
-        \draw[thick, ->] (7,0) -- (7,2.5) node[above] {$y$};
+%         % Adds
+%         \draw[thick, ->] (7,0) -- (9.5,0) node[right] {$x$};
+%         \draw[thick, ->] (7,0) -- (7,2.5) node[above] {$y$};
     
-        % Addk marks and labels
-        \draw[thick] (7,0) -- (7,-0.1) node[below] {$0$};
-        \draw[thick] (8,0) -- (8,-0.1) node[below] {$1$};
-        \draw[thick] (9,0) -- (9,-0.1) node[below] {$2$};
+%         % Addk marks and labels
+%         \draw[thick] (7,0) -- (7,-0.1) node[below] {$0$};
+%         \draw[thick] (8,0) -- (8,-0.1) node[below] {$1$};
+%         \draw[thick] (9,0) -- (9,-0.1) node[below] {$2$};
     
-        \foreach \y in {0,1,2} {
-            \draw[thick] (7,\y) -- (6.9,\y) node[left] {$\y$};
-        }
+%         \foreach \y in {0,1,2} {
+%             \draw[thick] (7,\y) -- (6.9,\y) node[left] {$\y$};
+%         }
         
-        % Addte labels clockwise from bottom left
-        \node at (7.5,0.6) {\Large{\color{blue} $\boldsymbol{\rightarrow}$}};
-        \node at (7.5,0.4) {\Large{\color{orange} $\boldsymbol{\rightarrow}$}};
-        \node at (8.5,0.5) {$\star$};
-        \node at (8.5,0.3) {\Large{\color{blue} $\boldsymbol{\downarrow}$}};
-        \node at (8.3,0.5) {\Large{\color{orange} $\boldsymbol{\leftarrow}$}};
-        \node at (8.4,1.5) {\Large{\color{orange} $\boldsymbol{\downarrow}$}};
-        \node at (8.6,1.5) {\Large{\color{blue} $\boldsymbol{\downarrow}$}};
-        \node at (7.5,1.6) {\Large{\color{blue} $\boldsymbol{\rightarrow}$}};
-        \node at (7.5,1.4) {\Large{\color{orange} $\boldsymbol{\rightarrow}$}};
+%         % Addte labels clockwise from bottom left
+%         \node at (7.5,0.6) {\Large{\color{blue} $\boldsymbol{\rightarrow}$}};
+%         \node at (7.5,0.4) {\Large{\color{orange} $\boldsymbol{\rightarrow}$}};
+%         \node at (8.5,0.5) {$\star$};
+%         \node at (8.5,0.3) {\Large{\color{blue} $\boldsymbol{\downarrow}$}};
+%         \node at (8.3,0.5) {\Large{\color{orange} $\boldsymbol{\leftarrow}$}};
+%         \node at (8.4,1.5) {\Large{\color{orange} $\boldsymbol{\downarrow}$}};
+%         \node at (8.6,1.5) {\Large{\color{blue} $\boldsymbol{\downarrow}$}};
+%         \node at (7.5,1.6) {\Large{\color{blue} $\boldsymbol{\rightarrow}$}};
+%         \node at (7.5,1.4) {\Large{\color{orange} $\boldsymbol{\rightarrow}$}};
 
-    \end{tikzpicture}
-    \caption*{Expert policies.}
-\end{subfigure}}
-\end{figure}}
-\only<4>{\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{../images/images_part1/base_mdp.pdf}
-    \caption*{Sample complexity curve of Q-learning over 100 random seeds and performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
-\end{figure}}
-\end{frame}
+%     \end{tikzpicture}
+%     \caption*{Expert policies.}
+% \end{subfigure}}
+% \end{figure}}
+% \only<4>{\begin{figure}
+%     \centering
+%     \includegraphics[width=1\textwidth]{../images/images_part1/base_mdp.pdf}
+%     \caption*{Sample complexity curve of Q-learning over 100 random seeds and performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
+% \end{figure}}
+% \end{frame}
 
 % \begin{frame}{Direct approach to interpretable SDM}
 %     \textit{Q: Can we use reinforcement learning to directly optimize trade-offs of performance and interpretability in SDM?}\\
@@ -640,293 +807,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
 \begin{frame}{Iterative bounding Markov decision processes~\cite{topin2021iterative}}
 \begin{figure}
 \centering
-\only<1>{\scalebox{0.7}{
-\begin{tikzpicture}[scale=0.6]
-    % Define styles
-    \tikzstyle{grid}=[draw, thick, fill=gray!10]
-    \tikzstyle{rectangle}=[draw, thick, fill=red!20]
-    
-    % Row 1: IBMDP States (s, o)
-    % t=0: Initial state
-    \node at (2,7.5) {\small $t=0$};
-    % \node at (2,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
-    % \draw[rectangle] (1,4) rectangle (3,6);
-    \draw[grid] (1,4) grid (3,6);
-    % Adds
-    \draw[thick, ->] (1,4) -- (3.2,4) node[right] {$x$};
-    \draw[thick, ->] (1,4) -- (1,6.2) node[above] {$y$};
-    \foreach \x in {0,1,2} {
-        \draw[thick] (\x+1,4) -- (\x+1,3.9) node[below] {$\x$};
-    }
-    \foreach \y in {0,1,2} {
-        \draw[thick] (1,\y+4) -- (0.9,\y+4) node[left] {$\y$};
-    }
-    \node at (1.5, 5.5) {$\mathcal{A}$};
-    \node at (2.5, 4.5) {$\star$};
-    
-    % % Curved arrow from t=0 to t=1
-    % \draw<3->[thick, ->] (2,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1\rangle, r_t = \zeta$} (7,3);
-
-    % % % t=1: After AIG x≤0.5
-    % \node<6-> at (7,9.5) {\small $t=1$};
-    % \node<6-19> at (7,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
-    % \node<7-> at (7,7.5) {\small $\boldsymbol{o}_t=(0, 1, 0, 2)$};
-
-    % \draw<7->[rectangle] (6,4) rectangle (7,6);
-    % \draw<6->[grid] (6,4) grid (8,6);
-    % % Add axes
-    % \draw<6->[thick, ->] (6,4) -- (8.2,4) node[right] {$x$};
-    % \draw<6->[thick, ->] (6,4) -- (6,6.2) node[above] {$y$};
-    % \foreach \x in {0,1,2} {
-    %     \draw<6->[thick] (\x+6,4) -- (\x+6,3.9) node[below] {$\x$};
-    % }
-    % \foreach \y in {0,1,2} {
-    %     \draw<6->[thick] (6,\y+4) -- (5.9,\y+4) node[left] {$\y$};
-    % }
-    % \node<6-19> at (6.5, 5.5) {$\mathcal{A}$};
-    % \node<6-> at (7.5, 4.5) {$\star$};
-
-
-    % % Curved arrow from t=1 to t=2
-    \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {}(12,3);
-    % \draw[thick, ->] (7,3) to[bend right=30] node[midway, below] {\small $a_t = \rightarrow, r_t  = 0$}(12,3);
-
-
-    % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
-    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-3) {$\rightarrow$};
-    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
-    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-    % % % \node<13>[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
-    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right_new) at (3,-3) {$\rightarrow$};
-    % \draw[->] (tree4_root) -- (tree4_right_new) node[font=\footnotesize, midway, above left] {True};
-    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right_new_new) at (3,-3) {$\rightarrow$};
-    % \draw[->] (tree4_root) -- (tree4_right_new_new) node[font=\footnotesize, midway, above left] {True};
-
-    \node at (12,7.5) {\small $t=1$};
-    % \node at (12,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
-    
-    % \draw[rectangle] (11,4) rectangle (13,6);
-    \draw[grid] (11,4) grid (13,6);
-    % Add axes
-    \draw[thick, ->] (11,4) -- (13.2,4) node[right] {$x$};
-    \draw[thick, ->] (11,4) -- (11,6.2) node[above] {$y$};
-    \foreach \x in {0,1,2} {
-        \draw[thick] (\x+11,4) -- (\x+11,3.9) node[below] {$\x$};
-    }
-    \foreach \y in {0,1,2} {
-        \draw[thick] (11,\y+4) -- (10.9,\y+4) node[left] {$\y$};
-    }
-    \node at (12.5, 5.5) {$\mathcal{A}$};
-    \node at (12.5, 4.5) {$\star$};
-    
-    % Curved arrow from t=2 to t=4
-    % \draw<12->[thick, ->] (12,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1 \rangle, r_t = \zeta$} (17,3);
-
-    % % \node<13->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
-    % % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
-    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-3) {$\downarrow$};
-    % % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    % % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-
-    
-    % \node<14-> at (17,9.5) {\small $t=4$};
-    % \node<14-19> at (17,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
-    % \node<14-> at (17,7.5) {\small $\boldsymbol{o}_t=(1, 2, 0, 2)$};
-
-    % \draw<14->[rectangle] (17,4) rectangle (18,6);
-    % \draw<14->[grid] (16,4) grid (18,6);
-    % % Add axes
-    % \draw<14->[thick, ->] (16,4) -- (18.2,4) node[right] {$x$};
-    % \draw<14->[thick, ->] (16,4) -- (16,6.2) node[above] {$y$};
-    % \foreach \x in {0,1,2} {
-    %     \draw<14->[thick] (\x+16,4) -- (\x+16,3.9) node[below] {$\x$};
-    % }
-    % \foreach \y in {0,1,2} {
-    %     \draw<14->[thick] (16,\y+4) -- (15.9,\y+4) node[left] {$\y$};
-    % }
-    % \node<14-19> at (17.5, 5.5) {$\mathcal{A}$};
-    % \node<14-> at (17.5, 4.5) {$\star$};
-    
-    \draw[thick, ->] (12,3) to[bend right=30] node[midway, below] {} (22,3);
-    % \draw<15->[thick, ->] (17,3) to[bend right=30] node[midway, below] {\small $a_t = \downarrow, r_t = 0$} (22,3);
-    
-    % % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
-    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
-    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
-    % % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    % % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-
-
-    \node at (22,7.5) {\small $t=2$};
-    % \node at (22,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
- 
-    % \draw[rectangle] (21,4) rectangle (23,6);
-    \draw[grid] (21,4) grid (23,6);
-    % % Add axes
-    \draw[thick, ->] (21,4) -- (23.2,4) node[right] {$x$};
-    \draw[thick, ->] (21,4) -- (21,6.2) node[above] {$y$};
-    \foreach \x in {0,1,2} {
-        \draw[thick] (\x+21,4) -- (\x+21,3.9) node[below] {$\x$};
-    }
-    \foreach \y in {0,1,2} {
-        \draw[thick] (21,\y+4) -- (20.9,\y+4) node[left] {$\y$};
-    }
-    \node at (22.5, 4.5) {$\mathcal{A}$};
-    \node at (22.5, 4.5) {$\star$};
-
-    % \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
-    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
-    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
-    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-
-    
-\end{tikzpicture}}}
-\only<2>{\scalebox{0.7}{
-\begin{tikzpicture}[scale=0.6]
-    % Define styles
-    \tikzstyle{grid}=[draw, thick, fill=gray!10]
-    \tikzstyle{rectangle}=[draw, thick, fill=red!20]
-    
-    % Row 1: IBMDP States (s, o)
-    % t=0: Initial state
-    \node at (2,7.5) {\small $t=0$};
-    % \node at (2,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
-    \draw[rectangle] (1,4) rectangle (3,6);
-    \draw[grid] (1,4) grid (3,6);
-    % Adds
-    \draw[thick, ->] (1,4) -- (3.2,4) node[right] {$x$};
-    \draw[thick, ->] (1,4) -- (1,6.2) node[above] {$y$};
-    \foreach \x in {0,1,2} {
-        \draw[thick] (\x+1,4) -- (\x+1,3.9) node[below] {$\x$};
-    }
-    \foreach \y in {0,1,2} {
-        \draw[thick] (1,\y+4) -- (0.9,\y+4) node[left] {$\y$};
-    }
-    % \node at (1.5, 5.5) {$\mathcal{A}$};
-    \node at (2.5, 4.5) {$\star$};
-    
-    % % Curved arrow from t=0 to t=1
-    % \draw<3->[thick, ->] (2,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1\rangle, r_t = \zeta$} (7,3);
-
-    % % % t=1: After AIG x≤0.5
-    % \node<6-> at (7,9.5) {\small $t=1$};
-    % \node<6-19> at (7,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
-    % \node<7-> at (7,7.5) {\small $\boldsymbol{o}_t=(0, 1, 0, 2)$};
-
-    % \draw<7->[rectangle] (6,4) rectangle (7,6);
-    % \draw<6->[grid] (6,4) grid (8,6);
-    % % Add axes
-    % \draw<6->[thick, ->] (6,4) -- (8.2,4) node[right] {$x$};
-    % \draw<6->[thick, ->] (6,4) -- (6,6.2) node[above] {$y$};
-    % \foreach \x in {0,1,2} {
-    %     \draw<6->[thick] (\x+6,4) -- (\x+6,3.9) node[below] {$\x$};
-    % }
-    % \foreach \y in {0,1,2} {
-    %     \draw<6->[thick] (6,\y+4) -- (5.9,\y+4) node[left] {$\y$};
-    % }
-    % \node<6-19> at (6.5, 5.5) {$\mathcal{A}$};
-    % \node<6-> at (7.5, 4.5) {$\star$};
-
-
-    % % Curved arrow from t=1 to t=2
-    \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {}(12,3);
-    % \draw[thick, ->] (7,3) to[bend right=30] node[midway, below] {\small $a_t = \rightarrow, r_t  = 0$}(12,3);
-
-
-    % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
-    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-3) {$\rightarrow$};
-    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
-    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-    % % % \node<13>[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
-    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right_new) at (3,-3) {$\rightarrow$};
-    % \draw[->] (tree4_root) -- (tree4_right_new) node[font=\footnotesize, midway, above left] {True};
-    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right_new_new) at (3,-3) {$\rightarrow$};
-    % \draw[->] (tree4_root) -- (tree4_right_new_new) node[font=\footnotesize, midway, above left] {True};
-
-    \node at (12,7.5) {\small $t=1$};
-    % \node at (12,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
-    
-    \draw[rectangle] (11,4) rectangle (13,6);
-    \draw[grid] (11,4) grid (13,6);
-    % Add axes
-    \draw[thick, ->] (11,4) -- (13.2,4) node[right] {$x$};
-    \draw[thick, ->] (11,4) -- (11,6.2) node[above] {$y$};
-    \foreach \x in {0,1,2} {
-        \draw[thick] (\x+11,4) -- (\x+11,3.9) node[below] {$\x$};
-    }
-    \foreach \y in {0,1,2} {
-        \draw[thick] (11,\y+4) -- (10.9,\y+4) node[left] {$\y$};
-    }
-    % \node at (12.5, 5.5) {$\mathcal{A}$};
-    \node at (12.5, 4.5) {$\star$};
-    
-    % Curved arrow from t=2 to t=4
-    % \draw<12->[thick, ->] (12,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1 \rangle, r_t = \zeta$} (17,3);
-
-    % % \node<13->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
-    % % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
-    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-3) {$\downarrow$};
-    % % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    % % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-
-    
-    % \node<14-> at (17,9.5) {\small $t=4$};
-    % \node<14-19> at (17,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
-    % \node<14-> at (17,7.5) {\small $\boldsymbol{o}_t=(1, 2, 0, 2)$};
-
-    % \draw<14->[rectangle] (17,4) rectangle (18,6);
-    % \draw<14->[grid] (16,4) grid (18,6);
-    % % Add axes
-    % \draw<14->[thick, ->] (16,4) -- (18.2,4) node[right] {$x$};
-    % \draw<14->[thick, ->] (16,4) -- (16,6.2) node[above] {$y$};
-    % \foreach \x in {0,1,2} {
-    %     \draw<14->[thick] (\x+16,4) -- (\x+16,3.9) node[below] {$\x$};
-    % }
-    % \foreach \y in {0,1,2} {
-    %     \draw<14->[thick] (16,\y+4) -- (15.9,\y+4) node[left] {$\y$};
-    % }
-    % \node<14-19> at (17.5, 5.5) {$\mathcal{A}$};
-    % \node<14-> at (17.5, 4.5) {$\star$};
-    
-    \draw[thick, ->] (12,3) to[bend right=30] node[midway, below] {} (22,3);
-    % \draw<15->[thick, ->] (17,3) to[bend right=30] node[midway, below] {\small $a_t = \downarrow, r_t = 0$} (22,3);
-    
-    % % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
-    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
-    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
-    % % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    % % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-
-
-    \node at (22,7.5) {\small $t=2$};
-    % \node at (22,8.5) {\small $\boldsymbol{s}_t=(1.5, 0.5)$};
- 
-    \draw[rectangle] (21,4) rectangle (23,6);
-    \draw[grid] (21,4) grid (23,6);
-    % % Add axes
-    \draw[thick, ->] (21,4) -- (23.2,4) node[right] {$x$};
-    \draw[thick, ->] (21,4) -- (21,6.2) node[above] {$y$};
-    \foreach \x in {0,1,2} {
-        \draw[thick] (\x+21,4) -- (\x+21,3.9) node[below] {$\x$};
-    }
-    \foreach \y in {0,1,2} {
-        \draw[thick] (21,\y+4) -- (20.9,\y+4) node[left] {$\y$};
-    }
-    % \node at (22.5, 4.5) {$\mathcal{A}$};
-    \node at (22.5, 4.5) {$\star$};
-
-    % \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
-    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
-    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
-    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-
-    
-\end{tikzpicture}}}
-\only<3->{
+\only<1-8>{
     \scalebox{0.7}{
 \begin{tikzpicture}[scale=0.6]
     % Define styles
@@ -937,7 +818,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
     % t=0: Initial state
     \node at (2,7.5) {\small $t=0$};
 
-    \draw[rectangle] (1,4) rectangle (3,6);
+    \draw<2->[rectangle] (1,4) rectangle (3,6);
     \draw[grid] (1,4) grid (3,6);
     % Add axes
     \draw[thick, ->] (1,4) -- (3.2,4) node[right] {$x$};
@@ -949,78 +830,71 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         \draw[thick] (1,\y+4) -- (0.9,\y+4) node[left] {$\y$};
     }
     \node at (2.5, 4.5) {$\star$};
+    \node<1> at (1.5, 5.5) {$\mathcal{A}$};
     
     % Curved arrow from t=0 to t=1
-    \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {} (7,3);
+    \draw<3->[thick, ->] (2,3) to[bend right=30] node[midway, below] {} (7,3);
 
     % % t=1: After AIG x≤0.5
-    \node at (7,7.5) {\small $t=1$};
+    \node<3-> at (7,7.5) {\small $t=1$};
 
-    \draw[rectangle] (6,4) rectangle (7,6);
-    \draw[grid] (6,4) grid (8,6);
+    \draw<3->[rectangle] (7,4) rectangle (8,6);
+    \draw<3->[grid] (6,4) grid (8,6);
     % Add axes
-    \draw[thick, ->] (6,4) -- (8.2,4) node[right] {$x$};
-    \draw[thick, ->] (6,4) -- (6,6.2) node[above] {$y$};
+    \draw<3->[thick, ->] (6,4) -- (8.2,4) node[right] {$x$};
+    \draw<3->[thick, ->] (6,4) -- (6,6.2) node[above] {$y$};
     \foreach \x in {0,1,2} {
-        \draw[thick] (\x+6,4) -- (\x+6,3.9) node[below] {$\x$};
+        \draw<3->[thick] (\x+6,4) -- (\x+6,3.9) node[below] {$\x$};
     }
     \foreach \y in {0,1,2} {
-        \draw[thick] (6,\y+4) -- (5.9,\y+4) node[left] {$\y$};
+        \draw<3->[thick] (6,\y+4) -- (5.9,\y+4) node[left] {$\y$};
     }
-    \node at (7.5, 4.5) {$\star$};
+    \node<3-> at (7.5, 4.5) {$\star$};
+    \node<3-> at (6.5, 5.5) {$\mathcal{A}$};
+
 
 
     % Curved arrow from t=1 to t=2
-    \draw[thick, ->] (7,3) to[bend right=30] node[midway, below] {}(12,3);
+    \draw<4->[thick, ->] (7,3) to[bend right=30] node[midway, below] {}(12,3);
 
-    % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
-    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
-    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-    % % % \node<13>[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
-    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right_new_new) at (3,-3) {$\rightarrow$};
-    % \draw[->] (tree4_root) -- (tree4_right_new_new) node[font=\footnotesize, midway, above left] {True};
-
-    \node at (12,7.5) {\small $t=2$};
+    \node<4-> at (12,7.5) {\small $t=2$};
     
-    \draw[rectangle] (11,4) rectangle (13,6);
-    \draw[grid] (11,4) grid (13,6);
+    \draw<5->[rectangle] (11,4) rectangle (13,6);
+    \draw<4->[grid] (11,4) grid (13,6);
     % Add axes
-    \draw[thick, ->] (11,4) -- (13.2,4) node[right] {$x$};
-    \draw[thick, ->] (11,4) -- (11,6.2) node[above] {$y$};
+    \draw<4->[thick, ->] (11,4) -- (13.2,4) node[right] {$x$};
+    \draw<4->[thick, ->] (11,4) -- (11,6.2) node[above] {$y$};
     \foreach \x in {0,1,2} {
-        \draw[thick] (\x+11,4) -- (\x+11,3.9) node[below] {$\x$};
+        \draw<4->[thick] (\x+11,4) -- (\x+11,3.9) node[below] {$\x$};
     }
     \foreach \y in {0,1,2} {
-        \draw[thick] (11,\y+4) -- (10.9,\y+4) node[left] {$\y$};
+        \draw<4->[thick] (11,\y+4) -- (10.9,\y+4) node[left] {$\y$};
     }
-    \node at (12.5, 4.5) {$\star$};
+    \node<4-> at (12.5, 4.5) {$\star$};
+    \node<4> at (12.5, 5.5) {$\mathcal{A}$};
+
     
     % Curved arrow from t=2 to t=4
-    \draw[thick, ->] (12,3) to[bend right=30] node[midway, below] {} (17,3);
-
-    % \node<13->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
-    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
-    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-3) {$\downarrow$};
-    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-
+    \draw<6->[thick, ->] (12,3) to[bend right=30] node[midway, below] {} (17,3);
     
-    \node at (17,7.5) {\small $t=4$};
+    \node<6-> at (17,7.5) {\small $t=4$};
 
-    \draw[rectangle] (17,4) rectangle (18,6);
-    \draw[grid] (16,4) grid (18,6);
+    \draw<6->[rectangle] (16,4) rectangle (17,6);
+    \draw<6->[grid] (16,4) grid (18,6);
     % Add axes
-    \draw[thick, ->] (16,4) -- (18.2,4) node[right] {$x$};
-    \draw[thick, ->] (16,4) -- (16,6.2) node[above] {$y$};
+    \draw<6->[thick, ->] (16,4) -- (18.2,4) node[right] {$x$};
+    \draw<6->[thick, ->] (16,4) -- (16,6.2) node[above] {$y$};
     \foreach \x in {0,1,2} {
-        \draw[thick] (\x+16,4) -- (\x+16,3.9) node[below] {$\x$};
+        \draw<6->[thick] (\x+16,4) -- (\x+16,3.9) node[below] {$\x$};
     }
     \foreach \y in {0,1,2} {
-        \draw[thick] (16,\y+4) -- (15.9,\y+4) node[left] {$\y$};
+        \draw<6->[thick] (16,\y+4) -- (15.9,\y+4) node[left] {$\y$};
     }
-    \node at (17.5, 4.5) {$\star$};
+    \node<6-> at (17.5, 4.5) {$\star$};
+    \node<6-> at (17.5, 5.5) {$\mathcal{A}$};
+
     
-    \draw[thick, ->] (17,3) to[bend right=30] node[midway, below] {} (22,3);
+    \draw<7->[thick, ->] (17,3) to[bend right=30] node[midway, below] {} (22,3);
     
     % % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
     % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
@@ -1029,55 +903,70 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
     % % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
 
 
-    \node at (22,7.5) {\small $t=5$};
+    \node<7-> at (22,7.5) {\small $t=4$};
  
-    \draw[rectangle] (21,4) rectangle (23,6);
-    \draw[grid] (21,4) grid (23,6);
+    % \draw[rectangle] (21,4) rectangle (23,6);
+    \draw<7->[grid] (21,4) grid (23,6);
     % % Add axes
-    \draw[thick, ->] (21,4) -- (23.2,4) node[right] {$x$};
-    \draw[thick, ->] (21,4) -- (21,6.2) node[above] {$y$};
+    \draw<7->[thick, ->] (21,4) -- (23.2,4) node[right] {$x$};
+    \draw<7->[thick, ->] (21,4) -- (21,6.2) node[above] {$y$};
     \foreach \x in {0,1,2} {
-        \draw[thick] (\x+21,4) -- (\x+21,3.9) node[below] {$\x$};
+        \draw<7->[thick] (\x+21,4) -- (\x+21,3.9) node[below] {$\x$};
     }
     \foreach \y in {0,1,2} {
-        \draw[thick] (21,\y+4) -- (20.9,\y+4) node[left] {$\y$};
+        \draw<7->[thick] (21,\y+4) -- (20.9,\y+4) node[left] {$\y$};
     }
-    \node at (22.5, 4.5) {$\star$};
+    \node<7-> at (22.5, 4.5) {$\star$};
+    \node<7-> at (22.6, 4.6) {$\mathcal{A}$};
+
 
     % \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
     % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
     % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
     % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
     % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-    \node<7->[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
-    \node<7->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
-    \node<7->[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
-    \draw<7->[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    \draw<7->[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+    \node<7>[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
+    \node<7>[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
+    \node<7>[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
+    \draw<7>[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw<7>[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    \node<8->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
+    \node<8->[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
+    \node<8->[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
+    \draw<8->[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw<8->[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
 
     \node<6->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
     \node<6->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
-    \node<6->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
+    % \node<6->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
     \draw<6->[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    \draw<6->[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+    % \draw<6->[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
 
-    \node<5->[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
-    \node<5->[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
-    \node<5->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-3) {$\downarrow$};
-    \draw<5->[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    \draw<5->[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-
-    \node<4->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
-    \node<4->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-3) {$\rightarrow$};
-    \node<4->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
+    \node<4->[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
+    \node<4->[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
     \draw<4->[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    \draw<4->[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    \node<3->[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
+    % \node<5>[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-3) {$\rightarrow$};
+    % \node<5>[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
+    % \draw<5>[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % \draw<5>[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
 
     
-\end{tikzpicture}}
-}
+\end{tikzpicture}}}
 \end{figure}
-\only<8>{\textbf{\warning To learn decision tree policies for an MDP we need to hide and allow agents to query information about state features.}}
+\only<9->{
+\onslide<9->{Given an MDP $\mathcal{M}$ $\langle S, A, R, T \rangle$}\onslide<10->{, an IBMDP is an MDP $$\langle \overbrace{S \times O}^{\text{State space}}, \underbrace{A \cup A_{info}}_{\text{Action space}}, \overbrace{(R, \zeta)}^{\text{Reward function}}, \underbrace{(T_{info}, T)}_{\text{Transitions}}\rangle$$
+where:}
+\begin{itemize}
+    \item<11-> $O$: observations of some state features.
+    \item<12-> $A_{info}$: actions that gather informations about some state features.
+    \item<13-> $\zeta$: reward for taking $a\in A_{info}$.
+    \item<14-> $T_{info}$: transitions following $a\in A_{info}$ that update the partial observation with gathered info.
+    \item<15-> \textbf{\warning IBMDP policies $\pi_{po}: O\rightarrow A\cup A_{info}$ are decision tree policies for $\mathcal{M}$.}
+\end{itemize}}
 \end{frame}
 
 % \begin{frame}{Grid world IBMDP example}
@@ -1233,26 +1122,20 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
 % \end{itemize}
 % \end{frame}
 \setbeamercovered{transparent}
-\begin{frame}{Deterministic partially observable policies in IBMDPs}
-    \only<1-3>{\begin{exampleblock}{IBMDPs promises}
+\begin{frame}{RL for memoryless policies in POMDPs}
+    \onslide<1->{\begin{alertblock}{RL for memoryless policies}
         \begin{itemize}
-            \item<2-> No need to design new algorithm: we can use RL.
-            \item<3-> IBMDP rewards trade-off naturally interpretability and performances.
-        \end{itemize}
-        \end{exampleblock}}
-    \onslide<4->{\begin{alertblock}{RL for partially observable policies}
-        \begin{itemize}
-        \item<5-> Finding the best \textbf{deterministic} and \textbf{partially observable} policy is NP-hard \textcolor{purple}{\small \parencite{littman1}}!
-        \item<6-> The best partially observable policy can be stochastic \textcolor{purple}{\small \cite{learning-pomdp}}.
-        \item<7-> Value-based RL converges to sub-optimal solutions \textcolor{purple}{\small \cite{learning-pomdp,sarsa-pomdp}}.
+        \item<2-> Finding the best \textbf{deterministic} and memoryless policy in a POMDP is NP-hard \textcolor{purple}{\small \parencite{littman1}}!
+        \item<3-> The best memoryless policy can be stochastic \textcolor{purple}{\small \cite{learning-pomdp}}.
+        \item<4-> Value-based RL converges to sub-optimal solutions \textcolor{purple}{\small \cite{learning-pomdp,sarsa-pomdp}}.
     \end{itemize}}
     \end{alertblock}
-    \onslide<8->{\begin{block}{Asymmetric RL}
+    \onslide<5->{\begin{block}{Asymmetric RL}
         \begin{itemize}
-            \item<9-> Access to hidden states during training but not at execution \textcolor{purple}{\small \cite{pinto}}.
-            \item<10-> Value-based $\rightarrow$ learns $Q(o, a)$ with TD targets $Q(s, a)$  \textcolor{purple}{\small \cite{baisero-dqn}}.
-            \item<11-> Actor-critic\footnote{Although those return stochastic policies, we can be greedy.} $\rightarrow$ policy gradient on $\pi(o, a)$ using a critic $V(s)$ \textcolor{purple}{\small \cite{baisero-ppo}}.
-            \item<12-> Supposed to work better for our problem \textcolor{purple}{\small \cite{justif-asym}}.
+            \item<6-> Access to hidden states during training but not at execution \textcolor{purple}{\small \cite{pinto}}.
+            \item<7-> Value-based $\rightarrow$ learns $Q(o, a)$ with TD targets $Q(s, a)$  \textcolor{purple}{\small \cite{baisero-dqn}}.
+            \item<8-> Actor-critic\footnote{Although those return stochastic policies, we can be greedy.} $\rightarrow$ policy gradient on $\pi(o, a)$ using a critic $V(s)$ \textcolor{purple}{\small \cite{baisero-ppo}}.
+            \item<9-> Supposed to work better for our problem \textcolor{purple}{\small \cite{justif-asym}}.
         \end{itemize}
     \end{block}}
 \end{frame}
@@ -1288,11 +1171,11 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         \pause
         \item Should we focus on indirect approaches? Hybrid approaches {\small \textcolor{purple}{\parencite{parbhoo}}}?
         \pause
-        \item Fixing the policy tree structure a priori (paramteric trees, {\small \textcolor{purple}{\cite{sympol}}})?
-        \pause
-        \item Can other policies (programs, oblique trees, algebraic expressions\dots) be directly optimized with RL in IBMDPs?
-        \pause
-        \item Design algorithms that learn deterministic partially observable policies {\small \textcolor{purple}{\parencite{lambrechts2025informed,justif-asym}}}?
+        \item Fixing the policy tree structure a priori (parametric trees, {\small \textcolor{purple}{\cite{sympol}}})?
+        % \pause
+        % \item Can other policies (programs, oblique trees, algebraic expressions\dots) be directly optimized with RL in IBMDPs?
+        % \pause
+        % \item Design algorithms that learn deterministic memoryless policies in POMDPs {\small \textcolor{purple}{\parencite{lambrechts2025informed,justif-asym}}}?
     \end{itemize}
     \pause
     \begin{exampleblock}{For classification MDPs, decision tree policies are fully Markovian in associated IBMDPs}
@@ -1332,44 +1215,17 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
     \pause
     \item A: test or leaf nodes that can be added to the tree.
     \pause
-    \item R: penalty or accuracies.
+    \item R: interpretability term $-\alpha$ and accuracies.
     \pause
     \item T: node traversals.
 \end{itemize}
+\pause
+\begin{proposition}[Objective Equivalence]
+Let $\pi$ be a deterministic policy of the MDP. 
+Then $J_\alpha(\pi) = -{\mathcal L}_\alpha(E(\pi, s_0))$ where $E$ is an algorithm that extracts a decision tree from $\pi$ \textcolor{purple}{\small \cite{topin2021iterative}}.
+\end{proposition}
 \end{frame}
 \setbeamercovered{invisible}
-
-
-\begin{frame}{Decision tree induction as solving MDPs}
-\only<1>{\begin{figure}
-    \centering
-    \includegraphics[width=1\linewidth]{schema AAAI.png}
-    \caption*{Example of decision tree induction as an MDP.}
-\end{figure}}
-\only<2>{\begin{figure}
-    \centering
-    \includegraphics[width=1\linewidth]{schema AAAI (1).png}
-    \caption*{Example of decision tree induction as an MDP.}
-\end{figure}}
-\only<3>{\begin{figure}
-    \centering
-    \includegraphics[width=1\linewidth]{schema AAAI (2).png}
-    \caption*{Example of decision tree induction as an MDP.}
-\end{figure}
-}
-\only<4>{\begin{figure}
-    \centering
-    \includegraphics[width=1\linewidth]{schema AAAI (3).png}
-    \caption*{Example of decision tree induction as an MDP.}
-\end{figure}
-}
-\only<5>{\begin{figure}
-    \centering
-    \includegraphics[width=1\linewidth]{schema AAAI (4).png}
-    \caption*{Example of decision tree induction as an MDP.}
-\end{figure}
-}
-\end{frame}
 
 % \begin{frame}{Objective Leftrightarrowalence}
 % \begin{block}{Objective Equivalence}\label{prop:Leftrightarrow}
@@ -1479,7 +1335,7 @@ Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
 \end{frame}
 
 \setbeamercovered{invisible}
-\begin{frame}{DPDT trees generalization}
+\begin{frame}{Large scale evaluation of DPDT trees generalization {\small \cite{grinsztajn2022tree}}}
     \begin{figure}
      \centering
      \begin{subfigure}[b]{0.32\textwidth}
@@ -1503,22 +1359,6 @@ Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
      \end{subfigure}
 \end{figure}
 \end{frame}
-
-
-\setbeamercovered{transparent}
-\begin{frame}{Why generating candidate splits with CART?}
-    \pause
-    \begin{theorem}[DPDT trees are not worse than greedy trees]
-    \pause
-    The greedy tree is always a solution of the MDPs we solve. Because we solve the MDPs exactly with DP, if the greedy tree is the best solution, DPDT will find it.
-    \end{theorem}
-    \pause
-    \begin{theorem}[DPDT trees can be strictly better than greedy trees]
-    \pause
-    There exist a depth budget $D$ and a dataset for which DPDT trees are strictly better than greedy trees.\footnote{cf. checkersboard dataset.}
-    \end{theorem}
-\end{frame}
-\setbeamercovered{invisible}
 
 \begin{frame}{CART generates more diverse splits than Top B}
     \only<1>{\begin{figure}
@@ -1758,7 +1598,7 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
         $\rightarrow$ Focus on indirect approaches and/or on POMDP research first?
         \\
         \pause
-        $\rightarrow$ \textbf{\textcolor{teal}{Created opportunities for new decision tree algos for classif/regression}}
+        $\rightarrow$ \textbf{\textcolor{teal}{Created opportunities for new decision tree algos for classif/regression.}}
         \item \textbf{Fundamental challenges:} \textcolor{red}{\textbf{no definition}}. 
         \\
         \pause
@@ -1785,7 +1625,7 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 \appendix
 
 
-\begin{frame}{Result: RL cannot retrieve optimal depth-1 trees for the grid world MDP}
+\begin{frame}[noframenumbering]{Result: RL cannot retrieve optimal depth-1 trees for the grid world MDP}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions.pdf}
@@ -1798,7 +1638,7 @@ Distributions of tree policies learned with (asymmetric) RL algorithms {\small \
 \end{frame}
 
 
-\begin{frame}{Result: decision tree policies for classification MDPs are standard Markovian policies in IBMDPs}
+\begin{frame}[noframenumbering]{Result: decision tree policies for classification MDPs are standard Markovian policies in IBMDPs}
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -1842,10 +1682,10 @@ Distributions of tree policies learned with (asymmetric) RL algorithms {\small \
 Classification MDP and the unique optimal depth-1 tree.
 \pause
 \\
-\textbf{\textcolor{teal}{Deterministic partially observable policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
+\textbf{\textcolor{teal}{Deterministic memoryless policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
 \end{frame}
 
-\begin{frame}{Result: RL can retrieve optimal depth-1 trees for the toy classification MDP}
+\begin{frame}[noframenumbering]{Result: RL can retrieve optimal depth-1 trees for the toy classification MDP}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions_classif.pdf}
@@ -1855,7 +1695,54 @@ Classification MDP and the unique optimal depth-1 tree.
 \end{frame}
 
 
-\begin{frame}{DPDT trees can be strictly better than greedy trees}
+
+\begin{frame}[noframenumbering]{Decision tree induction as solving MDPs}
+\only<1>{\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{schema AAAI.png}
+    \caption*{Example of decision tree induction as an MDP.}
+\end{figure}}
+\only<2>{\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{schema AAAI (1).png}
+    \caption*{Example of decision tree induction as an MDP.}
+\end{figure}}
+\only<3>{\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{schema AAAI (2).png}
+    \caption*{Example of decision tree induction as an MDP.}
+\end{figure}
+}
+\only<4>{\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{schema AAAI (3).png}
+    \caption*{Example of decision tree induction as an MDP.}
+\end{figure}
+}
+\only<5>{\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{schema AAAI (4).png}
+    \caption*{Example of decision tree induction as an MDP.}
+\end{figure}
+}
+\end{frame}
+
+\setbeamercovered{transparent}
+\begin{frame}[noframenumbering]{Why generating candidate splits with CART?}
+    \pause
+    \begin{theorem}[DPDT trees are not worse than greedy trees]
+    \pause
+    The greedy tree is always a solution of the MDPs we solve. Because we solve the MDPs exactly with DP, if the greedy tree is the best solution, DPDT will find it.
+    \end{theorem}
+    \pause
+    \begin{theorem}[DPDT trees can be strictly better than greedy trees]
+    \pause
+    There exist a depth budget $D$ and a dataset for which DPDT trees are strictly better than greedy trees.\footnote{cf. checkersboard dataset.}
+    \end{theorem}
+\end{frame}
+\setbeamercovered{invisible}
+
+\begin{frame}[noframenumbering]{DPDT trees can be strictly better than greedy trees}
     \only<1>{\begin{figure}
         \centering
         \includegraphics[width=1\textwidth]{Présentation sans titre.png}
@@ -1906,7 +1793,7 @@ Classification MDP and the unique optimal depth-1 tree.
     \end{figure}}
 \end{frame}
 
-\begin{frame}{Result: verification time does scale with step inference time}
+\begin{frame}[noframenumbering]{Result: verification time does scale with step inference time}
     \begin{figure}[ht]
     \centering
     \includegraphics[width=1\linewidth]{../images/images_part3/verification_tradeoff.pdf}
@@ -1915,7 +1802,7 @@ Classification MDP and the unique optimal depth-1 tree.
 \end{figure}
 \end{frame}
 
-\begin{frame}{Result: there is no dominating policy class for all environments}
+\begin{frame}[noframenumbering]{Result: there is no dominating policy class for all environments}
 \begin{figure}
     \centering
     \includegraphics[trim={1.4cm 0 0 0},clip,width=1\textwidth]{../images/images_part3/trade_off_select_combine_one_plot.pdf}
