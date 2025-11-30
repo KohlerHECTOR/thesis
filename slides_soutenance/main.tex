@@ -1133,7 +1133,7 @@ where:}
     \onslide<5->{\begin{block}{Asymmetric RL}
         \begin{itemize}
             \item<6-> Access to hidden states during training but not at execution \textcolor{purple}{\small \cite{pinto}}.
-            \item<7-> Value-based $\rightarrow$ learns $Q(o, a)$ with TD targets $Q(s, a)$  \textcolor{purple}{\small \cite{baisero-dqn}}.
+            \item<7-> Value-based $\rightarrow$ learns $Q(o, a)$ with TD targets $U(s, a)$  \textcolor{purple}{\small \cite{baisero-dqn}}.
             \item<8-> Actor-critic\footnote{Although those return stochastic policies, we can be greedy.} $\rightarrow$ policy gradient on $\pi(o, a)$ using a critic $V(s)$ \textcolor{purple}{\small \cite{baisero-ppo}}.
             \item<9-> Supposed to work better for our problem \textcolor{purple}{\small \cite{justif-asym}}.
         \end{itemize}
@@ -1143,11 +1143,11 @@ where:}
 \begin{frame}{Result: for similar problems, RL struggles more when there is partial observability}
 \only<1>{\begin{figure}
     \centering
-    \includegraphics[trim={3cm 15.5cm 20.4cm 1cm},clip,width=0.3\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
+    \includegraphics[trim={3cm 15.2cm 20cm 1cm},clip,width=0.3\textwidth]{barplot_with_std.pdf}
 \end{figure}}
 \only<2->{\begin{figure}
     \centering
-    \includegraphics[width=0.7\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
+    \includegraphics[width=0.7\textwidth]{barplot_with_std.pdf}
 \end{figure}}
 \pause
 \vspace{-0.4cm}
@@ -1401,71 +1401,6 @@ Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
 % \end{alertblock}
 % \end{frame}
 
-\begin{frame}[fragile]{We propose policy unfolding}
-\pause
-\begin{minipage}{0.48\textwidth}
-\begin{tcolorbox}
-\begin{lstlisting}[language=Python]
-# Decision tree for Mountain Car
-def play(x):
-    if x[1] <= -0.2597:
-        if x[1] <= -0.6378:
-            return 0
-        else:
-            if x[0] <= -1.0021:
-                return 2
-            else:
-                return 0
-    else:
-        if x[1] <= -0.0508:
-            if x[0] <= 0.2979:
-                if x[0] <= 0.0453:
-                    return 2
-                else:
-                    if x[1] <= -0.2156:
-                        return 0
-                    else:
-                        return 2
-            else:
-                return 0
-        else:
-            return 2
-\end{lstlisting}
-\end{tcolorbox}
-\end{minipage}
-\pause
-\hfill
-\begin{minipage}{0.5\textwidth}
-\begin{tcolorbox}
-\begin{lstlisting}[language=Python]
-# Small ReLU MLP for Pendulum
-def play(x):
-    h_layer_0_0 = 1.238*x[0]+0.971*x[1]
-                  +0.430*x[2]+0.933
-    h_layer_0_0 = max(0, h_layer_0_0)
-    h_layer_0_1 = -1.221*x[0]+1.001
-                  *x[1]-0.423*x[2]
-                  +0.475
-    h_layer_0_1 = max(0, h_layer_0_1)
-    h_layer_1_0 = -0.109*h_layer_0_0
-                  -0.377*h_layer_0_1
-                  +1.694
-    h_layer_1_0 = max(0, h_layer_1_0)
-    h_layer_1_1 = -3.024*h_layer_0_0
-                  -1.421*h_layer_0_1
-                  +1.530
-    h_layer_1_1 = max(0, h_layer_1_1)
-
-    h_layer_2_0 = -1.790*h_layer_1_0
-                  +2.840*h_layer_1_1
-                  +0.658
-    y_0 = h_layer_2_0
-    return [y_0]
-\end{lstlisting}
-\end{tcolorbox}
-\end{minipage}
-\end{frame}
-
 % \begin{frame}{Empirical validation}
 % \begin{enumerate}
 %     \pause
@@ -1689,7 +1624,7 @@ Classification MDP and the unique optimal depth-1 tree.
 }
 \end{frame}
 
-\begin{frame}{Fast like greedy trees, accurate like optimal trees}
+\begin{frame}[noframenumbering]{Fast like greedy trees, accurate like optimal trees}
     \begin{figure}
         \centering
         \includegraphics[width=1\linewidth]{../images/figures/patho_bounds_comparison_checkers.pdf}
@@ -1697,7 +1632,7 @@ Classification MDP and the unique optimal depth-1 tree.
     \end{figure}
 \end{frame}
 
-\begin{frame}{Fast like greedy trees, accurate like optimal trees}
+\begin{frame}[noframenumbering]{Fast like greedy trees, accurate like optimal trees}
 \begin{table}
     \centering
     \tiny
@@ -1816,5 +1751,70 @@ Classification MDP and the unique optimal depth-1 tree.
     \includegraphics[trim={1.4cm 0 0 0},clip,width=1\textwidth]{../images/images_part3/trade_off_select_combine_one_plot.pdf}
     \caption*{Interpretability-Performance trade-offs. Top row, interpretability is measured with step inference times. Bottom row, the interpretability is measured with policy size.}
 \end{figure}
+\end{frame}
+
+
+\begin{frame}[noframenumbering,fragile]{We propose policy unfolding}
+\begin{minipage}{0.48\textwidth}
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+# Decision tree for Mountain Car
+def play(x):
+    if x[1] <= -0.2597:
+        if x[1] <= -0.6378:
+            return 0
+        else:
+            if x[0] <= -1.0021:
+                return 2
+            else:
+                return 0
+    else:
+        if x[1] <= -0.0508:
+            if x[0] <= 0.2979:
+                if x[0] <= 0.0453:
+                    return 2
+                else:
+                    if x[1] <= -0.2156:
+                        return 0
+                    else:
+                        return 2
+            else:
+                return 0
+        else:
+            return 2
+\end{lstlisting}
+\end{tcolorbox}
+\end{minipage}
+\pause
+\hfill
+\begin{minipage}{0.5\textwidth}
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+# Small ReLU MLP for Pendulum
+def play(x):
+    h_layer_0_0 = 1.238*x[0]+0.971*x[1]
+                  +0.430*x[2]+0.933
+    h_layer_0_0 = max(0, h_layer_0_0)
+    h_layer_0_1 = -1.221*x[0]+1.001
+                  *x[1]-0.423*x[2]
+                  +0.475
+    h_layer_0_1 = max(0, h_layer_0_1)
+    h_layer_1_0 = -0.109*h_layer_0_0
+                  -0.377*h_layer_0_1
+                  +1.694
+    h_layer_1_0 = max(0, h_layer_1_0)
+    h_layer_1_1 = -3.024*h_layer_0_0
+                  -1.421*h_layer_0_1
+                  +1.530
+    h_layer_1_1 = max(0, h_layer_1_1)
+
+    h_layer_2_0 = -1.790*h_layer_1_0
+                  +2.840*h_layer_1_1
+                  +0.658
+    y_0 = h_layer_2_0
+    return [y_0]
+\end{lstlisting}
+\end{tcolorbox}
+\end{minipage}
 \end{frame}
 \end{document}
