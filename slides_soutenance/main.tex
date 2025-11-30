@@ -296,14 +296,14 @@
         %         \small{Policy}
         %     \end{minipage}
         % };
-        \node<2->[ml] (ml) at (-6,3) {
+        \node<1->[ml] (ml) at (-6,3) {
             \begin{minipage}{1cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
                 \small{RL}
             \end{minipage}
         };
-        \node<1-3>[robot] (robot_) at (-2.1,3.4) {
+        \node<1-2>[robot] (robot_) at (-2.1,3.4) {
             \begin{minipage}{1.5cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/robot-svgrepo-com.svg}\\
@@ -328,7 +328,7 @@
             \end{minipage}
         };
 
-        \node<4->[nn] (nn_) at (-2.1,3.4) {
+        \node<3->[nn] (nn_) at (-2.1,3.4) {
             \begin{minipage}{1.5cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/network-mapping-svgrepo-com.svg}\\
@@ -347,24 +347,24 @@
         
         % Arrows
         
-        \draw<1-3>[arrow] (environment) to[bend left=30] node[left] {
+        \draw<1-2>[arrow] (environment) to[bend left=30] node[left] {
             \begin{minipage}{2cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
                 \small{Updated health status}
             \end{minipage}
         } (robot_);
-        \draw<4->[arrow] (environment) to[bend left=30] node[left] {
+        \draw<3->[arrow] (environment) to[bend left=30] node[left] {
             \begin{minipage}{2cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
                 \small{Updated health status}
             \end{minipage}
         } (nn_);
-        \draw<1-3>[arrow_decision] (robot_) to node[above] {\small{Recommends}} (doctor_);
-        \draw<4->[arrow_decision] (nn_) to node[above] {\small{Recommends}} (doctor_);
+        \draw<1-2>[arrow_decision] (robot_) to node[above] {\small{Recommends}} (doctor_);
+        \draw<3->[arrow_decision] (nn_) to node[above] {\small{Recommends}} (doctor_);
         % \draw<1-3>[arrow_decision] (doctor_) to node[below] {\small{Interprets}} (robot_);
-        \draw<5->[arrow_decision, red] (doctor_) to node[below] {\small{Cannot interpret}} (nn_);
+        \draw<4->[arrow_decision, red] (doctor_) to node[below] {\small{Cannot interpret}} (nn_);
 
         % \draw<1-2>[arrow] (doctor) to[bend left=30] node[right] {
         %     \begin{minipage}{3cm}
@@ -381,20 +381,20 @@
             \end{minipage}
         } (environment);
         % ML learning arrows
-        \draw<3->[arrow] (environment) to[bend left=40] node[left] {
+        \draw<2->[arrow] (environment) to[bend left=40] node[left] {
             \begin{minipage}{2cm}
                 \centering
                 \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
                 \small{Treatment outcomes}
             \end{minipage}
         } (ml);
-        \draw<3>[arrow] (ml) to[bend left=20] node[above] {
+        \draw<2>[arrow] (ml) to[bend left=20] node[above] {
             \begin{minipage}{1.5cm}
                 \centering
                 \small{Updates}
             \end{minipage}
         } (robot_);
-        \draw<4->[arrow] (ml) to[bend left=20] node[above] {
+        \draw<3->[arrow] (ml) to[bend left=20] node[above] {
             \begin{minipage}{1.5cm}
                 \centering
                 \small{Updates}
@@ -1290,48 +1290,10 @@ Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
 
 \begin{frame}{Fast like greedy trees, accurate like optimal trees}
     \begin{figure}
-        \centering
-        \includegraphics[width=1\linewidth]{../images/figures/patho_bounds_comparison_checkers.pdf}
-        \caption*{Comparison of greedy, optimal, and DPDT  depth-2 trees on the checkersboard dataset.}
-    \end{figure}
-\end{frame}
-
-\begin{frame}{Fast like greedy trees, accurate like optimal trees}
-\begin{table}
     \centering
-    \tiny
-    \caption*{Comparison of accuracies and operations for depth-3 trees.}
-    \scalebox{0.8}{\begin{tabular}{l|cccccc|cccccc}
-    \toprule
-    & \multicolumn{6}{c|}{\textbf{Accuracy}} & \multicolumn{6}{c}{\textbf{Operations}} \\
-    \midrule
-    \textbf{Dataset} & Opt & Greedy & \multicolumn{4}{c}{DPDT} & Opt & Greedy & \multicolumn{4}{c}{DPDT} \\
-    &  &  &
-    CART^{-} & CART^{+} &
-    TopB^{-} & TopB^{+} &
-     &  &
-    CART^{-} & CART^{+} &
-    TopB^{-} & TopB^{+} \\
-    \midrule
-    room    & \textbf{0.992} & 0.968 & \color{blue}0.991 & \textbf{0.992} & 0.990 & \textbf{0.992} & $10^6$       & 15 & 286 & 16100 & 111 & 16100 \\
-    bean    & \textbf{0.871} & 0.777 & 0.812 & \color{blue}0.853 & 0.804 & 0.841 & $5\cdot10^6$   & 15 & 295 & 25900 & 112 & 16800 \\
-    eeg     & \textbf{0.708} & 0.666 & 0.689 & \color{blue}0.706 & 0.684 & 0.699 & $2\cdot10^6$   & 13 & 289 & 26000 & 95  & 11000 \\
-    avila   & \textbf{0.585} & 0.532 & \color{blue}0.574 & \textbf{0.585} & 0.563 & 0.572 & $3\cdot10^7$   & 9  & 268 & 24700 & 60  & 38900 \\
-    magic   & \textbf{0.831} & 0.801 & 0.822 & \color{blue}0.828 & 0.807 & 0.816 & $6\cdot10^6$   & 15 & 298 & 28000 & 70  & 4190  \\
-    htru    & \textbf{0.981} & 0.979 & 0.979 & \color{blue}0.980 & 0.979 & \color{blue}0.980 & $6\cdot10^7$   & 15 & 295 & 25300 & 55  & 2180  \\
-    occup.  & \textbf{0.994} & 0.989 & 0.991 & \textbf{0.994} & 0.990 & \color{blue}0.992 & $7\cdot10^5$   & 13 & 280 & 16300 & 33  & 510   \\
-    skin    & \textbf{0.969} & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & $7\cdot10^4$   & 15 & 301 & 23300 & 20  & 126   \\
-    fault   & \textbf{0.682} & 0.553 & 0.672 & \color{blue}0.674 & 0.672 & 0.673 & $9\cdot10^8$   & 13 & 295 & 24200 & 111 & 16800 \\
-    segment & \textbf{0.887} & 0.574 & 0.812 & \color{blue}0.879 & 0.786 & 0.825 & $2\cdot10^6$   & 7  & 220 & 16300 & 68  & 11400 \\
-    page    & \textbf{0.971} & 0.964 & \color{blue}0.970 & \color{blue}0.970 & 0.964 & 0.965 & $10^7$        & 15 & 298 & 22400 & 701 & 4050  \\
-    bidding & \textbf{0.993} & 0.981 & \color{blue}0.985 & \textbf{0.993} & 0.985 & \textbf{0.993} & $3\cdot10^5$   & 13 & 256 & 9360  & 58  & 2700  \\
-    raisin  & \textbf{0.894} & 0.869 & 0.879 & \color{blue}0.886 & 0.875 & 0.883 & $4\cdot10^6$   & 15 & 295 & 20900 & 48  & 1440  \\
-    rice    & \textbf{0.938} & 0.933 & 0.934 & \color{blue}0.937 & 0.933 & 0.936 & $2\cdot10^7$   & 15 & 298 & 25500 & 49  & 1470  \\
-    wilt    & \textbf{0.996} & 0.993 & 0.994 & \color{blue}0.995 & 0.994 & 0.994 & $3\cdot10^5$   & 13 & 274 & 11300 & 33  & 465   \\
-    bank    & \textbf{0.983} & 0.933 & 0.971 & \color{blue}0.980 & 0.951 & 0.974 & $6\cdot10^4$   & 13 & 271 & 7990  & 26  & 256   \\
-    \bottomrule
-    \end{tabular}}
-\end{table}
+    \includegraphics[width=0.8\textwidth]{mirror_accuracy_vs_cost.pdf}
+    \caption*{Train accuracies against cost for detph-3 trees.}
+    \end{figure}
 \end{frame}
 
 \setbeamercovered{invisible}
@@ -1725,6 +1687,52 @@ Classification MDP and the unique optimal depth-1 tree.
     \caption*{Example of decision tree induction as an MDP.}
 \end{figure}
 }
+\end{frame}
+
+\begin{frame}{Fast like greedy trees, accurate like optimal trees}
+    \begin{figure}
+        \centering
+        \includegraphics[width=1\linewidth]{../images/figures/patho_bounds_comparison_checkers.pdf}
+        \caption*{Comparison of greedy, optimal, and DPDT  depth-2 trees on the checkersboard dataset.}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Fast like greedy trees, accurate like optimal trees}
+\begin{table}
+    \centering
+    \tiny
+    \caption*{Comparison of accuracies and operations for depth-3 trees.}
+    \scalebox{0.8}{\begin{tabular}{l|cccccc|cccccc}
+    \toprule
+    & \multicolumn{6}{c|}{\textbf{Accuracy}} & \multicolumn{6}{c}{\textbf{Operations}} \\
+    \midrule
+    \textbf{Dataset} & Opt & Greedy & \multicolumn{4}{c}{DPDT} & Opt & Greedy & \multicolumn{4}{c}{DPDT} \\
+    &  &  &
+    CART^{-} & CART^{+} &
+    TopB^{-} & TopB^{+} &
+     &  &
+    CART^{-} & CART^{+} &
+    TopB^{-} & TopB^{+} \\
+    \midrule
+    room    & \textbf{0.992} & 0.968 & \color{blue}0.991 & \textbf{0.992} & 0.990 & \textbf{0.992} & $10^6$       & 15 & 286 & 16100 & 111 & 16100 \\
+    bean    & \textbf{0.871} & 0.777 & 0.812 & \color{blue}0.853 & 0.804 & 0.841 & $5\cdot10^6$   & 15 & 295 & 25900 & 112 & 16800 \\
+    eeg     & \textbf{0.708} & 0.666 & 0.689 & \color{blue}0.706 & 0.684 & 0.699 & $2\cdot10^6$   & 13 & 289 & 26000 & 95  & 11000 \\
+    avila   & \textbf{0.585} & 0.532 & \color{blue}0.574 & \textbf{0.585} & 0.563 & 0.572 & $3\cdot10^7$   & 9  & 268 & 24700 & 60  & 38900 \\
+    magic   & \textbf{0.831} & 0.801 & 0.822 & \color{blue}0.828 & 0.807 & 0.816 & $6\cdot10^6$   & 15 & 298 & 28000 & 70  & 4190  \\
+    htru    & \textbf{0.981} & 0.979 & 0.979 & \color{blue}0.980 & 0.979 & \color{blue}0.980 & $6\cdot10^7$   & 15 & 295 & 25300 & 55  & 2180  \\
+    occup.  & \textbf{0.994} & 0.989 & 0.991 & \textbf{0.994} & 0.990 & \color{blue}0.992 & $7\cdot10^5$   & 13 & 280 & 16300 & 33  & 510   \\
+    skin    & \textbf{0.969} & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & \color{blue}0.966 & $7\cdot10^4$   & 15 & 301 & 23300 & 20  & 126   \\
+    fault   & \textbf{0.682} & 0.553 & 0.672 & \color{blue}0.674 & 0.672 & 0.673 & $9\cdot10^8$   & 13 & 295 & 24200 & 111 & 16800 \\
+    segment & \textbf{0.887} & 0.574 & 0.812 & \color{blue}0.879 & 0.786 & 0.825 & $2\cdot10^6$   & 7  & 220 & 16300 & 68  & 11400 \\
+    page    & \textbf{0.971} & 0.964 & \color{blue}0.970 & \color{blue}0.970 & 0.964 & 0.965 & $10^7$        & 15 & 298 & 22400 & 701 & 4050  \\
+    bidding & \textbf{0.993} & 0.981 & \color{blue}0.985 & \textbf{0.993} & 0.985 & \textbf{0.993} & $3\cdot10^5$   & 13 & 256 & 9360  & 58  & 2700  \\
+    raisin  & \textbf{0.894} & 0.869 & 0.879 & \color{blue}0.886 & 0.875 & 0.883 & $4\cdot10^6$   & 15 & 295 & 20900 & 48  & 1440  \\
+    rice    & \textbf{0.938} & 0.933 & 0.934 & \color{blue}0.937 & 0.933 & 0.936 & $2\cdot10^7$   & 15 & 298 & 25500 & 49  & 1470  \\
+    wilt    & \textbf{0.996} & 0.993 & 0.994 & \color{blue}0.995 & 0.994 & 0.994 & $3\cdot10^5$   & 13 & 274 & 11300 & 33  & 465   \\
+    bank    & \textbf{0.983} & 0.933 & 0.971 & \color{blue}0.980 & 0.951 & 0.974 & $6\cdot10^4$   & 13 & 271 & 7990  & 26  & 256   \\
+    \bottomrule
+    \end{tabular}}
+\end{table}
 \end{frame}
 
 \setbeamercovered{transparent}
