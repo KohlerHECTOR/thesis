@@ -1459,6 +1459,37 @@ Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
 
 % \end{frame}
 \setbeamercovered{invisible}
+
+
+\begin{frame}[noframenumbering,fragile]{We propose policy unfolding}
+\begin{tcolorbox}
+\begin{lstlisting}[language=Python]
+# Small ReLU MLP for Pendulum
+def play(x):
+    h_layer_0_0 = 1.68 * x[0] + -0.69 * x[1] + -0.74 * x[2] + -1.40
+    h_layer_0_0 = max(0.0, h_layer_0_0)
+    h_layer_0_1 = 0.20 * x[0] + 0.29 * x[1] + -0.021 * x[2] + 1.25
+    h_layer_0_1 = max(0.0, h_layer_0_1)
+    h_layer_0_2 = 0.33 * x[0] + -0.57 * x[1] + 0.47 * x[2] + 1.94
+    h_layer_0_2 = max(0.0, h_layer_0_2)
+    h_layer_0_3 = 1.39 * x[0] + 0.94 * x[1] + 0.50 * x[2] + -1.13
+    h_layer_0_3 = max(0.0, h_layer_0_3)
+    h_layer_1_0 = 1.16 * h_layer_0_0 + -1.59 * h_layer_0_1 + 0.95 * h_layer_0_2 + -1.22 * h_layer_0_3 + -0.54
+    h_layer_1_0 = max(0.0, h_layer_1_0)
+    h_layer_1_1 = -0.55 * h_layer_0_0 + 1.13 * h_layer_0_1 + -0.58 * h_layer_0_2 + -0.72 * h_layer_0_3 + 1.56
+    h_layer_1_1 = max(0.0, h_layer_1_1)
+    h_layer_1_2 = 1.10 * h_layer_0_0 + -1.01 * h_layer_0_1 + 0.96 * h_layer_0_2 + -2.84 * h_layer_0_3 + -0.02
+    h_layer_1_2 = max(0.0, h_layer_1_2)
+    h_layer_1_3 = 0.27 * h_layer_0_0 + 0.44 * h_layer_0_1 + 0.39 * h_layer_0_2 + 0.15 * h_layer_0_3 + -1.24
+    h_layer_1_3 = max(0.0, h_layer_1_3)
+    h_layer_2_0 = -2.80 * h_layer_1_0 + -0.60 * h_layer_1_1 + 3.07 * h_layer_1_2 + -1.63 * h_layer_1_3 + -0.36
+    y_0 = h_layer_2_0
+
+    return [y_0]
+\end{lstlisting}
+\end{tcolorbox}
+\end{frame}
+
 \begin{frame}{Is policy unfolding really necessary?}
 \onslide<1->{\begin{block}{Setup}
 We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using various policy classes/nb parameters on various environments.
@@ -1482,7 +1513,9 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
     \pause
     \item What about (very) big models?
     \pause
-    \item Can we use our policy programs as low level skills (hierarchical RL)? 
+    \item What about floating points precision?
+    \pause
+    \item What about the cost of basic operations ($\times$ vs. $+$ vs. $\geq$)?
 \end{itemize}
 \end{frame}
 
@@ -1496,7 +1529,7 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
         \\
         \pause
         $\rightarrow$ \textbf{\textcolor{teal}{Created opportunities for new decision tree algos for classif/regression.}}
-        \item \textbf{Fundamental challenges:} \textcolor{red}{\textbf{no definition}}. 
+        \item \textbf{Fundamental challenges:} \textcolor{red}{\textbf{No concensus on interpretability definition}}. 
         \\
         \pause
         $\rightarrow$ Discuss with the community (InterpPol workshop).
@@ -1785,7 +1818,6 @@ def play(x):
 \end{lstlisting}
 \end{tcolorbox}
 \end{minipage}
-\pause
 \hfill
 \begin{minipage}{0.5\textwidth}
 \begin{tcolorbox}

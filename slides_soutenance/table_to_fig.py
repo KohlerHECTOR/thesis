@@ -149,12 +149,11 @@ for i, algo in enumerate(algos):
     ax_top.bar(x + i*width, acc_data[algo], width,
                label=labels[algo], color=colors[algo])
 
-ax_top.set_ylim(0.4, 1.05)
+# ax_top.set_ylim(-0.1, 1.05)
 
 ax_top.set_ylabel("Normalized accuracy", fontsize=18)
 ax_top.legend(fontsize=22)
 ax_top.grid(axis='y', linestyle='--', alpha=0.6)
-plt.yticks(fontsize=17)
 
 # ---------------- BOTTOM: Cost (mirrored) ----------------
 for i, algo in enumerate(algos):
@@ -168,7 +167,7 @@ ax_top.yaxis.set_tick_params(labelsize=17)
 ax_bottom.grid(axis='y', linestyle='--', alpha=0.6)
 
 ax_bottom.set_xticks(x + width/2)
-ax_bottom.set_xticklabels(dataset_names, rotation=45, ha='right', fontsize=13)
+ax_bottom.set_xticklabels(dataset_names, rotation=45, ha='right', fontsize=15)
 plt.yticks(fontsize=17)
 plt.tight_layout()
 plt.savefig("mirror_accuracy_vs_cost.pdf")
