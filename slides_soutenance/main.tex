@@ -1155,6 +1155,72 @@ where:}
 }
 \end{frame}
 
+\begin{frame}{Result: RL cannot retrieve optimal depth-1 trees for the grid world MDP}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{tree_distributions.pdf}
+\end{figure}
+\pause
+Distributions of tree policies learned with (asymmetric) RL algorithms as a function of the interpretability reward $\zeta$.
+\end{frame}
+
+
+\begin{frame}{Result: decision tree policies for classification MDPs are standard Markovian policies in IBMDPs}
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[
+        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
+        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
+        edge_label/.style={font=\footnotesize, midway}
+    ]
+        % Tree 4: if x <= 0.5 move right else move left
+        \node<3->[decision] (tree4_root) at (8,2) {$x \leq 1$};
+        \node<3->[rectangle, draw, thick, fill=green!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_right) at (7,0) {};
+        \node<3->[rectangle, draw, thick, fill=red!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_left) at (9,0);
+        \draw<3->[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
+        \draw<3->[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+        
+        % Draw grid
+        \draw<2->[fill=green!40] (0, 0) rectangle (1,2);
+        \draw<2->[fill=red!40] (1, 0) rectangle (2,2);
+
+        \draw[grid] (0,0) grid (2,2);
+        
+        % Add axes
+        \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
+        \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
+        
+        % Add tick marks and labels
+        \foreach \x in {0,1,2} {
+            \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
+        }
+        \foreach \y in {0,1,2} {
+            \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
+        }
+
+        \node at (0.5,0.5) {$\boldsymbol{s}_0$};
+        \node at (1.5,0.5) {$\boldsymbol{s}_g$};
+        \node at (1.5,1.5) {$\boldsymbol{s}_2$};
+        \node at (0.5,1.5) {$\boldsymbol{s}_1$};
+    \end{tikzpicture}
+\end{figure}
+\pause
+Classification MDP and the unique optimal depth-1 tree.
+\pause
+\\
+\textbf{\textcolor{teal}{Deterministic memoryless policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
+\end{frame}
+
+\begin{frame}{Result: RL can retrieve optimal depth-1 trees for the toy classification MDP}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{tree_distributions_merged.pdf}
+    \caption*{Distributions of tree policies learned with various RL algorithms.
+    }
+\end{figure}
+\end{frame}
+
 
 % \begin{frame}{Experimental result: for SDM problems $\Leftrightarrow$ classification problems, RL can consistently retrieve optimal depth-1 decision tree policies}
 % \begin{figure}
@@ -1291,7 +1357,7 @@ Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
 \begin{frame}{Fast like greedy trees, accurate like optimal trees}
     \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{mirror_accuracy_vs_cost.pdf}
+    \includegraphics[width=0.9\textwidth]{mirror_accuracy_vs_cost.pdf}
     \caption*{Train accuracies against cost for detph-3 trees.}
     \end{figure}
 \end{frame}
