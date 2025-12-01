@@ -1140,6 +1140,15 @@ where:}
     \end{block}}
 \end{frame}
 
+\begin{frame}{Result: RL cannot retrieve optimal depth-1 trees for the grid world MDP}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{tree_distributions.pdf}
+\end{figure}
+\pause
+Distributions of tree policies learned with (asymmetric) RL algorithms as a function of the interpretability reward $\zeta$.
+\end{frame}
+
 \begin{frame}{Result: for similar problems, RL struggles more when there is partial observability}
 \only<1>{\begin{figure}
     \centering
@@ -1153,15 +1162,6 @@ where:}
 \vspace{-0.4cm}
 {\small Success rates over thousands of RL runs with varying hyperparameters when learning different policies in the same IBMDP\footnote{\tiny We also observed similar results on classic controls and variants of the grid world MDP.}.
 }
-\end{frame}
-
-\begin{frame}{Result: RL cannot retrieve optimal depth-1 trees for the grid world MDP}
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{tree_distributions.pdf}
-\end{figure}
-\pause
-Distributions of tree policies learned with (asymmetric) RL algorithms as a function of the interpretability reward $\zeta$.
 \end{frame}
 
 
