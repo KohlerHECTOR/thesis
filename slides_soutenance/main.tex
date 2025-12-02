@@ -5,7 +5,7 @@
 \usetheme{Madrid}
 \usepackage{listings}
 \usepackage{booktabs}
-\usepackage[backend=biber,style=alphabetic]{biblatex}
+\usepackage[backend=biber,style=authoryear-comp]{biblatex}
 \usecolortheme{default}
 \usepackage{caption}
 \usepackage{subcaption}
@@ -15,7 +15,7 @@
 \usepackage{algorithm2e}
 \usepackage{fourier}
 \newtheorem{proposition}{Proposition}
-
+\setbeamertemplate{navigation symbols}{}
 % Code styling
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -84,18 +84,18 @@
     ]
         
         % Decision Making Box
-        \node<1-2>[decision_box] (decision_box) at (0,3.8) {};
-        \node<3->[big_decision_box] (big_decision_box) at (0,3.8) {};
+        \node<1>[decision_box] (decision_box) at (0,3.8) {};
+        \node<2->[big_decision_box] (big_decision_box) at (0,3.8) {};
         \node at (0,4.7) {\textbf{Decision Making}};
         
-        %Robot (AI)
-        \node<2>[robot] (robot) at (-4.1,3.4) {
-            \begin{minipage}{1.5cm}
-                \centering
-                \includesvg[width=0.4cm]{../images/images_intro/robot-svgrepo-com.svg}\\
-                \small{Policy}
-            \end{minipage}
-        };
+        % %Robot (AI)
+        % \node<2>[robot] (robot) at (-4.1,3.4) {
+        %     \begin{minipage}{1.5cm}
+        %         \centering
+        %         \includesvg[width=0.4cm]{../images/images_intro/robot-svgrepo-com.svg}\\
+        %         \small{Policy}
+        %     \end{minipage}
+        % };
         % \node<5->[ml] (ml) at (-6,3) {
         %     \begin{minipage}{1cm}
         %         \centering
@@ -103,7 +103,7 @@
         %         \small{ML}
         %     \end{minipage}
         % };
-        \node<3->[robot] (robot_) at (-2.1,3.4) {
+        \node<2->[robot] (robot_) at (-2.1,3.4) {
             \begin{minipage}{1.5cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/robot-svgrepo-com.svg}\\
@@ -112,7 +112,7 @@
         };
         
         % Doctor
-        \node<1-2>[agent] (doctor) at (0,3.4) {
+        \node<1>[agent] (doctor) at (0,3.4) {
             \begin{minipage}{1.5cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
@@ -120,7 +120,7 @@
             \end{minipage}
         };
 
-        \node<3->[agent] (doctor_) at (2.1,3.4) {
+        \node<2>[agent] (doctor_) at (2.1,3.4) {
             \begin{minipage}{1.5cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/doctor-with-stethoscope-svgrepo-com.svg}\\
@@ -146,14 +146,14 @@
         };
         
         % Arrows
-        \draw<1-2>[arrow] (environment) to[bend left=30] node[left] {
+        \draw<1>[arrow] (environment) to[bend left=30] node[left] {
             \begin{minipage}{2cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
                 \small{Updated health status}
             \end{minipage}
         } (doctor);
-        \draw<3->[arrow] (environment) to[bend left=30] node[left] {
+        \draw<2->[arrow] (environment) to[bend left=30] node[left] {
             \begin{minipage}{2cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
@@ -167,19 +167,19 @@
         %         \small{Updated health status}
         %     \end{minipage}
         % } (nn_);
-        \draw<3->[arrow_decision] (robot_) to node[above] {\small{Recommends}} (doctor_);
+        \draw<2->[arrow_decision] (robot_) to node[above] {\small{Recommends}} (doctor_);
         % \draw<8->[arrow_decision] (nn_) to node[above] {\small{Recommends}} (doctor_);
         % \draw<4-7>[arrow_decision] (doctor_) to node[below] {\small{Interprets}} (robot_);
         % \draw<8->[arrow_decision, red] (doctor_) to node[below] {\small{Cannot interpret}} (nn_);
 
-        \draw<1-2>[arrow] (doctor) to[bend left=30] node[right] {
+        \draw<1>[arrow] (doctor) to[bend left=30] node[right] {
             \begin{minipage}{3cm}
                 \centering
                 \includesvg[width=0.5cm]{../images/images_intro/syringe-svgrepo-com.svg}\\
                 \small{Administers chemotherapy}
             \end{minipage}
         } (environment);
-        \draw<3->[arrow] (doctor_) to[bend left=30] node[right] {
+        \draw<2->[arrow] (doctor_) to[bend left=30] node[right] {
             \begin{minipage}{3cm}
                 \centering
                 \includesvg[width=0.5cm]{../images/images_intro/syringe-svgrepo-com.svg}\\
@@ -215,7 +215,7 @@
 
 
 \begin{frame}{Markov decision processes (MDPs) and reinforcement learning (RL)}
-\begin{minipage}{0.59\textwidth}
+\begin{minipage}{0.53\textwidth}
     \begin{figure}
         \centering
         \scalebox{0.85}{\begin{tikzpicture}[
@@ -250,14 +250,12 @@
         \caption*{Markov decision processes {\small \textcolor{purple}{\parencite{puterman}}}.}
     \end{figure}
 \end{minipage}%
-\begin{minipage}{0.4\textwidth}
+\begin{minipage}{0.46\textwidth}
     \begin{itemize}
-        \item<2-> RL {\small \textcolor{purple}{\parencite{sutton}}} aims to find a policy, $\pi: S \rightarrow A$ that maximizes:
-        \begin{align*}
-            J(\pi) &= \underset{\boldsymbol{s}_{t}\sim T}{\mathbb{E}}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, \pi(s_t))\right]
-        \end{align*}
-
-        \item<3-> Lots of succesful RL algorithms {\small \textcolor{purple}{\parencite{sutton,dqn,ppo}}}.
+        \item<2-> RL {\small \textcolor{purple}{\small \parencite{sutton}}} aims to find a policy, $\pi: S \rightarrow A$ that maximizes:
+        \[J(\pi) = \underset{\boldsymbol{s}_{t}\sim T}{\mathbb{E}}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, \pi(s_t))\right]\]
+        
+        \item<3-> Lots of succesful RL algorithms {\small \textcolor{purple}{\parencite{ppo}}}.
         % \item<4-> Few interpretability concerns.
     \end{itemize}
 \end{minipage}
@@ -303,7 +301,7 @@
                 \small{RL}
             \end{minipage}
         };
-        \node<1-2>[robot] (robot_) at (-2.1,3.4) {
+        \node<1>[robot] (robot_) at (-2.1,3.4) {
             \begin{minipage}{1.5cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/robot-svgrepo-com.svg}\\
@@ -328,7 +326,7 @@
             \end{minipage}
         };
 
-        \node<3->[nn] (nn_) at (-2.1,3.4) {
+        \node<2->[nn] (nn_) at (-2.1,3.4) {
             \begin{minipage}{1.5cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/network-mapping-svgrepo-com.svg}\\
@@ -347,24 +345,24 @@
         
         % Arrows
         
-        \draw<1-2>[arrow] (environment) to[bend left=30] node[left] {
+        \draw<1>[arrow] (environment) to[bend left=30] node[left] {
             \begin{minipage}{2cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
                 \small{Updated health status}
             \end{minipage}
         } (robot_);
-        \draw<3->[arrow] (environment) to[bend left=30] node[left] {
+        \draw<2->[arrow] (environment) to[bend left=30] node[left] {
             \begin{minipage}{2cm}
                 \centering
                 \includesvg[width=0.4cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
                 \small{Updated health status}
             \end{minipage}
         } (nn_);
-        \draw<1-2>[arrow_decision] (robot_) to node[above] {\small{Recommends}} (doctor_);
-        \draw<3->[arrow_decision] (nn_) to node[above] {\small{Recommends}} (doctor_);
+        \draw<1>[arrow_decision] (robot_) to node[above] {\small{Recommends}} (doctor_);
+        \draw<2->[arrow_decision] (nn_) to node[above] {\small{Recommends}} (doctor_);
         % \draw<1-3>[arrow_decision] (doctor_) to node[below] {\small{Interprets}} (robot_);
-        \draw<4->[arrow_decision, red] (doctor_) to node[below] {\small{Cannot interpret}} (nn_);
+        \draw<3->[arrow_decision, red] (doctor_) to node[below] {\small{Cannot interpret}} (nn_);
 
         % \draw<1-2>[arrow] (doctor) to[bend left=30] node[right] {
         %     \begin{minipage}{3cm}
@@ -381,20 +379,23 @@
             \end{minipage}
         } (environment);
         % ML learning arrows
-        \draw<2->[arrow] (environment) to[bend left=40] node[left] {
+        \draw<1->[arrow] (environment) to[bend left=40] node[left] {
             \begin{minipage}{2cm}
                 \centering
                 \includesvg[width=0.5cm]{../images/images_intro/patient-clipboard-svgrepo-com.svg}\\
-                \small{Treatment outcomes}
+                \small{}
             \end{minipage}
         } (ml);
-        \draw<2>[arrow] (ml) to[bend left=20] node[above] {
+
+
+        \draw<1>[arrow] (ml) to[bend left=20] node[above] {
             \begin{minipage}{1.5cm}
                 \centering
                 \small{Updates}
             \end{minipage}
         } (robot_);
-        \draw<3->[arrow] (ml) to[bend left=20] node[above] {
+
+        \draw<2->[arrow] (ml) to[bend left=20] node[above] {
             \begin{minipage}{1.5cm}
                 \centering
                 \small{Updates}
@@ -407,9 +408,8 @@
 \end{figure}
 \end{frame}
 
-\begin{frame}{Interpretability?}
-    \only<2>{Local vs. global interpretability \textcolor{purple}{\small \cite{milani-survey,glanois-survey}}.}
-    \only<3>{\begin{figure}
+\begin{frame}{Local vs. global interpretability {\small \parencite{glanois-survey}}.}
+    \only<2>{\begin{figure}
         \begin{subfigure}{0.45\textwidth}
         \centering
         \includegraphics[width=0.95\textwidth]{../images/images_intro/breakout_reflect_bp.png}
@@ -419,16 +419,16 @@
         \centering
         \includegraphics[width=0.95\textwidth]{../images/images_intro/breakout_reflect.png}
         \end{subfigure}
-        \caption*{Saliency maps \textcolor{purple}{\small \cite{saliency}}.}
+        \caption*{Saliency maps of different MDP states \textcolor{purple}{\small \parencite{saliency}}.}
     \end{figure}}
-    \only<4>{
-        \begin{figure}
-            \centering
-            \includegraphics[width=0.9\textwidth]{../images/lime.png}
-            \caption*{Local interpretable model-agnostic explanations (LIME) \textcolor{purple}{\small \cite{lime}}.}
-        \end{figure}
-    }
-    \only<5->{
+    % \only<3>{
+    %     \begin{figure}
+    %         \centering
+    %         \includegraphics[width=0.9\textwidth]{../images/lime.png}
+    %         \caption*{Local interpretable model-agnostic explanations (LIME) \textcolor{purple}{\small \parencite{lime}}.}
+    %     \end{figure}
+    % }
+    \only<3->{
         \begin{figure}
     \centering
     \begin{tikzpicture}[scale=0.7]
@@ -469,8 +469,8 @@
         \node[below right] at (6.5,2) {Decision trees};
         
     \end{tikzpicture}
-    \only<6>{\caption*{Global interpretability $\rightarrow$ works for all states.}}
-    \only<7>{\caption*{\textbf{\warning Multiple definitions \textcolor{purple}{\small \cite{lipton,rigourous,lens-complexity}}}.}}
+    \only<3>{\caption*{Global interpretation.}}
+    \only<4>{\caption*{\textbf{\warning Multiple definitions \textcolor{purple}{\small \parencite{lipton}}}.}}
 \end{figure}
     }
 \end{frame}
@@ -510,7 +510,7 @@
     \caption*{A generic decision tree of depth $D=2$.}
 \end{figure}
 \pause
-Successful algorithms for classification/regression: {\small \textcolor{purple}{\parencite{breiman1984classification,oct,murtree,binoct,quantbnb}}} \dots
+Successful algorithms for classification/regression {\small \textcolor{purple}{\parencite{breiman1984classification}}}.
 \\
 \pause
 \textbf{\textcolor{blue}{What about SDM?}}
@@ -521,10 +521,10 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
     \centering
     \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
 \end{figure}
-\onslide<2->{Most research focused on indirect learning of interpretable policies {\small \textcolor{purple}{\parencite{dagger,viper,PIRL,milani-survey,}}}.}\\
+\onslide<2->{Most research focused on indirect learning of interpretable policies {\small \textcolor{purple}{\parencite{viper}}}.}\\
 \end{frame}
 
-\begin{frame}{Two ways to get interpretable policies for SDM}
+\begin{frame}{Two ways to get interpretable policies for SDM {\small \parencite{glanois-survey}}}
 \begin{figure}
     \centering
     \scalebox{0.82}{
@@ -544,11 +544,11 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
     ]
         
         % Direct method box
-        \node<4->[method_box] (direct_box) at (-0.5,0) {};
-        \node<4-> at (-0.5,1.7) {\small{\textcolor{blue}{\textbf{Direct?}}}};
+        \node<3->[method_box] (direct_box) at (-0.5,0) {};
+        \node<3-> at (-0.5,1.7) {\small{\textcolor{blue}{\textbf{Direct?}}}};
         
         % Direct method - RL process
-        \node<5->[rl] (rl_direct) at (-2,0) {
+        \node<4->[rl] (rl_direct) at (-2,0) {
             \begin{minipage}{1.2cm}
                 \centering
                 \includesvg[width=0.3cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
@@ -557,7 +557,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         };
         
         % Direct method - Decision Tree
-        \node<5->[dt] (dt_direct) at (1,0) {
+        \node<4->[dt] (dt_direct) at (1,0) {
             \begin{minipage}{1.2cm}
                 \centering
                 \includesvg[width=0.3cm]{../images/images_intro/decision-tree-svgrepo-com.svg}\\
@@ -566,14 +566,14 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         };
         
         % Direct method arrow
-        \draw<5->[arrow] (rl_direct) -- (dt_direct) node[label, midway] {\tiny Learns};
+        \draw<4->[arrow] (rl_direct) -- (dt_direct) node[label, midway] {\tiny Learns};
         
         % Indirect method box
         \node<1->[method_box_indirect] (indirect_box) at (7.1,0) {};
         \node<1-> at (6.8,1.7) {\small{Indirect}};
         
         % Indirect method - RL process
-        \node<2->[rl] (rl_indirect) at (3.5,0) {
+        \node<1->[rl] (rl_indirect) at (3.5,0) {
             \begin{minipage}{1.2cm}
                 \centering
                 \includesvg[width=0.3cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
@@ -582,7 +582,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         };
         
         % Indirect method - Neural Network
-        \node<2->[nn] (nn_indirect) at (6,0) {
+        \node<1->[nn] (nn_indirect) at (6,0) {
             \begin{minipage}{1.2cm}
                 \centering
                 \includesvg[width=0.3cm]{../images/images_intro/network-mapping-svgrepo-com.svg}\\
@@ -591,7 +591,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         };
         
         % Indirect method - Supervised Learning
-        \node<2->[sl] (sl_indirect) at (8.5,0) {
+        \node<1->[sl] (sl_indirect) at (8.5,0) {
             \begin{minipage}{1.2cm}
                 \centering
                 \includesvg[width=0.3cm]{../images/images_intro/gear-file-svgrepo-com.svg}\\
@@ -600,7 +600,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         };
         
         % Indirect method - Decision Tree
-        \node<2->[dt] (dt_indirect) at (11,0) {
+        \node<1->[dt] (dt_indirect) at (11,0) {
             \begin{minipage}{1.2cm}
                 \centering
                 \includesvg[width=0.3cm]{../images/images_intro/decision-tree-svgrepo-com.svg}\\
@@ -609,13 +609,13 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
         };
         
         % Indirect method arrows
-        \draw<2->[arrow] (rl_indirect) -- (nn_indirect) node[label, midway] {\tiny Learns};
-        \draw<2->[arrow] (nn_indirect) -- (sl_indirect) node[label, midway] {\tiny Generates data};
-        \draw<2->[arrow] (sl_indirect) -- (dt_indirect) node[label, midway] {\tiny Learns};
+        \draw<1->[arrow] (rl_indirect) -- (nn_indirect) node[label, midway] {\tiny Learns};
+        \draw<1->[arrow] (nn_indirect) -- (sl_indirect) node[label, midway] {\tiny Generates data};
+        \draw<1->[arrow] (sl_indirect) -- (dt_indirect) node[label, midway] {\tiny Learns};
         
     \end{tikzpicture}}
 \end{figure}
-\onslide<3->{\textbf{\warning Policies obtained indirectly optimize a surrogate objective rather than an MDP cumulative rewards.}}
+\onslide<2->{\textbf{\warning Policies obtained indirectly optimize a surrogate objective rather than an MDP cumulative rewards.}}
 \end{frame}
 
 
@@ -633,7 +633,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
 \begin{frame}{Contributions}
     \begin{enumerate}
         \pause
-        \item Can we directly optimize a trade-off of interpretability and performance in SDM with RL?
+        \item Can we directly train decision tree policies that trade off interpretability and performances for SDM?
         \pause
         \item Can we leverage SDM to learn decision trees for classification/regression?
         \pause
@@ -804,7 +804,7 @@ Successful algorithms for classification/regression: {\small \textcolor{purple}{
 %     \textbf{A: direct reinforcement leargning is hard because it involves partial observability.}
 % \end{frame}
 
-\begin{frame}{Iterative bounding Markov decision processes~\cite{topin2021iterative}}
+\begin{frame}{Iterative bounding Markov decision processes~\parencite{topin2021iterative}}
 \begin{figure}
 \centering
 \only<1-8>{
@@ -1126,16 +1126,16 @@ where:}
     \onslide<1->{\begin{alertblock}{RL for memoryless policies}
         \begin{itemize}
         \item<2-> Finding the best \textbf{deterministic} and memoryless policy in a POMDP is NP-hard \textcolor{purple}{\small \parencite{littman1}}!
-        \item<3-> The best memoryless policy can be stochastic \textcolor{purple}{\small \cite{learning-pomdp}}.
-        \item<4-> Value-based RL converges to sub-optimal solutions \textcolor{purple}{\small \cite{learning-pomdp,sarsa-pomdp}}.
+        \item<3-> The best memoryless policy can be stochastic \textcolor{purple}{\small \parencite{learning-pomdp}}.
+        \item<4-> Value-based RL converges to sub-optimal solutions \textcolor{purple}{\small \parencite{sarsa-pomdp}}.
     \end{itemize}}
     \end{alertblock}
     \onslide<5->{\begin{block}{Asymmetric RL}
         \begin{itemize}
-            \item<6-> Access to hidden states during training but not at execution \textcolor{purple}{\small \cite{pinto}}.
-            \item<7-> Value-based $\rightarrow$ learns $Q(o, a)$ with TD targets $U(s, a)$  \textcolor{purple}{\small \cite{baisero-dqn}}.
-            \item<8-> Actor-critic\footnote{Although those return stochastic policies, we can be greedy.} $\rightarrow$ policy gradient on $\pi(o, a)$ using a critic $V(s)$ \textcolor{purple}{\small \cite{baisero-ppo}}.
-            \item<9-> Supposed to work better for our problem \textcolor{purple}{\small \cite{justif-asym}}.
+            \item<6-> Access to hidden states during training but not at execution \textcolor{purple}{\small \parencite{pinto}}.
+            \item<7-> Value-based $\rightarrow$ learns $Q(o, a)$ with TD targets $U(s, a)$  \textcolor{purple}{\small \parencite{baisero-dqn}}.
+            \item<8-> Actor-critic\footnote{Although those return stochastic policies, we can be greedy.} $\rightarrow$ policy gradient on $\pi(o, a)$ using a critic $V(s)$ \textcolor{purple}{\small \parencite{baisero-ppo}}.
+            \item<9-> Supposed to work better for our problem \textcolor{purple}{\small \parencite{justif-asym}}.
         \end{itemize}
     \end{block}}
 \end{frame}
@@ -1144,9 +1144,8 @@ where:}
 \begin{figure}
     \centering
     \includegraphics[width=1\textwidth]{tree_distributions.pdf}
+    \caption*{Distributions of tree policies learned with (asymmetric) RL algorithms as a function of the interpretability reward $\zeta$.}
 \end{figure}
-\pause
-Distributions of tree policies learned with (asymmetric) RL algorithms as a function of the interpretability reward $\zeta$.
 \end{frame}
 
 \begin{frame}{Result: for similar problems, RL struggles more when there is partial observability}
@@ -1158,7 +1157,6 @@ Distributions of tree policies learned with (asymmetric) RL algorithms as a func
     \centering
     \includegraphics[width=0.7\textwidth]{barplot_with_std.pdf}
 \end{figure}}
-\pause
 \vspace{-0.4cm}
 {\small Success rates over thousands of RL runs with varying hyperparameters when learning different policies in the same IBMDP\footnote{\tiny We also observed similar results on classic controls and variants of the grid world MDP.}.
 }
@@ -1174,16 +1172,16 @@ Distributions of tree policies learned with (asymmetric) RL algorithms as a func
         edge_label/.style={font=\footnotesize, midway}
     ]
         % Tree 4: if x <= 0.5 move right else move left
-        \node<3->[decision] (tree4_root) at (8,2) {$x \leq 1$};
-        \node<3->[rectangle, draw, thick, fill=green!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_right) at (7,0) {};
-        \node<3->[rectangle, draw, thick, fill=red!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_left) at (9,0);
-        \draw<3->[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
-        \draw<3->[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
+        \node[decision] (tree4_root) at (8,2) {$x \leq 1$};
+        \node[rectangle, draw, thick, fill=green!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_right) at (7,0) {};
+        \node[rectangle, draw, thick, fill=red!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_left) at (9,0);
+        \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
+        \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
         
         % Draw grid
-        \draw<2->[fill=green!40] (0, 0) rectangle (1,2);
-        \draw<2->[fill=red!40] (1, 0) rectangle (2,2);
+        \draw[fill=green!40] (0, 0) rectangle (1,2);
+        \draw[fill=red!40] (1, 0) rectangle (2,2);
 
         \draw[grid] (0,0) grid (2,2);
         
@@ -1204,12 +1202,9 @@ Distributions of tree policies learned with (asymmetric) RL algorithms as a func
         \node at (1.5,1.5) {$\boldsymbol{s}_2$};
         \node at (0.5,1.5) {$\boldsymbol{s}_1$};
     \end{tikzpicture}
+    \caption*{Classification MDP and the unique optimal depth-1 tree.}
 \end{figure}
-\pause
-Classification MDP and the unique optimal depth-1 tree.
-\pause
-\\
-\textbf{\textcolor{teal}{Deterministic memoryless policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
+\only<2>{\textbf{\textcolor{teal}{Partial observations are sufficient statistics off the full states in classification IBMDPs.}}}
 \end{frame}
 
 \begin{frame}{Result: RL can retrieve optimal depth-1 trees for the toy classification MDP}
@@ -1237,7 +1232,7 @@ Classification MDP and the unique optimal depth-1 tree.
         \pause
         \item Should we focus on indirect approaches? Hybrid approaches {\small \textcolor{purple}{\parencite{parbhoo}}}?
         \pause
-        \item Fixing the policy tree structure a priori (parametric trees, {\small \textcolor{purple}{\cite{sympol}}})?
+        \item Fixing the policy tree structure a priori (parametric trees, {\small \textcolor{purple}{\parencite{sympol}}})?
         % \pause
         % \item Can other policies (programs, oblique trees, algebraic expressions\dots) be directly optimized with RL in IBMDPs?
         % \pause
@@ -1254,16 +1249,16 @@ Classification MDP and the unique optimal depth-1 tree.
 \begin{itemize}
     \pause
     \item $N$ data points $\{\boldsymbol{x}_i,y_i\}$. Each $\boldsymbol{x}_i$ is described by $p$ features and has a label $y_i \in {\mathcal Y}$. 
-    We want to find a tree of depth at most $D$ $T\in\mathcal{T}_D$ that minimizes:
+    We want to find a tree of depth at most $D$, $T\in\mathcal{T}_D$ that minimizes:
     \begin{align*}
         \mathcal{L}_{\alpha}(T) = \frac{1}{N}\overset{N}{\underset{i=1}{\sum}}{\ell}(y_i, T(x_i)) + \alpha C(T)
     \end{align*}
     \pause
     \item Trees \textbf{interpretable} and \textbf{competitive with neural nets} {\small \textcolor{purple}{\parencite{grinsztajn2022tree}}}.
     \pause
-    \item Greedy algorithms \textcolor{red}{\textbf{sub-optimal accuracy}}, but \textcolor{teal}{$\boldsymbol{O(2^D)}$} operations {\small \textcolor{purple}{\parencite{breiman1984classification,ID3,c45}}} .
+    \item Greedy algorithms \textcolor{red}{\textbf{sub-optimal accuracy}}, but \textcolor{teal}{$\boldsymbol{O(2^D)}$} operations {\small \textcolor{purple}{\parencite{breiman1984classification}}} .
     \pause
-    \item Optimal algorithms, \textcolor{teal}{\textbf{optimal accuracy}}, but \textcolor{red}{$\boldsymbol{O((2Np)^D)}$} operations (NP-hard) {\small \textcolor{purple}{\parencite{oct,murtree,pystreed,chaouki2024branchesfastdynamicprogramming,npcomplete}}}.
+    \item Optimal algorithms, \textcolor{teal}{\textbf{optimal accuracy}}, but \textcolor{red}{$\boldsymbol{O((2Np)^D)}$} operations (NP-hard) {\small \textcolor{purple}{\parencite{oct}}}.
     \pause
     \item In between optimal and greedy?
 \end{itemize}
@@ -1288,7 +1283,7 @@ Classification MDP and the unique optimal depth-1 tree.
 \pause
 \begin{proposition}[Objective Equivalence]
 Let $\pi$ be a deterministic policy of the MDP. 
-Then $J_\alpha(\pi) = -{\mathcal L}_\alpha(E(\pi, s_0))$ where $E$ is an algorithm that extracts a decision tree from $\pi$ \textcolor{purple}{\small \cite{topin2021iterative}}.
+Then $J_\alpha(\pi) = -{\mathcal L}_\alpha(E(\pi, s_0))$ where $E$ is an algorithm that extracts a decision tree from $\pi$ \textcolor{purple}{\small \parencite{topin2021iterative}}.
 \end{proposition}
 \end{frame}
 \setbeamercovered{invisible}
@@ -1324,7 +1319,7 @@ Then $J_\alpha(\pi) = -{\mathcal L}_\alpha(E(\pi, s_0))$ where $E$ is an algorit
 {\Large \textbf{\textcolor{blue}{How to choose the $B$ candidate actions/splits?}}}
 \pause
 \\
-Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
+Top-B greedy splits \textcolor{purple}{\small \parencite{topk}}, quantiles, random\dots
 \end{frame}
 
 \begin{frame}{Practical implemenataion of DPDT}
@@ -1353,17 +1348,21 @@ Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
 %         \includegraphics[width=1\textwidth]{Présentation sans titre (18).png}
 %     \end{figure}
 % \end{frame}
-
+\setbeamercovered{invisible}
 \begin{frame}{Fast like greedy trees, accurate like optimal trees}
     \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{mirror_accuracy_vs_cost.pdf}
-    \caption*{Train accuracies against cost for detph-3 trees.}
+    \includegraphics[width=0.85\textwidth]{mirror_accuracy_vs_cost.pdf}
     \end{figure}
+    \only<1>{Train accuracies against cost for detph-3 trees.}
+    \begin{itemize}
+        \item<2-> DPDT trees can are not worse than greedy trees.
+        \item<3-> DPDT trees can be strictly better than greedy trees.
+        \item<4-> CART generates more diverse splits than Top B for DPDT. 
+    \end{itemize}
 \end{frame}
 
-\setbeamercovered{invisible}
-\begin{frame}{Large scale evaluation of DPDT trees generalization {\small \cite{grinsztajn2022tree}}}
+\begin{frame}{Large scale evaluation of DPDT trees generalization {\small \parencite{grinsztajn2022tree}}}
     \begin{figure}
      \centering
      \begin{subfigure}[b]{0.32\textwidth}
@@ -1388,16 +1387,7 @@ Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
 \end{figure}
 \end{frame}
 
-\begin{frame}{CART generates more diverse splits than Top B}
-    \only<1>{\begin{figure}
-        \centering
-        \includegraphics[width=0.95\textwidth]{../images/figures/splits_tsne_topknaive.pdf}
-    \end{figure}}
-    \only<2>{\begin{figure}
-        \centering
-        \includegraphics[width=0.95\textwidth]{../images/figures/splits_tsne_dpdt.pdf}
-    \end{figure}}
-\end{frame}
+
 
 %-------------LONNNNNNNNNNNNNNG
 
@@ -1421,7 +1411,7 @@ Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
 \end{frame}
 
 \begin{frame}{How to measure policy interpretability?}
-\onslide<1->{\begin{alertblock}{Challenges {\small \parencite{glanois-survey,lipton,rigourous}}}
+\onslide<1->{\begin{alertblock}{Challenges {\small \parencite{rigourous}}}
 \begin{itemize}
     \item<2-> No definition of interpretability.
     \item<3-> Measuring might require humans.
@@ -1440,7 +1430,7 @@ Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
         \only<6-9>{Interpretability $\simeq$ how much effort for a human to read through the entire policy.}
         \only<10->{Interpretability $\simeq$ \textbf{\textcolor{blue}{size in bytes?}}}
     }
-    \item<7-> Less parameters mean more interpretability {\small \textcolor{purple}{\parencite{study-0,study-4}}}.
+    \item<7-> Less parameters mean more interpretability {\small \textcolor{purple}{\parencite{study-0}}}.
     \item<8-> Time to formally verify a policy decreases with interpretability {\small \textcolor{purple}{\parencite{lens-complexity}}}.
 \end{itemize}
 \end{exampleblock}}
@@ -1483,7 +1473,7 @@ Top-B greedy splits \textcolor{purple}{\cite{topk}}, quantiles, random\dots
 
 % \begin{frame}{Empirical validation: obtaining $\sim40000$ policies from different classes}
 % \begin{table}[ht]
-% \hspace{-0.3cm}
+% \{-0.3cm}
 % \centering
 % \footnotesize
 % \begin{tabular}{lll}
@@ -1621,81 +1611,10 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 \appendix
 
 
-\begin{frame}[noframenumbering]{Result: RL cannot retrieve optimal depth-1 trees for the grid world MDP}
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions.pdf}
-\end{figure}
-\pause
-Distributions of tree policies learned with (asymmetric) RL algorithms {\small \textcolor{purple}{\parencite{sutton,learning-pomdp,sarsa-pomdp,baisero-ppo,baisero-dqn}}} as a function of the interpretability reward $\zeta$.
-\pause
-\\
-\textcolor{blue}{\textbf{Are the poor performances due to partial observability?}}
-\end{frame}
-
-
-\begin{frame}[noframenumbering]{Result: decision tree policies for classification MDPs are standard Markovian policies in IBMDPs}
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[
-        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
-        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
-        edge_label/.style={font=\footnotesize, midway}
-    ]
-        % Tree 4: if x <= 0.5 move right else move left
-        \node<3->[decision] (tree4_root) at (8,2) {$x \leq 1$};
-        \node<3->[rectangle, draw, thick, fill=green!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_right) at (7,0) {};
-        \node<3->[rectangle, draw, thick, fill=red!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_left) at (9,0);
-        \draw<3->[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
-        \draw<3->[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
-        \tikzstyle{grid}=[draw, thick, fill=gray!10]
-        
-        % Draw grid
-        \draw<2->[fill=green!40] (0, 0) rectangle (1,2);
-        \draw<2->[fill=red!40] (1, 0) rectangle (2,2);
-
-        \draw[grid] (0,0) grid (2,2);
-        
-        % Add axes
-        \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
-        \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
-        
-        % Add tick marks and labels
-        \foreach \x in {0,1,2} {
-            \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
-        }
-        \foreach \y in {0,1,2} {
-            \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
-        }
-
-        \node at (0.5,0.5) {$\boldsymbol{s}_0$};
-        \node at (1.5,0.5) {$\boldsymbol{s}_g$};
-        \node at (1.5,1.5) {$\boldsymbol{s}_2$};
-        \node at (0.5,1.5) {$\boldsymbol{s}_1$};
-    \end{tikzpicture}
-\end{figure}
-\pause
-Classification MDP and the unique optimal depth-1 tree.
-\pause
-\\
-\textbf{\textcolor{teal}{Deterministic memoryless policies for classification IBMDPs ($\Leftrightarrow$ decision tree policies) are in fact Markovian.}}
-\end{frame}
-
-\begin{frame}[noframenumbering]{Result: RL can retrieve optimal depth-1 trees for the toy classification MDP}
-\begin{figure}
-    \centering
-    \includegraphics[width=1\textwidth]{../images/images_part1/tree_distributions_classif.pdf}
-    \caption*{Distributions of tree policies learned with various RL algorithms.
-    }
-\end{figure}
-\end{frame}
-
-
-
 \begin{frame}[noframenumbering]{Decision tree induction as solving MDPs}
 \only<1>{\begin{figure}
     \centering
-    \includegraphics[width=1\linewidth]{schema AAAI.png}
+    \includegraphics[width=1\linewidth]{schema AAAI (5).png}
     \caption*{Example of decision tree induction as an MDP.}
 \end{figure}}
 \only<2>{\begin{figure}
@@ -1767,6 +1686,17 @@ Classification MDP and the unique optimal depth-1 tree.
     \bottomrule
     \end{tabular}}
 \end{table}
+\end{frame}
+
+\begin{frame}[noframenumbering]{CART generates more diverse splits than Top B}
+    \only<1>{\begin{figure}
+        \centering
+        \includegraphics[width=0.95\textwidth]{../images/figures/splits_tsne_topknaive.pdf}
+    \end{figure}}
+    \only<2>{\begin{figure}
+        \centering
+        \includegraphics[width=0.95\textwidth]{../images/figures/splits_tsne_dpdt.pdf}
+    \end{figure}}
 \end{frame}
 
 \setbeamercovered{transparent}
