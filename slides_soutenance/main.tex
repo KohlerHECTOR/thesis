@@ -1125,17 +1125,16 @@ where:}
 \begin{frame}{RL for memoryless policies in POMDPs}
     \onslide<1->{\begin{alertblock}{RL for memoryless policies}
         \begin{itemize}
-        \item<2-> Finding the best \textbf{deterministic} and memoryless policy in a POMDP is NP-hard \textcolor{purple}{\small \parencite{littman1}}!
+        \item<2-> Finding the best deterministic and memoryless policy in a POMDP is NP-hard \textcolor{purple}{\small \parencite{littman1}}!
         \item<3-> The best memoryless policy can be stochastic \textcolor{purple}{\small \parencite{learning-pomdp}}.
-        \item<4-> Value-based RL converges to sub-optimal solutions \textcolor{purple}{\small \parencite{sarsa-pomdp}}.
+        \item<4-> Value-based RL converges to sub-optimal solutions.
     \end{itemize}}
     \end{alertblock}
-    \onslide<5->{\begin{block}{Asymmetric RL}
+    \onslide<5->{\begin{block}{Asymmetric RL {\small \parencite{pinto}}}
         \begin{itemize}
-            \item<6-> Access to hidden states during training but not at execution \textcolor{purple}{\small \parencite{pinto}}.
-            \item<7-> Value-based $\rightarrow$ learns $Q(o, a)$ with TD targets $U(s, a)$  \textcolor{purple}{\small \parencite{baisero-dqn}}.
-            \item<8-> Actor-critic\footnote{Although those return stochastic policies, we can be greedy.} $\rightarrow$ policy gradient on $\pi(o, a)$ using a critic $V(s)$ \textcolor{purple}{\small \parencite{baisero-ppo}}.
-            \item<9-> Supposed to work better for our problem \textcolor{purple}{\small \parencite{justif-asym}}.
+            \item<6-> Value-based $\rightarrow$ learns $Q(o, a)$ with TD targets $U(s, a)$  \textcolor{purple}{\small \parencite{baisero-dqn}}.
+            \item<7-> Actor-critic $\rightarrow$ policy gradient on $\pi(o, a)$ using a critic $V(s)$ \textcolor{purple}{\small \parencite{baisero-ppo}}.
+            \item<8-> Supposed to work better for our problem \textcolor{purple}{\small \parencite{justif-asym}}.
         \end{itemize}
     \end{block}}
 \end{frame}
