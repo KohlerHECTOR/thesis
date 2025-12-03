@@ -1162,7 +1162,7 @@ where:}
 \end{frame}
 
 
-\begin{frame}{Result: decision tree policies for classification MDPs are standard Markovian policies in IBMDPs}
+\begin{frame}{IBMDPs for classification tasks have good properties}
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -1238,7 +1238,7 @@ where:}
         % \item Design algorithms that learn deterministic memoryless policies in POMDPs {\small \textcolor{purple}{\parencite{lambrechts2025informed,justif-asym}}}?
     \end{itemize}
     \pause
-    \begin{exampleblock}{For classification MDPs, decision tree policies are fully Markovian in associated IBMDPs}
+    \begin{exampleblock}{RL can train good decision trees for classification MDPs}
     \pause
     \textit{Q: Can we leverage SDM to design new decision tree induction algorithms for classification/regression?}
     \end{exampleblock}
@@ -1275,7 +1275,7 @@ where:}
     \pause
     \item A: test or leaf nodes that can be added to the tree.
     \pause
-    \item R: interpretability term $-\alpha$ and accuracies.
+    \item R: interpretability term $-\alpha$ and misclassifications.
     \pause
     \item T: node traversals.
 \end{itemize}
@@ -1312,6 +1312,9 @@ Then $J_\alpha(\pi) = -{\mathcal L}_\alpha(E(\pi, s_0))$ where $E$ is an algorit
     \item \textbf{Dynamic Programming Decision Trees (DPDT)}: Let's choose candidate actions adaptively \\
     \pause
     $\rightarrow$ for each MDP state consider $B$ actions: \textcolor{blue}{\textbf{state space size is} $\boldsymbol{O((2B)^D)}$}.
+    \\
+    \pause
+    $\rightarrow$ solve the MDP exactly with DP.
 \end{itemize}
 \pause
 \vspace{0.4cm}
@@ -1362,28 +1365,21 @@ Top-B greedy splits \textcolor{purple}{\small \parencite{topk}}, quantiles, rand
 \end{frame}
 
 \begin{frame}{Large scale evaluation of DPDT trees generalization {\small \parencite{grinsztajn2022tree}}}
-    \begin{figure}
-     \centering
-     \begin{subfigure}[b]{0.32\textwidth}
+    \only<2>{\begin{figure}
+    \centering
+        \includegraphics[width=0.7\textwidth]{../images/figures/tab_bench/random_search_classif_numerical_depth5.pdf}
+        \caption*{DPDT depth-5 trees vs. other detph-5 trees}
+    \end{figure}}
+    \only<3>{\begin{figure}
          \centering
-         \includegraphics[width=\textwidth]{../images/figures/tab_bench/random_search_classif_numerical_depth5.pdf}
-         \caption*{DPDT depth-5 trees vs. other detph-5 trees}
-     \end{subfigure}
-     \pause
-     \hfill
-     \begin{subfigure}[b]{0.32\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{../images/figures/tab_bench/random_search_classif_categorical_boosting_w_weak.pdf}
+         \includegraphics[width=0.7\textwidth]{../images/figures/tab_bench/random_search_classif_categorical_boosting_w_weak.pdf}
          \caption*{Boosted DPDT vs. Boosted CART}
-     \end{subfigure}
-     \pause
-     \hfill
-     \begin{subfigure}[b]{0.32\textwidth}
+     \end{figure}}
+     \only<4>{\begin{figure}
          \centering
-         \includegraphics[width=\textwidth]{../images/figures/tab_bench/random_search_classif_numerical_boosting_all_notgb.pdf}
+         \includegraphics[width=0.7\textwidth]{../images/figures/tab_bench/random_search_classif_numerical_boosting_all_notgb.pdf}
          \caption*{Boosted DPDT vs. other classifiers}
-     \end{subfigure}
-\end{figure}
+     \end{figure}}
 \end{frame}
 
 
@@ -1391,7 +1387,6 @@ Top-B greedy splits \textcolor{purple}{\small \parencite{topk}}, quantiles, rand
 %-------------LONNNNNNNNNNNNNNG
 
 
-\setbeamercovered{transparent}
 \begin{frame}{Perspectives}
     \begin{itemize}
         \pause
@@ -1412,8 +1407,8 @@ Top-B greedy splits \textcolor{purple}{\small \parencite{topk}}, quantiles, rand
 \begin{frame}{How to measure policy interpretability?}
 \onslide<1->{\begin{alertblock}{Challenges {\small \parencite{rigourous}}}
 \begin{itemize}
-    \item<2-> No definition of interpretability.
-    \item<3-> Measuring might require humans.
+    \item<2-> No unified formal definition of policy interpretability.
+    \item<3-> Measuring requires humans.
     \item<11-> Different hardwares (CPUs vs GPUs).
     \item<12-> Different implementations (matrix operations vs fully sequentially) {\small \textcolor{purple}{\parencite{insight}}}
 \end{itemize}
@@ -1513,10 +1508,8 @@ Top-B greedy splits \textcolor{purple}{\small \parencite{topk}}, quantiles, rand
 %   \end{table}
 
 % \end{frame}
-\setbeamercovered{invisible}
 
-
-\begin{frame}[noframenumbering,fragile]{We propose policy unfolding}
+\begin{frame}[fragile]{We propose policy unfolding}
 \begin{tcolorbox}
 \begin{lstlisting}[language=Python]
 # Small ReLU MLP for Pendulum
@@ -1545,7 +1538,7 @@ def play(x):
 \end{tcolorbox}
 \end{frame}
 
-\begin{frame}{Is policy unfolding really necessary?}
+\begin{frame}{Is time/size of unfolded policies a good proxy?}
 \onslide<1->{\begin{block}{Setup}
 We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using various policy classes/nb parameters on various environments.
 \end{block}}
@@ -1566,8 +1559,6 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
     % \pause
     % \item Tree-like policy classes can have good inductive bias (e.g. Atari).
     \pause
-    \item What about (very) big models?
-    \pause
     \item What about floating points precision?
     \pause
     \item What about the cost of basic operations ($\times$ vs. $+$ vs. $\geq$)?
@@ -1587,6 +1578,8 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
         \item \textbf{Fundamental challenges:} \textcolor{red}{\textbf{No concensus on interpretability definition}}. 
         \\
         \pause
+        $\rightarrow$ Keep exploring benchmarks for policy interpretability.
+        \\
         $\rightarrow$ Discuss with the community (InterpPol workshop).
     \end{itemize}
     \pause
