@@ -521,7 +521,7 @@ Successful algorithms for classification/regression {\small \textcolor{purple}{\
     \centering
     \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
 \end{figure}
-\onslide<2->{Most research focused on indirect learning of interpretable policies {\small \textcolor{purple}{\parencite{viper}}}.}\\
+\onslide<2->{Most research focuses on imitation learning of interpretable policies {\small \textcolor{purple}{\parencite{viper,milani-survey}}}.}\\
 \end{frame}
 
 \begin{frame}{Two ways to get interpretable policies for SDM {\small \parencite{glanois-survey}}}
@@ -1388,23 +1388,24 @@ Top-B greedy splits \textcolor{purple}{\small \parencite{topk}}, quantiles, rand
 \end{frame}
 
 \begin{frame}{How to measure policy interpretability?}
+\onslide<4->{\warning \textbf{Without humans?}}
 \onslide<1->{\begin{block}{The notion of \textit{simulatability} {\small \parencite{lipton}}}
 \begin{itemize}
     \item<2-> {
-    \only<2-3>{Interpretability $\simeq$ time to reproduce the computations.}
-    \only<4->{Interpretability $\simeq$ \textbf{\textcolor{blue}{runtime in seconds?}}}
+    \only<2-4>{Interpretability $\simeq$ time to reproduce the computations.}
+    \only<5->{Interpretability $\simeq$ \textbf{\textcolor{blue}{runtime in seconds?}}}
     }
     \item<3-> {
-        \only<3-4>{Interpretability $\simeq$ effort to read through the entire policy.}
-        \only<5->{Interpretability $\simeq$ \textbf{\textcolor{blue}{size in bytes?}}}
+        \only<3-5>{Interpretability $\simeq$ effort to read through the entire policy.}
+        \only<6->{Interpretability $\simeq$ \textbf{\textcolor{blue}{size in bytes?}}}
     }
 \end{itemize}
 \end{block}}
 
-\onslide<6->{\begin{alertblock}{How to compare policy of different classes?}
+\onslide<7->{\begin{alertblock}{How to compare policy of different classes?}
 \begin{itemize}
-    \item<7-> Different hardwares (CPUs vs GPUs).
-    \item<8-> Different implementations (matrix operations vs fully sequentially) {\small \textcolor{purple}{\parencite{insight}}}
+    \item<8-> Different hardwares (CPUs vs GPUs).
+    \item<9-> Different implementations (matrix operations vs fully sequentially) {\small \textcolor{purple}{\parencite{insight}}}
 \end{itemize}
 \end{alertblock}}
 \end{frame}
@@ -1526,34 +1527,25 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
     \includegraphics[width=1\linewidth]{../images/images_part3/tree_sizes_memory_ppo_ci_ablation.pdf}
     \caption*{Aggregated policies interpretability on classic control environments}
 \end{figure}}
-\onslide<3->{Less parameters means more interpretability {\small \textcolor{purple}{\parencite{study-0}}}.}
-\end{frame}
-
-\setbeamercovered{transparent}
-\begin{frame}{Perspectives}
 \begin{itemize}
-    \pause
-    \item Beliefs such as "trees are more interpretable than neural networks" should be used with caution.
-    % \pause
-    % \item Tree-like policy classes can have good inductive bias (e.g. Atari).
-    \pause
-    \item What about floating points precision?
-    \pause
-    \item What about the cost of basic operations ($\times$ vs. $+$ vs. $\geq$)?
+    \item<3->Less parameters means more interpretability {\small \textcolor{purple}{\parencite{study-0}}}.
+    \item<4->Not always true that "trees are more interpretable than neural networks".
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Conclusion: interpretable SDM is a difficult research topic}
+\setbeamercovered{transparent}
+\begin{frame}{General perspectives}
     \begin{itemize}
         \pause
-        \item \textbf{Technical challenges:} \textcolor{red}{\textbf{Learning interpretable policies for SDM involves partial observability.}}
+        \item \textbf{Technical challenges:} \textcolor{red}{\textbf{learning interpretable policies for SDM involves partial observability.}}
         \\
         \pause
         $\rightarrow$ Focus on indirect approaches and/or on POMDP research first?
         \\
         \pause
-        $\rightarrow$ \textbf{\textcolor{teal}{Created opportunities for new decision tree algos for classif/regression.}}
-        \item \textbf{Fundamental challenges:} \textcolor{red}{\textbf{No concensus on interpretability definition}}. 
+        $\rightarrow$ \textbf{\textcolor{teal}{Created opportunities for new decision tree algos for classif/regression (DPDT).}}
+        \pause
+        \item \textbf{Fundamental challenges:} \textcolor{red}{\textbf{no concensus on interpretability definition}}. 
         \\
         \pause
         $\rightarrow$ Keep exploring benchmarks for policy interpretability.
@@ -1561,12 +1553,6 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
         $\rightarrow$ Discuss with the community (InterpPol workshop).
     \end{itemize}
     \pause
-    \begin{block}{My hope}
-        Motivate interpretability by finding a real-world problem where interpretability is \textit{really} necessary {\small \textcolor{purple}{\parencite{festor}}}.
-    \end{block}
-\end{frame}
-
-\begin{frame}{Broader perspectives}
     \begin{itemize}
         \pause
         \item \textbf{\textcolor{purple}{Deep learning:}} Can we design deep learning layers that take datasets and output candidate splits?
@@ -1576,6 +1562,7 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
         \item \textbf{\textcolor{orange}{Human-computer interaction:}} Can we do large scale human study of the $\sim$40K programs interpertability?
     \end{itemize}
 \end{frame}
+
 \setbeamercovered{invisible}
 \printbibliography
 \appendix

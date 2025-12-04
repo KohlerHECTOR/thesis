@@ -133,49 +133,6 @@
       \verb https://proceedings.mlr.press/v180/baisero22a.html
       \endverb
     \endentry
-    \entry{lens-complexity}{article}{}
-      \name{author}{4}{}{%
-        {{un=0,uniquepart=base,hash=1b311c76b1d53d7a7ea31d940e188e80}{%
-           family={Barceló},
-           familyi={B\bibinitperiod},
-           given={Pablo},
-           giveni={P\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=e7396c90e360ea7a419b48a00759ae04}{%
-           family={Monet},
-           familyi={M\bibinitperiod},
-           given={Mikaël},
-           giveni={M\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=a991f832b9236d272602bb0cce8717ce}{%
-           family={Pérez},
-           familyi={P\bibinitperiod},
-           given={Jorge},
-           giveni={J\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=907a4bdbc6cbc456580c450e90156df3}{%
-           family={Subercaseaux},
-           familyi={S\bibinitperiod},
-           given={Bernardo},
-           giveni={B\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{5d36316d24f40cfee0d4ea1cceebf1d9}
-      \strng{fullhash}{7ffce6561bbe72df265a85bc6f06fccf}
-      \strng{bibnamehash}{5d36316d24f40cfee0d4ea1cceebf1d9}
-      \strng{authorbibnamehash}{5d36316d24f40cfee0d4ea1cceebf1d9}
-      \strng{authornamehash}{5d36316d24f40cfee0d4ea1cceebf1d9}
-      \strng{authorfullhash}{7ffce6561bbe72df265a85bc6f06fccf}
-      \field{sortinit}{B}
-      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{year}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Advances in neural information processing systems}
-      \field{title}{Model interpretability through the lens of computational complexity}
-      \field{year}{2020}
-    \endentry
     \entry{viper}{article}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=015e80b857c3d38a64631a8370d7ff3b}{%
@@ -355,47 +312,6 @@
       \field{labeltitlesource}{title}
       \field{title}{Classification and Regression Trees}
       \field{year}{1984}
-    \endentry
-    \entry{rigourous}{article}{}
-      \name{author}{2}{}{%
-        {{un=0,uniquepart=base,hash=b01a5e92cd39a5551d74ab2393c7b9fd}{%
-           family={Doshi-Velez},
-           familyi={D\bibinithyphendelim V\bibinitperiod},
-           given={Finale},
-           giveni={F\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=a11a6718c039f3e3f3f31167e5094c10}{%
-           family={Kim},
-           familyi={K\bibinitperiod},
-           given={Been},
-           giveni={B\bibinitperiod},
-           givenun=0}}%
-      }
-      \strng{namehash}{66c38242b4ecdd0e74f6a1fb48199a21}
-      \strng{fullhash}{66c38242b4ecdd0e74f6a1fb48199a21}
-      \strng{bibnamehash}{66c38242b4ecdd0e74f6a1fb48199a21}
-      \strng{authorbibnamehash}{66c38242b4ecdd0e74f6a1fb48199a21}
-      \strng{authornamehash}{66c38242b4ecdd0e74f6a1fb48199a21}
-      \strng{authorfullhash}{66c38242b4ecdd0e74f6a1fb48199a21}
-      \field{sortinit}{D}
-      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{year}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{eprintclass}{stat.ML}
-      \field{eprinttype}{arXiv}
-      \field{title}{Towards A Rigorous Science of Interpretable Machine Learning}
-      \field{year}{2017}
-      \verb{eprint}
-      \verb 1702.08608
-      \endverb
-      \verb{urlraw}
-      \verb https://arxiv.org/abs/1702.08608
-      \endverb
-      \verb{url}
-      \verb https://arxiv.org/abs/1702.08608
-      \endverb
     \endentry
     \entry{study-0}{article}{}
       \name{author}{1}{}{%
@@ -820,61 +736,69 @@
       \verb https://openreview.net/forum?id=qpXctF2aLZ
       \endverb
     \endentry
-    \entry{festor}{article}{}
-      \name{author}{5}{}{%
-        {{un=0,uniquepart=base,hash=a8b41d9635a217ee6be0568559df58b7}{%
-           family={Nagendran},
-           familyi={N\bibinitperiod},
-           given={Myura},
+    \entry{milani-survey}{article}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=1c69057c7c6f38d39a099175a70a7882}{%
+           family={Milani},
+           familyi={M\bibinitperiod},
+           given={Stephanie},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e97056737afe2e204855790a8ab62d82}{%
+           family={Topin},
+           familyi={T\bibinitperiod},
+           given={Nicholay},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=108bc6e5f71a32699fcf07b7e8957310}{%
+           family={Veloso},
+           familyi={V\bibinitperiod},
+           given={Manuela},
            giveni={M\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=bda011aa3fccfa3bb308c241a8136e55}{%
-           family={Festor},
+        {{un=0,uniquepart=base,hash=50229c3fdb5e7f30b2bd918528bdc0df}{%
+           family={Fang},
            familyi={F\bibinitperiod},
-           given={Paul},
-           giveni={P\bibinitperiod},
+           given={Fei},
+           giveni={F\bibinitperiod},
            givenun=0}}%
-        {{un=0,uniquepart=base,hash=cef5f97856a02a62b952884f01f514d7}{%
-           family={Komorowski},
-           familyi={K\bibinitperiod},
-           given={Matthieu},
-           giveni={M\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=635fc3a87cedb77e89a7b510d61d0756}{%
-           family={Gordon},
-           familyi={G\bibinitperiod},
-           given={Anthony\bibnamedelima C},
-           giveni={A\bibinitperiod\bibinitdelim C\bibinitperiod},
-           givenun=0}}%
-        {{un=0,uniquepart=base,hash=db98712630ea3fb185fba36a71648105}{%
-           family={Faisal},
-           familyi={F\bibinitperiod},
-           given={Aldo\bibnamedelima A},
-           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
-           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {New York, NY, USA}%
       }
       \list{publisher}{1}{%
-        {Nature Publishing Group UK London}%
+        {Association for Computing Machinery}%
       }
-      \strng{namehash}{a339dc0aa68cb6258eca5d8fc09a3cc8}
-      \strng{fullhash}{c398426af0a0162889c3a22d6351ee90}
-      \strng{bibnamehash}{a339dc0aa68cb6258eca5d8fc09a3cc8}
-      \strng{authorbibnamehash}{a339dc0aa68cb6258eca5d8fc09a3cc8}
-      \strng{authornamehash}{a339dc0aa68cb6258eca5d8fc09a3cc8}
-      \strng{authorfullhash}{c398426af0a0162889c3a22d6351ee90}
-      \field{sortinit}{N}
-      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \strng{namehash}{213f38e63e67ad2b7f3ae503bd9d43cc}
+      \strng{fullhash}{c688a410342e6f41aa72b005c0c009e0}
+      \strng{bibnamehash}{213f38e63e67ad2b7f3ae503bd9d43cc}
+      \strng{authorbibnamehash}{213f38e63e67ad2b7f3ae503bd9d43cc}
+      \strng{authornamehash}{213f38e63e67ad2b7f3ae503bd9d43cc}
+      \strng{authorfullhash}{c688a410342e6f41aa72b005c0c009e0}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
       \field{extradatescope}{labelyear}
       \field{labeldatesource}{year}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{NPJ Digital Medicine}
-      \field{number}{1}
-      \field{title}{Eye tracking insights into physician behaviour with safe and unsafe explainable AI recommendations}
-      \field{volume}{7}
+      \field{abstract}{Explainable reinforcement learning (XRL) is an emerging subfield of explainable machine learning that has attracted considerable attention in recent years. The goal of XRL is to elucidate the decision-making process of reinforcement learning (RL) agents in sequential decision-making settings. Equipped with this information, practitioners can better understand important questions about RL agents (especially those deployed in the real world), such as what the agents will do and why. Despite increased interest, there exists a gap in the literature for organizing the plethora of papers—especially in a way that centers the sequential decision-making nature of the problem. In this survey, we propose a novel taxonomy for organizing the XRL literature that prioritizes the RL setting. We propose three high-level categories: feature importance, learning process and Markov decision process, and policy-level. We overview techniques according to this taxonomy, highlighting challenges and opportunities for future work. We conclude by using these gaps to motivate and outline a roadmap for future work.}
+      \field{issn}{0360-0300}
+      \field{journaltitle}{ACM Comput. Surv.}
+      \field{month}{4}
+      \field{number}{7}
+      \field{title}{Explainable Reinforcement Learning: A Survey and Comparative Review}
+      \field{volume}{56}
       \field{year}{2024}
-      \field{pages}{202}
-      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1145/3616864
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1145/3616864
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1145/3616864
+      \endverb
+      \keyw{Explainable reinforcement learning,interpretability,explainability}
     \endentry
     \entry{pinto}{misc}{}
       \name{author}{5}{}{%
