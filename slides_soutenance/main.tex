@@ -1294,7 +1294,7 @@ Then $J_\alpha(\pi) = -{\mathcal L}_\alpha(E(\pi, s_0))$ where $E$ is an algorit
     \pause
     $\rightarrow$ \textcolor{red}{\textbf{MDP state space size is} $\boldsymbol{O((2Np)^D)}$}.
     \pause
-    \item \textbf{Dynamic Programming Decision Trees (DPDT)}: Let's choose candidate actions adaptively \\
+    \item \textbf{Dynamic Programming Decision Trees (DPDT)}:\\
     \pause
     $\rightarrow$ for each MDP state consider $B$ actions: \textcolor{blue}{\textbf{state space size is} $\boldsymbol{O((2B)^D)}$}.
     \\
@@ -1388,29 +1388,25 @@ Top-B greedy splits \textcolor{purple}{\small \parencite{topk}}, quantiles, rand
 \end{frame}
 
 \begin{frame}{How to measure policy interpretability?}
-\onslide<1->{\begin{alertblock}{Challenges {\small \parencite{rigourous}}}
+\onslide<1->{\begin{block}{The notion of \textit{simulatability} {\small \parencite{lipton}}}
 \begin{itemize}
-    \item<2-> No unified formal definition of policy interpretability.
-    \item<3-> Measuring requires humans.
-    \item<11-> Different hardwares (CPUs vs GPUs).
-    \item<12-> Different implementations (matrix operations vs fully sequentially) {\small \textcolor{purple}{\parencite{insight}}}
+    \item<2-> {
+    \only<2-3>{Interpretability $\simeq$ time to reproduce the computations.}
+    \only<4->{Interpretability $\simeq$ \textbf{\textcolor{blue}{runtime in seconds?}}}
+    }
+    \item<3-> {
+        \only<3-4>{Interpretability $\simeq$ effort to read through the entire policy.}
+        \only<5->{Interpretability $\simeq$ \textbf{\textcolor{blue}{size in bytes?}}}
+    }
+\end{itemize}
+\end{block}}
+
+\onslide<6->{\begin{alertblock}{How to compare policy of different classes?}
+\begin{itemize}
+    \item<7-> Different hardwares (CPUs vs GPUs).
+    \item<8-> Different implementations (matrix operations vs fully sequentially) {\small \textcolor{purple}{\parencite{insight}}}
 \end{itemize}
 \end{alertblock}}
-
-\onslide<4->{\begin{exampleblock}{The notion of \textit{simulatability} {\small \parencite{lipton}}}
-\begin{itemize}
-    \item<5-> {
-    \only<5-8>{Interpretability $\simeq$ time for a human to compute the same.}
-    \only<9->{Interpretability $\simeq$ \textbf{\textcolor{blue}{runtime in seconds?}}}
-    }
-    \item<6-> {
-        \only<6-9>{Interpretability $\simeq$ how much effort for a human to read through the entire policy.}
-        \only<10->{Interpretability $\simeq$ \textbf{\textcolor{blue}{size in bytes?}}}
-    }
-    \item<7-> Less parameters mean more interpretability {\small \textcolor{purple}{\parencite{study-0}}}.
-    \item<8-> Time to formally verify a policy decreases with interpretability {\small \textcolor{purple}{\parencite{lens-complexity}}}.
-\end{itemize}
-\end{exampleblock}}
 \end{frame}
 
 % \begin{frame}{A methodology to measure policy interpretability without humans}
@@ -1530,9 +1526,8 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
     \includegraphics[width=1\linewidth]{../images/images_part3/tree_sizes_memory_ppo_ci_ablation.pdf}
     \caption*{Aggregated policies interpretability on classic control environments}
 \end{figure}}
+\onslide<3->{Less parameters means more interpretability {\small \textcolor{purple}{\parencite{study-0}}}.}
 \end{frame}
-
-
 
 \setbeamercovered{transparent}
 \begin{frame}{Perspectives}
