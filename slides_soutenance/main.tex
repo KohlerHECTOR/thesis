@@ -255,7 +255,7 @@
         \item<2-> RL {\small \textcolor{purple}{\small \parencite{sutton}}} aims to find a policy, $\pi: S \rightarrow A$ that maximizes:
         \[J(\pi) = \underset{\boldsymbol{s}_{t}\sim T}{\mathbb{E}}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, \pi(s_t))\right]\]
         
-        \item<3-> Lots of succesful RL algorithms {\small \textcolor{purple}{\parencite{ppo}}}.
+        \item<3-> Lots of succesful (deep) RL algorithms {\small \textcolor{purple}{\parencite{ppo}}}.
         % \item<4-> Few interpretability concerns.
     \end{itemize}
 \end{minipage}
@@ -408,7 +408,8 @@
 \end{figure}
 \end{frame}
 
-\begin{frame}{Local vs. global interpretability {\small \parencite{glanois-survey}}.}
+\begin{frame}{Interpretability in SDM {\small \parencite{glanois-survey}}.}
+    \only<1>{\textbf{\warning No concensus on definition \textcolor{purple}{\small \parencite{lipton}}}.}
     \only<2>{\begin{figure}
         \begin{subfigure}{0.45\textwidth}
         \centering
@@ -470,7 +471,6 @@
         
     \end{tikzpicture}
     \only<3>{\caption*{Global interpretation.}}
-    \only<4>{\caption*{\textbf{\warning Multiple definitions \textcolor{purple}{\small \parencite{lipton}}}.}}
 \end{figure}
     }
 \end{frame}
@@ -1147,22 +1147,7 @@ where:}
 \end{figure}
 \end{frame}
 
-\begin{frame}{Result: for similar problems, RL struggles more when there is partial observability}
-\only<1>{\begin{figure}
-    \centering
-    \includegraphics[trim={3cm 15.2cm 20cm 1cm},clip,width=0.3\textwidth]{barplot_with_std.pdf}
-\end{figure}}
-\only<2->{\begin{figure}
-    \centering
-    \includegraphics[width=0.7\textwidth]{barplot_with_std.pdf}
-\end{figure}}
-\vspace{-0.4cm}
-{\small Success rates over thousands of RL runs with varying hyperparameters when learning different policies in the same IBMDP\footnote{\tiny We also observed similar results on classic controls and variants of the grid world MDP.}.
-}
-\end{frame}
-
-
-\begin{frame}{IBMDPs for classification tasks have good properties}
+\begin{frame}{Direct RL of decision trees for classification tasks does not involve partial observability}
 \begin{figure}
     \centering
     \begin{tikzpicture}[
@@ -1203,7 +1188,7 @@ where:}
     \end{tikzpicture}
     \caption*{Classification MDP and the unique optimal depth-1 tree.}
 \end{figure}
-\only<2>{\textbf{\textcolor{teal}{Partial observations are sufficient statistics off the full states in classification IBMDPs.}}}
+\only<2>{\textbf{\textcolor{teal}{Partial observations are sufficient statistics of the full states in IBMDPs for classification tasks.}}}
 \end{frame}
 
 \begin{frame}{Result: RL can retrieve optimal depth-1 trees for the toy classification MDP}
@@ -1367,17 +1352,17 @@ Top-B greedy splits \textcolor{purple}{\small \parencite{topk}}, quantiles, rand
 \begin{frame}{Large scale evaluation of DPDT trees generalization {\small \parencite{grinsztajn2022tree}}}
     \only<2>{\begin{figure}
     \centering
-        \includegraphics[width=0.7\textwidth]{../images/figures/tab_bench/random_search_classif_numerical_depth5.pdf}
+        \includegraphics[width=0.6\textwidth]{../images/figures/tab_bench/random_search_classif_numerical_depth5.pdf}
         \caption*{DPDT depth-5 trees vs. other detph-5 trees}
     \end{figure}}
     \only<3>{\begin{figure}
          \centering
-         \includegraphics[width=0.7\textwidth]{../images/figures/tab_bench/random_search_classif_categorical_boosting_w_weak.pdf}
+         \includegraphics[width=0.6\textwidth]{../images/figures/tab_bench/random_search_classif_categorical_boosting_w_weak.pdf}
          \caption*{Boosted DPDT vs. Boosted CART}
      \end{figure}}
      \only<4>{\begin{figure}
          \centering
-         \includegraphics[width=0.7\textwidth]{../images/figures/tab_bench/random_search_classif_numerical_boosting_all_notgb.pdf}
+         \includegraphics[width=0.6\textwidth]{../images/figures/tab_bench/random_search_classif_numerical_boosting_all_notgb.pdf}
          \caption*{Boosted DPDT vs. other classifiers}
      \end{figure}}
 \end{frame}
@@ -1399,8 +1384,6 @@ Top-B greedy splits \textcolor{purple}{\small \parencite{topk}}, quantiles, rand
     \pause
     \begin{exampleblock}{Let us take a step back}
         \textit{Q: Are decision trees really the most interpretable model?}\\
-        \pause
-        \textbf{A: It depends.}
     \end{exampleblock}
 \end{frame}
 
@@ -1601,6 +1584,21 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
 \setbeamercovered{invisible}
 \printbibliography
 \appendix
+
+
+\begin{frame}[noframenumbering]{Result: for similar problems, RL struggles more when there is partial observability}
+\only<1>{\begin{figure}
+    \centering
+    \includegraphics[trim={3cm 15.2cm 20cm 1cm},clip,width=0.3\textwidth]{barplot_with_std.pdf}
+\end{figure}}
+\only<2->{\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{barplot_with_std.pdf}
+\end{figure}}
+\vspace{-0.4cm}
+{\small Success rates over thousands of RL runs with varying hyperparameters when learning different policies in the same IBMDP\footnote{\tiny We also observed similar results on classic controls and variants of the grid world MDP.}.
+}
+\end{frame}
 
 
 \begin{frame}[noframenumbering]{Decision tree induction as solving MDPs}
