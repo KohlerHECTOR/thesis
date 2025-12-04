@@ -704,47 +704,6 @@
       \field{pages}{238\bibrangedash 245}
       \range{pages}{8}
     \endentry
-    \entry{sarsa-pomdp}{inproceedings}{}
-      \name{author}{2}{}{%
-        {{un=0,uniquepart=base,hash=c145897148f15de828ff544e596162c9}{%
-           family={Loch},
-           familyi={L\bibinitperiod},
-           given={John},
-           giveni={J\bibinitperiod},
-           givenun=0}}%
-        {{un=1,uniquepart=given,hash=0778520109d58859c98d71f3b7e75837}{%
-           family={Singh},
-           familyi={S\bibinitperiod},
-           given={Satinder\bibnamedelima P.},
-           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod},
-           givenun=1}}%
-      }
-      \list{location}{1}{%
-        {San Francisco, CA, USA}%
-      }
-      \list{publisher}{1}{%
-        {Morgan Kaufmann Publishers Inc.}%
-      }
-      \strng{namehash}{76d3be2c9b755dea83b3c11a089caf39}
-      \strng{fullhash}{76d3be2c9b755dea83b3c11a089caf39}
-      \strng{bibnamehash}{76d3be2c9b755dea83b3c11a089caf39}
-      \strng{authorbibnamehash}{76d3be2c9b755dea83b3c11a089caf39}
-      \strng{authornamehash}{76d3be2c9b755dea83b3c11a089caf39}
-      \strng{authorfullhash}{76d3be2c9b755dea83b3c11a089caf39}
-      \field{sortinit}{L}
-      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{year}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Proceedings of the Fifteenth International Conference on Machine Learning}
-      \field{isbn}{1558605568}
-      \field{series}{ICML '98}
-      \field{title}{Using Eligibility Traces to Find the Best Memoryless Policy in Partially Observable Markov Decision Processes}
-      \field{year}{1998}
-      \field{pages}{323\bibrangedash 331}
-      \range{pages}{9}
-    \endentry
     \entry{insight}{article}{}
       \name{author}{6}{}{%
         {{un=0,uniquepart=base,hash=092f8b2a14430d8706ed07d15f786d57}{%
@@ -1003,64 +962,6 @@
       \field{title}{Markov Decision Processes: Discrete Stochastic Dynamic Programming}
       \field{year}{1994}
     \endentry
-    \entry{lime}{article}{}
-      \name{author}{3}{}{%
-        {{un=0,uniquepart=base,hash=9203dc724f298030e81ba470feb309af}{%
-           family={Ribeiro},
-           familyi={R\bibinitperiod},
-           given={Marco\bibnamedelima Tulio},
-           giveni={M\bibinitperiod\bibinitdelim T\bibinitperiod},
-           givenun=0}}%
-        {{un=1,uniquepart=given,hash=0b9694812f0dc77974d99bb875a76d48}{%
-           family={Singh},
-           familyi={S\bibinitperiod},
-           given={Sameer},
-           giveni={S\bibinitperiod},
-           givenun=1}}%
-        {{un=0,uniquepart=base,hash=c9ab8ac486d7f85ac914b1a8e51e512b}{%
-           family={Guestrin},
-           familyi={G\bibinitperiod},
-           given={Carlos},
-           giveni={C\bibinitperiod},
-           givenun=0}}%
-      }
-      \list{location}{1}{%
-        {San Francisco, California, USA}%
-      }
-      \list{publisher}{1}{%
-        {Association for Computing Machinery}%
-      }
-      \strng{namehash}{70906198418f30a779bc9bda0f6ae1f1}
-      \strng{fullhash}{70906198418f30a779bc9bda0f6ae1f1}
-      \strng{bibnamehash}{70906198418f30a779bc9bda0f6ae1f1}
-      \strng{authorbibnamehash}{70906198418f30a779bc9bda0f6ae1f1}
-      \strng{authornamehash}{70906198418f30a779bc9bda0f6ae1f1}
-      \strng{authorfullhash}{70906198418f30a779bc9bda0f6ae1f1}
-      \field{sortinit}{R}
-      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{year}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{abstract}{Despite widespread adoption, machine learning models remain mostly black boxes. Understanding the reasons behind predictions is, however, quite important in assessing trust, which is fundamental if one plans to take action based on a prediction, or when choosing whether to deploy a new model. Such understanding also provides insights into the model, which can be used to transform an untrustworthy model or prediction into a trustworthy one.In this work, we propose LIME, a novel explanation technique that explains the predictions of any classifier in an interpretable and faithful manner, by learning an interpretable model locally varound the prediction. We also propose a method to explain models by presenting representative individual predictions and their explanations in a non-redundant way, framing the task as a submodular optimization problem. We demonstrate the flexibility of these methods by explaining different models for text (e.g. random forests) and image classification (e.g. neural networks). We show the utility of explanations via novel experiments, both simulated and with human subjects, on various scenarios that require trust: deciding if one should trust a prediction, choosing between models, improving an untrustworthy classifier, and identifying why a classifier should not be trusted.}
-      \field{booktitle}{Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}
-      \field{isbn}{9781450342322}
-      \field{series}{KDD '16}
-      \field{title}{"Why Should I Trust You?": Explaining the Predictions of Any Classifier}
-      \field{year}{2016}
-      \field{pages}{1135\bibrangedash 1144}
-      \range{pages}{10}
-      \verb{doi}
-      \verb 10.1145/2939672.2939778
-      \endverb
-      \verb{urlraw}
-      \verb https://doi.org/10.1145/2939672.2939778
-      \endverb
-      \verb{url}
-      \verb https://doi.org/10.1145/2939672.2939778
-      \endverb
-      \keyw{interpretable machine learning,interpretability,explaining machine learning,black box classifier}
-    \endentry
     \entry{ppo}{article}{}
       \name{author}{5}{}{%
         {{un=0,uniquepart=base,hash=3e09bd2a25d237ebdaed560a07c0451e}{%
@@ -1112,12 +1013,12 @@
     \endentry
     \entry{learning-pomdp}{inproceedings}{}
       \name{author}{3}{}{%
-        {{un=1,uniquepart=given,hash=0778520109d58859c98d71f3b7e75837}{%
+        {{un=0,uniquepart=base,hash=0778520109d58859c98d71f3b7e75837}{%
            family={Singh},
            familyi={S\bibinitperiod},
            given={Satinder\bibnamedelima P.},
            giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod},
-           givenun=1}}%
+           givenun=0}}%
         {{un=0,uniquepart=base,hash=1ebba49b22f851536356de9d887f66dc}{%
            family={Jaakkola},
            familyi={J\bibinitperiod},
