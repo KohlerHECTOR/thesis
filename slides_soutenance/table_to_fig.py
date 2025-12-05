@@ -152,6 +152,7 @@ for i, algo in enumerate(algos):
 # ax_top.set_ylim(-0.1, 1.05)
 
 ax_top.set_ylabel("Normalized accuracy", fontsize=18)
+ax_top.set_yticks(np.linspace(0, 1, 6), labels=['Greedy', '0.2', '0.4', '0.6', '0.8', 'Optimal'])
 ax_top.legend(fontsize=22)
 ax_top.grid(axis='y', linestyle='--', alpha=0.6)
 
@@ -162,7 +163,8 @@ for i, algo in enumerate(algos):
                   color=colors[algo])
 
 ax_bottom.set_yscale('log')   # symmetric log handles negative values
-ax_bottom.set_ylabel("Log normalized cost", fontsize=18)
+ax_bottom.set_ylabel("Normalized cost", fontsize=18)
+
 ax_top.yaxis.set_tick_params(labelsize=17)
 ax_bottom.grid(axis='y', linestyle='--', alpha=0.6)
 
