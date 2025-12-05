@@ -408,8 +408,16 @@
 \end{figure}
 \end{frame}
 
-\begin{frame}{Interpretability in SDM {\small \parencite{glanois-survey}}.}
-    \only<1>{\textbf{\warning No concensus on definition \textcolor{purple}{\small \parencite{lipton}}}.}
+\begin{frame}{What is interpretability?}
+\textbf{\warning No concensus on what interpretability is.}
+    \begin{itemize}
+        \item<2->Evaluation dependent (e.g. with or without humans?) \textcolor{purple}{\small \parencite{rigourous}}.
+        \item<3->Set of properties (e.g. transparency) \textcolor{purple}{\small \parencite{lipton}}.
+        \item<4->Different aspects of SDM (e.g. MDP, RL algorithms, policy class \dots) \textcolor{purple}{\small \parencite{milani-survey,glanois-survey}}.
+    \end{itemize}
+\end{frame}
+    
+\begin{frame}{Explainability vs. interpretability}
     \only<2>{\begin{figure}
         \begin{subfigure}{0.45\textwidth}
         \centering
@@ -420,7 +428,7 @@
         \centering
         \includegraphics[width=0.95\textwidth]{../images/images_intro/breakout_reflect.png}
         \end{subfigure}
-        \caption*{Local interpretability with saliency maps of different MDP states \textcolor{purple}{\small \parencite{saliency}}.}
+        \caption*{\textit{Explainability} of different decisions with post-hoc saliency maps \textcolor{purple}{\small \parencite{saliency}}.}
     \end{figure}}
     % \only<3>{
     %     \begin{figure}
@@ -470,7 +478,7 @@
         \node[below right] at (6.5,2) {Decision trees};
         
     \end{tikzpicture}
-    \only<3>{\caption*{Global interpretability with intrinsically interpretable policies.}}
+    \only<3>{\caption*{We aim for \textit{interpretability as a property} of policies.}}
 \end{figure}
     }
 \end{frame}
@@ -958,14 +966,14 @@ Successful algorithms for classification/regression {\small \textcolor{purple}{\
 \end{tikzpicture}}}
 \end{figure}
 \only<9->{
-\onslide<9->{Given an MDP $\mathcal{M}$ $\langle S, A, R, T \rangle$}\onslide<10->{, an IBMDP is an MDP $$\langle \overbrace{S \times O}^{\text{State space}}, \underbrace{A \cup A_{info}}_{\text{Action space}}, \overbrace{(R, \zeta)}^{\text{Reward function}}, \underbrace{(T_{info}, T)}_{\text{Transitions}}\rangle$$
+\onslide<9->{Given an MDP $\mathcal{M}$ $\langle S, A, R, T \rangle$}\onslide<10->{, an IBMDP for $\mathcal{M}$ is an MDP $$\langle S \times O, A \cup A_{info}, (R, \zeta), (T_{info}, T)\rangle$$
 where:}
 \begin{itemize}
     \item<11-> $O$: observations of some state features.
-    \item<12-> $A_{info}$: actions that gather informations about some state features.
+    \item<12-> $A_{info}$: actions that gather information about some state features.
     \item<13-> $\zeta$: reward for taking $a\in A_{info}$.
     \item<14-> $T_{info}$: transitions following $a\in A_{info}$ that update the partial observation with gathered info.
-    \item<15-> \textbf{\warning IBMDP policies $\pi_{po}: O\rightarrow A\cup A_{info}$ are decision tree policies for $\mathcal{M}$.}
+    \item<15-> \textbf{\warning \textcolor{purple}{\cite{topin2021iterative}:} deterministic memoryless policies $\pi_{po}:O\rightarrow A\cup A_{info}$ in an IBDMP for $\mathcal{M}$ are decision trees for $\mathcal{M}$.}
 \end{itemize}}
 \end{frame}
 
@@ -1134,7 +1142,8 @@ where:}
         \begin{itemize}
             \item<6-> Value-based $\rightarrow$ learns $Q(o, a)$ with TD targets $U(s, a)$  \textcolor{purple}{\small \parencite{baisero-dqn}}.
             \item<7-> Actor-critic $\rightarrow$ policy gradient on $\pi(o, a)$ using a critic $V(s)$ \textcolor{purple}{\small \parencite{baisero-ppo}}.
-            \item<8-> Supposed to work better for our problem \textcolor{purple}{\small \parencite{justif-asym}}.
+            % \item<8-> Supposed to work better for our problem \textcolor{purple}{\small \parencite{justif-asym}}.
+            \item<8-> \textcolor{purple}{\cite{topin2021iterative}} uses asymmetric RL (not knowing it) for their experiments.
         \end{itemize}
     \end{block}}
 \end{frame}
@@ -1188,7 +1197,7 @@ where:}
     \end{tikzpicture}
     \caption*{Classification MDP and the unique optimal depth-1 tree.}
 \end{figure}
-\only<2>{\textbf{\textcolor{teal}{Partial observations are sufficient statistics of the full states in IBMDPs for classification tasks.}}}
+\only<2->{\textbf{\textcolor{teal}{Partial observations are sufficient statistics of histories in IBMDPs for classification tasks}}\onslide<3->{\textbf{$\rightarrow$ \textcolor{teal}{easy to solve \textcolor{purple}{\small \parencite{chap2}}.}}}}
 \end{frame}
 
 \begin{frame}{Result: RL can retrieve optimal depth-1 trees for the toy classification MDP}
@@ -1309,7 +1318,7 @@ Then $J_\alpha(\pi) = -{\mathcal L}_\alpha(E(\pi, s_0))$ where $E$ is an algorit
 Top-B greedy splits \textcolor{purple}{\small \parencite{topk}}, quantiles, random\dots
 \end{frame}
 
-\begin{frame}{Practical implemenataion of DPDT}
+\begin{frame}{Practical implementaion of DPDT}
 \begin{figure}
     \centering
     \includegraphics[width=0.8\linewidth]{../images/figures/schematic_cart_node_select.pdf}
