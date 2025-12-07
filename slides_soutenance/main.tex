@@ -409,16 +409,15 @@
 \end{frame}
 
 \begin{frame}{What is interpretability?}
-\textbf{\warning No concensus on what interpretability is.}
+\setbeamercovered{transparent}
+\only<1-5>{\textbf{\warning No concensus on what interpretability is.}
     \begin{itemize}
-        \item<2->Evaluation dependent (e.g. with or without humans?) \textcolor{purple}{\small \parencite{rigourous}}.
+        \item<2->Different evaluations (e.g. with or without humans?) \textcolor{purple}{\small \parencite{rigourous}}.
         \item<3->Set of properties (e.g. transparency) \textcolor{purple}{\small \parencite{lipton}}.
-        \item<4->Different aspects of SDM (e.g. MDP, RL algorithms, policy class \dots) \textcolor{purple}{\small \parencite{milani-survey,glanois-survey}}.
-    \end{itemize}
-\end{frame}
-    
-\begin{frame}{Explainability vs. interpretability}
-    \only<2>{\begin{figure}
+        \item<4->Do we need an additional model to interpret the policy's decisions? \textcolor{purple}{\small \parencite{lipton,milani-survey,glanois-survey}} 
+    \end{itemize}}
+\setbeamercovered{invisible}
+\only<6>{\begin{figure}
         \begin{subfigure}{0.45\textwidth}
         \centering
         \includegraphics[width=0.95\textwidth]{../images/images_intro/breakout_reflect_bp.png}
@@ -428,16 +427,9 @@
         \centering
         \includegraphics[width=0.95\textwidth]{../images/images_intro/breakout_reflect.png}
         \end{subfigure}
-        \caption*{\textit{Explainability} of different decisions with post-hoc saliency maps \textcolor{purple}{\small \parencite{saliency}}.}
+        \caption*{Local interpretation (a.k.a. explainability) of different decisions with saliency maps \textcolor{purple}{\small \parencite{saliency}}.}
     \end{figure}}
-    % \only<3>{
-    %     \begin{figure}
-    %         \centering
-    %         \includegraphics[width=0.9\textwidth]{../images/lime.png}
-    %         \caption*{Local interpretable model-agnostic explanations (LIME) \textcolor{purple}{\small \parencite{lime}}.}
-    %     \end{figure}
-    % }
-    \only<3->{
+    \only<7->{
         \begin{figure}
     \centering
     \begin{tikzpicture}[scale=0.7]
@@ -478,10 +470,22 @@
         \node[below right] at (6.5,2) {Decision trees};
         
     \end{tikzpicture}
-    \only<3>{\caption*{We aim for \textit{interpretability as a property} of policies.}}
+    \only<7>{\caption*{Interpretable policy classes do not require additional computations to interpret decisions\footnote{\tiny Google image result for \textit{interpretable machine learning models} \url{https://fr.mathworks.com/discovery/interpretability.html}}.}}
 \end{figure}
     }
 \end{frame}
+    
+% \begin{frame}{Explainability vs. interpretability}
+%     \
+%     % \only<3>{
+%     %     \begin{figure}
+%     %         \centering
+%     %         \includegraphics[width=0.9\textwidth]{../images/lime.png}
+%     %         \caption*{Local interpretable model-agnostic explanations (LIME) \textcolor{purple}{\small \parencite{lime}}.}
+%     %     \end{figure}
+%     % }
+    
+% \end{frame}
 
 \begin{frame}{Decision trees}
 \begin{figure}
