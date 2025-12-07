@@ -410,11 +410,11 @@
 
 \begin{frame}{What is interpretability?}
 \setbeamercovered{transparent}
-\only<1-5>{\textbf{\warning No concensus on what interpretability is.}
+\only<1-4>{\textbf{\warning No concensus on what interpretability is.}
     \begin{itemize}
         \item<2->Different evaluations (e.g. with or without humans?) \textcolor{purple}{\small \parencite{rigourous}}.
         \item<3->Set of properties (e.g. transparency) \textcolor{purple}{\small \parencite{lipton}}.
-        \item<4->Do we need an additional model to interpret the policy's decisions? \textcolor{purple}{\small \parencite{lipton,milani-survey,glanois-survey}} 
+        \item<4->How to interpret the policy's decisions? \textcolor{purple}{\small \parencite{lipton,milani-survey,glanois-survey}} 
     \end{itemize}}
 \setbeamercovered{invisible}
 \only<6>{\begin{figure}
@@ -427,7 +427,7 @@
         \centering
         \includegraphics[width=0.95\textwidth]{../images/images_intro/breakout_reflect.png}
         \end{subfigure}
-        \caption*{Local interpretation (a.k.a. explainability) of different decisions with saliency maps \textcolor{purple}{\small \parencite{saliency}}.}
+        \caption*{Local interpretation (a.k.a. explainability) requires additional computations \textcolor{purple}{\small \parencite{saliency}}.}
     \end{figure}}
     \only<7->{
         \begin{figure}
@@ -470,7 +470,7 @@
         \node[below right] at (6.5,2) {Decision trees};
         
     \end{tikzpicture}
-    \only<7>{\caption*{Interpretable policy classes do not require additional computations to interpret decisions\footnote{\tiny Google image result for \textit{interpretable machine learning models} \url{https://fr.mathworks.com/discovery/interpretability.html}}.}}
+    \only<7>{\caption*{Interpretable policy classes do not require additional computations\footnote{\tiny Google image result for \textit{interpretable machine learning models} \url{https://fr.mathworks.com/discovery/interpretability.html}}.}}
 \end{figure}
     }
 \end{frame}
@@ -533,7 +533,7 @@ Successful algorithms for classification/regression {\small \textcolor{purple}{\
     \centering
     \includegraphics[width=1\textwidth]{Capture d’écran du 2023-09-04 14-56-36.png}
 \end{figure}
-\onslide<2->{Most research focuses on imitation learning of interpretable policies {\small \textcolor{purple}{\parencite{viper,milani-survey}}}.}\\
+\onslide<1->{Most research focuses on imitation learning of interpretable policies {\small \textcolor{purple}{\parencite{viper,milani-survey}}}.}\\
 \end{frame}
 
 \begin{frame}{Two ways to get interpretable policies for SDM {\small \parencite{glanois-survey}}}
