@@ -1546,13 +1546,13 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
     \includegraphics[width=1\linewidth]{tree_sizes_memory_ppo_ci_ablation.pdf}
     \caption*{Aggregated policies interpretability on classic control environments}
 \end{figure}}
-\only<3->{\begin{figure}
+\only<4->{\begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{../images/images_part3/tree_sizes_memory_ppo_ci_ablation.pdf}
     \caption*{Aggregated policies interpretability on classic control environments}
 \end{figure}}
 \begin{itemize}
-    \item<4->Less parameters means more interpretability {\small \textcolor{purple}{\parencite{study-0}}}.
+    \item<3->\warning Less parameters means more interpretability {\small \textcolor{purple}{\parencite{study-0}}}.
     \item<5->Not always true that "trees are more interpretable than neural networks".
 \end{itemize}
 \end{frame}
@@ -1576,7 +1576,6 @@ We imitate $\sim40000$ expert policies from \texttt{stable-baselines3} using var
         \\
         $\rightarrow$ Discuss with the community (InterpPol workshop).
     \end{itemize}
-    \pause
     \begin{itemize}
         \pause
         \item \textbf{\textcolor{purple}{Deep learning:}} Can we design deep learning layers that take datasets and output candidate splits?
