@@ -17,11 +17,11 @@ Those algorithms either learn parametric trees or non-parametric trees.
 Parametric trees are not ``grown'' from the root by iteratively adding internal or leaf nodes (cf. figure~\ref{fig:dt}), but are rather ``optimized'': the depth, internal nodes arrangement, and state features to consider in each node are fixed \textit{a priori} and only the thresholds of each node are learned.
 This is similar to doing gradient descent on neural network weights.
 As the reader might have guessed, those parametric trees are advantageous in that they can be learned with the policy gradient \cite{pg_sutton}.
-In \cite{silva},~\cite{vos2024optimizinginterpretabledecisiontree} and~\cite{sympol}, authors use PPO (cf. algorithm~\ref{alg:ppo}) to learn such differentiable decision trees that optimize directly the RL objective.
+In \cite{silva},~\cite{vos2024optimizinginterpretabledecisiontree} and~\cite{sympol}, the authors use PPO (cf. algorithm~\ref{alg:ppo}) to learn such differentiable decision trees that optimize directly the RL objective.
 In particular, \cite{sympol} explicitly studies the gap in RL objective values between their direct optimization and the imitation learning algorithm VIPER (cf. algorithm~\ref{alg:viper}).
 While those methods return decision tree policies that optimize the RL objective well, in general a user cannot know \textit{a priori}  what a ``good'' tree policy structure should be for a particular MDP.
 It could be that the specified structure is too deep and pruning will be required after training or it could be that the tree structure is not expressive enough to encode a good policy, i.e. parametric trees cannot trade off interpretability and performances during training.
-Furthermore, authors from~\cite{sympol} show that extra stabilizing tricks, such as adaptive batch sizes, are required during training to outperform indirect imitation in terms of RL objective.
+Furthermore, the authors from~\cite{sympol} show that extra stabilizing tricks, such as adaptive batch sizes, are required during training to outperform indirect imitation in terms of RL objective.
 
 Non-parametric trees are the standard model in supervised learning. Greedy algorithms~\cite{breiman1984classification,ID3,c45} are fast and return decision tree classifiers (or regressors) that offer good trade-offs between interpretability (depth, or number of nodes) and the supervised learning objective (cf. definition~\ref{def:sl}).
 On the other hand, to the best of our knowledge, there exists only one work studying non-parametric trees to optimize a trade-off between interpretability and the RL objective: Topin et. al. \cite{topin2021iterative}.
@@ -30,11 +30,11 @@ Given an MDP for which one wants to learn a decision tree policy, Topin et. al. 
 From now on we refer to the MDP for which we want a decision tree policy as the ``base'' MDP.
 IBMDPs are an augmented version of this base MDP with more state features, more actions, additional reward signals, and additional transitions.
 Authors showed that certain policies in IBMDPs are equivalent to non-parametric decision tree policies that trade off between interpretability and the RL objective in the base MDP.
-Hence, the great promise Topin et. al. work is that doing e.g. RL to learn such IBMDPs policies is a way to directly optimize a trade-off between interpretability and the RL objective.
+Hence, the great promise of Topin et. al.'s work is that doing e.g. RL to learn such IBMDP policies is a way to directly optimize a trade-off between interpretability and the RL objective.
 
 There also exists more specialized approaches that can return decision tree policies only for very specific problem classes.
-In \cite{theory1}, authors prove that for maze-like MDPs, there always exists an optimal decision tree policy w.r.t. the RL objective and provide an algorithm to find it. 
-Finally, in \cite{dt-opt-mdp}, authors study decision tree policies for planning in MDPs (cf. algorithm~\ref{alg:value-iteration}), i.e. when the transitions and rewards are known.
+In \cite{theory1}, the authors prove that for maze-like MDPs, there always exists an optimal decision tree policy w.r.t. the RL objective and provide an algorithm to find it. 
+Finally, in \cite{dt-opt-mdp}, the authors study decision tree policies for planning in MDPs (cf. algorithm~\ref{alg:value-iteration}), i.e. when the transitions and rewards are known.
 In the next section we present IBMDPs as introduced in~\cite{topin2021iterative}.
 
 \section{Iterative bounding Markov decision processes}\label{sec:ibmdp}
@@ -53,11 +53,11 @@ When taking an information gathering action, the reward is an arbitrary value su
 Before showing how to get decision tree policies from IBMDP policies, we give a formal definition of IBMDPs following Topin et. al.~\cite{topin2021iterative}.
 
 \begin{definition}[Iterative bounding Markov decision process]\label{def:ibmdp}
-Given an MDP $\mathcal{M}$ $\langle S, A, R, T, T_0 \rangle$ (cf. definition~\ref{def:mdp}), an associated iterative bounding Markov decision process $\mathcal{M}_{IB}$ is a tuple:
+Given an MDP $\mathcal{M}\equiv\langle S, A, R, T, T_0 \rangle$ (cf. definition~\ref{def:mdp}), an associated iterative bounding Markov decision process $\mathcal{M}_{IB}$ is a tuple:
 \begin{align*}
     \langle \overbrace{S \times O}^{\text{State space}}, \underbrace{A \cup A_{info}}_{\text{Action space}}, \overbrace{(R, \zeta)}^{\text{Reward function}}, \underbrace{(T_{info}, T, T_0)}_{\text{Transitions}}\rangle
 \end{align*}
-
+, where: 
 \begin{itemize}
 \item $S$ are the base MDP state features. Base state features $\boldsymbol{s} = (s_1, \dots, s_p)\in S$ are bounded: $s_j \in [L_j, U_j]$ where $\infty < L_j \leq U_j < \infty \forall 1\leq j \leq p$.
 \item $O$ are observations. They represent bounds on the base state features: $O\subsetneq S^2 =  [L_1, U_1]\times \dots \times [L_p, U_p] \times [L_1, U_1]\times \dots \times [L_p, U_p]$. So the complete IBMDP state space is $S \times O$, the concatenations of base state features and observations
@@ -308,12 +308,12 @@ The great promise of Topin et. al. is that one can use any reinforcement learnin
 Once a deterministic partially observable policy is obtained, a decision tree policy that trades off naturally, the RL objective in the base MDP and, interpretability through the additional reward signal $\zeta$ (cf. definition~\ref{def:ibmdp}), can be extracted with algorithm~\ref{alg:extract-tree}.
 We define an interpretable RL objective as follows:
 \begin{definition}[Interpretable RL objective]\label{def:irl}
-    Given a base MDP $\mathcal{M} \langle S, A, R, T, T_0 \rangle$ for which we want an interpretable policy, e.g. a decision tree, a discount factor $\gamma \in (0,1]$, some interpretability penalty $\zeta$, and a set of information gathering actions $A_{info}$, the objective is to find a deterministic partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ (cf. definition~\ref{def:po-policy}) that maximizes:
+    Given a base MDP $\mathcal{M}\equiv\langle S, A, R, T, T_0 \rangle$ for which we want an interpretable policy, e.g. a decision tree, a discount factor $\gamma \in (0,1]$, some interpretability penalty $\zeta$, and a set of information gathering actions $A_{info}$, the objective is to find a deterministic partially observable policy $\pi_{po}: O \rightarrow A\cup A_{info}$ (cf. definition~\ref{def:po-policy}) that maximizes:
 \begin{align*}
     \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R((\boldsymbol{s}_t, \boldsymbol{o}_t), a_t) \mid \boldsymbol{s}_0 \sim T_0, a_t = \pi_{po}(\boldsymbol{o}_t), \boldsymbol{s}_{t+1} \sim T(\boldsymbol{s}_t, a_t), \boldsymbol{o}_{t+1}\sim T(\boldsymbol{o_t}, a_t)\right]\\
     = \mathbb{E}[V^{\pi_{po}}(\boldsymbol{s}_0, \boldsymbol{o}_0)| \boldsymbol{s}_0\sim T_0]
 \end{align*}
-With $V^{\pi_{po}}$ the value function (cf. definition~\ref{def:vs}) of $\pi_{po}$ in the IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (cf. definition~\ref{def:ibmdp}).
+, with $V^{\pi_{po}}$ the value function (cf. definition~\ref{def:vs}) of $\pi_{po}$ in the IBMDP $\mathcal{M}_{IB}$ $\langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ (cf. definition~\ref{def:ibmdp}).
 \end{definition}
 
 After optimizing objective with, e.g. reinforcement learning (cf. section~\ref{sec:rl}), we can use algorithm~\ref{alg:extract-tree} to obtain a decision tree policy that trades off between interpretability and the RL objective for the base MDP of interest.

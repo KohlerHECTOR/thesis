@@ -324,7 +324,7 @@
       \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{In partially observable reinforcement learning, offline training gives access to latent information which is not available during online training and/or execution, such as the system state. Asymmetric actor-critic methods exploit such information by training a history-based policy via a state-based critic. However, many asymmetric methods lack theoretical foundation, and are only evaluated on limited domains. We examine the theory of asymmetric actor-critic methods which use state-based critics, and expose fundamental issues which undermine the validity of a common variant, and limit its ability to address partial observability. We propose an unbiased asymmetric actor-critic variant which is able to exploit state information while remaining theoretically sound, maintaining the validity of the policy gradient theorem, and introducing no bias and relatively low variance into the training process. An empirical evaluation performed on domains which exhibit significant partial observability confirms our analysis, demonstrating that unbiased asymmetric actor-critic converges to better policies and/or faster than symmetric and biased asymmetric baselines.}
+      \field{abstract}{In partially observable reinforcement learning, offline training gives access to latent information which is not available during online training and/or execution, such as the system state. Asymmetric actor-critic methods exploit such information by training a history-based policy via a state-based critic. However, many asymmetric methods lack theoretical foundation, and are only evaluated on limited domains. We examine theory of asymmetric actor-critic methods which use state-based critics, and expose fundamental issues which undermine the validity of a common variant, and limit its ability to address partial observability. We propose an unbiased asymmetric actor-critic variant which is able to exploit state information while remaining theoretically sound, maintaining the validity of the policy gradient theorem, and introducing no bias and relatively low variance into the training process. An empirical evaluation performed on domains which exhibit significant partial observability confirms our analysis, demonstrating that unbiased asymmetric actor-critic converges to better policies and/or faster than symmetric and biased asymmetric baselines.}
       \field{booktitle}{Proceedings of the 21st International Conference on Autonomous Agents and Multiagent Systems}
       \field{isbn}{9781450392136}
       \field{series}{AAMAS '22}
@@ -380,7 +380,7 @@
       \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Offline training in simulated partially observable environments allows reinforcement learning methods to exploit privileged state information through a mechanism known as asymmetry. Such privileged information has the potential to greatly improve the optimal convergence properties, if used appropriately. However, current research in asymmetric reinforcement learning is often heuristic in nature, with few connections to underlying theory or theoretical guarantees, and is primarily tested through empirical evaluation. In this work, we develop the theory of Asymmetric Policy Iteration, an exact model-based dynamic programming solution method, and then apply relaxations which eventually result in Asymmetric DQN, a model-free deep reinforcement learning algorithm. Our theoretical findings are complemented and validated by empirical experimentation performed in environments which exhibit significant amounts of partial observability, and require both information gathering strategies and memorization.}
+      \field{abstract}{Offline training in simulated partially observable environments allows reinforcement learning methods to exploit privileged state information through a mechanism known as asymmetry. Such privileged information has the potential to greatly improve the optimal convergence properties, if used appropriately. However, current research in asymmetric reinforcement learning is often heuristic in nature, with few connections to underlying theory or theoretical guarantees, and is primarily tested through empirical evaluation. In this work, we develop theory of Asymmetric Policy Iteration, an exact model-based dynamic programming solution method, and then apply relaxations which eventually result in Asymmetric DQN, a model-free deep reinforcement learning algorithm. Our theoretical findings are complemented and validated by empirical experimentation performed in environments which exhibit significant amounts of partial observability, and require both information gathering strategies and memorization.}
       \field{booktitle}{Proceedings of the Thirty-Eighth Conference on Uncertainty in Artificial Intelligence}
       \field{month}{01--05 Aug}
       \field{series}{Proceedings of Machine Learning Research}
@@ -1400,7 +1400,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Satisfiability Modulo Theories (SMT) problem is a decision problem for logical first order formulas with respect to combinations of background theories such as: arithmetic, bit-vectors, arrays, and uninterpreted functions. Z3 is a new and efficient SMT Solver freely available from Microsoft Research. It is used in various software verification and analysis applications.}
-      \field{booktitle}{Proceedings of the Theory and Practice of Software, 14th International Conference on Tools and algorithms for the Construction and Analysis of Systems}
+      \field{booktitle}{Proceedings of theory and Practice of Software, 14th International Conference on Tools and algorithms for the Construction and Analysis of Systems}
       \field{isbn}{3540787992}
       \field{series}{TACAS'08/ETAPS'08}
       \field{title}{Z3: an efficient SMT solver}
@@ -1861,54 +1861,6 @@
       \verb http://dx.doi.org/10.1007/978-3-642-23780-5_34
       \endverb
     \endentry
-    \entry{chap2}{inbook}{}
-      \name{author}{2}{}{%
-        {{hash=7bf3bb67c7c9ab88b862f736a5c272ea}{%
-           family={Dutech},
-           familyi={D\bibinitperiod},
-           given={Alain},
-           giveni={A\bibinitperiod}}}%
-        {{hash=f5ec34ddabf763434f7545d0186ab0e2}{%
-           family={Scherrer},
-           familyi={S\bibinitperiod},
-           given={Bruno},
-           giveni={B\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {John Wiley & Sons, Ltd}%
-      }
-      \strng{namehash}{d8f10f24519977a6563c39f63fd9ebda}
-      \strng{fullhash}{d8f10f24519977a6563c39f63fd9ebda}
-      \strng{bibnamehash}{d8f10f24519977a6563c39f63fd9ebda}
-      \strng{authorbibnamehash}{d8f10f24519977a6563c39f63fd9ebda}
-      \strng{authornamehash}{d8f10f24519977a6563c39f63fd9ebda}
-      \strng{authorfullhash}{d8f10f24519977a6563c39f63fd9ebda}
-      \field{sortinit}{D}
-      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{abstract}{Summary This chapter deals with Partially Observable Markov Decision Processes (POMDPs). It details the POMDP framework and introduces the notion of information state. There exist some generic concepts that help design exact algorithms, based on Value Iteration or Policy Iteration. Like for Markov decision processes (MDPs), solving a POMDP aims at maximizing a given performance criterion. Except for a small sub-family of POMDPs called \textquotedblleft{}transient\textquotedblright{}, the sequence of belief states generated by a given policy is made of an infinite number of different belief states. Similarly to MDPs, a value function exists for POMDPs defined on information states. The chapter studies in more details the properties of policies defined on observations so as to better understand the differences between POMDPs and MDPs. Controlled Vocabulary Terms iterative methods}
-      \field{booktitle}{Markov Decision Processes in Artificial Intelligence}
-      \field{chapter}{7}
-      \field{isbn}{9781118557426}
-      \field{title}{Partially Observable Markov Decision Processes}
-      \field{year}{2013}
-      \field{pages}{185\bibrangedash 228}
-      \range{pages}{44}
-      \verb{doi}
-      \verb https://doi.org/10.1002/9781118557426.ch7
-      \endverb
-      \verb{eprint}
-      \verb https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781118557426.ch7
-      \endverb
-      \verb{urlraw}
-      \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/9781118557426.ch7
-      \endverb
-      \verb{url}
-      \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/9781118557426.ch7
-      \endverb
-      \keyw{belief states,information state,Markov decision processes (MDPs),partially observable Markov decision processes (POMDPs),policy iteration,value function,value iteration}
-    \endentry
     \entry{cancer}{article}{}
       \name{author}{4}{}{%
         {{hash=263c92777bb12872d4b7e2a5cac537ab}{%
@@ -2267,7 +2219,7 @@
       \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{title}{FApprentissage par renforcement pour l'aide \`{a} la conduite des cultures des petits agriculteurs des pays du Sud: vers la ma\^{\i}trise des risques.}
+      \field{title}{Apprentissage par renforcement pour l'aide \`{a} la conduite des cultures des petits agriculteurs des pays du Sud: vers la ma\^{\i}trise des risques.}
       \field{type}{phdthesis}
       \field{year}{2022}
       \field{dateera}{ce}
@@ -2763,7 +2715,7 @@
       \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{abstract}{Increasing attention has been paid to reinforcement learning algorithms in recent years, partly due to successes in the theoretical analysis of their behavior in Markov environments. If the Markov assumption is removed, however, neither generally the algorithms nor the analyses continue to be usable. We propose and analyze a new learning algorithm to solve a certain class of non-Markov decision problems. Our algorithm applies to problems in which the environment is Markov, but the learner has restricted access to state information. The algorithm involves a Monte-Carlo policy evaluation combined with a policy improvement method that is similar to that of Markov decision problems and is guaranteed to converge to a local maximum. The algorithm operates in the space of stochastic policies, a space which can yield a policy that performs considerably better than any deterministic policy. Although the space of stochastic policies is continuous--even for a discrete action space--our algorithm is computationally tractable.}
+      \field{abstract}{Increasing attention has been paid to reinforcement learning algorithms in recent years, partly due to successes in theoretical analysis of their behavior in Markov environments. If the Markov assumption is removed, however, neither generally the algorithms nor the analyses continue to be usable. We propose and analyze a new learning algorithm to solve a certain class of non-Markov decision problems. Our algorithm applies to problems in which the environment is Markov, but the learner has restricted access to state information. The algorithm involves a Monte-Carlo policy evaluation combined with a policy improvement method that is similar to that of Markov decision problems and is guaranteed to converge to a local maximum. The algorithm operates in the space of stochastic policies, a space which can yield a policy that performs considerably better than any deterministic policy. Although the space of stochastic policies is continuous--even for a discrete action space--our algorithm is computationally tractable.}
       \field{booktitle}{Proceedings of the 8th International Conference on Neural Information Processing Systems}
       \field{series}{NIPS'94}
       \field{title}{Reinforcement learning algorithm for partially observable Markov decision problems}
@@ -5153,6 +5105,54 @@
       \field{journaltitle}{arXiv}
       \field{title}{BlendRL: A Framework for Merging Symbolic and Neural Policy Learning}
       \field{year}{2025}
+    \endentry
+    \entry{chap2}{inbook}{}
+      \name{author}{2}{}{%
+        {{hash=f028dbfa54ab10f0e51f45bc1a5a3d24}{%
+           family={Sigaud},
+           familyi={S\bibinitperiod},
+           given={Olivier},
+           giveni={O\bibinitperiod}}}%
+        {{hash=72d40a76adebe96166d4cdcbeb844c72}{%
+           family={Buffet},
+           familyi={B\bibinitperiod},
+           given={Olivier},
+           giveni={O\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {John Wiley & Sons, Ltd}%
+      }
+      \strng{namehash}{7b15aa91a6e7be240be94d99db74f8d5}
+      \strng{fullhash}{7b15aa91a6e7be240be94d99db74f8d5}
+      \strng{bibnamehash}{7b15aa91a6e7be240be94d99db74f8d5}
+      \strng{authorbibnamehash}{7b15aa91a6e7be240be94d99db74f8d5}
+      \strng{authornamehash}{7b15aa91a6e7be240be94d99db74f8d5}
+      \strng{authorfullhash}{7b15aa91a6e7be240be94d99db74f8d5}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Summary This chapter deals with Partially Observable Markov Decision Processes (POMDPs). It details the POMDP framework and introduces the notion of information state. There exist some generic concepts that help design exact algorithms, based on Value Iteration or Policy Iteration. Like for Markov decision processes (MDPs), solving a POMDP aims at maximizing a given performance criterion. Except for a small sub-family of POMDPs called \textquotedblleft{}transient\textquotedblright{}, the sequence of belief states generated by a given policy is made of an infinite number of different belief states. Similarly to MDPs, a value function exists for POMDPs defined on information states. The chapter studies in more details the properties of policies defined on observations so as to better understand the differences between POMDPs and MDPs. Controlled Vocabulary Terms iterative methods}
+      \field{booktitle}{Markov Decision Processes in Artificial Intelligence}
+      \field{chapter}{7}
+      \field{isbn}{9781118557426}
+      \field{title}{Partially Observable Markov Decision Processes}
+      \field{year}{2013}
+      \field{pages}{185\bibrangedash 228}
+      \range{pages}{44}
+      \verb{doi}
+      \verb https://doi.org/10.1002/9781118557426.ch7
+      \endverb
+      \verb{eprint}
+      \verb https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781118557426.ch7
+      \endverb
+      \verb{urlraw}
+      \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/9781118557426.ch7
+      \endverb
+      \verb{url}
+      \verb https://onlinelibrary.wiley.com/doi/abs/10.1002/9781118557426.ch7
+      \endverb
+      \keyw{belief states,information state,Markov decision processes (MDPs),partially observable Markov decision processes (POMDPs),policy iteration,value function,value iteration}
     \endentry
     \entry{silva}{inproceedings}{}
       \name{author}{5}{}{%

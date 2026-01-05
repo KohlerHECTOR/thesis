@@ -40,7 +40,7 @@ In this chapter, we present a framework for designing non-greedy decision tree i
 We call this framework ``Dynamic Programming Decision Trees'' (DPDT). For every node, DPDT heuristically and dynamically limits the set of admissible splits to a few good candidates. Then, DPDT optimizes the regularized training loss with some depth constraints.
 Theoretically, we show that DPDT minimizes the empirical risk at least as well as CART\@.
 Empirically, we show that on all tested datasets, DPDT can reach 99\% of the optimal regularized train accuracy while using thousands times less operations than current optimal solvers. 
-More importantly, we follow \cite{grinsztajn2022tree} methodology to benchmark DPDT against both CART and optimal trees on hard datasets. Following the same methodology, we compare boosted DPDT \cite{FREUND1997119} to boosted CART and to some deep learning methods and show clear superiority of DPDT.
+More importantly, we follow the methodology of Grinsztajn, Oyallon and Varoquaux~\cite{grinsztajn2022tree} to benchmark DPDT against both CART and optimal trees on hard datasets. Following the same methodology, we compare boosted DPDT \cite{FREUND1997119} to boosted CART and to some deep learning methods and show clear superiority of DPDT.
 
 \section{Related work}
 
@@ -75,7 +75,7 @@ where $C: \mathcal{T}_D \rightarrow \mathbb{R}$ is a complexity penalty that hel
 \end{definition}
 
 In the rest of this part we focus on classification tasks: we use the 0--1 loss $l(y_i, T(\boldsymbol{x}_i)) = 1_{\{y_i\neq T(\boldsymbol{x}_i)\}}$.
-Please note while we focus on classification tasks, our framework extends naturally to regression tasks.
+Please note that, while we focus on classification tasks, our framework extends naturally to regression tasks.
 
 In the supervised learning setting, there exists many other areas of decision tree research \cite{loh2014fifty} such as inducing non-axis parallel decision trees \cite{murthy1994system,10.1145/3637528.3671903}, splitting criteria of greedy trees \cite{vanderlinden2024optimalgreedydecisiontrees}, different optimization of parametric trees \cite{NIPS2015_1579779b,10.5555/3327757.3327770}, or pruning methods \cite{pruning1,pruning2}.
 In the next chapter, we give a novel formulation of decision tree induction tasks as MDPs.

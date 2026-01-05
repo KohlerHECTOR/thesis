@@ -3,7 +3,7 @@
 In this chapter, we validate our methodology to evaluate the interpretability.
 In particular we verify that our methodology that relies on policy unfolding can retrieve conclusions from user studies, e.g. we want that our measures of interpretability change with parameter number inside a given policy class.
 
-Because in this part of the manuscript we do evaluate learning capabilities of interpretable machine learning algorithms but solely their outputs, we use indirect imitation learning (cf. section~\ref{sec:imit}) to obtain policies from different classes.
+Because in this part of the manuscript we do not evaluate learning capabilities of interpretable machine learning algorithms but solely their outputs, we use indirect imitation learning (cf. section~\ref{sec:imit}) to obtain policies from different classes.
 Imitation learning is a great baseline to obtain policies from different classes.
 Indeed, as long as there exists a supervised learning algorithm for a given model class, this algorithm can be used in e.g. algorithms~\ref{alg:dagger} or~\ref{alg:viper} to distillate the behavior of any expert policy into the desired policy class. 
 Furthermore, if policies are already available for some MDPs, we can simply re-use them as experts in e.g. algorithms~\ref{alg:dagger} or~\ref{alg:viper}.
@@ -30,9 +30,9 @@ Relu neural networks & \{(2 ,2), (4, 4), (8, 8), (16, 16)\} weights & SGD \\
 
 We consider four policy classes for our baselines.
 We consider linear policies that have been shown to be able to solve MuJoCo tasks~\cite{random-search}.
-We fit linear policies to expert policies using simple linear (logistic) regressions with scikit-learn~\cite{scikit-learn} default implementation.
+We fit linear policies to expert policies using simple linear (logistic) regressions with scikit-learn's~\cite{scikit-learn} default implementation.
 We also consider decision trees~\cite{breiman1984classification} and oblique decision trees~\cite{murthy1994system}.
-Oblique decision trees are decision trees which does not necessarily partitions the input domain parallel to axes.
+Oblique decision trees are decision trees which do not necessarily partition the input domain parallel to axes.
 A test node in an oblique decision tree can be the linear combinations of two state features.
 We give an example of an oblique decision tree unfolded for the Pong game in figure~\ref{lst:pong}.
 \begin{figure}
@@ -107,13 +107,13 @@ We do not have to re-run deep reinforcement learning algorithms \cite{dqn,ppo,de
 Depending on the MDPs, also called environments, we choose neural network policies trained with different deep reinforcement learning algorithms.
 It is important to note that not all experts are compatible with all the variants of imitation learning algorithms.
 Indeed, SAC experts \cite{deep-rl-relu1} are not compatible with VIPER~\cite{viper} because the latter only works for discrete actions.
-We do not use PPO experts with VIPER either: despite working with discrete actions PPO do not compute a $Q$-function necessary for the samples re-weighting in VIPER.
+We do not use PPO experts with VIPER either: despite working with discrete actions PPO does not compute a $Q$-function necessary for the samples re-weighting in VIPER.
 All experts are compatible with Dagger~\cite{dagger}.
 We also consider an additional imitation learning algorithm: behavior cloning (BC)~\cite{behavior-cloning}.
 BC is essentially just one iteration of Dagger imitation i.e. samples are only collected with the expert policy once before fitting a new policy class.
 For Dagger and VIPER we use 10 iterations of samples collections with experts and teacher policy (cf. algorithms~\ref{alg:dagger} and~\ref{alg:viper}) with different total samples budget.
 In table~\ref{tab:repet-distill}, we summarize the different algorithms used to imitate each expert.
-We also specify the total number of samples collected during the imitations as well as the number of times we repet the imitations for statistical significance.
+We also specify the total number of samples collected during the imitations as well as the number of times we repeat the imitations for statistical significance.
 
 \begin{table}
   \centering
@@ -128,7 +128,7 @@ We also specify the total number of samples collected during the imitations as w
   Mujoco& 10 (SAC)& 10 (SAC)& 10 (SAC)& 10 (SAC)&  0 & 0\\
   \bottomrule
   \end{tabular}
-  \caption{Repetitions of each imitation learning algorithm on each environment. We specify from which deep RL algorithms expert policies from the zoo~\cite{zoo} come from in parentheses.}
+  \caption{Repetitions of each imitation learning algorithm on each environment. We specify in parentheses from which deep RL algorithms of the zoo~\cite{zoo} expert policies come.}
   \label{tab:repet-distill}
 \end{table}
 
@@ -239,7 +239,7 @@ However,~\cite{lipton} states that for a human wanting to have a global idea of 
 In figure~\ref{fig:abl-proxies}, we show that inference speed and memory size of unfolded policies help us capture those nuances: policy interpretability does not only depend on the policy class but also on the metric choice.
 Indeed, when we measure interpretability with inference times, we do observe that trees are more interpretable than neural networks.
 However, when measuring interpretability with policy size, we observe that neural networks can be more interpretable than trees for similar number of parameters.
-Because there seem to not be a more interpretable policy class across proxy metrics, we will keep studying both metrics at the same time.
+Because there seems to not be a more interpretable policy class across proxy metrics, we will keep studying both metrics at the same time.
 
 \section{Discussion}
 % \begin{figure}
@@ -248,7 +248,7 @@ Because there seem to not be a more interpretable policy class across proxy metr
 %   \caption{State features importance for MuJoCo environments given by medium-sized oblique decision trees.}\label{fig:mujoco-feat}
 % \end{figure}
 To validate the methodology proposed in the previous chapter, we imitated pre-trained experts neural network policies with various less complex policies.
-We obtain diverse baselines policies with diverse interpretability measures and performances for a wide range of environments.
+We obtain diverse baseline policies with diverse interpretability measures and performances for a wide range of environments.
 For each environment, we save the best baseline policy of each class in terms of RL objective (cf. definition~\ref{def:mdp-obj}) after unfolding.
 We open source those best in class policies here:~\url{https://github.com/KohlerHECTOR/interpretable-rl-zoo}.
 We hope that those transparent policies can help teaching and research in (interpretable) sequential decision making.

@@ -17,21 +17,21 @@ Indeed, as stated in \cite{study-0}, optimizing interpretability can also be see
 
 Finally, for a fixed class of models, humans gave different values of interpretability to models with different numbers of parameters~\cite{study-4}, e.g. a tree with less nodes was deemed more interpretable than a tree with lots of nodes.
 
-Some works~\cite{lipton,rigourous} argue that model interpretability can only be measured by the the specific end user and only for the specific downstream tasks.
+Some works~\cite{lipton,rigourous} argue that model interpretability can only be measured by the specific end user and only for the specific downstream tasks.
 This prompts a methodology that could give good measures of interpretability without requiring to perform time and resource consuming user studies.
-However, measuring model interpretability without humans is still an open problem~\cite{glanois-survey} and there probably do not exist a decisive solution.
+However, measuring model interpretability without humans is still an open problem~\cite{glanois-survey} and there probably does not exist a decisive solution.
 
 \section{The mythos of interpretability}\label{res:lipton}
 Work comparing interpretability of models inside the same class~\cite{murtree,blossom,pystreed,vanderlinden2024optimalgreedydecisiontrees,sympol,viper,topin2021iterative} do not have to worry about their methodology since the number of model parameters is enough as a measure~\cite{study-4}.
-However comparing the interpretability of models from different classes, without user studies, requires caution: which is more interpretable, a depth-50 decision tree or a neural network with two layers of 16 neurons (figure)?
+However comparing the interpretability of models from different classes, without user studies, requires caution: which is more interpretable, a depth-50 decision tree or a neural network with two layers of 16 neurons?
 
 Work that compare model interpretability across different model classes without humans, rely on the notion of \textit{simulatibility} introduced in~\cite{lipton}.
-Inspired, by results from user studies, Zachary Lipton postulates that interpretability of a model should relate to two things.
+Inspired by results from user studies, Zachary Lipton postulates that interpretability of a model should relate to two things.
 First, it should relate to how a user simulates the prediction of the model given an input~\cite{study-6,study-5}.
 Second, it should relate to how a user gets a global idea of the model's internals, i.e. without any inputs, what does the user understands from reading the model.
 
 This notion of simulatibility is closely related to space and time complexities of programs.
-In~\cite{viper}, authors use verification time as a proxy to compare the interpretability of neural network policies and imitated decision tree policies.
+In~\cite{viper}, the authors use verification time as a proxy to compare the interpretability of neural network policies and imitated decision tree policies.
 Since decision trees and neural networks are implemented differently in their experiments, they can't use the same verification softwares (\cite{z3} against \cite{maraboupy}) which makes it difficult to conclude if the verification times are different because of interpretability or because of the computations hidden in the verifiers.
 Similarly, in~\cite{insight} authors compare the inference speed of neural network policies to first-order logic policies~\cite{nudge} but one uses GPU acceleration while the other is run on CPU.
 

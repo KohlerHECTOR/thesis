@@ -86,9 +86,9 @@ This can be problematic in applications where decisions have important consequen
 Consider the following extreme scenario in the context of the cancer treatment example: a program recommends to the doctor to amputate a patient's limb.
 While amputating could be the only way to save the patient's life, it is not hard to imagine that such an extreme recommendation would not be followed by the doctor unless it comes with convincing explanations or unless the factors that influenced the program's recommendation can be presented to the doctor. 
 In an other setting where the program directly act in the real-world, i.e. it does not make recommendations to a human but rather acts autonomously, black-box programs are also not desirable.
-Consider the slightly extreme scenario of a combat drone in which a program decides on who to shoot.
+Consider the slightly extreme scenario of a combat drone in which a program decides at whom to shoot shoot.
 In this context, it is hard to imagine leaders deploying such drones and programs without having strict guarantees that it will, e.g. not shoot civilians.
-Such guarantees can be obtained through formal verifications of programs which in turn can only be obtain for certain programs.
+Such guarantees can be obtained through formal verifications of programs which in turn can only be obtained for certain programs.
 Next, we describe the notion of interpretability that is key to ensure that programs can be verified and their recommendations can be understood.
 
 Originally, the etymology of ``interpretability'' is the Latin ``interpretabilis'', meaning ``that can be understood and explained''.
@@ -330,7 +330,7 @@ The global trend in machine learning research answers the latter.
 In figure~\ref{fig:cancer-treatment-sdm-ml}, we illustrate how existing machine learning algorithms \textit{could} be used in principle to help with cancer treatment. In truth, this should be prohibited without some kind of transparency in the program's recommendation: why did the program recommend such a dosage?
 In figure~\ref{fig:cancer-treatment-comparison}, we illustrate how machine learning \textit{should} be used in practice. 
 Ideally, we want doctors to have access to computer programs that can recommend ``good'' treatments and whose recommendations are interpretable. 
-In the next section, present related works that fit this desiderata.
+In the next section, we present related works that fit this desiderata.
 
 \chapter{Related work}\label{sec:intro-interp}
 
@@ -521,7 +521,7 @@ Hence, there is no guarantee that optimizing this surrogate objective of best em
 Figure~\ref{fig:direct-vs-indirect-methods} illustrates the key difference between these two approaches. 
 
 Beyond direct and indirect learning, a complementary strategy is to train experts that are inherently easier to imitate and understand.
-This is achieved by adding interpretability-oriented regularization during training. In the context of supervised learning tasks, authors of \cite{parbhoo} regularize the neural network model during training such that indirect approaches will be biased towards more interpretable trees.
+This is achieved by adding interpretability-oriented regularization during training. In the context of supervised learning tasks, the authors of \cite{parbhoo} regularize the neural network model during training such that indirect approaches will be biased towards more interpretable trees.
 
 In addition to finding models which computations can be read by humans or that can be formally verified, interpretable machine learning has also been used to detect reward misalignment in sequential decision making: by exposing the decision process of a model, one can identify goal mis-specification or unintended shortcuts.
 Such shortcuts can be, for example, following the shadow of someone instead of actually following someone because for the model they lead to the same reactions.
@@ -532,7 +532,7 @@ In the next chapter, we describe technical preliminaries useful to understand th
 
 \section{What are decision trees?}\label{sec:dt}
 
-As the reader might have already guessed, we will put great emphasis on decision tree models as a mean to study interpretability.
+As the reader might have already guessed, we will put great emphasis on decision tree models as a means to study interpretability.
 While other interpretable models might have other properties than the ones we will highlight through this thesis, one conjecture from \cite{glanois-survey} is that interpretable models are all hard to optimize or learn because they are non-differentiable in nature.
 This is something that will be key in our study of decision tree models that we introduce next and that we illustrate in figure~\ref{fig:dt}.
 
@@ -595,10 +595,10 @@ Training decision trees to optimize the following supervised learning objective 
     where $f$ is a model in a particular model class, e.g. the set of neural networks with relu activations or decision trees with depth at most 4, and where $C: \mathcal{F} \rightarrow \mathbb{R}$ is a regularization penalty.
     \end{definition}
 
-The classification and regression trees (CART) algorithm \cite{breiman1984classification} (cf. algorithm~\ref{alg:cart}), developed by Leo Breiman and colleagues in 1984, is one of the most widely used method for learning decision trees from supervised data.
+The classification and regression trees (CART) algorithm \cite{breiman1984classification} (cf. algorithm~\ref{alg:cart}), developed by Leo Breiman and colleagues in 1984, is one of the most widely used methods for learning decision trees from supervised data.
 CART builds binary decision trees through a greedy, top-down approach that recursively partitions the feature space.
 Throughout this manuscript we will focus on numerical features ($\mathcal{X} \subsetneq \mathbb{R}^p$) and assume that non-numerical features, e.g. nominal features, can always be converted to numerical ones without loss of information.
-At each internal node, the algorithm selects the feature and its threshold that best split the data according to a purity criterion such as the Gini impurity for classification or mean squared error for regression.
+At each internal node, the algorithm selects the feature and its threshold that best splits the data according to a purity criterion such as the Gini impurity for classification or mean squared error for regression.
 CART uses threshold-based tests of the form $1_{\{x_{\_,j} \leq v\}}$, where $1_{\{\}}$ is the indicator function. 
 The key idea is to find splits that maximize the homogeneity of the resulting subsets. 
 We use CART as well as other decision tree algorithms in this manuscript.
@@ -724,7 +724,7 @@ Following Martin L. Puterman's book on MDPs\cite{puterman}, we formally define:
 \item $S$ is a finite set of states representing all possible configurations of the environment.
 \item $A$ is a finite set of actions available to the agent.
 \item $R: S \times A \rightarrow \mathbb{R}$ is a deterministic reward function that assigns a real-valued reward to each state-action pair. While in general reward functions are often stochastic, in this manuscript we focus deterministic ones without loss of generality.
-\item $T: S \times A \rightarrow \Delta(S)$ is the transition function that maps state-action pairs to probability distributions over next states, where $\Delta(S)$ denotes a probability distribution over $S$.
+\item $T: S \times A \rightarrow \Delta(S)$ is the transition function that maps state-action pairs to probability distributions over next states $\Delta(S)$.
 \item $T_0 \in \Delta(S)$ is the initial distribution over states.
 \end{itemize}
 \end{definition}
@@ -733,7 +733,7 @@ Informally, we would like to act in an MDP so that we obtain as much reward as p
 For example, in cancer treatment, the best outcome is to eliminate the patient's tumor as quickly as possible.
 We can formally define this objective, that we call the reinforcement learning objective, as follows:
 
-\begin{definition}[Reinforcement learning objective]\label{def:mdp-obj} Given an MDP $\mathcal{M}=\langle S, A, R, T, T_0 \rangle$ (cf. definition~\ref{def:mdp}), the goal of reinforcement learning for sequential decision making is to find a model, also known as a policy, $\pi: S \rightarrow A$ that maximizes the expected discounted sum of rewards:
+\begin{definition}[Reinforcement learning objective]\label{def:mdp-obj} Given an MDP $\mathcal{M}\equiv\langle S, A, R, T, T_0 \rangle$ (cf. definition~\ref{def:mdp}), the goal of reinforcement learning for sequential decision making is to find a model, also known as a policy, $\pi: S \rightarrow A$ that maximizes the expected discounted sum of rewards:
 $$J(\pi) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 \sim T_0, a_t = \pi(s_t), s_{t+1} \sim T(s_t, a_t)\right]$$
 where $0< \gamma\leq 1$ is the discount factor that controls the trade-off between immediate and future rewards.
 \end{definition}
@@ -826,7 +826,7 @@ Algorithms based on dynamic programming use the notion of \textit{value} of stat
     $$Q^{\star}(s,a) = R(s, a) + \gamma\mathbb{E}\left[V^{\star}(s') | s'\sim T(s, a)\right]$$
 \end{definition}
 
-The well-known value iteration (cf. algorithm~\ref{alg:value-iteration}), computes the values of states $\V^{\star}(s)$ with respect to the policy $\pi^{\star}$ maximizing the RL objective. 
+The well-known value iteration algorithm (cf. algorithm~\ref{alg:value-iteration}), computes the values of states $\V^{\star}(s)$ with respect to the policy $\pi^{\star}$ maximizing the RL objective. 
 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
@@ -837,7 +837,7 @@ The well-known value iteration (cf. algorithm~\ref{alg:value-iteration}), comput
     \Repeat{Convergence}{
         \For{each state $s \in S$}{
             $v \leftarrow V(s)$ \\
-            $V(s) \leftarrow \max_a \left[ R(s,a) + \gamma \sum_{s' \in S} T(s,a,s') V(s') \right]$ \Comment{// Bellman optimality update}
+            $V(s) \leftarrow \max_a \left[ R(s,a) + \gamma \mathbb{E}\left[V(s')|s'\sim T(s, a)\right]\right]$ \Comment{// Bellman optimality update}
         }
     }
     \For{each state $s \in S$}{
@@ -888,7 +888,7 @@ Policy gradient algorithms~\cite{pg_sutton} leverage the policy gradient theorem
 
 Q-learning, Sarsa, and policy gradients algorithms are known to converge to the optimal value or (locally) optimal policy under some conditions.
 There are many other ways to learn policies such as simple random search~\cite{random-search} or model-based reinforcement learning that estimates MDP transitions and rewards before applying e.g. value iteration~\cite{ucbvi}. 
-Those RL algorithms--also known as tabular RL because they represent policies as tables with $|S|\times |A|$ entries--is limited to small state spaces.
+Those RL algorithms--also known as tabular RL because they represent policies as tables with $|S|\times |A|$ entries--are limited to small state spaces.
 To scale to large state spaces, it is common to use a neural network to represent policies or values~\cite{tdgammon}.
 In the next section, we present deep reinforcement learning algorithms designed specifically for neural networks.
 \RestyleAlgo{ruled}
@@ -1005,7 +1005,7 @@ In this manuscript we study those two deep reinforcement learning algorithms for
 
 \section{Imitation learning: a baseline (indirect) interpretable reinforcement learning method}\label{sec:imit}
 
-Unlike PPO or DQN for neural networks, there does not exist an algorithm that trains decision tree policies to optimize the RL objective (cf. definition~\ref{def:mdp-obj}).
+Unlike PPO or DQN for neural networks, there exists no algorithm that trains decision tree policies to optimize the RL objective (cf. definition~\ref{def:mdp-obj}).
 In fact, we will show in the first part of the manuscript that training decision trees that optimize the RL objective is very difficult.
 
 Hence, many interpretable reinforcement learning approaches first train a neural network policy--also called an expert policy--to optimize the RL objective (cf. definition~\ref{def:mdp-obj}) using e.g. PPO, and then fit a student policy such as a decision tree using CART (cf. algorithm~\ref{alg:cart}) to optimize the supervised learning objective (cf. definition~\ref{def:sl}) with the neural policy actions as targets.
@@ -1031,7 +1031,7 @@ Next we show how to learn a decision tree policy for the example MDP (cf. figure
 \begin{algorithm}
     \caption{Dagger~\cite{dagger}}\label{alg:dagger}
     \KwIn{Expert policy $\pi^*$, MDP $M$, policy class $\Pi$}
-    \KwOut{Fitted student policy $\hat{\pi}_i$}
+    \KwOut{Fitted student policy $\hat{\pi}'$}
     
     % Initialize empty dataset and initial policy
     Initialize dataset $\mathcal{D} \gets \emptyset$\;
@@ -1043,7 +1043,7 @@ Next we show how to learn a decision tree policy for the example MDP (cf. figure
         $\hat{\pi} \gets \pi^*$\
         }
           \lElse{
-            $\pi_i \gets \hat{\pi}_i$
+            $\hat{\pi} \gets \hat{\pi}'$
           } \label{alg:expert-or-student}
         % Collect data using mixed policy
         Sample transitions from $M$ using $\hat{\pi}$\;
@@ -1054,9 +1054,9 @@ Next we show how to learn a decision tree policy for the example MDP (cf. figure
         $\mathcal{D} \gets \mathcal{D} \cup \mathcal{D}_i$\;
         
         % Train new policy
-       Fit classifier/regressor $\hat{\pi}_{i+1}$ on $\mathcal{D}$\;\label{alg:fit}
+       Fit classifier/regressor $\hat{\pi}'$ on $\mathcal{D}$\;\label{alg:fit}
     }
-    \Return $\hat{\pi}$\;
+    \Return $\hat{\pi}'$\;
     \end{algorithm}
 
 
@@ -1122,7 +1122,7 @@ which cannot be perfectly represented by a depth-1 decision tree, because there 
 This short experiment shows that imitation learning approaches can sometimes be very bad at learning decision tree policies with good interpretability-performance trade-offs for very simple MDPs. 
 Despite VIPER almost always finding the optimal depth-1 decision tree policy in terms of the RL objective when ties are broken at random, we have shed light on the sub-optimality of indirect approaches such as imitation learning.
 This motivates the study of direct approaches (cf. figure~\ref{fig:direct-vs-indirect-methods}) to directly search for policies with good interpretability-performance trade-offs with respect to the original RL objective.
-Next, we present the outline of the thesis.
+Next, we present the outline of thesis.
 
 \begin{figure}
     \centering
@@ -1164,7 +1164,7 @@ Next, we present the outline of the thesis.
     \caption{Left, sample complexity curve of Q-learning with default hyperparameters on the $2\times 2$ grid world MDP over 100 random seeds. Right, performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
 \end{figure}
 
-\section{Outline of the thesis}
+\section{Outline of thesis}
 Throughout our thesis, we make the assumption that constraining models--policies and classifiers--to be decision trees, is enough to ensure interpretability.
 In the first part of the manuscript, we show that direct decision tree learning methods (cf. figure~\ref{fig:direct-vs-indirect-methods}) struggle to find good decision tree policies even for very simple sequential decision making problems.
 For that, we first reproduce the work from~\cite{topin2021iterative} that presents a formalism for learning decision tree policies that optimize the RL objective (cf. definition~\ref{def:mdp-obj}) directly using reinforcement learning, and then make connections with hardness results from the partially observable MDPs (POMDPs) literature~\cite{POMDP,chap2}.

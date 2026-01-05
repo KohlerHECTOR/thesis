@@ -6,7 +6,7 @@ Finally, we provide additional experimental details for chapter~\ref{sec:pomdp}.
 \section{Details of the reproducibility study}
 
 \subsection{IBMDP formulation}\label{sec:ibmdp-paper}
-Given a base MDP $\mathcal{M}\langle S, A, R, T, T_0\rangle$ (cf. definition~\ref{def:mdp}), in order to define an IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$ (cf. definition~\ref{def:ibmdp}), the user needs to provide the set of information gathering actions $A_{info}$ and the reward $\zeta$ for taking those.
+Given a base MDP $\mathcal{M}\equiv\langle S, A, R, T, T_0\rangle$ (cf. definition~\ref{def:mdp}), in order to define an IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$ (cf. definition~\ref{def:ibmdp}), the user needs to provide the set of information gathering actions $A_{info}$ and the reward $\zeta$ for taking those.
 Authors of~\cite{topin2021iterative} propose to parametrize the set of IGAs with $j \times q$ actions $\langle j, v_k \rangle$ with $v_k$ depending on the current observation $\boldsymbol{o}_t=(L'_1, U'_1, \dots, L'_j, U'_j, \dots, L'_p, U'_p)$: $v_k = \frac{k(U'_j - L'_j)}{q+1}$.
 This parametric IGAs space keeps the discrete IBMDP action space at a reasonable size while providing a learning algorithm with varied IGAs to try.
 
@@ -16,7 +16,7 @@ If the current state $y$-feature value is $0.5$, then the next observation at $t
 This would give the next observation at $t=2$ $\boldsymbol{o}_2=(0, 2, 0, 0.5)$ and so on. 
 
 Furthermore, author propose to regularize the learned decision tree policy with a maximum depth parameter $D$.
-Unfortunately, authors did not describe how they implemented the depth control in their work, hence we have to try different approaches to reproduce their results.
+Unfortunately, the authors did not describe how they implemented the depth control in their work, hence we have to try different approaches to reproduce their results.
 
 To control the tree depth during learning in the IBMDP, we can either give negative reward for taking $D$ IGAs in a row, or terminate the trajectory.
 In practice, we could also have a state-dependent action space such that taking an IGA is not allowed after taking $D$ IGAs in a row.
