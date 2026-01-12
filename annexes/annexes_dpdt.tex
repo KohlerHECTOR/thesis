@@ -44,7 +44,7 @@ wilt & 99.47 (862) & 99.31 (36789) \\
 \tiny
 \centering
 \caption{Mean train and test scores (with standard errors) for regression datasets over 50 cross-validation runs.}\label{tab:regression}
-\begin{tabular}{l|rr|rr|rr||rr|rr|rr|rr}
+\scalebox{0.8}{\begin{tabular}{l|rr|rr|rr||rr|rr|rr|rr}
 \hline
  & \multicolumn{6}{c||}{\textbf{Depth 3}} & \multicolumn{6}{c|}{\textbf{Depth 5}} \\ \hline
 Dataset & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c|}{Optimal} & \multicolumn{2}{c||}{CART} & \multicolumn{2}{c|}{DPDT} & \multicolumn{2}{c|}{Optimal} & \multicolumn{2}{c|}{CART} \\
@@ -69,14 +69,14 @@ cpu\_act & 93.4 ± 0.0 & 92.0 ± 0.6 & 89.0 ± 0.0 & 86.5 ± 1.9 & 93.4 ± 0.0 &
 wine\_quality & 27.9 ± 0.0 & 23.3 ± 0.9 & 25.2 ± 0.0 & 23.7 ± 0.8 & 27.7 ± 0.0 & 24.5 ± 0.8 & 37.4 ± 0.0 & 26.7 ± 1.0 & 25.2 ± 0.0 & 23.7 ± 0.8 & 35.9 ± 0.1 & 26.7 ± 0.9 \\
 abalone & 46.3 ± 0.0 & 39.6 ± 1.6 & 42.5 ± 0.0 & 40.4 ± 1.4 & 43.3 ± 0.0 & 39.2 ± 1.2 & 58.6 ± 0.0 & 44.7 ± 1.8 & 42.5 ± 0.0 & 40.4 ± 1.4 & 54.5 ± 0.0 & 46.3 ± 1.4 \\
 \hline
-\end{tabular}
+\end{tabular}}
 \end{table}
 \begin{table}
     \centering
     \tiny
     \caption{Train/test accuracies of different decision tree induction algorithms. All algorithms induce trees of depth at most 5 on 8 classification datasets. A time limit of 10 minutes is set for OCT-type algorithms. The values in this table are averaged over 3 seeds giving 3 different train/test datasets. %More details about OCT-type algorithms and seeding are given at \url{https://github.com/LucasBoTang/Optimal_Classification_Trees}.\PP{voir des temps de calcul nuls me choque profondément. Si le tps minimal que l'on mesure est 1ms, écrire par exemple $< 0.001$}.
     }
-    \begin{tabular}{|c|ccc|ccccc|ccccc|}
+    \scalebox{0.9}{\begin{tabular}{|c|ccc|ccccc|ccccc|}
     \hline \multicolumn{4}{|c}{ Datasets } & \multicolumn{5}{|c|}{ Train Accuracy depth-5}& \multicolumn{5}{c|}{ Test Accuracy depth-5} \\
     Names & Samples & Features & Classes & DPDT & OCT & MFOCT & BinOCT & CART & DPDT & OCT & MFOCT & BinOCT & CART \\
     \hline 
@@ -89,7 +89,7 @@ abalone & 46.3 ± 0.0 & 39.6 ± 1.6 & 42.5 ± 0.0 & 40.4 ± 1.4 & 43.3 ± 0.0 & 
     spect & $266$ & 22 & 2 & $ 93.0 \%$ & $ 92.5 \%$ & $ 93.0 \%$ & $ 92.2 \%$ & $ 88.5 \%$ & $ 73.1 \%$ &$ 75.6 \%$ & $ 74.6 \%$ & $ 73.1 \%$ & $ 75.1 \%$\\
     tic-tac-toe & $958$ & 24 & 2 & $ 90.8 \%$ & $ 68.5 \%$ & $ 76.1 \%$ & $ 85.7 \%$ & $ 85.8 \%$ & $ 82.1 \%$  &$ 69.6 \%$ & $ 73.6 \%$ & $ 79.6 \%$ & $ 81.0 \%$\\
     \hline
-    \end{tabular}
+    \end{tabular}}
     \label{tab:more-res}
 \end{table}
 
@@ -97,7 +97,7 @@ abalone & 46.3 ± 0.0 & 39.6 ± 1.6 & 42.5 ± 0.0 & 40.4 ± 1.4 & 43.3 ± 0.0 & 
 \centering
 \tiny
 \caption{Hyperparameter search spaces for tree-based models. More details about the hyperparamters meaning are given in \cite{komer-proc-scipy-2014}.}
-\begin{tabular}{p{2.8cm}p{2.3cm}p{2.3cm}p{2.3cm}p{2.3cm}p{2.3cm}}
+\scalebox{0.9}{\begin{tabular}{p{2.8cm}p{2.3cm}p{2.3cm}p{2.3cm}p{2.3cm}p{2.3cm}}
 \toprule
 \textbf{Parameter} & \textbf{CART} & \textbf{Boosted-CART} & \textbf{DPDT} & \textbf{Boosted-DPDT} & \textbf{STreeD} \\
 \midrule
@@ -135,6 +135,6 @@ cost\_complexity & -- & -- & -- & -- & 0 \\
 
 time\_limit & -- & -- & -- & -- & 1800 \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \label{tab:tree_hyperparams}
 \end{table}
