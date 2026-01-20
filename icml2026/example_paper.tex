@@ -67,7 +67,7 @@
 \begin{document}
 
 \twocolumn[
-  \icmltitle{Limits of reinforcement learning for non-parametric decision trees in\\ Markov decision processes}
+  \icmltitle{Limits of reinforcement learning for decision trees in\\ Markov decision processes}
 
   % It is OKAY to include author information, even for blind submissions: the
   % style file will automatically remove it for you unless you've provided
@@ -120,12 +120,13 @@
 % \printAffiliationsAndNotice{\icmlEqualContribution}
 
 \begin{abstract}
-  Decision trees are considered to be interpretable machine learning models because humans can read trees predictions from the root to the leaves.
-  Learning decision trees to solve supervised learning problems is well understood: there exist many optimal and heuristic algorithms.
-  Comparatively, learning decision tree policies for Markov decision processes (MDPs) is an emerging research direction.
-  In this paper we empirically study reinforcement learning as a means to directly learn decision tree policies for an MDP in opposition to most existing work that focuses on imitating neural network policies.
-  In particular, we show that learning a decision tree policy for an MDP is like learning an arbitrary policy in a partially observable Markov decision problem (POMDP).
-  This parallel between decision tree learning with reinforcement learning and POMDPs helps us understand why in practice it is often easier to obtain a non-interpretable expert policy--a neural network--and then imitate it with a tree rather than learning the decision tree from scratch.
+  For applications like medicine where model interpretability is critical, decision trees might be preferred over neural networks because humans can read their predictions from the root to the leaves.
+%   Learning decision trees for classification or regression problems is well understood: there exists many supervised learning algorithms that return decision trees optimizing some trade-off of interpretability and performances.
+%   Comparatively, learning such decision trees for sequential decision making problems is a new research direction.
+  Most of the litterature on interpretable reinforcement learning that focuses on imitating (or distilling) neural networks.
+  In contrast, we study reinforcement learning algorithms returning decision trees that optimize some trade-off of cumulative rewards and interpretability in a Markov decision process (MDP). 
+  We show that such algorithms can be seen as learning policies for partially observable Markov decision processes (POMDPs).
+  We use this parallel to understand why in practice it is often easier to use imitation learning than to learn the decision tree from scratch for sequential decision making problems.
 \end{abstract}
 
 \section{Introduction}
