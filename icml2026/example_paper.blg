@@ -1,0 +1,64 @@
+This is BibTeX, Version 0.99d (TeX Live 2022/dev/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: example_paper.aux
+The style file: icml2026.bst
+Database file #1: example_paper.bib
+Repeated entry---line 640 of file example_paper.bib
+ : @article{viper
+ :               ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 1602 of file example_paper.bib
+ : @misc{vos2024optimizinginterpretabledecisiontree
+ :                                                 ,
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "["
+Warning--empty journal in viper
+Warning--empty publisher in Bellman
+Warning--empty journal in scobots
+Warning--empty journal in sympol
+Warning--empty journal in lime
+Warning--empty journal in dagger
+Warning--empty journal in PIRL
+Warning--empty journal in vos2024optimizinginterpretabledecisiontree
+You've used 58 entries,
+            2773 wiz_defined-function locations,
+            986 strings with 18687 characters,
+and the built_in function-call counts, 33118 in all, are:
+= -- 2966
+> -- 2270
+< -- 40
++ -- 762
+- -- 702
+* -- 2749
+:= -- 5023
+add.period$ -- 226
+call.type$ -- 58
+change.case$ -- 398
+chr.to.int$ -- 56
+cite$ -- 124
+duplicate$ -- 1477
+empty$ -- 2351
+format.name$ -- 782
+if$ -- 7052
+int.to.chr$ -- 3
+int.to.str$ -- 1
+missing$ -- 60
+newline$ -- 336
+num.names$ -- 240
+pop$ -- 798
+preamble$ -- 1
+purify$ -- 345
+quote$ -- 0
+skip$ -- 1269
+stack$ -- 0
+substring$ -- 980
+swap$ -- 323
+text.length$ -- 21
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 613
+warning$ -- 8
+while$ -- 239
+width$ -- 0
+write$ -- 845
+(There were 2 error messages)
