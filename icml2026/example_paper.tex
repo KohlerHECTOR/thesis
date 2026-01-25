@@ -128,211 +128,146 @@
 \end{abstract}
 
 \section{Introduction}
-Approaches to interpret machine learning models is either local or global~\cite{glanois-survey}.
-Global interpretability methods constrain the model class so that the model's computations are transparent or verifiable by construction.
-On the other hand, local interpretability methods--also called explainability methods or post-hoc methods~\cite{lipton}--provide interpretation of specific model computations. 
-Such local interpretations can take various forms: linear models fitting some regions of the decision space~\cite{lime}, saliency maps on visual inputs~\cite{Puri2020Explain}, feature importance for the prediction such as SHAP~\cite{shap}, or attention-based highlighting~\cite{attention}.
-The major drawback of local methods is that, to be interpreted, model predcitions are approximated and might not be faithful to the underlying black-box computations~\cite{Atrey2020Exploratory}.
-For safety-critical settings, this motivates research on global approaches that return models interpretable by design such as decision trees~\cite{breiman1984classification}.
+Interpretability in machine learning is commonly divided into local and global approaches~\cite{glanois-survey}.
+Local methods—also referred to as explainability or post-hoc methods~\cite{lipton}—provide explanations for individual predictions using tools such as local linear approximations~\cite{lime}, saliency maps~\cite{Puri2020Explain}, feature attributions~\cite{shap}, or attention mechanisms~\cite{attention}.
+Although widely used, these methods approximate the behavior of an underlying black-box model and may therefore be unfaithful to its true computations~\cite{Atrey2020Exploratory}.
 
+Global interpretability approaches instead restrict the model class so that the learned model is transparent by construction.
+Decision trees~\cite{breiman1984classification} are a canonical example, as their predictions can be inspected, reasoned about, and formally verified.
+This makes them particularly attractive for safety-critical applications and has motivated extensive research in supervised learning~\cite{lookahead,binoct,murtree,blossom,pystreed}.
 
-Global approaches are either direct or indirect~\cite{milani-survey}. 
-Direct algorithms, such as decision tree learning~\cite{breiman1984classification}, \textit{directly} learn an interpretable model optimizing some objective, e.g. accuracy~\cite{oct}, or cumulative rewards.
-One key challenge motivating this work is that decision tree learning is well-developed for classification and regression tasks~\cite{lookahead,binoct,murtree,blossom,pystreed} but not for sequential decision making.
+Extending global interpretability to sequential decision making, however, remains challenging.
+Existing approaches largely rely on \emph{indirect} methods~\cite{milani-survey}: a high-performing but opaque policy (typically a neural network) is first learned using reinforcement learning, and an interpretable model is then trained to imitate its behavior.
+A prominent example is VIPER~\cite{viper}, which distills neural network policies into decision trees using imitation learning~\cite{dagger}.
+Such methods have demonstrated strong empirical performance and enable formal verification~\cite{maraboupy}, but they optimize a surrogate objective—policy imitation—rather than the original reinforcement learning objective.
+As a result, the best decision tree policy for the task may differ substantially from the tree that best approximates a neural expert.
 
-Most existing research on interpretable sequential decision making has focused on developing indirect methods that first learn a non-interpretable model (e.g., neural network), and then fit an interpretable model (e.g., a decision tree) that emulates this black-box using imitation learning~\cite{viper,PIRL}.
-Verifiable Reinforcement learning via Policy Extraction, or VIPER~\cite{viper}, is a strong indirect method to learn decision tree models for sequential decision making. VIPER first trains a neural network model with reinforcement learning~\cite{sutton} and then fits a decision tree to minimize the disagreement between the neural network and the tree outputs given the same inputs~\cite{dagger}.
-They show that the obtained decision tree models, in addition to being transparent and to perform well on the underlying sequential decision making task, are also fast to verify in the formal sense of the term~\cite{maraboupy}.
-Other indirect methods have imitated neural expert wtih models other than decision trees, e.g. Programmatically Interpretable Reinforcement Learning (PIRL)~\cite{PIRL} synthesizes programs in a domain-specific language. 
+This limitation motivates the study of \emph{direct} approaches that learn interpretable policies by optimizing the reinforcement learning objective itself.
+While direct decision tree learning is well understood in supervised settings, it is far less developed for sequential decision making.
+Understanding why direct optimization is difficult—and when it can succeed—is the central focus of this work.
 
-However, unlike direct methods that return interpretable models optimizing the desired objective, indirect methods learn an interpretable model to match the behavior of a black-box that itself optimizes the objective of interest. 
-Due to the restricted policy class, the best decision tree model might employ a completely different strategy than the best black-box neural network model to solve the task.
-Furthermore, the decision tree model that best fits the best neural network model might be sub-optimal compared to the decision tree model that best solves the task of interest.
-Hence, there is no guarantee that optimizing this surrogate objective of best emulating a black-box yields the best interpretability–performance trade-offs. 
-Figure~\ref{fig:direct-vs-indirect-methods} illustrates the key difference between these two approaches. 
+We show that direct reinforcement learning of decision tree policies for MDPs, i.e. learning a decision tree that optimizes the cumulative reward of the process without relying on a black-box expert, is often very difficult.
+In particular, we provide some insights as to why it is so difficult and show that imitating a neural network expert policy with a decision tree, despite not somving the downstream task, often yields very good tree policies in practice.
 
-In addition to finding models which computations can be read by humans or that can be formally verified, interpretable machine learning has also been used to detect reward misalignment in sequential decision making: by exposing the decision process of a model, one can identify goal mis-specification or unintended shortcuts.
-Such shortcuts can be, for example, following the shadow of someone instead of actually following someone because for the model they lead to the same reactions~\cite{scobots,shindo2024blendrl,nudge,ocatari}.
+In section \ref{}, we describe Nicholay Topin and colleagues' framework for direct reinforcement learning of decision tree policies~\cite{topin2021iterative} and reproduce their key experiment.
+In section \ref{}, we show that this direct approach is equivalent to learning a deterministic memoryless policy for partially observable MDP (POMDP)\cite{POMDP}--which is a hard problem~\cite{littman1}--and show that this might be the main reason for failures.
+In section \ref{}, we further support this claim by constructing special instances of such POMDPs where the observations contain all the information about hidden states, and show that in those cases, direct reinforcement learning of decision trees works well.  
 
-\begin{figure}
-    \centering
-    \scalebox{0.7}{\begin{tikzpicture}[
-        node distance=2cm,
-        auto,
-        thick,
-        rl/.style={circle, draw, fill=purple!20, minimum width=1.5cm, minimum height=0.8cm, text centered},
-        nn/.style={rectangle, draw, fill=black!20, rounded corners, minimum width=1.5cm, minimum height=1cm, text centered},
-        sl/.style={circle, draw, fill=blue!20, minimum width=1.5cm, minimum height=0.8cm, text centered},
-        dt/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=1.5cm, minimum height=1cm, text centered},
-        arrow/.style={->, thick},
-        label/.style={font=\tiny, above},
-        method_box/.style={rectangle, draw, dashed, minimum width=5cm, minimum height=3cm, text centered},
-        method_box_indirect/.style={rectangle, draw, dashed, minimum width=9.5cm, minimum height=3cm, text centered}
-    ]
+% \begin{figure}
+%     \centering
+%     \scalebox{0.6}{\begin{tikzpicture}[
+%         node distance=2cm,
+%         auto,
+%         thick,
+%         rl/.style={circle, draw, fill=purple!20, minimum width=1.5cm, minimum height=0.8cm, text centered},
+%         nn/.style={rectangle, draw, fill=black!20, rounded corners, minimum width=1.5cm, minimum height=1cm, text centered},
+%         sl/.style={circle, draw, fill=blue!20, minimum width=1.5cm, minimum height=0.8cm, text centered},
+%         dt/.style={rectangle, draw, fill=green!20, rounded corners, minimum width=1.5cm, minimum height=1cm, text centered},
+%         arrow/.style={->, thick},
+%         label/.style={font=\tiny, above},
+%         method_box/.style={rectangle, draw, dashed, minimum width=5cm, minimum height=3cm, text centered},
+%         method_box_indirect/.style={rectangle, draw, dashed, minimum width=9.5cm, minimum height=3cm, text centered}
+%     ]
         
-        % Direct method box
-        \node[method_box] (direct_box) at (-0.5,0) {};
-        \node at (-0.5,1.7) {\small{Direct}};
+%         % Direct method box
+%         \node[method_box] (direct_box) at (-0.5,0) {};
+%         \node at (-0.5,1.7) {\small{Direct}};
         
-        % Direct method - RL process
-        \node[rl] (rl_direct) at (-2,0) {
-            \begin{minipage}{1.2cm}
-                \centering
-                % \includesvg[width=0.3cm]{images/images_intro/gear-file-svgrepo-com.svg}\\
-                \tiny{Reinforcement learning}
-            \end{minipage}
-        };
+%         % Direct method - RL process
+%         \node[rl] (rl_direct) at (-2,0) {
+%             \begin{minipage}{1.2cm}
+%                 \centering
+%                 % \includesvg[width=0.3cm]{images/images_intro/gear-file-svgrepo-com.svg}\\
+%                 \tiny{Reinforcement learning}
+%             \end{minipage}
+%         };
         
-        % Direct method - Decision Tree
-        \node[dt] (dt_direct) at (1,0) {
-            \begin{minipage}{1.2cm}
-                \centering
-                % \includesvg[width=0.3cm]{images/images_intro/decision-tree-svgrepo-com.svg}\\
-                \tiny{Decision tree}
-            \end{minipage}
-        };
+%         % Direct method - Decision Tree
+%         \node[dt] (dt_direct) at (1,0) {
+%             \begin{minipage}{1.2cm}
+%                 \centering
+%                 % \includesvg[width=0.3cm]{images/images_intro/decision-tree-svgrepo-com.svg}\\
+%                 \tiny{Decision tree}
+%             \end{minipage}
+%         };
         
-        % Direct method arrow
-        \draw[arrow] (rl_direct) -- (dt_direct) node[label, midway] {\tiny Learns};
+%         % Direct method arrow
+%         \draw[arrow] (rl_direct) -- (dt_direct) node[label, midway] {\tiny Learns};
         
-        % Indirect method box
-        \node[method_box_indirect] (indirect_box) at (7.1,0) {};
-        \node at (6.8,1.7) {\small{Indirect}};
+%         % Indirect method box
+%         \node[method_box_indirect] (indirect_box) at (7.1,0) {};
+%         \node at (6.8,1.7) {\small{Indirect}};
         
-        % Indirect method - RL process
-        \node[rl] (rl_indirect) at (3.5,0) {
-            \begin{minipage}{1.2cm}
-                \centering
-                % \includesvg[width=0.3cm]{images/images_intro/gear-file-svgrepo-com.svg}\\
-                \tiny{Reinforcement learning}
-            \end{minipage}
-        };
+%         % Indirect method - RL process
+%         \node[rl] (rl_indirect) at (3.5,0) {
+%             \begin{minipage}{1.2cm}
+%                 \centering
+%                 % \includesvg[width=0.3cm]{images/images_intro/gear-file-svgrepo-com.svg}\\
+%                 \tiny{Reinforcement learning}
+%             \end{minipage}
+%         };
         
-        % Indirect method - Neural Network
-        \node[nn] (nn_indirect) at (6,0) {
-            \begin{minipage}{1.2cm}
-                \centering
-                % \includesvg[width=0.3cm]{images/images_intro/network-mapping-svgrepo-com.svg}\\
-                \tiny{Neural network}
-            \end{minipage}
-        };
+%         % Indirect method - Neural Network
+%         \node[nn] (nn_indirect) at (6,0) {
+%             \begin{minipage}{1.2cm}
+%                 \centering
+%                 % \includesvg[width=0.3cm]{images/images_intro/network-mapping-svgrepo-com.svg}\\
+%                 \tiny{Neural network}
+%             \end{minipage}
+%         };
         
-        % Indirect method - Supervised Learning
-        \node[sl] (sl_indirect) at (8.5,0) {
-            \begin{minipage}{1.2cm}
-                \centering
-                % \includesvg[width=0.3cm]{images/images_intro/gear-file-svgrepo-com.svg}\\
-                \tiny{Supervised learning}
-            \end{minipage}
-        };
+%         % Indirect method - Supervised Learning
+%         \node[sl] (sl_indirect) at (8.5,0) {
+%             \begin{minipage}{1.2cm}
+%                 \centering
+%                 % \includesvg[width=0.3cm]{images/images_intro/gear-file-svgrepo-com.svg}\\
+%                 \tiny{Supervised learning}
+%             \end{minipage}
+%         };
         
-        % Indirect method - Decision Tree
-        \node[dt] (dt_indirect) at (11,0) {
-            \begin{minipage}{1.2cm}
-                \centering
-                % \includesvg[width=0.3cm]{images/images_intro/decision-tree-svgrepo-com.svg}\\
-                \tiny{Decision Tree}
-            \end{minipage}
-        };
+%         % Indirect method - Decision Tree
+%         \node[dt] (dt_indirect) at (11,0) {
+%             \begin{minipage}{1.2cm}
+%                 \centering
+%                 % \includesvg[width=0.3cm]{images/images_intro/decision-tree-svgrepo-com.svg}\\
+%                 \tiny{Decision Tree}
+%             \end{minipage}
+%         };
         
-        % Indirect method arrows
-        \draw[arrow] (rl_indirect) -- (nn_indirect) node[label, midway] {\tiny Learns};
-        \draw[arrow] (nn_indirect) -- (sl_indirect) node[label, midway] {\tiny Generates data};
-        \draw[arrow] (sl_indirect) -- (dt_indirect) node[label, midway] {\tiny Learns};
+%         % Indirect method arrows
+%         \draw[arrow] (rl_indirect) -- (nn_indirect) node[label, midway] {\tiny Learns};
+%         \draw[arrow] (nn_indirect) -- (sl_indirect) node[label, midway] {\tiny Generates data};
+%         \draw[arrow] (sl_indirect) -- (dt_indirect) node[label, midway] {\tiny Learns};
         
-    \end{tikzpicture}}
-    \caption{Comparison of direct and indirect approaches for learning interpretable models in sequential decision making.}
-    \label{fig:direct-vs-indirect-methods}
-\end{figure}
-
-\subsection{Contributions}
-We show that direct reinforcement learning of decision tree policies for MDPs (cf. definition~\ref{def:mdp}), i.e. learning a decision tree that optimizes the RL objective (cf. definition~\ref{def:mdp-obj}) is often very difficult.
-In particular, we provide some insights as to why it is so difficult and show that indirect imitation of a neural network policy (cf. section \ref{sec:imit}), despite optimizing the imitation learning objective (cf. definition~\ref{def:il}) rather than the RL one, often yields very good tree policies in practice.
-
-This first part of the manuscript is organized as follows.
-In this chapter, we present Nicholay Topin and colleagues' framework for direct reinforcement learning of decision tree policies~\cite{topin2021iterative}.
-In chapter \ref{sec:topin}, we reproduce experiments from~\cite{topin2021iterative} where we compare direct deep reinforcement learning (cf. section \ref{sec:drl}) of decision tree policies to indirect imitation of neural network policies with decision trees for the simple CartPole MDP~\cite{cartpole}.
-In chapter \ref{sec:pomdp}, we show that this direct approach is equivalent to learning a deterministic memoryless policy for partially observable MDP (POMDP)\cite{POMDP,chap2}--which is a hard problem~\cite{littman1}--and show that this might be the main reason for failures.
-In chapter \ref{sec:pomdp-classif}, we further support this claim by constructing special instances of such POMDPs where the observations contain all the information about hidden states, and show that in those cases, direct reinforcement learning of decision trees works well.  
+%     \end{tikzpicture}}
+%     \caption{Comparison of direct and indirect approaches for learning interpretable models in sequential decision making.}
+%     \label{fig:direct-vs-indirect-methods}
+% \end{figure}
 
 \section{Learning decision tree policies for MDPs}\label{related-work-pomdp}
-In the introductory example (cf. section~\ref{sec:limits-il}), we have shown that imitation learning algorithms that optimize the imitation learning objective (cf. definition~\ref{def:il}) rather than the RL objective, are, unsurprisingly, prone to sub-optimality w.r.t. the latter objective.
-This motivates the study and development of \textit{direct} decision tree policy learning algorithms.
-There already exists such algorithms that return decision tree policies optimizing the RL objective for a given MDP.
-Those algorithms either learn parametric trees or non-parametric trees.
+There exist reinforcement learning algorithms that directly learn decision tree policies optimizing the cumulative rewards in a given MDP.
+These approaches can be broadly divided into methods based on \emph{parametric} and \emph{non-parametric} trees.
 
-Parametric trees are not ``grown'' from the root by iteratively adding internal or leaf nodes (cf. figure~\ref{fig:dt}), but are rather ``optimized'': the depth, internal nodes arrangement, and state features to consider in each node are fixed \textit{a priori} and only the thresholds of each node are learned.
-This is similar to doing gradient descent on neural network weights.
-As the reader might have guessed, those parametric trees are advantageous in that they can be learned with the policy gradient \cite{pg_sutton}.
-In \cite{silva},~\cite{vos2024optimizinginterpretabledecisiontree} and~\cite{sympol}, the authors use PPO (cf. algorithm~\ref{alg:ppo}) to learn such differentiable decision trees that optimize directly the RL objective.
-In particular, \cite{sympol} explicitly studies the gap in RL objective values between their direct optimization and the imitation learning algorithm VIPER (cf. algorithm~\ref{alg:viper}).
-While those methods return decision tree policies that optimize the RL objective well, in general a user cannot know \textit{a priori}  what a ``good'' tree policy structure should be for a particular MDP.
-It could be that the specified structure is too deep and pruning will be required after training or it could be that the tree structure is not expressive enough to encode a good policy, i.e. parametric trees cannot trade off interpretability and performances during training.
-Furthermore, the authors from~\cite{sympol} show that extra stabilizing tricks, such as adaptive batch sizes, are required during training to outperform indirect imitation in terms of RL objective.
+Parametric decision trees fix the tree structure \emph{a priori}—including depth, node arrangement, and selected state features—and only learn the decision thresholds.
+This formulation enables differentiability and allows direct optimization of the RL objective using policy gradient methods~\cite{pg_sutton}.
+Several works~\cite{silva,vos2024optimizinginterpretabledecisiontree,sympol} employ PPO to train such differentiable trees.
+While these methods can achieve strong performance, they require the tree structure to be specified in advance, making it difficult to adaptively trade off interpretability and performance.
+An overly complex structure may require post-hoc pruning, whereas an insufficiently expressive structure may fail to represent good policies.
+Moreover,~\cite{sympol} reports that additional stabilization techniques, such as adaptive batch sizes, are often necessary for direct learning in order to outperform indirect imitation methods such as VIPER.
 
-Non-parametric trees are the standard model in supervised learning. Greedy algorithms~\cite{breiman1984classification,ID3,c45} are fast and return decision tree classifiers (or regressors) that offer good trade-offs between interpretability (depth, or number of nodes) and the supervised learning objective (cf. definition~\ref{def:sl}).
-On the other hand, to the best of our knowledge, there exists only one work studying non-parametric trees to optimize a trade-off between interpretability and the RL objective: Topin et. al. \cite{topin2021iterative}.
+Non-parametric decision trees, by contrast, are the standard model in supervised learning, where greedy algorithms~\cite{breiman1984classification,ID3,c45} efficiently construct trees that balance predictive performance and interpretability.
+However, their extension to reinforcement learning remains largely unexplored.
+To the best of our knowledge, the only work that studies learning non-parametric decision trees that optimize a trade-off between interpretability and cumulative rewards is that of Topin et al.~\cite{topin2021iterative}.
+Topin et al. introduce \emph{iterative bounding MDPs} (IBMDPs), which augment a base MDP with additional state features, actions, rewards, and transitions.
+They show that certain policies in the IBMDP correspond to decision tree policies for the base MDP. Hence, standard RL algorithms can be used to learn such policies in IBMDPs.
+% This framework provides a principled approach to learning non-parametric decision tree policies in sequential decision making.
 
-Given an MDP for which one wants to learn a decision tree policy, Topin et. al. introduced iterative bounding Markov decision processes (IBMDPs).
-From now on we refer to the MDP for which we want a decision tree policy as the ``base'' MDP.
-IBMDPs are an augmented version of this base MDP with more state features, more actions, additional reward signals, and additional transitions.
-Authors showed that certain policies in IBMDPs are equivalent to non-parametric decision tree policies that trade off between interpretability and the RL objective in the base MDP.
-Hence, the great promise of Topin et. al.'s work is that doing e.g. RL to learn such IBMDP policies is a way to directly optimize a trade-off between interpretability and the RL objective.
-
-There also exists more specialized approaches that can return decision tree policies only for very specific problem classes.
-In \cite{theory1}, the authors prove that for maze-like MDPs, there always exists an optimal decision tree policy w.r.t. the RL objective and provide an algorithm to find it. 
-Finally, in \cite{dt-opt-mdp}, the authors study decision tree policies for planning in MDPs (cf. algorithm~\ref{alg:value-iteration}), i.e. when the transitions and rewards are known.
+Finally, a few specialized methods exist for restricted problem classes.
+For maze-like MDPs,~\cite{theory1} proves the existence of optimal decision tree policies and provides a constructive algorithm.
+In settings where the dynamics and rewards are known,~\cite{dt-opt-mdp} use planning to compute shallow parametric decision tree policies (up to depth 3).
+Next, we recall useful technical material.
 
 \section{Technical preliminaries}
-\subsection{What are decision trees?}
-As the reader might have already guessed, we will put great emphasis on decision tree models as a means to study interpretability.
-While other interpretable models might have other properties than the ones we will highlight through this thesis, one conjecture from \cite{glanois-survey} is that interpretable models are all hard to optimize or learn because they are non-differentiable in nature.
-This is something that will be key in our study of decision tree models that we introduce next and that we illustrate in figure~\ref{fig:dt}.
-
-\begin{definition}[Decision tree]\label{def:dt}
-    A decision tree is a rooted tree $T = (\mathcal{N}, E)$.
-    Each internal node $\nu \in \mathcal{N}$ is associated with a test that maps input features $x_{ij} \in \mathcal{X}$ to a Boolean.
-    Each edge $e \in E$ from an internal node corresponds to an outcome of the associated test function.
-    Each leaf node $l \in \mathcal{N}$ is associated with a prediction $y_l \in \mathcal{Y}$, where $\mathcal{Y}$ is the output space.
-    For any input $x \in \mathcal{X}$, the tree defines a unique path from root to leaf, determining the prediction $T(x) = y_l$ where $l$ is the reached leaf.
-    The depth of a tree is the maximum path length from root to any leaf.
-\end{definition}
-
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[
-        scale=0.5,
-        decision/.style={circle, draw, thick, fill=blue!20, text width=3.5em, text centered, minimum height=3.5em, font=\small},
-        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=3em, font=\small},
-        edge_label/.style={font=\footnotesize, midway}
-    ]
-        % Root decision node
-        \node[decision] (root) at (0,0) {$x_{\_, 2} \leq \frac{1}{2}$};
-        
-        % Second level nodes
-        \node[decision] (left_decision) at (-3, -2.5) {$x_{\_, 1}\leq 8$};
-        \node[leaf] (right_leaf) at (3, -2.5) {$y_1$};
-        
-        % Third level nodes (leaves)
-        \node[leaf] (left_left) at (-4.5, -5) {$y_2$};
-        \node[leaf] (left_right) at (-1.5, -5) {$y_3$};
-        
-        % Connections with labels
-        \draw[->] (root) -- (left_decision) node[edge_label, above left] {True};
-        \draw[->] (root) -- (right_leaf) node[edge_label, above right] {False};
-        \draw[->] (left_decision) -- (left_left) node[edge_label, above left] {True};
-        \draw[->] (left_decision) -- (left_right) node[edge_label, above right] {False};
-        
-        % Add labels for components
-        \node[font=\footnotesize, text=gray] at (0, 1.5) {Root node};
-        \node[font=\footnotesize, text=gray] at (-5.5, -2.5) {Internal node};
-        \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
-        
-    \end{tikzpicture}
-    \caption{A generic depth 2 decision tree with 2 nodes and 3 leaves. The root node applies the test $1_{\{x_{\_,1}\leq \frac{1}{2}\}}$ to check if the first features of data is below $\frac{1}{2}$. Edges represent the outcomes of the tests in each internal nodes(True/False), and leaf nodes contain predictions $y_l \in \mathcal{Y}$. For any input $\boldsymbol{x}_i$, the tree defines a unique path from root to leaf.}
-    \label{fig:dt}
-\end{figure}
-
 \subsection{Markov decision processes and problems}
 
 Markov decision processes (MDPs) were first introduced in the 1950s by Richard Bellman~\cite{Bellman}.
@@ -362,76 +297,7 @@ where $0< \gamma\leq 1$ is the discount factor that controls the trade-off betwe
 
 Algorithms presented in this manuscript aim to find an optimal policy $\pi^\star \in\underset{\pi}{\operatorname{argmax}}J(\pi)$ that maximizes the above reinforcement learning (RL) objective.
 
-\subsection{Example: a grid world MDP}
-\begin{figure}
-    \centering
-    \begin{tikzpicture}
-        \tikzstyle{grid}=[draw, thick, fill=gray!10]
-        
-        % Draw grid
-        \draw[grid] (0,0) grid (2,2);
-        
-        % Add axes
-        \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
-        \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
-        
-        % Add tick marks and labels
-        \foreach \x in {0,1,2} {
-            \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
-        }
-        \foreach \y in {0,1,2} {
-            \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
-        }
-        
-        % Add state labels clockwise from bottom left
-        \node at (0.5,0.5) {$s_0$};
-        \node at (1.5,0.5) {$\star$};
-        \node at (1.5,0.3) {$s_g$};
-        \node at (1.5,1.5) {$s_2$};
-        \node at (0.5,1.5) {$s_1$};
-
-
-        % Draw grid
-        \draw[grid] (4,0) grid (6,2);
-        
-        % Add axes
-        \draw[thick, ->] (4,0) -- (6.5,0) node[right] {$x$};
-        \draw[thick, ->] (4,0) -- (4,2.5) node[above] {$y$};
-        
-        % Add tick marks and labels
-        \draw[thick] (4,0) -- (4,-0.1) node[below] {$0$};
-        \draw[thick] (5,0) -- (5,-0.1) node[below] {$1$};
-        \draw[thick] (6,0) -- (6,-0.1) node[below] {$2$};
-        
-
-        \foreach \y in {0,1,2} {
-            \draw[thick] (4,\y) -- (3.9,\y) node[left] {$\y$};
-        }
-        
-        % Add state labels clockwise from bottom left
-        \node at (4.5,0.5) {{\color{green} $\rightarrow$}};
-        \node at (5.5,0.5) {$\star$};
-        \node at (5.5,0.7) {{\color{green} $\uparrow$}};
-        \node at (5.5,0.3) {{\color{green} $\downarrow$}};
-        \node at (5.7,0.5) {{\color{green} $\rightarrow$}};
-        \node at (5.3,0.5) {{\color{green} $\leftarrow$}};
-        \node at (5.5,1.5) {{\color{green} $\downarrow$}};
-        \node at (4.2,1.3) {{\color{green} $\downarrow$}};
-        \node at (4.5,1.5) {{\color{green} $\rightarrow$}};
-    \end{tikzpicture}
-    \caption{A grid world MDP (left) and optimal actions w.r.t. the objective (cf. definition~\ref{def:mdp-obj}) (right).}\label{example:grid}
-    \end{figure}
-
-In figure~\ref{example:grid}, we present a very simple MDP (cf. definition~\ref{def:mdp}).
-This MDP is essentially a grid where the starting state is chosen at random and the goal is to reach the bottom-right cell as fast as possible in order to maximize the RL objective (cf. definition~\ref{def:mdp-obj}).
-The state space is discrete with state labels representing 2D-coordinates.
-The actions are to move up, left, right, or down. 
-The bottom-right cell gives reward 1 and is an absorbing state, i.e., once in the state, the MDP stays in this state forever.
-Other states give reward 0 and are not absorbing.
-The optimal actions that get to the goal as fast as possible in every state (cell) are presented in green in figure~\ref{example:grid}.
-Next we present the tools to find solutions to MDPs and compute such optimal policies.
-
-\section{Exact solutions for Markov decision problems}\label{sec:values}
+\subsection{Exact solutions for Markov decision problems}\label{sec:values}
 We begin with the planning setting in which the MDP transitions and rewards (cf. definition~\ref{def:mdp}) are known. 
 Leveraging the Markov property, one can use dynamic programming~\cite{Bellman} to compute optimal policies with respect to the RL objective (cf. definition~\ref{def:mdp-obj}).
 Algorithms based on dynamic programming use the notion of \textit{value} of states and actions:
@@ -451,140 +317,7 @@ Algorithms based on dynamic programming use the notion of \textit{value} of stat
 More realistically, neither the transition function $T$ nor the reward function $R$ of the MDP are known, e.g. the doctor cannot \textbf{know} how the tumor and the patient's health will change after a dose of chemotherapy, but can only \textbf{observe} the change.
 This distinction in available information parallels the distinction between dynamic programming and reinforcement learning, described next. 
 
-\subsection{Reinforcement learning of approximate solutions to MDPs}\label{sec:rl}
-When the MDP transition function and reward function are unknown, one can use reinforcement learning algorithms--also known as agents--to learn values or policies maximizing the RL objective. 
-Reinforcement learning algorithms popularized by Richard Sutton~\cite{sutton} don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of transitions $(s_t, a_t, r_t, s_{t+1})_t$.
-RL algorithms usually fall into two categories: value-based~\cite{sutton} and policy search~\cite{pg_sutton}.
-Examples of these approaches are shown in algorithms~\ref{alg:qlearning},~\ref{alg:sarsa} and~\ref{alg:reinforce}.
-Q-learning and Sarsa compute an approximation of $Q^{\star}$ (cf. definition~\ref{def:qvalues}) using temporal difference learning~\cite{sutton}. Q-learning is \textit{off-policy}: it collects new transitions with a random policy, e.g. epsilon-greedy. Sarsa is \textit{on-policy}: it collects new transitions greedily w.r.t. the current Q-values estimates.
-Policy gradient algorithms~\cite{pg_sutton} leverage the policy gradient theorem to approximate $\pi^{\star}$.
-
-Q-learning, Sarsa, and policy gradients algorithms are known to converge to the optimal value or (locally) optimal policy under some conditions.
-There are many other ways to learn policies such as simple random search~\cite{random-search} or model-based reinforcement learning that estimates MDP transitions and rewards before applying e.g. value iteration~\cite{ucbvi}. 
-Those RL algorithms--also known as tabular RL because they represent policies as tables with $|S|\times |A|$ entries--are limited to small state spaces.
-To scale to large state spaces, it is common to use a neural network to represent policies or values~\cite{tdgammon}.
-In the next section, we present deep reinforcement learning algorithms designed specifically for neural networks.
-\RestyleAlgo{ruled}
-\SetKwComment{Comment}{}{}
-\begin{algorithm}
-    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$}
-    \KwResult{Policy $\pi$}
-    Initialize $Q(s,a) = 0$ for all $s \in S, a \in A$ \\
-    Initialize state $s_0 \sim T_0$ \\
-    \For{each step $t$}{
-        Choose action $a_t$ using e.g. $\epsilon$-greedy policy: $a_t = \operatorname{argmax}_a Q(s_t,a)$ with prob. $1-\epsilon$ \\
-        Take action $a_t$, observe $r_t = R(s_t,a_t)$ and $s_{t+1} \sim T(s_t,a_t)$ \\
-        $Q(s_t,a_t) \leftarrow Q(s_t,a_t) + \alpha[r_t + \gamma \max_{a'} Q(s_{t+1},a') - Q(s_t,a_t)]$ \\
-        $s_t \leftarrow s_{t+1}$ \\
-    }
-    $\pi(s) = \operatorname{argmax}_a Q(s,a)$ \Comment{// Extract greedy policy}
-    \caption{Q-Learning~\cite{watkins1992q}}\label{alg:qlearning}
-\end{algorithm}
-
-\subsection{Deep reinforcement learning}
-Reinforcement learning has also been successfully combined with function approximations to solve MDPs with large discrete state spaces or continuous state spaces ($S\subset \mathbb{R}^p$ in definition~\ref{def:mdp}).
-In the rest of this manuscript, unless stated otherwise, we write $\boldsymbol{s}$ a state vector in a continuous state space\footnote{Note that discrete states can be one-hot encoded as state vectors in $\{0, 1\}^{|S|}$.}.
-
-Deep Q-Networks (DQN)~\cite{dqn}, described in algorithm~\ref{alg:dqn} achieved super-human performance on a set of Atari games.
-Authors successfully extended the Q-learning (cf. algorithm~\ref{alg:qlearning}) to the function approximation setting by introducing target networks to mitigate distributional shift in the temporal difference error and replay buffer to increase sample efficiency.
-
-Proximal Policy Optimization (PPO)~\cite{ppo}, described in algorithm~\ref{alg:ppo}, is an actor-critic algorithm~\cite{sutton} optimizing a neural network policy. 
-In actor-critic algorithms, cumulative discounted rewards starting from a particular state, also known as \textit{the returns}, are also estimated with a neural network. 
-PPO is known to work well in a variety of domains including robot control in simulation among others.
-
-
-\subsection{Imitation learning: a baseline (indirect) interpretable reinforcement learning method}\label{sec:imit}
-
-Unlike PPO or DQN for neural networks, there exists no algorithm that trains decision tree policies to optimize the RL objective (cf. definition~\ref{def:mdp-obj}).
-In fact, we will show in the first part of the manuscript that training decision trees that optimize the RL objective is very difficult.
-
-Hence, many interpretable reinforcement learning approaches first train a neural network policy--also called an expert policy--to optimize the RL objective (cf. definition~\ref{def:mdp-obj}) using e.g. PPO, and then fit a student policy such as a decision tree using CART (cf. algorithm~\ref{alg:cart}) to optimize the supervised learning objective (cf. definition~\ref{def:sl}) with the neural policy actions as targets.
-This approach is known as imitation learning and is essentially training a student policy to optimize the objective:
-
-\begin{definition}[Imitation learning objective]\label{def:il}
-Given an MDP $\mathcal{M}$ (cf. definition~\ref{def:mdp}), an expert policy $\pi^*$ and a policy class $\Pi$, e.g. decision trees of depth at most 3, the imitation learning objective is to find a student policy $\hat{\pi} \in \Pi$ that minimizes the expected action disagreement with the expert:
-\begin{equation}
-IL(\pi) = \mathbb{E}_{\boldsymbol{s} \sim \rho(\boldsymbol{s})} \left[ \mathcal{L}(\pi(\boldsymbol{s}), \pi^*(\boldsymbol{s})) \right]
-\end{equation}
-where $\rho(\boldsymbol{s})$ is the state distribution in $\mathcal{M}$ induced by the student policy $\pi$ and $\mathcal{L}$ is a loss function measuring the disagreement between the student policy's action $\pi(s)$ and the expert's action $\pi^*(s)$.
-\end{definition}
-
-There are two main imitation learning methods used for interpretable reinforcement learning.
-Dagger (cf. algorithm~\ref{alg:dagger}) is a straightforward way to fit a decision tree policy to optimize the imitation learning objective (cf. definition~\ref{def:il}).
-VIPER (cf. algorithm~\ref{alg:viper}) was designed specifically for interpretable reinforcement learning.
-VIPER re-weights the transitions collected by the neural network expert by a function of the state-action value (cf. definition~\ref{sec:values}).
-The authors of VIPER showed that decision tree policies fitted with VIPER tend to have the same RL objective value as Dagger trees while being more interpretable (shallower or with fewer nodes) and sometimes outperform Dagger trees.
-Dagger and VIPER are two strong baselines for decision tree learning in MDPs, but they optimize a surrogate objective only, even though in practice the resulting decision tree policies often achieve high RL objective value.
-We use these two algorithms extensively throughout the manuscript.
-Next we show how to learn a decision tree policy for the example MDP (cf. figure~\ref{example:grid}).
-
-\subsection{Your first decision tree policy}\label{sec:limits-il}
-Now the reader should know how to train decision tree classifiers or regressors for supervised learning using CART (cf. section~\ref{sec:sl}).
-The reader should also know what an MDP is and how to compute or learn policies that optimize the RL objective (cf. definition~\ref{def:mdp-obj}) with (deep) reinforcement learning (cf. section~\ref{sec:drl}).
-Finally, the reader should now know how to obtain a decision tree policy for an MDP through imitation learning (cf. definition~\ref{def:il}) by first using RL to get an expert policy and then fitting a decision tree to optimize the supervised learning objective, using the expert actions as labels.
-
-In this section we present the first decision tree policies of this manuscript obtained using Dagger or VIPER after learning an expert Q-function for the grid world MDP from figure~\ref{example:grid} using Q-learning (cf. algorithm~\ref{alg:qlearning}).
-Recall the optimal policies for the grid world, taking the green actions in each state in figure~\ref{example:grid}. 
-Among the optimal policies, the ones that go left or up in the goal state can be problematic for imitation learning algorithms.
-Indeed, we know that for this grid world MDP there exists decision tree policies with a very good interpretability-performance trade-off: depth-1 decision trees that are optimal w.r.t. the RL objective.
-One could even say that those trees have the \textit{optimal} interpretability-performance trade-off because they are the shortest trees that are optimal w.r.t. the RL objective.
-
-In figure~\ref{fig:trees-intro}, we present a depth-1 decision tree policy that is optimal w.r.t. the RL objective and a depth-1 tree that is sub-optimal.
-The other optimal depth-1 tree is to go right when $y\leq 1$ and down otherwise.
-Indeed, figure~\ref{fig:objectives} shows that the optimal depth-1 tree achieves exactly the same RL objective value as the optimal policies from figure~\ref{example:grid}, independently of the discount factor $\gamma$.
-
-Now a fair question is: can Dagger or VIPER learn such an optimal depth-1 tree given access to an expert optimal policy from figure~\ref{example:grid}?
-
-We start by running the standard Q-learning algorithm as presented in algorithm~\ref{alg:qlearning} with $\epsilon=0.3$, $\alpha=0.1$ over 10,000 time steps.
-The careful reader might wonder how ties are broken in the $\operatorname{argmax}$ operation from algorithm~\ref{alg:qlearning}.
-While Sutton and Barto break ties by index value in their book~\cite{sutton} (the greedy action is the $\operatorname{argmax}$ action with smallest index), we show that the choice of tie-breaking greatly influences the performance of subsequent imitation learning algorithms.
-Indeed, depending on how actions are ordered in practice, Q-learning may be biased toward some optimal policies rather than others.
-While this does not matter for one who just wants to find an optimal policy, in our example of finding the optimal depth-1 decision tree policy, it matters \textit{a lot}.
-
-In the left plot of figure~\ref{fig:ql-il}, we see that Q-learning, independently of how ties are broken, consistently converges to an optimal policy over 100 runs (random seeds).
-However, in the right plot of figure~\ref{fig:ql-il}, where we plot the proportion over 100 runs of optimal decision trees returned by Dagger or VIPER at different stages of Q-learning, we observe that imitating the optimal policy obtained by breaking ties at random consistently yields more optimal trees than breaking ties by indices.
-What actually happens is that the most likely output of Q-learning when ties are broken by indices is the optimal policy that goes left in the goal state,
-which cannot be perfectly represented by a depth-1 decision tree, because there are three different actions taken and a binary tree of depth $D=1$ can only map to $2^D=2$ labels.
-
-This short experiment shows that imitation learning approaches can sometimes be very bad at learning decision tree policies with good interpretability-performance trade-offs for very simple MDPs. 
-Despite VIPER almost always finding the optimal depth-1 decision tree policy in terms of the RL objective when ties are broken at random, we have shed light on the sub-optimality of indirect approaches such as imitation learning.
-This motivates the study of direct approaches (cf. figure~\ref{fig:direct-vs-indirect-methods}) to directly search for policies with good interpretability-performance trade-offs with respect to the original RL objective.
-
-\begin{figure}
-    \centering
-    \begin{tikzpicture}[
-        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
-        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
-        edge_label/.style={font=\footnotesize, midway}
-    ]
-        % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree4_root) at (10,2) {$x \leq 1$};
-        \node[leaf] (tree4_right) at (9,0) {$\rightarrow$};
-        \node[leaf] (tree4_left) at (11,0) {$\leftarrow$};
-        \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
-        \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
-        \tikzstyle{grid}=[draw, thick, fill=gray!10]
-
-
-        % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree5_root) at (5,2) {$x \leq 1$};
-        \node[leaf] (tree5_right) at (4,0) {$\rightarrow$};
-        \node[leaf] (tree5_left) at (6,0) {$\downarrow$};
-        \draw[->] (tree5_root) -- (tree5_right) node[edge_label, above left] {True};
-        \draw[->] (tree5_root) -- (tree5_left) node[edge_label, above right] {False};
-        \tikzstyle{grid}=[draw, thick, fill=gray!10]
-
-    \end{tikzpicture}
-    \caption{Left, an optimal depth-1 decision tree policy. On the right, a sub-optimal depth-1 decision tree policy.}\label{fig:trees-intro}
-    \end{figure}
-
-\begin{figure*}
-    \centering
-    \includegraphics[width=1\textwidth]{../images/images_part1/base_mdp.pdf}
-    \caption{Left, sample complexity curve of Q-learning with default hyperparameters on the $2\times 2$ grid world MDP over 100 random seeds. Right, performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
-\end{figure*}
-
-\section{Iterative bounding Markov decision processes}\label{sec:ibmdp}
+\subsection{Iterative bounding Markov decision processes}\label{sec:ibmdp}
 
 The key thing to know about IBMDPs is that they are, as their name suggests, MDPs (cf definition~\ref{def:mdp}).
 Hence, IBMDPs admit an optimal deterministic Markovian policy that maximizes the RL objective.
@@ -671,181 +404,6 @@ In particular, they show that only deterministic policies depending solely on th
 
 While the connections with partially observable MDPs~\cite{POMDP,chap2} is obvious, we defer the implications to chapter \ref{sec:pomdp} as this connection was absent from the original IBMDP paper~\cite{topin2021iterative}.
 Next we present an IBMDP for the MDP of example~\ref{example:grid}.
-
-\subsection{Example: an IBMDP for a grid world}
-We re-formulate the example MDP (example~\ref{example:grid}) as an MDP with a finite number of vector valued states ($x,y$-coordinates).
-The states are $S = \{(0.5, 0.5), (0.5, 1.5), (1.5, 1.5),$ $(1.5, 0.5)\}\subsetneq [0, 2] \times [0, 2]$.
-The actions are the cardinal directions $A = \{\rightarrow, \leftarrow, \downarrow, \uparrow\}$ that shift the states by one as long as the coordinates remain in the grid.
-The reward for taking any action is 0 except when in the bottom right state $(1.5, 0.5)$ which is an absorbing state: once in this state, you stay there forever. 
-Standard optimal deterministic Markovian policies were presented for this MDP in example \ref{example:grid}.
-
-Suppose an associated IBMDP (definition \ref{def:ibmdp}) with two IGAs:
-\begin{itemize}
-    \item $\langle x, 1\rangle$ that tests if $x\leq 1$
-    \item $\langle y, 1\rangle$ that tests if $y\leq 1$
-\end{itemize}
-The initial observation is always the grid bounds $\boldsymbol{o}_0=(0, 2, 0, 2)$ because the base state features in the grid world are always in $[0, 2] \times [0, 2]$.
-There are only finitely many observations since with those two IGAs there are only nine possible observations that can be attained from $\boldsymbol{o}_0$ following the IBMDP transitions (cf. definition \ref{def:ibmdp}).
-For example when the IBMDP initial base state features are $\boldsymbol{s}_0 = (0.5, 1.5)$, and taking first $\langle x, 1\rangle$ then $\langle y, 1\rangle$ the corresponding observations are first $\boldsymbol{o}_{t+1} = (0, 1, 0, 2)$ and then $\boldsymbol{o}_{t+2} = (0, 1, 1, 2)$.
-The full observation set is $O = \{(0, 2, 0, 2)$, $(0, 1, 0, 2)$, $(0, 2, 0, 1)$, $(0, 1, 0, 1)$, $(1, 2, 0, 2)$, $(1, 2, 0, 1)$, $(1, 2, 1, 2)$, $(0, 1, 1, 2)$, $(0, 2, 1, 2)\}$.
-The transitions and rewards are given in definition (cf. definition~\ref{def:ibmdp}).
-
-In figure~\ref{example:ibmdp} we illustrate a trajectory in this IBMDP.
-\begin{figure*}
-\centering
-\begin{tikzpicture}[scale=0.6]
-    % Define styles
-    \tikzstyle{grid}=[draw, thick, fill=gray!10]
-    \tikzstyle{rectangle}=[draw, thick, fill=red!20]
-    
-    % Row 1: IBMDP States (s, o)
-    % t=0: Initial state
-    \node at (2,9.5) {\small $t=0$};
-    \node at (2,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
-    \node at (2,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
-
-    \draw[rectangle] (1,4) rectangle (3,6);
-    \draw[grid] (1,4) grid (3,6);
-    % Add axes
-    \draw[thick, ->] (1,4) -- (3.2,4) node[right] {$x$};
-    \draw[thick, ->] (1,4) -- (1,6.2) node[above] {$y$};
-    \foreach \x in {0,1,2} {
-        \draw[thick] (\x+1,4) -- (\x+1,3.9) node[below] {$\x$};
-    }
-    \foreach \y in {0,1,2} {
-        \draw[thick] (1,\y+4) -- (0.9,\y+4) node[left] {$\y$};
-    }
-    \node at (1.5, 5.5) {$\mathcal{A}$};
-    \node at (2.5, 4.5) {$\star$};
-    
-    % Curved arrow from t=0 to t=1
-    \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1\rangle, r_t = \zeta$} (7,3);
-
-    % % t=1: After AIG x≤0.5
-    \node at (7,9.5) {\small $t=1$};
-    \node at (7,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
-    \node at (7,7.5) {\small $\boldsymbol{o}_t=(0, 1, 0, 2)$};
-
-    \draw[rectangle] (6,4) rectangle (7,6);
-    \draw[grid] (6,4) grid (8,6);
-    % Add axes
-    \draw[thick, ->] (6,4) -- (8.2,4) node[right] {$x$};
-    \draw[thick, ->] (6,4) -- (6,6.2) node[above] {$y$};
-    \foreach \x in {0,1,2} {
-        \draw[thick] (\x+6,4) -- (\x+6,3.9) node[below] {$\x$};
-    }
-    \foreach \y in {0,1,2} {
-        \draw[thick] (6,\y+4) -- (5.9,\y+4) node[left] {$\y$};
-    }
-    \node at (6.5, 5.5) {$\mathcal{A}$};
-    \node at (7.5, 4.5) {$\star$};
-
-
-    % Curved arrow from t=1 to t=2
-    \draw[thick, ->] (7,3) to[bend right=30] node[midway, below] {\small $a_t = \rightarrow, r_t  = 0$}(12,3);
-
-    \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-3) {$\rightarrow$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
-    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-
-    \node at (12,9.5) {\small $t=2$};
-    \node at (12,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
-    \node at (12,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
-    
-    \draw[rectangle] (11,4) rectangle (13,6);
-    \draw[grid] (11,4) grid (13,6);
-    % Add axes
-    \draw[thick, ->] (11,4) -- (13.2,4) node[right] {$x$};
-    \draw[thick, ->] (11,4) -- (11,6.2) node[above] {$y$};
-    \foreach \x in {0,1,2} {
-        \draw[thick] (\x+11,4) -- (\x+11,3.9) node[below] {$\x$};
-    }
-    \foreach \y in {0,1,2} {
-        \draw[thick] (11,\y+4) -- (10.9,\y+4) node[left] {$\y$};
-    }
-    \node at (12.5, 5.5) {$\mathcal{A}$};
-    \node at (12.5, 4.5) {$\star$};
-    
-    % Curved arrow from t=2 to t=4
-    \draw[thick, ->] (12,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1 \rangle, r_t = \zeta$} (17,3);
-
-    \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
-    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-3) {$\downarrow$};
-    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-
-    
-    \node at (17,9.5) {\small $t=4$};
-    \node at (17,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
-    \node at (17,7.5) {\small $\boldsymbol{o}_t=(1, 2, 0, 2)$};
-
-    \draw[rectangle] (17,4) rectangle (18,6);
-    \draw[grid] (16,4) grid (18,6);
-    % Add axes
-    \draw[thick, ->] (16,4) -- (18.2,4) node[right] {$x$};
-    \draw[thick, ->] (16,4) -- (16,6.2) node[above] {$y$};
-    \foreach \x in {0,1,2} {
-        \draw[thick] (\x+16,4) -- (\x+16,3.9) node[below] {$\x$};
-    }
-    \foreach \y in {0,1,2} {
-        \draw[thick] (16,\y+4) -- (15.9,\y+4) node[left] {$\y$};
-    }
-    \node at (17.5, 5.5) {$\mathcal{A}$};
-    \node at (17.5, 4.5) {$\star$};
-    
-    \draw[thick, ->] (17,3) to[bend right=30] node[midway, below] {\small $a_t = \downarrow, r_t = 0$} (22,3);
-    
-    \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
-    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-
-
-    \node at (22,9.5) {\small $t=5$};
-    \node at (22,8.5) {\small $\boldsymbol{s}_t=(1.5, 0.5)$};
-    \node at (22,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
- 
-    \draw[rectangle] (21,4) rectangle (23,6);
-    \draw[grid] (21,4) grid (23,6);
-    % Add axes
-    \draw[thick, ->] (21,4) -- (23.2,4) node[right] {$x$};
-    \draw[thick, ->] (21,4) -- (21,6.2) node[above] {$y$};
-    \foreach \x in {0,1,2} {
-        \draw[thick] (\x+21,4) -- (\x+21,3.9) node[below] {$\x$};
-    }
-    \foreach \y in {0,1,2} {
-        \draw[thick] (21,\y+4) -- (20.9,\y+4) node[left] {$\y$};
-    }
-    \node at (22.5, 4.5) {$\mathcal{A}$};
-    \node at (22.5, 4.5) {$\star$};
-
-    \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
-    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
-    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
-    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
-    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
-
-    
-\end{tikzpicture}
-\caption{An IBMDP trajectory when the base MDP is 2$\times$2 grid world. In the top row, we write the visited base state features and observations, in the middle row, we graphically represent those, and in the bottom row, we present the corresponding decision tree policy traversal.
-$\mathcal{A}$ tracks the current state features $\boldsymbol{s}_t$ in the grid.
-The pink obstructions of the grid represent the current observations $\boldsymbol{o}_t$ of the base state features.
-When the pink covers the whole grid, the information contained in the observation could be interpreted as ``the current state features could be anywhere in the grid''.
-The more information gathering actions are taken, the more refined the bounds on the current base state features get.
-At $t=0$, the base state features are $\boldsymbol{s}_0 = (0.5, 1.5)$. 
-The initial observation is always the base MDP default state feature bounds, here $\boldsymbol{o}_0=(0, 2, 0, 2)$ because the base state features are in $[0, 2] \times [0, 2]$.
-This means that the IBMDP state is $\boldsymbol{s}_{IB} = (0.5, 1.5, 0, 2, 0, 2)$.
-The first action is an IGA $\langle x, 1\rangle$ that tests the feature $x$ of the base state against the value $1$ and the reward $\zeta$. 
-This transition corresponds to going through an internal node $ x\leq 1$ in a decision tree policy as illustrated in the figure. 
-At $t=1$, after gathering the information that the $x$-value of the current base state is below 1, the observation is updated with the refined bounds $\boldsymbol{o}_1=(0, 1, 0, 2)$, i.e. the pink area shrinks, and the base state features remain unchanged.
-The agent then takes a base action that is to move right. 
-This gives a reward 0, resets the observation to the original base state feature bounds, and changes the features to $\boldsymbol{s}_2=(1.5, 1.5)$. And the trajectory continues like this until the absorbing base state $\boldsymbol{s}_5=(1.5, 0.5)$ is reached.}
-\label{example:ibmdp}
-\end{figure*}
 
 \section{Reproducing ``Iterative Bounding MDPs: Learning Interpretable Policies via Non-Interpretable Methods''}
 We attempt to reproduce the results from~\cite[table 1]{topin2021iterative} in which authors compare direct and indirect learning of decision tree policies of depth at most 2 for the CartPole MDP~\cite{cartpole}.
@@ -1673,16 +1231,365 @@ Some limitations that we did not cover still exist such as how to choose good ca
 \newpage
 \appendix
 \onecolumn
-\section{You \emph{can} have an appendix here.}
+\section{Appendix for technical perliminaries}
+\subsection{What are decision trees?}
+As the reader might have already guessed, we will put great emphasis on decision tree models as a means to study interpretability.
+While other interpretable models might have other properties than the ones we will highlight through this thesis, one conjecture from \cite{glanois-survey} is that interpretable models are all hard to optimize or learn because they are non-differentiable in nature.
+This is something that will be key in our study of decision tree models that we introduce next and that we illustrate in figure~\ref{fig:dt}.
 
-You can have as much text here as you want. The main body must be at most $8$
-pages long. For the final version, one more page can be added. If you want, you
-can use an appendix like this one.
+\begin{definition}[Decision tree]\label{def:dt}
+    A decision tree is a rooted tree $T = (\mathcal{N}, E)$.
+    Each internal node $\nu \in \mathcal{N}$ is associated with a test that maps input features $x_{ij} \in \mathcal{X}$ to a Boolean.
+    Each edge $e \in E$ from an internal node corresponds to an outcome of the associated test function.
+    Each leaf node $l \in \mathcal{N}$ is associated with a prediction $y_l \in \mathcal{Y}$, where $\mathcal{Y}$ is the output space.
+    For any input $x \in \mathcal{X}$, the tree defines a unique path from root to leaf, determining the prediction $T(x) = y_l$ where $l$ is the reached leaf.
+    The depth of a tree is the maximum path length from root to any leaf.
+\end{definition}
 
-The $\mathtt{\backslash onecolumn}$ command above can be kept in place if you
-prefer a one-column appendix, or can be removed if you prefer a two-column
-appendix.  Apart from this possible change, the style (font size, spacing,
-margins, page numbering, etc.) should be kept the same as the main body.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[
+        scale=0.5,
+        decision/.style={circle, draw, thick, fill=blue!20, text width=3.5em, text centered, minimum height=3.5em, font=\small},
+        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=3em, font=\small},
+        edge_label/.style={font=\footnotesize, midway}
+    ]
+        % Root decision node
+        \node[decision] (root) at (0,0) {$x_{\_, 2} \leq \frac{1}{2}$};
+        
+        % Second level nodes
+        \node[decision] (left_decision) at (-3, -2.5) {$x_{\_, 1}\leq 8$};
+        \node[leaf] (right_leaf) at (3, -2.5) {$y_1$};
+        
+        % Third level nodes (leaves)
+        \node[leaf] (left_left) at (-4.5, -5) {$y_2$};
+        \node[leaf] (left_right) at (-1.5, -5) {$y_3$};
+        
+        % Connections with labels
+        \draw[->] (root) -- (left_decision) node[edge_label, above left] {True};
+        \draw[->] (root) -- (right_leaf) node[edge_label, above right] {False};
+        \draw[->] (left_decision) -- (left_left) node[edge_label, above left] {True};
+        \draw[->] (left_decision) -- (left_right) node[edge_label, above right] {False};
+        
+        % Add labels for components
+        \node[font=\footnotesize, text=gray] at (0, 1.5) {Root node};
+        \node[font=\footnotesize, text=gray] at (-5.5, -2.5) {Internal node};
+        \node[font=\footnotesize, text=gray] at (-3, -5.8) {Leaf nodes with predictions};
+        
+    \end{tikzpicture}
+    \caption{A generic depth 2 decision tree with 2 nodes and 3 leaves. The root node applies the test $1_{\{x_{\_,1}\leq \frac{1}{2}\}}$ to check if the first features of data is below $\frac{1}{2}$. Edges represent the outcomes of the tests in each internal nodes(True/False), and leaf nodes contain predictions $y_l \in \mathcal{Y}$. For any input $\boldsymbol{x}_i$, the tree defines a unique path from root to leaf.}
+    \label{fig:dt}
+\end{figure}
+
+
+\subsection{Reinforcement learning of approximate solutions to MDPs}\label{sec:rl}
+When the MDP transition function and reward function are unknown, one can use reinforcement learning algorithms--also known as agents--to learn values or policies maximizing the RL objective. 
+Reinforcement learning algorithms popularized by Richard Sutton~\cite{sutton} don't \textbf{compute} an optimal policy but rather \textbf{learn} an approximate one based on sequences of transitions $(s_t, a_t, r_t, s_{t+1})_t$.
+RL algorithms usually fall into two categories: value-based~\cite{sutton} and policy search~\cite{pg_sutton}.
+Examples of these approaches are shown in algorithms~\ref{alg:qlearning},~\ref{alg:sarsa} and~\ref{alg:reinforce}.
+Q-learning and Sarsa compute an approximation of $Q^{\star}$ (cf. definition~\ref{def:qvalues}) using temporal difference learning~\cite{sutton}. Q-learning is \textit{off-policy}: it collects new transitions with a random policy, e.g. epsilon-greedy. Sarsa is \textit{on-policy}: it collects new transitions greedily w.r.t. the current Q-values estimates.
+Policy gradient algorithms~\cite{pg_sutton} leverage the policy gradient theorem to approximate $\pi^{\star}$.
+
+Q-learning, Sarsa, and policy gradients algorithms are known to converge to the optimal value or (locally) optimal policy under some conditions.
+There are many other ways to learn policies such as simple random search~\cite{random-search} or model-based reinforcement learning that estimates MDP transitions and rewards before applying e.g. value iteration~\cite{ucbvi}. 
+Those RL algorithms--also known as tabular RL because they represent policies as tables with $|S|\times |A|$ entries--are limited to small state spaces.
+To scale to large state spaces, it is common to use a neural network to represent policies or values~\cite{tdgammon}.
+In the next section, we present deep reinforcement learning algorithms designed specifically for neural networks.
+\RestyleAlgo{ruled}
+\SetKwComment{Comment}{}{}
+\begin{algorithm}
+    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$}
+    \KwResult{Policy $\pi$}
+    Initialize $Q(s,a) = 0$ for all $s \in S, a \in A$ \\
+    Initialize state $s_0 \sim T_0$ \\
+    \For{each step $t$}{
+        Choose action $a_t$ using e.g. $\epsilon$-greedy policy: $a_t = \operatorname{argmax}_a Q(s_t,a)$ with prob. $1-\epsilon$ \\
+        Take action $a_t$, observe $r_t = R(s_t,a_t)$ and $s_{t+1} \sim T(s_t,a_t)$ \\
+        $Q(s_t,a_t) \leftarrow Q(s_t,a_t) + \alpha[r_t + \gamma \max_{a'} Q(s_{t+1},a') - Q(s_t,a_t)]$ \\
+        $s_t \leftarrow s_{t+1}$ \\
+    }
+    $\pi(s) = \operatorname{argmax}_a Q(s,a)$ \Comment{// Extract greedy policy}
+    \caption{Q-Learning~\cite{watkins1992q}}\label{alg:qlearning}
+\end{algorithm}
+
+\subsection{Deep reinforcement learning}
+Reinforcement learning has also been successfully combined with function approximations to solve MDPs with large discrete state spaces or continuous state spaces ($S\subset \mathbb{R}^p$ in definition~\ref{def:mdp}).
+In the rest of this manuscript, unless stated otherwise, we write $\boldsymbol{s}$ a state vector in a continuous state space\footnote{Note that discrete states can be one-hot encoded as state vectors in $\{0, 1\}^{|S|}$.}.
+
+Deep Q-Networks (DQN)~\cite{dqn}, described in algorithm~\ref{alg:dqn} achieved super-human performance on a set of Atari games.
+Authors successfully extended the Q-learning (cf. algorithm~\ref{alg:qlearning}) to the function approximation setting by introducing target networks to mitigate distributional shift in the temporal difference error and replay buffer to increase sample efficiency.
+
+Proximal Policy Optimization (PPO)~\cite{ppo}, described in algorithm~\ref{alg:ppo}, is an actor-critic algorithm~\cite{sutton} optimizing a neural network policy. 
+In actor-critic algorithms, cumulative discounted rewards starting from a particular state, also known as \textit{the returns}, are also estimated with a neural network. 
+PPO is known to work well in a variety of domains including robot control in simulation among others.
+
+
+\subsection{Imitation learning: a baseline (indirect) interpretable reinforcement learning method}\label{sec:imit}
+
+Unlike PPO or DQN for neural networks, there exists no algorithm that trains decision tree policies to optimize the RL objective (cf. definition~\ref{def:mdp-obj}).
+In fact, we will show in the first part of the manuscript that training decision trees that optimize the RL objective is very difficult.
+
+Hence, many interpretable reinforcement learning approaches first train a neural network policy--also called an expert policy--to optimize the RL objective (cf. definition~\ref{def:mdp-obj}) using e.g. PPO, and then fit a student policy such as a decision tree using CART (cf. algorithm~\ref{alg:cart}) to optimize the supervised learning objective (cf. definition~\ref{def:sl}) with the neural policy actions as targets.
+This approach is known as imitation learning and is essentially training a student policy to optimize the objective:
+
+\begin{definition}[Imitation learning objective]\label{def:il}
+Given an MDP $\mathcal{M}$ (cf. definition~\ref{def:mdp}), an expert policy $\pi^*$ and a policy class $\Pi$, e.g. decision trees of depth at most 3, the imitation learning objective is to find a student policy $\hat{\pi} \in \Pi$ that minimizes the expected action disagreement with the expert:
+\begin{equation}
+IL(\pi) = \mathbb{E}_{\boldsymbol{s} \sim \rho(\boldsymbol{s})} \left[ \mathcal{L}(\pi(\boldsymbol{s}), \pi^*(\boldsymbol{s})) \right]
+\end{equation}
+where $\rho(\boldsymbol{s})$ is the state distribution in $\mathcal{M}$ induced by the student policy $\pi$ and $\mathcal{L}$ is a loss function measuring the disagreement between the student policy's action $\pi(s)$ and the expert's action $\pi^*(s)$.
+\end{definition}
+
+There are two main imitation learning methods used for interpretable reinforcement learning.
+Dagger (cf. algorithm~\ref{alg:dagger}) is a straightforward way to fit a decision tree policy to optimize the imitation learning objective (cf. definition~\ref{def:il}).
+VIPER (cf. algorithm~\ref{alg:viper}) was designed specifically for interpretable reinforcement learning.
+VIPER re-weights the transitions collected by the neural network expert by a function of the state-action value (cf. definition~\ref{sec:values}).
+The authors of VIPER showed that decision tree policies fitted with VIPER tend to have the same RL objective value as Dagger trees while being more interpretable (shallower or with fewer nodes) and sometimes outperform Dagger trees.
+Dagger and VIPER are two strong baselines for decision tree learning in MDPs, but they optimize a surrogate objective only, even though in practice the resulting decision tree policies often achieve high RL objective value.
+We use these two algorithms extensively throughout the manuscript.
+Next we show how to learn a decision tree policy for the example MDP (cf. figure~\ref{example:grid}).
+
+\subsection{Your first decision tree policy}\label{sec:limits-il}
+Now the reader should know how to train decision tree classifiers or regressors for supervised learning using CART (cf. section~\ref{sec:sl}).
+The reader should also know what an MDP is and how to compute or learn policies that optimize the RL objective (cf. definition~\ref{def:mdp-obj}) with (deep) reinforcement learning (cf. section~\ref{sec:drl}).
+Finally, the reader should now know how to obtain a decision tree policy for an MDP through imitation learning (cf. definition~\ref{def:il}) by first using RL to get an expert policy and then fitting a decision tree to optimize the supervised learning objective, using the expert actions as labels.
+
+In this section we present the first decision tree policies of this manuscript obtained using Dagger or VIPER after learning an expert Q-function for the grid world MDP from figure~\ref{example:grid} using Q-learning (cf. algorithm~\ref{alg:qlearning}).
+Recall the optimal policies for the grid world, taking the green actions in each state in figure~\ref{example:grid}. 
+Among the optimal policies, the ones that go left or up in the goal state can be problematic for imitation learning algorithms.
+Indeed, we know that for this grid world MDP there exists decision tree policies with a very good interpretability-performance trade-off: depth-1 decision trees that are optimal w.r.t. the RL objective.
+One could even say that those trees have the \textit{optimal} interpretability-performance trade-off because they are the shortest trees that are optimal w.r.t. the RL objective.
+
+In figure~\ref{fig:trees-intro}, we present a depth-1 decision tree policy that is optimal w.r.t. the RL objective and a depth-1 tree that is sub-optimal.
+The other optimal depth-1 tree is to go right when $y\leq 1$ and down otherwise.
+Indeed, figure~\ref{fig:objectives} shows that the optimal depth-1 tree achieves exactly the same RL objective value as the optimal policies from figure~\ref{example:grid}, independently of the discount factor $\gamma$.
+
+Now a fair question is: can Dagger or VIPER learn such an optimal depth-1 tree given access to an expert optimal policy from figure~\ref{example:grid}?
+
+We start by running the standard Q-learning algorithm as presented in algorithm~\ref{alg:qlearning} with $\epsilon=0.3$, $\alpha=0.1$ over 10,000 time steps.
+The careful reader might wonder how ties are broken in the $\operatorname{argmax}$ operation from algorithm~\ref{alg:qlearning}.
+While Sutton and Barto break ties by index value in their book~\cite{sutton} (the greedy action is the $\operatorname{argmax}$ action with smallest index), we show that the choice of tie-breaking greatly influences the performance of subsequent imitation learning algorithms.
+Indeed, depending on how actions are ordered in practice, Q-learning may be biased toward some optimal policies rather than others.
+While this does not matter for one who just wants to find an optimal policy, in our example of finding the optimal depth-1 decision tree policy, it matters \textit{a lot}.
+
+In the left plot of figure~\ref{fig:ql-il}, we see that Q-learning, independently of how ties are broken, consistently converges to an optimal policy over 100 runs (random seeds).
+However, in the right plot of figure~\ref{fig:ql-il}, where we plot the proportion over 100 runs of optimal decision trees returned by Dagger or VIPER at different stages of Q-learning, we observe that imitating the optimal policy obtained by breaking ties at random consistently yields more optimal trees than breaking ties by indices.
+What actually happens is that the most likely output of Q-learning when ties are broken by indices is the optimal policy that goes left in the goal state,
+which cannot be perfectly represented by a depth-1 decision tree, because there are three different actions taken and a binary tree of depth $D=1$ can only map to $2^D=2$ labels.
+
+This short experiment shows that imitation learning approaches can sometimes be very bad at learning decision tree policies with good interpretability-performance trade-offs for very simple MDPs. 
+Despite VIPER almost always finding the optimal depth-1 decision tree policy in terms of the RL objective when ties are broken at random, we have shed light on the sub-optimality of indirect approaches such as imitation learning.
+This motivates the study of direct approaches (cf. figure~\ref{fig:direct-vs-indirect-methods}) to directly search for policies with good interpretability-performance trade-offs with respect to the original RL objective.
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[
+        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
+        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
+        edge_label/.style={font=\footnotesize, midway}
+    ]
+        % Tree 4: if x <= 0.5 move right else move left
+        \node[decision] (tree4_root) at (10,2) {$x \leq 1$};
+        \node[leaf] (tree4_right) at (9,0) {$\rightarrow$};
+        \node[leaf] (tree4_left) at (11,0) {$\leftarrow$};
+        \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
+        \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+
+
+        % Tree 4: if x <= 0.5 move right else move left
+        \node[decision] (tree5_root) at (5,2) {$x \leq 1$};
+        \node[leaf] (tree5_right) at (4,0) {$\rightarrow$};
+        \node[leaf] (tree5_left) at (6,0) {$\downarrow$};
+        \draw[->] (tree5_root) -- (tree5_right) node[edge_label, above left] {True};
+        \draw[->] (tree5_root) -- (tree5_left) node[edge_label, above right] {False};
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+
+    \end{tikzpicture}
+    \caption{Left, an optimal depth-1 decision tree policy. On the right, a sub-optimal depth-1 decision tree policy.}\label{fig:trees-intro}
+    \end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{../images/images_part1/base_mdp.pdf}
+    \caption{Left, sample complexity curve of Q-learning with default hyperparameters on the $2\times 2$ grid world MDP over 100 random seeds. Right, performance of indirect interpretable methods when imitating the greedy policy with a tree at different Q-learning stages.}\label{fig:ql-il}
+\end{figure}
+
+
+\subsection{Example: an IBMDP for a grid world}
+We re-formulate the example MDP (example~\ref{example:grid}) as an MDP with a finite number of vector valued states ($x,y$-coordinates).
+The states are $S = \{(0.5, 0.5), (0.5, 1.5), (1.5, 1.5),$ $(1.5, 0.5)\}\subsetneq [0, 2] \times [0, 2]$.
+The actions are the cardinal directions $A = \{\rightarrow, \leftarrow, \downarrow, \uparrow\}$ that shift the states by one as long as the coordinates remain in the grid.
+The reward for taking any action is 0 except when in the bottom right state $(1.5, 0.5)$ which is an absorbing state: once in this state, you stay there forever. 
+Standard optimal deterministic Markovian policies were presented for this MDP in example \ref{example:grid}.
+
+Suppose an associated IBMDP (definition \ref{def:ibmdp}) with two IGAs:
+\begin{itemize}
+    \item $\langle x, 1\rangle$ that tests if $x\leq 1$
+    \item $\langle y, 1\rangle$ that tests if $y\leq 1$
+\end{itemize}
+The initial observation is always the grid bounds $\boldsymbol{o}_0=(0, 2, 0, 2)$ because the base state features in the grid world are always in $[0, 2] \times [0, 2]$.
+There are only finitely many observations since with those two IGAs there are only nine possible observations that can be attained from $\boldsymbol{o}_0$ following the IBMDP transitions (cf. definition \ref{def:ibmdp}).
+For example when the IBMDP initial base state features are $\boldsymbol{s}_0 = (0.5, 1.5)$, and taking first $\langle x, 1\rangle$ then $\langle y, 1\rangle$ the corresponding observations are first $\boldsymbol{o}_{t+1} = (0, 1, 0, 2)$ and then $\boldsymbol{o}_{t+2} = (0, 1, 1, 2)$.
+The full observation set is $O = \{(0, 2, 0, 2)$, $(0, 1, 0, 2)$, $(0, 2, 0, 1)$, $(0, 1, 0, 1)$, $(1, 2, 0, 2)$, $(1, 2, 0, 1)$, $(1, 2, 1, 2)$, $(0, 1, 1, 2)$, $(0, 2, 1, 2)\}$.
+The transitions and rewards are given in definition (cf. definition~\ref{def:ibmdp}).
+
+In figure~\ref{example:ibmdp} we illustrate a trajectory in this IBMDP.
+\begin{figure}
+\centering
+\begin{tikzpicture}[scale=0.6]
+    % Define styles
+    \tikzstyle{grid}=[draw, thick, fill=gray!10]
+    \tikzstyle{rectangle}=[draw, thick, fill=red!20]
+    
+    % Row 1: IBMDP States (s, o)
+    % t=0: Initial state
+    \node at (2,9.5) {\small $t=0$};
+    \node at (2,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
+    \node at (2,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
+
+    \draw[rectangle] (1,4) rectangle (3,6);
+    \draw[grid] (1,4) grid (3,6);
+    % Add axes
+    \draw[thick, ->] (1,4) -- (3.2,4) node[right] {$x$};
+    \draw[thick, ->] (1,4) -- (1,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+1,4) -- (\x+1,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (1,\y+4) -- (0.9,\y+4) node[left] {$\y$};
+    }
+    \node at (1.5, 5.5) {$\mathcal{A}$};
+    \node at (2.5, 4.5) {$\star$};
+    
+    % Curved arrow from t=0 to t=1
+    \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1\rangle, r_t = \zeta$} (7,3);
+
+    % % t=1: After AIG x≤0.5
+    \node at (7,9.5) {\small $t=1$};
+    \node at (7,8.5) {\small $\boldsymbol{s}_t=(0.5, 1.5)$};
+    \node at (7,7.5) {\small $\boldsymbol{o}_t=(0, 1, 0, 2)$};
+
+    \draw[rectangle] (6,4) rectangle (7,6);
+    \draw[grid] (6,4) grid (8,6);
+    % Add axes
+    \draw[thick, ->] (6,4) -- (8.2,4) node[right] {$x$};
+    \draw[thick, ->] (6,4) -- (6,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+6,4) -- (\x+6,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (6,\y+4) -- (5.9,\y+4) node[left] {$\y$};
+    }
+    \node at (6.5, 5.5) {$\mathcal{A}$};
+    \node at (7.5, 4.5) {$\star$};
+
+
+    % Curved arrow from t=1 to t=2
+    \draw[thick, ->] (7,3) to[bend right=30] node[midway, below] {\small $a_t = \rightarrow, r_t  = 0$}(12,3);
+
+    \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (4.5,0) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-3) {$\rightarrow$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
+    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    \node at (12,9.5) {\small $t=2$};
+    \node at (12,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
+    \node at (12,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
+    
+    \draw[rectangle] (11,4) rectangle (13,6);
+    \draw[grid] (11,4) grid (13,6);
+    % Add axes
+    \draw[thick, ->] (11,4) -- (13.2,4) node[right] {$x$};
+    \draw[thick, ->] (11,4) -- (11,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+11,4) -- (\x+11,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (11,\y+4) -- (10.9,\y+4) node[left] {$\y$};
+    }
+    \node at (12.5, 5.5) {$\mathcal{A}$};
+    \node at (12.5, 4.5) {$\star$};
+    
+    % Curved arrow from t=2 to t=4
+    \draw[thick, ->] (12,3) to[bend right=30] node[midway, below] {\small $a_t = \langle x, 1 \rangle, r_t = \zeta$} (17,3);
+
+    \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (9.5,0) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (8,-3) {$\rightarrow$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (11,-3) {$\downarrow$};
+    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    
+    \node at (17,9.5) {\small $t=4$};
+    \node at (17,8.5) {\small $\boldsymbol{s}_t=(1.5, 1.5)$};
+    \node at (17,7.5) {\small $\boldsymbol{o}_t=(1, 2, 0, 2)$};
+
+    \draw[rectangle] (17,4) rectangle (18,6);
+    \draw[grid] (16,4) grid (18,6);
+    % Add axes
+    \draw[thick, ->] (16,4) -- (18.2,4) node[right] {$x$};
+    \draw[thick, ->] (16,4) -- (16,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+16,4) -- (\x+16,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (16,\y+4) -- (15.9,\y+4) node[left] {$\y$};
+    }
+    \node at (17.5, 5.5) {$\mathcal{A}$};
+    \node at (17.5, 4.5) {$\star$};
+    
+    \draw[thick, ->] (17,3) to[bend right=30] node[midway, below] {\small $a_t = \downarrow, r_t = 0$} (22,3);
+    
+    \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
+    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+
+    \node at (22,9.5) {\small $t=5$};
+    \node at (22,8.5) {\small $\boldsymbol{s}_t=(1.5, 0.5)$};
+    \node at (22,7.5) {\small $\boldsymbol{o}_t=(0, 2, 0, 2)$};
+ 
+    \draw[rectangle] (21,4) rectangle (23,6);
+    \draw[grid] (21,4) grid (23,6);
+    % Add axes
+    \draw[thick, ->] (21,4) -- (23.2,4) node[right] {$x$};
+    \draw[thick, ->] (21,4) -- (21,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+21,4) -- (\x+21,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (21,\y+4) -- (20.9,\y+4) node[left] {$\y$};
+    }
+    \node at (22.5, 4.5) {$\mathcal{A}$};
+    \node at (22.5, 4.5) {$\star$};
+
+    \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
+    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
+    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    
+\end{tikzpicture}
+\caption{An IBMDP trajectory when the base MDP is 2$\times$2 grid world. In the top row, we write the visited base state features and observations, in the middle row, we graphically represent those, and in the bottom row, we present the corresponding decision tree policy traversal.
+$\mathcal{A}$ tracks the current state features $\boldsymbol{s}_t$ in the grid.
+The pink obstructions of the grid represent the current observations $\boldsymbol{o}_t$ of the base state features.
+When the pink covers the whole grid, the information contained in the observation could be interpreted as ``the current state features could be anywhere in the grid''.
+The more information gathering actions are taken, the more refined the bounds on the current base state features get.
+At $t=0$, the base state features are $\boldsymbol{s}_0 = (0.5, 1.5)$. 
+The initial observation is always the base MDP default state feature bounds, here $\boldsymbol{o}_0=(0, 2, 0, 2)$ because the base state features are in $[0, 2] \times [0, 2]$.
+This means that the IBMDP state is $\boldsymbol{s}_{IB} = (0.5, 1.5, 0, 2, 0, 2)$.
+The first action is an IGA $\langle x, 1\rangle$ that tests the feature $x$ of the base state against the value $1$ and the reward $\zeta$. 
+This transition corresponds to going through an internal node $ x\leq 1$ in a decision tree policy as illustrated in the figure. 
+At $t=1$, after gathering the information that the $x$-value of the current base state is below 1, the observation is updated with the refined bounds $\boldsymbol{o}_1=(0, 1, 0, 2)$, i.e. the pink area shrinks, and the base state features remain unchanged.
+The agent then takes a base action that is to move right. 
+This gives a reward 0, resets the observation to the original base state feature bounds, and changes the features to $\boldsymbol{s}_2=(1.5, 1.5)$. And the trajectory continues like this until the absorbing base state $\boldsymbol{s}_5=(1.5, 0.5)$ is reached.}
+\label{example:ibmdp}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
