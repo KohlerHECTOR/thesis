@@ -79,36 +79,36 @@ for i, tree_name in enumerate(tree_names):
         plt.fill_between(zeta_range[mask], 0, all_objectives[mask, i], 
                         alpha=0.2, color=colors[i], label=f'$\pi^*=${tree_name}')
 
-plt.xlabel('$\zeta$', fontsize=22)
-plt.ylabel('$V^{\pi}(o_0)$, $\gamma=0.99$', fontsize=22)
-plt.legend(fontsize=20)
+plt.xlabel('$\zeta$', fontsize=32)
+plt.ylabel('$V^{\pi}(o_0)$, $\gamma=0.99$', fontsize=32)
+plt.legend(fontsize=25, bbox_to_anchor=(1., 1))
 plt.grid(True, alpha=0.3)
 plt.xlim(-1, 2)
 plt.ylim(-5, 110)
 
 # Increase tick sizes
-plt.xticks(fontsize=18)
-plt.yticks(fontsize=18)
+plt.xticks([-1, 2], fontsize=28)
+plt.yticks(fontsize=28)
 
-# Add some analysis
-print("Analysis of optimal trees:")
-print("=" * 50)
-for i, tree_name in enumerate(tree_names):
-    count = np.sum(optimal_indices == i)
-    percentage = count / len(zeta_range) * 100
-    print(f"{tree_name}: optimal for {count} values ({percentage:.1f}% of ζ range)")
+# # Add some analysis
+# print("Analysis of optimal trees:")
+# print("=" * 50)
+# for i, tree_name in enumerate(tree_names):
+#     count = np.sum(optimal_indices == i)
+#     percentage = count / len(zeta_range) * 100
+#     print(f"{tree_name}: optimal for {count} values ({percentage:.1f}% of ζ range)")
 
-# Find transition points
-transitions = []
-for i in range(1, len(optimal_indices)):
-    if optimal_indices[i] != optimal_indices[i-1]:
-        transitions.append((zeta_range[i], tree_names[optimal_indices[i-1]], tree_names[optimal_indices[i]]))
+# # Find transition points
+# transitions = []
+# for i in range(1, len(optimal_indices)):
+#     if optimal_indices[i] != optimal_indices[i-1]:
+#         transitions.append((zeta_range[i], tree_names[optimal_indices[i-1]], tree_names[optimal_indices[i]]))
 
-print(f"\nTransition points:")
-for zeta, from_tree, to_tree in transitions:
-    print(f"At ζ = {zeta:.3f}: {from_tree} → {to_tree}")
+# print(f"\nTransition points:")
+# for zeta, from_tree, to_tree in transitions:
+#     print(f"At ζ = {zeta:.3f}: {from_tree} → {to_tree}")
 
-plt.tight_layout()
+plt.tight_layout(rect=[0, 0, 1, 1])
 
 # Save the plot
 plt.savefig('images/images_part1/objective_values_plot.pdf')

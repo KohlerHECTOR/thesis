@@ -423,7 +423,7 @@ We abuse notation and denote both values of observations and values of states by
 The asymptotic occupancy distribution is the probability of a policy $\pi$ to arrive in $(s,\boldsymbol{o}')$ while observing $\boldsymbol{o}$ in some trajectory.  
 Now that we presented all the necessary technical backgrounds we move on to our contributions.
 
-\section{Benchmarking RL for retrieving known decision tree policies}\label{sec:opt-depth1}
+\section{Methodology}\label{sec:opt-depth1}
 The goal of this section is to check if the direct approach described above can consistently retrieve optimal decision tree policies for a simple  $2\times 2$ grid world MDP.
 In particular, we use reinforcement learning to train decision tree policies for MDPs by seeking deterministic partially observable policies that optimize the RL objective in POIBMDPs (cf. example~\ref{fig:ibmdp}).
 
@@ -440,7 +440,7 @@ When $\gamma=0.99$, despite objective values being very similar for the depth-1 
 
 \begin{figure}
     \centering
-    \scalebox{0.6}{\begin{tikzpicture}[
+    \scalebox{0.55}{\begin{tikzpicture}[
         scale=0.8,
         decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
         leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
@@ -456,7 +456,7 @@ When $\gamma=0.99$, despite objective values being very similar for the depth-1 
         \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
         
         % Draw a square around the tree
-        \draw[thick, red] (-2, 1.8) rectangle (2, -2.5);
+        % \draw[thick, red] (-2, 1.8) rectangle (2, -2.5);
 
         % Tree 7: if x <= 0.5 and y <= 0.5 move right else move down
         \node[decision] (tree7_root) at (5,0) {$x \leq 1$};
@@ -498,7 +498,7 @@ When $\gamma=0.99$, despite objective values being very similar for the depth-1 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.3\textwidth]{../images/images_part1/objective_values_plot.pdf}
+    \includegraphics[width=0.45\textwidth]{../images/images_part1/objective_values_plot.pdf}
     \caption{RL objective values (cf. definition~\ref{def:irl}) of different partially observable policies as functions of $\zeta$. Shaded areas show the optimal \textit{deterministic} partially observable policies in different ranges of $\zeta$ values.}\label{fig:irl-objectives}
 \end{figure}
 
@@ -542,9 +542,9 @@ In the original work of Topin et. al.~\cite{topin2021iterative}, they use RL alg
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
-    \KwData{POMDP $\mathcal{M}_{po} = \langle X, O, A, R, T, T_0, \Omega \rangle$, learning rates $\alpha_u,\quad \alpha_q$, exploration rate $\epsilon$}
+    \KwData{A POMDP, learning rates $\alpha_u,\ \alpha_q$, exploration prob. $\epsilon$}
     \KwResult{$\pi:O\rightarrow A$}
-    \textcolor{green}{Initialize $U(\boldsymbol{x},a) = 0$ for all $x \in X, a \in A$ \\}
+    \textcolor{teal}{Initialize $U(\boldsymbol{x},a) = 0$ for all $x \in X, a \in A$ \\}
     Initialize $Q(\boldsymbol{o},a) = 0$ for all $o \in O, a \in A$ \\
     \For{each episode}{
         Initialize state $x_0 \sim T_0$ \\
@@ -553,20 +553,20 @@ In the original work of Topin et. al.~\cite{topin2021iterative}, they use RL alg
         \For{each step $t$}{
             Choose action $a_t$ using $\epsilon$-greedy: $a_t = \operatorname{argmax}_a Q(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$ \\
             Take action $a_t$, observe $r_t = R(\boldsymbol{x}_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $\boldsymbol{o}_{t+1} \sim \Omega(\boldsymbol{x}_{t+1})$ \\
-            \textcolor{green}{$y \leftarrow r + \gamma U(\boldsymbol{x}_{t+1}, \operatorname{argmax}_{a'} Q(\boldsymbol{o}_{t+1}, a'))$} \Comment{// TD target} \\
+            \textcolor{teal}{$y \leftarrow r + \gamma U(\boldsymbol{x}_{t+1}, \operatorname{argmax}_{a'} Q(\boldsymbol{o}_{t+1}, a'))$} \\
             $U(\boldsymbol{x}_t,a_t) \leftarrow (1 - \alpha_u) U(\boldsymbol{x}_t, a_t) + \alpha_u y $ \\
-            \textcolor{green}{$Q(\boldsymbol{o}_t,a_t) \leftarrow (1 - \alpha_q) Q(\boldsymbol{o}_t, a_t) + \alpha_q y $} \\
+            \textcolor{teal}{$Q(\boldsymbol{o}_t,a_t) \leftarrow (1 - \alpha_q) Q(\boldsymbol{o}_t, a_t) + \alpha_q y $} \\
             $x_t \leftarrow \boldsymbol{x}_{t+1}$ \\
             $\boldsymbol{o}_t \leftarrow \boldsymbol{o}_{t+1}$ \\
         }
     }
-    $\pi(o) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$ \Comment{// Extract greedy policy}
+    $\pi(o) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$
     \caption{Asymmetric Q-Learning. We highlight in green the differences with the standard Q-learning~\ref{watkins1992q}}\label{alg:asymqlearning}
 \end{algorithm}
 
 Next, we apply asymmetric and standard RL algorithms to the problem of learning the optimal depth-1 tree for the grid world MDP (cf. section~\ref{sec:opt-depth1}) by optimizing the interpretable RL objective in POIBMDPs.
 
-\subction{Results}
+\subsection{Results}
 
 The results presented in the section show that (asymmetric) reinforcement learning fails for the aforementioned problem. Let us understand why.
 
@@ -648,26 +648,6 @@ For example, for asymmetric Sarsa, we run a total of $10\times 768= 7680$ experi
 To get a success rate, we can simply divide the number of learned depth 1 tree by 7680 (recall that for $\gamma=0.99$ and $\zeta=0.5$, the optimal policy is a depth-1 tree (e.g. figure~\ref{fig:optimal-policy-trees}) as per figure~\ref{fig:irl-objectives}). 
 
 \begin{table}
-\centering
-\small
-\caption{Asymmetric sarsa hyperparameters (768 combinations each run 10 times)}\label{tab:hp-sarsa}
-\begin{tabular}{lll}
-\toprule
-\textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
-\midrule
-Epsilon Schedules & (0.3, 1), (0.3, 0.99), (1, 1) & Initial exploration and decrease rate \\
-Epsilon Schedules & (0.1, 1), (0.1, 0.99), (0.3, 0.99) & Initial exploration and decrease rate \\
-Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
-Learning Rate $U$ & 0.001, 0.005, 0.01, 0.1 & learning rate for \\
- & & the Q-function \\
-Learning Rate $Q$ & 0.001, 0.005, 0.01, 0.1 & learning rate for the \\
- & & partial observation dependent Q-function \\
-Optimistic & True, False & Optimistic initialization \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}
     \centering
     \caption{Summary of RL baselines Hyperparameters}\label{tab:ib-params}
     \begin{tabular}{llr}
@@ -698,25 +678,8 @@ On figure~\ref{fig:asym-ql-analysis} despite higher success rates in the region 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.4\textwidth]{../images/images_part1/algorithm_performance_comparison_flattened.pdf}
+    \includegraphics[width=0.4\textwidth]{../slides_soutenance/barplot_with_std.pdf}
     \caption{Success rates of different (asymmetric) RL algorithms over thousands of runs when applied to learning deterministic partially observable policies in a POIBMDP or learning deterministic policies in associated MDP and IBMDP.}\label{fig:po-vs-ib}
-\end{figure}
-
-
-\begin{figure}
-    \begin{subfigure}[b]{0.19\textwidth}
-        \includegraphics[width=\textwidth]{../images/images_part1/ql_asym_best_learning_curves.pdf}
-        \caption{Learning curves for asymmetric Q-learning with good hyperparameters.}
-        \label{fig:best-learning-curves}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{../images/images_part1/ql_asym_best_tree_distributions.pdf}
-        \caption{Trees distributions for asymmetric Q-learning with good hyperparameters}
-        \label{fig:best-tree-distributions}
-    \end{subfigure}
-    \caption{Analysis of the top-performing asymmetric Q-learning instantiation. (left) Learning curves, and (right) tree distributions across different POIBMDP configurations.}
-    \label{fig:asym-ql-analysis}
 \end{figure}
 
 
@@ -836,12 +799,6 @@ We study classification POIBMDPs associated with the example classification MDP 
 
 We construct classification POIBMDPs with $\gamma=0.99$, 200 values of $\zeta \in [0,1]$ and IGAs $x\leq 1$ and $y\leq 1$.
 Since classification POIBMDPs are MDPs, we do not need to analyze asymmetric RL and JSJ baselines like in the previous chapter (cf. algorithms~\ref{alg:asymqlearning},~\ref{alg:asymsarsa}, and~\ref{alg:jsj}).
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.4\textwidth]{../images/images_part1/learning_curves_classif.pdf}
-    \caption{We reproduce the same plot as in figure~\ref{fig:rl-poibmdp} for classification POIBMDPs. Each individual curve is the sub-optimality gap of the learned policy during training averaged over 100 runs for a single $\zeta$ value.}\label{fig:rl-classif-poibmdp}
-\end{figure}
 
 \begin{figure}
     \centering
@@ -1275,7 +1232,7 @@ Next, we present the precise experimental setup we use to reproduce~\cite{topin2
     \KwData{IBMDP $\mathcal{M}_{IB}\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$, learning rate $\alpha$, exploration rate $\epsilon$, partially observable Q-network parameters $\theta$, Q-network parameters $\phi$, replay buffer $\mathcal{B}$, update frequency $C$}
     \KwResult{Partially observable deterministic policy $\pi_{po}$}
     Initialize partially observable Q-network parameters $\theta$\\
-    \textcolor{green}{Initialize Q-network parameters $\phi$ and target network parameters $\phi^- = \phi$} \\
+    \textcolor{teal}{Initialize Q-network parameters $\phi$ and target network parameters $\phi^- = \phi$} \\
 
     Initialize replay buffer $\mathcal{B} = \emptyset$ \\
     \For{each episode}{
@@ -1288,9 +1245,9 @@ Next, we present the precise experimental setup we use to reproduce~\cite{topin2
             Store transition $(\boldsymbol{s}_t, \boldsymbol{o}_t, a_t, r_t, \boldsymbol{s}_{t+1})$ in $\mathcal{B}$ \\
             Sample random batch $(\boldsymbol{s}_i, \boldsymbol{o}_i, a_i, r_i, \boldsymbol{s}_{i+1}) \sim \mathcal{B}$ \\
             $a' = \underset{a}{\operatorname{argmax}} Q_{\theta}(\boldsymbol{o}_i, a)$ \\
-            \textcolor{green}{$y_i = r_i + \gamma Q_{\phi^-}(\boldsymbol{s}_{i+1}, a')$} \Comment{// Compute target}
+            \textcolor{teal}{$y_i = r_i + \gamma Q_{\phi^-}(\boldsymbol{s}_{i+1}, a')$} \Comment{// Compute target}
             $\phi \leftarrow \phi - \alpha \nabla_\phi (Q_\phi(\boldsymbol{s}_i, a_i) - y_i)^2$ \Comment{// Update Q-network}
-            \textcolor{green}{$\theta \leftarrow \theta - \alpha \nabla_\theta (Q_\theta(\boldsymbol{o}_i, a_i) - y_i)^2$} \Comment{// Update partially observable Q-network}
+            \textcolor{teal}{$\theta \leftarrow \theta - \alpha \nabla_\theta (Q_\theta(\boldsymbol{o}_i, a_i) - y_i)^2$} \Comment{// Update partially observable Q-network}
 
             \If{$t \bmod C = 0$}{
                 $\theta^- \leftarrow \theta$ \Comment{// Update target network}
@@ -1630,6 +1587,50 @@ Solving these equations:
     In each subplot, each single line is colored by the value of $\zeta$ in the corresponding POIBMDP in which learning occurs. 
     Each single learning curve represent the sub-optimality gap averaged over 100 seeds.
     }\label{fig:rl-poibmdp}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{../images/images_part1/learning_curves_classif.pdf}
+    \caption{We reproduce the same plot as in figure~\ref{fig:rl-poibmdp} for classification POIBMDPs. Each individual curve is the sub-optimality gap of the learned policy during training averaged over 100 runs for a single $\zeta$ value.}\label{fig:rl-classif-poibmdp}
+\end{figure}
+
+\section{Hyperparameters}
+\begin{table}
+\centering
+\small
+\caption{Asymmetric sarsa hyperparameters (768 combinations each run 10 times)}\label{tab:hp-sarsa}
+\begin{tabular}{lll}
+\toprule
+\textbf{Hyperparameter} & \textbf{Values} & \textbf{Description} \\
+\midrule
+Epsilon Schedules & (0.3, 1), (0.3, 0.99), (1, 1) & Initial exploration and decrease rate \\
+Epsilon Schedules & (0.1, 1), (0.1, 0.99), (0.3, 0.99) & Initial exploration and decrease rate \\
+Lambda & 0.0, 0.3, 0.6, 0.9 & Eligibility trace decay \\
+Learning Rate $U$ & 0.001, 0.005, 0.01, 0.1 & learning rate for \\
+ & & the Q-function \\
+Learning Rate $Q$ & 0.001, 0.005, 0.01, 0.1 & learning rate for the \\
+ & & partial observation dependent Q-function \\
+Optimistic & True, False & Optimistic initialization \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{figure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \includegraphics[width=\textwidth]{../images/images_part1/ql_asym_best_learning_curves.pdf}
+        \caption{Learning curves for asymmetric Q-learning with good hyperparameters.}
+        \label{fig:best-learning-curves}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{../images/images_part1/ql_asym_best_tree_distributions.pdf}
+        \caption{Trees distributions for asymmetric Q-learning with good hyperparameters}
+        \label{fig:best-tree-distributions}
+    \end{subfigure}
+    \caption{Analysis of the top-performing asymmetric Q-learning instantiation. (left) Learning curves, and (right) tree distributions across different POIBMDP configurations.}
+    \label{fig:asym-ql-analysis}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
