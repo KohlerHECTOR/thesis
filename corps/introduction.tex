@@ -718,12 +718,12 @@ Informally, an MDP models how an agent acts over time to achieve a goal.
 At every time step, the agent observes its current state (e.g., patient weight and tumor size) and takes an action (e.g., administers a certain amount of chemotherapy).
 The agent receives a reward that helps evaluate the quality of the action with respect to the goal (e.g., tumor size decreases when the objective is to cure cancer).
 Finally, the agent transitions to a new state (e.g., the updated patient state) and repeats this process over time. 
-Following Martin L. Puterman's book on MDPs\cite{puterman}, we formally define:
-\begin{definition}[Markov decision process]\label{def:mdp} An MDP is a tuple $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$ where:
+Following Martin L. Puterman's book on MDPs~\cite{puterman}, we formally define:
+\begin{definition}[Markov decision process]\label{def:mdp} An MDP is a tuple $\mathcal{M} \equiv \langle S, A, R, T, T_0 \rangle$ where:
 \begin{itemize}
 \item $S$ is a finite set of states representing all possible configurations of the environment.
 \item $A$ is a finite set of actions available to the agent.
-\item $R: S \times A \rightarrow \mathbb{R}$ is a deterministic reward function that assigns a real-valued reward to each state-action pair. While in general reward functions are often stochastic, in this manuscript we focus deterministic ones without loss of generality.
+\item $R: S \times A \rightarrow \mathbb{R}$ is a deterministic reward function that assigns a real-valued reward to each state-action pair. While in general reward functions are often stochastic, in this manuscript we focus on deterministic ones without loss of generality.
 \item $T: S \times A \rightarrow \Delta(S)$ is the transition function that maps state-action pairs to probability distributions over next states $\Delta(S)$.
 \item $T_0 \in \Delta(S)$ is the initial distribution over states.
 \end{itemize}
@@ -831,7 +831,7 @@ The well-known value iteration algorithm (cf. algorithm~\ref{alg:value-iteration
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
-    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$}
+    \KwData{MDP $\mathcal{M} \equiv \langle S, A, R, T, T_0 \rangle$}
     \KwResult{Optimal values $V^{\star}$ and optimal policy $\pi^*$}
     Initialize $V(s) = 0$ for all $s \in S$ \\
     \Repeat{Convergence}{
@@ -894,7 +894,7 @@ In the next section, we present deep reinforcement learning algorithms designed 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
-    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$}
+    \KwData{MDP $\mathcal{M} \equiv \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$}
     \KwResult{Policy $\pi$}
     Initialize $Q(s,a) = 0$ for all $s \in S, a \in A$ \\
     Initialize state $s_0 \sim T_0$ \\
@@ -932,7 +932,7 @@ In the next section, we present deep reinforcement learning algorithms designed 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
 \begin{algorithm}
-    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, policy parameters $\theta$}
+    \KwData{MDP $\mathcal{M} \equiv \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, policy parameters $\theta$}
     \KwResult{Policy $\pi_\theta$}
     Initialize policy parameters $\theta$ \\
     \For{each episode}{
@@ -959,7 +959,7 @@ In actor-critic algorithms, cumulative discounted rewards starting from a partic
 PPO is known to work well in a variety of domains including robot control in simulation among others.
 
 \begin{algorithm}
-    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$, Q-network parameters $\theta$, update frequency $C$}
+    \KwData{MDP $\mathcal{M} \equiv \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, exploration rate $\epsilon$, Q-network parameters $\theta$, update frequency $C$}
     \KwResult{Policy $\pi$}
     Initialize Q-network parameters $\theta$ and target network parameters $\theta^- = \theta$ \\
     Initialize replay buffer $\mathcal{B} = \emptyset$ \\
@@ -984,7 +984,7 @@ PPO is known to work well in a variety of domains including robot control in sim
 
 
 \begin{algorithm}
-    \KwData{MDP $\mathcal{M} = \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, policy parameters $\theta$, clipping parameter $\epsilon$, value function parameters $\phi$}
+    \KwData{MDP $\mathcal{M} \equiv \langle S, A, R, T, T_0 \rangle$, learning rate $\alpha$, policy parameters $\theta$, clipping parameter $\epsilon$, value function parameters $\phi$}
     \KwResult{Policy $\pi_\theta$}
     Initialize policy parameters $\theta$ and value function parameters $\phi$ \\
     \For{each episode}{
