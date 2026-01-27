@@ -55,60 +55,58 @@ Jinf = objective_infinite(zeta_range, gamma)
 Jstoc = objective_stochastic(zeta_range, gamma)
 
 # Create the plot
-plt.figure(figsize=(12, 8))
+fig, ax = plt.subplots(figsize=(12, 6))
 
 # Plot each tree's objective value
-plt.plot(zeta_range, J0, label='$\pi_{\mathcal{T}_0}$', linewidth=2, color='red')
-plt.plot(zeta_range, J1, label='$\pi_{\mathcal{T}_1}$', linewidth=2, color='green')
-plt.plot(zeta_range, Ju, label='$\pi_{\mathcal{T}_u}$', linewidth=2, color='orange')
-plt.plot(zeta_range, J2, label='$\pi_{\mathcal{T}_2}$', linewidth=2, color='blue')
-plt.plot(zeta_range, Jinf, label='Infinite Tree', linewidth=2, color='purple', linestyle='--')
-plt.plot(zeta_range, Jstoc, label='Stochastic', linewidth=2, color='black', linestyle='--')
+ax.plot(zeta_range, J0, label='$\\pi_{\\mathcal{T}_0}$', linewidth=2, color='red')
+ax.plot(zeta_range, J1, label='$\\pi_{\\mathcal{T}_1}$', linewidth=2, color='green')
+ax.plot(zeta_range, Ju, label='$\\pi_{\\mathcal{T}_u}$', linewidth=2, color='orange')
+ax.plot(zeta_range, J2, label='$\\pi_{\\mathcal{T}_2}$', linewidth=2, color='blue')
+ax.plot(zeta_range, Jinf, label='Infinite Tree', linewidth=2,
+        color='purple', linestyle='--')
+ax.plot(zeta_range, Jstoc, label='Stochastic', linewidth=2,
+        color='black', linestyle='--')
 
 # Find the optimal tree for each zeta value
 all_objectives = np.column_stack([J0, J1, Ju, J2, Jinf])
 optimal_indices = np.argmax(all_objectives, axis=1)
-tree_names = ['$\pi_{\mathcal{T}_0}$', '$\pi_{\mathcal{T}_1}$', '$\pi_{\mathcal{T}_u}$', '$\pi_{\mathcal{T}_2}$', 'Infinite Tree']
-optimal_tree = [tree_names[i] for i in optimal_indices]
+
+tree_names = [
+    '$\\pi_{\\mathcal{T}_0}$',
+    '$\\pi_{\\mathcal{T}_1}$',
+    '$\\pi_{\\mathcal{T}_u}$',
+    '$\\pi_{\\mathcal{T}_2}$',
+    'Infinite Tree'
+]
+colors = ['red', 'green', 'orange', 'blue', 'purple']
 
 # Highlight the optimal regions
-colors = ['red', 'green', 'orange', 'blue', 'purple']
 for i, tree_name in enumerate(tree_names):
     mask = optimal_indices == i
     if np.any(mask):
-        plt.fill_between(zeta_range[mask], 0, all_objectives[mask, i], 
-                        alpha=0.2, color=colors[i], label=f'$\pi^*=${tree_name}')
+        ax.fill_between(
+            zeta_range[mask],
+            0,
+            all_objectives[mask, i],
+            alpha=0.3,
+            color=colors[i],
+            label=f'$\\pi^*$ = {tree_name}'
+        )
 
-plt.xlabel('$\zeta$', fontsize=32)
-plt.ylabel('$V^{\pi}(o_0)$, $\gamma=0.99$', fontsize=32)
-plt.legend(fontsize=25, bbox_to_anchor=(1., 1))
-plt.grid(True, alpha=0.3)
-plt.xlim(-1, 2)
-plt.ylim(-5, 110)
+# Labels, legend, and styling
+ax.set_xlabel('$\\zeta$', fontsize=32)
+ax.set_ylabel('$V^{\\pi}(o_0)$, $\\gamma=0.99$', fontsize=25)
 
-# Increase tick sizes
-plt.xticks([-1, 2], fontsize=28)
-plt.yticks(fontsize=28)
+ax.legend(fontsize=25, loc="center left", bbox_to_anchor=(1.05, 0.5))
+ax.grid(True, alpha=0.3)
 
-# # Add some analysis
-# print("Analysis of optimal trees:")
-# print("=" * 50)
-# for i, tree_name in enumerate(tree_names):
-#     count = np.sum(optimal_indices == i)
-#     percentage = count / len(zeta_range) * 100
-#     print(f"{tree_name}: optimal for {count} values ({percentage:.1f}% of ζ range)")
+ax.set_xlim(-1, 2)
+ax.set_ylim(-5, 110)
 
-# # Find transition points
-# transitions = []
-# for i in range(1, len(optimal_indices)):
-#     if optimal_indices[i] != optimal_indices[i-1]:
-#         transitions.append((zeta_range[i], tree_names[optimal_indices[i-1]], tree_names[optimal_indices[i]]))
+ax.tick_params(axis='x', labelsize=25)
+ax.tick_params(axis='y', labelsize=25)
 
-# print(f"\nTransition points:")
-# for zeta, from_tree, to_tree in transitions:
-#     print(f"At ζ = {zeta:.3f}: {from_tree} → {to_tree}")
-
-plt.tight_layout(rect=[0, 0, 1, 1])
+fig.tight_layout(rect=[0, 0, 1, 1])
 
 # Save the plot
-plt.savefig('images/images_part1/objective_values_plot.pdf')
+fig.savefig('images/images_part1/objective_values_plot.pdf')

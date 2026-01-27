@@ -268,6 +268,7 @@ In settings where the dynamics and rewards are known,~\cite{dt-opt-mdp} use plan
 Next, we recall useful technical material.
 
 \section{Technical preliminaries}
+
 \subsection{Markov decision processes}
 
 Markov decision processes (MDPs) were first introduced in the 1950s by Richard Bellman~\cite{Bellman}.
@@ -304,6 +305,90 @@ Useful quantities for such algorithms include \textit{value} of states and actio
     Similarly, the optimal value of a state–action pair $(s,a)\in S\times A$, $Q^\star(s,a)$, is the value when taking action $a$ in state $s$ and then following the optimal policy: $Q^{\star}(s,a) = R(s, a) + \gamma\mathbb{E}\left[V^{\star}(s') | s'\sim T(s, a)\right]$.
 \end{definition}
 
+\begin{figure}
+    \centering
+    \scalebox{0.75}{
+    \begin{tikzpicture}[
+        decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
+        leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
+        edge_label/.style={font=\footnotesize, midway}
+    ]
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+        
+        % Draw grid
+        \draw[grid] (0,0) grid (2,2);
+        
+        % Add axes
+        \draw[thick, ->] (0,0) -- (2.5,0) node[right] {$x$};
+        \draw[thick, ->] (0,0) -- (0,2.5) node[above] {$y$};
+        
+        % Add tick marks and labels
+        \foreach \x in {0,1,2} {
+            \draw[thick] (\x,0) -- (\x,-0.1) node[below] {$\x$};
+        }
+        \foreach \y in {0,1,2} {
+            \draw[thick] (0,\y) -- (-0.1,\y) node[left] {$\y$};
+        }
+        
+        % Add state labels clockwise from bottom left
+        \node at (0.5,0.5) {$s_0$};
+        \node at (1.5,0.5) {$\star$};
+        \node at (1.5,0.3) {$s_g$};
+        \node at (1.5,1.5) {$s_2$};
+        \node at (0.5,1.5) {$s_1$};
+
+        % Draid
+        \draw[grid] (4,0) grid (6,2);
+    
+        % Adds
+        \draw[thick, ->] (4,0) -- (6.5,0) node[right] {$x$};
+        \draw[thick, ->] (4,0) -- (4,2.5) node[above] {$y$};
+    
+        % Addk marks and labels
+        \draw[thick] (4,0) -- (4,-0.1) node[below] {$0$};
+        \draw[thick] (5,0) -- (5,-0.1) node[below] {$1$};
+        \draw[thick] (6,0) -- (6,-0.1) node[below] {$2$};
+    
+
+        \foreach \y in {0,1,2} {
+            \draw[thick] (4,\y) -- (3.9,\y) node[left] {$\y$};
+        }
+        
+        % Add state labels clockwise from bottom left
+        \node at (4.5,0.5) {\Large{\color{teal} $\boldsymbol{\rightarrow}$}};
+        \node at (5.5,0.5) {$\star$};
+        \node at (5.5,0.7) {\Large{\color{teal} $\boldsymbol{\uparrow}$}};
+        \node at (5.5,0.3) {\Large{\color{teal} $\boldsymbol{\downarrow}$}};
+        \node at (5.7,0.5) {\Large{\color{teal} $\boldsymbol{\rightarrow}$}};
+        \node at (5.3,0.5) {\Large{\color{teal} $\boldsymbol{\leftarrow}$}};
+        \node at (5.5,1.5) {\Large{\color{teal} $\boldsymbol{\downarrow}$}};
+        \node at (4.2,1.3) {\Large{\color{teal} $\boldsymbol{\downarrow}$}};
+        \node at (4.5,1.5) {\Large{\color{teal} $\boldsymbol{\rightarrow}$}};
+        
+        \node[decision] (tree5_root) at (8.5,2) {$x \leq 1$};
+        \node[leaf] (tree5_right) at (7.5,0) {$\rightarrow$};
+        \node[leaf] (tree5_left) at (9.5,0) {$\downarrow$};
+        \draw[->] (tree5_root) -- (tree5_right) node[edge_label, above left] {True};
+        \draw[->] (tree5_root) -- (tree5_left) node[edge_label, above right] {False};
+        \tikzstyle{grid}=[draw, thick, fill=gray!10]
+
+    \end{tikzpicture}}
+    \caption{Grid world MDP, optimal actions, and a depth-1 decision tree policy.}\label{fig:mdp-dt}
+\end{figure}
+
+\subsection{Decision tree policies}
+While other interpretable policy classes exist, one conjecture from \cite{glanois-survey} is that interpretable models are all hard to optimize or learn because they are non-differentiable in nature.
+This is something that will be key in our study of decision tree policy that we introduce next and that we illustrate in figure~\ref{fig:mdp-dt}.
+
+\begin{definition}[Decision tree policy]\label{def:dt}
+    A decision tree policy is a rooted tree $\pi_{\mathcal{T}} = (\mathcal{N}, E)$.
+    Each internal node $\nu \in \mathcal{N}$ is associated with a test that maps an MDP state features $s_{ij} \in S$ to a Boolean.
+    Each edge $e \in E$ from an internal node corresponds to an outcome of the associated test function.
+    Each leaf node $l \in \mathcal{N}$ is associated with an MDP action $a_l \in A$.
+    For any input $\boldsymbol{s} \in S$, the tree defines a unique path from root to leaf, determining the prediction $\pi_{\mathcal{T}}(\boldsymbol{s}) = a_l$ where $l$ is the reached leaf.
+    The depth of a tree is the maximum path length from root to any leaf.
+\end{definition}
+
 Next, we present the class of MDPs introduced in~\cite{topin2021iterative} useful for our goal of direct reinforcement learning of decision tree policies.
 \subsection{Iterative bounding Markov decision processes}\label{sec:ibmdp}
 
@@ -334,14 +419,7 @@ $R: S\times A \rightarrow \mathbb{R}$ is the base MDP reward function.
 $\zeta$ is a reward signal for taking an information gathering action.
 So the IBMDP reward function is to get a reward from the base MDP if the action is a base MDP action or to get $\zeta$ if the action is an IGA action.
 $T_{info}: S\times O \times( A_{info} \cup A )\rightarrow \Delta (S\times O)$ is the transition function of IBMDPs: 
-given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_p, U'_p) \in O$ and base state features $\boldsymbol{s}_t=(s'_1, s'_2, \dots, s'_p)$ if an IGA $\langle j, v \rangle$ is taken, the new observation is:
-{\small
-\begin{align*}
-    \boldsymbol{o}_{t+1} &= \begin{cases}
-        (L'_1, U'_1, \dots , L'_j, \min\{v, U'_j\}, \dots , L'_p, U'_p) \text{ if } s_j \leq v\\
-        (L'_1, U'_1, \dots , \max\{v, L'_j\}, U'_j, \dots , L'_p, U'_p) \text{ if } s_j > v
-    \end{cases}
-\end{align*}}
+given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_p, U'_p) \in O$ and base state features $\boldsymbol{s}_t=(s'_1, s'_2, \dots, s'_p)$ if an IGA $\langle j, v \rangle$ is taken, the new observation $\boldsymbol{o}_{t+1}$ is $(L'_1, U'_1, \dots , L'_j, \min\{v, U'_j\}, \dots , L'_p, U'_p) \text{ if } s_j \leq v$ or $(L'_1, U'_1, \dots , \max\{v, L'_j\}, U'_j, \dots , L'_p, U'_p) \text{ if } s_j > v$.
 If a base action is taken, the observation is reset to the default base state feature bounds $(L_1, U_1,\dots, L_p, U_p)$ and the base state features change according to the base MDP transition function: $\boldsymbol{s}_{t+1}\sim T(\boldsymbol{s}_t, a_t)$.
 At initialization, the base state features are drawn from the base MDP initial distribution $T_0$ and the observation is always set to the default base state features bounds $\boldsymbol{o}_0=(L_1, U_1,\dots, L_p, U_p)$.
 \end{definition}
@@ -381,10 +459,164 @@ In particular, their algorithm that converts IBMDP policies into decision trees 
     \caption{Extract a Decision Tree Policy (algorithm 1 from~\cite{topin2021iterative})}\label{alg:extract-tree}
 \end{algorithm}
 
+\begin{figure}
+\centering
+\scalebox{0.7}{
+\begin{tikzpicture}[scale=0.6]
+    % Define styles
+    \tikzstyle{grid}=[draw, thick, fill=gray!10]
+    \tikzstyle{rectangle}=[draw, thick, fill=red!20]
+    
+    % Row 1: IBMDP States (s, o)
+    % t=0: Initial state
+    \node at (2,7) {\small $t=0$};
+
+    \draw[rectangle] (1,4) rectangle (3,6);
+    \draw[grid] (1,4) grid (3,6);
+    % Add axes
+    \draw[thick, ->] (1,4) -- (3.2,4) node[right] {$x$};
+    \draw[thick, ->] (1,4) -- (1,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+1,4) -- (\x+1,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (1,\y+4) -- (0.9,\y+4) node[left] {$\y$};
+    }
+    \node at (2.5, 4.5) {$\star$};
+    % \node at (1.5, 5.5) {$\mathcal{A}$};
+    
+    % Curved arrow from t=0 to t=1
+    \draw[thick, ->] (2,3) to[bend right=30] node[midway, below] {} (5.8,3);
+
+    % % t=1: After AIG x≤0.5
+    \node at (6,7) {\small $t=1$};
+
+    \draw[rectangle] (6,4) rectangle (7,6);
+    \draw[grid] (5,4) grid (7,6);
+    % Add axes
+    \draw[thick, ->] (5,4) -- (7.2,4) node[right] {$x$};
+    \draw[thick, ->] (5,4) -- (5,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+5,4) -- (\x+5,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (5,\y+4) -- (4.9,\y+4) node[left] {$\y$};
+    }
+    \node at (6.5, 4.5) {$\star$};
+    \node at (5.5, 5.5) {$\mathcal{A}$};
+
+
+
+    % Curved arrow from t=1 to t=2
+    \draw[thick, ->] (6,3) to[bend right=30] node[midway, below] {}(9.8,3);
+
+    \node at (10,7) {\small $t=2$};
+    
+    \draw[rectangle] (9,4) rectangle (11,6);
+    \draw[grid] (9,4) grid (11,6);
+    % Add axes
+    \draw[thick, ->] (9,4) -- (11.2,4) node[right] {$x$};
+    \draw[thick, ->] (9,4) -- (9,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+9,4) -- (\x+9,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (9,\y+4) -- (8.9,\y+4) node[left] {$\y$};
+    }
+    \node at (10.5, 4.5) {$\star$};
+    % \node at (12.5, 5.5) {$\mathcal{A}$};
+
+    
+    % Curved arrow from t=2 to t=4
+    \draw[thick, ->] (10,3) to[bend right=30] node[midway, below] {} (13.8,3);
+    
+    \node at (14,7) {\small $t=3$};
+
+    \draw[rectangle] (13,4) rectangle (14,6);
+    \draw[grid] (13,4) grid (15,6);
+    % Add axes
+    \draw[thick, ->] (13,4) -- (15.2,4) node[right] {$x$};
+    \draw[thick, ->] (13,4) -- (13,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+13,4) -- (\x+13,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (13,\y+4) -- (12.9,\y+4) node[left] {$\y$};
+    }
+    \node at (14.5, 4.5) {$\star$};
+    \node at (14.5, 5.5) {$\mathcal{A}$};
+
+    
+    \draw[thick, ->] (14,3) to[bend right=30] node[midway, below] {} (17.8,3);
+    
+    % % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (14.5,0) {$x \leq 1$};
+    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (13,-3) {$\rightarrow$};
+    % % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
+    % % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+
+    \node at (18,7) {\small $t=4$};
+ 
+    \draw[rectangle] (17,4) rectangle (19,6);
+    \draw[grid] (17,4) grid (19,6);
+    % % Add axes
+    \draw[thick, ->] (17,4) -- (19.2,4) node[right] {$x$};
+    \draw[thick, ->] (17,4) -- (17,6.2) node[above] {$y$};
+    \foreach \x in {0,1,2} {
+        \draw[thick] (\x+17,4) -- (\x+17,3.9) node[below] {$\x$};
+    }
+    \foreach \y in {0,1,2} {
+        \draw[thick] (17,\y+4) -- (16.9,\y+4) node[left] {$\y$};
+    }
+    % \node at (18.5, 4.5) {$\star$};
+    % \node at (18.6, 4.6) {$\mathcal{A}$};
+
+
+    % \node[circle, draw, thick, fill=blue!5, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (19.5,0) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (18,-3) {$\rightarrow$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (21,-3) {$\downarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+    \node[circle, draw, thick, fill=blue!5, text width=2.5em, text centered, minimum height=2.5em, font=\small] (tree4_root) at (15.5,1) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (14,-1.5) {$\rightarrow$};
+    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (17,-1.5) {$\downarrow$};
+    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    % \node[circle, draw, thick, fill=blue!25, text width=2em, text centered, minimum height=1.5em, font=\small] (tree4_root) at (26.5,5) {$x \leq 1$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (25,2) {$\rightarrow$};
+    % \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (28,2) {$\downarrow$};
+    % \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % \draw[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+
+    \node[circle, draw, thick, fill=blue!25, text width=2.5em, text centered, minimum height=2.5em, font=\small] (tree4_root) at (11.5,1) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (10,-1.5) {$\rightarrow$};
+    % \node<6->[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (16,-3) {$\downarrow$};
+    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % \draw<6->[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    \node[circle, draw, thick, fill=blue!5, text width=2.5em, text centered, minimum height=2.5em, font=\small] (tree4_root) at (7.5,1) {$x \leq 1$};
+    \node[rectangle, draw, thick, fill=green!25, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (6,-1.5) {$\rightarrow$};
+    \draw[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+
+    \node[circle, draw, thick, fill=blue!25, text width=2.5em, text centered, minimum height=2.5em, font=\small] (tree4_root) at (3.5,1) {$x \leq 1$};
+    % \node<5>[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_right) at (3,-3) {$\rightarrow$};
+    % \node<5>[rectangle, draw, thick, fill=green!5, text width=1.5em, text centered, rounded corners, minimum height=1em, font=\small] (tree4_left) at (6,-3) {$\downarrow$};
+    % \draw<5>[->] (tree4_root) -- (tree4_right) node[font=\footnotesize, midway, above left] {True};
+    % \draw<5>[->] (tree4_root) -- (tree4_left) node[font=\footnotesize, midway, above right] {False};
+
+    
+\end{tikzpicture}}
+\caption{By masking the current state to the agent, we force it to take information-gathering actions.}
+\end{figure}
+
 While the connections between partially observable MDPs (POMDPs~\cite{POMDP,chap2}) and extracting decision tree policies from IBMDPs is obvious, they are absent from the original IBMDP paper~\cite{topin2021iterative}.
 In the next section we bridge this gap.
 
-\subsection{Bridging the gap with the partially observable MDPs literature}\label{sec:poibmdp}
+\section{Bridging the gap with the partially observable MDPs literature}\label{sec:poibmdp}
+\subsection{An adequate formalism}
 A POMDP is an MDP where the current state is hidden; only some information about the current state is observable.
 
 \begin{definition}[Partially observable Markov decision process]\label{def:pomdp}
@@ -421,7 +653,69 @@ We abuse notation and denote both values of observations and values of states by
 \end{definition}
 
 The asymptotic occupancy distribution is the probability of a policy $\pi$ to arrive in $(s,\boldsymbol{o}')$ while observing $\boldsymbol{o}$ in some trajectory.  
-Now that we presented all the necessary technical backgrounds we move on to our contributions.
+\subsection{Reinforcement learning in POMDP}
+
+In general, the policy that maximizes the RL objective (cf. definition~\ref{def:mdp-obj}) in a POMDP (cf. definition~\ref{def:pomdp}) maps ``belief states'' or observation histories~\cite{chap2} to actions.
+Hence, those policies do not correspond to decicion trees since we require that policies depend only on the current observation.
+If we did not have this constraint, we could apply any standard RL algorithm to solve POIBMDPs by seeking such policies because both histories and belief states are sufficient statistics for POMDP hidden states~\cite{chap2,lambrechts2025informed}.
+
+In particular, the problem of finding the optimal deterministic partially observable policies for POMDPs is NP-HARD, even with full knowledge of transitions and rewards~\cite[section 3.2]{littman1}.
+It means that it is impractical to enumerate all possible policies and take the best one. 
+For even moderate-sized POMDPs, a brute-force approach would take a very long time since there are $|A|^{|O|}$ deterministic partially observable policies.
+Hence it is interesting to study reinforcement learning for finding the best deterministic partially observable policy since it would not search the whole solution space.
+However applying RL to our interpretable RL objective (cf. definition~\ref{def:irl}) is non-trivial.
+
+In~\cite{learning-pomdp}, the authors show that the optimal partially observable policy can be stochastic. Hence, policy gradient algorithms~\cite{pg_sutton}--that return stochastic policies--are to avoid since we seek the best \textit{deterministic} policy. 
+Furthermore, the optimal deterministic partially observable policy might not maximize all the values of all observations simultaneously ~\cite{learning-pomdp} which makes it difficult to use TD-learning (cf. algorithms~\ref{alg:qlearning} and~\ref{alg:sarsa}).
+Indeed, doing a TD-learning update of one partially observable value (cf. definition~\ref{def:vpo}) with, e.g. Q-learning, can change the value of \textit{all} other observations in an uncontrollable manner because of the dependence in $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$ (cf. definition~\ref{def:vpo}).
+Interestingly, those two challenges of learning in POMDPs described in \cite{learning-pomdp} are visible in figure~\ref{fig:irl-objectives}. 
+First, there is a whole range of $\zeta$ values for which the optimal partially observable policy is stochastic.
+Second, for e.g. $\zeta=0.5$, while a depth-1 tree is the optimal deterministic partially observable policy, the value of state $(\boldsymbol{s}_2, \boldsymbol{o}_0) = (1.5, 1.5, 0, 2, 0, 2)$ is not maximized by this partially observable policy but by the sub-optimal policy that always goes down.
+
+Despite those hardness results, empirical results of applying RL to POMDPs by naively replacing $\boldsymbol{x}$ by $\boldsymbol{o}$ in Q-learning or Sarsa, has already demonstrated successful in practice~\cite{sarsa-pomdp}. 
+More recently, the framework of Baisero et. al. called asymmetric RL~\cite{baisero-dqn,baisero-ppo} has also shown promising results to learn POMDP solutions.
+Asymmetric RL algorithms train a model--a policy or a value function--depending on hidden state (only available at train time) and a history dependent (or observation dependent) model.
+The history or observation dependent model serves as target or critic to train the hidden state dependent model.
+The history dependent (or observation dependent) model can thus be deployed in the POMDP after training since it does not require access to the hidden state to output actions.
+In algorithm~\ref{alg:asymqlearning} we present asymmetric Q-learning. It is a variant of Q-learning (cf. algorithm~\ref{alg:qlearning}) that returns a deterministic partially observable policy like modified DQN~\ref{alg:mod-dqn}.
+Given a POMDP, asymmetric Q-learning trains a partially observable Q-function $Q:O\times A\rightarrow\mathbb{R}$ and a Q-function $U:X\times A\rightarrow\mathbb{R}$. The hidden state dependent Q-function $U$ serves as a target in the temporal difference learning update. 
+We also consider an asymmetric version of Sarsa that applies similar modifications to the standard Sarsa (cf. algorithm~\ref{alg:sarsa}). We present asymmetric Sarsa in the appendix (cf. algorithm~\ref{alg:asymsarsa}).
+In~\cite{jsj}, the authors introduce a policy search algorithm~\ref{sec:rl} that learns a (stochastic) policy $\pi:O\rightarrow\Delta(A)$ and a critic $V:X\rightarrow \mathbb{R}$ using Monte Carlo estimates to guide policy improvement.
+We also consider this algorithm in our experiments that we call JSJ (for the authors names Jaakkola, Singh, Jordan). We present the JSJ algorithm in the appendix (cf. algorithm~\ref{alg:jsj}).
+JSJ is equivalent to a tabular asymmetric policy gradient algorithm (cf. algorithm~\ref{alg:reinforce}). 
+
+Until recently, the benefits of asymmetric RL over standard RL was only shown empirically and only for history-dependent models.
+The work of Gaspard Lambrechts~\cite{justif-asym} proves that some asymmetric RL algorithms learn better history-dependent \textbf{or} partially observable policies for solving POMDPs.
+This is exactly what we wish for. However, those algorithms are not practical because they require estimations of the asymptotic occupancy distribution $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$ (cf. definition~\ref{def:vpo}) for candidate policies which in turn would require to gather a lot of on-policy samples.
+We leave it to future work to use those algorithms that combine asymmetric RL and estimation of future visitation frequencies since those results are contemporary to the writing of this manuscript.
+
+In the original work of Topin et. al.~\cite{topin2021iterative}, they use RL algorithms corresponding to asymmetric DQN or asymmetric PPO from~\cite{baisero-dqn,baisero-ppo} before those were formally published.
+\RestyleAlgo{ruled}
+\SetKwComment{Comment}{}{}
+\begin{algorithm}
+    \KwData{A POMDP, learning rates $\alpha_u,\ \alpha_q$, exploration prob. $\epsilon$}
+    \KwResult{$\pi:O\rightarrow A$}
+    \textcolor{teal}{Initialize $U(\boldsymbol{x},a) = 0$ for all $x \in X, a \in A$ \\}
+    Initialize $Q(\boldsymbol{o},a) = 0$ for all $o \in O, a \in A$ \\
+    \For{each episode}{
+        Initialize state $x_0 \sim T_0$ \\
+        Initialize observation $\boldsymbol{o}_0 \sim \Omega(\boldsymbol{x}_0)$ \\
+
+        \For{each step $t$}{
+            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \operatorname{argmax}_a Q(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$ \\
+            Take action $a_t$, observe $r_t = R(\boldsymbol{x}_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $\boldsymbol{o}_{t+1} \sim \Omega(\boldsymbol{x}_{t+1})$ \\
+            \textcolor{teal}{$y \leftarrow r + \gamma U(\boldsymbol{x}_{t+1}, \operatorname{argmax}_{a'} Q(\boldsymbol{o}_{t+1}, a'))$} \\
+            $U(\boldsymbol{x}_t,a_t) \leftarrow (1 - \alpha_u) U(\boldsymbol{x}_t, a_t) + \alpha_u y $ \\
+            \textcolor{teal}{$Q(\boldsymbol{o}_t,a_t) \leftarrow (1 - \alpha_q) Q(\boldsymbol{o}_t, a_t) + \alpha_q y $} \\
+            $x_t \leftarrow \boldsymbol{x}_{t+1}$ \\
+            $\boldsymbol{o}_t \leftarrow \boldsymbol{o}_{t+1}$ \\
+        }
+    }
+    $\pi(o) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$
+    \caption{Asymmetric Q-Learning. We highlight in green the differences with the standard Q-learning~\ref{watkins1992q}}\label{alg:asymqlearning}
+\end{algorithm}
+
+Next, we apply asymmetric and standard RL algorithms to the problem of learning the optimal depth-1 tree for the grid world MDP (cf. section~\ref{sec:opt-depth1}) by optimizing the interpretable RL objective in POIBMDPs.
 
 \section{Methodology}\label{sec:opt-depth1}
 The goal of this section is to check if the direct approach described above can consistently retrieve optimal decision tree policies for a simple  $2\times 2$ grid world MDP.
@@ -502,70 +796,6 @@ When $\gamma=0.99$, despite objective values being very similar for the depth-1 
     \caption{RL objective values (cf. definition~\ref{def:irl}) of different partially observable policies as functions of $\zeta$. Shaded areas show the optimal \textit{deterministic} partially observable policies in different ranges of $\zeta$ values.}\label{fig:irl-objectives}
 \end{figure}
 
-\subsection{Reinforcement learning algorithms}
-
-In general, the policy that maximizes the RL objective (cf. definition~\ref{def:mdp-obj}) in a POMDP (cf. definition~\ref{def:pomdp}) maps ``belief states'' or observation histories~\cite{chap2} to actions.
-Hence, those policies do not correspond to decicion trees since we require that policies depend only on the current observation.
-If we did not have this constraint, we could apply any standard RL algorithm to solve POIBMDPs by seeking such policies because both histories and belief states are sufficient statistics for POMDP hidden states~\cite{chap2,lambrechts2025informed}.
-
-In particular, the problem of finding the optimal deterministic partially observable policies for POMDPs is NP-HARD, even with full knowledge of transitions and rewards~\cite[section 3.2]{littman1}.
-It means that it is impractical to enumerate all possible policies and take the best one. 
-For even moderate-sized POMDPs, a brute-force approach would take a very long time since there are $|A|^{|O|}$ deterministic partially observable policies.
-Hence it is interesting to study reinforcement learning for finding the best deterministic partially observable policy since it would not search the whole solution space.
-However applying RL to our interpretable RL objective (cf. definition~\ref{def:irl}) is non-trivial.
-
-In~\cite{learning-pomdp}, the authors show that the optimal partially observable policy can be stochastic. Hence, policy gradient algorithms~\cite{pg_sutton}--that return stochastic policies--are to avoid since we seek the best \textit{deterministic} policy. 
-Furthermore, the optimal deterministic partially observable policy might not maximize all the values of all observations simultaneously ~\cite{learning-pomdp} which makes it difficult to use TD-learning (cf. algorithms~\ref{alg:qlearning} and~\ref{alg:sarsa}).
-Indeed, doing a TD-learning update of one partially observable value (cf. definition~\ref{def:vpo}) with, e.g. Q-learning, can change the value of \textit{all} other observations in an uncontrollable manner because of the dependence in $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$ (cf. definition~\ref{def:vpo}).
-Interestingly, those two challenges of learning in POMDPs described in \cite{learning-pomdp} are visible in figure~\ref{fig:irl-objectives}. 
-First, there is a whole range of $\zeta$ values for which the optimal partially observable policy is stochastic.
-Second, for e.g. $\zeta=0.5$, while a depth-1 tree is the optimal deterministic partially observable policy, the value of state $(\boldsymbol{s}_2, \boldsymbol{o}_0) = (1.5, 1.5, 0, 2, 0, 2)$ is not maximized by this partially observable policy but by the sub-optimal policy that always goes down.
-
-Despite those hardness results, empirical results of applying RL to POMDPs by naively replacing $\boldsymbol{x}$ by $\boldsymbol{o}$ in Q-learning or Sarsa, has already demonstrated successful in practice~\cite{sarsa-pomdp}. 
-More recently, the framework of Baisero et. al. called asymmetric RL~\cite{baisero-dqn,baisero-ppo} has also shown promising results to learn POMDP solutions.
-Asymmetric RL algorithms train a model--a policy or a value function--depending on hidden state (only available at train time) and a history dependent (or observation dependent) model.
-The history or observation dependent model serves as target or critic to train the hidden state dependent model.
-The history dependent (or observation dependent) model can thus be deployed in the POMDP after training since it does not require access to the hidden state to output actions.
-In algorithm~\ref{alg:asymqlearning} we present asymmetric Q-learning. It is a variant of Q-learning (cf. algorithm~\ref{alg:qlearning}) that returns a deterministic partially observable policy like modified DQN~\ref{alg:mod-dqn}.
-Given a POMDP, asymmetric Q-learning trains a partially observable Q-function $Q:O\times A\rightarrow\mathbb{R}$ and a Q-function $U:X\times A\rightarrow\mathbb{R}$. The hidden state dependent Q-function $U$ serves as a target in the temporal difference learning update. 
-We also consider an asymmetric version of Sarsa that applies similar modifications to the standard Sarsa (cf. algorithm~\ref{alg:sarsa}). We present asymmetric Sarsa in the appendix (cf. algorithm~\ref{alg:asymsarsa}).
-In~\cite{jsj}, the authors introduce a policy search algorithm~\ref{sec:rl} that learns a (stochastic) policy $\pi:O\rightarrow\Delta(A)$ and a critic $V:X\rightarrow \mathbb{R}$ using Monte Carlo estimates to guide policy improvement.
-We also consider this algorithm in our experiments that we call JSJ (for the authors names Jaakkola, Singh, Jordan). We present the JSJ algorithm in the appendix (cf. algorithm~\ref{alg:jsj}).
-JSJ is equivalent to a tabular asymmetric policy gradient algorithm (cf. algorithm~\ref{alg:reinforce}). 
-
-Until recently, the benefits of asymmetric RL over standard RL was only shown empirically and only for history-dependent models.
-The work of Gaspard Lambrechts~\cite{justif-asym} proves that some asymmetric RL algorithms learn better history-dependent \textbf{or} partially observable policies for solving POMDPs.
-This is exactly what we wish for. However, those algorithms are not practical because they require estimations of the asymptotic occupancy distribution $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$ (cf. definition~\ref{def:vpo}) for candidate policies which in turn would require to gather a lot of on-policy samples.
-We leave it to future work to use those algorithms that combine asymmetric RL and estimation of future visitation frequencies since those results are contemporary to the writing of this manuscript.
-
-In the original work of Topin et. al.~\cite{topin2021iterative}, they use RL algorithms corresponding to asymmetric DQN or asymmetric PPO from~\cite{baisero-dqn,baisero-ppo} before those were formally published.
-\RestyleAlgo{ruled}
-\SetKwComment{Comment}{}{}
-\begin{algorithm}
-    \KwData{A POMDP, learning rates $\alpha_u,\ \alpha_q$, exploration prob. $\epsilon$}
-    \KwResult{$\pi:O\rightarrow A$}
-    \textcolor{teal}{Initialize $U(\boldsymbol{x},a) = 0$ for all $x \in X, a \in A$ \\}
-    Initialize $Q(\boldsymbol{o},a) = 0$ for all $o \in O, a \in A$ \\
-    \For{each episode}{
-        Initialize state $x_0 \sim T_0$ \\
-        Initialize observation $\boldsymbol{o}_0 \sim \Omega(\boldsymbol{x}_0)$ \\
-
-        \For{each step $t$}{
-            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \operatorname{argmax}_a Q(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$ \\
-            Take action $a_t$, observe $r_t = R(\boldsymbol{x}_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $\boldsymbol{o}_{t+1} \sim \Omega(\boldsymbol{x}_{t+1})$ \\
-            \textcolor{teal}{$y \leftarrow r + \gamma U(\boldsymbol{x}_{t+1}, \operatorname{argmax}_{a'} Q(\boldsymbol{o}_{t+1}, a'))$} \\
-            $U(\boldsymbol{x}_t,a_t) \leftarrow (1 - \alpha_u) U(\boldsymbol{x}_t, a_t) + \alpha_u y $ \\
-            \textcolor{teal}{$Q(\boldsymbol{o}_t,a_t) \leftarrow (1 - \alpha_q) Q(\boldsymbol{o}_t, a_t) + \alpha_q y $} \\
-            $x_t \leftarrow \boldsymbol{x}_{t+1}$ \\
-            $\boldsymbol{o}_t \leftarrow \boldsymbol{o}_{t+1}$ \\
-        }
-    }
-    $\pi(o) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$
-    \caption{Asymmetric Q-Learning. We highlight in green the differences with the standard Q-learning~\ref{watkins1992q}}\label{alg:asymqlearning}
-\end{algorithm}
-
-Next, we apply asymmetric and standard RL algorithms to the problem of learning the optimal depth-1 tree for the grid world MDP (cf. section~\ref{sec:opt-depth1}) by optimizing the interpretable RL objective in POIBMDPs.
-
 \subsection{Results}
 
 The results presented in the section show that (asymmetric) reinforcement learning fails for the aforementioned problem. Let us understand why.
@@ -623,12 +853,7 @@ Next, we quantify how difficult it is to do RL to learn partially observable pol
 \subsection{How difficult is it to learn in POIBMDPs?}\label{sec:how-diff}
 
 In this section we run the same (asymmetric) reinforcement learning algorithms to optimize either the RL objective (cf. definition~\ref{def:mdp-obj}) in MDPs (cf. definition~\ref{def:mdp}) or IBMDPs (cf. definition~\ref{def:ibmdp}), or the interpretable RL objective in POIBMDPs(cf. definition~\ref{def:irl}).
-This essentially results in three distinct problems:
-\begin{enumerate}
-    \item Learning an optimal standard Markovian policy in an MDP, i.e. optimizing the RL objective in an MDP.
-    \item Learning an optimal standard Markovian policy in an IBMDP, i.e. optimizing the RL objective in an IBMDP.
-    \item Learning an optimal deterministic partially observable policy in a POIBMDP.
-\end{enumerate}
+This essentially results in three distinct problems: (i) learning an optimal standard Markovian policy in an MDP, (ii) learning an optimal standard Markovian policy in an IBMDP, and (iii) learning an optimal deterministic partially observable policy in a POIBMDP.
 
 In order to see how difficult each of these three problems is, we can run a \textit{great} number of experiments for each problem and compare solving rates.
 To make solving rates comparable we consider a unique instance for each of those problems.
@@ -650,9 +875,10 @@ To get a success rate, we can simply divide the number of learned depth 1 tree b
 \begin{table}
     \centering
     \caption{Summary of RL baselines Hyperparameters}\label{tab:ib-params}
+    \small
     \begin{tabular}{llr}
     \toprule
-    \textbf{algorithm} & \textbf{Problem} & \textbf{Total Hyperparameter Combinations} \\
+    \textbf{algorithm} & \textbf{Problem} & \textbf{Hyperparameters comb.} \\
     \midrule
     Policy Gradient & PO/IB/MDP & 420 \\
     JSJ & POIBMDP & 15 \\
@@ -703,36 +929,30 @@ If RL does work for such fully observable POIBMDPs, this would mean that: 1) the
 Let us show that, POIBMDPs associated with MDPs encoding supervised learning tasks, are in fact MDPs themselves.
 Let us define such supervised learning MDPs in the context of a classification task (this definition extends trivially to regression tasks).
 \begin{definition}[Classification Markov decision process]\label{def:cmdp}
-    Given a set of $N$ examples denoted $\mathcal{E} = {\{(\boldsymbol{x}_i, y_i)\}}_{i=1}^N$ where each datum $\boldsymbol{x}_i \in \mathcal{X}$ is described by a set of $p$ features $x_{ij}$ with $1\leq j \leq p$, and $y_i \in \mathbb{Z}^m$ is the label associated with $\boldsymbol{x}_i$, a classification Markov decision Process is an MDP $\langle S, A, R, T, T_0 \rangle$ (cf. definition~\ref{def:mdp}) where:
-    \begin{itemize}
-        \item the state space is $S={\{\boldsymbol{x}_i\}}_{i=1}^N$, the set of training data features
-        \item the action space is $A=\mathbb{Z}^m$, the set of unique labels
-        \item the reward function is $R:S\times A \rightarrow \{0, 1\}$ with $R(\boldsymbol{s}=\boldsymbol{x}_i, a) = 1_{\{a=y_i\}}$
-        \item the transition function is $T:S\times A \rightarrow \Delta(S)$ with $T(\boldsymbol{s}, a, \boldsymbol{s}') = \frac{1}{N} \quad \forall \boldsymbol{s}, a, \boldsymbol{s}'$
-        \item the initial distribution is $T_0(\boldsymbol{s}_0 = \boldsymbol{s}) = \frac{1}{N}$
-    \end{itemize}
+    Given a set of $N$ examples denoted $\mathcal{E} = {\{(\boldsymbol{x}_i, y_i)\}}_{i=1}^N$ where each datum $\boldsymbol{x}_i \in \mathcal{X}$ is described by a set of $p$ features $x_{ij}$ with $1\leq j \leq p$, and $y_i \in \mathbb{Z}^m$ is the label associated with $\boldsymbol{x}_i$, a classification Markov decision Process is an MDP $\langle S, A, R, T, T_0 \rangle$ (cf. definition~\ref{def:mdp}).
+    The state space is $S={\{\boldsymbol{x}_i\}}_{i=1}^N$, the set of training data features.
+    The action space is $A=\mathbb{Z}^m$, the set of unique labels.
+    The reward function is $R:S\times A \rightarrow \{0, 1\}$ with $R(\boldsymbol{s}=\boldsymbol{x}_i, a) = 1_{\{a=y_i\}}$.
+    The transition function is $T:S\times A \rightarrow \Delta(S)$ with $T(\boldsymbol{s}, a, \boldsymbol{s}') = \frac{1}{N} \quad \forall \boldsymbol{s}, a, \boldsymbol{s}'$.
+    The initial distribution is $T_0(\boldsymbol{s}_0 = \boldsymbol{s}) = \frac{1}{N}$.
 \end{definition}
 
 One can be convinced that policies that maximize the RL objective (cf. definition~\ref{def:mdp-obj}) in classification MDPs are classifiers that maximize the prediction accuracy because $\sum_{i=1}^N 1_{\pi(\boldsymbol{x}_i)=y_i} = \sum_{i=1}^N R(\boldsymbol{x}_i, \pi(\boldsymbol{x}_i))$.
 We defer the formal proof in the next part of the manuscript in which we extensively study supervised learning problems.
 
-In figure~\ref{example:cmdp} we give an example of such classification MDP with 4 data in the training set and 2 classes:
-\begin{align*}
-    \mathcal{X} &= \{(0.5, 0.5), (0.5, 1.5), (1.5, 1.5), (1.5, 0.5)\}\\
-    y &= \{0, 0, 1, 1\} 
-\end{align*}
+In figure~\ref{example:cmdp} we give an example of such classification MDP with 4 data in the training set and 2 classes: $\mathcal{X} &= \{(0.5, 0.5), (0.5, 1.5), (1.5, 1.5), (1.5, 0.5)\}$ and $y &= \{0, 0, 1, 1\}$.
 
 \begin{figure}
     \centering
-    \begin{tikzpicture}[
+    \scalebox{0.8}{\begin{tikzpicture}[
         decision/.style={circle, draw, thick, fill=blue!20, text width=2.5em, text centered, minimum height=2.5em, font=\small},
         leaf/.style={rectangle, draw, thick, fill=green!20, text width=2em, text centered, rounded corners, minimum height=2em, font=\small},
         edge_label/.style={font=\footnotesize, midway}
     ]
         % Tree 4: if x <= 0.5 move right else move left
-        \node[decision] (tree4_root) at (8,2) {$x \leq 1$};
-        \node[rectangle, draw, thick, fill=green!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_right) at (7,0) {};
-        \node[rectangle, draw, thick, fill=red!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_left) at (9,0);
+        \node[decision] (tree4_root) at (6,2) {$x \leq 1$};
+        \node[rectangle, draw, thick, fill=green!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_right) at (5,0) {};
+        \node[rectangle, draw, thick, fill=red!40, text width=2em, text centered, rounded corners, minimum height=2em, font=\small] (tree4_left) at (7,0);
         \draw[->] (tree4_root) -- (tree4_right) node[edge_label, above left] {True};
         \draw[->] (tree4_root) -- (tree4_left) node[edge_label, above right] {False};
         \tikzstyle{grid}=[draw, thick, fill=gray!10]
@@ -760,7 +980,7 @@ In figure~\ref{example:cmdp} we give an example of such classification MDP with 
         \node at (1.5,1.5) {$\boldsymbol{s}_2$};
         \node at (0.5,1.5) {$\boldsymbol{s}_1$};
 
-    \end{tikzpicture}
+    \end{tikzpicture}}
     \caption{Classification MDP optimal actions. In this classification MDP, there are four data to which to assign either a green or red label.
     On the right, there is the unique optimal depth-1 tree for this particular classification MDP. This depth-1 tree also maximizes the accuracy on the corresponding classification task.}\label{example:cmdp}
     \end{figure}
@@ -770,19 +990,14 @@ Now let us show that associated POIBMDPs are in fact MDPs. We show this by const
 \begin{definition}[Classification POIBMDP]\label{def:cpoibmdp}
     Given a classification MDP $\langle {\{\boldsymbol{x}_i\}}_{i=1}^N, \mathbb{Z}^m, R, T, T_0 \rangle$ (cf. definition~\ref{def:cmdp}), and an associated POIBMDP $\langle S, O, A, A_{info}, R, \zeta, T_{info}, T, T_0\rangle$ (cf. definition~\ref{def:poibmdp}), a classification POIBMDP is an MDP (cf. definition~\ref{def:mdp}):
     \begin{align*}
-        \langle \overbrace{O}^{\text{State space}}, \underbrace{\mathbb{Z}^m, A_{info}}_{\text{Action space}}, \overbrace{R, \zeta}^{\text{Reward function}}, \underbrace{\mathcal{P}, \mathcal{P}_0}_{\text{Transition functions}} \rangle
+        \langle \overbrace{O}^{\text{State space}}, \overbrace{\mathbb{Z}^m, A_{info}}^{\text{Action space}}, \overbrace{R, \zeta}^{\text{Reward function}}, \overbrace{\mathcal{P}, \mathcal{P}_0}^{\text{Transition functions}} \rangle
     \end{align*}
-    \begin{itemize}
-        \item $O$ is the set of possible observations in $[L_1, U_1] \times \dots \times [L_p, U_p] \times [L_1, U_1] \times \dots \times [L_p, U_p] $ where $L_j$ is the minimum value of feature $j$ over all data $\boldsymbol{x}_i$ and $U_j$ the maximum
-        \item $\mathbb{Z}^m \cup A_{info}$ is action space: actions can be label assignments in $\mathbb{Z}^m$ or bounds refinements in $A_{info}$
-        \item The reward for assigning label $a\in \mathbb{Z}^m$ when observing some observation $\boldsymbol{o}=(L'_1, U'_1, \dots,$ $L'_p, U'_p)$ is the proportion of training data satisfying the bounds and having label $a$: $R(o, a) = \frac{|\{\boldsymbol{x}_i: L'_j \leq x_{ij} \leq U'_j \forall i,j \} \cap \{\boldsymbol{x}_i: y_i = a \forall i \}|}{|\{\boldsymbol{x}_i: L'_j \leq x_{ij} \leq U'_j \forall i,j \}|}$. 
-        The reward for taking an information gathering action that refines bounds is $\zeta$
-        \item The transition function is $\mathcal{P}:O \times (\mathbb{Z}^m \cup A_{info}) \rightarrow \Delta (O)$ where:
-        \begin{itemize}
-            \item For $a \in \mathbb{Z}^m$: $\mathcal{P}(\boldsymbol{o}, a, (L_1, U_1, \dots, L_p, U_p)) = 1$ (reset to full bounds)
-            \item For $a = (k, v) \in A_{info}$: from $\boldsymbol{o}=(L'_1, U'_1, \dots, L'_p, U'_p)$, the MDP will transit to $\boldsymbol{o}_{left} = (L'_1, U'_1, \dots, L_k, v, \dots, L'_p, U'_p)$ (resp. $\boldsymbol{o}_{right} = (L'_1, U'_1, \dots, U'_k, v, \dots, L'_p, U'_p)$) with probability $\frac{|\{\boldsymbol{x}_i: L'_j \leq x_{ij} \leq U'_j \forall j \land x_{ik} \leq v\}|}{|\{\boldsymbol{x}_i: L'_j \leq x_{ij} \leq U'_j \forall j\}|}$ (resp. $\frac{|\{\boldsymbol{x}_i: L'_j \leq x_{ij} \leq U'_j \forall j \land x_{ik} > v\}|}{|\{\boldsymbol{x}_i: L'_j \leq x_{ij} \leq U'_j \forall j\}|}$)
-        \end{itemize}
-    \end{itemize}
+    $O$ is the set of possible observations in $[L_1, U_1] \times \dots \times [L_p, U_p] \times [L_1, U_1] \times \dots \times [L_p, U_p] $ where $L_j$ is the minimum value of feature $j$ over all data $\boldsymbol{x}_i$ and $U_j$ the maximum.
+    $\mathbb{Z}^m \cup A_{info}$ is action space: actions can be label assignments in $\mathbb{Z}^m$ or bounds refinements in $A_{info}$.
+    The reward for assigning label $a\in \mathbb{Z}^m$ when observing some observation $\boldsymbol{o}=(L'_1, U'_1, \dots,$ $L'_p, U'_p)$ is the proportion of training data satisfying the bounds and having label $a$: $R(o, a) = \frac{|\{\boldsymbol{x}_i: L'_j \leq x_{ij} \leq U'_j \forall i,j \} \cap \{\boldsymbol{x}_i: y_i = a \forall i \}|}{|\{\boldsymbol{x}_i: L'_j \leq x_{ij} \leq U'_j \forall i,j \}|}$. 
+    The reward for taking an information gathering action that refines bounds is $\zeta$.
+    The transition function is $\mathcal{P}:O \times (\mathbb{Z}^m \cup A_{info}) \rightarrow \Delta (O)$. When $a \in \mathbb{Z}^m$, $\mathcal{P}(\boldsymbol{o}, a, (L_1, U_1, \dots, L_p, U_p)) = 1$ (reset to full bounds).
+    When $a = (k, v) \in A_{info}$, from $\boldsymbol{o}=(L'_1, U'_1, \dots, L'_p, U'_p)$, the MDP will transit to $\boldsymbol{o}_{left} = (L'_1, U'_1, \dots, L_k, v, \dots, L'_p, U'_p)$ (resp. $\boldsymbol{o}_{right} = (L'_1, U'_1, \dots, U'_k, v, \dots, L'_p, U'_p)$) with probability $\frac{|\{\boldsymbol{x}_i: L'_j \leq x_{ij} \leq U'_j \forall j \land x_{ik} \leq v\}|}{|\{\boldsymbol{x}_i: L'_j \leq x_{ij} \leq U'_j \forall j\}|}$ (resp. $\frac{|\{\boldsymbol{x}_i: L'_j \leq x_{ij} \leq U'_j \forall j \land x_{ik} > v\}|}{|\{\boldsymbol{x}_i: L'_j \leq x_{ij} \leq U'_j \forall j\}|}$).
 \end{definition}
 
 Those classification POIBMDPs are essentially MDPs with stochastic transitions.
@@ -802,7 +1017,7 @@ Since classification POIBMDPs are MDPs, we do not need to analyze asymmetric RL 
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.4\textwidth]{../images/images_part1/tree_distributions_classif.pdf}
+    \includegraphics[width=0.4\textwidth]{../slides_soutenance/tree_distributions_merged.pdf}
     \caption{We reproduce the same plot as in figure~\ref{fig:dt-distrib-poibmdp} for classification POIBMDPs. Each colored dot is the number of final learned trees with a specific structure for a given $\zeta$.}\label{fig:tree-distrib-classif-poibmdp}
 \end{figure}
 
@@ -1045,11 +1260,7 @@ The actions are the cardinal directions $A = \{\rightarrow, \leftarrow, \downarr
 The reward for taking any action is 0 except when in the bottom right state $(1.5, 0.5)$ which is an absorbing state: once in this state, you stay there forever. 
 Standard optimal deterministic Markovian policies were presented for this MDP in example \ref{example:grid}.
 
-Suppose an associated IBMDP (definition \ref{def:ibmdp}) with two IGAs:
-\begin{itemize}
-    \item $\langle x, 1\rangle$ that tests if $x\leq 1$
-    \item $\langle y, 1\rangle$ that tests if $y\leq 1$
-\end{itemize}
+Suppose an associated IBMDP (definition \ref{def:ibmdp}) with two IGAs: $\langle x, 1\rangle$ that tests if $x\leq 1$ and $\langle y, 1\rangle$ that tests if $y\leq 1$.
 The initial observation is always the grid bounds $\boldsymbol{o}_0=(0, 2, 0, 2)$ because the base state features in the grid world are always in $[0, 2] \times [0, 2]$.
 There are only finitely many observations since with those two IGAs there are only nine possible observations that can be attained from $\boldsymbol{o}_0$ following the IBMDP transitions (cf. definition \ref{def:ibmdp}).
 For example when the IBMDP initial base state features are $\boldsymbol{s}_0 = (0.5, 1.5)$, and taking first $\langle x, 1\rangle$ then $\langle y, 1\rangle$ the corresponding observations are first $\boldsymbol{o}_{t+1} = (0, 1, 0, 2)$ and then $\boldsymbol{o}_{t+2} = (0, 1, 1, 2)$.
