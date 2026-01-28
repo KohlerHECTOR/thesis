@@ -1,0 +1,95 @@
+\section{Bridging the gap with the partially observable MDPs literature}\label{sec:poibmdp}
+\subsection{An adequate formalism}
+To better understand reinforcement learning of decision tree policies for MDPs, we explictly re-write the problem of optimizing a deterministic policy depending on current observations in an IBMDP as the problem of optimizing a deterministic policy depending only on current observations--also known as a deterministic \emph{memoryless} policy--in a partially observable Markov decision process (POMDP~\cite{pomdp}).
+By doing so, we can leverage results from the POMDP literature that is richer than interpretable reinforcement learning literature.
+
+\begin{definition}[Partially observable Markov decision process]\label{def:pomdp}
+A partially observable Markov decision process is a tuple $\langle X, A, O, R, T, T_0, \Omega\rangle$. $X$ is the hidden state space.
+$A$ is a finite set of actions.
+$O$ is a set of observations.
+$T: X \times A \rightarrow \Delta(X)$ is the transition function, where $T(\boldsymbol{x}_t, a, \boldsymbol{x}_{t+1}) = P(\boldsymbol{x}_t|\boldsymbol{x}_{t+1}, a)$ is the probability of transitioning to state $\boldsymbol{x}_{t}$ when taking action $a$ in state $\boldsymbol{x}$.
+$T_0$: is the initial distribution over states. 
+$\Omega: X \rightarrow \Delta(O)$ is the observation function, where $\Omega(\boldsymbol{o}, a, \boldsymbol{x}) = P(\boldsymbol{o}|\boldsymbol{x}, a)$ is the probability of observing $\boldsymbol{o}$ in state $\boldsymbol{x}$.
+$R: X \times A \rightarrow \mathbb{R}$ is the reward function, where $R(\boldsymbol{x}, a)$ is the immediate reward for taking action $a$ in state $\boldsymbol{x}$.
+Note that $\langle X, A, R, T, T_0 \rangle$ defines an MDP (definition~\ref{def:mdp}).
+\end{definition}
+
+Next, we can define partially observable iterative bounding Markov decision processes (POIBMDPs). 
+They are IBMDPs (definition~\ref{def:ibmdp}) for which we explicitly define an observation space and an observation function.
+
+\begin{definition}[Partially observable iterative bounding Markov decision process]\label{def:poibmdp} a partially observable iterative bounding Markov decision process $\mathcal{M}_{POIB}$ is a tuple:
+    \begin{align*}
+        \langle \overbrace{S\times O}^{\text{States}}, \overbrace{A\cup A_{info}}^{\text{Action space}},\overbrace{O}^{\text{Observations}} ,\overbrace{(R, \zeta)}^{\text{Rewards}}, \overbrace{(T_{info}, T, T_0)}^{\text{Transitions}}, \Omega \rangle
+    \end{align*}
+    , where $\langle S\times O, A\cup A_{info}, (R, \zeta),( T, T_0, T_{info})\rangle$ is an IBMDP (definition~\ref{def:ibmdp}).
+    The transition function $\Omega$ maps concatenation of state features and observations--IBMDP states--to observations, $\Omega:S\times O \rightarrow O$, with $P(\boldsymbol{o}|(\boldsymbol{s}, \boldsymbol{o}))=1$ 
+\end{definition}
+POIBMDPs are particular instances of POMDPs where the observation function simply applies a mask over some features of the hidden state.
+This setting has other names in the literature.
+For example, POIBMDPs are mixed observability MDPs \cite{momdp} with downstream MDP state features as the \textit{hidden variables} and feature bounds as \textit{visible} variables.
+POIBMDPs can also be seen as non-stationary MDPs (N-MDPs)~\cite{learning-pomdp} in which there is one different transition function per downstream MDP state: these are called hidden-mode MDPs~\cite{hmmdp}.
+Following~\cite{learning-pomdp} we can write the value of a deterministic memoryless policy $\pi:O\rightarrow A\cup A_{info}$ in observation $\boldsymbol{o}$.
+
+\begin{definition}[Value of an observation]\label{def:vpo} In a POIBMDP (definition~\ref{def:poibmdp}), the expected cumulative discounted reward of a deterministic memoryless policy $\pi:O\rightarrow A\cup A_{info}$ starting from observation $o$ is $V^{\pi}(\boldsymbol{o})$:
+$V^{\pi}(\boldsymbol{o}) &= \underset{(s,\boldsymbol{o}')\in S\times O}{\sum}P^{\pi}((\boldsymbol{s}, \boldsymbol{o}')|\boldsymbol{o})V^{\pi}((\boldsymbol{s}, \boldsymbol{o}'))$.
+With $P^{\pi}((\boldsymbol{s}, \boldsymbol{o}')|\boldsymbol{o})$ the asymptotic occupancy distribution (see section 4 from~\citet{learning-pomdp} for the full definition) of the hidden POIBMDP state $(\boldsymbol{s},\boldsymbol{o}')$ given the partial observation $o$ and $V^{\pi}((s, o'))$ the classical state-value function (definition~\ref{def:vs}).
+We abuse notation and denote both values of observations and values of states by $V$ since the function input is not ambiguous.
+\end{definition}
+
+\subsection{Reinforcement learning in POMDP}
+
+In general, the policy that maximizes the RL objective (definition~\ref{def:mdp-obj}) in a POMDP (definition~\ref{def:pomdp}) maps ``belief states'' or observation histories to actions~\cite{chap2}.
+Hence, those policies do not correspond to decicion trees since we require that policies depend only on the current observation (algorithm~\ref{alg:extract-tree}).
+If we did not have this constraint, we could apply any standard RL algorithm to solve POIBMDPs by seeking policies depending on belief states or observations histories because those are sufficient to optimally control any POMDP~\cite{chap2,lambrechts2025informed}.
+
+In particular, the problem of finding the optimal deterministic memoryless policies for POMDPs is NP-HARD, even with full knowledge of transitions and rewards(section3.2 from~\citet{littman1}).
+It means that it is impractical to enumerate all possible policies and take the best one. 
+For even moderate-sized POMDPs, a brute-force approach would take a very long time since there are $|A|^{|O|}$ deterministic memoryless policies.
+Hence it is interesting to study reinforcement learning for finding the best deterministic memoryless policy since it would not enumerate the whole solution space.
+
+In~\citet{learning-pomdp}, the authors show that the optimal memoryless policy can be stochastic. Hence, policy gradient algorithms~\cite{pg_sutton}--that return stochastic policies--are to avoid since we seek the best \textit{deterministic} policy. 
+Furthermore, the optimal deterministic memoryless policy might not maximize all the values of all observations simultaneously~\cite{learning-pomdp} which makes it difficult to use TD-learning algorithms like Q-learning~\cite{watkins1992q}.
+Indeed, doing a TD-learning update of one observation's value (definition~\ref{def:vpo}) can change the value of \textit{all} other observations in an uncontrollable manner because of the dependence in $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$ (definition~\ref{def:vpo}).
+
+Despite those hardness results, applying RL to POMDPs, by naively replacing the processes (hidden) states $\boldsymbol{x}$ by the observation $\boldsymbol{o}$ in Q-learning or Sarsa~\cite{sutton}, has already demonstrated successful in practice~\cite{sarsa-pomdp}. 
+More recently, the framework~\citet{baisero-dqn,baisero-ppo} called asymmetric RL, has also shown promising results to learn policies for POMDPs.
+Asymmetric RL algorithms train a model--a policy or a value function--depending on hidden state (only available at train time) and a history dependent (or observation dependent) model.
+The history or observation dependent model serves as target or critic to train the hidden state dependent model.
+The history dependent (or observation dependent) model can thus be deployed in the POMDP after training since it does not require access to the hidden state to output actions.
+In algorithm~\ref{alg:asymqlearning} we present asymmetric Q-learning. It is a variant of Q-learning that returns a deterministic memoryless policy. 
+Given a POMDP, asymmetric Q-learning trains a partially observable Q-function $Q:O\times A\rightarrow\mathbb{R}$ and a Q-function $U:X\times A\rightarrow\mathbb{R}$. The hidden state dependent Q-function $U$ serves as a target in the temporal difference learning update. 
+It is the tabular version of the modified DQN algoritm used in~\citet{topin2021iterative}.
+Indeed, when learning deterministic memoryless policies for IBMDPs,~\citet{topin2021iterative} were using RL algorithms corresponding to asymmetric DQN or asymmetric PPO from~\citet{baisero-dqn,baisero-ppo} before those were published.
+We provide a reproducibility study in appendix~\ref{sec:reprod}, as well as a critically missing open source implementations of~\citet{topin2021iterative}\footnote{\url{TODO}}.
+
+Until recently, the benefits of asymmetric RL over standard RL was only shown empirically and only for history-dependent models.
+The work of~\citet{justif-asym} proves that some asymmetric RL algorithms should in theory learn better history-dependent \textbf{or} memoryless policies for POMDPs.
+This is exactly what we wish for. However, those algorithms are not practical because they require estimations of the asymptotic occupancy distribution $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$ (definition~\ref{def:vpo}) for candidate policies which in turn would require to perform costly Monte-Carlo estimations.
+We leave it to future work to use those algorithms that combine asymmetric RL and estimation of future visitation frequencies since those results are contemporary to the writing of this manuscript.
+
+\RestyleAlgo{ruled}
+\SetKwComment{Comment}{}{}
+\begin{algorithm}
+    \KwData{A POMDP, learning rates $\alpha_u,\ \alpha_q$, exploration prob. $\epsilon$}
+    \KwResult{$\pi:O\rightarrow A$}
+    \textcolor{teal}{Initialize $U(\boldsymbol{x},a) = 0$ for all $x \in X, a \in A$ \\}
+    Initialize $Q(\boldsymbol{o},a) = 0$ for all $o \in O, a \in A$ \\
+    \For{each episode}{
+        Initialize state $x_0 \sim T_0$ \\
+        Initialize observation $\boldsymbol{o}_0 \sim \Omega(\boldsymbol{x}_0)$ \\
+
+        \For{each step $t$}{
+            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \operatorname{argmax}_a Q(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$ \\
+            Take action $a_t$, observe $r_t = R(\boldsymbol{x}_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $\boldsymbol{o}_{t+1} \sim \Omega(\boldsymbol{x}_{t+1})$ \\
+            \textcolor{teal}{$y \leftarrow r + \gamma U(\boldsymbol{x}_{t+1}, \operatorname{argmax}_{a'} Q(\boldsymbol{o}_{t+1}, a'))$} \\
+            $U(\boldsymbol{x}_t,a_t) \leftarrow (1 - \alpha_u) U(\boldsymbol{x}_t, a_t) + \alpha_u y $ \\
+            \textcolor{teal}{$Q(\boldsymbol{o}_t,a_t) \leftarrow (1 - \alpha_q) Q(\boldsymbol{o}_t, a_t) + \alpha_q y $} \\
+            $x_t \leftarrow \boldsymbol{x}_{t+1}$ \\
+            $\boldsymbol{o}_t \leftarrow \boldsymbol{o}_{t+1}$ \\
+        }
+    }
+    $\pi(o) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$
+    \caption{Asymmetric Q-Learning. We highlight in green the differences with the standard Q-learning~\ref{watkins1992q}}\label{alg:asymqlearning}
+\end{algorithm}
+
+Next, we apply asymmetric and standard RL algorithms to learn decision tree policy by train deterministic memoryless policies in POIBMDPs (definition~\ref{def:poibmdp}).

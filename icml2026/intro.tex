@@ -1,0 +1,28 @@
+\section{Introduction}
+Interpretability in machine learning is commonly divided into local and global approaches~\cite{glanois-survey}.
+Local methods—also referred to as explainability or post-hoc methods~\cite{lipton}—provide explanations for individual predictions using tools such as local linear approximations~\cite{lime}, saliency maps~\cite{Puri2020Explain}, feature attributions~\cite{shap}, or attention mechanisms~\cite{attention}.
+Although widely used, these methods approximate the behavior of an underlying black-box model and may therefore be unfaithful to its true computations~\cite{Atrey2020Exploratory}.
+
+Global interpretability approaches instead restrict the model class so that the learned model is transparent by construction.
+Decision trees~\cite{breiman1984classification} are a canonical example, as their predictions can be inspected, reasoned about, and formally verified.
+This makes them particularly attractive for safety-critical applications and has motivated extensive research in supervised learning~\cite{lookahead,binoct,murtree,blossom,pystreed}.
+
+Extending global interpretability to sequential decision making, however, remains challenging.
+Existing approaches largely rely on \emph{indirect} methods~\cite{milani-survey}: a high-performing but opaque policy (typically a neural network) is first learned using reinforcement learning, and an interpretable model is then trained to imitate its behavior.
+A prominent example is VIPER~\cite{viper}, which distills neural network policies into decision trees using imitation learning~\cite{dagger}.
+Such methods have demonstrated strong empirical performance and enable formal verification~\cite{maraboupy}, but they optimize a surrogate objective—policy imitation—rather than the original reinforcement learning objective.
+As a result, the best decision tree policy for the task may differ substantially from the tree that best approximates a neural expert. The curious reader will find an example of this phenomenon in the appendix~\ref{sec:imit}.
+
+This limitation motivates the study of \emph{direct} approaches that learn interpretable policies by optimizing the reinforcement learning objective itself.
+While direct decision tree learning is well understood in supervised settings, it is far less developed for sequential decision making.
+Understanding why direct optimization is difficult—and when it can succeed—is the central focus of this work.
+
+In this article, we show that reinforcement learning of decision tree policies for MDPs, i.e. learning a decision tree that directly optimizes the cumulative reward of the process without relying on a black-box expert, is often very difficult.
+To do so, we construct very simple MDPs for which we know optimal decision tree policies and show that RL consistently fails to retrieve those policies.
+We identify partial observability as a key reason for those failures. 
+
+In section~\ref{sec:related-work-pomdp}, we present the related work on reinforcement learning to train decision tree policies for MDPs.
+In section~\ref{sec:prelims}, we present key concepts for decsion trees, MDPs, and the formalism of~\citet{topin2021iterative} for reinforcement learning of decision tree policies.
+In section~\ref{sec:poibmdp}, we show that this direct approach is equivalent to learning a \emph{deterministic memoryless} policy for partially observable MDP (POMDP)~\cite{POMDP} which is a hard problem~\cite{littman1}.
+In section~\ref{sec:methodology}, we present our methodology to benchmark RL algorithms that train decision tree policies.
+In section~\ref{sec:experiments}, we show that when RL fails to retrieve optimal decision tree policies for MDPs it is most likely because partial observability is involved.

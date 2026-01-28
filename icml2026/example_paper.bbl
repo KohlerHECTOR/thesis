@@ -1,4 +1,4 @@
-\begin{thebibliography}{58}
+\begin{thebibliography}{52}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -70,6 +70,12 @@ Bertsimas, D. and Dunn, J.
 \newblock Optimal classification trees.
 \newblock \emph{Machine Learning}, 106:\penalty0 1039--1082, 2017.
 
+\bibitem[Blanc et~al.(2021)Blanc, Lange, and Tan]{stoch-decision}
+Blanc, G., Lange, J., and Tan, L.
+\newblock Learning stochastic decision trees.
+\newblock \emph{CoRR}, abs/2105.03594, 2021.
+\newblock URL \url{https://arxiv.org/abs/2105.03594}.
+
 \bibitem[Breiman et~al.(1984)Breiman, Friedman, Olshen, and
   Stone]{breiman1984classification}
 Breiman, L., Friedman, J., Olshen, R., and Stone, C.
@@ -85,28 +91,6 @@ Choi, S. P.-M., Zhang, N.~L., and Yeung, D.-Y.
   PMLR, 04--07 Jan 2001.
 \newblock URL \url{https://proceedings.mlr.press/r3/choi01a.html}.
 \newblock Reissued by PMLR on 31 March 2021.
-
-\bibitem[Delfosse et~al.(2023)Delfosse, Shindo, Dhami, and Kersting]{nudge}
-Delfosse, Q., Shindo, H., Dhami, D.~S., and Kersting, K.
-\newblock Interpretable and explainable logical policies via neurally guided
-  symbolic abstraction.
-\newblock \emph{Advances in Neural Information Processing (NeurIPS)}, 2023.
-
-\bibitem[Delfosse et~al.(2024{\natexlab{a}})Delfosse, Bl{\"{u}}ml, Gregori,
-  Sztwiertnia, and Kersting]{ocatari}
-Delfosse, Q., Bl{\"{u}}ml, J., Gregori, B., Sztwiertnia, S., and Kersting, K.
-\newblock {OCAtari}: {O}bject-centric {Atari} 2600 reinforcement learning
-  environments.
-\newblock \emph{Reinforcement Learning Journal}, 1:\penalty0 400--449,
-  2024{\natexlab{a}}.
-
-\bibitem[Delfosse et~al.(2024{\natexlab{b}})Delfosse, Sztwiertnia, Rothermel,
-  Stammer, and Kersting]{scobots}
-Delfosse, Q., Sztwiertnia, S., Rothermel, M., Stammer, W., and Kersting, K.
-\newblock Interpretable concept bottlenecks to align reinforcement learning
-  agents.
-\newblock 2024{\natexlab{b}}.
-\newblock URL \url{https://openreview.net/forum?id=ZC0PSk6Mc6}.
 
 \bibitem[Demirovic et~al.(2022)Demirovic, Lukina, Hebrard, Chan, Bailey,
   Leckie, Ramamohanarao, and Stuckey]{murtree}
@@ -137,6 +121,15 @@ Jaakkola, T., Singh, S.~P., and Jordan, M.~I.
 \newblock In \emph{Proceedings of the 8th International Conference on Neural
   Information Processing Systems}, NIPS'94, pp.\  345–352, Cambridge, MA,
   USA, 1994. MIT Press.
+
+\bibitem[Kohler et~al.(2025)Kohler, Radji, Delfosse, Akrour, and
+  Preux]{kohler2025evaluating}
+Kohler, H., Radji, W., Delfosse, Q., Akrour, R., and Preux, P.
+\newblock Evaluating interpretable reinforcement learning by distilling
+  policies into programs.
+\newblock In \emph{RLC 2025 Workshop on Programmatic Reinforcement Learning},
+  2025.
+\newblock URL \url{https://openreview.net/forum?id=n1CfzixauT}.
 
 \bibitem[Lambrechts et~al.(2025{\natexlab{a}})Lambrechts, Bolland, and
   Ernst]{lambrechts2025informed}
@@ -256,22 +249,6 @@ Puri, N., Verma, S., Gupta, P., Kayastha, D., Deshmukh, S., Krishnamurthy, B.,
 \newblock In \emph{International Conference on Learning Representations}, 2020.
 \newblock URL \url{https://openreview.net/forum?id=SJgzLkBKPB}.
 
-\bibitem[Puterman(1994)]{puterman}
-Puterman, M.~L.
-\newblock \emph{Markov Decision Processes: Discrete Stochastic Dynamic
-  Programming}.
-\newblock John Wiley \& Sons, 1994.
-
-\bibitem[Quinlan(1986)]{ID3}
-Quinlan, J.~R.
-\newblock Induction of decision trees.
-\newblock \emph{Mach. Learn.}, 1\penalty0 (1):\penalty0 81–106, 1986.
-
-\bibitem[Quinlan(1993)]{c45}
-Quinlan, J.~R.
-\newblock C4. 5: Programs for machine learning.
-\newblock \emph{Morgan Kaufmann google schola}, 2:\penalty0 203--228, 1993.
-
 \bibitem[Raffin et~al.(2021)Raffin, Hill, Gleave, Kanervisto, Ernestus, and
   Dormann]{stable-baselines3}
 Raffin, A., Hill, A., Gleave, A., Kanervisto, A., Ernestus, M., and Dormann, N.
@@ -306,12 +283,6 @@ Shi, W., Huang, G., Song, S., Wang, Z., Lin, T., and Wu, C.
 \newblock \emph{IEEE Transactions on Pattern Analysis and Machine
   Intelligence}, 44\penalty0 (5):\penalty0 2712--2724, 2022.
 \newblock \doi{10.1109/TPAMI.2020.3037898}.
-
-\bibitem[Shindo et~al.(2025)Shindo, Delfosse, Dhami, and
-  Kersting]{shindo2024blendrl}
-Shindo, H., Delfosse, Q., Dhami, D.~S., and Kersting, K.
-\newblock Blendrl: A framework for merging symbolic and neural policy learning.
-\newblock \emph{arXiv}, 2025.
 
 \bibitem[Sigaud \& Buffet(2013)Sigaud and Buffet]{chap2}
 Sigaud, O. and Buffet, O.
@@ -394,11 +365,6 @@ van~der Linden, J., de~Weerdt, M., and Demirovi\'{c}, E.
   dynamic programming.
 \newblock \emph{Advances in Neural Information Processing Systems},
   36:\penalty0 9173--9212, 2023.
-
-\bibitem[Verma et~al.(2018)Verma, Murali, Singh, Kohli, and Chaudhuri]{PIRL}
-Verma, A., Murali, V., Singh, R., Kohli, P., and Chaudhuri, S.
-\newblock Programmatically interpretable reinforcement learning.
-\newblock pp.\  5045--5054, 2018.
 
 \bibitem[Verwer \& Zhang(2019)Verwer and Zhang]{binoct}
 Verwer, S. and Zhang, Y.
