@@ -1,0 +1,874 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{ydnt/global/FF44570ACA8241914870AFBC310CDB85/global/global}
+    \entry{dpdt}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=426c39466b29a3f5a6210eecfdc7cf72}{%
+           family={Akrour},
+           familyi={A\bibinitperiod},
+           given={Riad},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{fullhash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{bibnamehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{authorbibnamehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{authornamehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{authorfullhash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{J}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining}
+      \field{title}{Breiman meets Bellman: Non-Greedy Decision Trees with MDPs}
+      \field{year}{2025}
+      \true{nocite}
+      \keyw{C}
+    \endentry
+    \entry{eval}{misc}{}
+      \name{author}{5}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=ef08e6d4cfa3ade80daa1ff4ea06ba81}{%
+           family={Delfosse},
+           familyi={D\bibinitperiod},
+           given={Quentin},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=e497b587ddb0569a6d0726a0def1f9b7}{%
+           family={Radji},
+           familyi={R\bibinitperiod},
+           given={Waris},
+           giveni={W\bibinitperiod}}}%
+        {{hash=426c39466b29a3f5a6210eecfdc7cf72}{%
+           family={Akrour},
+           familyi={A\bibinitperiod},
+           given={Riad},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{fullhash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{bibnamehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{authorbibnamehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{authornamehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{authorfullhash}{cf90748ab97481e75d4ce6f23155947b}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{J}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\ul{Workshop on Programmatic Reinforcement Learning} (Edmonton, Canada)}
+      \field{title}{Evaluating Interpretable Reinforcement Learning by Distilling Policies into Programs}
+      \field{year}{2025}
+      \true{nocite}
+      \keyw{P}
+    \endentry
+    \entry{interpreter}{misc}{}
+      \name{author}{5}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=ef08e6d4cfa3ade80daa1ff4ea06ba81}{%
+           family={Delfosse},
+           familyi={D\bibinitperiod},
+           given={Quentin},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=426c39466b29a3f5a6210eecfdc7cf72}{%
+           family={Akrour},
+           familyi={A\bibinitperiod},
+           given={Riad},
+           giveni={R\bibinitperiod}}}%
+        {{hash=231ca1992b128d48dbc73100fd196d87}{%
+           family={Kersting},
+           familyi={K\bibinitperiod},
+           given={Kristian},
+           giveni={K\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{fullhash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{bibnamehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{authorbibnamehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{authornamehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{authorfullhash}{359410dc7f881e1cc65184455c6f8204}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{J}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\ul{17th European Workshop on Reinforcement Learning} (Toulouse, France)}
+      \field{title}{Interpretable and editable programmatic tree policies for reinforcement learning}
+      \field{year}{2024}
+      \true{nocite}
+      \keyw{P}
+    \endentry
+    \entry{adastop}{article}{}
+      \name{author}{7}{}{%
+        {{hash=0369f26b5357f1e668e6cdf2179a113a}{%
+           family={Mathieu},
+           familyi={M\bibinitperiod},
+           given={Timothée},
+           giveni={T\bibinitperiod}}}%
+        {{hash=33c0847d3107da5057fe1cecfd757c4d}{%
+           family={Medeiros\bibnamedelima Centa},
+           familyi={M\bibinitperiod\bibinitdelim C\bibinitperiod},
+           given={Matheus},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3241813bec9a2cbd9d307aaabb7c9218}{%
+           family={Della\bibnamedelima Vecchia},
+           familyi={D\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={Riccardo},
+           giveni={R\bibinitperiod}}}%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=6855ed1740493a12fcc1bdffed3a1d0f}{%
+           family={Shilova},
+           familyi={S\bibinitperiod},
+           given={Alena},
+           giveni={A\bibinitperiod}}}%
+        {{hash=cb25120d62fbc559478f7bf83c7b2b45}{%
+           family={Maillard},
+           familyi={M\bibinitperiod},
+           given={Odalric-Ambrym},
+           giveni={O\bibinithyphendelim A\bibinitperiod},
+           suffix={Maillard},
+           suffixi={M\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{fullhash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{bibnamehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{authorbibnamehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{authornamehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{authorfullhash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{J}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transactions on Machine Learning Research}
+      \field{title}{AdaStop: adaptive statistical testing for sound comparisons of Deep RL agents}
+      \field{year}{2024}
+      \true{nocite}
+      \keyw{J}
+    \endentry
+    \entry{ensta}{article}{}
+      \name{author}{4}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=3b7541b4e21ed30d05b5ed3d3403697a}{%
+           family={Clement},
+           familyi={C\bibinitperiod},
+           given={Benoit},
+           giveni={B\bibinitperiod}}}%
+        {{hash=3dcd5ecf277d5da8169f2e3fca67c983}{%
+           family={Chaffre},
+           familyi={C\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=5d24b1e7a7e2cf70c08083184ce7eb09}{%
+           family={Le\bibnamedelima Chenadec},
+           familyi={L\bibinitperiod\bibinitdelim C\bibinitperiod},
+           given={Gilles},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{fullhash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{bibnamehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{authorbibnamehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{authornamehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{authorfullhash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{J}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IFAC-PapersOnLine}
+      \field{title}{PID Tuning using Cross-Entropy Deep Learning: a Lyapunov Stability Analysis}
+      \field{year}{2022}
+      \true{nocite}
+      \keyw{J}
+    \endentry
+  \enddatalist
+  \datalist[entry]{ydnt/global/0D61F8370CAD1D412F80B84D143E1257/global/global}
+    \entry{dpdt}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=426c39466b29a3f5a6210eecfdc7cf72}{%
+           family={Akrour},
+           familyi={A\bibinitperiod},
+           given={Riad},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{fullhash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{bibnamehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{authorbibnamehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{authornamehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{authorfullhash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{C}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining}
+      \field{title}{Breiman meets Bellman: Non-Greedy Decision Trees with MDPs}
+      \field{year}{2025}
+      \true{nocite}
+      \keyw{C}
+    \endentry
+    \entry{eval}{misc}{}
+      \name{author}{5}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=ef08e6d4cfa3ade80daa1ff4ea06ba81}{%
+           family={Delfosse},
+           familyi={D\bibinitperiod},
+           given={Quentin},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=e497b587ddb0569a6d0726a0def1f9b7}{%
+           family={Radji},
+           familyi={R\bibinitperiod},
+           given={Waris},
+           giveni={W\bibinitperiod}}}%
+        {{hash=426c39466b29a3f5a6210eecfdc7cf72}{%
+           family={Akrour},
+           familyi={A\bibinitperiod},
+           given={Riad},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{fullhash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{bibnamehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{authorbibnamehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{authornamehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{authorfullhash}{cf90748ab97481e75d4ce6f23155947b}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{C}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\ul{Workshop on Programmatic Reinforcement Learning} (Edmonton, Canada)}
+      \field{title}{Evaluating Interpretable Reinforcement Learning by Distilling Policies into Programs}
+      \field{year}{2025}
+      \true{nocite}
+      \keyw{P}
+    \endentry
+    \entry{interpreter}{misc}{}
+      \name{author}{5}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=ef08e6d4cfa3ade80daa1ff4ea06ba81}{%
+           family={Delfosse},
+           familyi={D\bibinitperiod},
+           given={Quentin},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=426c39466b29a3f5a6210eecfdc7cf72}{%
+           family={Akrour},
+           familyi={A\bibinitperiod},
+           given={Riad},
+           giveni={R\bibinitperiod}}}%
+        {{hash=231ca1992b128d48dbc73100fd196d87}{%
+           family={Kersting},
+           familyi={K\bibinitperiod},
+           given={Kristian},
+           giveni={K\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{fullhash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{bibnamehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{authorbibnamehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{authornamehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{authorfullhash}{359410dc7f881e1cc65184455c6f8204}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{C}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\ul{17th European Workshop on Reinforcement Learning} (Toulouse, France)}
+      \field{title}{Interpretable and editable programmatic tree policies for reinforcement learning}
+      \field{year}{2024}
+      \true{nocite}
+      \keyw{P}
+    \endentry
+    \entry{adastop}{article}{}
+      \name{author}{7}{}{%
+        {{hash=0369f26b5357f1e668e6cdf2179a113a}{%
+           family={Mathieu},
+           familyi={M\bibinitperiod},
+           given={Timothée},
+           giveni={T\bibinitperiod}}}%
+        {{hash=33c0847d3107da5057fe1cecfd757c4d}{%
+           family={Medeiros\bibnamedelima Centa},
+           familyi={M\bibinitperiod\bibinitdelim C\bibinitperiod},
+           given={Matheus},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3241813bec9a2cbd9d307aaabb7c9218}{%
+           family={Della\bibnamedelima Vecchia},
+           familyi={D\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={Riccardo},
+           giveni={R\bibinitperiod}}}%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=6855ed1740493a12fcc1bdffed3a1d0f}{%
+           family={Shilova},
+           familyi={S\bibinitperiod},
+           given={Alena},
+           giveni={A\bibinitperiod}}}%
+        {{hash=cb25120d62fbc559478f7bf83c7b2b45}{%
+           family={Maillard},
+           familyi={M\bibinitperiod},
+           given={Odalric-Ambrym},
+           giveni={O\bibinithyphendelim A\bibinitperiod},
+           suffix={Maillard},
+           suffixi={M\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{fullhash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{bibnamehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{authorbibnamehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{authornamehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{authorfullhash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{C}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transactions on Machine Learning Research}
+      \field{title}{AdaStop: adaptive statistical testing for sound comparisons of Deep RL agents}
+      \field{year}{2024}
+      \true{nocite}
+      \keyw{J}
+    \endentry
+    \entry{ensta}{article}{}
+      \name{author}{4}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=3b7541b4e21ed30d05b5ed3d3403697a}{%
+           family={Clement},
+           familyi={C\bibinitperiod},
+           given={Benoit},
+           giveni={B\bibinitperiod}}}%
+        {{hash=3dcd5ecf277d5da8169f2e3fca67c983}{%
+           family={Chaffre},
+           familyi={C\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=5d24b1e7a7e2cf70c08083184ce7eb09}{%
+           family={Le\bibnamedelima Chenadec},
+           familyi={L\bibinitperiod\bibinitdelim C\bibinitperiod},
+           given={Gilles},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{fullhash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{bibnamehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{authorbibnamehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{authornamehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{authorfullhash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{C}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IFAC-PapersOnLine}
+      \field{title}{PID Tuning using Cross-Entropy Deep Learning: a Lyapunov Stability Analysis}
+      \field{year}{2022}
+      \true{nocite}
+      \keyw{J}
+    \endentry
+  \enddatalist
+  \datalist[entry]{ydnt/global/44C29EDB103A2872F519AD0C9A0FDAAA/global/global}
+    \entry{dpdt}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=426c39466b29a3f5a6210eecfdc7cf72}{%
+           family={Akrour},
+           familyi={A\bibinitperiod},
+           given={Riad},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{fullhash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{bibnamehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{authorbibnamehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{authornamehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{authorfullhash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{P}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining}
+      \field{title}{Breiman meets Bellman: Non-Greedy Decision Trees with MDPs}
+      \field{year}{2025}
+      \true{nocite}
+      \keyw{C}
+    \endentry
+    \entry{eval}{misc}{}
+      \name{author}{5}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=ef08e6d4cfa3ade80daa1ff4ea06ba81}{%
+           family={Delfosse},
+           familyi={D\bibinitperiod},
+           given={Quentin},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=e497b587ddb0569a6d0726a0def1f9b7}{%
+           family={Radji},
+           familyi={R\bibinitperiod},
+           given={Waris},
+           giveni={W\bibinitperiod}}}%
+        {{hash=426c39466b29a3f5a6210eecfdc7cf72}{%
+           family={Akrour},
+           familyi={A\bibinitperiod},
+           given={Riad},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{fullhash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{bibnamehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{authorbibnamehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{authornamehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{authorfullhash}{cf90748ab97481e75d4ce6f23155947b}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{P}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\ul{Workshop on Programmatic Reinforcement Learning} (Edmonton, Canada)}
+      \field{title}{Evaluating Interpretable Reinforcement Learning by Distilling Policies into Programs}
+      \field{year}{2025}
+      \true{nocite}
+      \keyw{P}
+    \endentry
+    \entry{interpreter}{misc}{}
+      \name{author}{5}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=ef08e6d4cfa3ade80daa1ff4ea06ba81}{%
+           family={Delfosse},
+           familyi={D\bibinitperiod},
+           given={Quentin},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=426c39466b29a3f5a6210eecfdc7cf72}{%
+           family={Akrour},
+           familyi={A\bibinitperiod},
+           given={Riad},
+           giveni={R\bibinitperiod}}}%
+        {{hash=231ca1992b128d48dbc73100fd196d87}{%
+           family={Kersting},
+           familyi={K\bibinitperiod},
+           given={Kristian},
+           giveni={K\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{fullhash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{bibnamehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{authorbibnamehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{authornamehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{authorfullhash}{359410dc7f881e1cc65184455c6f8204}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{P}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\ul{17th European Workshop on Reinforcement Learning} (Toulouse, France)}
+      \field{title}{Interpretable and editable programmatic tree policies for reinforcement learning}
+      \field{year}{2024}
+      \true{nocite}
+      \keyw{P}
+    \endentry
+    \entry{adastop}{article}{}
+      \name{author}{7}{}{%
+        {{hash=0369f26b5357f1e668e6cdf2179a113a}{%
+           family={Mathieu},
+           familyi={M\bibinitperiod},
+           given={Timothée},
+           giveni={T\bibinitperiod}}}%
+        {{hash=33c0847d3107da5057fe1cecfd757c4d}{%
+           family={Medeiros\bibnamedelima Centa},
+           familyi={M\bibinitperiod\bibinitdelim C\bibinitperiod},
+           given={Matheus},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3241813bec9a2cbd9d307aaabb7c9218}{%
+           family={Della\bibnamedelima Vecchia},
+           familyi={D\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={Riccardo},
+           giveni={R\bibinitperiod}}}%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=6855ed1740493a12fcc1bdffed3a1d0f}{%
+           family={Shilova},
+           familyi={S\bibinitperiod},
+           given={Alena},
+           giveni={A\bibinitperiod}}}%
+        {{hash=cb25120d62fbc559478f7bf83c7b2b45}{%
+           family={Maillard},
+           familyi={M\bibinitperiod},
+           given={Odalric-Ambrym},
+           giveni={O\bibinithyphendelim A\bibinitperiod},
+           suffix={Maillard},
+           suffixi={M\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{fullhash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{bibnamehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{authorbibnamehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{authornamehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{authorfullhash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{P}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transactions on Machine Learning Research}
+      \field{title}{AdaStop: adaptive statistical testing for sound comparisons of Deep RL agents}
+      \field{year}{2024}
+      \true{nocite}
+      \keyw{J}
+    \endentry
+    \entry{ensta}{article}{}
+      \name{author}{4}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=3b7541b4e21ed30d05b5ed3d3403697a}{%
+           family={Clement},
+           familyi={C\bibinitperiod},
+           given={Benoit},
+           giveni={B\bibinitperiod}}}%
+        {{hash=3dcd5ecf277d5da8169f2e3fca67c983}{%
+           family={Chaffre},
+           familyi={C\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=5d24b1e7a7e2cf70c08083184ce7eb09}{%
+           family={Le\bibnamedelima Chenadec},
+           familyi={L\bibinitperiod\bibinitdelim C\bibinitperiod},
+           given={Gilles},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{fullhash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{bibnamehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{authorbibnamehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{authornamehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{authorfullhash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelprefix}{P}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IFAC-PapersOnLine}
+      \field{title}{PID Tuning using Cross-Entropy Deep Learning: a Lyapunov Stability Analysis}
+      \field{year}{2022}
+      \true{nocite}
+      \keyw{J}
+    \endentry
+  \enddatalist
+  \datalist[entry]{ydnt/global//global/global}
+    \entry{dpdt}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=426c39466b29a3f5a6210eecfdc7cf72}{%
+           family={Akrour},
+           familyi={A\bibinitperiod},
+           given={Riad},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{fullhash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{bibnamehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{authorbibnamehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{authornamehash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \strng{authorfullhash}{b11a5ccd7e7c6fce6939ed6530821992}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining}
+      \field{title}{Breiman meets Bellman: Non-Greedy Decision Trees with MDPs}
+      \field{year}{2025}
+      \true{nocite}
+      \keyw{C}
+    \endentry
+    \entry{eval}{misc}{}
+      \name{author}{5}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=ef08e6d4cfa3ade80daa1ff4ea06ba81}{%
+           family={Delfosse},
+           familyi={D\bibinitperiod},
+           given={Quentin},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=e497b587ddb0569a6d0726a0def1f9b7}{%
+           family={Radji},
+           familyi={R\bibinitperiod},
+           given={Waris},
+           giveni={W\bibinitperiod}}}%
+        {{hash=426c39466b29a3f5a6210eecfdc7cf72}{%
+           family={Akrour},
+           familyi={A\bibinitperiod},
+           given={Riad},
+           giveni={R\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{fullhash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{bibnamehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{authorbibnamehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{authornamehash}{cf90748ab97481e75d4ce6f23155947b}
+      \strng{authorfullhash}{cf90748ab97481e75d4ce6f23155947b}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\ul{Workshop on Programmatic Reinforcement Learning} (Edmonton, Canada)}
+      \field{title}{Evaluating Interpretable Reinforcement Learning by Distilling Policies into Programs}
+      \field{year}{2025}
+      \true{nocite}
+      \keyw{P}
+    \endentry
+    \entry{interpreter}{misc}{}
+      \name{author}{5}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=ef08e6d4cfa3ade80daa1ff4ea06ba81}{%
+           family={Delfosse},
+           familyi={D\bibinitperiod},
+           given={Quentin},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=426c39466b29a3f5a6210eecfdc7cf72}{%
+           family={Akrour},
+           familyi={A\bibinitperiod},
+           given={Riad},
+           giveni={R\bibinitperiod}}}%
+        {{hash=231ca1992b128d48dbc73100fd196d87}{%
+           family={Kersting},
+           familyi={K\bibinitperiod},
+           given={Kristian},
+           giveni={K\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{fullhash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{bibnamehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{authorbibnamehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{authornamehash}{359410dc7f881e1cc65184455c6f8204}
+      \strng{authorfullhash}{359410dc7f881e1cc65184455c6f8204}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\ul{17th European Workshop on Reinforcement Learning} (Toulouse, France)}
+      \field{title}{Interpretable and editable programmatic tree policies for reinforcement learning}
+      \field{year}{2024}
+      \true{nocite}
+      \keyw{P}
+    \endentry
+    \entry{adastop}{article}{}
+      \name{author}{7}{}{%
+        {{hash=0369f26b5357f1e668e6cdf2179a113a}{%
+           family={Mathieu},
+           familyi={M\bibinitperiod},
+           given={Timothée},
+           giveni={T\bibinitperiod}}}%
+        {{hash=33c0847d3107da5057fe1cecfd757c4d}{%
+           family={Medeiros\bibnamedelima Centa},
+           familyi={M\bibinitperiod\bibinitdelim C\bibinitperiod},
+           given={Matheus},
+           giveni={M\bibinitperiod}}}%
+        {{hash=3241813bec9a2cbd9d307aaabb7c9218}{%
+           family={Della\bibnamedelima Vecchia},
+           familyi={D\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={Riccardo},
+           giveni={R\bibinitperiod}}}%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=6855ed1740493a12fcc1bdffed3a1d0f}{%
+           family={Shilova},
+           familyi={S\bibinitperiod},
+           given={Alena},
+           giveni={A\bibinitperiod}}}%
+        {{hash=cb25120d62fbc559478f7bf83c7b2b45}{%
+           family={Maillard},
+           familyi={M\bibinitperiod},
+           given={Odalric-Ambrym},
+           giveni={O\bibinithyphendelim A\bibinitperiod},
+           suffix={Maillard},
+           suffixi={M\bibinitperiod}}}%
+        {{hash=2abefc415f2026af7741d49d13f0762e}{%
+           family={Preux},
+           familyi={P\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{fullhash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{bibnamehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{authorbibnamehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{authornamehash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \strng{authorfullhash}{b1b4d7b918f0dfe12ba2c4e3cf44689b}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Transactions on Machine Learning Research}
+      \field{title}{AdaStop: adaptive statistical testing for sound comparisons of Deep RL agents}
+      \field{year}{2024}
+      \true{nocite}
+      \keyw{J}
+    \endentry
+    \entry{ensta}{article}{}
+      \name{author}{4}{}{%
+        {{hash=0b5c855790404ce26aa2e4002a800e2d}{%
+           family={\textbf{Kohler,\bibnamedelimb Hector}},
+           familyi={K\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=3b7541b4e21ed30d05b5ed3d3403697a}{%
+           family={Clement},
+           familyi={C\bibinitperiod},
+           given={Benoit},
+           giveni={B\bibinitperiod}}}%
+        {{hash=3dcd5ecf277d5da8169f2e3fca67c983}{%
+           family={Chaffre},
+           familyi={C\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=5d24b1e7a7e2cf70c08083184ce7eb09}{%
+           family={Le\bibnamedelima Chenadec},
+           familyi={L\bibinitperiod\bibinitdelim C\bibinitperiod},
+           given={Gilles},
+           giveni={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{fullhash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{bibnamehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{authorbibnamehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{authornamehash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \strng{authorfullhash}{3b87a0f01fa7eba87f5fde134c0731fe}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IFAC-PapersOnLine}
+      \field{title}{PID Tuning using Cross-Entropy Deep Learning: a Lyapunov Stability Analysis}
+      \field{year}{2022}
+      \true{nocite}
+      \keyw{J}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

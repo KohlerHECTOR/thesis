@@ -1,0 +1,78 @@
+\documentclass{article}
+\usepackage[french]{babel}
+\usepackage{pdfpages}
+% Set the citation style
+\usepackage[
+    backend=biber,      % Specifies the backend to be used by BibLaTeX for processing the bibliography. 'biber' is the default backend.
+    maxnames=20,        % Limits the maximum number of author names to display before abbreviating with "et al."
+    style=nature,       % Sets the citation style to 'nature,' which is commonly used in scientific papers.
+    sorting=ydnt,       % Specifies the sorting order of entries in the bibliography:
+                        % y - year (descending)
+                        % d - descending order
+                        % n - name
+                        % t - title
+    defernumbers=true,  % Delays the assignment of citation numbers until the end of the document, allowing for the correct order of citations within each bibliography section.
+]{biblatex}
+\addbibresource{ref.bib} % Adds the bibliography resource file 'ref.bib' containing all the references.
+\usepackage{hyperref}
+
+
+\title{Candidature au prix de thèse de l'Association Française pour l'Intelligence Artificielle}
+\author{Hector Kohler}
+\date{À Paris, le 29 janvier 2026}
+
+\begin{document}
+
+\maketitle
+\noindent
+Cher jury,\\
+Vous trouverez dans ce document mon dossier de candidature complet pour le prix de thèse de l'AFIA 2026.
+La plupart du document est en anglais avec certaines parties en français.
+\\
+Merci par avance,\\
+Respectueusement,\\
+Hector Kohler
+\tableofcontents{}
+\newpage
+\section{Mémoire de thèse}
+\includepdf[pages={-}]{../these.pdf}
+\newpage
+\section{Rapports de pré-soutenance et rapport de soutenance}
+\includepdf[pages={-}]{rapport_beynier.pdf}
+\includepdf[pages={-}]{rapport_buffet.pdf}
+\includepdf[pages={-}]{rapport_soutenance.pdf}
+\newpage
+\section{Curriculum Vitae court}
+\includepdf[pages={-}]{cv.pdf}
+\newpage
+\section{Publications et productions}
+\subsection*{Articles de journal}
+\newrefcontext[labelprefix=J] % Will prefix bibliography numbers with this letter
+\nocite{*}% Ensures publications which are not cited in the document are included in the above sections
+\printbibliography[
+    type=article, % Only include @article ref.bib items
+    heading=none, % Do not include header. Gives us more control.
+    resetnumbers=true, % Start item counter from zero
+    keyword=J % Include items in ref.bib with keyword={J}
+]
+\subsection*{Articles de conférence}
+\newrefcontext[labelprefix=C]
+\printbibliography[type=inproceedings,heading=none,resetnumbers=true,keyword=C]
+
+\subsection*{Posters}
+\newrefcontext[labelprefix=P]        
+\printbibliography[type=misc,heading=none,resetnumbers=true,keyword=P]
+
+\subsection*{Logiciels ouverts}
+\begin{itemize}
+    \item \href{https://rlberry-py.github.io/rlberry/about.html#contributors}{\textbf{Rlberry}}: \texttt{PyTorch} implementation of deep reinforcement learning agents. Compatibility with \texttt{stable-baselines3}. Advanced training analysis with robust stats. Usage of git for development and continuous integration. Organized hackhatons.
+    \item \href{https://github.com/KohlerHECTOR/interpretable-rl-zoo}{\textbf{Pure python RL policies for research and teaching}}: inspired by the \texttt{stable-baselines3-zoo} and the \texttt{gymnasium} API.
+    \item \href{https://github.com/KohlerHECTOR/DPDTreeEstimator}{\textbf{Dpdt}}: I developped DPDT, my own \texttt{scikit-learn} estimator, a decision tree induction algorithm which is SOTA for tabular problems. 
+\end{itemize}
+\newpage
+\section{Lettres de recommandation}
+\includepdf[pages={-}]{hector_beynier.pdf}
+\includepdf[pages={-}]{hector_buffet.pdf}
+\includepdf[pages={-}]{hector_philippe.pdf}
+Merci
+\end{document}

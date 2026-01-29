@@ -1,0 +1,5 @@
+[0] Config.pm:307> INFO - This is Biber 2.17
+[0] Config.pm:310> INFO - Logfile is 'ref.blg'
+[94] biber:340> INFO - === jeu. janv. 29, 2026, 19:34:45
+[207] Utils.pm:398> ERROR - Cannot find 'ref.bcf'!
+[207] Biber.pm:135> INFO - ERRORS: 1
