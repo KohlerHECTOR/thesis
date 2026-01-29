@@ -1,4 +1,4 @@
-\begin{thebibliography}{52}
+\begin{thebibliography}{51}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -21,12 +21,6 @@ Atrey, A., Clary, K., and Jensen, D.
   for deep reinforcement learning.
 \newblock In \emph{International Conference on Learning Representations}, 2020.
 \newblock URL \url{https://openreview.net/forum?id=rkl3m1BFDB}.
-
-\bibitem[Azar et~al.(2017)Azar, Osband, and Munos]{ucbvi}
-Azar, M.~G., Osband, I., and Munos, R.
-\newblock Minimax regret bounds for reinforcement learning.
-\newblock In \emph{International conference on machine learning}, pp.\
-  263--272. PMLR, 2017.
 
 \bibitem[Baisero \& Amato(2022)Baisero and Amato]{baisero-ppo}
 Baisero, A. and Amato, C.
@@ -122,13 +116,23 @@ Jaakkola, T., Singh, S.~P., and Jordan, M.~I.
   Information Processing Systems}, NIPS'94, pp.\  345–352, Cambridge, MA,
   USA, 1994. MIT Press.
 
-\bibitem[Kohler et~al.(2025)Kohler, Radji, Delfosse, Akrour, and
+\bibitem[Kohler et~al.(2025{\natexlab{a}})Kohler, Akrour, and Preux]{dpdt}
+Kohler, H., Akrour, R., and Preux, P.
+\newblock Breiman meets bellman: Non-greedy decision trees with mdps.
+\newblock In \emph{Proceedings of the 31st ACM SIGKDD Conference on Knowledge
+  Discovery and Data Mining V.2}, KDD '25, pp.\  1207–1218, New York, NY,
+  USA, 2025{\natexlab{a}}. Association for Computing Machinery.
+\newblock ISBN 9798400714542.
+\newblock \doi{10.1145/3711896.3736868}.
+\newblock URL \url{https://doi.org/10.1145/3711896.3736868}.
+
+\bibitem[Kohler et~al.(2025{\natexlab{b}})Kohler, Radji, Delfosse, Akrour, and
   Preux]{kohler2025evaluating}
 Kohler, H., Radji, W., Delfosse, Q., Akrour, R., and Preux, P.
 \newblock Evaluating interpretable reinforcement learning by distilling
   policies into programs.
 \newblock In \emph{RLC 2025 Workshop on Programmatic Reinforcement Learning},
-  2025.
+  2025{\natexlab{b}}.
 \newblock URL \url{https://openreview.net/forum?id=n1CfzixauT}.
 
 \bibitem[Lambrechts et~al.(2025{\natexlab{a}})Lambrechts, Bolland, and
@@ -177,14 +181,6 @@ Lundberg, S.~M. and Lee, S.-I.
   Information Processing Systems}, NIPS'17, pp.\  4768–4777, Red Hook, NY,
   USA, 2017. Curran Associates Inc.
 \newblock ISBN 9781510860964.
-
-\bibitem[Mania et~al.(2018)Mania, Guy, and Recht]{random-search}
-Mania, H., Guy, A., and Recht, B.
-\newblock Simple random search of static linear policies is competitive for
-  reinforcement learning.
-\newblock In \emph{Proceedings of the 32nd International Conference on Neural
-  Information Processing Systems}, NIPS'18, pp.\  1805–1814, Red Hook, NY,
-  USA, 2018. Curran Associates Inc.
 
 \bibitem[Mansour et~al.(2022)Mansour, Moshkovitz, and Rudin]{theory1}
 Mansour, Y., Moshkovitz, M., and Rudin, C.
@@ -335,14 +331,6 @@ Sutton, R.~S., McAllester, D., Singh, S., and Mansour, Y.
 \newblock URL
   \url{https://proceedings.neurips.cc/paper_files/paper/1999/file/464d828b85b0bed98e80ade0a5c43b0f-Paper.pdf}.
 
-\bibitem[Tesauro(1995)]{tdgammon}
-Tesauro, G.
-\newblock Temporal difference learning and td-gammon.
-\newblock \emph{Commun. ACM}, 38\penalty0 (3):\penalty0 58–68, March 1995.
-\newblock ISSN 0001-0782.
-\newblock \doi{10.1145/203330.203343}.
-\newblock URL \url{https://doi.org/10.1145/203330.203343}.
-
 \bibitem[Topin et~al.(2021)Topin, Milani, Fang, and Veloso]{topin2021iterative}
 Topin, N., Milani, S., Fang, F., and Veloso, M.
 \newblock Iterative bounding mdps: Learning interpretable policies via
@@ -365,6 +353,11 @@ van~der Linden, J., de~Weerdt, M., and Demirovi\'{c}, E.
   dynamic programming.
 \newblock \emph{Advances in Neural Information Processing Systems},
   36:\penalty0 9173--9212, 2023.
+
+\bibitem[Verma et~al.(2018)Verma, Murali, Singh, Kohli, and Chaudhuri]{pirl}
+Verma, A., Murali, V., Singh, R., Kohli, P., and Chaudhuri, S.
+\newblock Programmatically interpretable reinforcement learning.
+\newblock pp.\  5045--5054, 2018.
 
 \bibitem[Verwer \& Zhang(2019)Verwer and Zhang]{binoct}
 Verwer, S. and Zhang, Y.

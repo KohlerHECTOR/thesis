@@ -222,18 +222,7 @@
 \end{tikzpicture}}
         \caption{{\small An associated IBMDP trajectory.}}\label{fig:ibmdp-example}
     \end{subfigure}
-    \caption{On the left of figure \ref{fig:mdp-dt}, a grid world MDP with, four states, four directional actions that moves an agent, and rewards of 0 for every transitions except when taking an action in the bottom right goal state ($\star$). The states have discrete labels that represent their coordinates in the $[0,2]\times[0,2]$ square, e.g. for $s_0$, $x=0.5,\ y=0.5$. In the centre, an optimal actions w.r.t the RL objective (definition~\ref{def:mdp-obj}). On the right, an optimal depth-1 decision tree policy w.r.t the RL objective (definition~\ref{def:mdp-obj}) that takes a state label as input, performs some tests on the state coordinate, and returns a directional action.
-    On figure \ref{fig:ibmdp-example}, an IBMDP trajectory when the downstream MDP is the grid world from figure~\ref{fig:mdp-dt}. In the top row, we graphically represent what the IBMDP state at a given time $t$, and in the bottom row, we present the corresponding decision tree policy traversal.
-    When the pink covers the whole grid, the information contained in the observation $\boldsymbol{o}_t$ could be interpreted as ``the current state features could be anywhere in the grid''.
-    The more information gathering actions are taken, the more refined the bounds on the current downstream state features get.
-    At $t=0$, the downstream state features are $\boldsymbol{s}_0 = (0.5, 1.5)$ and the initial observation is always the downstream MDP default state feature bounds (definition~\ref{def:ibmdp}): $\boldsymbol{o}_0=(0, 2, 0, 2)$ because the downstream state features are in $[0, 2] \times [0, 2]$.
-    This means that the overall IBMDP state is $\boldsymbol{s}_{IB} = (0.5, 1.5, 0, 2, 0, 2)$.
-    The first action is an IGA $\langle x, 1\rangle$ that tests the feature $x$ of the downstream state against the value $1$ and the reward is $\zeta$ (definition~\ref{def:ibmdp}). 
-    This transition corresponds to going through an internal node $ x\leq 1$ in a decision tree policy as illustrated in the figure. 
-    At $t=1$, after gathering the information that the $x$-value of the current downstream state is below 1, the observation is updated with the refined bounds $\boldsymbol{o}_1=(0, 1, 0, 2)$, i.e. more information has been gathered and the obstructed pink area shrinks. The downstream state features remain unchanged.
-    The agent then takes a downstream action that is to move right. 
-    This gives a reward 0, resets the observation to the original downstream state feature bounds, and changes the features to $\boldsymbol{s}_2=(1.5, 1.5)$. And the trajectory continues like this until the absorbing downstream state $\boldsymbol{s}_4=(1.5, 0.5)$ is reached.
-    By masking the current downstream state features to an agent, we would force it to take information-gathering actions otherwise it would not know how to act optimally (figure~\ref{fig:mdp-dt}).}
+    \caption{Figure~\ref{fig:mdp-dt} shows a four-state grid world MDP with four directional actions and zero reward except at the goal state ($\star$). The center illustrates an optimal policy, and the right an optimal depth-1 decision tree that tests state coordinates to choose actions. Figure~\ref{fig:ibmdp-example} depicts an IBMDP trajectory for this grid world. Observations $\boldsymbol{o}_t$ encode bounds on the agent’s unknown state features: initially $\boldsymbol{o}_0=(0,2,0,2)$ (“the state could be anywhere”). Information-gathering actions iteratively refine these bounds, corresponding to internal tree tests. For example, at $t=0$ the IGA $\langle x,1\rangle$ yields reward $\zeta$ and updates the observation to $\boldsymbol{o}_1=(0,1,0,2)$. A downstream action then moves the agent, gives reward 0, resets the bounds, and the process repeats until reaching the absorbing goal state. Masking the true state forces the agent to gather information to act optimally.}
 \end{figure*}
 
 \subsection{Markov decision processes}
@@ -254,7 +243,7 @@ $T_0 \in \Delta(S)$ is the initial distribution over states.
 Informally, we would like to act in an MDP so that we obtain as much reward as possible over time.
 We can formally define this objective, that we call the reinforcement learning objective, as follows:
 
-\begin{definition}[Reinforcement learning objective]\label{def:mdp-obj} Given an MDP (definition~\ref{def:MDP}) $\mathcal{M}\equiv\langle S, A, R, T, T_0 \rangle$, the goal of reinforcement learning for sequential decision making is to find a model, also known as a policy, $\pi: S \rightarrow A$ that maximizes the expected discounted sum of rewards:
+\begin{definition}[Reinforcement learning objective]\label{def:mdp-obj} Given an MDP (definition~\ref{def:mdp}) $\mathcal{M}\equiv\langle S, A, R, T, T_0 \rangle$, the goal of reinforcement learning for sequential decision making is to find a model, also known as a policy, $\pi: S \rightarrow A$ that maximizes the expected discounted sum of rewards:
 {\small
 $$J(\pi) = \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, \pi(s_t)) \mid s_0 \sim T_0, s_{t+1} \sim T(s_t, \pi(s_t))\right]$$}
 where $0< \gamma\leq 1$ is the discount factor that controls the trade-off between immediate and future rewards.
@@ -289,18 +278,11 @@ In figure~\ref{fig:mdp-dt}, we present an example Markov decision process (defin
 Next, we present the class of MDPs introduced in~\citet{topin2021iterative} useful for our to understand reinforcement learning of decision tree policies that directly optimize the RL objective in an MDP.
 
 \subsection{Iterative bounding Markov decision processes}\label{sec:ibmdp}
-The key thing to know about iterative bounding Markov decision processes (IBMDPs) is that they are, as their name suggests, MDPs (definition~\ref{def:mdp}).
-Hence, IBMDPs admit an optimal deterministic Markovian policy that maximizes the RL objective~\cite{Bellman}.
-From now on, we will assume that all the MDPs we consider are MDPs with continuous state spaces and a finite set of actions, and we use bold fonts for states and observations as that are vector-valued.
-However all our results generalize to discrete states (in $\mathbb{Z}^m$) MDPs that we can factor using one-hot encodings. 
-Given an MDP for which we want to learn a decision tree policy--the downstream MDP--IBMDP states are concatenations of the downstream MDP state features and some observations. 
-Those observations are information about the downstream state features that are refined--``iteratively bounded''-- at each step.
-Those observations essentially represent some knowledge about where some downstream state features lie in the state space.
-Actions available in an IBMDP are: (i) the actions of the downstream MDP, that change downstream state features, and (ii) \textit{information gathering} actions that change the aforementioned observations.
-Now, downstream actions in an IBMDP are rewarded like in the downstream MDP, this ensures that the RL objective w.r.t. the downstream MDP is encoded in the IBMDP reward.
-When taking an information gathering action, the reward is an arbitrary value such that optimizing the RL objective in the IBMDP is equivalent to optimizing some trade-off between interpretability and the RL objective in the downstream MDP.
-Before showing how to get decision tree policies from IBMDP policies, we give a formal definition of IBMDPs following~\citet{topin2021iterative}:
+Iterative bounding MDPs (IBMDPs) are, as the name suggests, standard MDPs (definition~\ref{def:mdp}) and therefore admit optimal deterministic Markovian policies~\cite{Bellman}. We assume continuous state spaces with finite action sets, using bold notation for vector-valued states and observations (though our results also extend to discrete states).
 
+Given a downstream MDP where we seek a decision tree policy, an IBMDP augments the state with additional observations that iteratively refine knowledge about the downstream state features. Actions include (i) downstream actions that affect the environment and receive the same rewards as in the original MDP, and (ii) information-gathering actions (IGAs) that update the observations. IGAs receive a chosen reward so that optimizing the IBMDP objective captures a trade-off between downstream performance and interpretability.
+
+We now formally define IBMDPs following~\citet{topin2021iterative}.
 \begin{definition}[Iterative bounding Markov decision process (\citet{topin2021iterative}, section 4.1)]\label{def:ibmdp}
 Given a downstream MDP $\mathcal{M}\equiv\langle S, A, R, T, T_0 \rangle$ (definition~\ref{def:mdp}), an associated iterative bounding Markov decision process $\mathcal{M}_{IB}$ is a tuple:
 \begin{align*}
@@ -310,9 +292,9 @@ $S$ are the downstream MDP state features. Downstream state features $\boldsymbo
 $O$ are observations. They represent bounds on the downstream state features: $O\subsetneq S^2 =  [L_1, U_1]\times \dots \times [L_p, U_p] \times [L_1, U_1]\times \dots \times [L_p, U_p]$. So the complete IBMDP state space is $S \times O$: the concatenations of downstream state features and observations.
 Given some downstream state features $\boldsymbol{s} = (s_1, \dots, s_p)\in S$ and some observation $\boldsymbol{o} = (L_1, U_1, \dots, L_p, U_p)$, an IBMDP state is $\boldsymbol{s}_{IB} = (\overbrace{s_1, \dots, s_p}^{\text{downstream state features}}, \overbrace{L_1, U_1, \dots, L_p, U_p}^{\text{observation}})$.
 $A$ are the downstream MDP actions.
-$A_{info}$ are \textit{information gathering} actions (IGAs) of the form $\langle j, v \rangle$ where $j$ is a state feature index $1 \leq j \leq p$ and $v$ is a real number between $L_j$ and $U_j$. So the complete action space of an IBMDP is the set of downstream MDP actions and information gathering actions $A \cup A_{info}$.
+$A_{info}$ are \textit{information-gathering} actions of the form $\langle j, v \rangle$ where $j$ is a state feature index $1 \leq j \leq p$ and $v$ is a real number between $L_j$ and $U_j$. So the complete action space of an IBMDP is the set of downstream MDP actions and information-gathering actions $A \cup A_{info}$.
 $R: S\times A \rightarrow \mathbb{R}$ is the downstream MDP reward function.
-$\zeta$ is a reward signal for taking an information gathering action.
+$\zeta$ is a reward signal for taking an information-gathering action.
 So the IBMDP reward function is to get a reward from the downstream MDP if the action is a downstream MDP action or to get $\zeta$ if the action is an IGA action.
 $T_{info}: S\times O \times( A_{info} \cup A )\rightarrow \Delta (S\times O)$ is the transition function of IBMDPs: 
 given some observation $\boldsymbol{o}_t = (L'_1, U'_1, \dots, L'_p, U'_p) \in O$ and downstream state features $\boldsymbol{s}_t=(s'_1, s'_2, \dots, s'_p)$ if an IGA $\langle j, v \rangle$ is taken, the new observation $\boldsymbol{o}_{t+1}$ is $(L'_1, U'_1, \dots , L'_j, \min\{v, U'_j\}, \dots , L'_p, U'_p) \text{ if } s_j \leq v$ or $(L'_1, U'_1, \dots , \max\{v, L'_j\}, U'_j, \dots , L'_p, U'_p) \text{ if } s_j > v$.
@@ -324,39 +306,10 @@ We present an IBMDP for a the grid-world MDP (figure~\ref{fig:mdp-dt}) in figure
 Now remains to extract a decision tree policy (definition~\ref{def:dt}) for a downstream MDP $\mathcal{M}$ from a policy for an associated IBMDP $\mathcal{M}_{IB}$. 
 
 \subsection{From policies to trees}
-Information gathering actions (definition~\ref{def:ibmdp}) resemble the tests $1_{\{x_{\_, j} \leq v\}}$ that make up internal decision tree nodes (figure~\ref{fig:ibmdp-example}).
+information-gathering actions (definition~\ref{def:ibmdp}) resemble the tests $1_{\{x_{\_, j} \leq v\}}$ that make up internal decision tree nodes (figure~\ref{fig:ibmdp-example}).
 Indeed, a policy taking actions in an IBMDP essentially builds a tree by taking sequences of IGAs (internal nodes) and then a downstream action (leaf node) and repeats this process over time.
 In particular, the IGA rewards $\zeta$ can be seen as a regularization or a penalty for interpretability: if $\zeta$ is very small compared to downstream rewards, a policy will try to take downstream actions as often as possible, i.e. build shallow trees with short paths between root and leaves.
 
-Authors from~\citet{topin2021iterative} show that not all IBMDP policies are decision tree policies for the downstream MDP.
-In particular, their algorithm that converts IBMDP policies into decision trees (algorithm~\ref{alg:extract-tree}) takes as input deterministic policies depending solely on the observations of the IBMDP.
-If the policies were not deterministic, different subtrees could stem from similar IBMDP observations: this means that the corresponding policy would be a stochastic decision tree~\cite{stoch-decision}.
-While there is nothing wrong in learning stochastic decision tree policies from a performance standpoint, interpreting a stochastic policy is an open problem that is not our focus.
-If the policies were depending on the current full IBMDP state rather than solely on the current IBMDP observation, then a learning agent has 0 incentive to take information-gathering actions to build a decision tree policy as all the state information required to optimally control the downstream MDP as well as downstream actions are available to the agent (definition~\ref{def:ibmdp} and figure~\ref{fig:ibmdp-example}).
-
-\begin{algorithm}[t]
-    \KwData{Deterministic partially observable policy $\pi_{po}$ for IBMDP $\mathcal{M}_{IB}\equiv \langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ and IBMDP observation $\boldsymbol{o}=(L'_1, U'_1, \dots, L'_p, U'_p)$}
-    \KwResult{Decision tree policy $\pi_{\mathcal{T}}$ for MDP $\mathcal{M}\equiv\langle S, A, R, T, T_0\rangle$}
-    
-    \SetKwProg{Fn}{Function}{:}{}
-    \SetKwFunction{SubtreeFromPolicy}{Subtree\_From\_Policy}
-    
-    \Fn{\SubtreeFromPolicy{$\boldsymbol{o}, \pi_{po}$}}{
-        $a \leftarrow \pi_{po}(\boldsymbol{o})$ \\
-        \If{$a$ is a downstream action}{
-            \Return Leaf\_Node(action: $a$)
-        }
-        \Else{
-            $\langle i, v\rangle \leftarrow a$\\
-            $\boldsymbol{o}_L \leftarrow \boldsymbol{o}; \quad \boldsymbol{o}_R \leftarrow \boldsymbol{o}$ \\
-                         $\boldsymbol{o}_L \leftarrow (L'_1, U'_1, \dots, L'_j, v, \dots, L'_p, U'_p); \quad \boldsymbol{o}_R \leftarrow (L'_1, U'_1, \dots, v, U'_j, \dots, L'_p, U'_p)$ \\
-            $child_L \leftarrow$ Subtree\_From\_Policy$(\boldsymbol{o}_L, \pi_{po})$ \\
-            $child_R \leftarrow$ Subtree\_From\_Policy$(\boldsymbol{o}_R, \pi_{po})$ \\
-            \Return Internal\_Node(feature: $i$, value: $v$, children: $(child_L, child_R)$)
-        }
-    }
-    \caption{Extract a decision tree policy (algorithm 1 from~\citet{topin2021iterative})}\label{alg:extract-tree}
-\end{algorithm}
-
+\citet{topin2021iterative} show that only a subset of IBMDP policies correspond to downstream decision tree policies. Their extraction algorithm (algorithm~\ref{alg:extract-tree}) requires deterministic policies that depend only on IBMDP observations. Non-deterministic policies would yield stochastic decision trees~\cite{stoch-decision}, whose interpretability remains unclear. Policies that depend on the full IBMDP state also defeat the purpose of information-gathering actions, since the agent already has all necessary state information to act optimally.
 The connections between partially observable MDPs (POMDPs~\cite{POMDP,chap2}) and extracting decision tree policies from IBMDPs might seem obvious but they are absent from the original IBMDP paper~\cite{topin2021iterative} and from subsequent work.
 In the next section we bridge this gap.
