@@ -134,11 +134,19 @@
 \input{rl_pomdp}
 
 \section{Discussion}
-In this paper, we studied algorithms that learn decision tree policies in MDPs while directly optimizing the interpretability–performance trade-off, without relying on an oracle or expert. Building on the IBMDP formulation of~\citet{topin2021iterative}, we showed that this problem can be reframed as learning deterministic memoryless policies in a POMDP setting, which we call POIBMDPs. By connecting to the POMDP literature, we conjectured that partial observability is the main obstacle to reinforcement learning of decision tree policies. Experiments on carefully designed benchmarks with known optimal trees supported this view: good decision tree policies were learned only when partial observability was absent.
-
-Given these challenges, pursuing methods to overcome partial observability in POIBMDPs may not be the most promising direction. Although specialized algorithms might exist, imitation learning remains effective in practice and has long been state-of-the-art for interpretable sequential decision making. Moreover, the framework of~\citet{topin2021iterative} still leaves open issues, such as choosing the information-gathering actions and choosing $\zeta$ to target a desired trade-off.
-
-Finally, while we focused on non-parametric tree learning, an alternative direction is improving reinforcement learning for parametric tree policies. These can be optimized directly in the downstream MDP, but existing methods~\cite{silva,vos2024optimizinginterpretabledecisiontree,sympol} require retraining from scratch for each tree structure. Future work should therefore develop approaches that reuse samples across structures, reducing the need for strong prior knowledge about the policy form.
+In this paper, we were interested in algorithms that can learn decision tree policies that directly optimize some trade-off of interpretability and performance in MDPs without relying on an oracle or expert policy.
+Starting from the IBMDP formulation from~\citet{topin2021iterative}, we have shown that direct learning of decision tree policies for MDPs can be framed as learning deterministic memoryless policies in POMDPs that we called POIBMDPs.
+By bridging the gap with the POMDP literature, we conjectured that partial observability is the main limitation for reinforcement learning of decision tree policies for MDPs.
+We then supported this conjecture by benchmarking different reinforcement learning algorithms on carefully crafted problems for which we knew the exact optimal decision tree policies.
+Across our experiments, we found that only when partial observablity is absent from the learning task can good decision tree policies be trained.
+Attempting to overcome the partial observability challenges highlighted so far seems like a bad research direction.
+Indeed, while algorithms tailored specifically for the problem of learning deterministic memoryless policies for POIBMDPs might exist, imitation learning works well in practice and has been the state-of-the-art for interpretable sequential decision making for a while.
+Furthermore there are other limitations that we did not cover in the framework of~\citet{topin2021iterative} such as how to choose good candidates information-gathering actions or simply how to choose $\zeta$ for a target interpretability-performance trade-off.
+Finally, while we focused on non-parametric tree learning assuming RL algorithms should naturally trade off interpretability and performance through the reward signal $\zeta$ for adding nodes to the decision tree policy, another future research avenue could be to develop better algortihms training parametric trees.
+Indeed parametric tree policies, on the other hand, can be computed with reinforcement learning directly in the downstream MDP.
+However such RL algorithms for parametric decision tree policies~\cite{silva,vos2024optimizinginterpretabledecisiontree,sympol} require to re-train a policy entirely for each desired level of interpretability, i.e. each unique tree structure.
+Future research in this direction should focus on algorithms for parametric tree policies that can re-use samples from one tree learning to train a different tree structure more efficiently.
+This would reduce the required quantity of a priori knowledge on the decision tree policy structure.
 \section*{Impact statement}
 Our work put great emphasis on covering existing work, open sourcing code, and being transparent about limitations.
 We hope that the impact of our work is going to be positive for society through advancing reseach in interpretable machine learning.
