@@ -1,0 +1,409 @@
+\begin{thebibliography}{51}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{DOI: #1}\else
+  \providecommand{\doi}{DOI: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Araya-L{\'o}pez et~al.(2010)Araya-L{\'o}pez, Thomas, Buffet, and
+  Charpillet]{momdp}
+Mauricio Araya-L{\'o}pez, Vincent Thomas, Olivier Buffet, and Fran{\c c}ois
+  Charpillet.
+\newblock {A Closer Look at MOMDPs}.
+\newblock In \emph{{Proceedings of the 22nd International Conference on Tools
+  with Artificial Intelligence}}, Proceedings of the 22nd International
+  Conference on Tools with Artificial Intelligence, Arras, France, October
+  2010. {IEEE}.
+\newblock URL \url{https://inria.hal.science/inria-00535559}.
+
+\bibitem[Atrey et~al.(2020)Atrey, Clary, and Jensen]{Atrey2020Exploratory}
+Akanksha Atrey, Kaleigh Clary, and David Jensen.
+\newblock Exploratory not explanatory: Counterfactual analysis of saliency maps
+  for deep reinforcement learning.
+\newblock In \emph{International Conference on Learning Representations}, 2020.
+\newblock URL \url{https://openreview.net/forum?id=rkl3m1BFDB}.
+
+\bibitem[Baisero \& Amato(2022)Baisero and Amato]{baisero-ppo}
+Andrea Baisero and Christopher Amato.
+\newblock Unbiased asymmetric reinforcement learning under partial
+  observability.
+\newblock In \emph{Proceedings of the 21st International Conference on
+  Autonomous Agents and Multiagent Systems}, AAMAS '22, pp.\  44–52,
+  Richland, SC, 2022. International Foundation for Autonomous Agents and
+  Multiagent Systems.
+\newblock ISBN 9781450392136.
+
+\bibitem[Baisero et~al.(2022)Baisero, Daley, and Amato]{baisero-dqn}
+Andrea Baisero, Brett Daley, and Christopher Amato.
+\newblock Asymmetric {DQN} for partially observable reinforcement learning.
+\newblock In James Cussens and Kun Zhang (eds.), \emph{Proceedings of the
+  Thirty-Eighth Conference on Uncertainty in Artificial Intelligence}, volume
+  180 of \emph{Proceedings of Machine Learning Research}, pp.\  107--117. PMLR,
+  01--05 Aug 2022.
+\newblock URL \url{https://proceedings.mlr.press/v180/baisero22a.html}.
+
+\bibitem[Barto et~al.(1983)Barto, Sutton, and Anderson]{cartpole}
+Andrew~G. Barto, Richard~S. Sutton, and Charles~W. Anderson.
+\newblock Neuronlike adaptive elements that can solve difficult learning
+  control problems.
+\newblock \emph{IEEE Transactions on Systems, Man, and Cybernetics},
+  SMC-13\penalty0 (5):\penalty0 834--846, 1983.
+\newblock \doi{10.1109/TSMC.1983.6313077}.
+
+\bibitem[Bastani et~al.(2018)Bastani, Pu, and Solar-Lezama]{viper}
+Osbert Bastani, Yewen Pu, and Armando Solar-Lezama.
+\newblock Verifiable reinforcement learning via policy extraction.
+\newblock 2018.
+
+\bibitem[Bellman(1957)]{Bellman}
+Richard Bellman.
+\newblock \emph{Dynamic Programming}.
+\newblock 1957.
+
+\bibitem[Bertsimas \& Dunn(2017)Bertsimas and Dunn]{oct}
+Dimitris Bertsimas and Jack Dunn.
+\newblock Optimal classification trees.
+\newblock \emph{Machine Learning}, 106:\penalty0 1039--1082, 2017.
+
+\bibitem[Blanc et~al.(2021)Blanc, Lange, and Tan]{stoch-decision}
+Guy Blanc, Jane Lange, and Li{-}Yang Tan.
+\newblock Learning stochastic decision trees.
+\newblock \emph{CoRR}, abs/2105.03594, 2021.
+\newblock URL \url{https://arxiv.org/abs/2105.03594}.
+
+\bibitem[Breiman et~al.(1984)Breiman, Friedman, Olshen, and
+  Stone]{breiman1984classification}
+L~Breiman, JH~Friedman, R~Olshen, and CJ~Stone.
+\newblock \emph{Classification and Regression Trees}.
+\newblock Wadsworth, 1984.
+
+\bibitem[Choi et~al.(2001)Choi, Zhang, and Yeung]{hmmdp}
+Samuel Ping-Man Choi, Nevin~Lianwen Zhang, and Dit-Yan Yeung.
+\newblock Solving hidden-mode markov decision problems.
+\newblock In Thomas~S. Richardson and Tommi~S. Jaakkola (eds.),
+  \emph{Proceedings of the Eighth International Workshop on Artificial
+  Intelligence and Statistics}, volume~R3 of \emph{Proceedings of Machine
+  Learning Research}, pp.\  49--56. PMLR, 04--07 Jan 2001.
+\newblock URL \url{https://proceedings.mlr.press/r3/choi01a.html}.
+\newblock Reissued by PMLR on 31 March 2021.
+
+\bibitem[Demirovic et~al.(2022)Demirovic, Lukina, Hebrard, Chan, Bailey,
+  Leckie, Ramamohanarao, and Stuckey]{murtree}
+Emir Demirovic, Anna Lukina, Emmanuel Hebrard, Jeffrey Chan, James Bailey,
+  Christopher Leckie, Kotagiri Ramamohanarao, and Peter~J. Stuckey.
+\newblock Murtree: Optimal decision trees via dynamic programming and search.
+\newblock \emph{Journal of Machine Learning Research}, 23\penalty0
+  (26):\penalty0 1--47, 2022.
+\newblock URL \url{http://jmlr.org/papers/v23/20-520.html}.
+
+\bibitem[Demirovi\'{c} et~al.(2023)Demirovi\'{c}, Hebrard, and Jean]{blossom}
+Emir Demirovi\'{c}, Emmanuel Hebrard, and Louis Jean.
+\newblock Blossom: an anytime algorithm for computing optimal decision trees.
+\newblock \emph{Proceedings of the 40th International Conference on Machine
+  Learning}, 202:\penalty0 7533--7562, 23--29 Jul 2023.
+\newblock URL \url{https://proceedings.mlr.press/v202/demirovic23a.html}.
+
+\bibitem[Glanois et~al.(2024)Glanois, Weng, Zimmer, Li, Yang, Hao, and
+  Liu]{glanois-survey}
+Claire Glanois, Paul Weng, Matthieu Zimmer, Dong Li, Tianpei Yang, Jianye Hao,
+  and Wulong Liu.
+\newblock A survey on interpretable reinforcement learning.
+\newblock \emph{Machine Learning}, pp.\  1--44, 2024.
+
+\bibitem[Jaakkola et~al.(1994)Jaakkola, Singh, and Jordan]{jsj}
+Tommi Jaakkola, Satinder~P. Singh, and Michael~I. Jordan.
+\newblock Reinforcement learning algorithm for partially observable markov
+  decision problems.
+\newblock In \emph{Proceedings of the 8th International Conference on Neural
+  Information Processing Systems}, NIPS'94, pp.\  345–352, Cambridge, MA,
+  USA, 1994. MIT Press.
+
+\bibitem[Kohler et~al.(2025{\natexlab{a}})Kohler, Akrour, and Preux]{dpdt}
+Hector Kohler, Riad Akrour, and Philippe Preux.
+\newblock Breiman meets bellman: Non-greedy decision trees with mdps.
+\newblock In \emph{Proceedings of the 31st ACM SIGKDD Conference on Knowledge
+  Discovery and Data Mining V.2}, KDD '25, pp.\  1207–1218, New York, NY,
+  USA, 2025{\natexlab{a}}. Association for Computing Machinery.
+\newblock ISBN 9798400714542.
+\newblock \doi{10.1145/3711896.3736868}.
+\newblock URL \url{https://doi.org/10.1145/3711896.3736868}.
+
+\bibitem[Kohler et~al.(2025{\natexlab{b}})Kohler, Radji, Delfosse, Akrour, and
+  Preux]{kohler2025evaluating}
+Hector Kohler, Waris Radji, Quentin Delfosse, Riad Akrour, and Philippe Preux.
+\newblock Evaluating interpretable reinforcement learning by distilling
+  policies into programs.
+\newblock In \emph{RLC 2025 Workshop on Programmatic Reinforcement Learning},
+  2025{\natexlab{b}}.
+\newblock URL \url{https://openreview.net/forum?id=n1CfzixauT}.
+
+\bibitem[Lambrechts et~al.(2025{\natexlab{a}})Lambrechts, Bolland, and
+  Ernst]{lambrechts2025informed}
+Gaspard Lambrechts, Adrien Bolland, and Damien Ernst.
+\newblock Informed {POMDP}: {L}everaging additional information in model-based
+  {RL}.
+\newblock \emph{Reinforcement Learning Journal}, 2:\penalty0 763--784,
+  2025{\natexlab{a}}.
+
+\bibitem[Lambrechts et~al.(2025{\natexlab{b}})Lambrechts, Ernst, and
+  Mahajan]{justif-asym}
+Gaspard Lambrechts, Damien Ernst, and Aditya Mahajan.
+\newblock A theoretical justification for asymmetric actor-critic algorithms.
+\newblock In \emph{Forty-second International Conference on Machine Learning},
+  2025{\natexlab{b}}.
+\newblock URL \url{https://openreview.net/forum?id=F1yANMCnAn}.
+
+\bibitem[Lipton(2018)]{lipton}
+Zachary~C. Lipton.
+\newblock The mythos of model interpretability: In machine learning, the
+  concept of interpretability is both important and slippery.
+\newblock \emph{Queue}, 16\penalty0 (3):\penalty0 31–57, 2018.
+
+\bibitem[Littman(1994)]{littman1}
+Michael~L. Littman.
+\newblock Memoryless policies: theoretical limitations and practical results.
+\newblock In \emph{Proceedings of the Third International Conference on
+  Simulation of Adaptive Behavior : From Animals to Animats 3: From Animals
+  to Animats 3}, SAB94, pp.\  238–245, Cambridge, MA, USA, 1994. MIT Press.
+\newblock ISBN 0262531224.
+
+\bibitem[Loch \& Singh(1998)Loch and Singh]{sarsa-pomdp}
+John Loch and Satinder~P. Singh.
+\newblock Using eligibility traces to find the best memoryless policy in
+  partially observable markov decision processes.
+\newblock In \emph{Proceedings of the Fifteenth International Conference on
+  Machine Learning}, ICML '98, pp.\  323–331, San Francisco, CA, USA, 1998.
+  Morgan Kaufmann Publishers Inc.
+\newblock ISBN 1558605568.
+
+\bibitem[Lundberg \& Lee(2017)Lundberg and Lee]{shap}
+Scott~M. Lundberg and Su-In Lee.
+\newblock A unified approach to interpreting model predictions.
+\newblock In \emph{Proceedings of the 31st International Conference on Neural
+  Information Processing Systems}, NIPS'17, pp.\  4768–4777, Red Hook, NY,
+  USA, 2017. Curran Associates Inc.
+\newblock ISBN 9781510860964.
+
+\bibitem[Mansour et~al.(2022)Mansour, Moshkovitz, and Rudin]{theory1}
+Yishay Mansour, Michal Moshkovitz, and Cynthia Rudin.
+\newblock There is no accuracy-interpretability tradeoff in reinforcement
+  learning for mazes, 2022.
+\newblock URL \url{https://arxiv.org/abs/2206.04266}.
+
+\bibitem[Marton et~al.(2025)Marton, Grams, Vogt, L{\"u}dtke, Bartelt, and
+  Stuckenschmidt]{sympol}
+Sascha Marton, Tim Grams, Florian Vogt, Stefan L{\"u}dtke, Christian Bartelt,
+  and Heiner Stuckenschmidt.
+\newblock Mitigating information loss in tree-based reinforcement learning via
+  direct optimization.
+\newblock 2025.
+\newblock URL \url{https://openreview.net/forum?id=qpXctF2aLZ}.
+
+\bibitem[Milani et~al.(2024)Milani, Topin, Veloso, and Fang]{milani-survey}
+Stephanie Milani, Nicholay Topin, Manuela Veloso, and Fei Fang.
+\newblock Explainable reinforcement learning: A survey and comparative review.
+\newblock \emph{ACM Comput. Surv.}, 56\penalty0 (7), April 2024.
+\newblock ISSN 0360-0300.
+\newblock \doi{10.1145/3616864}.
+\newblock URL \url{https://doi.org/10.1145/3616864}.
+
+\bibitem[Mnih et~al.(2015)Mnih, Kavukcuoglu, Silver, Rusu, Veness, Bellemare,
+  Graves, Riedmiller, Fidjeland, Ostrovski, et~al.]{dqn}
+Volodymyr Mnih, Koray Kavukcuoglu, David Silver, Andrei~A Rusu, Joel Veness,
+  Marc~G Bellemare, Alex Graves, Martin Riedmiller, Andreas~K Fidjeland, Georg
+  Ostrovski, et~al.
+\newblock Human-level control through deep reinforcement learning.
+\newblock \emph{nature}, 518\penalty0 (7540):\penalty0 529--533, 2015.
+
+\bibitem[Murthy \& Salzberg(1995)Murthy and Salzberg]{lookahead}
+Sreerama Murthy and Steven Salzberg.
+\newblock Lookahead and pathology in decision tree induction.
+\newblock In \emph{Proceedings of the 14th International Joint Conference on
+  Artificial Intelligence - Volume 2}, IJCAI'95, pp.\  1025–1031, San
+  Francisco, CA, USA, 1995. Morgan Kaufmann Publishers Inc.
+\newblock ISBN 1558603638.
+
+\bibitem[Pedregosa et~al.(2011)Pedregosa, Varoquaux, Gramfort, Michel, Thirion,
+  Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos,
+  Cournapeau, Brucher, Perrot, and Duchesnay]{scikit-learn}
+F.~Pedregosa, G.~Varoquaux, A.~Gramfort, V.~Michel, B.~Thirion, O.~Grisel,
+  M.~Blondel, P.~Prettenhofer, R.~Weiss, V.~Dubourg, J.~Vanderplas, A.~Passos,
+  D.~Cournapeau, M.~Brucher, M.~Perrot, and E.~Duchesnay.
+\newblock Scikit-learn: Machine learning in {P}ython.
+\newblock \emph{Journal of Machine Learning Research}, 12:\penalty0 2825--2830,
+  2011.
+
+\bibitem[Pinto et~al.(2017)Pinto, Andrychowicz, Welinder, Zaremba, and
+  Abbeel]{pinto}
+Lerrel Pinto, Marcin Andrychowicz, Peter Welinder, Wojciech Zaremba, and Pieter
+  Abbeel.
+\newblock Asymmetric actor critic for image-based robot learning, 2017.
+\newblock URL \url{https://arxiv.org/abs/1710.06542}.
+
+\bibitem[Puri et~al.(2020)Puri, Verma, Gupta, Kayastha, Deshmukh,
+  Krishnamurthy, and Singh]{Puri2020Explain}
+Nikaash Puri, Sukriti Verma, Piyush Gupta, Dhruv Kayastha, Shripad Deshmukh,
+  Balaji Krishnamurthy, and Sameer Singh.
+\newblock Explain your move: Understanding agent actions using specific and
+  relevant feature attribution.
+\newblock In \emph{International Conference on Learning Representations}, 2020.
+\newblock URL \url{https://openreview.net/forum?id=SJgzLkBKPB}.
+
+\bibitem[Raffin et~al.(2021)Raffin, Hill, Gleave, Kanervisto, Ernestus, and
+  Dormann]{stable-baselines3}
+Antonin Raffin, Ashley Hill, Adam Gleave, Anssi Kanervisto, Maximilian
+  Ernestus, and Noah Dormann.
+\newblock Stable-baselines3: Reliable reinforcement learning implementations.
+\newblock \emph{Journal of Machine Learning Research}, 22\penalty0
+  (268):\penalty0 1--8, 2021.
+
+\bibitem[Ribeiro et~al.(2016)Ribeiro, Singh, and Guestrin]{lime}
+Marco~Tulio Ribeiro, Sameer Singh, and Carlos Guestrin.
+\newblock "why should i trust you?": Explaining the predictions of any
+  classifier.
+\newblock pp.\  1135–1144, 2016.
+\newblock \doi{10.1145/2939672.2939778}.
+\newblock URL \url{https://doi.org/10.1145/2939672.2939778}.
+
+\bibitem[Ross et~al.(2010)Ross, Gordon, and Bagnell]{dagger}
+St{\'e}phane Ross, Geoffrey~J. Gordon, and J.~Andrew Bagnell.
+\newblock A reduction of imitation learning and structured prediction to
+  no-regret online learning.
+\newblock 2010.
+
+\bibitem[Schulman et~al.(2017)Schulman, Wolski, Dhariwal, Radford, and
+  Klimov]{ppo}
+John Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, and Oleg Klimov.
+\newblock Proximal policy optimization algorithms.
+\newblock \emph{arXiv preprint arXiv:1707.06347}, 2017.
+
+\bibitem[Shi et~al.(2022)Shi, Huang, Song, Wang, Lin, and Wu]{attention}
+Wenjie Shi, Gao Huang, Shiji Song, Zhuoyuan Wang, Tingyu Lin, and Cheng Wu.
+\newblock Self-supervised discovering of interpretable features for
+  reinforcement learning.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, 44\penalty0 (5):\penalty0 2712--2724, 2022.
+\newblock \doi{10.1109/TPAMI.2020.3037898}.
+
+\bibitem[Sigaud \& Buffet(2013)Sigaud and Buffet]{chap2}
+Olivier Sigaud and Olivier Buffet.
+\newblock \emph{Partially Observable Markov Decision Processes}, chapter~7,
+  pp.\  185--228.
+\newblock John Wiley & Sons, Ltd, 2013.
+\newblock ISBN 9781118557426.
+\newblock \doi{https://doi.org/10.1002/9781118557426.ch7}.
+\newblock URL
+  \url{https://onlinelibrary.wiley.com/doi/abs/10.1002/9781118557426.ch7}.
+
+\bibitem[Silva et~al.(2020)Silva, Gombolay, Killian, Jimenez, and Son]{silva}
+Andrew Silva, Matthew Gombolay, Taylor Killian, Ivan Jimenez, and Sung-Hyun
+  Son.
+\newblock Optimization methods for interpretable differentiable decision trees
+  applied to reinforcement learning.
+\newblock In Silvia Chiappa and Roberto Calandra (eds.), \emph{Proceedings of
+  the Twenty Third International Conference on Artificial Intelligence and
+  Statistics}, volume 108 of \emph{Proceedings of Machine Learning Research},
+  pp.\  1855--1865. PMLR, 26--28 Aug 2020.
+\newblock URL \url{https://proceedings.mlr.press/v108/silva20a.html}.
+
+\bibitem[Singh et~al.(1994)Singh, Jaakkola, and Jordan]{learning-pomdp}
+Satinder~P. Singh, Tommi~S. Jaakkola, and Michael~I. Jordan.
+\newblock Learning without state-estimation in partially observable markovian
+  decision processes.
+\newblock In \emph{Proceedings of the Eleventh International Conference on
+  International Conference on Machine Learning}, ICML'94, pp.\  284–292, San
+  Francisco, CA, USA, 1994. Morgan Kaufmann Publishers Inc.
+\newblock ISBN 1558603352.
+
+\bibitem[Sondik(1978)]{POMDP}
+Edward~J. Sondik.
+\newblock The optimal control of partially observable markov processes over the
+  infinite horizon: Discounted costs.
+\newblock \emph{Operations Research}, 26\penalty0 (2):\penalty0 282--304, 1978.
+\newblock ISSN 0030364X, 15265463.
+\newblock URL \url{http://www.jstor.org/stable/169635}.
+
+\bibitem[Sutton \& Barto(1998)Sutton and Barto]{sutton}
+Richard~S. Sutton and Andrew~G. Barto.
+\newblock \emph{Reinforcement Learning: {A}n Introduction}.
+\newblock The MIT Press, Cambridge, MA, 1998.
+
+\bibitem[Sutton et~al.(1999)Sutton, McAllester, Singh, and Mansour]{pg_sutton}
+Richard~S Sutton, David McAllester, Satinder Singh, and Yishay Mansour.
+\newblock Policy gradient methods for reinforcement learning with function
+  approximation.
+\newblock In S.~Solla, T.~Leen, and K.~M\"{u}ller (eds.), \emph{Advances in
+  Neural Information Processing Systems}, volume~12. MIT Press, 1999.
+\newblock URL
+  \url{https://proceedings.neurips.cc/paper_files/paper/1999/file/464d828b85b0bed98e80ade0a5c43b0f-Paper.pdf}.
+
+\bibitem[Topin et~al.(2021)Topin, Milani, Fang, and Veloso]{topin2021iterative}
+Nicholay Topin, Stephanie Milani, Fei Fang, and Manuela Veloso.
+\newblock Iterative bounding mdps: Learning interpretable policies via
+  non-interpretable methods.
+\newblock \emph{Proceedings of the AAAI Conference on Artificial Intelligence},
+  35:\penalty0 9923--9931, 2021.
+
+\bibitem[Towers et~al.(2024)Towers, Kwiatkowski, Terry, Balis, De~Cola, Deleu,
+  Goul{\~a}o, Kallinteris, Krimmel, KG, et~al.]{gymnasium}
+Mark Towers, Ariel Kwiatkowski, Jordan Terry, John~U Balis, Gianluca De~Cola,
+  Tristan Deleu, Manuel Goul{\~a}o, Andreas Kallinteris, Markus Krimmel, Arjun
+  KG, et~al.
+\newblock Gymnasium: A standard interface for reinforcement learning
+  environments.
+\newblock \emph{arXiv preprint arXiv:2407.17032}, 2024.
+
+\bibitem[van~der Linden et~al.(2023)van~der Linden, de~Weerdt, and
+  Demirovi\'{c}]{pystreed}
+Jacobus van~der Linden, Mathijs de~Weerdt, and Emir Demirovi\'{c}.
+\newblock Necessary and sufficient conditions for optimal decision trees using
+  dynamic programming.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  36:\penalty0 9173--9212, 2023.
+
+\bibitem[Verma et~al.(2018)Verma, Murali, Singh, Kohli, and Chaudhuri]{pirl}
+Abhinav Verma, Vijayaraghavan Murali, Rishabh Singh, Pushmeet Kohli, and Swarat
+  Chaudhuri.
+\newblock Programmatically interpretable reinforcement learning.
+\newblock pp.\  5045--5054, 2018.
+
+\bibitem[Verwer \& Zhang(2019)Verwer and Zhang]{binoct}
+Sicco Verwer and Yingqian Zhang.
+\newblock Learning optimal classification trees using a binary linear program
+  formulation.
+\newblock \emph{Proceedings of the AAAI conference on artificial intelligence},
+  33:\penalty0 1625--1632, 2019.
+
+\bibitem[Vos \& Verwer(2023)Vos and Verwer]{dt-opt-mdp}
+Dani\"{e}l Vos and Sicco Verwer.
+\newblock Optimal decision tree policies for markov decision processes.
+\newblock In \emph{Proceedings of the Thirty-Second International Joint
+  Conference on Artificial Intelligence}, IJCAI '23, 2023.
+\newblock ISBN 978-1-956792-03-4.
+\newblock \doi{10.24963/ijcai.2023/606}.
+\newblock URL \url{https://doi.org/10.24963/ijcai.2023/606}.
+
+\bibitem[Vos \& Verwer(2024)Vos and
+  Verwer]{vos2024optimizinginterpretabledecisiontree}
+Daniël Vos and Sicco Verwer.
+\newblock Optimizing interpretable decision tree policies for reinforcement
+  learning.
+\newblock 2024.
+\newblock URL \url{https://arxiv.org/abs/2408.11632}.
+
+\bibitem[Watkins \& Dayan(1992)Watkins and Dayan]{watkins1992q}
+Christopher~JCH Watkins and Peter Dayan.
+\newblock Q-learning.
+\newblock \emph{Machine learning}, 8\penalty0 (3):\penalty0 279--292, 1992.
+
+\bibitem[Wu et~al.(2024)Wu, Isac, Zeljić, Tagomori, Daggitt, Kokke, Refaeli,
+  Amir, Julian, Bassan, Huang, Lahav, Wu, Zhang, Komendantskaya, Katz, and
+  Barrett]{maraboupy}
+Haoze Wu, Omri Isac, Aleksandar Zeljić, Teruhiro Tagomori, Matthew Daggitt,
+  Wen Kokke, Idan Refaeli, Guy Amir, Kyle Julian, Shahaf Bassan, Pei Huang, Ori
+  Lahav, Min Wu, Min Zhang, Ekaterina Komendantskaya, Guy Katz, and Clark
+  Barrett.
+\newblock Marabou 2.0: A versatile formal analyzer of neural networks, 2024.
+\newblock URL \url{https://arxiv.org/abs/2401.14461}.
+
+\end{thebibliography}

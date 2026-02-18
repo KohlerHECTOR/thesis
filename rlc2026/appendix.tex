@@ -136,7 +136,7 @@ We try two different approaches to limit the depth of decision tree policies to 
 In practice, we could have tried an action masking approach, i.e. having a state dependent-action set, but we want to abide to the MDP formalism in order to properly understand direct interpretable approaches.
 We will also try IBMDPs where we do not limit the maximum depth for completeness.
 
-\begin{table}[H]
+\begin{table}
     \centering
     \caption{IBMDP hyperparameters. We try 12 different IBMDPs. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-params}
     \begin{tabular}{ll}
@@ -152,7 +152,7 @@ We will also try IBMDPs where we do not limit the maximum depth for completeness
     \end{table}
 
 
-\begin{table}[H]
+\begin{table}
     \centering
     \caption{(Modified) DQN trained on $10^6$ timesteps. This gives four different instantiation of (modified) DQN. Hyperparameters not mentioned are stable-baselines3 default. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-rl1}
     \begin{tabular}{ll}
@@ -167,12 +167,12 @@ We will also try IBMDPs where we do not limit the maximum depth for completeness
     Optimizer & \textcolor{green}{RMSprop ($\alpha = 0.95$)}\\
     Learning rate & \textcolor{green}{$2.5\times10^{-4}$}\\
     Networks architectures & \textcolor{green}{[128, 128]}\\
-    \textcolor{red}{Networks activation} & $\operatorname{tanh()}$, $\operatorname{relu()}$\\
+    \textcolor{red}{Networks activations} & $\operatorname{tanh()}$, $\operatorname{relu()}$\\
     \bottomrule
     \end{tabular}
     \end{table}
 
-\begin{table}[H]
+\begin{table}
     \centering
     \caption{(Modified) PPO trained on $4\times10^6$ timesteps. This gives two different instantiation of (modified) PPO. Hyperparameters not mentioned are stable-baselines3 default. In green we highlight the hyperparameters from the original paper and in red we highlight the hyperparameter names for which author do not give information.}\label{tab:ibmdp-rl2}
     \begin{tabular}{ll}
