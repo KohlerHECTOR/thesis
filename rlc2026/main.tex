@@ -100,37 +100,32 @@ $\dagger$ Corresponding author}
 
 \contribution{
     % Contribution
-    Provide a succinct but precise list of the contribution(s) of the paper. Use contextual notes to avoid implications of contributions more significant than intended and to clarify and situate the contribution relative to prior work (see the examples below). If there is no additional context, enter ``None''. Try to keep each contribution to a single sentence, although multiple sentences are allowed when necessary. If using complete sentences, include punctuation. If using a single sentence fragment, you may omit the concluding period. A single contribution can be sufficient, and there is no limit on the number of contributions. Submissions will be judged mostly on the contributions claimed on their cover pages and the evidence provided to support them. Major contributions should not be claimed in the main text if they do not appear on the cover page. Overclaiming can lead to a submission being rejected, so it is important to have well-scoped contribution statements on the cover page.
+    We bridge the gap between RL for decision tree policies and POMDPs.
     }
     {
-    % Caveat:
-    None
+    \citet{topin2021iterative} proposed the first RL algorithms that train decision tree policies to maximize the rewards in MDPs without having to first compute an expert policy, e.g. a neural network.
+    Contemporarily, \citet{pinto,baisero-ppo,baisero-dqn} developed asymmetric reinforcement learning algorithms that are specifically tailored to learn policies in POMDPs. We unify those two approaches.
     }
 
 \contribution{
     % Contribution
-    The submission template for submissions to RLJ/RLC 2026
+    We show that RL for decision tree policies is hard because of partial observability.
     }
     {
-    % Caveat:
-    Built from previous RLC/RLJ, ICLR, and TMLR submission templates
-    }
-
-\contribution{
-    % Contribution
-    \textit{{[}Example of one contribution and corresponding contextual note for the paper ``Policy gradient methods for reinforcement learning with function approximation'' \citep{Sutton2000}.]}\\ This paper presents an expression for the policy gradient when using function approximation to represent the action-value function.
-    }
-    {
-    % Context:
-    Prior work established expressions for the policy gradient without function approximation \citep{Williams1992}.
+    We perform comprehensive empirical benchmarking of asymmetric and standard RL on simple decision tree policy learning tasks for which we know the optimal solutions and show that RL fails. We relate our findings to hardness results from the POMDP literature~\cite{littman1}.
+    Furthermore, we show that RL can consistently learn optimal decision tree policies for task that are fully observable which further corroborates our findings.
     }
 
 % Include a list of keywords for the topic of the paper:
-\keywords{Reinforcement learning, decision trees, POMDP} % Your keywords
+\keywords{Reinforcement learning, decision trees, POMDPs} % Your keywords
 
 % Define the summary that appears on the cover page.
-\summary{The summary appears on the cover page. Although it can be identical to the abstract, it does not have to be. One might choose to omit the stated contributions in the Summary, given that they will be stated in the box below. The original abstract may also be extended to two paragraphs. The authors should ensure that the contents of the cover page fit entirely on a single page. The cover page does \textbf{not} count towards the 8--12 page limit.
-
+\summary{For applications like medicine, machine learning models ought to be interpretable.
+In that case, decision tree models are preferred over neural networks because humans can read their predictions from the root to the leaves.
+Learning such decision trees for sequential decision making problems is a relatively new research direction and most of the existing literature focuses on imitating neural networks.
+In contrast, we study reinforcement learning (RL) algorithms that \textit{directly} return decision trees optimizing some trade-off of cumulative rewards and interpretability in a Markov decision process (MDP). 
+We show that such algorithms can be seen as learning policies for partially observable Markov decision processes (POMDPs).
+This helps us understand why in practice it is often hard to learn decision trees from scratch in MDPs.}
 \lipsum[1]
 }
 
@@ -143,11 +138,12 @@ $\dagger$ Corresponding author}
 \maketitle  % Make the title section
 
 \begin{abstract}
-For applications like medicine, machine learning models ought to be interpretable. In that case, models like decision trees are preferred over neural networks because humans can read their predictions from the root to the leaves.
-Learning such decision trees for sequential decision making problems is a relatively new research direction and most of the existing literature focuses on imitating (or distilling) neural networks.
+For applications like medicine, machine learning models ought to be interpretable.
+In that case, decision tree models are preferred over neural networks because humans can read their predictions from the root to the leaves.
+Learning such decision trees for sequential decision making problems is a relatively new research direction and most of the existing literature focuses on imitating neural networks.
 In contrast, we study reinforcement learning (RL) algorithms that \textit{directly} return decision trees optimizing some trade-off of cumulative rewards and interpretability in a Markov decision process (MDP). 
 We show that such algorithms can be seen as learning policies for partially observable Markov decision processes (POMDPs).
-We use this parallel to understand why in practice it is often easier to use imitation learning than to learn the decision tree from scratch for MDPs.
+This helps us understand why in practice it is often hard to learn decision trees from scratch in MDPs.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

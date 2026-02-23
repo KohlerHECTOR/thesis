@@ -163,8 +163,8 @@ Zachary~C. Lipton.
 Michael~L. Littman.
 \newblock Memoryless policies: theoretical limitations and practical results.
 \newblock In \emph{Proceedings of the Third International Conference on
-  Simulation of Adaptive Behavior : From Animals to Animats 3: From Animals
-  to Animats 3}, SAB94, pp.\  238–245, Cambridge, MA, USA, 1994. MIT Press.
+  Simulation of Adaptive Behavior: From Animals to Animats 3: From Animals to
+  Animats 3}, SAB94, pp.\  238–245, Cambridge, MA, USA, 1994. MIT Press.
 \newblock ISBN 0262531224.
 
 \bibitem[Loch \& Singh(1998)Loch and Singh]{sarsa-pomdp}
@@ -289,7 +289,7 @@ Wenjie Shi, Gao Huang, Shiji Song, Zhuoyuan Wang, Tingyu Lin, and Cheng Wu.
 Olivier Sigaud and Olivier Buffet.
 \newblock \emph{Partially Observable Markov Decision Processes}, chapter~7,
   pp.\  185--228.
-\newblock John Wiley & Sons, Ltd, 2013.
+\newblock John Wiley \& Sons, Ltd, 2013.
 \newblock ISBN 9781118557426.
 \newblock \doi{https://doi.org/10.1002/9781118557426.ch7}.
 \newblock URL
