@@ -2,8 +2,13 @@ This is BibTeX, Version 0.99d (TeX Live 2023/Debian)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: rlj.bst
+Case mismatch error between cite keys pirl and PIRL
+---line 166 of file main.aux
+ : \citation{viper,pirl
+ :                     }
+I'm skipping whatever remains of this command
 Case mismatch error between cite keys DQN and dqn
----line 172 of file main.aux
+---line 175 of file main.aux
  : \citation{DQN
  :              }
 I'm skipping whatever remains of this command
@@ -21,47 +26,47 @@ Warning--empty publisher in Bellman
 Warning--empty journal in sympol
 Warning--empty journal in lime
 Warning--empty journal in dagger
-Warning--empty journal in pirl
+Warning--empty journal in PIRL
 Warning--empty journal in vos2024optimizinginterpretabledecisiontree
-You've used 51 entries,
+You've used 52 entries,
             2773 wiz_defined-function locations,
-            950 strings with 17643 characters,
-and the built_in function-call counts, 29972 in all, are:
-= -- 2687
-> -- 2104
-< -- 35
-+ -- 704
-- -- 651
-* -- 2503
-:= -- 4538
-add.period$ -- 205
-call.type$ -- 51
-change.case$ -- 361
-chr.to.int$ -- 49
-cite$ -- 109
-duplicate$ -- 1327
-empty$ -- 2084
-format.name$ -- 724
-if$ -- 6394
+            955 strings with 17757 characters,
+and the built_in function-call counts, 30264 in all, are:
+= -- 2709
+> -- 2114
+< -- 36
++ -- 708
+- -- 654
+* -- 2518
+:= -- 4586
+add.period$ -- 208
+call.type$ -- 52
+change.case$ -- 364
+chr.to.int$ -- 50
+cite$ -- 111
+duplicate$ -- 1347
+empty$ -- 2116
+format.name$ -- 728
+if$ -- 6455
 int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 52
-newline$ -- 302
-num.names$ -- 212
-pop$ -- 719
+missing$ -- 54
+newline$ -- 307
+num.names$ -- 216
+pop$ -- 731
 preamble$ -- 1
-purify$ -- 314
+purify$ -- 317
 quote$ -- 0
-skip$ -- 1160
+skip$ -- 1172
 stack$ -- 0
-substring$ -- 839
-swap$ -- 307
+substring$ -- 841
+swap$ -- 308
 text.length$ -- 20
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 541
+type$ -- 547
 warning$ -- 7
-while$ -- 209
+while$ -- 212
 width$ -- 0
-write$ -- 759
-(There were 3 error messages)
+write$ -- 771
+(There were 4 error messages)

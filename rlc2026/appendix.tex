@@ -1,28 +1,3 @@
-\section{From a policy to a tree}
-\begin{algorithm}[t]
-    \KwData{Deterministic partially observable policy $\pi_{po}$ for IBMDP $\mathcal{M}_{IB}\equiv \langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ and IBMDP observation $\boldsymbol{o}=(L'_1, U'_1, \dots, L'_p, U'_p)$}
-    \KwResult{Decision tree policy $\pi_{\mathcal{T}}$ for MDP $\mathcal{M}\equiv\langle S, A, R, T, T_0\rangle$}
-    
-    \SetKwProg{Fn}{Function}{:}{}
-    \SetKwFunction{SubtreeFromPolicy}{Subtree\_From\_Policy}
-    
-    \Fn{\SubtreeFromPolicy{$\boldsymbol{o}, \pi_{po}$}}{
-        $a \leftarrow \pi_{po}(\boldsymbol{o})$ \\
-        \If{$a$ is a downstream action}{
-            \Return Leaf\_Node(action: $a$)
-        }
-        \Else{
-            $\langle i, v\rangle \leftarrow a$\\
-            $\boldsymbol{o}_L \leftarrow \boldsymbol{o}; \quad \boldsymbol{o}_R \leftarrow \boldsymbol{o}$ \\
-                         $\boldsymbol{o}_L \leftarrow (L'_1, U'_1, \dots, L'_j, v, \dots, L'_p, U'_p); \quad \boldsymbol{o}_R \leftarrow (L'_1, U'_1, \dots, v, U'_j, \dots, L'_p, U'_p)$ \\
-            $child_L \leftarrow$ Subtree\_From\_Policy$(\boldsymbol{o}_L, \pi_{po})$ \\
-            $child_R \leftarrow$ Subtree\_From\_Policy$(\boldsymbol{o}_R, \pi_{po})$ \\
-            \Return Internal\_Node(feature: $i$, value: $v$, children: $(child_L, child_R)$)
-        }
-    }
-    \caption{Extract a decision tree policy (algorithm 1 from~\citet{topin2021iterative})}\label{alg:extract-tree}
-\end{algorithm}
-
 \section{Imitation learning: a baseline for indirect decision tree policy learning}\label{sec:imit}
 In this section we present decision tree policies of this manuscript obtained using Dagger or VIPER~\cite{viper,pirl} after learning an expert Q-function for the grid world MDP.
 Recall the optimal policies for the grid world, taking the green actions in each state in figure~\ref{fig:mdp-dt}. 
@@ -592,31 +567,6 @@ In that range, no baseline consistently minimizes the sub-optimality gap.
 \end{figure}
 
 \section{Tabular RL algorithmic details for POIBMDPs}\label{sec:hp-pomdp}
-
-\RestyleAlgo{ruled}
-\SetKwComment{Comment}{}{}
-\begin{algorithm}
-    \KwData{A POMDP, learning rates $\alpha_u,\ \alpha_q$, exploration prob. $\epsilon$}
-    \KwResult{$\pi:O\rightarrow A$}
-    \textcolor{teal}{Initialize $U(\boldsymbol{x},a) = 0$ for all $x \in X, a \in A$ \\}
-    Initialize $Q(\boldsymbol{o},a) = 0$ for all $o \in O, a \in A$ \\
-    \For{each episode}{
-        Initialize state $x_0 \sim T_0$ \\
-        Initialize observation $\boldsymbol{o}_0 \sim \Omega(\boldsymbol{x}_0)$ \\
-
-        \For{each step $t$}{
-            Choose action $a_t$ using $\epsilon$-greedy: $a_t = \operatorname{argmax}_a Q(\boldsymbol{o}_t,a)$ with prob. $1-\epsilon$ \\
-            Take action $a_t$, observe $r_t = R(\boldsymbol{x}_t,a_t)$, $x_{t+1} \sim T(x_t,a_t)$, and $\boldsymbol{o}_{t+1} \sim \Omega(\boldsymbol{x}_{t+1})$ \\
-            \textcolor{teal}{$y \leftarrow r + \gamma U(\boldsymbol{x}_{t+1}, \operatorname{argmax}_{a'} Q(\boldsymbol{o}_{t+1}, a'))$} \\
-            $U(\boldsymbol{x}_t,a_t) \leftarrow (1 - \alpha_u) U(\boldsymbol{x}_t, a_t) + \alpha_u y $ \\
-            \textcolor{teal}{$Q(\boldsymbol{o}_t,a_t) \leftarrow (1 - \alpha_q) Q(\boldsymbol{o}_t, a_t) + \alpha_q y $} \\
-            $x_t \leftarrow \boldsymbol{x}_{t+1}$ \\
-            $\boldsymbol{o}_t \leftarrow \boldsymbol{o}_{t+1}$ \\
-        }
-    }
-    $\pi(o) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$
-    \caption{Asymmetric Q-Learning. We highlight in green the differences with the standard Q-learning~\cite{watkins1992q}}\label{alg:asymqlearning}
-\end{algorithm}
 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
