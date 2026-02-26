@@ -1,28 +1,28 @@
 \section{Introduction}
-Interpretability in machine learning is commonly divided into local and global approaches~\citep{glanois-survey}.
-Local methods—also referred to as explainability or post-hoc methods~\citep{lipton}—provide explanations for individual predictions using tools such as local linear approximations~\citep{lime}, saliency maps~\citep{Puri2020Explain}, feature attributions~\citep{shap}, or attention mechanisms~\citep{attention}.
-Although widely used, these methods approximate the behavior of an underlying black-box model and may therefore be unfaithful to its true computations~\citep{Atrey2020Exploratory}.
+Interpretability in machine learning is often divided into local and global approaches~\citep{glanois-survey}.
+Local methods—also referred to as explainability or post-hoc methods~\citep{lipton}—provide explanations for individual predictions using e.g. local linear approximations~\citep{lime}, saliency maps~\citep{Puri2020Explain}, feature attributions~\citep{shap}, or attention mechanisms~\citep{attention}.
+These methods approximate the behavior of an underlying black-box model and may therefore be unfaithful to its true computations~\citep{Atrey2020Exploratory}.
 
 Global interpretability approaches instead restrict the model class so that the trained model is transparent by construction.
-Decision trees~\citep{breiman1984classification} are a canonical example, as their predictions can be inspected, reasoned about, and formally verified.
-This makes them particularly attractive for safety-critical applications and has motivated extensive research in supervised learning~\citep{lookahead,binoct,murtree,blossom,pystreed}.
+Decision trees~\citep{breiman1984classification} are a canonical example, as their predictions can be inspected and formally verified~\citep{lipton}.
+This makes them attractive for safety-critical applications and has motivated extensive research in supervised learning~\citep{lookahead,murtree,pystreed}.
 
 Extending global interpretability to sequential decision making, however, remains challenging.
-Existing approaches largely rely on \emph{indirect} methods~\citep{milani-survey}: a high-performing but opaque policy (typically a neural network) is first trained using reinforcement learning, and an interpretable model is then trained to imitate its behavior.
+Existing approaches largely rely on \emph{indirect} methods~\citep{milani-survey}: a high-performing but opaque policy (typically a neural network) is first trained using RL, and an interpretable model is then trained to imitate its behavior.
 A prominent example is VIPER~\citep{viper}, which distills neural network policies into decision trees using imitation learning~\citep{dagger}.
-Such methods have demonstrated strong empirical performance and enable formal verification~\citep{maraboupy}, but they optimize a surrogate objective—policy imitation—rather than the original reinforcement learning objective.
-As a result, the best decision tree policy for the task may differ substantially from the tree that best approximates a neural expert. The curious reader will find an example of this phenomenon in appendix~\ref{sec:imit}.
+Such methods have demonstrated strong empirical performance but they optimize a surrogate objective—policy imitation—rather than the MDP rewards.
+As a result, the best decision tree policy for the task may differ substantially from the tree that best approximates a neural expert (appendix~\ref{sec:imit}).
 
-This limitation motivates the study of \emph{direct} approaches that train interpretable policies by optimizing the reinforcement learning objective itself.
-While direct decision tree learning is well understood in supervised settings, it is far less developed for sequential decision making.
+This limitation motivates the study of \emph{direct} approaches that train interpretable policies that directly maximize the MDP rewards rather than the expert's behavior likelihood~\citep{dagger}.
+While direct decision tree training is well understood in supervised settings, it is far less developed for sequential decision making.
 Understanding why direct optimization is hard—and when it can succeed—is the central focus of this work.
 
-In this article, we show that reinforcement learning of decision tree policies for MDPs, i.e. learning a decision tree that directly optimizes the cumulative reward of the process without relying on a black-box expert, is often very hard.
-To do so, we construct very simple MDPs for which we know optimal decision tree policies and show that RL consistently fails to retrieve those policies.
+In this article, we show that using RL algorithms to train decision tree policies that directly maximize the MDP rewards, without relying on a black-box expert, is often very hard.
+We construct very simple MDPs for which we know optimal decision tree policies and show that RL consistently fails to retrieve those policies.
 We identify partial observability as a key reason for those failures. 
 
-In section~\ref{sec:related-work-pomdp}, we present the related work on reinforcement learning algorithms that train decision tree policies for MDPs.
-In section~\ref{sec:prelims}, we present key concepts for decsion trees, MDPs, and the formalism from~\citet{topin2021iterative} for reinforcement learning of decision tree policies.
-In section~\ref{sec:poibmdp}, we show that this direct approach is equivalent to learning a \emph{deterministic memoryless} policy for POMDPs~\citep{POMDP}.
-In section~\ref{sec:methodology}, we present our methodology to benchmark RL algorithms that train decision tree policies.
+In section~\ref{sec:related-work-pomdp}, we present the related work on RL algorithms that train decision tree policies for MDPs.
+In section~\ref{sec:prelims}, we present key concepts for decsion trees, MDPs, and the formalism from~\citet{topin2021iterative} for RL of decision tree policies for MDPs.
+In section~\ref{sec:poibmdp}, we show that this direct approach is equivalent to training a \emph{deterministic memoryless} policy for POMDPs~\citep{POMDP}.
+In section~\ref{sec:methodology}, we present our methodology to benchmark RL algorithms that train decision tree policies for MDPs.
 In section~\ref{sec:experiments}, we show that when RL fails to retrieve optimal decision tree policies for MDPs it is most likely because partial observability is involved.

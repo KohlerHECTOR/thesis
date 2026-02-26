@@ -2,13 +2,8 @@ This is BibTeX, Version 0.99d (TeX Live 2023/Debian)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: rlj.bst
-Case mismatch error between cite keys pirl and PIRL
----line 166 of file main.aux
- : \citation{viper,pirl
- :                     }
-I'm skipping whatever remains of this command
 Case mismatch error between cite keys DQN and dqn
----line 175 of file main.aux
+---line 176 of file main.aux
  : \citation{DQN
  :              }
 I'm skipping whatever remains of this command
@@ -28,45 +23,45 @@ Warning--empty journal in lime
 Warning--empty journal in dagger
 Warning--empty journal in PIRL
 Warning--empty journal in vos2024optimizinginterpretabledecisiontree
-You've used 52 entries,
+You've used 49 entries,
             2773 wiz_defined-function locations,
-            955 strings with 17757 characters,
-and the built_in function-call counts, 30264 in all, are:
-= -- 2709
-> -- 2114
-< -- 36
-+ -- 708
-- -- 654
-* -- 2518
-:= -- 4586
-add.period$ -- 208
-call.type$ -- 52
-change.case$ -- 364
-chr.to.int$ -- 50
-cite$ -- 111
-duplicate$ -- 1347
-empty$ -- 2116
-format.name$ -- 728
-if$ -- 6455
+            935 strings with 16792 characters,
+and the built_in function-call counts, 28148 in all, are:
+= -- 2536
+> -- 1907
+< -- 35
++ -- 639
+- -- 588
+* -- 2312
+:= -- 4245
+add.period$ -- 198
+call.type$ -- 49
+change.case$ -- 333
+chr.to.int$ -- 47
+cite$ -- 105
+duplicate$ -- 1290
+empty$ -- 2000
+format.name$ -- 657
+if$ -- 6034
 int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 54
-newline$ -- 307
-num.names$ -- 216
-pop$ -- 731
+missing$ -- 52
+newline$ -- 291
+num.names$ -- 204
+pop$ -- 672
 preamble$ -- 1
-purify$ -- 317
+purify$ -- 289
 quote$ -- 0
-skip$ -- 1172
+skip$ -- 1112
 stack$ -- 0
-substring$ -- 841
-swap$ -- 308
+substring$ -- 773
+swap$ -- 304
 text.length$ -- 20
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 547
+type$ -- 514
 warning$ -- 7
-while$ -- 212
+while$ -- 199
 width$ -- 0
-write$ -- 771
-(There were 4 error messages)
+write$ -- 731
+(There were 3 error messages)

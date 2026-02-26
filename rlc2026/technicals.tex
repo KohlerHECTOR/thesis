@@ -249,7 +249,7 @@ $T_0 \in \Delta(S)$ is the initial distribution over states.
 Informally, we would like to act in an MDP so that we obtain as much reward as possible over time.
 We can formally define this objective, that we call the reinforcement learning objective, as follows:
 
-\begin{definition}[Reinforcement learning objective]\label{def:mdp-obj} Given an MDP (definition~\ref{def:mdp}) $\mathcal{M}$, the objective is to find a policy, $\pi: S \rightarrow A$ that maximizes the expected discounted sum of rewards:
+\begin{definition}[Reinforcement learning objective]\label{def:mdp-obj} Given an MDP $\mathcal{M}$, the objective is to find a policy, $\pi: S \rightarrow A$ that maximizes the expected discounted sum of rewards:
 {\small
 $$J(\pi) := \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, \pi(s_t)) \mid s_0 \sim T_0, s_{t+1} \sim T(s_t, \pi(s_t))\right]$$}
 Where $0< \gamma\leq 1$ is the discount factor that controls the trade-off between immediate and future rewards.
@@ -259,7 +259,7 @@ Algorithms presented in this article aim to find an optimal policy $\pi^\star \i
 In particular, RL algorithms~\citep{sutton,pg_sutton,watkins1992q,dqn,ppo} learn such optimal policies using data of MDP interactions without prior knowledge of the reward and transition models.
 Useful quantities for such algorithms include \textit{value} of states and actions.
 \begin{definition}[Value of a state]\label{def:vs} 
-In an MDP $\mathcal{M}$ (definition~\ref{def:mdp}), the value of a state $s\in S$ under policy $\pi$ is the expected discounted sum of rewards starting from state $s$ and following policy $\pi$:
+In an MDP $\mathcal{M}$, the value of a state $s\in S$ under policy $\pi$ is the expected discounted sum of rewards starting from state $s$ and following policy $\pi$:
 {\small
 $$V^\pi(s) := \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, \pi(s_t)) \mid s_0 = s, s_{t+1} \sim T(s_t, \pi(s_t))\right]$$}
 Applying the Markov property gives a recursive definition of the value of $s$ under policy $\pi$: $V^\pi(s) = R(s,\pi(s)) + \gamma \mathbb{E}\left[V^\pi(s') | s'\sim T(s, \pi(s))\right]$.
@@ -268,7 +268,7 @@ Similarly, the optimal value of a state–action pair $(s,a)\in S\times A$, $Q^\
 \end{definition}
 
 \subsection{Decision tree policies}
-While other interpretable policy classes exist~\citep{kohler2025evaluating}, one conjecture from~\citet{glanois-survey} is that interpretable policies are all equally hard to train because they are non-differentiable in nature.
+While other interpretable policy classes exist~\citep{kohler2025evaluating}, one conjecture from~\cite{glanois-survey} is that interpretable policies are all equally hard to train because they are non-differentiable in nature.
 Hence, we focus on decision tree policies but our results can be extended to other interpretable policies like oblique decision trees or short programs~\citep{PIRL}.
 
 \begin{definition}[Decision tree policy]\label{def:dt}
@@ -280,8 +280,8 @@ For any input $s \in S$, the tree defines a unique path from root to leaf, deter
 The depth of a tree is the maximum path length from root to any leaf.
 \end{definition}
 
-In figure~\ref{fig:mdp-dt}, we present an example Markov decision process (definition~\ref{def:mdp}), the actions that maximize the RL objective (definition~\ref{def:mdp-obj}), and a decision tree policy (definition~\ref{def:dt}) that also maximizes the RL objective.
-Next, we present the class of MDPs introduced in~\citet{topin2021iterative} which are useful to understand reinforcement learning algorithms that directly train such decision tree policies that maximize the RL objective.
+In figure~\ref{fig:mdp-dt}, we present an example MDP (definition~\ref{def:mdp}), the actions that maximize the RL objective (definition~\ref{def:mdp-obj}), and a decision tree policy (definition~\ref{def:dt}) that also maximizes the RL objective.
+Next, we present the class of MDPs introduced in~\cite{topin2021iterative} which are useful to understand reinforcement learning algorithms that directly train such decision tree policies that maximize the RL objective.
 
 \subsection{Iterative bounding Markov decision processes}\label{sec:ibmdp}
 The key thing to know about iterative bounding Markov decision processes is that they are, as their name suggests, MDPs (definition~\ref{def:mdp}).
@@ -294,9 +294,9 @@ Those observations essentially represent some knowledge about where downstream s
 Actions available in an IBMDP are: (i) the actions of the downstream MDP, that change downstream state features, and (ii) \textit{information-gathering} actions (IGAs) that change the aforementioned observations.
 Now, downstream actions in an IBMDP are rewarded like in the downstream MDP, this ensures that the RL objective w.r.t. the downstream MDP is encoded in the IBMDP reward.
 When taking an information-gathering action, the reward is an arbitrary value such that maximizing the RL objective in the IBMDP is equivalent to optimizing some trade-off between interpretability and the rewards in the downstream MDP.
-Before showing how to get decision tree policies from IBMDP policies, we give a formal definition of IBMDPs following~\citet{topin2021iterative}:
-\begin{definition}[Iterative bounding Markov decision process (\citet{topin2021iterative}, section 4.1)]\label{def:ibmdp}
-Given a downstream MDP $\mathcal{M}$ (definition~\ref{def:mdp}), an associated iterative bounding Markov decision process $\mathcal{M}_{IB}$ is a tuple:
+Before showing how to get decision tree policies from IBMDP policies, we give a formal definition of IBMDPs following~\cite{topin2021iterative}:
+\begin{definition}[Iterative bounding Markov decision process~\citep{topin2021iterative}]\label{def:ibmdp}
+Given a downstream MDP $\mathcal{M}$, an associated iterative bounding Markov decision process $\mathcal{M}_{IB}$ is a tuple:
 \begin{align*}
     \langle \overbrace{S \times O}^{\text{State space}}, \overbrace{A \cup A_{info}}^{\text{Action space}}, \overbrace{(R, \zeta)}^{\text{Reward}}, \overbrace{(T_{info}, T, T_0)}^{\text{Transitions}}\rangle
 \end{align*}
@@ -315,10 +315,10 @@ At initialization, the downstream state features are drawn from the downstream M
 \end{definition}
 
 We present an IBMDP for the grid-world MDP in figure~\ref{fig:ibmdp-example}.
-Now we need a way to extract a decision tree policy (definition~\ref{def:dt}) for the downstream MDP given a policy for an associated IBMDP. 
+Now we need a way to extract a decision tree policy for the downstream MDP given a policy for an associated IBMDP. 
 
 \subsection{From policies to trees}\label{sec:extract-tree}
-Information-gathering actions (definition~\ref{def:ibmdp}) resemble the tests that make up internal decision tree nodes (figure~\ref{fig:ibmdp-example}).
+Information-gathering actions in IBMDPs resemble the tests that make up internal decision tree nodes (figure~\ref{fig:ibmdp-example}).
 Indeed, a policy taking actions in an IBMDP essentially builds a tree by taking sequences of IGAs (internal nodes) and then a downstream action (leaf node) and repeats this process over time.
 In particular, the IGA rewards $\zeta$ can be seen as a regularization or a penalty for interpretability: if $\zeta$ is very small compared to downstream rewards, a policy will try to take downstream actions as often as possible, i.e. build shallow trees with short paths between root and leaves.
 
@@ -346,10 +346,10 @@ In particular, the IGA rewards $\zeta$ can be seen as a regularization or a pena
     }
     \caption{Extract a decision tree policy: algorithm 1 from~\cite{topin2021iterative}}\label{alg:extract-tree}
 \end{algorithm}
-\citet{topin2021iterative} show that not all IBMDP policies are decision tree policies for the downstream MDP.
+\cite{topin2021iterative} show that not all IBMDP policies are decision tree policies for the downstream MDP.
 In particular, their algorithm that converts IBMDP policies into decision trees (algorithm~\ref{alg:extract-tree}) takes as input deterministic policies depending solely on the observations of the IBMDP.
 If the policies were not deterministic, different subtrees could stem from similar IBMDP observations: this means that the corresponding policy would be a stochastic decision tree~\citep{stoch-decision}.
 While there is nothing wrong with learning stochastic decision tree policies from a performance standpoint, interpreting a stochastic policy is an open problem that is not our focus.
-If the policies were depending on the current full IBMDP state rather than solely on the current IBMDP observation, then a learning agent has 0 incentive to take information-gathering actions to build a decision tree policy as all the state information required to optimally control the downstream MDP as well as downstream actions are available to the agent (definition~\ref{def:ibmdp} and figure~\ref{fig:ibmdp-example}).
+If the policies were depending on the current full IBMDP state rather than solely on the current IBMDP observation, then a learning agent has 0 incentive to take information-gathering actions to build a decision tree policy as all the state information required to optimally control the downstream MDP as well as downstream actions are available to the agent.
 The connections between partially observable MDPs and extracting decision tree policies from IBMDPs might seem obvious but they are absent from the original IBMDP paper and from subsequent work.
 In the next section we bridge this gap.

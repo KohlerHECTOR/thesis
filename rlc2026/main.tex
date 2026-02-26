@@ -104,7 +104,7 @@ $\dagger$ Corresponding author}
     }
     {
     \citet{topin2021iterative} proposed the first RL algorithms that train decision tree policies to maximize the rewards in MDPs without having to first compute an expert policy, e.g. a neural network.
-    Contemporarily, \citet{pinto,baisero-ppo,baisero-dqn} developed asymmetric reinforcement learning algorithms that are specifically tailored to learn policies in POMDPs. We unify those two approaches.
+    Contemporarily, \citet{pinto,baisero-ppo,baisero-dqn} developed asymmetric RL algorithms that are specifically tailored to train policies in POMDPs. We unify those two approaches.
     }
 
 \contribution{
@@ -117,15 +117,15 @@ $\dagger$ Corresponding author}
     }
 
 % Include a list of keywords for the topic of the paper:
-\keywords{Reinforcement learning, decision trees, POMDPs} % Your keywords
+\keywords{Reinforcement learning, decision trees, MDPs, POMDPs} % Your keywords
 
 % Define the summary that appears on the cover page.
 \summary{For applications like medicine, machine learning models ought to be interpretable.
 In that case, decision tree models are preferred over neural networks because humans can read their predictions from the root to the leaves.
 Learning such decision trees for sequential decision making problems is a relatively new research direction and most of the existing literature focuses on imitating neural networks.
-In contrast, we study reinforcement learning (RL) algorithms that \textit{directly} return decision trees optimizing some trade-off of cumulative rewards and interpretability in a Markov decision process (MDP). 
-We show that such algorithms can be seen as learning policies for partially observable Markov decision processes (POMDPs).
-This helps us understand why in practice it is often hard to learn decision trees from scratch in MDPs.}
+In contrast, we study reinforcement learning (RL) algorithms that \textit{directly} train decision trees optimizing some trade-off of cumulative rewards and interpretability in a Markov decision process (MDP). 
+We show that such algorithms can be seen as training policies for partially observable Markov decision processes (POMDPs).
+This helps us understand why in practice it is often hard to train decision tree policies from scratch in MDPs.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Begin document, create title and abstract
@@ -139,9 +139,9 @@ This helps us understand why in practice it is often hard to learn decision tree
 For applications like medicine, machine learning models ought to be interpretable.
 In that case, decision tree models are preferred over neural networks because humans can read their predictions from the root to the leaves.
 Learning such decision trees for sequential decision making problems is a relatively new research direction and most of the existing literature focuses on imitating neural networks.
-In contrast, we study reinforcement learning (RL) algorithms that \textit{directly} return decision trees optimizing some trade-off of cumulative rewards and interpretability in a Markov decision process (MDP). 
-We show that such algorithms can be seen as learning policies for partially observable Markov decision processes (POMDPs).
-This helps us understand why in practice it is often hard to learn decision trees from scratch in MDPs.
+In contrast, we study reinforcement learning (RL) algorithms that \textit{directly} train decision trees optimizing some trade-off of cumulative rewards and interpretability in a Markov decision process (MDP). 
+We show that such algorithms can be seen as training policies for partially observable Markov decision processes (POMDPs).
+This helps us understand why in practice it is often hard to train decision tree policies from scratch in MDPs.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -154,26 +154,26 @@ This helps us understand why in practice it is often hard to learn decision tree
 \input{rl_pomdp}
 
 \section{Discussion}
-In this paper, we were interested in algorithms that can learn decision tree policies that directly optimize some trade-off of interpretability and performance in MDPs without relying on an oracle or expert policy.
-Starting from the IBMDP formulation from~\citet{topin2021iterative}, we have shown that direct learning of decision tree policies for MDPs can be framed as learning deterministic memoryless policies in POMDPs that we called POIBMDPs.
-By bridging the gap with the POMDP literature, we conjectured that partial observability is the main limitation for reinforcement learning of decision tree policies for MDPs.
-We then supported this conjecture by benchmarking different reinforcement learning algorithms on carefully crafted problems for which we knew the exact optimal decision tree policies.
-Across our experiments, we found that only when partial observablity is absent from the learning task can good decision tree policies be trained.
-Attempting to overcome the partial observability challenges highlighted so far seems like a bad research direction.
-Indeed, while algorithms tailored specifically for the problem of learning deterministic memoryless policies for POIBMDPs might exist, imitation learning works well in practice and has been the state-of-the-art for interpretable sequential decision making for a while.
-Furthermore there are other limitations that we did not cover in the framework of~\citet{topin2021iterative} such as how to choose good candidates information-gathering actions or simply how to choose $\zeta$ for a target interpretability-performance trade-off.
-Finally, while we focused on non-parametric tree learning assuming RL algorithms should naturally trade off interpretability and performance through the reward signal $\zeta$ for adding nodes to the decision tree policy, another future research avenue could be to develop better algortihms training parametric trees.
-Indeed parametric tree policies, on the other hand, can be computed with reinforcement learning directly in the downstream MDP.
-However such RL algorithms for parametric decision tree policies~\cite{silva,vos2024optimizinginterpretabledecisiontree,sympol} require to re-train a policy entirely for each desired level of interpretability, i.e. each unique tree structure.
-Future research in this direction should focus on algorithms for parametric tree policies that can re-use samples from one tree learning to train a different tree structure more efficiently.
-This would reduce the required quantity of a priori knowledge on the decision tree policy structure.
-\subsubsection*{Broader Impact Statement}
-\label{sec:broaderImpact}
-Our work put great emphasis on covering existing work, open sourcing code, and being transparent about limitations.
-We hope that the impact of our work is going to be positive for society through advancing reseach in interpretable machine learning.
-\subsubsection*{Acknowledgments}
-\label{sec:ack}
-Use unnumbered third level headings for the acknowledgments. All acknowledgments, including those to funding agencies, go at the end of the paper. Only add this information once your submission is accepted and deanonymized. The acknowledgments do not count towards the 8--12 page limit.
+In this paper, we were interested in algorithms that train decision tree policies to directly optimize some trade-off of interpretability and performance in MDPs without relying on an oracle or expert policy.
+Starting from the IBMDP formulation from~\cite{topin2021iterative}, we have shown that such algorithms essentially train deterministic memoryless policies in POMDPs that we called POIBMDPs.
+By bridging the gap with the POMDP literature, we gave strong insights on the hardness of this task as well as on existing RL algorithms specifically tailed for learning in POMDPs.
+We supported those insights by benchmarking those RL algorithms on carefully crafted problems for which we knew the exact optimal decision tree policies.
+Across our experiments, we found that only when partial observablity is absent from the task can good decision tree policies be trained.
+Attempting to overcome the partial observability challenges seems like a bad research direction.
+Indeed, while algorithms tailored specifically for the problem of training deterministic memoryless policies for POIBMDPs might exist, imitation learning works well in practice and has been the state-of-the-art for interpretable sequential decision making for a while.
+Furthermore there are other limitations to IBMDPs that we did not cover such as how to choose good candidates information-gathering actions when building the decision tree policy or simply how to choose $\zeta$ for a target trade-off between tree interpretablility and downstream performance.
+% Finally, while we focused on non-parametric tree learning assuming RL algorithms should naturally trade off interpretability and performance through the reward signal $\zeta$ for adding nodes to the decision tree policy, another future research avenue could be to develop better algortihms training parametric trees.
+% Indeed parametric tree policies, on the other hand, can be computed with reinforcement learning directly in the downstream MDP.
+% However such RL algorithms for parametric decision tree policies~\cite{silva,vos2024optimizinginterpretabledecisiontree,sympol} require to re-train a policy entirely for each desired level of interpretability, i.e. each unique tree structure.
+% Future research in this direction should focus on algorithms for parametric tree policies that can re-use samples from one tree learning to train a different tree structure more efficiently.
+% This would reduce the required quantity of a priori knowledge on the decision tree policy structure.
+% \subsubsection*{Broader Impact Statement}
+% \label{sec:broaderImpact}
+% Our work put great emphasis on covering existing work, open sourcing code, and being transparent about limitations.
+% We hope that the impact of our work is going to be positive for society through advancing reseach in interpretable machine learning.
+% \subsubsection*{Acknowledgments}
+% \label{sec:ack}
+% Use unnumbered third level headings for the acknowledgments. All acknowledgments, including those to funding agencies, go at the end of the paper. Only add this information once your submission is accepted and deanonymized. The acknowledgments do not count towards the 8--12 page limit.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% NOTE: THIS MARKS THE END OF THE "MAIN TEXT"
