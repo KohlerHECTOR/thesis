@@ -12,8 +12,12 @@ Moreover,~\cite{sympol} reports that additional stabilization techniques, such a
 Non-parametric decision trees, by contrast, are the standard model in supervised learning, where algorithms efficiently construct trees that balance predictive performance and interpretability~\citep{breiman1984classification,oct}.
 This trade-off is optimized by using a regularized training objective. However, training non-parametric trees to trade-off MDP cumulative rewards and interpretability is largely unexplored~\citep{milani-survey}.
 To the best of our knowledge, the only work that studies this setting is~\cite{topin2021iterative}.
-\cite{topin2021iterative} introduce \emph{iterative bounding MDPs} (IBMDPs), which augment the downstream MDP with additional state features, actions, rewards, and transitions.
+\cite{topin2021iterative} introduced \emph{iterative bounding MDPs} (IBMDPs), which augment the downstream MDP with additional state features, actions, rewards, and transitions.
 They show that certain policies in the IBMDP correspond to decision tree policies for the downstream MDP. Hence, RL algorithms such as Deep Q-Networks~\citep{dqn} can be used to learn such policies in IBMDPs.
+While the setting of direct RL is well motivated, see e.g. a toy example in section~\ref{sec:imit}, the work of~\cite{topin2021iterative} is often excluded from benchmarks because it is misunderstood.
+For instance, both~\cite{vos2024optimizinginterpretabledecisiontree} and~\cite{laforest:hal-05197856} claim that the full knowledge of the IBMDP model is required to train decision tree policies for MDPs which is not true.
+In fact, to the best of our knowledge, we are the first work to properly benchmark the approach of~\cite{topin2021iterative} since its introduction.
+In appendix~\ref{sec:reprod}, we reproduce experiments from~\cite{topin2021iterative} that already shows limits of their approach compared to indirect methods like VIPER~\citep{viper} for the CartPole MDP but our goal remains to \textit{understand} those limits.
 
 Finally, a few specialized methods exist for restricted problem classes. For maze-like MDPs,~\cite{theory1} proves the existence of optimal decision tree policies and provides a constructive algorithm.
 In settings where the MDP model is fully known,~\cite{dt-opt-mdp} use planning to compute shallow parametric decision tree policies. Next, we recall useful technical material.

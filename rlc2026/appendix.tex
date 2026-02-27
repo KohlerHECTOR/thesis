@@ -64,7 +64,7 @@ In the original paper, the authors find that both direct and indirect learning y
 On the other hand, we find that, imitation learning, despite not directly optimizing the RL objective for CartPole, outperforms deep RL which directly optimizes a trade-off of the standard RL objective and interpretability.
 
 Authors of~\citept{topin2021iterative} use two deep reinforcement learning baselines to which they apply some modifications in order to learn memoryless policies.
-Authors modify the standard DQN~\citep{DQN} to return a memoryless policy. The trained $Q$-function is approximated with a neural network $O\rightarrow \mathbb{R}^{|A\cup A_{info}|}$ rather than $S\times O\rightarrow \mathbb{R}^{|A\cup A_{info}|}$.
+Authors modify the standard DQN~\citep{dqn} to return a memoryless policy. The trained $Q$-function is approximated with a neural network $O\rightarrow \mathbb{R}^{|A\cup A_{info}|}$ rather than $S\times O\rightarrow \mathbb{R}^{|A\cup A_{info}|}$.
 In this modified DQN, the temporal difference error target for the $Q$-function $O\rightarrow A\cup A_{info}$ is approximated by a neural network $S\times O\rightarrow A\cup A_{info}$ that is in turn trained by bootstrapping the temporal difference error with itself.
 We present the modifications in algorithm~\ref{alg:mod-dqn}.
 Similar modifications are applied to the standard PPO~\citep{ppo} that we present in the appendix (algorithm \ref{alg:mod-ppo}). In the modified PPO, neural network policy $O\rightarrow A\cup A_{info}$ is trained using a neural network value function $S\times O\rightarrow A\cup A_{info}$ as a critic.

@@ -171,6 +171,8 @@
  
     \draw[rectangle] (17,4) rectangle (19,6);
     \draw[grid] (17,4) grid (19,6);
+    \node at (18.5, 4.5) {$\star$};
+
     % % Add axes
     \draw[thick, ->] (17,4) -- (19.2,4) node[right] {$x$};
     \draw[thick, ->] (17,4) -- (17,6.2) node[above] {$y$};
@@ -249,14 +251,14 @@ $T_0 \in \Delta(S)$ is the initial distribution over states.
 Informally, we would like to act in an MDP so that we obtain as much reward as possible over time.
 We can formally define this objective, that we call the reinforcement learning objective, as follows:
 
-\begin{definition}[Reinforcement learning objective]\label{def:mdp-obj} Given an MDP $\mathcal{M}$, the objective is to find a policy, $\pi: S \rightarrow A$ that maximizes the expected discounted sum of rewards:
+\begin{definition}[Reinforcement learning objective]\label{def:mdp-obj} Given an MDP $\mathcal{M}$, the objective is to train a policy, $\pi: S \rightarrow A$ that maximizes the expected discounted sum of rewards:
 {\small
 $$J(\pi) := \mathbb{E}\left[\sum_{t=0}^{\infty} \gamma^t R(s_t, \pi(s_t)) \mid s_0 \sim T_0, s_{t+1} \sim T(s_t, \pi(s_t))\right]$$}
-Where $0< \gamma\leq 1$ is the discount factor that controls the trade-off between immediate and future rewards.
+Where $0< \gamma\leq 1$ is the discount factor that trades off immediate and future rewards.
 \end{definition}
 
 Algorithms presented in this article aim to find an optimal policy $\pi^\star \in\underset{\pi}{\operatorname{argmax}}\ J(\pi)$.
-In particular, RL algorithms~\citep{sutton,pg_sutton,watkins1992q,dqn,ppo} learn such optimal policies using data of MDP interactions without prior knowledge of the reward and transition models.
+In particular, RL algorithms~\citep{sutton,watkins1992q,dqn} train such optimal policies using data of MDP interactions without prior knowledge of the reward and transition models.
 Useful quantities for such algorithms include \textit{value} of states and actions.
 \begin{definition}[Value of a state]\label{def:vs} 
 In an MDP $\mathcal{M}$, the value of a state $s\in S$ under policy $\pi$ is the expected discounted sum of rewards starting from state $s$ and following policy $\pi$:
@@ -280,11 +282,11 @@ For any input $s \in S$, the tree defines a unique path from root to leaf, deter
 The depth of a tree is the maximum path length from root to any leaf.
 \end{definition}
 
-In figure~\ref{fig:mdp-dt}, we present an example MDP (definition~\ref{def:mdp}), the actions that maximize the RL objective (definition~\ref{def:mdp-obj}), and a decision tree policy (definition~\ref{def:dt}) that also maximizes the RL objective.
+In figure~\ref{fig:mdp-dt}, we present an example MDP, the actions that maximize the RL objective, and a decision tree policy that also maximizes the RL objective.
 Next, we present the class of MDPs introduced in~\cite{topin2021iterative} which are useful to understand reinforcement learning algorithms that directly train such decision tree policies that maximize the RL objective.
 
 \subsection{Iterative bounding Markov decision processes}\label{sec:ibmdp}
-The key thing to know about iterative bounding Markov decision processes is that they are, as their name suggests, MDPs (definition~\ref{def:mdp}).
+The key thing to know about iterative bounding Markov decision processes is that they are, as their name suggests, MDPs.
 Hence, IBMDPs admit an optimal deterministic Markovian policy--a policy that maps MDPs states to actions--that maximizes the RL objective (definition~\ref{def:mdp-obj},~\cite{Bellman,puterman}).
 From now on, we will assume that all the MDPs we consider are MDPs with continuous state spaces and a finite set of actions, and we use bold fonts for states and observations that are vector-valued.
 However all our results generalize to discrete states MDPs since states can be one-hot encoded.

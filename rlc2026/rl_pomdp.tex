@@ -5,7 +5,7 @@ In particular, we train decision tree policies that maximize the RL objective in
 \subsection{Computing some decision tree policies}
 To assess the performances of the RL training, we manually compute the values of optimal deterministic memoryless policies in POIBMDPs.
 Each of those policies correspond to one of the decision tree policies illustrated in figure~\ref{fig:irl-objectives}: (i) a depth-0 tree $\pi_{\mathcal{T}_0}$ that always take the same downstream action, (ii) a depth-1 tree $\pi_{\mathcal{T}_1}$ that alternates between an IGA and a downstream action, (iii) an unbalanced depth-2 tree $\pi_{\mathcal{T}_u}$ that sometimes takes two IGAs then a downstream action and sometimes one IGA followed by a downstream action, (iv) a depth-2 tree $\pi_{\mathcal{T}_2}$ that alternates between taking two IGAs and a downstream action, or (v) an infinite `tree'' that only takes IGAs.
-We will particularly focus on trying to retrieve the depth-1 decision tree that is the most interpretable--smallest number of nodes and shallowest--tree that takes optimal actions (figure~\ref{fig:mdp-dt}).
+We will particularly focus on trying to train a depth-1 decision tree that is the most interpretable--smallest number of nodes and shallowest--tree that takes optimal actions (figure~\ref{fig:mdp-dt}).
 Because we know from~\cite{learning-pomdp} that stochastic memoryless policies can sometimes get better expected discounted rewards than deterministic memoryless policies in POMDPs, we also compute the value of the stochastic policy that randomly alternates between two downstream actions: $\rightarrow$ and $\downarrow$.
 Taking those two downstream actions always lead to the goal state in expectation.
 After doing the calculations of the RL objective values using the known model of the IBMDP from figure~\ref{fig:ibmdp-example}, we plot in figure~\ref{fig:irl-objectives} the RL objective values of the decision tree policies in POIBMDPs as functions of $\zeta$ when we fix $\gamma=0.99$ (standard choice of discount in practice~\cite{sutton}).
@@ -75,7 +75,7 @@ Next, we present the specific experimental setup that we use in the remaining of
     \centering
     \includegraphics[width=0.95\textwidth]{../images/images_part1/objective_values_plot.pdf}
 \end{subfigure}
-\caption{On the left, decision tree policies for the grid world MDP from figure~\ref{fig:mdp-dt}. On the right, the trees objective values in associated POIBMDPs examplified in figure~\ref{fig:ibmdp-example} as functions of the reward term $\zeta$.
+\caption{On the left, decision tree policies for the grid world MDP from figure~\ref{fig:mdp-dt}. On the right, their RL objective values in associated POIBMDPs exemplified in figure~\ref{fig:ibmdp-example} as functions of the reward term $\zeta$.
 Shaded areas on the right plot indicate which deterministic memoryless policy is optimal depending on $\zeta$.
 Recall that $\zeta$ can be seen as a reward that encourages the deterministic memoryless policy to take information-gathering actions, i.e. the reward that trades off interpretability of the corresponding decision tree and its cumulative reward (definitions~\ref{def:ibmdp} and~\ref{def:poibmdp}).}\label{fig:irl-objectives}
 \end{figure}
@@ -85,16 +85,16 @@ All our code is open source\footnote{\url{https://anonymous.4open.science/r/poib
 The downstream MDP for which we want to train decision tree policies with RL is the grid world MDP from figure~\ref{fig:mdp-dt}.
 We then define 100 associated POIBMDPs using the model of the IBMDP from figure~\ref{fig:ibmdp-example} with $\zeta$ chosen uniformly among 100 different in $]0, 1[$ (figure~\ref{fig:irl-objectives}). 
 
-Frist we use standard tabular RL algorithms, namely Q-learning, Sarsa, and vanilla policy gradient with a softmax policy~\citep{watkins1992q,sutton,jsj}, to learn deterministic memoryless policies in POIBMDPs by simply replacing the current state in the algorithm descriptions by the current observation~\citep{sarsa-pomdp}.
-In theory the policy gradient algorithm should not be a good candidate for our problem since it searches for stochastic policies that we showed to be better than our sought depth-1 decision tree policy on figure~\ref{fig:irl-objectives}, but for completeness we use trees obtained after greedification of the stochastic policies.
-Second, we use the more specialised asymmetric Q-learning, asymmetric Sarsa, and asymmetric policy gradient (section~\ref{sec:asym}).
+First we use standard tabular RL algorithms, namely Q-learning, Sarsa, and vanilla policy gradient with a softmax policy~\citep{watkins1992q,sutton,jsj}, to learn deterministic memoryless policies in POIBMDPs by simply replacing the current state in the algorithm descriptions by the current observation~\citep{sarsa-pomdp}.
+In theory the policy gradient algorithm should not be a good candidate for our problem since it searches for stochastic policies that we showed to be better than our sought depth-1 decision tree policy on figure~\ref{fig:irl-objectives}, but for completeness we use trees obtained after ``greedyfication'' of the stochastic policies.
+Second, we use the more specialized asymmetric Q-learning, asymmetric Sarsa, and asymmetric policy gradient (section~\ref{sec:asym}).
 Each algorithm is trained until convergence on the 100 POIBMDPs uniquely defined by their trade-off reward $\zeta$. Each of those training run is repeated 100 times for a total of 10 000 training runs.
 For all baselines we use, when applicable, exploration rates $\epsilon=0.3$ and learning rates $\alpha=0.1$.
 The detailed training curves are presented in appendix~\ref{sec:training}.
 
 To evaluate the performances of the RL training, we consider, for each POIBMDP, the distribution of the trained trees over the 100 training seeds.
 Indeed, since for each POIBMDP we run each RL algorithm 100 times, after convergence we get 100 deterministic memoryless policies from which we can extract the equivalent 100 decision tree policies using algorithm~\ref{alg:extract-tree}.
-Then we can count the occurances of each tree policy from figure~\ref{fig:irl-objectives}.
+Then we can count the occurrences of each tree policy from figure~\ref{fig:irl-objectives}.
 This helps us understand which trees RL algorithms tend to train as a function of the trade-off reward $\zeta$. Next, we present our results.
 
 
@@ -105,7 +105,7 @@ For example, in figure~\ref{fig:dt-distrib-poibmdp}, when training 100 times in 
 For none of the tested baselines do we see a high rate of trained depth-1 trees for $\zeta\in ]0, 1[$.
 It is alerting that the most frequent trained trees are the depth-0 trees for $\zeta\in ]0, 1[$ because such trees are way more sub-optimal than e.g. the depth-2 unbalanced trees according to our computations on figure~\ref{fig:irl-objectives}.  
 One interpretation of this phenomenon is that the training in POIBMDPs is very hard and so RL tend to converge to trivial policies, e.g., repeating the same downstream action.
-Furhtermore, in appendix~\ref{sec:training} we show that for POIBMDPs with $\zeta \in [-1, 0]$ and $\zeta \in [1, 2]$, baselines consistently learn the optimal policies--a depth-0 tree and an infinite tree respectively--which is concerning as it means that RL seem to find only trivial policies.
+Furthermore, in appendix~\ref{sec:training} we show that for POIBMDPs with $\zeta \in [-1, 0]$ and $\zeta \in [1, 2]$, baselines consistently learn the optimal policies--a depth-0 tree and an infinite tree respectively--which is concerning as it means that RL seem to find only trivial policies.
 On the positive side, we observe that asymmetric versions of Q-learning and Sarsa have found the optimal deterministic memoryless policy--the depth-1 decision tree--more frequently throughout the optimality range $]0,1[$, than their symmetric counter-parts for $\zeta\in ]0, 1[$.
 Next, we quantify how hard it is to train memoryless policies in POIBMDPs as opposed to training standard Markovian policies in MDPs.
 
@@ -145,12 +145,10 @@ To get a success rate, we can simply divide the number of trained policy corresp
 The key observations from figure~\ref{fig:po-vs-ib} is that training a deterministic memoryless policy in a POIBMDP with RL, is way harder than training a Markovian policy.
 For example, Q-learning converges to the optimal deterministic memoryless in the POIBMDP only 3\% of the time while the same algorithm in an MDP or IBMDP converges to the optimal policy 50\% of the time.
 Even though asymmetry seems to increase performances; training a decision tree policy for a simple grid world directly with RL using the framework of POIBMDP originally developed in~\citet{topin2021iterative} seems way too hard and costly as successes might require a million steps for such a seemingly simple problem.
-An other difficulty in practice that we did not cover here, is the choice of information gathering actions (definitions~\ref{def:ibmdp} and~\ref{def:poibmdp}).
-For the grid world MDP, choosing good IGAs ($x\leq1$ and $y\leq1$) is simple but what about more complicated MDPs: how to instantiate the POIBMDP action space such that internal nodes in resulting trees are useful for predictions?
 Next, we further support that partial observability is the main limitation for using RL to train decision tree policies that maximize the RL objective in MDPs.
 
 \subsection{Are there downstream MDPs for which partial observability is not a limitation?}
-In this section, we show that for a special class of POIBMDP, RL can consistantly train deterministic memoryless policies maximizing the RL objective. It means that we can train decision tree policy to directly maximize the RL objective in MDPs without imitating experts.
+In this section, we show that for a special class of POIBMDP, RL can consistently train deterministic memoryless policies maximizing the RL objective. It means that we can train decision tree policy to directly maximize the RL objective in MDPs without imitating experts.
 This class of POIBMDPs are those for which downstream MDPs have uniform transitions, i.e. $T(\boldsymbol{s}, a, \boldsymbol{s}') = \frac{1}{|S|}$.
 Such downstream MDPs include classification tasks formulated as MDPs.
 This implies that training deterministic memoryless policies in POIBMDPs where the downstream MDP encodes a classification task is equivalent to classical decision tree induction with supervised learning~\citep{breiman1984classification}.
@@ -164,7 +162,7 @@ This is exactly what we show next.
 
 We define POIBMDPs for the classification task from figure~\ref{example:cmdp}, with $\gamma=0.99$, 200 values of $\zeta \in [0,1]$ and IGAs $x\leq 1$ and $y\leq 1$.
 Since those POIBMDPs are MDPs, we do not need to study asymmetric RL.
-We see on figure~\ref{fig:tree-distrib-classif-poibmdp} that, compared to results for general POIBMDPs from figure~\ref{fig:dt-distrib-poibmdp}, RL can consistantly train optimal deterministic memoryless policies $O:\rightarrow A\cup A_{info}$ which are equivalent to decision tree classifiers.
+We see on figure~\ref{fig:tree-distrib-classif-poibmdp} that, compared to results for general POIBMDPs from figure~\ref{fig:dt-distrib-poibmdp}, RL can consistently train optimal deterministic memoryless policies $O:\rightarrow A\cup A_{info}$ which are equivalent to decision tree classifiers.
 This supports partial observability being the main limitation for training decision tree policies that directly maximize the RL objective in MDPs.
 
 \begin{figure}

@@ -1,4 +1,4 @@
-\begin{thebibliography}{49}
+\begin{thebibliography}{50}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -129,6 +129,15 @@ Hector Kohler, Waris Radji, Quentin Delfosse, Riad Akrour, and Philippe Preux.
 \newblock In \emph{RLC 2025 Workshop on Programmatic Reinforcement Learning},
   2025{\natexlab{b}}.
 \newblock URL \url{https://openreview.net/forum?id=n1CfzixauT}.
+
+\bibitem[Laforest et~al.(2025)Laforest, Buffet, Niveau, and
+  Zanuttini]{laforest:hal-05197856}
+Geoffrey Laforest, Olivier Buffet, Alexandre Niveau, and Bruno Zanuttini.
+\newblock {Post-Hoc Interpretation of POMDP Policies}.
+\newblock In I.~Lynce and A.~Murano (eds.), \emph{{Proc. 28th European
+  Conference on Artificial Intelligence (ECAI 2025)}}, Bologna (ITALY), Italy,
+  October 2025. {IOS Press}.
+\newblock URL \url{https://hal.science/hal-05197856}.
 
 \bibitem[Lambrechts et~al.(2025{\natexlab{a}})Lambrechts, Bolland, and
   Ernst]{lambrechts2025informed}

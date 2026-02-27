@@ -125,7 +125,7 @@ In that case, decision tree models are preferred over neural networks because hu
 Training such decision trees for sequential decision making problems is a relatively new research direction and most of the existing literature focuses on imitating neural networks.
 In contrast, we study reinforcement learning (RL) algorithms that train decision trees \textit{directly} optimizing some trade-off of cumulative rewards and interpretability in a Markov decision process (MDP). 
 We show that such algorithms can be seen as training policies for partially observable Markov decision processes (POMDPs).
-This helps us understand why in practice it is often hard to train decision tree policies from scratch in MDPs.}
+This helps us understand why in practice it is often hard to train decision tree policies from scratch for MDPs with RL.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Begin document, create title and abstract
@@ -141,7 +141,7 @@ In that case, decision tree models are preferred over neural networks because hu
 Training such decision trees for sequential decision making problems is a relatively new research direction and most of the existing literature focuses on imitating neural networks.
 In contrast, we study reinforcement learning (RL) algorithms that train decision trees \textit{directly} optimizing some trade-off of cumulative rewards and interpretability in a Markov decision process (MDP). 
 We show that such algorithms can be seen as training policies for partially observable Markov decision processes (POMDPs).
-This helps us understand why in practice it is often hard to train decision tree policies from scratch in MDPs.
+This helps us understand why in practice it is often hard to train decision tree policies from scratch for MDPs with RL.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -153,15 +153,16 @@ This helps us understand why in practice it is often hard to train decision tree
 \input{pomdp}
 \input{rl_pomdp}
 
-\section{Discussion}
-In this paper, we were interested in algorithms that train decision tree policies to directly optimize some trade-off of interpretability and performance in MDPs without relying on an oracle or expert policy.
-Starting from the IBMDP formulation from~\cite{topin2021iterative}, we have shown that such algorithms essentially train deterministic memoryless policies in POMDPs that we called POIBMDPs.
-By bridging the gap with the POMDP literature, we gave strong insights on the hardness of this task as well as on existing RL algorithms specifically tailed for learning in POMDPs.
-We supported those insights by benchmarking those RL algorithms on carefully crafted problems for which we knew the exact optimal decision tree policies.
-Across our experiments, we found that only when partial observablity is absent from the task can good decision tree policies be trained.
+\section{Conclusion}
+In this paper, we studied RL algorithms that train decision tree policies to directly optimize some trade-off of interpretability and performance in MDPs rather than to match an expert's behavior.
+Starting from the IBMDP formulation from~\cite{topin2021iterative}, we showed that such algorithms essentially train deterministic memoryless policies in POMDPs that we called POIBMDPs.
+By bridging the gap with the POMDP literature, we gave strong insights on the hardness of this task.
+We supported those insights by benchmarking those RL algorithms on carefully crafted problems for which we knew the optimal decision tree policies.
+Across our experiments, we found that only when partial observability is absent from the task can good decision tree policies be trained.
 Attempting to overcome the partial observability challenges seems like a bad research direction.
 Indeed, while algorithms tailored specifically for the problem of training deterministic memoryless policies for POIBMDPs might exist, imitation learning works well in practice and has been the state-of-the-art for interpretable sequential decision making for a while.
 Furthermore there are other limitations to IBMDPs that we did not cover such as how to choose good candidates information-gathering actions when building the decision tree policy or simply how to choose $\zeta$ for a target trade-off between tree interpretablility and downstream performance.
+To conclude, we recommend the community to focus on imitation learning or parametric trees approaches for future research on interpretable sequential decision making.
 % Finally, while we focused on non-parametric tree learning assuming RL algorithms should naturally trade off interpretability and performance through the reward signal $\zeta$ for adding nodes to the decision tree policy, another future research avenue could be to develop better algortihms training parametric trees.
 % Indeed parametric tree policies, on the other hand, can be computed with reinforcement learning directly in the downstream MDP.
 % However such RL algorithms for parametric decision tree policies~\cite{silva,vos2024optimizinginterpretabledecisiontree,sympol} require to re-train a policy entirely for each desired level of interpretability, i.e. each unique tree structure.

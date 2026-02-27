@@ -2,17 +2,16 @@ This is BibTeX, Version 0.99d (TeX Live 2023/Debian)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: rlj.bst
-Case mismatch error between cite keys DQN and dqn
----line 176 of file main.aux
- : \citation{DQN
- :              }
-I'm skipping whatever remains of this command
 Database file #1: main.bib
 Repeated entry---line 683 of file main.bib
  : @article{viper
  :               ,
 I'm skipping whatever remains of this entry
 Repeated entry---line 1645 of file main.bib
+ : @misc{vos2024optimizinginterpretabledecisiontree
+ :                                                 ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 1680 of file main.bib
  : @misc{vos2024optimizinginterpretabledecisiontree
  :                                                 ,
 I'm skipping whatever remains of this entry
@@ -23,45 +22,45 @@ Warning--empty journal in lime
 Warning--empty journal in dagger
 Warning--empty journal in PIRL
 Warning--empty journal in vos2024optimizinginterpretabledecisiontree
-You've used 49 entries,
+You've used 50 entries,
             2773 wiz_defined-function locations,
-            935 strings with 16792 characters,
-and the built_in function-call counts, 28148 in all, are:
-= -- 2536
-> -- 1907
+            943 strings with 17097 characters,
+and the built_in function-call counts, 28712 in all, are:
+= -- 2583
+> -- 1954
 < -- 35
-+ -- 639
-- -- 588
-* -- 2312
-:= -- 4245
-add.period$ -- 198
-call.type$ -- 49
-change.case$ -- 333
-chr.to.int$ -- 47
-cite$ -- 105
-duplicate$ -- 1290
-empty$ -- 2000
-format.name$ -- 657
-if$ -- 6034
++ -- 654
+- -- 602
+* -- 2364
+:= -- 4338
+add.period$ -- 203
+call.type$ -- 50
+change.case$ -- 340
+chr.to.int$ -- 48
+cite$ -- 107
+duplicate$ -- 1314
+empty$ -- 2040
+format.name$ -- 672
+if$ -- 6151
 int.to.chr$ -- 3
 int.to.str$ -- 1
-missing$ -- 52
-newline$ -- 291
-num.names$ -- 204
-pop$ -- 672
+missing$ -- 53
+newline$ -- 297
+num.names$ -- 210
+pop$ -- 688
 preamble$ -- 1
-purify$ -- 289
+purify$ -- 295
 quote$ -- 0
-skip$ -- 1112
+skip$ -- 1126
 stack$ -- 0
-substring$ -- 773
-swap$ -- 304
+substring$ -- 775
+swap$ -- 306
 text.length$ -- 20
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 514
+type$ -- 525
 warning$ -- 7
-while$ -- 199
+while$ -- 203
 width$ -- 0
-write$ -- 731
+write$ -- 747
 (There were 3 error messages)
