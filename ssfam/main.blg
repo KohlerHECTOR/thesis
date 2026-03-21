@@ -1,6 +1,6 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
 [0] Config.pm:310> INFO - Logfile is 'main.blg'
-[76] biber:340> INFO - === sam. mars 21, 2026, 19:48:39
+[77] biber:340> INFO - === sam. mars 21, 2026, 20:18:14
 [89] Biber.pm:419> INFO - Reading 'main.bcf'
 [135] Biber.pm:979> INFO - Found 4 citekeys in bib section 0
 [145] Biber.pm:4419> INFO - Processing section 0
@@ -8,10 +8,10 @@
 [155] bibtex.pm:1713> INFO - LaTeX decoding ...
 [160] bibtex.pm:1519> INFO - Found BibTeX data source 'ref.bib'
 [211] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'variable = shifted' with 'variable = non-ignorable'
-[212] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[212] Biber.pm:4239> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
-[212] Biber.pm:4245> INFO - No sort tailoring available for locale 'fr-FR'
+[211] UCollate.pm:68> INFO - Overriding locale 'fr-FR' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[211] Biber.pm:4239> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'fr-FR'
+[211] Biber.pm:4245> INFO - No sort tailoring available for locale 'fr-FR'
 [215] bbl.pm:660> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[217] bbl.pm:763> INFO - Output to main.bbl
-[217] Biber.pm:131> WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
+[216] bbl.pm:763> INFO - Output to main.bbl
+[216] Biber.pm:131> WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
 [217] Biber.pm:133> INFO - WARNINGS: 1

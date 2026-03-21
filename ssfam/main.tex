@@ -58,6 +58,7 @@ Des évaluations et comparaisons approfondies montrent que DPDT calcule des arbr
 De plus, DPDT est compétitif dans de nombreuses applications d'apprentissage automatique~: ses capacités de généralisation --- en arbres uniques comme en ensembles --- sont à la pointe de la technologie par rapport aux algorithmes gloutons et optimaux.
 Bien que cette partie puisse sembler orthogonale aux deux autres, car l'accent est mis sur les performances plutôt que sur l'interprétabilité, elle démontre que l'interprétabilité peut être un levier de performance et pas seulement une contrainte de transparence.
 Les résultats de cette deuxième partie ont été publiés à la conférence KDD 2025~\cite{dpdt}, et nous avons développé \texttt{DPDT}\footnote{\url{https://github.com/KohlerHECTOR/DPDTreeEstimator}}, un estimateur compatible avec \texttt{scikit-learn} qui implémente cet algorithme.
+Dans la figure~\ref{fig1}, nous montrons les performances de DPDT par rapport à d'autres algorithmes de pointe pour la classfication.
 
 Les deux parties précédentes reposent sur l'hypothèse que les arbres de décision sont un modèle interprétable. Mais est-ce vraiment le cas~?
 Dans la troisième et dernière partie, nous nous attaquons à des questions plus générales~: peut-on mesurer l'interprétabilité sans intervention humaine~? Les arbres de décision sont-ils réellement plus interprétables que les réseaux neuronaux~?
@@ -68,6 +69,20 @@ Enfin, nous montrons qu'il n'existe aucune classe de modèles offrant un meilleu
 Ce résultat souligne la nécessité d'une méthodologie rigoureuse en recherche sur l'interprétabilité~: il ne suffit pas de se fier à l'hypothèse selon laquelle les réseaux neuronaux sont moins interprétables que les arbres de décision.
 Les résultats préliminaires de cette partie ont été présentés au 17th European Workshop on Reinforcement Learning~\cite{interpreter} et au Workshop on Programmatic Reinforcement Learning~\cite{eval}.
 Les expériences de cette partie s'appuient sur \texttt{Interpretable RL Zoo}\footnote{\url{https://github.com/KohlerHECTOR/interpretable-rl-zoo}}, une librairie de politiques interprétables écrites en Python pure pour différents environnements \texttt{gymnasium}.
+Dans la figure~\ref{fig2}, nous montrons le compromis performances-interprétabilité de différentes classes de politiques de décision.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{random_search_classif_numerical_boosting_all_notgb.pdf}
+    \caption{Précisions normalisées de différents classifieurs sur des données tests nouvelles. Les performances sont aggrégées pour 16 tâches de classification difficiles. On observe en rose que les performances de notre classifieurs Boosted DPDT sont supérieures à celles des autres modèles apres quelques itérations de recherche d'hyperparamètres.}\label{fig1}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{trade_off.pdf}
+    \caption{Compromis performances-interprétabilité de différentes classes de politiques de décision pour différents PDMs standards. On peut voir qu'il n'éxiste aucune classe de politique qui domine les autres sur tous les PDMs testés. Par exemple, sur Swimmer, ce sont les arbres de décision qui ont le meilleur compromis performances-interprétabilité, tandis que sur la version continue du MountainCar, ce sont les politiques linéaires.}\label{fig2}
+\end{figure}
 
 \printbibliography{}
 \newpage
@@ -76,7 +91,7 @@ Les expériences de cette partie s'appuient sur \texttt{Interpretable RL Zoo}\fo
 \includepdf[pages={-}]{rapport_buffet.pdf}
 \includepdf[pages={-}]{rapport_soutenance.pdf}
 \newpage
-\section{Lettres de soutien de la direction de thèse}
+\section{Lettre de soutien de la direction de thèse}
 \includepdf[pages={-}]{hector.ssfam.pdf}
 Merci
 \end{document}
