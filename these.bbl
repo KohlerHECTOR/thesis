@@ -1339,10 +1339,10 @@
     \endentry
     \entry{costa2023recent}{article}{}
       \name{author}{2}{}{%
-        {{hash=abf62245a8385a3bd6a900ff45f7fb8e}{%
+        {{hash=a0dae33c55771d4e85c9adc93e4d622e}{%
            family={Costa},
            familyi={C\bibinitperiod},
-           given={Vin\'{\i{}}cius\bibnamedelima G},
+           given={Vin\'{\i}cius\bibnamedelima G},
            giveni={V\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
         {{hash=999ffcb8d5b63257bd37aed233d0711b}{%
            family={Pedreira},
@@ -1353,12 +1353,12 @@
       \list{publisher}{1}{%
         {Springer}%
       }
-      \strng{namehash}{6540e34f2e62c6d68f07a314b4478964}
-      \strng{fullhash}{6540e34f2e62c6d68f07a314b4478964}
-      \strng{bibnamehash}{6540e34f2e62c6d68f07a314b4478964}
-      \strng{authorbibnamehash}{6540e34f2e62c6d68f07a314b4478964}
-      \strng{authornamehash}{6540e34f2e62c6d68f07a314b4478964}
-      \strng{authorfullhash}{6540e34f2e62c6d68f07a314b4478964}
+      \strng{namehash}{4f34401ee7489d34bb46537937b34339}
+      \strng{fullhash}{4f34401ee7489d34bb46537937b34339}
+      \strng{bibnamehash}{4f34401ee7489d34bb46537937b34339}
+      \strng{authorbibnamehash}{4f34401ee7489d34bb46537937b34339}
+      \strng{authornamehash}{4f34401ee7489d34bb46537937b34339}
+      \strng{authorfullhash}{4f34401ee7489d34bb46537937b34339}
       \field{sortinit}{C}
       \field{sortinithash}{4d103a86280481745c9c897c925753c0}
       \field{labelnamesource}{author}
