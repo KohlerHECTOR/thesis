@@ -46,9 +46,21 @@ It means that it is impractical to enumerate all possible policies and take the 
 For even moderate-sized POMDPs, a brute-force approach would take a very long time since there are $|A|^{|O|}$ deterministic memoryless policies.
 Hence it is interesting to study RL for training deterministic memoryless policies since it would not enumerate the whole solution space.
 
-In~\cite{learning-pomdp}, the authors show that the optimal memoryless policy can be stochastic. Hence, policy gradient algorithms~\citep{pg_sutton}--that return stochastic policies--are to be avoided since we seek the best \textit{deterministic} policy. 
-Furthermore, the optimal deterministic memoryless policy might not maximize all the values of all observations simultaneously~\citep{learning-pomdp} which makes it difficult to use temporal difference (TD) learning algorithms like Q-learning~\citep{watkins1992q}.
-Indeed, doing a TD learning update of one observation's value can change the value of \textit{all} other observations in an uncontrollable manner because of the dependence in $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$ from definition~\ref{def:vpo}.
+In~\cite{learning-pomdp}, authors show that the optimal memoryless policy can be stochastic. Hence, policy gradient algorithms~\citep{pg_sutton}--that return stochastic policies--should be avoided since we seek the best \textit{deterministic} policy. 
+Furthermore, the optimal deterministic memoryless policy, unlike for standard MDPs, might not maximize the values of all observations simultaneously~\citep{learning-pomdp} which makes it difficult to use temporal difference (TD) learning algorithms like Q-learning~\citep{watkins1992q}.
+Indeed, doing a TD update of an observation's value can change the value of \textit{all} other observations in an uncontrollable manner because of the dependency in $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$ from definition~\ref{def:vpo}.
+
+Despite those hardness results, applying RL to POMDPs, by naively replacing the processes (hidden) states $\boldsymbol{x}$ by the observation $\boldsymbol{o}$ in Q-learning or Sarsa~\citep{sutton}, has already demonstrated successful in practice~\citep{sarsa-pomdp}.
+More recently, the framework of asymmetric RL~\citep{pinto,baisero-dqn,baisero-ppo} has shown promising results to train policies for POMDPs.
+Asymmetric RL algorithms train a model--a policy or a value function--depending on hidden state (only available at train time) and a history dependent (or observation dependent) model to be deployed at test time.
+The history or observation dependent model serves as target or critic to train the hidden state dependent model.
+The history dependent (or observation dependent) model can thus be deployed in the POMDP after training since it does not require access to the hidden state to output actions.
+In appendix~\ref{sec:hp-pomdp}, we present asymmetric variants of standard tabular RL algorithms.
+For example, algorithm~\ref{alg:asymqlearning}, is a variant of Q-learning that returns a deterministic memoryless policy.
+Given a POMDP, asymmetric Q-learning trains a partially observable Q-function $Q:O\times A\rightarrow\mathbb{R}$ and a Q-function $U:X\times A\rightarrow\mathbb{R}$.
+The hidden-state-dependent Q-function $U$ serves as a target in the TD learning update.
+It is the tabular version of the modified DQN algorithm used in~\cite{topin2021iterative}.
+Indeed, when training deterministic memoryless policies for IBMDPs,~\cite{topin2021iterative} used algorithms equivalent to asymmetric DQN before those were formally introduced in~\citet{baisero-dqn,baisero-ppo}.
 
 \RestyleAlgo{ruled}
 \SetKwComment{Comment}{}{}
@@ -74,18 +86,6 @@ Indeed, doing a TD learning update of one observation's value can change the val
     $\pi(o) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$
     \caption{Asymmetric Q-Learning~\citep{baisero-dqn}. We highlight in green the differences with the standard Q-learning~\citep{watkins1992q}.}\label{alg:asymqlearning}
 \end{algorithm}
-
-Despite those hardness results, applying RL to POMDPs, by naively replacing the processes (hidden) states $\boldsymbol{x}$ by the observation $\boldsymbol{o}$ in Q-learning or Sarsa~\citep{sutton}, has already demonstrated successful in practice~\citep{sarsa-pomdp}.
-More recently, the framework of asymmetric RL~\citep{pinto,baisero-dqn,baisero-ppo} has shown promising results to train policies for POMDPs.
-Asymmetric RL algorithms train a model--a policy or a value function--depending on hidden state (only available at train time) and a history dependent (or observation dependent) model to be deployed at test time.
-The history or observation dependent model serves as target or critic to train the hidden state dependent model.
-The history dependent (or observation dependent) model can thus be deployed in the POMDP after training since it does not require access to the hidden state to output actions.
-In appendix~\ref{sec:hp-pomdp}, we present asymmetric variants of standard tabular RL algorithms.
-For example, asymmetric Q-learning from algorithm~\ref{alg:asymqlearning}, is a variant of Q-learning that returns a deterministic memoryless policy.
-Given a POMDP, asymmetric Q-learning trains a partially observable Q-function $Q:O\times A\rightarrow\mathbb{R}$ and a Q-function $U:X\times A\rightarrow\mathbb{R}$.
-The hidden-state-dependent Q-function $U$ serves as a target in the TD learning update.
-It is the tabular version of the modified DQN algorithm used in~\cite{topin2021iterative}.
-Indeed, when learning deterministic memoryless policies for IBMDPs,~\cite{topin2021iterative} used algorithms corresponding to asymmetric DQN or asymmetric PPO before those were formally introduced in~\citet{baisero-dqn,baisero-ppo}.
 
 Until recently, the benefits of asymmetric RL over standard RL was only shown empirically and only for history-dependent models.
 The work of~\cite{justif-asym} proves that some asymmetric RL algorithms should in theory learn better history-dependent \textbf{or} memoryless policies for POMDPs which is exactly what we wish for.

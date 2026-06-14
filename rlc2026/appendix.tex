@@ -1,4 +1,5 @@
 \section{Imitation learning: a baseline for indirect decision tree policy learning}\label{sec:imit}
+
 In this section we present decision tree policies of this manuscript obtained using Dagger or VIPER~\citep{dagger,viper} after learning an expert Q-function for the grid world MDP.
 Recall the optimal policies for the grid world, taking the green actions in each state in figure~\ref{fig:mdp-dt}. 
 Among the optimal policies, the ones that go left or up in the goal state can be problematic for imitation learning algorithms.
@@ -59,6 +60,31 @@ This motivates the study of direct approaches to directly search for policies wi
 \end{figure}
 
 \section{Reproducing ``Iterative Bounding MDPs: Learning Interpretable Policies via Non-Interpretable Methods''}\label{sec:reprod}
+
+
+\RestyleAlgo{ruled}
+\begin{algorithm}
+    \KwData{Deterministic partially observable policy $\pi_{po}$ for IBMDP $\mathcal{M}_{IB}= \langle S \times O,A \cup A_{info}, (R, \zeta), (T_{info}, T, T_0)\rangle$ and IBMDP observation $\boldsymbol{o}=(L'_1, U'_1, \dots, L'_p, U'_p)$}
+    \KwResult{Decision tree policy $\pi_{\mathcal{T}}$ for MDP $\mathcal{M}=\langle S, A, R, T, T_0\rangle$}
+    
+    \SetKwProg{Fn}{Function}{:}{}
+    \SetKwFunction{SubtreeFromPolicy}{Subtree\_From\_Policy}
+    
+    \Fn{\SubtreeFromPolicy{$\boldsymbol{o}, \pi_{po}$}}{
+        $a \leftarrow \pi_{po}(\boldsymbol{o})$ \\
+        \If{$a$ is a downstream action}{
+            \Return Leaf\_Node(action: $a$)
+        }
+        \Else{
+            $\langle i, v\rangle \leftarrow a;\quad \boldsymbol{o}_L \leftarrow \boldsymbol{o}; \quad \boldsymbol{o}_R \leftarrow \boldsymbol{o}$ \\
+            $\boldsymbol{o}_L \leftarrow (L'_1, U'_1, \dots, L'_j, v, \dots, L'_p, U'_p); \quad \boldsymbol{o}_R \leftarrow (L'_1, U'_1, \dots, v, U'_j, \dots, L'_p, U'_p)$ \\
+            $child_L \leftarrow$ Subtree\_From\_Policy$(\boldsymbol{o}_L, \pi_{po}); \ child_R \leftarrow$ Subtree\_From\_Policy$(\boldsymbol{o}_R, \pi_{po})$ \\
+            \Return Internal\_Node(feature: $i$, value: $v$, children: $(child_L, child_R)$)
+        }
+    }
+    \caption{Extract a decision tree policy: algorithm 1 from~\cite{topin2021iterative}}\label{alg:extract-tree}
+\end{algorithm}
+
 We attempt to reproduce the results from~\cite{topin2021iterative} in which authors compare direct and indirect learning of decision tree policies of depth at most 2 for the CartPole MDP~\citep{cartpole}.
 In the original paper, the authors find that both direct and indirect learning yields decision tree policies with similar RL objective values (definition~\ref{def:mdp-obj}) for the CartPole.
 On the other hand, we find that, imitation learning, despite not directly optimizing the RL objective for CartPole, outperforms deep RL which directly optimizes a trade-off of the standard RL objective and interpretability.
