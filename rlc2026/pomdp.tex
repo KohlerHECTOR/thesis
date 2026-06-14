@@ -26,7 +26,7 @@ The transition function $\Omega$ maps concatenation of state features and observ
 POIBMDPs are particular instances of POMDPs where the observation function simply applies a mask over some features of the hidden state.
 This setting has other names in the literature.
 For example, POIBMDPs are mixed observability MDPs~\citep{momdp} with downstream MDP state features as the \textit{hidden variables} and feature bounds as \textit{visible} variables.
-POIBMDPs can also be seen as non-stationary MDPs (N-MDPs)~\citep{learning-pomdp} in which there is one different transition function per downstream MDP state: these are called hidden-mode MDPs~\citep{hmmdp}.
+POIBMDPs can also be seen as a special case of non-stationary MDPs (N-MDPs)~\citep{learning-pomdp} in which there is one unique transition function per downstream MDP state: these are sometimes called hidden-mode MDPs~\citep{hmmdp}.
 Following~\cite{learning-pomdp}, we can write the value of a deterministic memoryless policy $\pi:O\rightarrow A\cup A_{info}$ in observation $\boldsymbol{o}$.
 
 \begin{definition}[Value of an observation]\label{def:vpo} In a POIBMDP, the expected cumulative discounted reward of a deterministic memoryless policy $\pi:O\rightarrow A\cup A_{info}$ starting from observation $o$ is $V^{\pi}(\boldsymbol{o})$:
@@ -39,14 +39,14 @@ We abuse notation and denote both values of observations and values of states by
 
 In general, the policy that maximizes the RL objective in a POMDP maps ``belief states'' or observation histories to actions~\citep{chap2}.
 Hence, those policies do not correspond to decision trees since we require that policies depend only on the current observation (algorithm~\ref{alg:extract-tree}).
-If we did not have this constraint, we could apply any standard RL algorithm to solve POIBMDPs by seeking policies depending on belief states or observations histories because those are sufficient to optimally control any POMDP~\cite{chap2,lambrechts2025informed}.
+If we did not have this constraint, we could apply any standard RL algorithm to solve POIBMDPs by seeking policies depending on belief states or observations histories because those are sufficient to optimally control any POMDP~\citep{chap2,lambrechts2025informed}.
 
 In particular, the problem of finding the optimal deterministic memoryless policies for POMDPs is NP-HARD, even with full knowledge of transitions and rewards (section 3.2 from~\cite{littman1}).
 It means that it is impractical to enumerate all possible policies and take the best one. 
 For even moderate-sized POMDPs, a brute-force approach would take a very long time since there are $|A|^{|O|}$ deterministic memoryless policies.
 Hence it is interesting to study RL for training deterministic memoryless policies since it would not enumerate the whole solution space.
 
-In~\cite{learning-pomdp}, the authors show that the optimal memoryless policy can be stochastic. Hence, policy gradient algorithms~\citep{pg_sutton}--that return stochastic policies--are to avoid since we seek the best \textit{deterministic} policy. 
+In~\cite{learning-pomdp}, the authors show that the optimal memoryless policy can be stochastic. Hence, policy gradient algorithms~\citep{pg_sutton}--that return stochastic policies--are to be avoided since we seek the best \textit{deterministic} policy. 
 Furthermore, the optimal deterministic memoryless policy might not maximize all the values of all observations simultaneously~\citep{learning-pomdp} which makes it difficult to use temporal difference (TD) learning algorithms like Q-learning~\citep{watkins1992q}.
 Indeed, doing a TD learning update of one observation's value can change the value of \textit{all} other observations in an uncontrollable manner because of the dependence in $P^{\pi}((s, \boldsymbol{o}')|\boldsymbol{o})$ from definition~\ref{def:vpo}.
 

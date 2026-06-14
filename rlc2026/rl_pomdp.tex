@@ -100,10 +100,10 @@ This helps us understand which trees RL algorithms tend to train as a function o
 
 \subsection{Can RL train optimal deterministic memoryless policies in POIBMDPs?}\label{sec:experiments}
 
-In figure~\ref{fig:dt-distrib-poibmdp}, we plot the distributions of the final trained trees in function of $\zeta$.
+In figure~\ref{fig:dt-distrib-poibmdp}, we plot the distributions of the final trained trees as functions of $\zeta$.
 For example, in figure~\ref{fig:dt-distrib-poibmdp}, when training 100 times in a POIBMDP with $\zeta=0.5$, Q-learning returned almost 100 times a depth-0 tree.
 For none of the tested baselines do we see a high rate of trained depth-1 trees for $\zeta\in ]0, 1[$.
-It is alerting that the most frequent trained trees are the depth-0 trees for $\zeta\in ]0, 1[$ because such trees are way more sub-optimal than e.g. the depth-2 unbalanced trees according to our computations on figure~\ref{fig:irl-objectives}.  
+It is alarming that the most frequent trained trees are the depth-0 trees for $\zeta\in ]0, 1[$ because such trees are way more sub-optimal than e.g. the depth-2 unbalanced trees according to our computations on figure~\ref{fig:irl-objectives}.  
 One interpretation of this phenomenon is that the training in POIBMDPs is very hard and so RL tend to converge to trivial policies, e.g., repeating the same downstream action.
 Furthermore, in appendix~\ref{sec:training} we show that for POIBMDPs with $\zeta \in [-1, 0]$ and $\zeta \in [1, 2]$, baselines consistently learn the optimal policies--a depth-0 tree and an infinite tree respectively--which is concerning as it means that RL seem to find only trivial policies.
 On the positive side, we observe that asymmetric versions of Q-learning and Sarsa have found the optimal deterministic memoryless policy--the depth-1 decision tree--more frequently throughout the optimality range $]0,1[$, than their symmetric counter-parts for $\zeta\in ]0, 1[$.
@@ -143,12 +143,12 @@ To get a success rate, we can simply divide the number of trained policy corresp
 
 
 The key observations from figure~\ref{fig:po-vs-ib} is that training a deterministic memoryless policy in a POIBMDP with RL, is way harder than training a Markovian policy.
-For example, Q-learning converges to the optimal deterministic memoryless in the POIBMDP only 3\% of the time while the same algorithm in an MDP or IBMDP converges to the optimal policy 50\% of the time.
+For example, Q-learning converges to the optimal deterministic memoryless policy in the POIBMDP only 3\% of the time while the same algorithm in an MDP or IBMDP converges to the optimal policy 50\% of the time.
 Even though asymmetry seems to increase performances; training a decision tree policy for a simple grid world directly with RL using the framework of POIBMDP originally developed in~\citet{topin2021iterative} seems way too hard and costly as successes might require a million steps for such a seemingly simple problem.
 Next, we further support that partial observability is the main limitation for using RL to train decision tree policies that maximize the RL objective in MDPs.
 
 \subsection{Are there downstream MDPs for which partial observability is not a limitation?}
-In this section, we show that for a special class of POIBMDP, RL can consistently train deterministic memoryless policies maximizing the RL objective. It means that we can train decision tree policy to directly maximize the RL objective in MDPs without imitating experts.
+In this section, we show that for a special class of POIBMDP, RL can consistently train deterministic memoryless policies maximizing the RL objective. It means that we can train decision tree policies to directly maximize the RL objective in MDPs without imitating experts.
 This class of POIBMDPs are those for which downstream MDPs have uniform transitions, i.e. $T(\boldsymbol{s}, a, \boldsymbol{s}') = \frac{1}{|S|}$.
 Such downstream MDPs include classification tasks formulated as MDPs.
 This implies that training deterministic memoryless policies in POIBMDPs where the downstream MDP encodes a classification task is equivalent to classical decision tree induction with supervised learning~\citep{breiman1984classification}.
@@ -214,7 +214,7 @@ This supports partial observability being the main limitation for training decis
     \includegraphics[width=0.8\textwidth]{../slides_soutenance/tree_distributions_merged.pdf}
     \caption{}\label{fig:tree-distrib-classif-poibmdp}
 \end{subfigure}
-    \caption{(\ref{example:cmdp}) In this MDP, there are four data to classify with either a green or red label.
+    \caption{(\ref{example:cmdp}) In this MDP, there are four data points to classify with either a green or red label.
     On the right, there is the unique optimal depth-1 tree for this particular MDP which also maximizes the accuracy on the corresponding classification task.
     (\ref{fig:tree-distrib-classif-poibmdp}) We reproduce the same plot as in figure~\ref{fig:dt-distrib-poibmdp} for POIBMDPs associated to the downstream MDP from figure~\ref{example:cmdp}.}
 \end{figure}

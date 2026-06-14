@@ -231,13 +231,13 @@ This means that the overall IBMDP state is $\boldsymbol{s}_{IB} = (0.5, 1.5, 0, 
 This transition corresponds to going through an internal node $ x\leq 1$ in a decision tree policy as illustrated in the figure.
 At $t=1$, after gathering the information that the $x$-value of the current downstream state is below 1, the observation is updated with the refined bounds $\boldsymbol{o}_1=(0, 1, 0, 2)$, i.e. more information has been gathered and the obstructed pink area shrinks. The downstream state features remain unchanged. The agent then takes a downstream action that is to move right.
 This gives a reward 0, resets the observation to the original downstream state feature bounds, and changes the features to $\boldsymbol{s}_2=(1.5, 1.5)$. And the trajectory continues like this until the absorbing downstream state $\boldsymbol{s}_4=(1.5, 0.5)$ is reached.
-By masking the current downstream state features to an agent, we would force it to take information-gathering actions otherwise it would not know how to act optimally.}\label{fig:ibmdp-example}
+By masking the current downstream state features to an agent, we would force it to take information-gathering actions otherwise it would not act optimally.}\label{fig:ibmdp-example}
 \end{figure}
 
 \subsection{Markov decision processes}
 
 Informally, an MDP models how an agent acts over time to achieve a goal~\citep{Bellman,puterman}. 
-At every time step, the agent observes its current state and takes an action.
+At every time step, the agent observes the environment current state and takes an action.
 The agent receives a reward that helps evaluate the quality of the action with respect to the goal.
 Finally, the agent transitions to a new state and repeats this process over time:
 \begin{definition}[Markov decision process]\label{def:mdp} An MDP is a tuple $\mathcal{M} := \langle S, A, R, T, T_0 \rangle$.
@@ -291,7 +291,7 @@ Hence, IBMDPs admit an optimal deterministic Markovian policy--a policy that map
 From now on, we will assume that all the MDPs we consider are MDPs with continuous state spaces and a finite set of actions, and we use bold fonts for states and observations that are vector-valued.
 However all our results generalize to discrete states MDPs since states can be one-hot encoded.
 Given an MDP for which we want to learn a decision tree policy, \textit{the downstream MDP}, IBMDP states are concatenations of the downstream MDP state features and some observations.
-Those observations are information about the downstream state features that are refined--`iteratively bounded''--at each step.
+Those observations are information about the downstream state features that are refined--``iteratively bounded''--at each step.
 Those observations essentially represent some knowledge about where downstream state features lie in the state space.
 Actions available in an IBMDP are: (i) the actions of the downstream MDP, that change downstream state features, and (ii) \textit{information-gathering} actions (IGAs) that change the aforementioned observations.
 Now, downstream actions in an IBMDP are rewarded like in the downstream MDP, this ensures that the RL objective w.r.t. the downstream MDP is encoded in the IBMDP reward.
@@ -302,7 +302,7 @@ Given a downstream MDP $\mathcal{M}$, an associated iterative bounding Markov de
 \begin{align*}
     \langle \overbrace{S \times O}^{\text{State space}}, \overbrace{A \cup A_{info}}^{\text{Action space}}, \overbrace{(R, \zeta)}^{\text{Reward}}, \overbrace{(T_{info}, T, T_0)}^{\text{Transitions}}\rangle
 \end{align*}
-$S$ are the downstream MDP state features. Downstream state features $\boldsymbol{s} = (s_1, \dots, s_p)\in S$ are bounded: $s_j \in [L_j, U_j]$ where $\infty < L_j \leq U_j < \infty \ \forall 1\leq j \leq p$.
+$S$ are the downstream MDP state features. Downstream state features $\boldsymbol{s} = (s_1, \dots, s_p)\in S$ are bounded: $s_j \in [L_j, U_j]$ where $-\infty < L_j \leq U_j < \infty \ \forall 1\leq j \leq p$.
 $O$ are observations. They represent bounds on the downstream state features: $O\subsetneq S^2 =  [L_1, U_1]\times \dots \times [L_p, U_p] \times [L_1, U_1]\times \dots \times [L_p, U_p]$. So the complete IBMDP state space is $S \times O$: the concatenations of downstream state features and observations.
 Given some downstream state features $\boldsymbol{s} = (s_1, \dots, s_p)\in S$ and some observation $\boldsymbol{o} = (L_1, U_1, \dots, L_p, U_p)$, an IBMDP state is $\boldsymbol{s}_{IB} = (\overbrace{s_1, \dots, s_p}^{\text{downstream state features}}, \overbrace{L_1, U_1, \dots, L_p, U_p}^{\text{observation}})$.
 $A$ are the downstream MDP actions.

@@ -8,7 +8,7 @@
 %      {rlj}           --> for submission
 %      [preprint]{rlj} --> to de-anonymize and remove references to RLJ/RLC
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{rlj}           % Should be uncommented for submission
+\usepackage[accepted]{rlj}           % Should be uncommented for submission
 %\usepackage[accepted]{rlj} % Should be uncommented for the camera-ready
 %\usepackage[preprint]{rlj} % Should be uncommented for preprint versions
 
@@ -74,9 +74,9 @@
 % NOTE: Denote affiliations using superscripts as in the provided example.
 % NOTE: Use \textscript{1,2,3} instead of $^{1,2,3}$.
 %       - Failure to do so will cause affiliation superscripts to appear on the cover page for camera-ready and preprint versions.
-\author{Hector Kohler\textsuperscript{4,$\dagger$},
-Riad Akrour\textsuperscript{2,1,3},
-Philippe Preux\textsuperscript{1,2,3},}
+\author{Hector Kohler\textsuperscript{1,$\dagger$},
+Riad Akrour\textsuperscript{2},
+Philippe Preux\textsuperscript{3},}
 
 % NOTE: For camera-ready and preprint versions, the cover page includes author names but not affiliations.
 % It automatically removes the superscripts for affiliations.
@@ -84,7 +84,7 @@ Philippe Preux\textsuperscript{1,2,3},}
 %\coverPageAuthor{Marlos C. Machado, Philip S. Thomas, Lorem Ipsum}
 
 % Author emails, which can be clustered if they have shared endings as in this example
-\emails{hector.kohler@polytechnique.edu, \ 
+\emails{hector.kohler@polytechnique.edu,\\
 \{riad.akrour,philippe.preux\}@inria.fr}
 
 % Author affiliations, in the order the occur
@@ -92,11 +92,11 @@ Philippe Preux\textsuperscript{1,2,3},}
 % The inclusion of multiple affiliations is optional.
 %   - List multiple affiliations with comma-separated numbers as in the example.
 \affiliations{
-$^{1}$\textbf{Universit\'e de Lille, France}\\
-$^{2}$\textbf{Inria, France}\\
-$^{3}$\textbf{UMR 9198-CRIStAL, CNRS, Centrale Lille, France}\\
-$^{4}$\textbf{LIX, Ecole polytechnique, CNRS, Institut Polytechnique de Paris, France}\\
-$\dagger$ Corresponding author}
+$\dagger$ Corresponding author\\
+$^{1}$\textbf{LIX, Ecole polytechnique, CNRS, Institut Polytechnique de Paris, F-91477 Palaiseau, France}\\
+$^{2}$\textbf{Univ. Lille, Inria, CNRS, Centrale Lille, UMR 9189 – CRIStAL, F-59000 Lille, France}\\
+$^{3}$\textbf{Univ. Lille, CNRS, Inria, Centrale Lille, UMR 9189 – CRIStAL, F-59000 Lille, France}\\
+}
 
 \contribution{
     % Contribution
@@ -172,8 +172,10 @@ To conclude, we recommend the community to focus on imitation learning or parame
 % \label{sec:broaderImpact}
 % Our work put great emphasis on covering existing work, open sourcing code, and being transparent about limitations.
 % We hope that the impact of our work is going to be positive for society through advancing reseach in interpretable machine learning.
-% \subsubsection*{Acknowledgments}
-% \label{sec:ack}
+\subsubsection*{Acknowledgments}
+\label{sec:ack}
+The results of this paper were produced while Hector Kohler was still a Ph.D. student in Inria Lille. The paper was written while Hector Kohler was a postdoctoral researcher in LIX.
+Hector Kohler acknowledges the AI\_PhD@Lille ANR funding and ANR-24-CE23-2874-01. Experiments presented in this paper were carried out using the Grid’5000 testbed (https://www.grid5000.fr).
 % Use unnumbered third level headings for the acknowledgments. All acknowledgments, including those to funding agencies, go at the end of the paper. Only add this information once your submission is accepted and deanonymized. The acknowledgments do not count towards the 8--12 page limit.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

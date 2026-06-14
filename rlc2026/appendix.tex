@@ -59,11 +59,11 @@ This motivates the study of direct approaches to directly search for policies wi
 \end{figure}
 
 \section{Reproducing ``Iterative Bounding MDPs: Learning Interpretable Policies via Non-Interpretable Methods''}\label{sec:reprod}
-We attempt to reproduce the results from~\citep{topin2021iterative} in which authors compare direct and indirect learning of decision tree policies of depth at most 2 for the CartPole MDP~\citep{cartpole}.
+We attempt to reproduce the results from~\cite{topin2021iterative} in which authors compare direct and indirect learning of decision tree policies of depth at most 2 for the CartPole MDP~\citep{cartpole}.
 In the original paper, the authors find that both direct and indirect learning yields decision tree policies with similar RL objective values (definition~\ref{def:mdp-obj}) for the CartPole.
 On the other hand, we find that, imitation learning, despite not directly optimizing the RL objective for CartPole, outperforms deep RL which directly optimizes a trade-off of the standard RL objective and interpretability.
 
-Authors of~\citept{topin2021iterative} use two deep reinforcement learning baselines to which they apply some modifications in order to learn memoryless policies.
+Authors of~\cite{topin2021iterative} use two deep reinforcement learning baselines to which they apply some modifications in order to learn memoryless policies.
 Authors modify the standard DQN~\citep{dqn} to return a memoryless policy. The trained $Q$-function is approximated with a neural network $O\rightarrow \mathbb{R}^{|A\cup A_{info}|}$ rather than $S\times O\rightarrow \mathbb{R}^{|A\cup A_{info}|}$.
 In this modified DQN, the temporal difference error target for the $Q$-function $O\rightarrow A\cup A_{info}$ is approximated by a neural network $S\times O\rightarrow A\cup A_{info}$ that is in turn trained by bootstrapping the temporal difference error with itself.
 We present the modifications in algorithm~\ref{alg:mod-dqn}.
@@ -168,7 +168,7 @@ In tables~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperparam
     \centering
     \caption{Top 5 hyperparameter configurations for modified DQN + IBMDP, bold font represent the original paper hyperparameters.}\label{tab:mod-dqn}
     \label{tab:top5_results}
-    \begin{tabular}{ccccccS}
+    \begin{tabular}{ccccccc}
     \toprule
     Rank & $q$ & Depth control & Activation & Exploration & $\zeta$ & {Mean Final Performance} \\
     \midrule
@@ -185,7 +185,7 @@ In tables~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperparam
         \centering
         \caption{Top 5 hyperparameter configurations for modified PPO + IBMDP, bold font represent the original paper hyperparameters.}\label{tab:mod-ppo}
         \label{tab:top5_ppo_results}
-        \begin{tabular}{cccccS}
+        \begin{tabular}{cccccc}
         \toprule
         Rank & $q$ & Depth Control & Activation & $\zeta$ & {Mean Final Performance} \\
         \midrule
@@ -240,7 +240,7 @@ In tables~\ref{tab:mod-dqn} and~\ref{tab:mod-ppo} we report the top-5 hyperparam
         \For{each timestep $t$ in trajectory}{
             $G_t \leftarrow \sum_{k=t}^{T} \gamma^{k-t} r_k$ \Comment{// Compute return}
             $A_t \leftarrow G_t - V_\phi(\boldsymbol{s}_t)$ \Comment{// Compute advantage}
-            $r_t(\theta) \leftarrow \frac{\pi_{po_\theta}(a_t|\boldsymbol{o}_t)}{\pi_{po_\theta}_{old}(a_t|\boldsymbol{o}_t)}$ \Comment{// Compute probability ratio}
+            $r_t(\theta) \leftarrow \frac{\pi_{po_\theta}(a_t|\boldsymbol{o}_t)}{\pi_{{po_\theta}_{old}}(a_t|\boldsymbol{o}_t)}$ \Comment{// Compute probability ratio}
             $L^{CLIP}_t \leftarrow \min(r_t(\theta) A_t, \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) A_t)$ \Comment{// Clipped objective}
             $\theta \leftarrow \theta + \alpha \nabla_\theta L^{CLIP}_t$ \Comment{// Policy update}
             $\phi \leftarrow \phi + \alpha \nabla_\phi (G_t - V_\phi(\boldsymbol{s}_t))^2$ \Comment{// Value function update}
@@ -538,7 +538,7 @@ Solving these equations:
 \end{align*}
 
 \section{Training curves}\label{sec:training}
-We plot the sub-optimality gaps during training, w.r.t. the RL objective (definition~\ref{def:mdp-obj}), between the learned memoryless policy and the optimal deterministic memoryless policy: $|\mathbb{E}\left[V^\pi^{\star}(\boldsymbol{s}_0,\boldsymbol{o}_0)| \boldsymbol{s}_0\sim T_0\right] - \mathbb{E}\left[V^\pi(\boldsymbol{s}_0,\boldsymbol{o}_0)|\boldsymbol{s}_0\sim T_0\right]|$.
+We plot the sub-optimality gaps during training, w.r.t. the RL objective (definition~\ref{def:mdp-obj}), between the learned memoryless policy and the optimal deterministic memoryless policy: $|\mathbb{E}\left[V^{\pi^{\star}}(\boldsymbol{s}_0,\boldsymbol{o}_0)| \boldsymbol{s}_0\sim T_0\right] - \mathbb{E}\left[V^\pi(\boldsymbol{s}_0,\boldsymbol{o}_0)|\boldsymbol{s}_0\sim T_0\right]|$.
 Because we know the whole POIBMDP model that we can represent exactly as tables, and because we know for each $\zeta$ the RL objective value of the optimal deterministic memoryless policy (figure~\ref{fig:irl-objectives}), we can report the \textit{exact} sub-optimality gaps.
 In figure~\ref{fig:rl-poibmdp}, we plot the sub-optimality gaps--averaged over 100 seeds--of learned policies during training.
 We do so for 200 different POIBMDPs where we change the reward for information gathering actions: we sample 200 $\zeta$ values uniformly in $[-1, 2]$.
@@ -592,7 +592,7 @@ In that range, no baseline consistently minimizes the sub-optimality gap.
             $a_t \leftarrow a_{t+1}$ \\
         }
     }
-    $\pi(b\oldsymbol{o}) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$ \Comment{// Extract greedy policy}
+    $\pi(\boldsymbol{o}) = \operatorname{argmax}_a Q(\boldsymbol{o},a)$ \Comment{// Extract greedy policy}
     \caption{Asymmetric Sarsa}\label{alg:asymsarsa}
 \end{algorithm}
 
