@@ -162,7 +162,7 @@ Across our experiments, we found that only when partial observability is absent 
 Attempting to overcome the partial observability challenges seems like a bad research direction.
 Indeed, while algorithms tailored specifically for the problem of training deterministic memoryless policies for POIBMDPs might exist, imitation learning works well in practice and has been the state-of-the-art for interpretable sequential decision making for a while.
 Furthermore there are other limitations to IBMDPs that we did not cover such as how to choose good candidates information-gathering actions when building the decision tree policy or simply how to choose $\zeta$ for a target trade-off between tree interpretablility and downstream performance.
-To conclude, we recommend the community to focus on imitation learning or parametric trees approaches for future research on interpretable sequential decision making.
+To conclude, we recommend the community to focus on imitation learning or parametric trees approaches for future research.
 % Finally, while we focused on non-parametric tree learning assuming RL algorithms should naturally trade off interpretability and performance through the reward signal $\zeta$ for adding nodes to the decision tree policy, another future research avenue could be to develop better algortihms training parametric trees.
 % Indeed parametric tree policies, on the other hand, can be computed with reinforcement learning directly in the downstream MDP.
 % However such RL algorithms for parametric decision tree policies~\cite{silva,vos2024optimizinginterpretabledecisiontree,sympol} require to re-train a policy entirely for each desired level of interpretability, i.e. each unique tree structure.
@@ -174,8 +174,10 @@ To conclude, we recommend the community to focus on imitation learning or parame
 % We hope that the impact of our work is going to be positive for society through advancing reseach in interpretable machine learning.
 \subsubsection*{Acknowledgments}
 \label{sec:ack}
+The authors would like to acknowledge the Scool team for its great working environment.
+This work has also been supported by the French Ministry of Higher Education and Research, the Hauts-de-France region, Inria, the MEL, and the CornelIA project that partially funds Grid'5000.
 The results of this paper were produced while Hector Kohler was still a Ph.D. student in Inria Lille. The paper was written while Hector Kohler was a postdoctoral researcher in LIX.
-Hector Kohler acknowledges the AI\_PhD@Lille ANR funding and ANR-24-CE23-2874-01. Experiments presented in this paper were carried out using the Grid’5000 testbed (https://www.grid5000.fr).
+Hector Kohler acknowledges the AI\_PhD@Lille ANR funding and ANR-24-CE23-2874-01. Experiments presented in this paper were carried out using the Grid'5000 testbed (https://www.grid5000.fr).
 % Use unnumbered third level headings for the acknowledgments. All acknowledgments, including those to funding agencies, go at the end of the paper. Only add this information once your submission is accepted and deanonymized. The acknowledgments do not count towards the 8--12 page limit.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
